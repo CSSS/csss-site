@@ -6,6 +6,8 @@ contact: j_manshad@sfu.ca
 
 The site was set up with help from YouTube tutorial: https://www.youtube.com/playlist?list=PLQVvvaa0QuDeA05ZouE4OzDYLHY-XH-Nd
 
+Also avaiable here: https://pythonprogramming.net/django-web-development-with-python-intro/
+
 These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.
 
 sudo apt install python3-pip
