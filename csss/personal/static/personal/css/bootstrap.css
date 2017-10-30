@@ -3500,6 +3500,9 @@ tbody.collapse.show {
 }
 
 .nav {
+  display: -ms-flexbox;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   margin-bottom: 0;
   list-style: none;
 }
