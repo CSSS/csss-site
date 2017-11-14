@@ -10,6 +10,7 @@ Also avaiable here: https://pythonprogramming.net/django-web-development-with-py
   
 These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.  
   
+ssh -i csssWebsiteKeyPair.pem ubuntu@ec2-52-91-226-24.compute-1.amazonaws.com  
 sudo apt install python3-pip  
 pip3 install -U pip  
 pip3 install django  
