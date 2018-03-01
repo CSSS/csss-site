@@ -23,5 +23,6 @@ urlpatterns = [
 	url(r'^blog/', include('blog.urls')),
 	url(r'^about/',include('about.urls')),
 	url(r'^documents/', include('documents.urls')),
+    url(r'^events/', include('events.urls')),
 	url(r'^', views.index, name="index"),
 ]
