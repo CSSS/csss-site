@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'events',
     '750_project',
     'comp_sci_guide',
+    'bursaries_and_awards',
     'blog',
     'personal',
     'django.contrib.admin',
