@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^workshop$', views.workshops, name='workshops'),
 	url(r'^hacktime$', views.hacktime, name='hacktime'),
 	url(r'^general_meetingss$', views.gm, name='gm'),
-	url(r'calendar^$', views.index, name='index'),
+	url(r'^$', views.index, name='index'),
 ]
