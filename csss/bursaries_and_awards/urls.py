@@ -19,7 +19,5 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-	url(r'^dev_tools$', views.devTools, name='devTools'),
-    url(r'^hacktime$', views.hacktime, name='hacktime'),
     url(r'^$', views.index, name='index'),
 ]
