@@ -19,14 +19,9 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-	url(r'^admin/', admin.site.urls),
-	url(r'^blog/', include('blog.urls')),
-	url(r'^about/',include('about.urls')),
-	url(r'^documents/', include('documents.urls')),
-    url(r'^events/', include('events.urls')),
-    url(r'^750_project/', include('750_project.urls')),
-    url(r'^comp_sci_guide/', include('comp_sci_guide.urls')),
-    url(r'^bursaries_and_awards/', include('bursaries_and_awards.urls')),
-    url(r'^associated_dsus_and_clubs/', include('associated_dsus_and_clubs.urls')),
-	url(r'^', views.index, name="index"),
+	url(r'^esss$', views.esss, name='esss'),
+	url(r'^mechs$', views.mechs, name='mechs'),
+	url(r'^ssss$', views.ssss, name='ssss'),
+    url(r'^wie$', views.wie, name='wie'),
+	url(r'^$', views.index, name='index'),
 ]
