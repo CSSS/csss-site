@@ -24,5 +24,6 @@ urlpatterns = [
 	url(r'^about/',include('about.urls')),
 	url(r'^documents/', include('documents.urls')),
     url(r'^events/', include('events.urls')),
+    url(r'^750_project/', include('750_project.urls'))
 	url(r'^', views.index, name="index"),
 ]
