@@ -23,6 +23,6 @@ urlpatterns = [
     url(r'^frosh_week$', views.froshWeek, name='froshWeek'),
     url(r'^workshop$', views.workshops, name='workshops'),
 	url(r'^hacktime$', views.hacktime, name='hacktime'),
-	url(r'^general_meetingss$', views.gm, name='gm'),
+	url(r'^general_meetings$', views.gm, name='gm'),
 	url(r'^$', views.index, name='index'),
 ]
