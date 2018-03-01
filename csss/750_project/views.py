@@ -6,7 +6,7 @@ def index(request):
 
 def hacktime(request):
 	print("Hacktime index")
-	return render(request, '750_project/Hacktime.html')
+	return render(request, '750_project/hacktime.html')
 
 def devTools(request):
 	print("dev tools index")
