@@ -22,6 +22,6 @@ urlpatterns = [
 	url(r'^esss$', views.esss, name='esss'),
 	url(r'^mechs$', views.mechs, name='mechs'),
 	url(r'^ssss$', views.ssss, name='ssss'),
-    url(r'^wie$', views.wie, name='wie'),
+    url(r'^wie$', views.WiE, name='WiE'),
 	url(r'^$', views.index, name='index'),
 ]
