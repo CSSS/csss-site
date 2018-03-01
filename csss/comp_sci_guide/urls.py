@@ -19,8 +19,8 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
-	url(r'^software$', views.devTools, name='devTools'),
-    url(r'^textbooks$', views.hacktime, name='hacktime'),
+	url(r'^software$', views.software, name='software'),
+    url(r'^textbooks$', views.textbooks, name='textbooks'),
     url(r'^course_reviews$', views.courseReview, name='courseReview'),
     url(r'^$', views.index, name='index'),
 ]

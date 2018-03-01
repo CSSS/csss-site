@@ -12,7 +12,7 @@ def textbooks(request):
 	print("textbook index")
 	return render(request, 'comp_sci_guide/textbooks.html')
 
-def course_reviews(request):
+def courseReview(request):
 	print("course reviews index")
 	return render(request, 'comp_sci_guide/course_reviews.html')
 # Create your views here.
