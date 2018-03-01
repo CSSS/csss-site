@@ -38,6 +38,7 @@ INSTALLED_APPS = [
 	'about',
 	'documents',
     'events',
+    '750_project',
     'blog',
     'personal',
     'django.contrib.admin',
