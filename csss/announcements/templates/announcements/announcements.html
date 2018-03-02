@@ -3,6 +3,8 @@
 {% block content %}
 	<p>announcements</p>
 	{% for post in object_list %}
-		<h5>{{ post.date|date:"Y-m-d" }}<a href="/announcements/{{post.id}}"> {{post.title}}</a></h5>
+		<h3>{{post.title}}</h3>
+		<h6>on {{post.date}}</h6>
+		{{post.body|safe|linebreaks}}
 	{% endfor %}
 {% endblock %}
