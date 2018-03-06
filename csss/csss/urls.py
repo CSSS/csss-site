@@ -29,5 +29,6 @@ urlpatterns = [
     url(r'^bursaries_and_awards/', include('bursaries_and_awards.urls')),
     url(r'^associated_dsus_and_clubs/', include('associated_dsus_and_clubs.urls')),
     url(r'^announcements/', include('announcements.urls')),
+    url('', include('social_django.urls', namespace='social')),
 	url(r'^', views.index, name="index"),
 ]
