@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'associated_dsus_and_clubs',
     'blog',
     'personal',
+    'social_django',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
