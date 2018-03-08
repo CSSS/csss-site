@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     'blog',
     'personal',
     'social_django',
-    'django-mailbox',
+    'django_mailbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
