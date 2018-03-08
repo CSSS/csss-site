@@ -24,4 +24,5 @@ python3.5 manage.py runserver 172.31.17.191:8000
 python3.5 manage.py startapp webapp  
 python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp personal  
-  
+ 
+add accesstoken to get_google_access_token in /usr/local/lib/python3.5/dist-packages/django_mailbox/google_utils.py 
