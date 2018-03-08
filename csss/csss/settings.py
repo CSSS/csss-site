@@ -73,24 +73,6 @@ ROOT_URLCONF = 'csss.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django_jinja.backend.Jinja2',
-        'APP_DIRS': True,
-        'DIRS': [
-            os.path.join(BASE_DIR, 'common', 'templates')
-        ],
-        'OPTIONS': {
-            'match_extension': '.html',
-            'match_regex': r'^(?!admin/).*',
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-                'social_django.context_processors.backends',
-            ],
-        }
-    },
-    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [],
         'APP_DIRS': True,
@@ -106,6 +88,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'csss.wsgi.application'
 
