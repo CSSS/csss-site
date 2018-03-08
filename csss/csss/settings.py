@@ -81,16 +81,6 @@ TEMPLATES = [
         'OPTIONS': {
             'match_extension': '.html',
             'match_regex': r'^(?!admin/).*',
-            'filters': {
-                'backend_name': 'common.filters.backend_name',
-                'backend_class': 'common.filters.backend_class',
-                'icon_name': 'common.filters.icon_name',
-                'social_backends': 'common.filters.social_backends',
-                'legacy_backends': 'common.filters.legacy_backends',
-                'oauth_backends': 'common.filters.oauth_backends',
-                'filter_backends': 'common.filters.filter_backends',
-                'slice_by': 'common.filters.slice_by'
-            },
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
