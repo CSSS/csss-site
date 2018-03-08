@@ -13,6 +13,9 @@ from config import *
 
 import os
 
+SOCIAL_AUTH_KEY = 'update me'
+SOCIAL_AUTH_SECRET = 'update me'
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
