@@ -24,7 +24,6 @@ def index(request):
     message.body=decoded_body[indexOfFirst+8:indexOfLast-32].replace('\\n', '\n')
     print('Received Subject=['+str(message.subject)+'] From=['+str(message.from_header)+'] From=['+str(message.from_address)+'] Body=['+str(message.body)+']')
   return render(request, 'announcements/announcements.html', {'messages': messages})
-#	return render(request, 'announcements/announcements.html', {'content':['Hi you doiiiiiin?']})
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
