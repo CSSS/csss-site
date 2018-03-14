@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def index(request):
-	print("announcements index")
+	print("announcements-index")
 	object_list = Post.objects.all()
 
   print("1")
