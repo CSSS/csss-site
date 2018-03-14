@@ -9,10 +9,17 @@ def index(request):
 	print("announcements index")
 	object_list = Post.objects.all()
 
+  print("1")
   mailboxes = Mailbox.active_mailboxes.all()
+  print("mailboxes=[",end='')
+  print(mailboxes,end='')
+  print("]")
   for mailbox in mailboxes:
     print('Gathering messages for %s',mailbox.name)
     messages = mailbox.get_new_mail()
+  print("messages=[",end='')
+  print(messages,end='')
+  print("]")
   for message in messages:
     print('Received Subject=[%s] From=[%s] From=[%s] Body=[%s]',message.subject,message.from_header,message.from_address,message.body)
 
