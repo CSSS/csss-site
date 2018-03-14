@@ -12,7 +12,7 @@ def index(request):
   print(messages,end='')
   print("]")
   for message in messages:
-    print('Received Subject=['+message.subject+'] From=['+message.from_header+'] From=['+message.from_address+'] Body=['+message.body+']')
+    print('Received Subject=['+str(message.subject)+'] From=['+str(message.from_header)+'] From=['+str(message.from_address)+'] Body=['+str(message.body)+']')
   return render(request, 'announcements/announcements.html', {'object_list': object_list})
 #	return render(request, 'announcements/announcements.html', {'content':['Hi you doiiiiiin?']})
 
