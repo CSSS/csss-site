@@ -24,7 +24,7 @@ python3.5 manage.py runserver 172.31.17.191:8000
 python3.5 manage.py startapp webapp  
 python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp personal  
-  
+   
 ## access token and gmail for dango-mailbox  
 I am currently testing the usefulness of django-mailbox module to be able to recieve emails at the django site.  
 Unfortunately, that module doesnt actually store the credentials itself and instead relies on [python-social-auth](https://github.com/python-social-auth) for credentials. THis is unfortunate because the documentation for that module is complicated as hell and I am not currently able to make heads or tails of how to utilize it for the csss-site.  
