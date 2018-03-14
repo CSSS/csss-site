@@ -2,6 +2,7 @@ from django.shortcuts import render
 from announcements.models import Post
 import announcements
 from django_mailbox.models import Mailbox
+from django.core.management.base import BaseCommand
 import logging
 logger = logging.getLogger(__name__)
 
