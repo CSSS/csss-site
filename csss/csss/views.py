@@ -6,9 +6,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 def index(request):
-	print("announcements-index")
-	object_list = Post.objects.all()
-
+  print("announcements-index")
+  object_list = Post.objects.all()
   print("1")
   mailboxes = Mailbox.active_mailboxes.all()
   print("mailboxes=[",end='')
@@ -22,8 +21,7 @@ def index(request):
   print("]")
   for message in messages:
     print('Received Subject=[%s] From=[%s] From=[%s] Body=[%s]',message.subject,message.from_header,message.from_address,message.body)
-
-	return render(request, 'announcements/announcements.html', {'object_list': object_list})
+  return render(request, 'announcements/announcements.html', {'object_list': object_list})
 #	return render(request, 'announcements/announcements.html', {'content':['Hi you doiiiiiin?']})
 
 def contact(request):
