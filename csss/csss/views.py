@@ -8,7 +8,7 @@ def index(request):
   print("announcements-index")
   object_list = Post.objects.all()
   print("1")
-  messages = Message.objects.all().reverse()
+  messages = Message.objects.all().order_by('-id')
   print("messages=[",end='')
   print(messages,end='')
   print("]")
