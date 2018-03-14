@@ -18,7 +18,7 @@ def index(request):
     print(decoded_body,end='')
     print("]")
     indexOfFirst=decoded_body.index("UTF-8")
-    indexOfLast = decoded_body.index("--000000000000d94885056756a504\\nContent-Type: text/html")
+    indexOfLast = decoded_body.index("<div><br clear=3D\"all\">")
     print("indexOfFirst=["+str(indexOfFirst)+"] indexOfLast+["+str(indexOfLast)+"] -- indexOfFirst-indexOfLast=["+str(indexOfFirst-indexOfLast)+"] -- length=["+str(len(decoded_body))+"]")
     print(decoded_body[indexOfFirst+8:indexOfLast].replace('\\n', '\n'))
     message.body=decoded_body[indexOfFirst+8:indexOfLast].replace('\\n', '\n')
