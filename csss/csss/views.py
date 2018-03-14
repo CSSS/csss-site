@@ -14,6 +14,9 @@ def index(request):
   print("]")
   for message in messages:
     decoded_body= str(base64.b64decode(message.body))
+    print("decoded_body=[",end='')
+    print(decoded_body,end='')
+    print("]")
     indexOfFirst=decoded_body.index("UTF-8")
     indexOfLast = decoded_body.index("--000000000000d94885056756a504\\nContent-Type: text/html")
     print("indexOfFirst=["+str(indexOfFirst)+"] indexOfLast+["+str(indexOfLast)+"] -- indexOfFirst-indexOfLast=["+str(indexOfFirst-indexOfLast)+"] -- length=["+str(len(decoded_body))+"]")
