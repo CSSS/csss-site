@@ -4,5 +4,5 @@ from announcements.models import Post
 
 urlpatterns= [
 	url(r'^(?P<pk>\d+)$',DetailView.as_view(model=Mailbox,template_name='announcements/post.html' )),
-	url(r'^$',ListView.as_view(queryset=Mailbox.objects.all().order_by("date")[:25],template_name="announcements/announcements.html"))
+	url(r'^$',ListView.as_view(queryset=Post.objects.all().order_by("date")[:25],template_name="announcements/announcements.html"))
 ]
