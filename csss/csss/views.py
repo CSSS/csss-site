@@ -2,6 +2,8 @@ from django.shortcuts import render
 from announcements.models import Post
 import announcements
 from django_mailbox.models import Mailbox
+import logging
+logger = logging.getLogger(__name__)
 
 def index(request):
 	print("announcements index")
