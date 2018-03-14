@@ -2,6 +2,7 @@ from django.shortcuts import render
 from announcements.models import Post
 import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
+import base64
 
 def index(request):
   print("announcements-index")
@@ -12,8 +13,14 @@ def index(request):
   print(messages,end='')
   print("]")
   for message in messages:
+    decoded_body= str(base64.b64decode(message.body))
+    indexOfFirst=decoded_body.index("UTF-8")
+    indexOfLast = decoded_body.index("--000000000000d94885056756a504\\nContent-Type: text/html")
+    print("indexOfFirst=["+str(indexOfFirst)+"] indexOfLast+["+str(indexOfLast)+"] -- indexOfFirst-indexOfLast=["+str(indexOfFirst-indexOfLast)+"] -- length=["+str(len(decoded_body))+"]")
+    print(decoded_body[indexOfFirst+8:indexOfLast].replace('\\n', '\n'))
+    message.body=decoded_body[indexOfFirst+8:indexOfLast].replace('\\n', '\n')
     print('Received Subject=['+str(message.subject)+'] From=['+str(message.from_header)+'] From=['+str(message.from_address)+'] Body=['+str(message.body)+']')
-  return render(request, 'announcements/announcements.html', {'object_list': object_list})
+  return render(request, 'announcements/announcements.html', {'messages': messages})
 #	return render(request, 'announcements/announcements.html', {'content':['Hi you doiiiiiin?']})
 
 def contact(request):
