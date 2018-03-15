@@ -8,20 +8,22 @@ def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
   return from_header[0:indexOfFirst]
 
-def extract_body(email_body):
-  indexOfFirst=email_body.index("UTF-8")
-  indexOfLast = email_body.index("Content-Type: text/html")
+def extract_body(decoded_body):
+  indexOfFirst=decoded_body.index("UTF-8")
+  indexOfLast = decoded_body.index("Content-Type: text/html")
   return decoded_body[indexOfFirst+8:indexOfLast-32].replace('\\n', '\n')
 
 
 def index(request):
   print("announcements index")
   messages = Message.objects.all().order_by('-id')
-  print (type(messages))
+  theMessage = Message.objects.all().order_by('id')
+  print(id(theMessage))
+  print (id(messages))
   for message in messages:
     decoded_body= str(base64.b64decode(message.body))
-    sender = extract_sender(message.from_header)
-    body_of_email = extract_body(message.body)
+    message.from_header = extract_sender(message.from_header)
+    decoded_body = extract_body(decoded_body)
   return render(request, 'announcements/announcements.html', {'messages': messages})
 
 def contact(request):
