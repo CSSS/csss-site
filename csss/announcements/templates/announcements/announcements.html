@@ -4,7 +4,7 @@
 	<p>announcements</p>
 	{% for email in messages %}
 		<h3>{{email.subject}}</h3>
-    <p>{{email.from_address}}</p>
+    <p>{{email.from_header}}</p>
 		{{email.body|safe|linebreaks}}
 	{% endfor %}
 {% endblock %}
