@@ -22,7 +22,7 @@ def index(request):
   for message in messages:
     decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
-    decoded_body = extract_body(decoded_body)
+    message.body = extract_body(decoded_body)
   return render(request, 'announcements/announcements.html', {'messages': messages})
 
 def contact(request):
