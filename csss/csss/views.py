@@ -17,7 +17,7 @@ def extract_body(email_body):
 def index(request):
   print("announcements index")
   messages = Message.objects.all().order_by('-id')
-  type(messages)
+  print (type(messages))
   for message in messages:
     decoded_body= str(base64.b64decode(message.body))
     sender = extract_sender(message.from_header)
