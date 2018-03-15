@@ -6,6 +6,7 @@ import base64
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
+  print(from_header[0:indexOfFirst])
   return from_header[0:indexOfFirst]
 
 def extract_body(decoded_body):
@@ -18,8 +19,6 @@ def index(request):
   print("announcements index")
   messages = Message.objects.all().order_by('-id')
   theMessage = Message.objects.all().order_by('id')
-  print(id(theMessage))
-  print (id(messages))
   for message in messages:
     decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
