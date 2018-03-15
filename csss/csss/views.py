@@ -4,25 +4,24 @@ import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
 
+def extract_sender(from_header):
+  indexOfFirst=from_header.index("<")
+  return from_header[0:indexOfFirst]
+
+def extract_body(email_body):
+  indexOfFirst=email_body.index("UTF-8")
+  indexOfLast = email_body.index("Content-Type: text/html")
+  return decoded_body[indexOfFirst+8:indexOfLast-32].replace('\\n', '\n')
+
+
 def index(request):
-  print("announcements-index")
-  object_list = Post.objects.all()
-  print("1")
+  print("announcements index")
   messages = Message.objects.all().order_by('-id')
-  print("messages=[",end='')
-  print(messages,end='')
-  print("]")
+  type(messages)
   for message in messages:
     decoded_body= str(base64.b64decode(message.body))
-    print("decoded_body=[",end='')
-    print(decoded_body,end='')
-    print("]")
-    indexOfFirst=decoded_body.index("UTF-8")
-    indexOfLast = decoded_body.index("Content-Type: text/html")
-    print("indexOfFirst=["+str(indexOfFirst)+"] indexOfLast+["+str(indexOfLast)+"] -- indexOfFirst-indexOfLast=["+str(indexOfFirst-indexOfLast)+"] -- length=["+str(len(decoded_body))+"]")
-    print(decoded_body[indexOfFirst+8:indexOfLast].replace('\\n', '\n'))
-    message.body=decoded_body[indexOfFirst+8:indexOfLast-32].replace('\\n', '\n')
-    print('Received Subject=['+str(message.subject)+'] From=['+str(message.from_header)+'] From=['+str(message.from_address)+'] Body=['+str(message.body)+']')
+    sender = extract_sender(message.from_header)
+    body_of_email = extract_body(message.body)
   return render(request, 'announcements/announcements.html', {'messages': messages})
 
 def contact(request):
