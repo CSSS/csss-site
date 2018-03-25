@@ -36,7 +36,7 @@ class DateTime:
 
 def main():
 	last_update_reader = open('LATEST_UPDATE', 'r')
-	DateTime current_time;
+	DateTime current_time = DateTime()
 	refresh_token=current_time.compare(last_update_reader.readline())
 	last_update_reader.close()
 
