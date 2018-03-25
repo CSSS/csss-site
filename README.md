@@ -2,10 +2,10 @@
 
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
- - [Basic Instructions for Site set-up]
- - [Generating Access Token for gmail inbox]
- - [Automation of auto-refreshing the gmail access token]
- - [Miscellanious/Extra References]
+ - [Basic Instructions for Site set-up](#basic-instructions-for-site-set-up)
+ - [Generating Access Token for gmail inbox](#generating-access-token-for-gmail-inbox)
+ - [Automation of auto-refreshing the gmail access token](#access-token-and-gmail-for-dango-mailbox)
+ - [Miscellanious/Extra References](#miscellaniousextra-references)
 
 ### Basic Instructions for Site set-up
   
