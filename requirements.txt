@@ -1,0 +1,4 @@
+social-auth-app-django
+django-mailbox
+python-social-auth
+django-jinja
