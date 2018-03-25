@@ -121,7 +121,7 @@ add the file gmail-1 and gmail-2 to the transports folder under the django_mailb
 
 add the following line to crontab using `crontab -e`
 
-`sudo -H python3.5 /home/ubuntu/csss_website/access_token_refresher.py`
+`00 20 * * * sudo -H python3.5 /home/ubuntu/csss_website/access_token_refresher.py`
 
 correct the paths of gmail.py, gmail-1 and gmail-2 in access_token_refresher.py
 
