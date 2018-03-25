@@ -54,5 +54,5 @@ def main():
 	else:
 		#was not updated
 
-if __main__ == main:
+if __name__ == '__main__':
 	main()
