@@ -3,6 +3,7 @@ from announcements.models import Post
 import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
+import access_token_refresher
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
@@ -17,6 +18,7 @@ def extract_body(decoded_body):
 
 def index(request):
   print("announcements index")
+  access_token_refresher.main()
   messages = Message.objects.all().order_by('-id')
   theMessage = Message.objects.all().order_by('id')
   for message in messages:
