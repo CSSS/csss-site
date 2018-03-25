@@ -11,7 +11,8 @@ In active development on Jace Manshadi's personal AWS account.
  - [Miscellanious/Extra References](#miscellaniousextra-references)
     - [Interacting with GMAIL database](#interacting-with-gmail-database)
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
-    - [Django Docu](#django-docu)
+    - [Python Social Auth](##python-social-auth)
+    - [Django-mailbox](#django-mailbox)
     - [UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH](#updating-migrations-for-python-social-auth)
     - [Google Docu](#google-docu)
 
@@ -197,11 +198,11 @@ https://github.com/coddingtonbear/django-mailbox
 *******************
 ### Google Docu
 *******************
-https://developers.google.com/gmail/imap/xoauth2-protocol
-https://developers.google.com/gmail/imap/xoauth2-libraries
-https://developers.google.com/gmail/imap/xoauth2-protocol
-https://developers.google.com/apis-explorer/?hl=en_US#p/gmail/v1/
-https://support.google.com/googleapi/answer/6158849?hl=en#installedapplications&android
-https://console.developers.google.com/apis/credentials?project=gmail-csss-api-links
-https://developers.google.com/identity/protocols/OAuth2
+https://developers.google.com/gmail/imap/xoauth2-protocol  
+https://developers.google.com/gmail/imap/xoauth2-libraries  
+https://developers.google.com/gmail/imap/xoauth2-protocol  
+https://developers.google.com/apis-explorer/?hl=en_US#p/gmail/v1/  
+https://support.google.com/googleapi/answer/6158849?hl=en#installedapplications&android  
+https://console.developers.google.com/apis/credentials?project=gmail-csss-api-links  
+https://developers.google.com/identity/protocols/OAuth2  
 ```
