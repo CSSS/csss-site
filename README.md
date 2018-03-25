@@ -3,6 +3,9 @@
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
  - [Basic Instructions for Site set-up](#basic-instructions-for-site-set-up)
+    - [Creating Developer Project and client ID and client secret using csss.website account](#creating-developer-project-and-client-id-and-client-secret-using-cssswebsite-account)
+        - [oauth2.py script for generating Access Token](#oauth2py-script-for-generating-access-token)
+    - [side-note about the way that dango-mailbox is being used](#side-note-about-the-way-that-dango-mailbox-is-being-used)
  - [Generating Access Token for gmail inbox](#generating-access-token-for-gmail-inbox)
  - [Automation of auto-refreshing the gmail access token](#access-token-and-gmail-for-dango-mailbox)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
@@ -57,7 +60,7 @@ Selecting client ID Application Type
 Copy Client ID and client secret  
 ![Copy Client ID and client secret](Copy%20Client%20ID%20and%20client%20secret.png)  
   
-#### ouath2.py script for generating Access Token
+#### oauth2.py script for generating Access Token
 Instructions: [OAuth2DotPyRunThrough](https://github.com/google/gmail-oauth2-tools/wiki/OAuth2DotPyRunThrough)
 ```shell
 wget https://raw.githubusercontent.com/google/gmail-oauth2-tools/master/python/oauth2.py
@@ -124,7 +127,7 @@ also need to enter the absolute path for the csss directory into PYTHONPATH like
 ## Miscellanious/Extra References
 
 ***************************************
-*** Interacting with GMAIL database ***
+### Interacting with GMAIL database
 ***************************************
 
 ```
@@ -148,12 +151,12 @@ sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
 ```
 
 *************************************************
-*** Location of model where emails are stored ***
+### Location of model where emails are stored
 *************************************************
 (`django-mailbox/django-mailbox/models.py`)
 
 *******************
-*** Django Docu ***
+### Django Docu
 *******************
 
 Step by Step for using oauth2 script: https://github.com/google/gmail-oauth2-tools/wiki/OAuth2DotPyRunThrough
@@ -181,12 +184,12 @@ https://github.com/python-social-auth/social-app-django
 https://github.com/coddingtonbear/django-mailbox
 
 **************************************************
-*** UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH ***
-*** https://stackoverflow.com/a/42946678       ***
+### UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH
 **************************************************
+[stackoverflow reference](https://stackoverflow.com/a/42946678)
 
 *******************
-*** Google Docu ***
+### Google Docu
 *******************
 https://developers.google.com/gmail/imap/xoauth2-protocol
 https://developers.google.com/gmail/imap/xoauth2-libraries
