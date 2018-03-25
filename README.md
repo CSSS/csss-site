@@ -9,6 +9,11 @@ In active development on Jace Manshadi's personal AWS account.
  - [Generating Access Token for gmail inbox](#generating-access-token-for-gmail-inbox)
  - [Automation of auto-refreshing the gmail access token](#access-token-and-gmail-for-dango-mailbox)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
+    - [Interacting with GMAIL database](#interacting-with-gmail-database)
+    - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
+    - [Django Docu](#django-docu)
+    - [UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH](#updating-migrations-for-python-social-auth)
+    - [Google Docu](#google-docu)
 
 ## Basic Instructions for Site set-up
   
@@ -156,32 +161,33 @@ sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
 (`django-mailbox/django-mailbox/models.py`)
 
 *******************
-### Django Docu
+### python-social-auth
 *******************
+http://python-social-auth.readthedocs.io/en/latest/  
+http://python-social-auth.readthedocs.io/en/latest/configuration/index.html  
+http://python-social-auth.readthedocs.io/en/latest/configuration/settings.html  
+http://python-social-auth.readthedocs.io/en/latest/configuration/django.html  
+http://python-social-auth.readthedocs.io/en/latest/configuration/porting_from_dsa.html  
+http://python-social-auth.readthedocs.io/en/latest/pipeline.html  
+http://python-social-auth.readthedocs.io/en/latest/pipeline.html#extending-the-pipeline  
+http://python-social-auth.readthedocs.io/en/latest/strategies.html  
+http://python-social-auth.readthedocs.io/en/latest/storage.html  
+http://python-social-auth.readthedocs.io/en/latest/exceptions.html  
+http://python-social-auth.readthedocs.io/en/latest/backends/index.html  
+http://python-social-auth.readthedocs.io/en/latest/backends/google.html#google-oauth2  
+http://python-social-auth.readthedocs.io/en/latest/developer_intro.html  
+http://python-social-auth.readthedocs.io/en/latest/logging_out.html  
+http://python-social-auth.readthedocs.io/en/latest/tests.html  
+http://python-social-auth.readthedocs.io/en/latest/use_cases.html  
+https://github.com/python-social-auth/social-app-django  
 
-Step by Step for using oauth2 script: https://github.com/google/gmail-oauth2-tools/wiki/OAuth2DotPyRunThrough
-http://python-social-auth.readthedocs.io/en/latest/
-http://python-social-auth.readthedocs.io/en/latest/configuration/index.html
-http://python-social-auth.readthedocs.io/en/latest/configuration/settings.html
-http://python-social-auth.readthedocs.io/en/latest/configuration/django.html
-http://python-social-auth.readthedocs.io/en/latest/configuration/porting_from_dsa.html
-http://python-social-auth.readthedocs.io/en/latest/pipeline.html
-http://python-social-auth.readthedocs.io/en/latest/pipeline.html#extending-the-pipeline
-http://python-social-auth.readthedocs.io/en/latest/strategies.html
-http://python-social-auth.readthedocs.io/en/latest/storage.html
-http://python-social-auth.readthedocs.io/en/latest/exceptions.html
-http://python-social-auth.readthedocs.io/en/latest/backends/index.html
-http://python-social-auth.readthedocs.io/en/latest/backends/google.html#google-oauth2
-http://python-social-auth.readthedocs.io/en/latest/developer_intro.html
-http://python-social-auth.readthedocs.io/en/latest/logging_out.html
-http://python-social-auth.readthedocs.io/en/latest/tests.html
-http://python-social-auth.readthedocs.io/en/latest/use_cases.html
-
-http://django-mailbox.readthedocs.io/en/latest/
-http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html#gmail-imap-with-oauth2-authentication
-http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html
-https://github.com/python-social-auth/social-app-django
-https://github.com/coddingtonbear/django-mailbox
+*******************
+### django-mailbox
+*******************
+http://django-mailbox.readthedocs.io/en/latest/  
+http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html#gmail-imap-with-oauth2-authentication  
+http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html  
+https://github.com/coddingtonbear/django-mailbox  
 
 **************************************************
 ### UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH
