@@ -34,7 +34,7 @@ class DateTime:
 			return RefreshToken("449132530651-etnu8h6phobha55v5u5a7ur22sphc1av.apps.googleusercontent.com", "AQ1HizrYfPeb4KSPW5Adbr_A","1/ZkDDymOswmfEdsUm4Bl5Of5E8DsXDbadStuENqkp_hc3yE8XiOQyJ-00ZhqWETRM")
 		return False
 
-if __main__ == main:
+def main():
 	last_update_reader = open('LATEST_UPDATE', 'r')
 	DateTime current_time;
 	refresh_token=current_time.compare(last_update_reader.readline())
@@ -53,3 +53,6 @@ if __main__ == main:
 		gmail_file.close()
 	else:
 		#was not updated
+
+if __main__ == main:
+	main()
