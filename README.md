@@ -7,7 +7,7 @@ In active development on Jace Manshadi's personal AWS account.
  - [Automation of auto-refreshing the gmail access token](#access-token-and-gmail-for-dango-mailbox)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
 
-### Basic Instructions for Site set-up
+## Basic Instructions for Site set-up
   
 By: Jace Manshadi  
 Position: Webmaster Summer 2017 - Present  
@@ -34,9 +34,9 @@ python3.5 manage.py startapp webapp
 python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp personal  
    
-### Generating Access Token for gmail inbox
+## Generating Access Token for gmail inbox
   
-#### Creating Developer Project and client ID and client secret using csss.website account  
+### Creating Developer Project and client ID and client secret using csss.website account  
 https://console.developers.google.com/apis/dashboard  
 Create Project  
 ![Create Project](Create_Project.png)  
@@ -63,7 +63,7 @@ Instructions: [OAuth2DotPyRunThrough](https://github.com/google/gmail-oauth2-too
 wget https://raw.githubusercontent.com/google/gmail-oauth2-tools/master/python/oauth2.py
 ```
 
-## access token and gmail for dango-mailbox  
+### side-note about the way that dango-mailbox is being used
 I am currently testing the usefulness of django-mailbox module to be able to recieve emails at the django site.  
 Unfortunately, that module doesnt actually store the credentials itself and instead relies on [python-social-auth](https://github.com/python-social-auth) for credentials. THis is unfortunate because the documentation for that module is complicated as hell and I am not currently able to make heads or tails of how to utilize it for the csss-site.  
   
@@ -104,7 +104,7 @@ Modifications are outlined here
                 )
 ```
 
-### Automation of auto-refreshing the gmail access token
+## Automation of auto-refreshing the gmail access token
 
 `sudo find / -name django_mailbox` to locate the location of the module
 
@@ -121,7 +121,36 @@ run the command `wget <oauth2.py_path>` inside of the top csss_website. You can 
 also need to enter the absolute path for the csss directory into PYTHONPATH like so:  
 `export PYTHONPATH=/home/ubuntu/csss_website/csss/csss/`
 
-### Miscellanious/Extra References
+## Miscellanious/Extra References
+
+***************************************
+*** Interacting with GMAIL database ***
+***************************************
+
+```
+same command to interact with database
+$ python3 manage.py dbshell
+$ sqlite3 db.sqlite3
+
+sql commands
+sqlite> SELECT body FROM django_mailbox_message WHERE id == 7;
+sqlite> SHOW * FROM django_mailbox_mailbox
+sqlite> SELECT * FROM django_mailbox_mailbox ;
+sqlite> SELECT * FROM django_mailbox_message ;
+sqlite> .tables
+
+sqlite> PRAGMA table_info(django_mailbox_message)
+sqlite> SELECT subject FROM django_mailbox_message;
+sqlite> SELECT from_header FROM django_mailbox_message;
+sqlite> SELECT to_header FROM django_mailbox_message;
+sqlite> SELECT body FROM django_mailbox_message;
+sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
+```
+
+*************************************************
+*** Location of model where emails are stored ***
+*************************************************
+(`django-mailbox/django-mailbox/models.py`)
 
 *******************
 *** Django Docu ***
@@ -166,3 +195,4 @@ https://developers.google.com/apis-explorer/?hl=en_US#p/gmail/v1/
 https://support.google.com/googleapi/answer/6158849?hl=en#installedapplications&android
 https://console.developers.google.com/apis/credentials?project=gmail-csss-api-links
 https://developers.google.com/identity/protocols/OAuth2
+```
