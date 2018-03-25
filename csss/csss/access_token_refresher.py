@@ -34,10 +34,14 @@ class DateTime:
 			return RefreshToken("449132530651-etnu8h6phobha55v5u5a7ur22sphc1av.apps.googleusercontent.com", "AQ1HizrYfPeb4KSPW5Adbr_A","1/ZkDDymOswmfEdsUm4Bl5Of5E8DsXDbadStuENqkp_hc3yE8XiOQyJ-00ZhqWETRM")
 		return False
 
+	def curTime():
+		return year+"-"+month+"-"+day+"-"+hour+"-"+minute+"-"+second
+
 def main():
 	last_update_reader = open('LATEST_UPDATE', 'r')
 	current_time = DateTime()
-	refresh_token=current_time.compare(last_update_reader.readline())
+	time_in_file=last_update_reader.readline()
+	refresh_token=current_time.compare(time_in_file)
 	last_update_reader.close()
 
 	if (refresh_token != False):
@@ -52,7 +56,9 @@ def main():
 			gmail_file.write(bottom_half.readline()+"\n")
 		gmail_file.close()
 	else:
-		#was not updated
+		print("access token was not updated")
+		print("Current_Time=["+current_time.curTime()+"]")
+		print("Time_in_File=["+time_in_file+"]")
 
 if __name__ == '__main__':
 	main()
