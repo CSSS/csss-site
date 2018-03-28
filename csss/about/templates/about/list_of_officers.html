@@ -5,7 +5,31 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
+<style>
+.carousel-indicators{
+    position:absolute;
+    bottom:10px;
+    left:50%;
+    z-index:15;
+    width:60%;
+    padding-left:0;
+    margin-left:-30%;
+    text-align:center;
+    list-style:none
+}
+.carousel-indicators li{
+    display:inline-block;
+    width:10px;
+    height:10px;
+    margin:1px;
+    text-indent:-999px;
+    cursor:pointer;
+    background-color:#000\9;
+    background-color:rgba(0,0,0,0);
+    border:1px solid #fff;
+    border-radius:10px
+}
+</style>
 Please feel free to contact us anytime.
 <ul>
     <li>General Inquires for</li>
@@ -22,12 +46,15 @@ Please feel free to contact us anytime.
 <hr>
 
 <div class="container">
+    <div class="col-md-6">
+        <a data-target="#myCarousel" data-slide-to="0" class="active">Spring 2018</a>
+        <a data-target="#myCarousel" data-slide-to="1">Fall 2017</a>
+    </div>
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
         <!-- Indicators -->
         <ol class="carousel-indicators">
             <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
             <li data-target="#myCarousel" data-slide-to="1"></li>
-            <li data-target="#myCarousel" data-slide-to="2"></li>
         </ol>
         <!-- Wrapper for slides -->
         <div class="carousel-inner">
