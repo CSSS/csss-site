@@ -5,6 +5,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$('#myTabs a').click(function (e) {
+    e.preventDefault()
+    $(this).tab('show')
+})
+</script>
 Please feel free to contact us anytime.
 <ul>
     <li>General Inquires for</li>
@@ -19,4 +25,17 @@ Please feel free to contact us anytime.
 <p>Note: If you wish to contact an Executive member directly, see their addresses as listed below.</p>
 <p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
 <hr>
+<ul class="nav nav-tabs" role="tablist">
+  <li role="presentation" class="active"><a href="#spring_2018" role="tab" data-toggle="tab">Spring 2018</a></li>
+  <li role="presentation"><a href="#fall_2017" role="tab" data-toggle="tab">Fall 2017</a></li>
+  <li role="presentation"><a href="#summer_2017" role="tab" data-toggle="tab">Summer 2017</a></li>
+  <li role="presentation"><a href="#spring_2017" role="tab" data-toggle="tab">Spring 2017</a></li>
+</ul>
+  <!-- Tab panes -->
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="home">Home</div>
+    <div role="tabpanel" class="tab-pane" id="profile">Profile</div>
+    <div role="tabpanel" class="tab-pane" id="messages">Messages</div>
+    <div role="tabpanel" class="tab-pane" id="settings">Settings</div>
+  </div>
 {% endblock %}
