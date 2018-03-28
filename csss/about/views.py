@@ -16,3 +16,11 @@ def fall_2017(request):
 def spring_2018(request):
   print("spring_2018 index")
   return render(request, 'about/spring_2018.html')
+
+def summer_2017(request):
+  print("summer_2017 index")
+  return render(request, 'about/summer_2017.html')
+
+def spring_2017(request):
+  print("spring_2017 index")
+  return render(request, 'about/spring_2017.html')
