@@ -13,7 +13,7 @@
     // If absolute URL from the remote server is provided, configure the CORS
   // header on that server.
   var url = 'http://ec2-52-91-226-24.compute-1.amazonaws.com:8000/static/csss/img/Constitution_August_2015.pdf';
-
+// Loaded via <script> tag, create shortcut to access PDF.js exports.
 var pdfjsLib = window['pdfjs-dist/build/pdf'];
 
 // The workerSrc property shall be specified.
@@ -107,7 +107,6 @@ pdfjsLib.getDocument(url).then(function(pdfDoc_) {
   // Initial/first page rendering
   renderPage(pageNum);
 });
-  
 </script>
 <h2>Constitution Page</h2>
 <img src="{% static 'csss/img/logo.png' %}" class="responsive-img" style='max-height:100px;' alt="face">
