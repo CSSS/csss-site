@@ -12,4 +12,8 @@ def devTools(request):
 	print("dev tools index")
 	return render(request, '750_project/dev_tools.html')
 
+def workshops(request):
+	print("workshops index")
+	return render( request, '750_project/workshops.html')
+
 # Create your views here.

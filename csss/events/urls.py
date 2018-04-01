@@ -19,10 +19,9 @@ from django.contrib import admin
 from . import views
 
 urlpatterns = [
+    url(r'^general_meetings$', views.gm, name='gm'),
+    url(r'^board_games$',views.board_games, name='board_games'),
     url(r'^gameJam$', views.gameJam, name='gameJam'),
     url(r'^frosh_week$', views.froshWeek, name='froshWeek'),
-    url(r'^workshop$', views.workshops, name='workshops'),
-	url(r'^hacktime$', views.hacktime, name='hacktime'),
-	url(r'^general_meetings$', views.gm, name='gm'),
 	url(r'^$', views.index, name='index'),
 ]
