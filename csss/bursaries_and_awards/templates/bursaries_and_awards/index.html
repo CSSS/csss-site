@@ -1,8 +1,11 @@
 {% extends "bursaries_and_awards/header.html" %}
 
 {% block content %}
-{{ block.super }}
-<h2>Bursaries and Awards Page</h2>
-
+<div class="tab-content">
+	<div class="tab-pane active" id="bursaries">
+		{{ block.super }}
+		<h2>Bursaries and Awards Page</h2>
+	</div>
+</div>
 {% endblock %}
 
