@@ -2,172 +2,174 @@
 
 {% block content %}
 <div class="tab-content">
-    {{ block.super }}
+    <div class="tab-pane active" id="list_of_officers">
+        {{ block.super }}
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style type="text/css">
-    .exec-photos {
-        border-radius: 50%;
-        border: 1px solid #ddd;
-        padding: 5px;
-        width: 150px;
-        max-width: 100%;
-        height: auto;
-    }
-    </style>
-    <p>
-        Please feel free to contact us anytime.
-        <ul>
-            <li>General Inquires for</li>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <style type="text/css">
+        .exec-photos {
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            padding: 5px;
+            width: 150px;
+            max-width: 100%;
+            height: auto;
+        }
+        </style>
+        <p>
+            Please feel free to contact us anytime.
             <ul>
-                <li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss[at]sfu.ca">csss[at]sfu.ca</a></li>
-                <li>Only Current Execs : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
-                <li>All Current and Past Execs : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
+                <li>General Inquires for</li>
+                <ul>
+                    <li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss[at]sfu.ca">csss[at]sfu.ca</a></li>
+                    <li>Only Current Execs : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
+                    <li>All Current and Past Execs : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
+                </ul>
+                <li>Computing Science Office: <a href="mailto:csdept[at]sfu.ca">csdept[at]sfu.ca</a></li>
             </ul>
-            <li>Computing Science Office: <a href="mailto:csdept[at]sfu.ca">csdept[at]sfu.ca</a></li>
+            <br/>
+            Note: If you wish to contact an Executive member directly, see their addresses as listed below.<br/>
+            The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1
+        </p>
+        <hr>
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#spring_2018" role="tab" data-toggle="tab">Spring 2018</a></li>
+            <li role="presentation"><a href="#fall_2017" role="tab" data-toggle="tab">Fall 2017</a></li>
+            <li role="presentation"><a href="#summer_2017" role="tab" data-toggle="tab">Summer 2017</a></li>
+            <li role="presentation"><a href="#spring_2017" role="tab" data-toggle="tab">Spring 2017</a></li>
         </ul>
-        <br/>
-        Note: If you wish to contact an Executive member directly, see their addresses as listed below.<br/>
-        The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1
-    </p>
-    <hr>
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#spring_2018" role="tab" data-toggle="tab">Spring 2018</a></li>
-        <li role="presentation"><a href="#fall_2017" role="tab" data-toggle="tab">Fall 2017</a></li>
-        <li role="presentation"><a href="#summer_2017" role="tab" data-toggle="tab">Summer 2017</a></li>
-        <li role="presentation"><a href="#spring_2017" role="tab" data-toggle="tab">Spring 2017</a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="spring_2018">
-            <h1>Current CSSS Executives</h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=david-4.jpg&t=ZXXRV4le7qoH58J&scalingup=0"></center>
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="spring_2018">
+                <h1>Current CSSS Executives</h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=david-4.jpg&t=ZXXRV4le7qoH58J&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">President - <b>David Miiller (Miiller spelt Miiller)</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 127</b> | <b>MACM 101</b></p>
+                        <p class="lead">Languages of Choice - <b>C++</b> | <b>C</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-president[at]sfu.ca ">csss-president[at]sfu.ca </a></br> or leave a note encrypted in ROT13 in the common room, and David will leave another note encrypted in ROT26 for you to pick up within the week.</p>
+                        <p class="lead">Bio - Born and raised in North Vancouver, David came to SFU for various reasons, one of which was because some random guy in a TF2 server said something about SFU being good for Computing, and he decided that was good evidence. It ended up being pretty true. David can now be found sitting in the common room too much, generally being loud and occasionally running down the halls. David likes to think he's decently friendly, so feel free to bug him about pretty much anything.</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <p class="lead">President - <b>David Miiller (Miiller spelt Miiller)</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 127</b> | <b>MACM 101</b></p>
-                    <p class="lead">Languages of Choice - <b>C++</b> | <b>C</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-president[at]sfu.ca ">csss-president[at]sfu.ca </a></br> or leave a note encrypted in ROT13 in the common room, and David will leave another note encrypted in ROT26 for you to pick up within the week.</p>
-                    <p class="lead">Bio - Born and raised in North Vancouver, David came to SFU for various reasons, one of which was because some random guy in a TF2 server said something about SFU being good for Computing, and he decided that was good evidence. It ended up being pretty true. David can now be found sitting in the common room too much, generally being loud and occasionally running down the halls. David likes to think he's decently friendly, so feel free to bug him about pretty much anything.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=jon-1.jpg&t=AjadLY2PhroksS1&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Vice President - <b>Jonathan Loewen</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 225</b> | <b>CMPT 320</b></p>
+                        <p class="lead">Languages of Choice - <b>C#</b> | <b>SQL</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-vp[at]sfu.ca">csss-vp[at]sfu.ca</a></p>
+                        <p class="lead">Bio - Jonathan is a transfer student from the University of Manitoba and Red River College in Winnipeg. He hails from the mosquito-infested Lands of Always +/- 40°C, also known as South-East Manitoba. Previously employed slinging SQL for hospital systems, he decided that he loved school too much to work for the rest of his life. He enjoys wasting precious hours playing Civilization 5 and Dark Souls, listening to awful Soundcloud mashups, and playing board games in the common room.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=jon-1.jpg&t=AjadLY2PhroksS1&scalingup=0"></center>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=dustin-1.jpg&t=q924rPSZ6400pjz&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Treasurer - <b>Dustin Cao</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 276</b> | <b>CMPT 320</b></p>
+                        <p class="lead">Languages of Choice - <b>C</b> | <b>Java</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-treasurer[at]sfu.ca">csss-treasurer[at]sfu.ca</a></p>
+                        <p class="lead">Bio - Dustin is a boring person. Come talk to him to brighten up the monotony of his life.</p>
+                    </div>
                 </div>
-                <div class="col-md-6">
-                    <p class="lead">Vice President - <b>Jonathan Loewen</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 225</b> | <b>CMPT 320</b></p>
-                    <p class="lead">Languages of Choice - <b>C#</b> | <b>SQL</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-vp[at]sfu.ca">csss-vp[at]sfu.ca</a></p>
-                    <p class="lead">Bio - Jonathan is a transfer student from the University of Manitoba and Red River College in Winnipeg. He hails from the mosquito-infested Lands of Always +/- 40°C, also known as South-East Manitoba. Previously employed slinging SQL for hospital systems, he decided that he loved school too much to work for the rest of his life. He enjoys wasting precious hours playing Civilization 5 and Dark Souls, listening to awful Soundcloud mashups, and playing board games in the common room.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=courtenay-1.jpg&t=ZMQ4n8t3UpUE3uR&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Director of Events - <b>Courtenay Huffman</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 295</b> | <b>PSYC 280</b></p>
+                        <p class="lead">Languages of Choice - <b>C++</b> | <b>Assembly</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
+                        <p class="lead">Bio - Courtenay is a fifth year student studying computing science and psychology. She can often be found either in the common room, at the gym, or hiding behind her massive computer in the corner of a coffee shop. She likes pushing the limits of sleep deprivation so please bring her coffee and tea.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=dustin-1.jpg&t=q924rPSZ6400pjz&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Treasurer - <b>Dustin Cao</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 276</b> | <b>CMPT 320</b></p>
-                    <p class="lead">Languages of Choice - <b>C</b> | <b>Java</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-treasurer[at]sfu.ca">csss-treasurer[at]sfu.ca</a></p>
-                    <p class="lead">Bio - Dustin is a boring person. Come talk to him to brighten up the monotony of his life.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=courtenay-1.jpg&t=ZMQ4n8t3UpUE3uR&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Director of Events - <b>Courtenay Huffman</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 295</b> | <b>PSYC 280</b></p>
-                    <p class="lead">Languages of Choice - <b>C++</b> | <b>Assembly</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
-                    <p class="lead">Bio - Courtenay is a fifth year student studying computing science and psychology. She can often be found either in the common room, at the gym, or hiding behind her massive computer in the corner of a coffee shop. She likes pushing the limits of sleep deprivation so please bring her coffee and tea.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=eric-1.jpg&t=Cyu52bxL8gvFbzw&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Director of Events - <b>Eric Meng Gao</b></p>
-                    <p class="lead">Favourite Courses - <b>MACM 201</b> | <b>MATH 152</b></p>
-                    <p class="lead">Languages of Choice - <b>C</b> | <b>Java</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
-                    <p class="lead">Bio - a man on the run. Hiding from enemy spies since 2015. Currently posing as a 3rd year Computer Science Major. Is often mistaken for a cloud. Can be seen in the common room practicing battle tactics and simulations.</p>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=eric-1.jpg&t=Cyu52bxL8gvFbzw&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Director of Events - <b>Eric Meng Gao</b></p>
+                        <p class="lead">Favourite Courses - <b>MACM 201</b> | <b>MATH 152</b></p>
+                        <p class="lead">Languages of Choice - <b>C</b> | <b>Java</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
+                        <p class="lead">Bio - a man on the run. Hiding from enemy spies since 2015. Currently posing as a 3rd year Computer Science Major. Is often mistaken for a cloud. Can be seen in the common room practicing battle tactics and simulations.</p>
+                    </div>
                 </div>
             </div>
+            <div role="tabpanel" class="tab-pane" id="fall_2017">
+                <h1>CSSS Executives During Fall 2017</h1>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=david-4.jpg&t=ZXXRV4le7qoH58J&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">President - <b>David Miiller (Miiller spelt Miiller)</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 127</b> | <b>MACM 101</b></p>
+                        <p class="lead">Languages of Choice - <b>C++</b> | <b>C</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-president[at]sfu.ca ">csss-president[at]sfu.ca </a></br> or leave a note encrypted in ROT13 in the common room, and David will leave another note encrypted in ROT26 for you to pick up within the week.</p>
+                        <p class="lead">Bio - Born and raised in North Vancouver, David came to SFU for various reasons, one of which was because some random guy in a TF2 server said something about SFU being good for Computing, and he decided that was good evidence. It ended up being pretty true. David can now be found sitting in the common room too much, generally being loud and occasionally running down the halls. David likes to think he's decently friendly, so feel free to bug him about pretty much anything.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=jon-1.jpg&t=AjadLY2PhroksS1&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Vice President - <b>Jonathan Loewen</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 225</b> | <b>CMPT 320</b></p>
+                        <p class="lead">Languages of Choice - <b>C#</b> | <b>SQL</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-vp[at]sfu.ca">csss-vp[at]sfu.ca</a></p>
+                        <p class="lead">Bio - Jonathan is a transfer student from the University of Manitoba and Red River College in Winnipeg. He hails from the mosquito-infested Lands of Always +/- 40°C, also known as South-East Manitoba. Previously employed slinging SQL for hospital systems, he decided that he loved school too much to work for the rest of his life. He enjoys wasting precious hours playing Civilization 5 and Dark Souls, listening to awful Soundcloud mashups, and playing board games in the common room.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=dustin-1.jpg&t=q924rPSZ6400pjz&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Treasurer - <b>Dustin Cao</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 276</b> | <b>CMPT 320</b></p>
+                        <p class="lead">Languages of Choice - <b>C</b> | <b>Java</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-treasurer[at]sfu.ca">csss-treasurer[at]sfu.ca</a></p>
+                        <p class="lead">Bio - Dustin is a boring person. Come talk to him to brighten up the monotony of his life.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=courtenay-1.jpg&t=ZMQ4n8t3UpUE3uR&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Director of Events - <b>Courtenay Huffman</b></p>
+                        <p class="lead">Favourite Courses - <b>CMPT 295</b> | <b>PSYC 280</b></p>
+                        <p class="lead">Languages of Choice - <b>C++</b> | <b>Assembly</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
+                        <p class="lead">Bio - Courtenay is a fifth year student studying computing science and psychology. She can often be found either in the common room, at the gym, or hiding behind her massive computer in the corner of a coffee shop. She likes pushing the limits of sleep deprivation so please bring her coffee and tea.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=eric-1.jpg&t=XK3Qe6yy7CkhkIn&scalingup=0"></center>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="lead">Director of Events - <b>Dawn Stella Chandler</b></p>
+                        <p class="lead">Favourite Courses - <b>MACM 201</b> | <b>LING 220</b></p>
+                        <p class="lead">Languages of Choice - <b>Python</b> | <b>C</b></p>
+                        <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
+                        <p class="lead">BBio - Dawn is an upper level Computing Science Honours and Linguistics Minor student. Despite being busy as the President of Women in Computing Science (WiCS), Dawn is nonetheless eager to serve the CSSS by shuffling and filing papers. You can find her carefully selecting emojis, deciding what to wear, or adjusting to life in the 21st century.</p>
+                    </div>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="summer_2017">Summer 2017</div>
+            <div role="tabpanel" class="tab-pane" id="spring_2017">Spring 2017</div>
         </div>
-        <div role="tabpanel" class="tab-pane" id="fall_2017">
-            <h1>CSSS Executives During Fall 2017</h1>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=david-4.jpg&t=ZXXRV4le7qoH58J&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">President - <b>David Miiller (Miiller spelt Miiller)</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 127</b> | <b>MACM 101</b></p>
-                    <p class="lead">Languages of Choice - <b>C++</b> | <b>C</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-president[at]sfu.ca ">csss-president[at]sfu.ca </a></br> or leave a note encrypted in ROT13 in the common room, and David will leave another note encrypted in ROT26 for you to pick up within the week.</p>
-                    <p class="lead">Bio - Born and raised in North Vancouver, David came to SFU for various reasons, one of which was because some random guy in a TF2 server said something about SFU being good for Computing, and he decided that was good evidence. It ended up being pretty true. David can now be found sitting in the common room too much, generally being loud and occasionally running down the halls. David likes to think he's decently friendly, so feel free to bug him about pretty much anything.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=jon-1.jpg&t=AjadLY2PhroksS1&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Vice President - <b>Jonathan Loewen</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 225</b> | <b>CMPT 320</b></p>
-                    <p class="lead">Languages of Choice - <b>C#</b> | <b>SQL</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-vp[at]sfu.ca">csss-vp[at]sfu.ca</a></p>
-                    <p class="lead">Bio - Jonathan is a transfer student from the University of Manitoba and Red River College in Winnipeg. He hails from the mosquito-infested Lands of Always +/- 40°C, also known as South-East Manitoba. Previously employed slinging SQL for hospital systems, he decided that he loved school too much to work for the rest of his life. He enjoys wasting precious hours playing Civilization 5 and Dark Souls, listening to awful Soundcloud mashups, and playing board games in the common room.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=dustin-1.jpg&t=q924rPSZ6400pjz&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Treasurer - <b>Dustin Cao</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 276</b> | <b>CMPT 320</b></p>
-                    <p class="lead">Languages of Choice - <b>C</b> | <b>Java</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-treasurer[at]sfu.ca">csss-treasurer[at]sfu.ca</a></p>
-                    <p class="lead">Bio - Dustin is a boring person. Come talk to him to brighten up the monotony of his life.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=courtenay-1.jpg&t=ZMQ4n8t3UpUE3uR&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Director of Events - <b>Courtenay Huffman</b></p>
-                    <p class="lead">Favourite Courses - <b>CMPT 295</b> | <b>PSYC 280</b></p>
-                    <p class="lead">Languages of Choice - <b>C++</b> | <b>Assembly</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
-                    <p class="lead">Bio - Courtenay is a fifth year student studying computing science and psychology. She can often be found either in the common room, at the gym, or hiding behind her massive computer in the corner of a coffee shop. She likes pushing the limits of sleep deprivation so please bring her coffee and tea.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <center><img class="exec-photos" src="https://vault.sfu.ca/index.php/apps/files_sharing/ajax/publicpreview.php?x=250&y=375&a=true&file=eric-1.jpg&t=XK3Qe6yy7CkhkIn&scalingup=0"></center>
-                </div>
-                <div class="col-md-6">
-                    <p class="lead">Director of Events - <b>Dawn Stella Chandler</b></p>
-                    <p class="lead">Favourite Courses - <b>MACM 201</b> | <b>LING 220</b></p>
-                    <p class="lead">Languages of Choice - <b>Python</b> | <b>C</b></p>
-                    <p class="lead">Contact - <a href="mailto:csss-doe[at]sfu.ca">csss-doe[at]sfu.ca</a></p>
-                    <p class="lead">BBio - Dawn is an upper level Computing Science Honours and Linguistics Minor student. Despite being busy as the President of Women in Computing Science (WiCS), Dawn is nonetheless eager to serve the CSSS by shuffling and filing papers. You can find her carefully selecting emojis, deciding what to wear, or adjusting to life in the 21st century.</p>
-                </div>
-            </div>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="summer_2017">Summer 2017</div>
-        <div role="tabpanel" class="tab-pane" id="spring_2017">Spring 2017</div>
     </div>
 </div>
 {% endblock %}

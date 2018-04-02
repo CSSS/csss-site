@@ -2,41 +2,42 @@
 
 {% block content %}
 <div class="tab-content">
-	{{ block.super }}
+	<div class="tab-pane active" id="who_we_are">
+		{{ block.super }}
 
-	<h1>The CSSS</h1>
-	<h2>History</h2>
-	<p>
-		Since its founding in the 1970s, the Computing Science Student Society has existed to promote the interests of students within the School of Computing Science at Simon Fraser University. The Society strives to support and build a vibrant community of individuals and create an environment that produces social, academic, and professional success.
-		<br>
-		<br>
+		<h1>The CSSS</h1>
+		<h2>History</h2>
+		<p>
+			Since its founding in the 1970s, the Computing Science Student Society has existed to promote the interests of students within the School of Computing Science at Simon Fraser University. The Society strives to support and build a vibrant community of individuals and create an environment that produces social, academic, and professional success.
+			<br>
+			<br>
 
-		The CSSS continues this tradition today by running numerous social events throughout the school year, as well as hosting workshops, talks by industry speakers, and development contests for budding programmers.
-	</p>
-	<h2>The Common Room</h2>
-	<p>
-		Located next to the Computing Science Instructional Lab (CSIL) in the Applied Sciences Building (ASB) in room ASB9802, the Common Room serves as a place for CS students to relax, study, and socialize. Inside, you will also find a Coke machine serving the cheapest pop on campus, couches, a fridge, and a free-to-use computer terminal. There's even an exam bank of past tests for most courses. Just ask someone at the back of the room to direct you towards an exec who can show you.
-		<br/>
+			The CSSS continues this tradition today by running numerous social events throughout the school year, as well as hosting workshops, talks by industry speakers, and development contests for budding programmers.
+		</p>
+		<h2>The Common Room</h2>
+		<p>
+			Located next to the Computing Science Instructional Lab (CSIL) in the Applied Sciences Building (ASB) in room ASB9802, the Common Room serves as a place for CS students to relax, study, and socialize. Inside, you will also find a Coke machine serving the cheapest pop on campus, couches, a fridge, and a free-to-use computer terminal. There's even an exam bank of past tests for most courses. Just ask someone at the back of the room to direct you towards an exec who can show you.
+			<br/>
 
-		If you want to get involved with the CSSS, this is the best place to start.
-	</p>
-	<h2>Coding Project</h2>
-	<p>
-		Programming is a craft, and needs a lot of practice. Many CS students write their own software outside of class, be it apps, games, websites, or systems software. The CSSS holds a weekly programming workshop - Hack Time - which is a time for students interested in more programming to come and meet others, form teams, and work on coding projects that interest them. Students can join existing teams, or form their own as they want. All teams have access to development equipment funded by The 750 Project.
-		<br/>
+			If you want to get involved with the CSSS, this is the best place to start.
+		</p>
+		<h2>Coding Project</h2>
+		<p>
+			Programming is a craft, and needs a lot of practice. Many CS students write their own software outside of class, be it apps, games, websites, or systems software. The CSSS holds a weekly programming workshop - Hack Time - which is a time for students interested in more programming to come and meet others, form teams, and work on coding projects that interest them. Students can join existing teams, or form their own as they want. All teams have access to development equipment funded by The 750 Project.
+			<br/>
 
-		More information can be found under Projects.
-	</p>
-	<h2>Frosh Week</h2>
-	<p>
-		Frosh Week is our yearly, week-long welcome event for new students. Held every Fall, Frosh Week is meant to foster early camaraderie between new and old CS students. How do we do this? With games, BBQs, and midnight dodgeball, of course! 
-	</br>
-	More information can be found under Events > Frosh Week.
-</p>
-{% for c in content %}
-<p>{{c}}</p>
-{% endfor %}
-
+			More information can be found under Projects.
+		</p>
+		<h2>Frosh Week</h2>
+		<p>
+			Frosh Week is our yearly, week-long welcome event for new students. Held every Fall, Frosh Week is meant to foster early camaraderie between new and old CS students. How do we do this? With games, BBQs, and midnight dodgeball, of course! 
+			<br/>
+			More information can be found under Events > Frosh Week.
+		</p>
+		{% for c in content %}
+		<p>{{c}}</p>
+		{% endfor %}
+	</div>
 </div>
 {% endblock %}
 
