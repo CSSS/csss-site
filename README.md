@@ -69,6 +69,10 @@ Copy Client ID and client secret
 #### oauth2.py script for generating Access Token
 Instructions: [OAuth2DotPyRunThrough](https://github.com/google/gmail-oauth2-tools/wiki/OAuth2DotPyRunThrough)
 ```shell
+python3 version
+wget https://github.com/bazzinotti/gmail-oauth2-tools/blob/3420649a670bf2134ed835b5e901bc3359eb35c6/python/oauth2.py
+
+python2 version
 wget https://raw.githubusercontent.com/google/gmail-oauth2-tools/master/python/oauth2.py
 ```
 
