@@ -69,6 +69,10 @@ Copy Client ID and client secret
 #### oauth2.py script for generating Access Token
 Instructions: [OAuth2DotPyRunThrough](https://github.com/google/gmail-oauth2-tools/wiki/OAuth2DotPyRunThrough)
 ```shell
+python3 version
+wget https://raw.githubusercontent.com/bazzinotti/gmail-oauth2-tools/3420649a670bf2134ed835b5e901bc3359eb35c6/python/oauth2.py
+
+python2 version
 wget https://raw.githubusercontent.com/google/gmail-oauth2-tools/master/python/oauth2.py
 ```
 
@@ -121,7 +125,7 @@ add the file gmail-1 and gmail-2 to the transports folder under the django_mailb
 
 add the following line to crontab using `crontab -e`
 
-`sudo -H python3.5 /home/ubuntu/csss_website/access_token_refresher.py`
+`00 20 * * * sudo -H python3.5 /home/ubuntu/csss_website/access_token_refresher.py`
 
 correct the paths of gmail.py, gmail-1 and gmail-2 in access_token_refresher.py
 
