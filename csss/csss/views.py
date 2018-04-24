@@ -3,7 +3,22 @@ from announcements.models import Post
 import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
-import access_token_refresher
+import datetime
+from oauth2 import RefreshToken
+
+def access_token_refresher():
+  file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "r") 
+  last_update = file_object.readline()
+  #todate=$(date +"%Y%m%d%H%M%S%N")
+  #cond=$(date +"%Y%m%d%H%M%S%N")
+  #todate=$(date +"%Y%m%d%H")
+  #cond=$(date +"%Y%m%d%H")
+  now = datetime.datetime.now().strftime("%Y%m%d%H")
+  if (last_update is not now):
+    access_token = oauth2.RefreshToken(client_id, client_secret, refresh_token)
+  file_object.close()
+  file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "w")
+  file_object.write(now)
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
@@ -18,7 +33,7 @@ def extract_body(decoded_body):
 
 def index(request):
   print("announcements index")
-  access_token_refresher.main()
+  access_token_refresher
   messages = Message.objects.all().order_by('-id')
   theMessage = Message.objects.all().order_by('id')
   for message in messages:
