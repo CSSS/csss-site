@@ -18,7 +18,7 @@ def access_token_refresher():
     #cond=$(date +"%Y%m%d%H")
     now = datetime.datetime.now().strftime("%Y%m%d%H")
     if (last_update is not now):
-      access_token = oauth2.RefreshToken(client_id, client_secret, refresh_token)
+      access_token = RefreshToken(client_id, client_secret, refresh_token)
       file_object.close()
   except OSError as e:
     print("LAST_OAUTH2_TOKEN_REFRESH file was not found")
