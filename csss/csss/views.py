@@ -8,19 +8,25 @@ from csss.oauth2 import RefreshToken
 
 def access_token_refresher():
   print("access_token_refresher")
-  file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "r") 
-  last_update = file_object.readline()
-  #todate=$(date +"%Y%m%d%H%M%S%N")
-  #cond=$(date +"%Y%m%d%H%M%S%N")
-  #todate=$(date +"%Y%m%d%H")
-  #cond=$(date +"%Y%m%d%H")
-  now = datetime.datetime.now().strftime("%Y%m%d%H")
-  if (last_update is not now):
-    access_token = oauth2.RefreshToken(client_id, client_secret, refresh_token)
-    file_object.close()
+  now = ''
+  try:
+    file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "r") 
+    last_update = file_object.readline()
+    #todate=$(date +"%Y%m%d%H%M%S%N")
+    #cond=$(date +"%Y%m%d%H%M%S%N")
+    #todate=$(date +"%Y%m%d%H")
+    #cond=$(date +"%Y%m%d%H")
+    now = datetime.datetime.now().strftime("%Y%m%d%H")
+    if (last_update is not now):
+      access_token = oauth2.RefreshToken(client_id, client_secret, refresh_token)
+      file_object.close()
+  except OSError as e:
+    print("LAST_OAUTH2_TOKEN_REFRESH file was not found")
+  finally:
     file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "w")
     file_object.write(now)
     file_object.close()
+
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
