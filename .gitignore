@@ -1,3 +1,5 @@
 csss/csss/csss-creds.yml
 dont_upload_to_git.txt
 *__pycache__*
+*db.sqlite3
+csss/csss/oauth2.py
