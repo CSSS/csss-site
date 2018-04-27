@@ -1,10 +1,9 @@
 {% extends "csss/header.html" %}
 
 {% block content %}
-	<p>announcements</p>
 	{% for email in messages %}
 		<h3>{{email.subject}}</h3>
-    <p>{{email.from_header}}</p>
+    		<p>{{email.from_header}}</p>
 		{{email.body|safe|linebreaks}}
 	{% endfor %}
 {% endblock %}
