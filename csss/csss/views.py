@@ -4,34 +4,54 @@ import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
 import datetime
-from csss.oauth2 import RefreshToken
-
-def access_token_refresher():
-  print("access_token_refresher")
-  now = ''
-  try:
-    file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "r") 
-    last_update = file_object.readline()
-    #todate=$(date +"%Y%m%d%H%M%S%N")
-    #cond=$(date +"%Y%m%d%H%M%S%N")
-    #todate=$(date +"%Y%m%d%H")
-    #cond=$(date +"%Y%m%d%H")
-    now = datetime.datetime.now().strftime("%Y%m%d%H")
-    if (last_update is not now):
-      access_token = RefreshToken(client_id, client_secret, refresh_token)
-      file_object.close()
-  except OSError as e:
-    print("LAST_OAUTH2_TOKEN_REFRESH file was not found")
-  finally:
-    file_object  = open("LAST_OAUTH2_TOKEN_REFRESH", "w")
-    file_object.write(now)
-    file_object.close()
-
+import six
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
-  print(from_header[0:indexOfFirst])
   return from_header[0:indexOfFirst]
+
+
+def get_body_from_message(message, maintype, subtype):
+    """
+    Fetchs the body message matching main/sub content type.
+    """
+    body = six.text_type('')
+    for part in message.walk():
+        if part.get('content-disposition', '').startswith('attachment;'):
+            continue
+        if part.get_content_maintype() == maintype and \
+                part.get_content_subtype() == subtype:
+            charset = part.get_content_charset()
+            this_part = part.get_payload(decode=True)
+            if charset:
+                try:
+                    this_part = this_part.decode(charset, 'replace')
+                except LookupError:
+                    this_part = this_part.decode('ascii', 'replace')
+                    logger.warning(
+                        'Unknown encoding %s encountered while decoding '
+                        'text payload.  Interpreting as ASCII with '
+                        'replacement, but some data may not be '
+                        'represented as the sender intended.',
+                        charset
+                    )
+                except ValueError:
+                    this_part = this_part.decode('ascii', 'replace')
+                    logger.warning(
+                        'Error encountered while decoding text '
+                        'payload from an incorrectly-constructed '
+                        'e-mail; payload was converted to ASCII with '
+                        'replacement, but some data may not be '
+                        'represented as the sender intended.'
+                    )
+            else:
+                this_part = this_part.decode('ascii', 'replace')
+
+            body += this_part
+
+    return body
+
+
 
 def extract_body(decoded_body):
   indexOfFirst=decoded_body.index("UTF-8")
@@ -39,15 +59,22 @@ def extract_body(decoded_body):
   return decoded_body[indexOfFirst+8:indexOfLast-32].replace('\\n', '\n')
 
 
+
+
 def index(request):
   print("announcements index")
-  access_token_refresher()
   messages = Message.objects.all().order_by('-id')
-  theMessage = Message.objects.all().order_by('id')
+  attachments = MessageAttachment.objects.all().order_by('-id')
+  #print("attachments="+str(attachments))
   for message in messages:
-    decoded_body= str(base64.b64decode(message.body))
+    #print("message="+str(message.id))
+    decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
+    #decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
-    message.body = extract_body(decoded_body)
+    decoded_body = decoded_body.replace("align=center", "")
+    message.body = decoded_body
+    #message.body = extract_body(decoded_body)
+
   return render(request, 'announcements/announcements.html', {'messages': messages})
 
 def contact(request):
