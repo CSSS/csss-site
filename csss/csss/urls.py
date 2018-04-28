@@ -30,5 +30,4 @@ urlpatterns = [
     url(r'^associated_dsus_and_clubs/', include('associated_dsus_and_clubs.urls')),
     url(r'^announcements/', include('announcements.urls')),
     url(r'^', views.index, name="index"),
-    url(r'', include('social_django.urls')),
 ]
