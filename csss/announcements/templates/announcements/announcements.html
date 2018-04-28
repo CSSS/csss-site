@@ -1,9 +1,12 @@
 {% extends "csss/header.html" %}
-
+{%  load static %}
 {% block content %}
-	{% for email in messages %}
-		<h3>{{email.subject}}</h3>
-    		<p>{{email.from_header}}</p>
-		{{email.body|safe|linebreaks}}
+	{% for message in messages %}
+		<h3>{{message.subject}}</h3>
+		<p>Posted by {{message.from_header}} on {{message.processed}}</p>
+		{{message.body|safe|linebreaks}}
+		{% for attachment in message.attachments.all %}
+			<img src="{% get_static_prefix %}{{attachment.document}}" width="5%" height="50%">
+		{% endfor %}
 	{% endfor %}
 {% endblock %}
