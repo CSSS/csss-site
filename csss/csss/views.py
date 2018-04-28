@@ -64,13 +64,24 @@ def extract_body(decoded_date):
   indexOfLast=len(decoded_date)-revIndexOfLast-1
   return decoded_date[indexOfFirst+1:indexOfLast]
 
-
+def filterSender(messages):
+  file_object  = open("poster.txt", "r")
+  for message in messages:
+    include=0
+    for line in file_object:
+      if (line in message.from_header):
+        include=include+1
+    if (include > 0):
+      message.body=""
+  final_messages = messages.exclude(body="")
+  return final_messages;
 
 
 def index(request):
   print("announcements index")
   messages = Message.objects.all().order_by('-id')
   attachments = MessageAttachment.objects.all().order_by('-id')
+  messages = filterSender(messages)
   #print("attachments="+str(attachments))
   for message in messages:
     #print("message="+str(message.id))
