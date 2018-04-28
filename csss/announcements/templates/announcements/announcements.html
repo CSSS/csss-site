@@ -1,10 +1,12 @@
 {% extends "csss/header.html" %}
-
+{%  load static %}
 {% block content %}
-	<p>announcements</p>
-	{% for post in object_list %}
-		<h3>{{post.title}}</h3>
-		<h6>on {{post.date}}</h6>
-		{{post.body|safe|linebreaks}}
+	{% for message in messages %}
+		<h3>{{message.subject}}</h3>
+		<p>Posted by {{message.from_header}} on {{message.processed}}</p>
+		{{message.body|safe|linebreaks}}
+		{% for attachment in message.attachments.all %}
+			<a href="{% get_static_prefix %}{{attachment.document}}">attachment</a>		
+		{% endfor %}
 	{% endfor %}
 {% endblock %}

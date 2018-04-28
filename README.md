@@ -1,6 +1,17 @@
 # csss-site-in-dev
 
 In active development on Jace Manshadi's personal AWS account.
+### Table of Contents
+ - [Basic Instructions for Site set-up](#basic-instructions-for-site-set-up)
+ - [Miscellanious/Extra References](#miscellaniousextra-references)
+    - [Interacting with GMAIL database](#interacting-with-gmail-database)
+    - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
+    - [Python Social Auth](##python-social-auth)
+    - [Django-mailbox](#django-mailbox)
+    - [UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH](#updating-migrations-for-python-social-auth)
+    - [Google Docu](#google-docu)
+
+## Basic Instructions for Site set-up
 
 How the CSSS Site version 3 is being set up   
   
@@ -28,3 +39,41 @@ python3.5 manage.py runserver 172.31.17.191:8000
 python3.5 manage.py startapp webapp  
 python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp personal  
+   
+## Miscellanious/Extra References
+
+***************************************
+### Interacting with GMAIL database
+***************************************
+```
+same command to interact with database
+$ python3 manage.py dbshell
+$ sqlite3 db.sqlite3
+
+sql commands
+sqlite> SELECT body FROM django_mailbox_message WHERE id == 7;
+sqlite> SHOW * FROM django_mailbox_mailbox
+sqlite> SELECT * FROM django_mailbox_mailbox ;
+sqlite> SELECT * FROM django_mailbox_message ;
+sqlite> .tables
+
+sqlite> PRAGMA table_info(django_mailbox_message)
+sqlite> SELECT subject FROM django_mailbox_message;
+sqlite> SELECT from_header FROM django_mailbox_message;
+sqlite> SELECT to_header FROM django_mailbox_message;
+sqlite> SELECT body FROM django_mailbox_message;
+sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
+```
+
+*************************************************
+### Location of model where emails are stored
+*************************************************
+(`django-mailbox/django-mailbox/models.py`)
+
+*******************
+### django-mailbox
+*******************
+http://django-mailbox.readthedocs.io/en/latest/  
+http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html#gmail-imap-with-oauth2-authentication  
+http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html  
+https://github.com/coddingtonbear/django-mailbox  

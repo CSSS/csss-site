@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']
 
 STATICFILES_DIRS = [
 	'~/csss_website/bootstrap-4.0.0/',
+	'/home/ubuntu/csss_website/csss',
 ]
 # Application definition
 
@@ -44,13 +45,14 @@ INSTALLED_APPS = [
     'associated_dsus_and_clubs',
     'blog',
     'personal',
+    'django_mailbox',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-'bootstrap3',
+    'bootstrap3',
 ]
 
 MIDDLEWARE = [
@@ -81,8 +83,12 @@ TEMPLATES = [
     },
 ]
 
+
 WSGI_APPLICATION = 'csss.wsgi.application'
 
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/done/'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
