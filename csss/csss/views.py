@@ -53,10 +53,16 @@ def get_body_from_message(message, maintype, subtype):
 
 
 
-def extract_body(decoded_body):
-  indexOfFirst=decoded_body.index("UTF-8")
-  indexOfLast = decoded_body.index("Content-Type: text/html")
-  return decoded_body[indexOfFirst+8:indexOfLast-32].replace('\\n', '\n')
+def extract_body(decoded_date):
+  rev = decoded_date[::-1]
+  revIndexOfPDT=rev.index(")TDP(")
+  revIndexOfLast=rev.find(" ",revIndexOfPDT+9)
+  revIndexOfFirst=rev.find(" ",revIndexOfLast+1)
+  for x in range(4):
+    revIndexOfFirst=rev.find(" ",revIndexOfFirst+1)
+  indexOfFirst=len(decoded_date)-revIndexOfFirst-1
+  indexOfLast=len(decoded_date)-revIndexOfLast-1
+  return decoded_date[indexOfFirst+1:indexOfLast]
 
 
 
@@ -68,6 +74,8 @@ def index(request):
   #print("attachments="+str(attachments))
   for message in messages:
     #print("message="+str(message.id))
+    original_body = str(base64.b64decode(message.body))
+    message.processed=str(extract_body(original_body))
     decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
     #decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
@@ -75,7 +83,7 @@ def index(request):
     message.body = decoded_body
     #message.body = extract_body(decoded_body)
 
-  return render(request, 'announcements/announcements.html', {'messages': messages})
+  return render(request, 'announcements/announcements.html', {'messages': messages, 'attachments': attachments})
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
