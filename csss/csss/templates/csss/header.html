@@ -5,62 +5,98 @@
 	<title>SFU CSSS</title>
 	<meta charset="utf-8" />
 	{% load staticfiles %}
-	<link rel="stylesheet" href="{% static 'csss/css/bootstrap.min.css' %}" type = "text/css"/>
 	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
-	
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<style type="text/css">
-		html,
-		body {
-		  height:100%
-		}
-	</style>
+	html,
+	body {
+		height:100%
+	}
+	ul.nav-links {
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		background-color: #333;
+	}
+
+	li.nav-links {
+		float: left;
+	}
+
+	li.nav-links a.nav-links {
+		display: block;
+		color: white;
+		text-align: center;
+		padding: 14px 16px;
+		text-decoration: none;
+	}
+
+</style>
 </head>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <body class="body" style="background-color:#f6f6f6">
-	<div class="container-fluid" style="min-height:95%; ">
+	<div class="container-fluid" style="margin-top:50px">
 		<div class="row">
-			  <div class="col-sm-2">
-				  <br>
-				  <center>
+			<div class="col-sm-2">
+				<br>
+				<center>
 					<img src="{% static 'csss/img/logo.png' %}" class="responsive-img" style='max-height:100px;' alt="face">
-				  </center>
-			  </div>
-			  <div class="col-sm-10">
-				  <br>
-				  <center>
-				  <h3>SFU's Computing Science Student Society</h3>
-				  </center>
-			  </div>
+				</center>
+			</div>
+			<div class="col-sm-10">
+				<br>
+				<center>
+					<h3>SFU's Computing Science Student Society</h3>
+				</center>
+			</div>
 		</div><hr>
+    
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<a class="navbar-brand" href="#">CSSS@SFU</a>
+				</div>
+				<ul class="nav navbar-nav nav-tabs">
+					<li id="index" class="nav-links"><a href="/">Home</a></li>
+					<li role="presentation" class="dropdown" id="about" class="nav-links">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About</a>
+						<ul class="dropdown-menu">
+							<li><a href="/about/who_we_are">Who We Are</a></li>
+							<li><a href="/about/list_of_officers">List of Officers</a></li>
+						</ul>
+					</li>
+					<li role="presentation" class="dropdown" id="documents" class="nav-links">
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents</a>
+						<ul class="dropdown-menu">
+							<li><a href="/documents/">CSSS Constitution</a></li>
+							<li><a href="/documents/bylaws">CSSS ByLaws</a></li>
+							<li><a href="/documents/sfss_documents">SFSS Documents</a></li>
+							<li><a hreef="/documents/photo_gallery">Photo Galleries</a></li>
+						</ul>
+					</li>
+					<li id="documents" class="nav-links"><a href="/documents/">Documents</a></li>
+					<li id="events" class="nav-links"><a href="/events/">Events</a></li>
+					<li id="750_project" class="nav-links"><a href="/750_project/">750 Project</a></li>
+					<li id="comp_sci_guide" class="nav-links"><a href="/comp_sci_guide/">Comp Sci Guide</a></li>
+					<li id="bursaries_and_awards" class="nav-links"><a href="/bursaries_and_awards/">Bursaries and Awards</a></li>
+					<li id="associated_dsus_and_clubs" class="nav-links"><a href="/associated_dsus_and_clubs/">Associated Clubs and DSUs</a></li>
+				</ul>
+			</div>
+		</nav>
+
 
 		<div class="row">
-		  <div class="col-sm-2">
-		  <br>
-
-		  <br>
-		   <!-- Great, til you resize. -->
-			<!--<div class="well bs-sidebar affix" id="sidebar" style="background-color:#fff">-->
-			<div class="well bs-sidebar" id="sidebar" style="background-color:#fff">
-			  <ul class=" nav-pills nav-stacked">
-				<li><a href='/'>Home</a></li>
-				<li><a href='/about/who_we_are'>About</a></li>
-				<li><a href='/documents/'>Documents</a></li>
-				<li><a href='/events/'>Events</a></li>
-				<li><a href='/750_project/'>750 Project</a></li>
-				<li><a href='/comp_sci_guide/'>Comp Sci Guide</a></li>
-				<li><a href='/bursaries_and_awards/'>Bursaies and Awards</a></li>
-				<li><a href='/associated_dsus_and_clubs/'>Associated DSUs and Clubs</a></li>
-			  </ul>
-			</div> <!--well bs-sidebar affix-->
-		  </div> <!--col-sm-2-->
-		  <div class="col-sm-10">
-		  
-			<div class='container-fluid'>
-			<br><br>
-			   {% block content %}
-			   {% endblock %}	
+			<div class="col-sm-10">
+				<div class='container-fluid'>
+					<br><br>
+					{% block content %}
+					{% endblock %}	
+				</div>
 			</div>
-		  </div>
 		</div> 
 	</div>
 	<footer>
@@ -68,7 +104,29 @@
 			<p><a href="#" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a></p>
 		</div>
 	</footer>	
-	
-</body>
+	<script type="text/javascript">
+			console.log("current url=["+window.location.href+"]")
+			url=window.location.href
+			var index = url.indexOf("8000")+5
+			console.log("2")
+			var endIndex = url.indexOf("/",index)
+			console.log("3")
+			if (endIndex == -1){
+				console.log("index page")
+				activePage="index"
+			}else{
+				activeSection = url.substring(index,endIndex)
+				console.log("index=["+index+"]\tendIndex=["+endIndex+"]")
+				console.log("link=["+activeSection+"]")	
+				activePage=activeSection;		
+			}
+			console.log("activePage=["+activePage+"]")
+			documents=document.querySelectorAll(".nav-links")
 
+			for (var i = 0; i < documents.length; i++) {
+				documents[i].classList.remove('active');  // Calling myNodeList.item(i) isn't necessary in JavaScript
+			}
+			document.getElementById(activePage).className += ' active';
+		</script>
+	</body>
 </html>
