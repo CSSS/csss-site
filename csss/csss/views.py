@@ -65,7 +65,7 @@ def extract_body(decoded_date):
   return decoded_date[indexOfFirst+1:indexOfLast]
 
 def filterSender(messages):
-  file_object  = open("poster.txt", "r")
+  file_object  = open("csss/poster.txt", "r")
   for message in messages:
     include=0
     for line in file_object:
