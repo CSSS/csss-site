@@ -71,7 +71,7 @@ def filterSender(messages):
     for line in file_object:
       if (line in message.from_header):
         include=include+1
-    if (include > 0):
+    if (include == 0):
       message.body=""
   final_messages = messages.exclude(body="")
   return final_messages;
