@@ -6,6 +6,7 @@ def get_settings():
     return {
         'attachment_upload_to': getattr(
             settings,
+            'DJANGO_POST_ATTACHMENT_UPLOAD_TO',
             'announcement_attachments/%Y/%m/%d/'
         )
     }
