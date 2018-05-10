@@ -66,6 +66,7 @@ def extract_body(decoded_date):
 
 def filterSender(messages):
   theBody=""
+  final_messages = []
   for message in messages:
     include=0
     print("\n\nmessage.from_header=["+str(message.from_header)+"]")
@@ -79,16 +80,17 @@ def filterSender(messages):
         include=include+1
     print("include="+str(include))
     if (include > 0):
+      final_messages.append(message)
       print("message not being excluded=["+str(message.subject)+"]")
     else:
       message.body=''
       print("message being excluded=["+str(message.subject)+"]")
     file_object.close()
-  for message in messages:
+  for message in final_messages:
     print("\n\nbody for message from "+message.from_header+":")
     print("\tbody=["+message.body+"]")
   
-  final_messages = messages.exclude(body='')
+  #final_messages = messages.exclude(body='')
   print("final_messages=["+str(final_messages)+"]")
   return final_messages;
 
