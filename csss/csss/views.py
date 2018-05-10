@@ -86,7 +86,8 @@ def combine_announcements ( messages, posts):
   postIndex = 0
   while len(messages) > messageIndex and len(posts) > postIndex:
     #year, month, day, hour, minute, second = 
-    message_date = convert_date_to_numerics(messages[messageIndex].processed)
+    #message_date = convert_date_to_numerics(messages[messageIndex].processed)
+    message_date = messages[messageIndex].processed
     print("message_date.tzinfo=["+str(message_date.tzinfo)+"]")
     print("posts[postIndex].processed.tzinfo=["+str(posts[postIndex].processed.tzinfo)+"]")
     if message_date > posts[postIndex].processed:
@@ -144,6 +145,7 @@ def index(request):
 
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
     message.processed=str(extract_date(str(base64.b64decode(message.body))))
+    message.processed=convert_date_to_numerics(message.processed)
 
     #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
