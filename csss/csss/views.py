@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from announcements.models import Post
+from announcements.models import Post, AnnouncementAttachment
 import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
