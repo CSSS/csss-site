@@ -6,7 +6,7 @@
 		<p>Posted by {{message.from_header}} on {{message.processed}} {{message.date}}</p>
 		{{message.body|safe|linebreaks}}
 		{% for attachment in message.attachments.all %}
-			<a href="{% get_static_prefix %}{{attachment.document}}">attachment</a>		
+			<a href="{% get_static_prefix %}{{attachment.document}}">{{attachment.document}}</a><br>		
 		{% endfor %}
 	{% endfor %}
 {% endblock %}
