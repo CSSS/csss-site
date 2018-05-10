@@ -5,6 +5,7 @@ from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
 import datetime
 import six
+from datetime import datetime
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
@@ -81,6 +82,18 @@ def filterSender(messages):
   
   return valid_messages;
 
+def combine_announcements ( messages, posts):
+  final_posts = []
+  messageIndex = 0
+  postIndex = 0
+  while len(messages) is not messageIndex and len(posts) is not postIndex:
+    if message[messageIndex].processed < posts[postIndex].date:
+      final_posts.append(posts[postIndex])
+      postIndex=postIndex+1
+    else:
+      final_posts.append(messages[messageIndex])
+      messageIndex=messageIndex+1
+  return final_posts
 
 def index(request):
   print("announcements index")
@@ -100,6 +113,11 @@ def index(request):
     decoded_body = decoded_body.replace("align=center", "")
     message.body = decoded_body
     #message.body = extract_body(decoded_body)
+  posts = []
+  for post in Post.objects.all().order_by('-id'):
+    posts.append(post)
+
+  messages = combine_announcements(messages, posts)
 
   return render(request, 'announcements/announcements.html', {'messages': messages, 'attachments': attachments})
 
