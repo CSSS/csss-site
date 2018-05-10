@@ -146,6 +146,7 @@ def index(request):
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
     message.processed=str(extract_date(str(base64.b64decode(message.body))))
     message.processed=convert_date_to_numerics(message.processed)
+    message.processed = message.processed.astimezone(timezone('America/Vancouver'))
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
     print ("message.processed=["+str(message.processed.strftime(fmt))+"]")
 
