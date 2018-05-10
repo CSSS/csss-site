@@ -72,7 +72,7 @@ def filterSender(messages):
     for line in file:
       valid_senders.append(line.rstrip().lower())
 
-  print("valid_senders=["+str(valid_senders+"]"))
+  print("valid_senders=["+str(valid_senders)+"]")
   for message in messages:
     from_header = str(message.from_header.rstrip())
     print ("from_header=["+str(from_header)+"]")
