@@ -20,7 +20,7 @@ class Post(models.Model):
 
 # Create your models here.
 
-class MessageAttachment(models.Model):
+class AnnouncementAttachment(models.Model):
     message = models.ForeignKey(
         Post,
         related_name='attachments',
@@ -38,7 +38,7 @@ class MessageAttachment(models.Model):
     def delete(self, *args, **kwargs):
         """Deletes the attachment."""
         self.document.delete()
-        return super(MessageAttachment, self).delete(*args, **kwargs)
+        return super(AnnouncementAttachment, self).delete(*args, **kwargs)
 
     def _get_rehydrated_headers(self):
         headers = self.headers
