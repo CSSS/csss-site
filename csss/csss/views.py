@@ -88,36 +88,36 @@ def convert_date_to_numerics(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  day = date_from_email[indexBeforeDate:indexAfterDay]
+  day = date_from_email[indexBeforeDate+1:indexAfterDay]
   print("day=["+str(day)+"]")
   
   indexAfterMonth = date_from_email.find(" ", indexAfterDay +1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  month = date_from_email[indexAfterDay:indexAfterMonth]
+  month = date_from_email[indexAfterDay+1:indexAfterMonth]
   print("month=["+str(month)+"]")
   month = strptime(month,'%b').tm_mon
   print("month=["+str(month)+"]")
   
   indexAfterYear = date_from_email.find(" ", indexAfterMonth + 1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  year = date_from_email[indexAfterMonth:indexAfterYear]
+  year = date_from_email[indexAfterMonth+1:indexAfterYear]
   print("year=["+str(year)+"]")
   year = strptime(year, '%b').tm_mon
   print("year=["+str(year)+"]")
 
   indexAfterHour = date_from_email.find(" ", indexAfterYear + 1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  hour = date_from_email[indexAfterYear:indexAfterHour]
+  hour = date_from_email[indexAfterYear+1:indexAfterHour]
   print("hour=["+str(hour)+"]")
 
-  indexAfterMinute = date_from_email.find(" ", indexAfterHour + 1)
+  indexAfterMinute = date_from_email.find(":", indexAfterHour + 1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  minute = date_from_email[indexAfterHour:indexAfterMinute]
+  minute = date_from_email[indexAfterHour+1:indexAfterMinute]
   print("minute=["+str(minute)+"]")
 
-  indexAfterSecond = date_from_email.find(" ", indexAfterMinute + 1)
+  indexAfterSecond = date_from_email.find(":", indexAfterMinute + 1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  second = date_from_email[indexAfterMinute:indexAfterSecond]
+  second = date_from_email[indexAfterMinute+1:indexAfterSecond]
   print("second=["+str(second)+"]")
 
 
