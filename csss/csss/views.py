@@ -81,9 +81,11 @@ def filterSender(messages):
     else:
       message.body=''
     file_object.close()
+
+  print("messages=["+str(messages)+"]")
   for message in messages.exclude(body=''):
     final_message.append(message)
-  
+
   good_messages = messages.exclude(body='');
 
   for message in final_message:
