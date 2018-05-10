@@ -18,7 +18,7 @@ class Post(models.Model):
         _(u'Date and Time')
     )
 	def __str__ (self):
-		return self.title
+		return self.subject
 
 # Create your models here.
 
