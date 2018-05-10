@@ -163,7 +163,7 @@ def index(request):
 
     # Convert to US/Pacific time zone
     now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
-    print ("post.processed=["+str*(now_pacific.strftime(fmt))+"]")
+    print ("post.processed=["+str(now_pacific.strftime(fmt))+"]")
     post.processed = now_pacific
     posts.append(post)
 
