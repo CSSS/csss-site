@@ -154,8 +154,8 @@ def index(request):
   for post in Post.objects.all().order_by('-id'):
   # Current time in UTC
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
-    print("type it needs to be=["+str(datetime.datetime.now(timezone('UTC')))+"]")
-    print("type it is=["+str(post.processed)+"]")
+    print("type it needs to be=["+str(type(datetime.datetime.now(timezone('UTC'))))+"]")
+    print("type it is=["+str(type(post.processed))+"]")
     #now_utc = post.processed
     #print now_utc.strftime(fmt)
 
