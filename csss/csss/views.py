@@ -106,13 +106,6 @@ def convert_date_to_numerics(date_from_email):
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = int(date_from_email[indexAfterMinute+1:])
 
-  print("year=["+str(year)+"]")
-  print("month=["+str(month)+"]")
-  print("day=["+str(day)+"]")
-  print("hour=["+str(hour)+"]")
-  print("minute=["+str(minute)+"]")
-  print("second=["+str(second)+"]")
-
   return datetime(year, month, day, hour, minute, second,tzinfo=timezone.utc)
 
 
@@ -122,12 +115,13 @@ def combine_announcements ( messages, posts):
   postIndex = 0
   print("messages=["+str(messages)+"]")
   print("posts=["+str(posts)+"]")
+  print("length of messages=["+str(len(messages))+"]")
+  print("length of posts=["+str(len(posts))+"]")
   while len(messages) is not messageIndex and len(posts) is not postIndex:
     print("message_date=["+str(messages[messageIndex].processed)+"]")
     #year, month, day, hour, minute, second = 
     message_date = convert_date_to_numerics(messages[messageIndex].processed)
     if message_date < posts[postIndex].date:
-
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
@@ -147,7 +141,6 @@ def index(request):
     #print("message="+str(message.id))
     original_body = str(base64.b64decode(message.body))
     message.processed=str(extract_date(original_body))
-    print("message.processed=["+str(message.processed)+"]")
     decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
     #decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
