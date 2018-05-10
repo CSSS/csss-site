@@ -146,6 +146,8 @@ def index(request):
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
     message.processed=str(extract_date(str(base64.b64decode(message.body))))
     message.processed=convert_date_to_numerics(message.processed)
+    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    print ("message.processed=["+str(message.processed.strftime(fmt))+"]")
 
     #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
@@ -156,14 +158,12 @@ def index(request):
   for post in Post.objects.all().order_by('-id'):
   # Current time in UTC
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
-    print("type it needs to be=["+str(type(datetime.datetime.now(timezone('UTC'))))+"]")
-    print("type it is=["+str(type(post.processed))+"]")
     now_utc = post.processed
-    print (now_utc.strftime(fmt))
+    #print (now_utc.strftime(fmt))
 
     # Convert to US/Pacific time zone
     now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
-    print (now_pacific.strftime(fmt))
+    print ("post.processed=["+str*(now_pacific.strftime(fmt))+"]")
     post.processed = now_pacific
     posts.append(post)
 
