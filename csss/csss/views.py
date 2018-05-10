@@ -87,38 +87,26 @@ def filterSender(messages):
 def convert_date_to_numerics(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
-  print("indexAfterDay=["+str(indexAfterDay)+"]")
   day = date_from_email[indexBeforeDate+1:indexAfterDay]
-  print("day=["+str(day)+"]")
   
   indexAfterMonth = date_from_email.find(" ", indexAfterDay +1)
-  print("indexAfterDay=["+str(indexAfterDay)+"]")
   month = date_from_email[indexAfterDay+1:indexAfterMonth]
-  print("month=["+str(month)+"]")
   month = strptime(month,'%b').tm_mon
-  print("month=["+str(month)+"]")
   
   indexAfterYear = date_from_email.find(" ", indexAfterMonth + 1)
-  print("indexAfterDay=["+str(indexAfterDay)+"]")
   year = date_from_email[indexAfterMonth+1:indexAfterYear]
-  print("year=["+str(year)+"]")
-  #year = strptime(year, '%Y').tm_mon
-  print("year=["+str(year)+"]")
 
   indexAfterHour = date_from_email.find(":", indexAfterYear + 1)
-  print("indexAfterDay=["+str(indexAfterDay)+"]")
   hour = date_from_email[indexAfterYear+1:indexAfterHour]
-  print("hour=["+str(hour)+"]")
 
   indexAfterMinute = date_from_email.find(":", indexAfterHour + 1)
-  print("indexAfterDay=["+str(indexAfterDay)+"]")
   minute = date_from_email[indexAfterHour+1:indexAfterMinute]
-  print("minute=["+str(minute)+"]")
 
   #indexAfterSecond = date_from_email.find(":", indexAfterMinute + 1)
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = date_from_email[indexAfterMinute+1:]
-  print("second=["+str(second)+"]")
+
+  return datetime.datetime(year, month, day, hour, minute, second)
 
 
 def combine_announcements ( messages, posts):
@@ -128,9 +116,8 @@ def combine_announcements ( messages, posts):
   while len(messages) is not messageIndex and len(posts) is not postIndex:
     print("message_date=["+str(messages[messageIndex].processed)+"]")
     #year, month, day, hour, minute, second = 
-    convert_date_to_numerics(messages[messageIndex].processed)
-    #message_date = datetime.datetime(year, month, day, hour, minute, second)
-    if messages[messageIndex].processed < posts[postIndex].date:
+    message_date = convert_date_to_numerics(messages[messageIndex].processed)
+    if message_date < posts[postIndex].date:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
