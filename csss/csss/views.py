@@ -5,7 +5,7 @@ from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
 import datetime
 import six
-from datetime import datetime
+from datetime import datetime, timezone
 from time import strptime
 
 def extract_sender(from_header):
@@ -113,7 +113,7 @@ def convert_date_to_numerics(date_from_email):
   print("minute=["+str(minute)+"]")
   print("second=["+str(second)+"]")
 
-  return datetime(year, month, day, hour, minute, second)
+  return datetime(year, month, day, hour, minute, second,tzinfo=timezone.utc)
 
 
 def combine_announcements ( messages, posts):
