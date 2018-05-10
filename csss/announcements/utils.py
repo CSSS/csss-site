@@ -1,3 +1,6 @@
+from django.conf import settings
+import datetime
+import os
 
 def get_settings():
     return {
