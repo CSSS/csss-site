@@ -76,9 +76,10 @@ def filterSender(messages):
   for message in messages:
     from_header = str(message.from_header.rstrip())
     print ("from_header=["+str(from_header)+"]")
-    if from_header in valid_senders:
-      valid_messages.append(message)
-      break
+    for sender in valid_senders:
+      if sender in from_header:
+        valid_messages.append(message)
+        break
 
 
   for message in valid_messages:
