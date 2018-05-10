@@ -3,7 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from announcements import utils
 
 class Post(models.Model):
-	title = models.CharField(
+	subject = models.CharField(
 		_(u'Subject'),
 		max_length=255,
 	)
