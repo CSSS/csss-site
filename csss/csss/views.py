@@ -72,22 +72,13 @@ def filterSender(messages):
     for line in file:
       valid_senders.append(line.rstrip().lower())
 
-  print("valid_senders=["+str(valid_senders)+"]")
   for message in messages:
     from_header = str(message.from_header.rstrip())
-    print ("from_header=["+str(from_header)+"]")
     for sender in valid_senders:
       if sender in from_header:
         valid_messages.append(message)
         break
-
-
-  for message in valid_messages:
-    print("\n\nbody for message from "+message.from_header+":")
-    print("\tbody=["+message.body+"]")
   
-  #final_messages = messages.exclude(body='')
-  print("valid_messages=["+str(valid_messages)+"]")
   return valid_messages;
 
 
