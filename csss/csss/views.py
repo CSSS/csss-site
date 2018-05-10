@@ -6,6 +6,7 @@ import base64
 import datetime
 import six
 from time import strptime
+from pytz import timezone
 
 def filterSender(messages):
   theBody=""
@@ -151,6 +152,15 @@ def index(request):
     message.body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip().replace("align=center", "")
   posts = []
   for post in Post.objects.all().order_by('-id'):
+  # Current time in UTC
+    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    now_utc = post.processed
+    print now_utc.strftime(fmt)
+
+    # Convert to US/Pacific time zone
+    now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
+    print now_pacific.strftime(fmt)
+    post.processed = now_pacific
     posts.append(post)
 
   final_posts = combine_announcements(messages, posts)
