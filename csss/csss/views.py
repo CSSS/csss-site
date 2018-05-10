@@ -87,24 +87,24 @@ def filterSender(messages):
 def convert_date_to_numerics(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
-  day = date_from_email[indexBeforeDate+1:indexAfterDay]
+  day = int(date_from_email[indexBeforeDate+1:indexAfterDay])
   
   indexAfterMonth = date_from_email.find(" ", indexAfterDay +1)
   month = date_from_email[indexAfterDay+1:indexAfterMonth]
-  month = strptime(month,'%b').tm_mon
+  month = int(strptime(month,'%b').tm_mon)
   
   indexAfterYear = date_from_email.find(" ", indexAfterMonth + 1)
-  year = date_from_email[indexAfterMonth+1:indexAfterYear]
+  year = int(date_from_email[indexAfterMonth+1:indexAfterYear])
 
   indexAfterHour = date_from_email.find(":", indexAfterYear + 1)
-  hour = date_from_email[indexAfterYear+1:indexAfterHour]
+  hour = int(date_from_email[indexAfterYear+1:indexAfterHour])
 
   indexAfterMinute = date_from_email.find(":", indexAfterHour + 1)
-  minute = date_from_email[indexAfterHour+1:indexAfterMinute]
+  minute = int(date_from_email[indexAfterHour+1:indexAfterMinute])
 
   #indexAfterSecond = date_from_email.find(":", indexAfterMinute + 1)
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
-  second = date_from_email[indexAfterMinute+1:]
+  second = int(date_from_email[indexAfterMinute+1:])
 
   print("year=["+str(year)+"]")
   print("month=["+str(month)+"]")
