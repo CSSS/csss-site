@@ -17,7 +17,7 @@ class Post(models.Model):
 	)
 	processed = models.DateTimeField(
         _(u'Date and Time'),
-        default=datetime.timezone.now(),
+        default= django.utils.timezone.now(),
     )
 	def __str__ (self):
 		return self.subject
