@@ -66,7 +66,7 @@ def extract_body(decoded_date):
 
 def filterSender(messages):
   theBody=""
-  final_messages = []
+  valid_messages = []
   valid_senders = []
   with open("csss/poster.txt", "r") as file:
     for line in file:
