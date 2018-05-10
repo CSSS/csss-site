@@ -102,7 +102,7 @@ def convert_date_to_numerics(date_from_email):
   print("indexAfterDay=["+str(indexAfterDay)+"]")
   year = date_from_email[indexAfterMonth+1:indexAfterYear]
   print("year=["+str(year)+"]")
-  year = strptime(year, '%b').tm_mon
+  year = strptime(year, '%Y').tm_mon
   print("year=["+str(year)+"]")
 
   indexAfterHour = date_from_email.find(" ", indexAfterYear + 1)
