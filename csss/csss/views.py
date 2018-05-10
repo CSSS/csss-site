@@ -86,6 +86,8 @@ def combine_announcements ( messages, posts):
   while len(messages) > messageIndex and len(posts) > postIndex:
     #year, month, day, hour, minute, second = 
     message_date = convert_date_to_numerics(messages[messageIndex].processed)
+    print("message_date.tzinfo=["+str(message_date.tzinfo)+"]")
+    print("posts[postIndex].processed.tzinfo=["+str(posts[postIndex].processed.tzinfo)+"]")
     if message_date > posts[postIndex].processed:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
@@ -102,6 +104,8 @@ def combine_announcements ( messages, posts):
       final_posts.append(messages[x])
 
   return final_posts
+
+from pytz import timezone
 
 def convert_date_to_numerics(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
@@ -125,7 +129,7 @@ def convert_date_to_numerics(date_from_email):
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = int(date_from_email[indexAfterMinute+1:])
 
-  return datetime.datetime(year, month, day, hour, minute, second,tzinfo='America/Vancouver')
+  return datetime.datetime(year, month, day, hour, minute, second,tzinfo=timezone('America/Vancouver'))
 
 
 
