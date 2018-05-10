@@ -106,7 +106,7 @@ def convert_date_to_numerics(date_from_email):
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = date_from_email[indexAfterMinute+1:]
 
-  return datetime.datetime(year, month, day, hour, minute, second)
+  return datetime(year, month, day, hour, minute, second)
 
 
 def combine_announcements ( messages, posts):
