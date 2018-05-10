@@ -163,7 +163,7 @@ def index(request):
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
 
-  #messages = combine_announcements(messages, posts)
+  combine_announcements(messages, posts)
 
   return render(request, 'announcements/announcements.html', {'messages': messages, 'attachments': attachments})
 
