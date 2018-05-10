@@ -4,7 +4,7 @@ class Post(models.Model):
 	date=models.DateTimeField()
 	subject = models.CharField(
 		_(u'Subject'),
-		max_length=255
+		max_length=255,
 	)
 	from_header = models.CharField(
 		_('Author'),
