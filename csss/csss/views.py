@@ -156,13 +156,13 @@ def index(request):
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
     print("type it needs to be=["+str(datetime.now(timezone('UTC')))+"]")
     print("type it is=["+str(post.processed)+"]")
-    now_utc = post.processed
-    print now_utc.strftime(fmt)
+    #now_utc = post.processed
+    #print now_utc.strftime(fmt)
 
     # Convert to US/Pacific time zone
-    now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
-    print now_pacific.strftime(fmt)
-    post.processed = now_pacific
+    #now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
+    #print now_pacific.strftime(fmt)
+    #post.processed = now_pacific
     posts.append(post)
 
   final_posts = combine_announcements(messages, posts)
