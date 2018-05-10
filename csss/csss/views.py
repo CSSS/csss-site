@@ -54,7 +54,7 @@ def get_body_from_message(message, maintype, subtype):
 
 
 
-def extract_body(decoded_date):
+def extract_date(decoded_date):
   rev = decoded_date[::-1]
   revIndexOfPDT=rev.index(")TDP(")
   revIndexOfLast=rev.find(" ",revIndexOfPDT+9)
@@ -91,7 +91,7 @@ def combine_announcements ( messages, posts):
     print("year=["+str(messages[messageIndex].processed[:4]))
     print("month=["+str(messages[messageIndex].processed[5:7]))
     print("day=["+str(messages[messageIndex].processed[9:11]))
-    message_date = datetime.date(messages[messageIndex][:4],)
+    message_date = datetime.date(messages[messageIndex][:4].processed)
     if messages[messageIndex].processed < posts[postIndex].date:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
@@ -111,18 +111,19 @@ def index(request):
   for message in messages:
     #print("message="+str(message.id))
     original_body = str(base64.b64decode(message.body))
-    message.processed=str(extract_body(original_body))
+    message.processed=str(extract_date(original_body))
+    print("message.processed=["+str(message.processed))
     decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
     #decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
     decoded_body = decoded_body.replace("align=center", "")
     message.body = decoded_body
-    #message.body = extract_body(decoded_body)
+    #message.body = extract_date(decoded_body)
   posts = []
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
 
-  messages = combine_announcements(messages, posts)
+  #messages = combine_announcements(messages, posts)
 
   return render(request, 'announcements/announcements.html', {'messages': messages, 'attachments': attachments})
 
