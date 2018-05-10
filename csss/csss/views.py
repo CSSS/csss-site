@@ -125,6 +125,7 @@ def combine_announcements ( messages, posts):
     #year, month, day, hour, minute, second = 
     message_date = convert_date_to_numerics(messages[messageIndex].processed)
     if message_date < posts[postIndex].date:
+
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
@@ -155,9 +156,9 @@ def index(request):
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
 
-  combine_announcements(messages, posts)
+  final_posts = combine_announcements(messages, posts)
 
-  return render(request, 'announcements/announcements.html', {'messages': messages, 'attachments': attachments})
+  return render(request, 'announcements/announcements.html', {'final_posts': final_posts, 'attachments': attachments})
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
