@@ -15,7 +15,8 @@ class Post(models.Model):
 		_(u'Body'),
 	)
 	processed = models.DateTimeField(
-        _(u'Date and Time')
+        _(u'Date and Time'),
+        default=timezone.now(),
     )
 	def __str__ (self):
 		return self.subject
