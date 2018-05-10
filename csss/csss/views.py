@@ -85,9 +85,10 @@ def filterSender(messages):
 
 #23 Apr 2018 23:12:06
 def convert_date_to_numerics(date_from_email):
-  indexAfterDay = date_from_email.find(" ", 1)
+  indexBeforeDate = date_from_email.find(" ", 1)
+  indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
   print("indexAfterDay=["+str(indexAfterDay)+"]")
-  day = date_from_email[0:indexAfterDay]
+  day = date_from_email[indexBeforeDate:indexAfterDay]
   print("day=["+str(day)+"]")
   
   indexAfterMonth = date_from_email.find(" ", indexAfterDay +1)
