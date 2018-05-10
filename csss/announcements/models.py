@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-import csss.announcements.utils
+from announcements import utils
 
 class Post(models.Model):
 	date=models.DateTimeField()
