@@ -87,7 +87,7 @@ def combine_announcements ( messages, posts):
   messageIndex = 0
   postIndex = 0
   while len(messages) is not messageIndex and len(posts) is not postIndex:
-    if message[messageIndex].processed < posts[postIndex].date:
+    if messages[messageIndex].processed < posts[postIndex].date:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
