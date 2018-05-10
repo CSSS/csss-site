@@ -81,6 +81,7 @@ def filterSender(messages):
     if (include > 0):
       print("message not being excluded=["+str(message.subject)+"]")
     else:
+    if (include == 0):
       message.body=""
       theBody=message.body
       print("message being excluded=["+str(message.subject)+"]")
