@@ -2,7 +2,7 @@
 {%  load static %}
 {% block content %}
 	{% for message in final_posts %}
-		<h3>{{message.subject}}</h3>
+		<h3>{{message.subject}} {{message.title}}</h3>
 		<p>Posted by {{message.from_header}} on {{message.processed}}</p>
 		{{message.body|safe|linebreaks}}
 		{% for attachment in message.attachments.all %}
