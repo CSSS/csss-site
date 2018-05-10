@@ -14,7 +14,7 @@ class Post(models.Model):
 	body = models.TextField(
 		_(u'Body'),
 	)
-  date=models.DateTimeField()
+	date=models.DateTimeField()
 	def __str__ (self):
 		return self.subject
 
