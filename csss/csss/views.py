@@ -106,6 +106,13 @@ def convert_date_to_numerics(date_from_email):
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = date_from_email[indexAfterMinute+1:]
 
+  print("year=["+str(year)+"]")
+  print("month=["+str(month)+"]")
+  print("day=["+str(day)+"]")
+  print("hour=["+str(hour)+"]")
+  print("minute=["+str(minute)+"]")
+  print("second=["+str(second)+"]")
+
   return datetime(year, month, day, hour, minute, second)
 
 
