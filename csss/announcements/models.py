@@ -2,20 +2,19 @@ from django.db import models
 
 class Post(models.Model):
 	date=models.DateTimeField()
-  subject = models.CharField(
-    _(u'Subject'),
-    max_length=255
-  )
-
-  from_header = models.CharField(
-    _('Author'),
-    max_length=255,
-  )
-  body = models.TextField(
-    _(u'Body'),
-  )
+	subject = models.CharField(
+		_(u'Subject'),
+		max_length=255
+	)
+	from_header = models.CharField(
+		_('Author'),
+		max_length=255,
+	)
+	body = models.TextField(
+		_(u'Body'),
+	)
 	def __str__ (self):
-		return self.title
+		return self.subject
 
 # Create your models here.
 
