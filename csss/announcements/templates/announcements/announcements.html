@@ -2,8 +2,8 @@
 {%  load static %}
 {% block content %}
 	{% for message in final_posts %}
-		<h3>{{message.subject}} {{message.title}}</h3>
-		<p>Posted by {{message.from_header}} on {{message.processed}} {{message.date}}</p>
+		<h3>{{message.title}}</h3>
+		<p>Posted by {{message.from_header}} on {{message.processed}}</p>
 		{{message.body|safe|linebreaks}}
 		{% for attachment in message.attachments.all %}
 			<a href="{% get_static_prefix %}{{attachment.document}}">{{attachment.document}}</a><br>		
