@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 from announcements import utils
 
 class Post(models.Model):
-	date=models.DateTimeField()
 	subject = models.CharField(
 		_(u'Subject'),
 		max_length=255,
@@ -15,6 +14,7 @@ class Post(models.Model):
 	body = models.TextField(
 		_(u'Body'),
 	)
+  date=models.DateTimeField()
 	def __str__ (self):
 		return self.subject
 
