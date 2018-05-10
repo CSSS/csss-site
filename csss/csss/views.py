@@ -81,16 +81,14 @@ def filterSender(messages):
     if (include > 0):
       print("message not being excluded=["+str(message.subject)+"]")
     else:
-    if (include == 0):
-      message.body=""
-      theBody=message.body
+      message.body=''
       print("message being excluded=["+str(message.subject)+"]")
     file_object.close()
   for message in messages:
     print("\n\nbody for message from "+message.from_header+":")
     print("\tbody=["+message.body+"]")
   
-  final_messages = messages.exclude(body__exact=theBody)
+  final_messages = messages.exclude(body='')
   print("final_messages=["+str(final_messages)+"]")
   return final_messages;
 
