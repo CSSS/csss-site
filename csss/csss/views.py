@@ -67,34 +67,25 @@ def extract_body(decoded_date):
 def filterSender(messages):
   theBody=""
   final_messages = []
-  final_message = []
+  valid_senders = []
+  with open("csss/poster.txt", "r") as file:
+    for line in file:
+      valid_senders.append(line.rstrip().lower())
+
   for message in messages:
-    include=0
-    file_object  = open("csss/poster.txt", "r")
-    for line in file_object:
-      line = str(line.rstrip())
-      from_header = str(message.from_header.rstrip())
-      if ( line in from_header):
-        include=include+1
-    if (include > 0):
-      final_messages.append(message)
-    else:
-      message.body=''
-    file_object.close()
+    from_header = str(message.from_header.rstrip())
+    if from_header in valid_senders:
+      valid_messages.append(message)
+      break
 
-  print("messages=["+str(messages)+"]")
-  for message in messages.exclude(body=''):
-    final_message.append(message)
 
-  good_messages = messages.exclude(body='');
-
-  for message in final_message:
+  for message in valid_messages:
     print("\n\nbody for message from "+message.from_header+":")
     print("\tbody=["+message.body+"]")
   
   #final_messages = messages.exclude(body='')
-  print("final_message=["+str(final_message)+"]")
-  return final_message;
+  print("valid_messages=["+str(valid_messages)+"]")
+  return valid_messages;
 
 
 def index(request):
