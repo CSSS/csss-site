@@ -5,7 +5,6 @@ from django_mailbox.models import MessageAttachment, Message, Mailbox
 import base64
 import datetime
 import six
-from datetime import datetime, timezone
 from time import strptime
 
 def filterSender(messages):
@@ -126,7 +125,7 @@ def convert_date_to_numerics(date_from_email):
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = int(date_from_email[indexAfterMinute+1:])
 
-  return datetime(year, month, day, hour, minute, second,tzinfo=timezone.utc)
+  return datetime.datetime(year, month, day, hour, minute, second,tzinfo=datetime.timezone.utc)
 
 
 
