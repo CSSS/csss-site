@@ -6,6 +6,7 @@ import base64
 import datetime
 import six
 from datetime import datetime
+from time import strptime
 
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
@@ -82,16 +83,55 @@ def filterSender(messages):
   
   return valid_messages;
 
+#23 Apr 2018 23:12:06
+def convert_date_to_numerics(date_from_email):
+  indexAfterDay = date_from_email.find(" ", 1)
+  print("indexAfterDay=["+str(indexAfterDay)+"]")
+  day = date_from_email[0:indexAfterDay]
+  print("day=["+str(day)+"]")
+  
+  indexAfterMonth = date_from_email.find(" ", indexAfterDay +1)
+  print("indexAfterDay=["+str(indexAfterDay)+"]")
+  month = date_from_email[indexAfterDay:indexAfterMonth]
+  print("month=["+str(month)+"]")
+  month = strptime(month,'%b').tm_mon
+  print("month=["+str(month)+"]")
+  
+  indexAfterYear = date_from_email.find(" ", indexAfterMonth + 1)
+  print("indexAfterDay=["+str(indexAfterDay)+"]")
+  year = date_from_email[indexAfterMonth:indexAfterYear]
+  print("year=["+str(year)+"]")
+  year = strptime(year, '%b').tm_mon
+  print("year=["+str(year)+"]")
+
+  indexAfterHour = date_from_email.find(" ", indexAfterYear + 1)
+  print("indexAfterDay=["+str(indexAfterDay)+"]")
+  hour = date_from_email[indexAfterYear:indexAfterHour]
+  print("hour=["+str(hour)+"]")
+
+  indexAfterMinute = date_from_email.find(" ", indexAfterHour + 1)
+  print("indexAfterDay=["+str(indexAfterDay)+"]")
+  minute = date_from_email[indexAfterHour:indexAfterMinute]
+  print("minute=["+str(minute)+"]")
+
+  indexAfterSecond = date_from_email.find(" ", indexAfterMinute + 1)
+  print("indexAfterDay=["+str(indexAfterDay)+"]")
+  second = date_from_email[indexAfterMinute:indexAfterSecond]
+  print("second=["+str(second)+"]")
+
+
 def combine_announcements ( messages, posts):
   final_posts = []
   messageIndex = 0
   postIndex = 0
   while len(messages) is not messageIndex and len(posts) is not postIndex:
-    print("message_date=["+str(messages[messageIndex].processed))
-    print("year=["+str(messages[messageIndex].processed[:4]))
-    print("month=["+str(messages[messageIndex].processed[5:7]))
-    print("day=["+str(messages[messageIndex].processed[9:11]))
-    message_date = datetime.date(messages[messageIndex][:4].processed)
+    print("message_date=["+str(messages[messageIndex].processed)+"]")
+    print("year=["+str(messages[messageIndex].processed[:4])+"]")
+    print("month=["+str(messages[messageIndex].processed[5:7])+"]")
+    print("day=["+str(messages[messageIndex].processed[9:11])+"]")
+    #year, month, day, hour, minute, second = 
+    convert_date_to_numerics(messages[messageIndex].processed)
+    #message_date = datetime.datetime(year, month, day, hour, minute, second)
     if messages[messageIndex].processed < posts[postIndex].date:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
@@ -112,7 +152,7 @@ def index(request):
     #print("message="+str(message.id))
     original_body = str(base64.b64decode(message.body))
     message.processed=str(extract_date(original_body))
-    print("message.processed=["+str(message.processed))
+    print("message.processed=["+str(message.processed)+"]")
     decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
     #decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
