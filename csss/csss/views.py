@@ -69,29 +69,25 @@ def filterSender(messages):
   final_messages = []
   for message in messages:
     include=0
-    print("\n\nmessage.from_header=["+str(message.from_header)+"]")
     file_object  = open("csss/poster.txt", "r")
     for line in file_object:
       line = str(line.rstrip())
       from_header = str(message.from_header.rstrip())
-      print("\tline=["+line+"]")
       if ( line in from_header):
-        print("["+line+"] detected in ["+from_header+"]")
         include=include+1
-    print("include="+str(include))
     if (include > 0):
       final_messages.append(message)
-      print("message not being excluded=["+str(message.subject)+"]")
     else:
       message.body=''
-      print("message being excluded=["+str(message.subject)+"]")
     file_object.close()
-  for message in final_messages:
+  good_messages = messages.exclude(body='');
+
+  for message in good_messages:
     print("\n\nbody for message from "+message.from_header+":")
     print("\tbody=["+message.body+"]")
   
   #final_messages = messages.exclude(body='')
-  print("final_messages=["+str(final_messages)+"]")
+  print("good_messages=["+str(good_messages)+"]")
   return final_messages;
 
 
