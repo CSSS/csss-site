@@ -120,6 +120,8 @@ def combine_announcements ( messages, posts):
   final_posts = []
   messageIndex = 0
   postIndex = 0
+  print("messages=["+str(messages)+"]")
+  print("posts=["+str(posts)+"]")
   while len(messages) is not messageIndex and len(posts) is not postIndex:
     print("message_date=["+str(messages[messageIndex].processed)+"]")
     #year, month, day, hour, minute, second = 
