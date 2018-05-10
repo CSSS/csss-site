@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from announcements import utils
+import datetime
 
 class Post(models.Model):
 	subject = models.CharField(
