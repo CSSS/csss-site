@@ -8,10 +8,37 @@ import six
 from datetime import datetime, timezone
 from time import strptime
 
+def filterSender(messages):
+  theBody=""
+  valid_messages = []
+  valid_senders = []
+  with open("csss/poster.txt", "r") as file:
+    for line in file:
+      valid_senders.append(line.rstrip().lower())
+
+  for message in messages:
+    from_header = str(message.from_header.rstrip())
+    for sender in valid_senders:
+      if sender in from_header:
+        valid_messages.append(message)
+        break
+  
+  return valid_messages;
+
+def extract_date(decoded_date):
+  rev = decoded_date[::-1]
+  revIndexOfPDT=rev.index(")TDP(")
+  revIndexOfLast=rev.find(" ",revIndexOfPDT+9)
+  revIndexOfFirst=rev.find(" ",revIndexOfLast+1)
+  for x in range(4):
+    revIndexOfFirst=rev.find(" ",revIndexOfFirst+1)
+  indexOfFirst=len(decoded_date)-revIndexOfFirst-1
+  indexOfLast=len(decoded_date)-revIndexOfLast-1
+  return decoded_date[indexOfFirst+1:indexOfLast]
+
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
   return from_header[0:indexOfFirst]
-
 
 def get_body_from_message(message, maintype, subtype):
     """
@@ -53,37 +80,30 @@ def get_body_from_message(message, maintype, subtype):
 
     return body
 
+def combine_announcements ( messages, posts):
+  final_posts = []
+  messageIndex = 0
+  postIndex = 0
+  while len(messages) > messageIndex and len(posts) > postIndex:
+    #year, month, day, hour, minute, second = 
+    message_date = convert_date_to_numerics(messages[messageIndex].processed)
+    if message_date < posts[postIndex].date:
+      final_posts.append(posts[postIndex])
+      postIndex=postIndex+1
+    else:
+      final_posts.append(messages[messageIndex])
+      messageIndex=messageIndex+1
 
+  if len(posts) > postIndex:
+    for x in range(postIndex, len(posts)):
+      final_posts.append(posts[x])
 
-def extract_date(decoded_date):
-  rev = decoded_date[::-1]
-  revIndexOfPDT=rev.index(")TDP(")
-  revIndexOfLast=rev.find(" ",revIndexOfPDT+9)
-  revIndexOfFirst=rev.find(" ",revIndexOfLast+1)
-  for x in range(4):
-    revIndexOfFirst=rev.find(" ",revIndexOfFirst+1)
-  indexOfFirst=len(decoded_date)-revIndexOfFirst-1
-  indexOfLast=len(decoded_date)-revIndexOfLast-1
-  return decoded_date[indexOfFirst+1:indexOfLast]
+  if len(messages) > messageIndex:
+    for x in range(messageIndex, len(messages)):
+      final_posts.append(messages[x])
 
-def filterSender(messages):
-  theBody=""
-  valid_messages = []
-  valid_senders = []
-  with open("csss/poster.txt", "r") as file:
-    for line in file:
-      valid_senders.append(line.rstrip().lower())
+  return final_posts
 
-  for message in messages:
-    from_header = str(message.from_header.rstrip())
-    for sender in valid_senders:
-      if sender in from_header:
-        valid_messages.append(message)
-        break
-  
-  return valid_messages;
-
-#23 Apr 2018 23:12:06
 def convert_date_to_numerics(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
@@ -109,43 +129,23 @@ def convert_date_to_numerics(date_from_email):
   return datetime(year, month, day, hour, minute, second,tzinfo=timezone.utc)
 
 
-def combine_announcements ( messages, posts):
-  final_posts = []
-  messageIndex = 0
-  postIndex = 0
-  while len(messages) > messageIndex and len(posts) > postIndex:
-    #year, month, day, hour, minute, second = 
-    message_date = convert_date_to_numerics(messages[messageIndex].processed)
-    if message_date < posts[postIndex].date:
-      final_posts.append(posts[postIndex])
-      postIndex=postIndex+1
-    else:
-      final_posts.append(messages[messageIndex])
-      messageIndex=messageIndex+1
 
-  if len(posts) > postIndex:
-    for x in range(postIndex, len(posts)):
-      final_posts.append(posts[x])
-
-  if len(messages) > messageIndex:
-    for x in range(messageIndex, len(messages)):
-      final_posts.append(messages[x])
-
-  return final_posts
 
 def index(request):
   print("announcements index")
-  file_object = open("csss/poster.txt", "r")
   messages = Message.objects.all().order_by('-id')
   attachments = MessageAttachment.objects.all().order_by('-id')
   messages = filterSender(messages)
   for message in messages:
-    original_body = str(base64.b64decode(message.body))
-    message.processed=str(extract_date(original_body))
-    decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
+
+    #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
+    message.processed=str(extract_date(str(base64.b64decode(message.body))))
+
+    #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
-    decoded_body = decoded_body.replace("align=center", "")
-    message.body = decoded_body
+
+    #decoding the email body
+    message.body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip().replace("align=center", "")
   posts = []
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
