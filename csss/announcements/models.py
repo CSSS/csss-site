@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from announcements import utils
-from django.utils import timezone
 
 class Post(models.Model):
 	subject = models.CharField(
@@ -17,7 +16,6 @@ class Post(models.Model):
 	)
 	processed = models.DateTimeField(
         _(u'Date and Time'),
-        default= timezone.now(),
     )
 	def __str__ (self):
 		return self.subject
