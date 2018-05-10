@@ -113,20 +113,13 @@ def combine_announcements ( messages, posts):
   final_posts = []
   messageIndex = 0
   postIndex = 0
-  print("messages=["+str(messages)+"]")
-  print("posts=["+str(posts)+"]")
-  print("length of messages=["+str(len(messages))+"]")
-  print("length of posts=["+str(len(posts))+"]")
   while len(messages) > messageIndex and len(posts) > postIndex:
-    print("message_date=["+str(messages[messageIndex].processed)+"]")
     #year, month, day, hour, minute, second = 
     message_date = convert_date_to_numerics(messages[messageIndex].processed)
     if message_date < posts[postIndex].date:
-      print("post has been added")
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
-      print("message has been added")
       final_posts.append(messages[messageIndex])
       messageIndex=messageIndex+1
 
@@ -134,8 +127,6 @@ def combine_announcements ( messages, posts):
     for x in range(postIndex, len(posts)):
       final_posts.append(posts[x])
 
-  print("length of messages=["+str(len(messages))+"]")
-  print("length of messageIndex=["+str(messageIndex)+"]")
   if len(messages) > messageIndex:
     for x in range(messageIndex, len(messages)):
       final_posts.append(messages[x])
@@ -146,20 +137,15 @@ def index(request):
   print("announcements index")
   file_object = open("csss/poster.txt", "r")
   messages = Message.objects.all().order_by('-id')
-  print("messages datatype= "+str(type(messages)))
   attachments = MessageAttachment.objects.all().order_by('-id')
   messages = filterSender(messages)
-  #print("attachments="+str(attachments))
   for message in messages:
-    #print("message="+str(message.id))
     original_body = str(base64.b64decode(message.body))
     message.processed=str(extract_date(original_body))
     decoded_body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip()
-    #decoded_body= str(base64.b64decode(message.body))
     message.from_header = extract_sender(message.from_header)
     decoded_body = decoded_body.replace("align=center", "")
     message.body = decoded_body
-    #message.body = extract_date(decoded_body)
   posts = []
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
