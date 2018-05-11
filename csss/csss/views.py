@@ -2,7 +2,6 @@ from django.shortcuts import render
 from announcements.models import Post, AnnouncementAttachment
 import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
-from django_mailbox import admin
 import base64
 import datetime
 import six
@@ -135,7 +134,7 @@ def removePhotoEmails(message):
 
 def index(request):
   print("announcements index")
-  admin.get_new_mail(condition=removePhotoEmails)
+  Mailbox.get_new_mail(condition=removePhotoEmails)
   messages = Message.objects.all().order_by('-id')
   attachments = MessageAttachment.objects.all().order_by('-id')
   messages = filterSender(messages)
