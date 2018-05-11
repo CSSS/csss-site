@@ -155,7 +155,7 @@ def convert_utc_aware_time_to_naive_pst_time(utc_time):
 
   print("YEAR=["+str(year)+"] MONTH=["+str(month)+"] DAY=["+str(day)+"] HOUR=["+str(hour)+"] MINUTE=["+str(minute)+"] SECOND=["+str(second)+"]")
 
-
+  return datetime.datetime(year, month, day, hour, minute, second)
 
 
 def index(request):
@@ -189,7 +189,7 @@ def index(request):
     print("post.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
     print ("now_pacific=["+str(now_pacific.strftime(fmt))+"]")
     print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")
-    convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime(fmt)))
+    post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime(fmt)))
 
 
     #post.processed = now_pacific
