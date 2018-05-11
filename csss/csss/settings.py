@@ -27,11 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']
 
-STATICFILES_DIRS = [
-	'~/csss_website/bootstrap-4.0.0/',
-	'~/csss_website/csss',
-    '~/csss_website/csss/documents'
-]
 # Application definition
 
 INSTALLED_APPS = [
@@ -54,6 +49,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+]
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATIC_URL = '/statics/'
+
+STATICFILES_DIRS = [
+    '~/csss_website/bootstrap-4.0.0/',
+    '~/csss_website/csss/documents'
 ]
 
 MIDDLEWARE = [
@@ -132,9 +141,4 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATIC_URL = '/statics/'
 
