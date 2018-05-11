@@ -124,28 +124,6 @@ def convert_email_datetime_string_to_naive_datetime_object(date_from_email):
 
   return datetime.datetime(year, month, day, hour, minute, second)
 
-def convert_utc_aware_time_to_naive_pst_time(utc_time):
-  #2018-05-10 15:17:52 PDT-0700
-  indexAfterYear = utc_time.find("-", 0)
-  year = int(utc_time[0:indexAfterYear])
-
-  indexAfterMonth = utc_time.find("-", indexAfterYear + 1)
-  month = int(utc_time[indexAfterYear+1:indexAfterMonth])
-
-  indexAfterDay = utc_time.find(" ", indexAfterMonth+1)
-  day = int(utc_time[indexAfterMonth+1:indexAfterDay])
-
-  indexAfterHour = utc_time.find(":", indexAfterDay+1)
-  hour = int(utc_time[indexAfterDay+1:indexAfterHour])
-
-  indexAfterMinute = utc_time.find(":", indexAfterHour+1)
-  minute = int(utc_time[indexAfterHour+1:indexAfterMinute])
-
-  second = int(utc_time[indexAfterMinute+1:])
-
-  return datetime.datetime(year, month, day, hour, minute, second)
-
-
 def index(request):
   print("announcements index")
   messages = Message.objects.all().order_by('-id')
@@ -163,11 +141,6 @@ def index(request):
     message.body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip().replace("align=center", "")
   posts = []
   for post in Post.objects.all().order_by('-id'):
-
-    # Convert to US/Pacific time zone
-    #now_pacific = post.processed.astimezone(timezone('America/Vancouver'))
-    #post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime("%Y-%m-%d %H:%M:%S")))
-
     posts.append(post)
 
   final_posts = combine_announcements(messages, posts)
