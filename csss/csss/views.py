@@ -86,7 +86,7 @@ def combine_announcements ( messages, posts):
   postIndex = 0
   while len(messages) > messageIndex and len(posts) > postIndex:
     #year, month, day, hour, minute, second = 
-    #message_date = convert_date_to_numerics(messages[messageIndex].processed)
+    #message_date = convert_email_datetime_string_to_datetime_object(messages[messageIndex].processed)
     message_date = messages[messageIndex].processed
     print("message_date.tzinfo=["+str(message_date.tzinfo)+"]")
     print("posts[postIndex].processed.tzinfo=["+str(posts[postIndex].processed.tzinfo)+"]")
@@ -109,7 +109,7 @@ def combine_announcements ( messages, posts):
 
 from pytz import timezone
 
-def convert_date_to_numerics(date_from_email):
+def convert_email_datetime_string_to_datetime_object(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
   day = int(date_from_email[indexBeforeDate+1:indexAfterDay])
@@ -133,6 +133,28 @@ def convert_date_to_numerics(date_from_email):
 
   return datetime.datetime(year, month, day, hour, minute, second)
 
+def convert_utc_aware_time_to_naive_pst_time(utc_time):
+  #2018-05-10 15:17:52 PDT-0700
+  indexAfterYear = utc_time.find("-", 0)
+  year = utc_time[0:indexAfterYear]
+
+  indexAfterMonth = utc_time.find("-", indexAfterYear + 1)
+  month = utc_time[indexAfterYear+1:indexAfterMonth]
+
+  indexAfterDay = utc_time.find(" ", indexAfterMonth+1)
+  day = utc_time[indexAfterMonth+1:indexAfterDay]
+
+  indexAfterHour = utc_time.find(":", indexAfterDay+1)
+  hour = utc_time[indexAfterDa+1:indexAfterHour]
+
+  indexAfterMinute = utc_time.find(":", indexAfterHour+1)
+  minute = utc_time[indexAfterHour+1:indexAfterMinute]
+
+  indexAfterSecond = utc_time.find(" ", indexAfterMinute+1)
+  second = utc_time[indexAfterMinute+1:indexAfterSecond]
+
+  print("YEAR=["+STR(year)+" MONTH=["+str(month)+" DAY=["+str(day)+" HOUR=["+str(hour)+" MINUTE=["+str(minute)+" SECOND=["+str(second)+"]")
+  
 
 
 
@@ -145,7 +167,7 @@ def index(request):
 
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
     message.processed=str(extract_date(str(base64.b64decode(message.body))))
-    message.processed=convert_date_to_numerics(message.processed)
+    message.processed=convert_email_datetime_string_to_datetime_object(message.processed)
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
     print ("message.processed=["+str(message.processed.strftime(fmt))+"]")
     print("message.processed.tzinfo=["+str(message.processed.tzinfo)+"]")
@@ -166,7 +188,12 @@ def index(request):
     print ("post.processed=["+str(post.processed.strftime(fmt))+"]")
     print("post.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
     print ("now_pacific=["+str(now_pacific.strftime(fmt))+"]")
-    print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")    
+    print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")
+    str(now_pacific.strftime(fmt))
+    2018-05-10 15:17:52 PDT-0700
+
+
+    datetime.datetime(year, month, day, hour, minute, second) 
     #post.processed = now_pacific
     posts.append(post)
 
