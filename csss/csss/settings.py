@@ -65,8 +65,8 @@ print("STATIC_URL=["+str(STATIC_URL)+"]")
 
 
 STATICFILES_DIRS = [
-    '~/csss_website/bootstrap-4.0.0',
-    '~/csss_website/csss/documents',
+    'bootstrap-4.0.0',
+    'documents',
 ]
 
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
