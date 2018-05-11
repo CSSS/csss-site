@@ -58,7 +58,6 @@ INSTALLED_APPS = [
 
 PROJECT_DIR=os.path.dirname(__file__)
 PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
-PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'csss', 'statics')
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 STATICFILES_DIRS = [
