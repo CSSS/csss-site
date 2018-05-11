@@ -70,6 +70,8 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
+STATIC_URL = '/statics/'
+
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
 
 MIDDLEWARE = [
