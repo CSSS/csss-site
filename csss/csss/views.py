@@ -134,7 +134,9 @@ def removePhotoEmails(message):
 
 def index(request):
   print("announcements index")
-  #Mailbox.get_new_mail(condition=removePhotoEmails)
+  mailboxes = Mailbox.objects.all()
+  for mailbox in mailboxes:
+    mailbox.get_new_mail(condition=removePhotoEmails)
   messages = Message.objects.all().order_by('-id')
   attachments = MessageAttachment.objects.all().order_by('-id')
   messages = filterSender(messages)
