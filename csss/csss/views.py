@@ -189,7 +189,7 @@ def index(request):
     print("post.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
     print ("now_pacific=["+str(now_pacific.strftime(fmt))+"]")
     print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")
-    convert_utc_aware_time_to_naive_pst_timestr(now_pacific.strftime(fmt))
+    convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime(fmt)))
 
 
     datetime.datetime(year, month, day, hour, minute, second) 
