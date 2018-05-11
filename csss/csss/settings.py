@@ -124,10 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-from django.utils import timezone
-
-TIME_ZONE = timezone.now()
-#TIME_ZONE = 'America/Vancouver'
+TIME_ZONE = 'America/Vancouver'
 
 USE_I18N = True
 
