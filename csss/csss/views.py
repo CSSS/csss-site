@@ -85,10 +85,6 @@ def combine_announcements ( messages, posts):
   messageIndex = 0
   postIndex = 0
   while len(messages) > messageIndex and len(posts) > postIndex:
-    #year, month, day, hour, minute, second = 
-    #message_date = convert_email_datetime_string_to_datetime_object(messages[messageIndex].processed)
-    print("\nmessages[messageIndex].processed=["+str(messages[messageIndex].processed)+"]")
-    print("posts[postIndex].processed=["+str(posts[postIndex].processed)+"]\n")
     if messages[messageIndex].processed < posts[postIndex].processed:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
@@ -108,7 +104,7 @@ def combine_announcements ( messages, posts):
 
 from pytz import timezone
 
-def convert_email_datetime_string_to_datetime_object(date_from_email):
+def convert_email_datetime_string_to_naive_datetime_object(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
   day = int(date_from_email[indexBeforeDate+1:indexAfterDay])
@@ -126,8 +122,6 @@ def convert_email_datetime_string_to_datetime_object(date_from_email):
   indexAfterMinute = date_from_email.find(":", indexAfterHour + 1)
   minute = int(date_from_email[indexAfterHour+1:indexAfterMinute])
 
-  #indexAfterSecond = date_from_email.find(":", indexAfterMinute + 1)
-  #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = int(date_from_email[indexAfterMinute+1:])
 
   return datetime.datetime(year, month, day, hour, minute, second)
@@ -149,8 +143,8 @@ def convert_utc_aware_time_to_naive_pst_time(utc_time):
   indexAfterMinute = utc_time.find(":", indexAfterHour+1)
   minute = int(utc_time[indexAfterHour+1:indexAfterMinute])
 
-  indexAfterSecond = utc_time.find(" ", indexAfterMinute+1)
-  second = int(utc_time[indexAfterMinute+1:indexAfterSecond])
+  #indexAfterSecond = utc_time.find(" ", indexAfterMinute+1)
+  second = int(utc_time[indexAfterMinute+1:])
 
   return datetime.datetime(year, month, day, hour, minute, second)
 
@@ -163,9 +157,8 @@ def index(request):
   for message in messages:
 
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
-    message.processed=str(extract_date(str(base64.b64decode(message.body))))
-    message.processed=convert_email_datetime_string_to_datetime_object(message.processed)
-    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
+    message.processed=convert_email_datetime_string_to_naive_datetime_object(str(extract_date(str(base64.b64decode(message.body)))))
+    
     #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
 
@@ -173,15 +166,11 @@ def index(request):
     message.body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip().replace("align=center", "")
   posts = []
   for post in Post.objects.all().order_by('-id'):
-  # Current time in UTC
-    fmt = "%Y-%m-%d %H:%M:%S %Z%z"
 
     # Convert to US/Pacific time zone
     now_pacific = post.processed.astimezone(timezone('America/Vancouver'))
-    post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime(fmt)))
+    post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime("%Y-%m-%d %H:%M:%S")))
 
-
-    #post.processed = now_pacific
     posts.append(post)
 
   final_posts = combine_announcements(messages, posts)
