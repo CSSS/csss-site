@@ -58,7 +58,13 @@ STATICFILES_FINDERS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATIC_URL = '/statics/'
+
+STATIC_URL = 'http://ec2-52-91-226-24.compute-1.amazonaws.com:8000/'
+
+PROJECT_DIR=os.path.dirname(__file__)
+PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
+PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
+
 
 STATICFILES_DIRS = [
     '~/csss_website/bootstrap-4.0.0/',
