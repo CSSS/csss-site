@@ -61,11 +61,12 @@ PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
-STATIC_URL = '/statics/'
-print("STATIC_URL=["+str(STATIC_URL)+"]")
+#STATIC_URL = '/statics/'
+#print("STATIC_URL=["+str(STATIC_URL)+"]")
 
 
 STATICFILES_DIRS = [
+    'statics/',
     'csss/statics/csss',
     'documents/contact',
 ]
