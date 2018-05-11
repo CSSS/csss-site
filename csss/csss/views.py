@@ -145,7 +145,7 @@ def convert_utc_aware_time_to_naive_pst_time(utc_time):
   day = utc_time[indexAfterMonth+1:indexAfterDay]
 
   indexAfterHour = utc_time.find(":", indexAfterDay+1)
-  hour = utc_time[indexAfterDa+1:indexAfterHour]
+  hour = utc_time[indexAfterDay+1:indexAfterHour]
 
   indexAfterMinute = utc_time.find(":", indexAfterHour+1)
   minute = utc_time[indexAfterHour+1:indexAfterMinute]
