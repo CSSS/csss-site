@@ -2,6 +2,7 @@ from django.shortcuts import render
 from announcements.models import Post, AnnouncementAttachment
 import announcements
 from django_mailbox.models import MessageAttachment, Message, Mailbox
+from django_mailbox import admin
 import base64
 import datetime
 import six
@@ -124,8 +125,17 @@ def convert_email_datetime_string_to_naive_datetime_object(date_from_email):
 
   return datetime.datetime(year, month, day, hour, minute, second)
 
+def removePhotoEmails(message):
+  if "Subject: [WEBSITE PHOTOS]" in str(message):
+    print("email is for the photo gallery")
+    return True
+  else:
+    print("email is for the announcements")
+    return False
+
 def index(request):
   print("announcements index")
+  admin.get_new_mail(condition=removePhotoEmails)
   messages = Message.objects.all().order_by('-id')
   attachments = MessageAttachment.objects.all().order_by('-id')
   messages = filterSender(messages)
