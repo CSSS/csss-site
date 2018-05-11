@@ -66,7 +66,7 @@ print("STATIC_URL=["+str(STATIC_URL)+"]")
 
 
 STATICFILES_DIRS = [
-    'csss/statics/csss/js',
+    'csss/statics/csss',
     'documents',
 ]
 
