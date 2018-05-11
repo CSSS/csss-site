@@ -4,7 +4,10 @@ In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
  - [Basic Instructions for Site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
-    - [Interacting with GMAIL database](#interacting-with-gmail-database)
+    - [Interacting with SQLite database](#interacting-with-sqlite-database)
+        - [SQLite3 Commands](#sqlite3-commands)
+        - [Script for SQLite3 Commands](#script-for-sqlite3-commands)
+        - [Migrate Models](#migrate-models)
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
     - [Django-mailbox](#django-mailbox)
 
@@ -91,7 +94,6 @@ python3.5 manage.py migrate
 *******************
 ### django-mailbox
 *******************
-http://django-mailbox.readthedocs.io/en/latest/  
-http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html#gmail-imap-with-oauth2-authentication  
-http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html  
-https://github.com/coddingtonbear/django-mailbox  
+[Django-Mailbox Docu](http://django-mailbox.readthedocs.io/en/latest/)  
+[Djanho-Mailbox Mailbox-Types](http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html)  
+[Django-Mailbox Repo](https://github.com/coddingtonbear/django-mailbox)  
