@@ -62,6 +62,7 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 #STATIC_ROOT = os.path.join(PROJECT_DIR, 'statics')
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
+
 STATIC_URL = '/statics/'
 print("STATIC_URL=["+str(STATIC_URL)+"]")
 
