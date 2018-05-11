@@ -55,21 +55,24 @@ INSTALLED_APPS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
+import environ
 
-PROJECT_DIR=os.path.dirname(__file__)
-PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'csss', 'statics')
+ROOT_DIR = environ.Path(__file__)
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
+
+STATIC_URL = '/statics/'
+print("STATIC_URL=["+str(STATIC_URL)+"]")
+
+
 STATICFILES_DIRS = [
-    '~/csss_website/bootstrap-4.0.0/',
-    '~/csss_website/csss/documents/',
-    '~/csss_website/csss/csss/statics/',
+    str(ROOT_DIR.path('bootstrap-4.0.0')),
+    str(ROOT_DIR.path('csss/documents')),
 ]
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
-STATIC_URL = '/statics/'
 
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
 
