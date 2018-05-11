@@ -127,10 +127,10 @@ def convert_email_datetime_string_to_naive_datetime_object(date_from_email):
 def removePhotoEmails(message):
   if "Subject: [WEBSITE PHOTOS]" in str(message):
     print("email is for the photo gallery")
-    return True
+    return False
   else:
     print("email is for the announcements")
-    return False
+    return True
 
 def index(request):
   print("announcements index")
