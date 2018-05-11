@@ -15,7 +15,7 @@ $formproc = new FGContactForm();
 $formproc->AddRecipient('csss.website@gmail.com'); //<<---Put your email address here
 
 
-//2. For better security. Get a random tring from this link: http://tinyurl.com/randstr
+//2. For better security. Get a random string from this link: http://tinyurl.com/randstr
 // and put it here
 $formproc->SetFormRandomKey('HG9hPBpn9Bn26yg');
 
