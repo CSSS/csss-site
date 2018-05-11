@@ -102,8 +102,6 @@ def combine_announcements ( messages, posts):
 
   return final_posts
 
-from pytz import timezone
-
 def convert_email_datetime_string_to_naive_datetime_object(date_from_email):
   indexBeforeDate = date_from_email.find(" ", 1)
   indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
