@@ -29,7 +29,8 @@ ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']
 
 STATICFILES_DIRS = [
 	'~/csss_website/bootstrap-4.0.0/',
-	'/home/ubuntu/csss_website/csss',
+	'~/csss_website/csss',
+    '~/csss_website/csss/documents'
 ]
 # Application definition
 
