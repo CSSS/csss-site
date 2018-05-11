@@ -8,7 +8,7 @@ class Post(models.Model):
 		max_length=255,
 	)
 	from_header = models.CharField(
-		_('Author'),
+		_(u'Author'),
 		max_length=255,
 	)
 	body = models.TextField(
