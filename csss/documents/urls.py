@@ -20,7 +20,6 @@ from . import views
 
 urlpatterns = [
 	url(r'^policies$', views.policies, name='policies'),
-	url(r'^sfss_documents$', views.sfss, name='sfss'),
 	url(r'^photo_gallery$', views.photos, name='photos'),
 	url(r'^$', views.index, name='index'),
 ]

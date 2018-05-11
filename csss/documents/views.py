@@ -8,10 +8,6 @@ def policies(request):
 	print("policies index")
 	return render(request, 'documents/policies.html')
 
-def sfss(request):
-	print("sfss documents index")
-	return render(request, 'documents/sfss_documents.html')
-
 def photos(request):
 	print("photo gallery index")
 	return render(request, 'documents/photo_gallery.html')
