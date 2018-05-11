@@ -55,10 +55,9 @@ INSTALLED_APPS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-import environ
-
-ROOT_DIR = environ.Path(__file__)
-STATIC_ROOT = str(ROOT_DIR('staticfiles'))
+PROJECT_DIR=os.path.dirname(__file__)
+PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
 STATIC_URL = '/statics/'
