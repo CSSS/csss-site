@@ -131,7 +131,7 @@ def convert_date_to_numerics(date_from_email):
   #print("indexAfterSecond=["+str(indexAfterSecond)+"]")
   second = int(date_from_email[indexAfterMinute+1:])
 
-  return datetime.datetime(year, month, day, hour, minute, second,tzinfo=timezone('America/Vancouver'))
+  return datetime.datetime(year, month, day, hour, minute, second)
 
 
 
@@ -146,10 +146,9 @@ def index(request):
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
     message.processed=str(extract_date(str(base64.b64decode(message.body))))
     message.processed=convert_date_to_numerics(message.processed)
-    message.processed = message.processed.astimezone(timezone('America/Vancouver'))
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
     print ("message.processed=["+str(message.processed.strftime(fmt))+"]")
-
+    print("message.processed.tzinfo=["+str(message.processed.tzinfo)+"]")
     #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
 
@@ -163,9 +162,10 @@ def index(request):
     #print (now_utc.strftime(fmt))
 
     # Convert to US/Pacific time zone
-    now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
-    print ("post.processed=["+str(now_pacific.strftime(fmt))+"]")
-    post.processed = now_pacific
+    #now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
+    print ("post.processed=["+str(post.processed.strftime(fmt))+"]")
+    print("message.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
+    #post.processed = now_pacific
     posts.append(post)
 
   final_posts = combine_announcements(messages, posts)
