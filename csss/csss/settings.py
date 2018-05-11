@@ -62,7 +62,7 @@ STATIC_URL = '/statics/'
 
 STATICFILES_DIRS = [
     '~/csss_website/bootstrap-4.0.0/',
-    '~/csss_website/csss/documents'
+    '~/csss_website/csss/documents/',
 ]
 
 MIDDLEWARE = [
