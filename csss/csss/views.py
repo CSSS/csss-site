@@ -153,7 +153,7 @@ def convert_utc_aware_time_to_naive_pst_time(utc_time):
   indexAfterSecond = utc_time.find(" ", indexAfterMinute+1)
   second = utc_time[indexAfterMinute+1:indexAfterSecond]
 
-  print("YEAR=["+STR(year)+" MONTH=["+str(month)+" DAY=["+str(day)+" HOUR=["+str(hour)+" MINUTE=["+str(minute)+" SECOND=["+str(second)+"]")
+  print("YEAR=["+str(year)+" MONTH=["+str(month)+" DAY=["+str(day)+" HOUR=["+str(hour)+" MINUTE=["+str(minute)+" SECOND=["+str(second)+"]")
 
 
 
