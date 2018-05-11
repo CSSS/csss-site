@@ -87,10 +87,9 @@ def combine_announcements ( messages, posts):
   while len(messages) > messageIndex and len(posts) > postIndex:
     #year, month, day, hour, minute, second = 
     #message_date = convert_email_datetime_string_to_datetime_object(messages[messageIndex].processed)
-    message_date = messages[messageIndex].processed
-    print("\nmessage_date=["+str(message_date)+"]")
+    print("\nmessages[messageIndex].processed=["+str(messages[messageIndex].processed)+"]")
     print("posts[postIndex].processed=["+str(posts[postIndex].processed)+"]\n")
-    if message_date > posts[postIndex].processed:
+    if messages[messageIndex].processed < posts[postIndex].processed:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
@@ -167,8 +166,6 @@ def index(request):
     message.processed=str(extract_date(str(base64.b64decode(message.body))))
     message.processed=convert_email_datetime_string_to_datetime_object(message.processed)
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
-    print ("message.processed=["+str(message.processed.strftime(fmt))+"]")
-    print("message.processed.tzinfo=["+str(message.processed.tzinfo)+"]")
     #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
 
