@@ -192,7 +192,6 @@ def index(request):
     convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime(fmt)))
 
 
-    datetime.datetime(year, month, day, hour, minute, second) 
     #post.processed = now_pacific
     posts.append(post)
 
