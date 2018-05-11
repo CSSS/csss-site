@@ -73,10 +73,10 @@ STATICFILES_DIRS = [
 
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
 
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
+#STATICFILES_FINDERS = [
+#    'django.contrib.staticfiles.finders.FileSystemFinder',
+#    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#]
 
 
 MIDDLEWARE = [
