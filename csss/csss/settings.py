@@ -67,7 +67,6 @@ print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
 
 STATICFILES_DIRS = [
-    'statics/',
     'csss/statics/csss',
     'documents/contact',
 ]
