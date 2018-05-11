@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 PROJECT_DIR=os.path.dirname(__file__)
 PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
+PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
