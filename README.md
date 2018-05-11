@@ -6,10 +6,7 @@ In active development on Jace Manshadi's personal AWS account.
  - [Miscellanious/Extra References](#miscellaniousextra-references)
     - [Interacting with GMAIL database](#interacting-with-gmail-database)
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
-    - [Python Social Auth](##python-social-auth)
     - [Django-mailbox](#django-mailbox)
-    - [UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH](#updating-migrations-for-python-social-auth)
-    - [Google Docu](#google-docu)
 
 ## Basic Instructions for Site set-up
 
@@ -43,26 +40,44 @@ python3.5 manage.py startapp personal
 ## Miscellanious/Extra References
 
 ***************************************
-### Interacting with GMAIL database
+### Interacting with SQLite database
 ***************************************
-```
-same command to interact with database
-$ python3 manage.py dbshell
+
+## SQLite3 Commands
+
+```shell
+$ cd csss_website/csss/
 $ sqlite3 db.sqlite3
 
 sql commands
-sqlite> SELECT body FROM django_mailbox_message WHERE id == 7;
-sqlite> SHOW * FROM django_mailbox_mailbox
-sqlite> SELECT * FROM django_mailbox_mailbox ;
-sqlite> SELECT * FROM django_mailbox_message ;
-sqlite> .tables
 
-sqlite> PRAGMA table_info(django_mailbox_message)
+sqlite> .tables
+sqlite> PRAGMA table_info(django_mailbox_message);
+sqlite> SELECT body FROM django_mailbox_message WHERE id == 7;
+sqlite> SELECT * FROM django_mailbox_message ;
 sqlite> SELECT subject FROM django_mailbox_message;
 sqlite> SELECT from_header FROM django_mailbox_message;
 sqlite> SELECT to_header FROM django_mailbox_message;
 sqlite> SELECT body FROM django_mailbox_message;
 sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
+```
+
+## Script for SQLite3 Commands
+
+```shell
+#!/bin/bash
+
+sqlite3 db.sqlite3 <<EOF
+.tables
+PRAGMA table_info(django_mailbox_message);
+EOF
+```
+
+## Migrate Models
+
+```shell
+python3.5 manage.py makemigrations announcements
+python3.5 manage.py migrate
 ```
 
 *************************************************
