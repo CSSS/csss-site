@@ -159,12 +159,14 @@ def index(request):
   # Current time in UTC
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
     now_utc = post.processed
-    #print (now_utc.strftime(fmt))
+    print (now_utc.strftime(fmt))
 
     # Convert to US/Pacific time zone
-    #now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
+    now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
     print ("post.processed=["+str(post.processed.strftime(fmt))+"]")
-    print("message.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
+    print("post.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
+    print ("now_pacific=["+str(now_pacific.strftime(fmt))+"]")
+    print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")    
     #post.processed = now_pacific
     posts.append(post)
 
