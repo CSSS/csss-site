@@ -154,7 +154,7 @@ def convert_utc_aware_time_to_naive_pst_time(utc_time):
   second = utc_time[indexAfterMinute+1:indexAfterSecond]
 
   print("YEAR=["+STR(year)+" MONTH=["+str(month)+" DAY=["+str(day)+" HOUR=["+str(hour)+" MINUTE=["+str(minute)+" SECOND=["+str(second)+"]")
-  
+
 
 
 
@@ -189,8 +189,7 @@ def index(request):
     print("post.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
     print ("now_pacific=["+str(now_pacific.strftime(fmt))+"]")
     print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")
-    str(now_pacific.strftime(fmt))
-    2018-05-10 15:17:52 PDT-0700
+    convert_utc_aware_time_to_naive_pst_timestr(now_pacific.strftime(fmt))
 
 
     datetime.datetime(year, month, day, hour, minute, second) 
