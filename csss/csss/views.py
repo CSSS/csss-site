@@ -88,8 +88,8 @@ def combine_announcements ( messages, posts):
     #year, month, day, hour, minute, second = 
     #message_date = convert_email_datetime_string_to_datetime_object(messages[messageIndex].processed)
     message_date = messages[messageIndex].processed
-    print("message_date.tzinfo=["+str(message_date.tzinfo)+"]")
-    print("posts[postIndex].processed.tzinfo=["+str(posts[postIndex].processed.tzinfo)+"]")
+    print("\nmessage_date=["+str(message_date)+"]")
+    print("posts[postIndex].processed=["+str(posts[postIndex].processed)+"]\n")
     if message_date > posts[postIndex].processed:
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
@@ -153,8 +153,6 @@ def convert_utc_aware_time_to_naive_pst_time(utc_time):
   indexAfterSecond = utc_time.find(" ", indexAfterMinute+1)
   second = int(utc_time[indexAfterMinute+1:indexAfterSecond])
 
-  print("YEAR=["+str(year)+"] MONTH=["+str(month)+"] DAY=["+str(day)+"] HOUR=["+str(hour)+"] MINUTE=["+str(minute)+"] SECOND=["+str(second)+"]")
-
   return datetime.datetime(year, month, day, hour, minute, second)
 
 
@@ -180,15 +178,9 @@ def index(request):
   for post in Post.objects.all().order_by('-id'):
   # Current time in UTC
     fmt = "%Y-%m-%d %H:%M:%S %Z%z"
-    now_utc = post.processed
-    print (now_utc.strftime(fmt))
 
     # Convert to US/Pacific time zone
-    now_pacific = now_utc.astimezone(timezone('America/Vancouver'))
-    print ("post.processed=["+str(post.processed.strftime(fmt))+"]")
-    print("post.processed.tzinfo=["+str(post.processed.tzinfo)+"]")
-    print ("now_pacific=["+str(now_pacific.strftime(fmt))+"]")
-    print("now_pacific.tzinfo=["+str(now_pacific.tzinfo)+"]")
+    now_pacific = post.processed.astimezone(timezone('America/Vancouver'))
     post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime(fmt)))
 
 
