@@ -136,22 +136,22 @@ def convert_email_datetime_string_to_datetime_object(date_from_email):
 def convert_utc_aware_time_to_naive_pst_time(utc_time):
   #2018-05-10 15:17:52 PDT-0700
   indexAfterYear = utc_time.find("-", 0)
-  year = utc_time[0:indexAfterYear]
+  year = int(utc_time[0:indexAfterYear])
 
   indexAfterMonth = utc_time.find("-", indexAfterYear + 1)
-  month = utc_time[indexAfterYear+1:indexAfterMonth]
+  month = int(utc_time[indexAfterYear+1:indexAfterMonth])
 
   indexAfterDay = utc_time.find(" ", indexAfterMonth+1)
-  day = utc_time[indexAfterMonth+1:indexAfterDay]
+  day = int(utc_time[indexAfterMonth+1:indexAfterDay])
 
   indexAfterHour = utc_time.find(":", indexAfterDay+1)
-  hour = utc_time[indexAfterDay+1:indexAfterHour]
+  hour = int(utc_time[indexAfterDay+1:indexAfterHour])
 
   indexAfterMinute = utc_time.find(":", indexAfterHour+1)
-  minute = utc_time[indexAfterHour+1:indexAfterMinute]
+  minute = int(utc_time[indexAfterHour+1:indexAfterMinute])
 
   indexAfterSecond = utc_time.find(" ", indexAfterMinute+1)
-  second = utc_time[indexAfterMinute+1:indexAfterSecond]
+  second = int(utc_time[indexAfterMinute+1:indexAfterSecond])
 
   print("YEAR=["+str(year)+"] MONTH=["+str(month)+"] DAY=["+str(day)+"] HOUR=["+str(hour)+"] MINUTE=["+str(minute)+"] SECOND=["+str(second)+"]")
 
