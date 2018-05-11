@@ -65,15 +65,17 @@ print("STATIC_URL=["+str(STATIC_URL)+"]")
 
 
 STATICFILES_DIRS = [
-    str(ROOT_DIR.path('bootstrap-4.0.0')),
-    str(ROOT_DIR.path('csss/documents')),
+    '~/csss_website/bootstrap-4.0.0',
+    '~/csss_website/csss/documents',
 ]
+
+print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
+
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
-print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
