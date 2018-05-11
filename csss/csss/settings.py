@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    #'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'bootstrap3',
 ]
 
@@ -58,16 +58,16 @@ INSTALLED_APPS = [
 PROJECT_DIR=os.path.dirname(__file__)
 PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 #PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
-#STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
-STATIC_ROOT = os.path.join(PROJECT_DIR, 'statics')
+STATIC_ROOT = os.path.join(PROJECT_DIR, 'staticfiles')
+#STATIC_ROOT = os.path.join(PROJECT_DIR, 'statics')
 print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
-#STATIC_URL = '/statics/'
-#print("STATIC_URL=["+str(STATIC_URL)+"]")
+STATIC_URL = '/statics/'
+print("STATIC_URL=["+str(STATIC_URL)+"]")
 
 
 STATICFILES_DIRS = [
-    'csss/statics/csss',
+    #'csss/statics/csss',
     'documents/contact',
 ]
 
