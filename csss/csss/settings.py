@@ -51,10 +51,7 @@ INSTALLED_APPS = [
     'bootstrap3',
 ]
 
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -68,6 +65,10 @@ STATICFILES_DIRS = [
     '~/csss_website/bootstrap-4.0.0/',
     '~/csss_website/csss/documents/',
     '~/csss_website/csss/csss/statics/',
+]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
 
