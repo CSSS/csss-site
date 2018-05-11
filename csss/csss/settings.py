@@ -69,6 +69,7 @@ PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 STATICFILES_DIRS = [
     '~/csss_website/bootstrap-4.0.0/',
     '~/csss_website/csss/documents/',
+    '~/csss_website/csss/csss/statics/',
 ]
 
 MIDDLEWARE = [
