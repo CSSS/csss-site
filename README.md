@@ -43,7 +43,7 @@ python3.5 manage.py startapp personal
 ### Interacting with SQLite database
 ***************************************
 
-## SQLite3 Commands
+#### SQLite3 Commands
 
 ```shell
 $ cd csss_website/csss/
@@ -62,7 +62,7 @@ sqlite> SELECT body FROM django_mailbox_message;
 sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
 ```
 
-## Script for SQLite3 Commands
+#### Script for SQLite3 Commands
 
 ```shell
 #!/bin/bash
@@ -73,7 +73,7 @@ PRAGMA table_info(django_mailbox_message);
 EOF
 ```
 
-## Migrate Models
+#### Migrate Models
 
 ```shell
 python3.5 manage.py makemigrations announcements
