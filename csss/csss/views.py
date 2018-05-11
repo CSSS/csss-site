@@ -165,8 +165,8 @@ def index(request):
   for post in Post.objects.all().order_by('-id'):
 
     # Convert to US/Pacific time zone
-    now_pacific = post.processed.astimezone(timezone('America/Vancouver'))
-    post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime("%Y-%m-%d %H:%M:%S")))
+    #now_pacific = post.processed.astimezone(timezone('America/Vancouver'))
+    #post.processed=convert_utc_aware_time_to_naive_pst_time(str(now_pacific.strftime("%Y-%m-%d %H:%M:%S")))
 
     posts.append(post)
 
