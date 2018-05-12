@@ -97,3 +97,10 @@ python3.5 manage.py migrate
 [Django-Mailbox Docu](http://django-mailbox.readthedocs.io/en/latest/)  
 [Djanho-Mailbox Mailbox-Types](http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html)  
 [Django-Mailbox Repo](https://github.com/coddingtonbear/django-mailbox)  
+  
+******************
+### Determing what process is using a port
+******************
+```shell
+sudo lsof -n -i :<portNumber>
+```
