@@ -60,7 +60,7 @@ PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 #PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
 #STATIC_ROOT = os.path.join(PROJECT_DIR, 'yodel') #<<-- where the files get coped to
 #STATIC_ROOT = os.path.join(PROJECT_DIR, 'statics')
-print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
+#print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
 
 STATIC_URL = '/yodel/' #<-- the path that gets down in the URL
