@@ -55,21 +55,21 @@ INSTALLED_APPS = [
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_DIR=os.path.dirname(__file__)
-PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
+
+#PROJECT_DIR=os.path.dirname(__file__)
 #PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
-#STATIC_ROOT = os.path.join(PROJECT_DIR, 'yodel') #<<-- where the files get coped to
-#STATIC_ROOT = os.path.join(PROJECT_DIR, 'statics')
+#PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
+#STATIC_ROOT = os.path.join(PROJECT_DIR, 'files') #<<-- where the files get coped to
 #print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
 
 
-STATIC_URL = '/yodel/' #<-- the path that gets down in the URL
+STATIC_URL = '/staticfiles/' #<-- the path that gets down in the URL
 print("STATIC_URL=["+str(STATIC_URL)+"]")
 
 
 STATICFILES_DIRS = [
-    'csss/demfiles/csss',
-    'documents/contact',
+    'csss/staticfiles/csss',
+    'documents/staticfiles',
 ]
 
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
