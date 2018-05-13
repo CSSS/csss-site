@@ -21,7 +21,6 @@ class FormView(TemplateView):
   def post(self, request):
     form = ContactForm(request.POST)
     if form.is_valid():
-      post = form.save(commit=False)
       post.save()
 
       text = form.cleaned_data['post']
