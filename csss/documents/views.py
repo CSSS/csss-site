@@ -23,8 +23,10 @@ class FormView(TemplateView):
     if form.is_valid():
       print("form=["+str(form)+"]")
       print("form type=["+str(type(form))+"]")
-      text = form.cleaned_data['post']
-      print("text=["+str(text)+"]")
+      contact_name = form.cleaned_data['contact_name']
+      print("contact_name=["+str(contact_name)+"]")
+      content = form.cleaned_data['content']
+      print("content=["+str(content)+"]")
       form = ContactForm()
       print("form=["+str(form)+"]")
       return redirect('document:document')
