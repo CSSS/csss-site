@@ -16,10 +16,12 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 
+from documents.views import FormView
 from . import views
 
 urlpatterns = [
 	url(r'^policies$', views.policies, name='policies'),
 	url(r'^photo_gallery$', views.photos, name='photos'),
+    url(r'^contactus$', FormView.as_view(), name='contact us'),
 	url(r'^$', views.index, name='index'),
 ]
