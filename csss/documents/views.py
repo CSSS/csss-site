@@ -12,7 +12,7 @@ def policies(request):
 	return render(request, 'documents/policies.html')
 
 class FormView(TemplateView):
-  template_name = 'document/photo_gallery.html'
+  template_name = 'documents/photo_gallery.html'
 
   def get(self, request):
     form = ContactForm()
