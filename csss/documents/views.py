@@ -33,5 +33,5 @@ class FormView(TemplateView):
 
 def photos(request):
 	print("photo gallery index")
-	return render(request, 'documents/photo_gallery.html', {'form': form})
+	return render(request, 'documents/photo_gallery.html')
 # Create your views here.
