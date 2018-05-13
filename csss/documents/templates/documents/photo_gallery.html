@@ -34,7 +34,7 @@
 
 <p>"{% static '' %}"</p>
 <p>"{% get_static_prefix %}"</p>
-<h1>Contact</h1>
+<h1>Upload Photos from Past Event!</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.get }}
@@ -42,13 +42,6 @@
     <p>Content</p>{{ form.content }}<br><br>
     <p>Files to upload:</p>{{ form.pics_from_event}}<br><br>
     <button type="submit">Submit</button>
-</form>
-
-<h1> Contact 2</h1>
-<form action="/your-name/" method="post">
-    <label for="your_name">Your name: </label>
-    <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
-    <input type="submit" value="OK">
 </form>
 
 <div class="container-fluid bg-3 text-center">    
