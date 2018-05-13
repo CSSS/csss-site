@@ -25,9 +25,9 @@ class FormView(TemplateView):
       print("contact_name=["+str(contact_name)+"]")
       content = form.cleaned_data['content']
       print("content=["+str(content)+"]")
-      if form.cleaned_data['pics_from_event'] is not None:
+      photos = request.FILES.getlist('pics_from_event')
+      if photos is not None:
         print("pictures detected")
-        photos = form.cleaned_data['pics_from_event']
       else:
         print("no pictures detected")
       form = ContactForm()
