@@ -27,7 +27,9 @@ class FormView(TemplateView):
       print("content=["+str(content)+"]")
       photos = request.FILES.getlist('pics_from_event')
       if photos is not None:
-        print("pictures detected=["+str(photos)+"]")
+        print("pictures detected")
+        for photo in photos:
+          print("photo=["+str(photo)+"]")
       else:
         print("no pictures detected")
       form = ContactForm()
