@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, request
 from django.http import HttpResponseRedirect
 from documents.forms import ContactForm
 from django.views.generic import TemplateView
