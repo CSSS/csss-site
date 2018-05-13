@@ -21,14 +21,16 @@ class FormView(TemplateView):
   def post(self, request):
     form = ContactForm(request.POST)
     if form.is_valid():
-      print("form=["+str(form)+"]")
-      print("form type=["+str(type(form))+"]")
       contact_name = form.cleaned_data['contact_name']
       print("contact_name=["+str(contact_name)+"]")
       content = form.cleaned_data['content']
       print("content=["+str(content)+"]")
+      if form.cleaned_data['pics_from_event'] is not None:
+        print("pictures detected")
+        photos = form.cleaned_data['pics_from_event']
+      else:
+        print("no pictures detected")
       form = ContactForm()
-      print("form=["+str(form)+"]")
       return redirect('document:document')
 
     return render(request, self.template_name, {'form': form})
