@@ -38,8 +38,8 @@
 <form  method="post">
     {% csrf_token %}
     {{ form.get }}
-    {{ form.contact_name}}
-    {{ form.content }}
+    <p>Contact Name</p>{{ form.contact_name}}<br><br>
+    <p>Content</p>{{ form.content }}<br><br>
     <button type="submit">Submit</button>
 </form>
 
