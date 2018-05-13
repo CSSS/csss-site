@@ -35,12 +35,13 @@
 <p>"{% static '' %}"</p>
 <p>"{% get_static_prefix %}"</p>
 <h1>Contact</h1>
-<form role="form" action="" method="post">
+<form  method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {{ form.post }}
     <button type="submit">Submit</button>
 </form>
 
+<h1> Contact 2</h1>
 <form action="/your-name/" method="post">
     <label for="your_name">Your name: </label>
     <input id="your_name" type="text" name="your_name" value="{{ current_name }}">
