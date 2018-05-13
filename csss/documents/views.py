@@ -22,6 +22,7 @@ class FormView(TemplateView):
     form = ContactForm(request.POST)
     if form.is_valid():
       print("form=["+str(form)+"]")
+      print("form type=["+str(type(form))+"]")
       text = form.cleaned_data['post']
       print("text=["+str(text)+"]")
       form = ContactForm()
