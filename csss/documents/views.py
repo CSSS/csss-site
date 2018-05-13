@@ -28,12 +28,13 @@ class FormView(TemplateView):
       photos = request.FILES.getlist('pics_from_event')
       if photos is not None:
         print("pictures detected")
+        print("photos type=["+str(type(photos))+"]")
         for photo in photos:
           print("photo=["+str(photo)+"]")
       else:
         print("no pictures detected")
       form = ContactForm()
-      return redirect('document:document')
+      return redirect('document:photo_gallery')
 
     return render(request, self.template_name, {'form': form})
 
