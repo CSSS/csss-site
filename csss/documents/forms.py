@@ -6,5 +6,5 @@ class ContactForm(forms.Form):
     required = True,
     widget=forms.Textarea
   )
-  pics_from_event = form.FileField(required=True,
-    widget=forms.ClearableFileInput(attrs={'multiple': True}))
+  pics_from_event = forms.FileField(required=True,
+    widget=formss.ClearableFileInput(attrs={'multiple': True}))
