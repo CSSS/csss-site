@@ -35,7 +35,7 @@
 <p>"{% static '' %}"</p>
 <p>"{% get_static_prefix %}"</p>
 <h1>Contact</h1>
-<form  method="post">
+<form method="post">
     {% csrf_token %}
     {{ form.get }}
     <p>Contact Name</p>{{ form.contact_name}}<br><br>
