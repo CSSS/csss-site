@@ -29,7 +29,7 @@ These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.
 ssh -i csssWebsiteKeyPair.pem ubuntu@ec2-52-91-226-24.compute-1.amazonaws.com  
 sudo apt install python3-pip  
 python3.5 -m pip install -U pip  
-python3.5 -m pip install django  
+python3.5 -m pip install -r requirements.txt  
 mkdir csss_website  
 cd csss_website/  
 django-admin startproject csss  
