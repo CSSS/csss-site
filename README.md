@@ -28,8 +28,8 @@ These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.
 ```shell
 ssh -i csssWebsiteKeyPair.pem ubuntu@ec2-52-91-226-24.compute-1.amazonaws.com  
 sudo apt install python3-pip  
-pip3 install -U pip  
-pip3 install django  
+python3.5 -m pip install -U pip  
+python3.5 -m pip install django  
 mkdir csss_website  
 cd csss_website/  
 django-admin startproject csss  
