@@ -61,6 +61,12 @@ python3.5 manage.py runserver 172.31.17.191:8000
 ## Miscellanious/Extra References
 
 ***************************************
+### mailbox uri to add to django_mailbox inside of CMS
+***************************************
+
+(`gmail+ssl://csss.website%40gmail.com:<password>@imap.gmail.com?processed=processed`)
+
+***************************************
 ### Interacting with SQLite database
 ***************************************
 
