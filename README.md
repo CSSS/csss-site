@@ -2,8 +2,10 @@
 
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
- - [Basic Instructions for Site set-up](#basic-instructions-for-site-set-up)
+ - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
+ - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
+    - [mailbox uri to add to django_mailbox inside of CMS](#mailbox-uri-to-add-to-django_mailbox-inside-of-cms)
     - [Interacting with SQLite database](#interacting-with-sqlite-database)
         - [SQLite3 Commands](#sqlite3-commands)
         - [Script for SQLite3 Commands](#script-for-sqlite3-commands)
@@ -11,7 +13,7 @@ In active development on Jace Manshadi's personal AWS account.
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
     - [Django-mailbox](#django-mailbox)
 
-## Basic Instructions for Site set-up
+## Basic Instructions that were used for Site creation
 
 How the CSSS Site version 3 is being set up   
   
@@ -42,8 +44,28 @@ python3.5 manage.py runserver 172.31.17.191:8000
 python3.5 manage.py startapp webapp  
 python3.5 manage.py startapp personal  
 ```
+## Basic instructions for site set-up
+```shell
+git clone https://github.com/CSSS/csss-site-in-dev.git
+sudo apt-get install -y python3-pip
+python3.5 -m pip install -U pip
+python3.5 -m pip install --upgrade pip
+python3.5 -m pip install -r requirements.txt
+cd csss
+
+#running site on a VM, the IP speciifed below is the private IP of the server
+python3.5 manage.py runserver 172.31.17.191:8000
+
+#running site on localhost
+```
 
 ## Miscellanious/Extra References
+
+***************************************
+### mailbox uri to add to django_mailbox inside of CMS
+***************************************
+
+(`gmail+ssl://csss.website%40gmail.com:<password>@imap.gmail.com?processed=processed`)
 
 ***************************************
 ### Interacting with SQLite database
@@ -97,3 +119,10 @@ python3.5 manage.py migrate
 [Django-Mailbox Docu](http://django-mailbox.readthedocs.io/en/latest/)  
 [Djanho-Mailbox Mailbox-Types](http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html)  
 [Django-Mailbox Repo](https://github.com/coddingtonbear/django-mailbox)  
+  
+******************
+### Determing what process is using a port
+******************
+```shell
+sudo lsof -n -i :<portNumber>
+```
