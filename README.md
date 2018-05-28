@@ -2,16 +2,18 @@
 
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
- - [Basic Instructions for Site set-up](#basic-instructions-for-site-set-up)
+ - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
+ - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
-    - [Interacting with GMAIL database](#interacting-with-gmail-database)
+    - [mailbox uri to add to django_mailbox inside of CMS](#mailbox-uri-to-add-to-django_mailbox-inside-of-cms)
+    - [Interacting with SQLite database](#interacting-with-sqlite-database)
+        - [SQLite3 Commands](#sqlite3-commands)
+        - [Script for SQLite3 Commands](#script-for-sqlite3-commands)
+        - [Migrate Models](#migrate-models)
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
-    - [Python Social Auth](##python-social-auth)
     - [Django-mailbox](#django-mailbox)
-    - [UPDATING MIGRATIONS FOR PYTHON-SOCIAL-AUTH](#updating-migrations-for-python-social-auth)
-    - [Google Docu](#google-docu)
 
-## Basic Instructions for Site set-up
+## Basic Instructions that were used for Site creation
 
 How the CSSS Site version 3 is being set up   
   
@@ -25,44 +27,86 @@ Also avaiable here: https://pythonprogramming.net/django-web-development-with-py
   
 These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.  
   
+```shell
 ssh -i csssWebsiteKeyPair.pem ubuntu@ec2-52-91-226-24.compute-1.amazonaws.com  
 sudo apt install python3-pip  
 python3.5 -m pip install -U pip  
-python3.5 -m pip install django  
+python3.5 -m pip install -r requirements.txt  
 mkdir csss_website  
 cd csss_website/  
 django-admin startproject csss  
+```
 made following commit:  
 add following host to settings.py  
         ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']  
+```shell
 python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp webapp  
-python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp personal  
-   
+```
+## Basic instructions for site set-up
+```shell
+git clone https://github.com/CSSS/csss-site-in-dev.git
+sudo apt-get install -y python3-pip
+python3.5 -m pip install -U pip
+python3.5 -m pip install --upgrade pip
+python3.5 -m pip install -r requirements.txt
+cd csss
+
+#running site on a VM, the IP speciifed below is the private IP of the server
+python3.5 manage.py runserver 172.31.17.191:8000
+
+#running site on localhost
+python3.5 manage.py runserver 8000
+```
+
 ## Miscellanious/Extra References
 
 ***************************************
-### Interacting with GMAIL database
+### mailbox uri to add to django_mailbox inside of CMS
 ***************************************
-```
-same command to interact with database
-$ python3 manage.py dbshell
+
+(`gmail+ssl://csss.website%40gmail.com:<password>@imap.gmail.com?processed=processed`)
+
+***************************************
+### Interacting with SQLite database
+***************************************
+
+#### SQLite3 Commands
+
+```shell
+$ cd csss_website/csss/
 $ sqlite3 db.sqlite3
 
 sql commands
-sqlite> SELECT body FROM django_mailbox_message WHERE id == 7;
-sqlite> SHOW * FROM django_mailbox_mailbox
-sqlite> SELECT * FROM django_mailbox_mailbox ;
-sqlite> SELECT * FROM django_mailbox_message ;
-sqlite> .tables
 
-sqlite> PRAGMA table_info(django_mailbox_message)
+sqlite> .tables
+sqlite> PRAGMA table_info(django_mailbox_message);
+sqlite> SELECT body FROM django_mailbox_message WHERE id == 7;
+sqlite> SELECT * FROM django_mailbox_message ;
 sqlite> SELECT subject FROM django_mailbox_message;
 sqlite> SELECT from_header FROM django_mailbox_message;
 sqlite> SELECT to_header FROM django_mailbox_message;
 sqlite> SELECT body FROM django_mailbox_message;
 sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
+```
+
+#### Script for SQLite3 Commands
+
+```shell
+#!/bin/bash
+
+sqlite3 db.sqlite3 <<EOF
+.tables
+PRAGMA table_info(django_mailbox_message);
+EOF
+```
+
+#### Migrate Models
+
+```shell
+python3.5 manage.py makemigrations announcements
+python3.5 manage.py migrate
 ```
 
 *************************************************
@@ -73,7 +117,13 @@ sqlite> SELECT body FROM django_mailbox_message WHERE id == 1;
 *******************
 ### django-mailbox
 *******************
-http://django-mailbox.readthedocs.io/en/latest/  
-http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html#gmail-imap-with-oauth2-authentication  
-http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html  
-https://github.com/coddingtonbear/django-mailbox  
+[Django-Mailbox Docu](http://django-mailbox.readthedocs.io/en/latest/)  
+[Djanho-Mailbox Mailbox-Types](http://django-mailbox.readthedocs.io/en/latest/topics/mailbox_types.html)  
+[Django-Mailbox Repo](https://github.com/coddingtonbear/django-mailbox)  
+  
+******************
+### Determing what process is using a port
+******************
+```shell
+sudo lsof -n -i :<portNumber>
+```
