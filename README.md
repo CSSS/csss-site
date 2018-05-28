@@ -57,6 +57,7 @@ cd csss
 python3.5 manage.py runserver 172.31.17.191:8000
 
 #running site on localhost
+python3.5 manage.py runserver 8000
 ```
 
 ## Miscellanious/Extra References
