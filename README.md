@@ -2,7 +2,8 @@
 
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
- - [Basic Instructions for Site creation](#basic-instructions-for-site-set-up)
+ - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
+ - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
     - [Interacting with SQLite database](#interacting-with-sqlite-database)
         - [SQLite3 Commands](#sqlite3-commands)
@@ -11,7 +12,7 @@ In active development on Jace Manshadi's personal AWS account.
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
     - [Django-mailbox](#django-mailbox)
 
-## Basic Instructions used for Site creation
+## Basic Instructions that were used for Site creation
 
 How the CSSS Site version 3 is being set up   
   
