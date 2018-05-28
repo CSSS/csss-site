@@ -5,6 +5,7 @@ In active development on Jace Manshadi's personal AWS account.
  - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
  - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
+    - [mailbox uri to add to django_mailbox inside of CMS](#mailbox-uri-to-add-to-django_mailbox-inside-of-cms)
     - [Interacting with SQLite database](#interacting-with-sqlite-database)
         - [SQLite3 Commands](#sqlite3-commands)
         - [Script for SQLite3 Commands](#script-for-sqlite3-commands)
