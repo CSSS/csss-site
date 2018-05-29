@@ -14,8 +14,6 @@ In active development on Jace Manshadi's personal AWS account.
     - [Django-mailbox](#django-mailbox)
 
 ## Basic Instructions that were used for Site creation
-
-How the CSSS Site version 3 is being set up   
   
 By: Jace Manshadi  
 Position: Webmaster Summer 2017 - Present  
@@ -36,15 +34,15 @@ mkdir csss_website
 cd csss_website/  
 django-admin startproject csss  
 ```
-made following commit:  
 add following host to settings.py  
         ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']  
 ```shell
-python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp webapp  
 python3.5 manage.py startapp personal  
+python3.5 manage.py runserver 172.31.17.191:8000  
+
 ```
-## Basic instructions for site set-up
+## Basic instructions for Site Set-up
 ```shell
 git clone https://github.com/CSSS/csss-site-in-dev.git
 sudo apt-get install -y python3-pip
@@ -127,3 +125,12 @@ python3.5 manage.py migrate
 ```shell
 sudo lsof -n -i :<portNumber>
 ```
+*****************************************************************
+### Google Links to allow a gmail to be used with django-mailbox
+*****************************************************************
+
+https://myaccount.google.com/alert/nt/1524723740000?rfn=31&rfnc=1&eid=7112231319364142299&et=0&asae=2&anexp=hsc-control_b&pli=1  
+https://support.google.com/mail/answer/7126229?visit_id=1-636603205765509733-1797557889&rd=2#cantsignin  
+https://support.google.com/accounts/answer/6010255 
+https://myaccount.google.com/lesssecureapps  
+https://support.google.com/mail/answer/7126229?visit_id=1-636603205765509733-1797557889&rd=2#cantsignin  
