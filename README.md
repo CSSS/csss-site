@@ -129,8 +129,6 @@ sudo lsof -n -i :<portNumber>
 ### Google Links to allow a gmail to be used with django-mailbox
 *****************************************************************
 
-https://myaccount.google.com/alert/nt/1524723740000?rfn=31&rfnc=1&eid=7112231319364142299&et=0&asae=2&anexp=hsc-control_b&pli=1  
-https://support.google.com/mail/answer/7126229?visit_id=1-636603205765509733-1797557889&rd=2#cantsignin  
-https://support.google.com/accounts/answer/6010255 
-https://myaccount.google.com/lesssecureapps  
-https://support.google.com/mail/answer/7126229?visit_id=1-636603205765509733-1797557889&rd=2#cantsignin  
+- [Use IMAP to check Gmail on other email clients](https://support.google.com/mail/answer/7126229?visit_id=1-636603205765509733-1797557889&rd=2#cantsignin)
+- [Let less secure apps access your account](https://support.google.com/accounts/answer/6010255)
+  - [Allow less secure apps to access your account](https://myaccount.google.com/lesssecureapps)
