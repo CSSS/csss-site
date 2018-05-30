@@ -1,5 +1,27 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.conf import settings
+
+def get_settings():
+    return {
+        'attachment_upload_to': getattr(
+            settings,
+            'USER_ATTACHMENT_UPLOAD_TO',
+            'UPLOAD_attachments/%Y/%m/%d/'
+        )
+    }
+
+def get_attachment_save_path(instance, filename):
+    settings = get_settings()
+
+    path = settings['attachment_upload_to']
+    if '%' in path:
+        path = datetime.datetime.utcnow().strftime(path)
+
+    return os.path.join(
+        path,
+        filename,
+    )
 
 class documentsPage(models.Model):
 	title=models.CharField(max_length=140)
@@ -312,7 +334,7 @@ class MessageAttachment(models.Model):
 
     document = models.FileField(
         _(u'Document'),
-        upload_to=utils.get_attachment_save_path,
+        upload_to=get_attachment_save_path,
     )
 
     def delete(self, *args, **kwargs):
