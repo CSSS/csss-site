@@ -33,7 +33,7 @@ def photo_gallery(request):
   else:
     form = ContactForm()
     args = {'form': form}
-    return render(request, 'documents/photo_gallery.html')
+    return render(request, 'documents/photo_gallery.html', args)
 
 
 class FormView(TemplateView):
