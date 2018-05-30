@@ -11,6 +11,31 @@ def policies(request):
 	print("policies index")
 	return render(request, 'documents/policies.html')
 
+
+def photo_gallery(request):
+  if request.method == 'POST':
+    form = ContactForm(request.POST)
+    if form.is_valid():
+      form.save()
+      print("form saved")
+      contact_name = form.cleaned_data['contact_name']
+      print("contact_name=["+str(contact_name)+"]")
+      content = form.cleaned_data['content']
+      print("content=["+str(content)+"]")
+      photos = request.FILES.getlist('pics_from_event')
+      if photos is not None:
+        print("pictures detected")
+        print("photos type=["+str(type(photos))+"]")
+        for photo in photos:
+          print("photo=["+str(photo)+"]")
+      else:
+        print("no pictures detected")
+  else:
+    form = ContactForm()
+    args = {'form': form}
+    return render(request, 'documents/photo_gallery.html')
+
+
 class FormView(TemplateView):
   template_name = 'documents/photo_gallery.html'
 

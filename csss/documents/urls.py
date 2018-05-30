@@ -21,7 +21,7 @@ from . import views
 
 urlpatterns = [
 	url(r'^policies$', views.policies, name='policies'),
-	url(r'^photo_gallery$', views.photos, name='photos'),
+	url(r'^photo_gallery$', views.photo_gallery, name='photo_gallery'),
     url(r'^contactus$', FormView.as_view(), name='contact us'),
 	url(r'^$', views.index, name='index'),
 ]
