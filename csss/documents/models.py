@@ -296,11 +296,11 @@ class upload(models.Model):
 
 class MessageAttachment(models.Model):
     message = models.ForeignKey(
-        Message,
+        upload,
         related_name='attachments',
         null=True,
         blank=True,
-        verbose_name=_('Message'),
+        verbose_name=_('upload'),
         on_delete=models.CASCADE
     )
 
