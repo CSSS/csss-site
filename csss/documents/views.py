@@ -35,6 +35,9 @@ def photo_gallery(request):
     args = {'form': form}
     return render(request, 'documents/photo_gallery.html', args)
 
+def photo_gallery(request):
+  print("photo gallery index")
+  return render(request, 'documents/photo_gallery.html')
 
 class FormView(TemplateView):
   template_name = 'documents/photo_gallery.html'
