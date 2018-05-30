@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 class documentsPage(models.Model):
 	title=models.CharField(max_length=140)
