@@ -31,7 +31,7 @@ class documentsPage(models.Model):
 		return self.title
 # Create your models here.
 
-class upload(models.Model):
+class Upload(models.Model):
 #    subject = models.CharField(
 #        _(u'Subject'),
 #        max_length=255
@@ -316,9 +316,9 @@ class upload(models.Model):
         verbose_name_plural = _('E-mail messages')
 
 
-class MessageAttachment(models.Model):
-    message = models.ForeignKey(
-        upload,
+class UploadAttachment(models.Model):
+    upload = models.ForeignKey(
+        Upload,
         related_name='attachments',
         null=True,
         blank=True,
