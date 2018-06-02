@@ -9,7 +9,6 @@ class ContactForm(forms.ModelForm):
   pics_from_event = forms.FileField(required=False,
     widget=forms.ClearableFileInput(attrs={'multiple': True}))
 
-  def save(self, commit=True):
-  	name = self.cleaned_data['contact_name']
-  	content = self.cleaned_data['content']
-
+  class Meta:
+    model = Upload
+    fields = ('upload',)
