@@ -319,7 +319,7 @@ class Upload(models.Model):
 class UploadAttachment(models.Model):
     upload = models.ForeignKey(
         Upload,
-        related_name='attachments',
+        related_name='upload',
         null=True,
         blank=True,
         verbose_name=_('upload'),
