@@ -11,4 +11,4 @@ class ContactForm(forms.ModelForm):
 
   class Meta:
     model = Upload
-    fields = ('upload',)
+    fields = ('contact_name', 'content', 'pics_from_event', )
