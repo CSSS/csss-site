@@ -38,8 +38,9 @@
 <form method="post">
     {% csrf_token %}
     {{ form.get }}
-    <p>Contact Name</p>{{ form.contact_name}}<br><br>
-    <p>Content</p>{{ form.content }}<br><br>
+    <p>Event Name/Date</p>{{ form.title }}<br><br>
+    <p>Contact Info [optional]<br>asking for info in case there is something wrong with upload and a need arises to contact you again to request it</p>{{ form.contact_info}}<br><br>
+    <p>Additional Info [optional]</p>{{ form.additional_info }}<br><br>
     <p>Files to upload:</p>{{ form.pics_from_event}}<br><br>
     <button type="submit">Submit</button>
 </form>

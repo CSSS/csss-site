@@ -14,6 +14,7 @@ def policies(request):
 
 def photo_gallery(request):
   if request.method == 'POST':
+    print("photo_gallery POST")
     form = ContactForm(request.POST)
     if form.is_valid():
       form.save()
@@ -33,6 +34,7 @@ def photo_gallery(request):
   else:
     form = ContactForm()
     args = {'form': form}
+    print("photo_gallery not POST")
     return render(request, 'documents/photo_gallery.html', args)
 
 def photos(request):
