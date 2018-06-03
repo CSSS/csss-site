@@ -19,19 +19,20 @@ def photo_gallery(request):
     print("[photo_gallery] 1")
     print("[photo_gallery] 2")
     #form.save()
-    print("[photo_gallery] 3")
     print("form saved")
+    print("[photo_gallery] 3")
     title = form['title']
     print("[photo_gallery] 4")
+    print("title=["+str(title)+"]")
+    print("[photo_gallery] 5")
     #additional_info = form.cleaned_data['additional_info']
     additional_info = form['additional_info']
-    print("[photo_gallery] 5")
-    print("contact_name=["+str(contact_name)+"]")
+    print("additional_info=["+str(additional_info)+"]")
     print("[photo_gallery] 6")
     #contact_info = form.cleaned_data['contact_info']
     contact_info = form['contact_info']
+    print("contact_info=["+str(contact_info)+"]")
     print("[photo_gallery] 7")
-    print("content=["+str(content)+"]")
     print("[photo_gallery] 8")
     #photos = request.FILES.getlist('pics_from_event')
     photos = request.FILES.getlist('pics_from_event')
