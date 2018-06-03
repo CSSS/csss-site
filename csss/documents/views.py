@@ -18,7 +18,7 @@ def photo_gallery(request):
     form = ContactForm(request.POST)
     print("[photo_gallery] 1")
     print("[photo_gallery] 2")
-    form.save()
+    #form.save()
     print("[photo_gallery] 3")
     print("form saved")
     print("[photo_gallery] 4")
