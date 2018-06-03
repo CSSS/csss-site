@@ -22,14 +22,17 @@ def photo_gallery(request):
     print("[photo_gallery] 3")
     print("form saved")
     print("[photo_gallery] 4")
-    contact_name = form.cleaned_data['contact_name']
+    #contact_name = form.cleaned_data['contact_name']
+    contact_name = form['contact_name']
     print("[photo_gallery] 5")
     print("contact_name=["+str(contact_name)+"]")
     print("[photo_gallery] 6")
-    content = form.cleaned_data['content']
+    #content = form.cleaned_data['content']
+    content = form['content']
     print("[photo_gallery] 7")
     print("content=["+str(content)+"]")
     print("[photo_gallery] 8")
+    #photos = request.FILES.getlist('pics_from_event')
     photos = request.FILES.getlist('pics_from_event')
     print("[photo_gallery] 9")
     if photos is not None:
