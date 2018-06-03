@@ -47,6 +47,9 @@ def photo_gallery(request):
         print("[photo_gallery] 15")
         print("no pictures detected")
         print("[photo_gallery] 16")
+    else:
+      print("[photo_gallery] fprm not valid")
+      return render(request, 'documents/photo_gallery.html')
   else:
     form = ContactForm()
     args = {'form': form}
