@@ -1,0 +1,2 @@
+1 def fun x = x / 10
+2 def big g = g * 50
