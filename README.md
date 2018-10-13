@@ -2,7 +2,7 @@
 
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
- - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
+  - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
  - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
     - [mailbox uri to add to django_mailbox inside of CMS](#mailbox-uri-to-add-to-django_mailbox-inside-of-cms)

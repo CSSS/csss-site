@@ -85,12 +85,17 @@ def combine_announcements ( messages, posts):
   messageIndex = 0
   postIndex = 0
   while len(messages) > messageIndex and len(posts) > postIndex:
+    print("messages[messageIndex].processed=["+str(messages[messageIndex].processed)+"]")
+    print("posts[postIndex].processed=["+str(posts[postIndex].processed)+"]")
     if messages[messageIndex].processed < posts[postIndex].processed:
+      print("messages[messageIndex].processed < posts[postIndex].processed")
       final_posts.append(posts[postIndex])
       postIndex=postIndex+1
     else:
+      print("messages[messageIndex].processed >= posts[postIndex].processed")
       final_posts.append(messages[messageIndex])
       messageIndex=messageIndex+1
+    print("\n\n")
 
   if len(posts) > postIndex:
     for x in range(postIndex, len(posts)):
@@ -137,10 +142,9 @@ def index(request):
   mailboxes = Mailbox.objects.all()
   for mailbox in mailboxes:
     mailbox.get_new_mail(condition=removePhotoEmails)
-  messages = Message.objects.all().order_by('-id')
-  attachments = MessageAttachment.objects.all().order_by('-id')
-  messages = filterSender(messages)
-  for message in messages:
+  posts = filterSender(Message.objects.all().order_by('-id'))
+  #attachments = MessageAttachment.objects.all().order_by('-id')
+  for message in posts:
 
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
     message.processed=convert_email_datetime_string_to_naive_datetime_object(str(extract_date(str(base64.b64decode(message.body)))))
@@ -150,13 +154,15 @@ def index(request):
 
     #decoding the email body
     message.body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip().replace("align=center", "")
-  posts = []
+
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
 
-  final_posts = combine_announcements(messages, posts)
+  posts.sort(key=lambda x: x.processed, reverse=True)
+  return render(request, 'announcements/announcements.html', {'posts': posts})
 
-  return render(request, 'announcements/announcements.html', {'final_posts': final_posts, 'attachments': attachments})
+#def index(request):
+#  return render(request, 'announcements/announcements.html')
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
