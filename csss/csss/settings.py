@@ -25,7 +25,7 @@ SECRET_KEY = 'mndb=kgytc4+ap(^var_w0o-dlo@j7@6e9_#964jhd3m*vk+2v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['ec2-34-202-163-105.compute-1.amazonaws.com']
+ALLOWED_HOSTS = ['178.62.12.55']
 
 # Application definition
 
