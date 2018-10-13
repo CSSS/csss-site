@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
-from documents.forms import ContactForm
 from django.views.generic import TemplateView
 
 def index(request):

@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'bootstrap3',
 ]
 
+DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'documents/staticfiles/mailbox_attachments/%Y/%m/%d/'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -74,10 +75,10 @@ STATICFILES_DIRS = [
 
 print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
 
-#STATICFILES_FINDERS = [
-#    'django.contrib.staticfiles.finders.FileSystemFinder',
-#    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#]
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+]
 
 
 MIDDLEWARE = [

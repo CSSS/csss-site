@@ -1,0 +1,51 @@
+#Bluetooth Speaker connection
+
+
+to connect to the bluetooth speakers, ive included the below two links that helped me as well as wrote out specifically what i do when trying to connect to bluetooth:
+
+*DO NOT USE THE BLUETOOTH GUI WHEN TRYING TO CONNECT TO THE SPEAKERS, ITS BUGGY AS F**K*
+*the speakers will ALWAYS appear as "YU5 by Kanto"
+
+useful links: 
+https://wiki.debian.org/BluetoothUser
+https://wiki.debian.org/BluetoothUser/a2dp
+
+in regular cases, you will only need to go to "CONNECTING TO THE SPEAKERS" section, some special cases may need the instructions further on
+
+commands: [fyi, the man when running bluetoothctl can be brought up inside bluetoothctl by entering "help"]
+$ bluetoothctl
+
+#UNCONNECTING FROM SPEAKERS
+*inside the bluetoothctl commandline*
+#paired-devices
+*if the device "YU5 by Kanto" is listed, remove it using following two commands*:
+#disconnect <enter device MAC address>
+#remove <enter device MAC address>
+
+#RESTARTING BLUETOOTH SERVICE
+then what i basically do is a restart of the bluetooth service, if you get any "errors" you can ignore them
+#agent off
+#scan off
+#power off
+wait a couple of seconds then do
+#power on
+#scan on
+#agent on
+
+#CONNECTING TO THE SPEAKERS
+the speaker might automatically start appearing after the "scan on" command, after you turn on the agent[ if that is not the case, run the command [# devices]  to display all the devices that have been found], and the just connect to the speakers with the commands
+#pair <enter device MAC address>
+#connect <enter device MAc address>
+*then you can just exit the bluetoothctl with*
+#exit
+
+in case you havent noticed, all this is basically doing is "turn it off and turn it back on", i havent yet met a case where this didnt work
+
+then you can just use pavucontrol [Application Menu>Multimedia>PulseAudio Volume Control] to make sure the input of bluetooth [a2dp is properly selected]
+
+#LAST RESORT#
+going thru the above 3 sections didnt work, you can also restart the bluetoothctl with systemctl like so:
+$ sudo systemctl bluetooth service
+
+if that still doesnt work, then the issue may be that the speakers arent on the right input option, keep clicking the round button until you hear music
+
