@@ -49,6 +49,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'django_file_form',
+    'django_file_form.ajaxuploader',
+    'django_bootstrap3_form',
+    'django_pony_forms',
+    'django_file_form_example',
 ]
 
 DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'documents/staticfiles/mailbox_attachments/%Y/%m/%d/'
