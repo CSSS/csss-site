@@ -34,16 +34,6 @@
 
 <p>"{% static '' %}"</p>
 <p>"{% get_static_prefix %}"</p>
-<h1>Upload Photos from Past Event!</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.get }}
-    <p>Event Name/Date</p>{{ form.title }}<br><br>
-    <p>Contact Info [optional]<br>asking for info in case there is something wrong with upload and a need arises to contact you again to request it</p>{{ form.contact_info}}<br><br>
-    <p>Additional Info [optional]</p>{{ form.additional_info }}<br><br>
-    <p>Files to upload:</p>{{ form.pics_from_event}}<br><br>
-    <button type="submit">Submit</button>
-</form>
 
 <div class="container-fluid bg-3 text-center">    
   <h3>Boardgames Night</h3><br>
