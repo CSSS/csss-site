@@ -56,7 +56,8 @@ virtualenv ENV
 python3.6 -m pip install -r requirements.txt
 export ip_addr='46.101.225.142'
 cd csss
-python3.5 manage.py runserver 0.0.0.0:8000
+python3.6 manage.py createsuperuser
+python3.6 manage.py runserver 0.0.0.0:8000
 ```
 
 ## Miscellanious/Extra References
