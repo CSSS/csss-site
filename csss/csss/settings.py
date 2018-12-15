@@ -25,7 +25,11 @@ SECRET_KEY = 'mndb=kgytc4+ap(^var_w0o-dlo@j7@6e9_#964jhd3m*vk+2v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['178.62.12.55']
+if 'ip_addr' not in os.environ:
+    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
+    print(" export ip_addr = '<ipaddr>'");
+
+ALLOWED_HOSTS = [os.environ['ip_addr']]
 
 STATICFILES_DIRS = [
 	'~/csss_website/bootstrap-4.0.0/',
