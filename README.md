@@ -28,7 +28,6 @@ Also avaiable here: https://pythonprogramming.net/django-web-development-with-py
 These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.  
   
 ```shell
-ssh -i csssWebsiteKeyPair.pem ubuntu@ec2-52-91-226-24.compute-1.amazonaws.com  
 sudo apt install python3-pip  
 python3.5 -m pip install -U pip  
 python3.5 -m pip install -r requirements.txt  
@@ -47,16 +46,16 @@ python3.5 manage.py startapp personal
 ## Basic instructions for site set-up
 ```shell
 git clone https://github.com/CSSS/csss-site-in-dev.git
+cd csss-site-in-dev/
 sudo apt-get install -y python3-pip
-python3.5 -m pip install -U pip
-python3.5 -m pip install --upgrade pip
-python3.5 -m pip install -r requirements.txt
+python3.6 -m pip install -U pip
+python3.6 -m pip install --upgrade pip
+sudo -H python3.6 -m pip install virtualenv
+virtualenv ENV
+. ENV/bin/activate
+python3.6 -m pip install -r requirements.txt
+export ip_addr='46.101.225.142'
 cd csss
-
-#running site on a VM, the IP speciifed below is the private IP of the server
-python3.5 manage.py runserver 172.31.17.191:8000
-
-#running site on localhost
 python3.5 manage.py runserver 8000
 ```
 
