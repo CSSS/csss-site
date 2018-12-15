@@ -1,5 +1,10 @@
 *__pycache__*
+*db.sqlite3
 *pyc
 mailbox_attachments
 csss/mailbox_attachments
 @eaDir/
+csss/announcement_attachments/*
+csss/announcements/migrations/*
+csss/mailbox_attachments/*
+csss/documents/staticfiles/mailbox_attachments/*

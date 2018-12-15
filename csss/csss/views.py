@@ -25,17 +25,6 @@ def filterSender(messages):
   
   return valid_messages;
 
-def extract_date(decoded_date):
-  rev = decoded_date[::-1]
-  revIndexOfPDT=rev.index(")TDP(")
-  revIndexOfLast=rev.find(" ",revIndexOfPDT+9)
-  revIndexOfFirst=rev.find(" ",revIndexOfLast+1)
-  for x in range(4):
-    revIndexOfFirst=rev.find(" ",revIndexOfFirst+1)
-  indexOfFirst=len(decoded_date)-revIndexOfFirst-1
-  indexOfLast=len(decoded_date)-revIndexOfLast-1
-  return decoded_date[indexOfFirst+1:indexOfLast]
-
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
   return from_header[0:indexOfFirst]
@@ -80,55 +69,6 @@ def get_body_from_message(message, maintype, subtype):
 
     return body
 
-def combine_announcements ( messages, posts):
-  final_posts = []
-  messageIndex = 0
-  postIndex = 0
-  while len(messages) > messageIndex and len(posts) > postIndex:
-    print("messages[messageIndex].processed=["+str(messages[messageIndex].processed)+"]")
-    print("posts[postIndex].processed=["+str(posts[postIndex].processed)+"]")
-    if messages[messageIndex].processed < posts[postIndex].processed:
-      print("messages[messageIndex].processed < posts[postIndex].processed")
-      final_posts.append(posts[postIndex])
-      postIndex=postIndex+1
-    else:
-      print("messages[messageIndex].processed >= posts[postIndex].processed")
-      final_posts.append(messages[messageIndex])
-      messageIndex=messageIndex+1
-    print("\n\n")
-
-  if len(posts) > postIndex:
-    for x in range(postIndex, len(posts)):
-      final_posts.append(posts[x])
-
-  if len(messages) > messageIndex:
-    for x in range(messageIndex, len(messages)):
-      final_posts.append(messages[x])
-
-  return final_posts
-
-def convert_email_datetime_string_to_naive_datetime_object(date_from_email):
-  indexBeforeDate = date_from_email.find(" ", 1)
-  indexAfterDay = date_from_email.find(" ", indexBeforeDate+ 1)
-  day = int(date_from_email[indexBeforeDate+1:indexAfterDay])
-  
-  indexAfterMonth = date_from_email.find(" ", indexAfterDay +1)
-  month = date_from_email[indexAfterDay+1:indexAfterMonth]
-  month = int(strptime(month,'%b').tm_mon)
-  
-  indexAfterYear = date_from_email.find(" ", indexAfterMonth + 1)
-  year = int(date_from_email[indexAfterMonth+1:indexAfterYear])
-
-  indexAfterHour = date_from_email.find(":", indexAfterYear + 1)
-  hour = int(date_from_email[indexAfterYear+1:indexAfterHour])
-
-  indexAfterMinute = date_from_email.find(":", indexAfterHour + 1)
-  minute = int(date_from_email[indexAfterHour+1:indexAfterMinute])
-
-  second = int(date_from_email[indexAfterMinute+1:])
-
-  return datetime.datetime(year, month, day, hour, minute, second)
-
 def removePhotoEmails(message):
   if "Subject: [WEBSITE PHOTOS]" in str(message):
     print("email is for the photo gallery")
@@ -136,6 +76,16 @@ def removePhotoEmails(message):
   else:
     print("email is for the announcements")
     return True
+
+def remove_tzinfo(date):
+  indexBeforeTZINFO=0
+  indexesPassed=0
+  while True:
+    if date[indexBeforeTZINFO] == " ":
+      indexesPassed+=1
+      if indexesPassed == 5:
+        return date[:indexBeforeTZINFO]
+    indexBeforeTZINFO+=1
 
 def index(request):
   print("announcements index")
@@ -145,24 +95,20 @@ def index(request):
   posts = filterSender(Message.objects.all().order_by('-id'))
   #attachments = MessageAttachment.objects.all().order_by('-id')
   for message in posts:
-
     #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
-    message.processed=convert_email_datetime_string_to_naive_datetime_object(str(extract_date(str(base64.b64decode(message.body)))))
+    message.processed = datetime.datetime.strptime(remove_tzinfo(message.get_email_object().get('date')),'%a, %d %b %Y %H:%M:%S')
     
     #exracting the snder from the from_header field
     message.from_header = extract_sender(message.from_header)
 
     #decoding the email body
-    message.body = get_body_from_message(message.get_email_object(), 'text', 'html').replace('\n', '').strip().replace("align=center", "")
+    message.body = get_body_from_message(message.get_email_object(), 'text', 'plain').strip().replace("align=center", "")
 
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
 
   posts.sort(key=lambda x: x.processed, reverse=True)
   return render(request, 'announcements/announcements.html', {'posts': posts})
-
-#def index(request):
-#  return render(request, 'announcements/announcements.html')
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
