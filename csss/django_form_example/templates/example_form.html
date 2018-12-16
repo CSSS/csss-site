@@ -1,8 +1,4 @@
-{% extends "documents/header.html" %}
-
-{% block content %}
-{{ block.super }}
-{% load static %}
+{% extends 'base.html' %}
 {% load staticfiles %}
 
 {% block title %}Form example{% endblock %}
@@ -14,6 +10,7 @@
 {% endblock %}
 
 {% block body %}
+<p>example_form</p>
     <form
         method="POST"
         enctype="multipart/form-data"
@@ -25,7 +22,7 @@
     </form>
 
     {% include 'django_file_form/upload_template.html' %}
-    <p>Is it this one?</p>
+
     <script src="{% static "jquery/dist/jquery.js" %}"></script>
     <script src="{% static "ajaxuploader/js/fileuploader.js" %}"></script>
     <script src="{% static "file_form/file_form.js" %}"></script>
@@ -35,6 +32,3 @@
         });
     </script>
 {% endblock %}
-
-{% endblock %}
-

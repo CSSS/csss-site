@@ -25,8 +25,16 @@ SECRET_KEY = 'mndb=kgytc4+ap(^var_w0o-dlo@j7@6e9_#964jhd3m*vk+2v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['178.62.12.55']
+if 'ip_addr' not in os.environ:
+    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
+    print(" export ip_addr = '<ipaddr>'");
 
+ALLOWED_HOSTS = [os.environ['ip_addr']]
+
+STATICFILES_DIRS = [
+	'~/csss_website/bootstrap-4.0.0/',
+	'/home/ubuntu/csss_website/csss',
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -49,42 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'django_file_form',
-    'django_file_form.ajaxuploader',
-    'django_bootstrap3_form',
-    'django_pony_forms',
-    'django_file_form_example',
 ]
-
-DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'documents/staticfiles/mailbox_attachments/%Y/%m/%d/'
-
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-
-#PROJECT_DIR=os.path.dirname(__file__)
-#PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
-#PROJECT_DIR=PROJECT_DIR[:PROJECT_DIR.rfind("/")]
-#STATIC_ROOT = os.path.join(PROJECT_DIR, 'files') #<<-- where the files get coped to
-#print("STATIC_ROOT=["+str(STATIC_ROOT)+"]")
-
-
-STATIC_URL = '/staticfiles/' #<-- the path that gets down in the URL
-print("STATIC_URL=["+str(STATIC_URL)+"]")
-
-
-STATICFILES_DIRS = [
-    'csss/staticfiles',
-    'documents/staticfiles',
-]
-
-print("STATICFILES_DIRS=["+str(STATICFILES_DIRS)+"]")
-
-STATICFILES_FINDERS = [
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-]
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -162,4 +135,9 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
+
+
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATIC_URL = '/static/'
 
