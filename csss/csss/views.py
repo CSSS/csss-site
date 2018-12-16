@@ -50,8 +50,6 @@ def remove_tzinfo(date):
 def index(request):
 	print("announcements index")
 	mailboxes = Mailbox.objects.all()
-	for mailbox in mailboxes:
-		mailbox.get_new_mail(condition=removePhotoEmails)
 	posts = filterSender(Message.objects.all().order_by('-id'))
 	for message in posts:
 
