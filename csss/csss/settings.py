@@ -57,6 +57,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
+    'django_file_form',
+    'django_form_example',
+    'django_file_form.ajaxuploader',
+    'django_bootstrap3_form',
+    'django_pony_forms',
 ]
 
 MIDDLEWARE = [
