@@ -8,3 +8,4 @@ csss/announcement_attachments/*
 csss/announcements/migrations/*
 csss/mailbox_attachments/*
 csss/documents/staticfiles/mailbox_attachments/*
+*.DS_Store*
