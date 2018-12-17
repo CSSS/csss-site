@@ -2,7 +2,7 @@
 
 In active development on Jace Manshadi's personal AWS account.
 ### Table of Contents
- - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
+  - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
  - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
     - [mailbox uri to add to django_mailbox inside of CMS](#mailbox-uri-to-add-to-django_mailbox-inside-of-cms)
@@ -59,7 +59,25 @@ python3.5 manage.py runserver 172.31.17.191:8000
 #running site on localhost
 python3.5 manage.py runserver 8000
 ```
-
+  
+### Setting up Sublime Text and X11 Forwarding on server  
+  
+#### Sublime  
+[Link for Commands to install sublime via commandline](http://tipsonubuntu.com/2017/05/30/install-sublime-text-3-ubuntu-16-04-official-way/)  
+```shell
+wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
+echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
+sudo apt-get update
+sudo apt-get install sublime-text
+```
+  
+#### X11 Forwarding  
+[First Link for commmands to set up X11 Forwarding](https://askubuntu.com/a/213685)  
+[Second Link for commmands to set up X11 Forwarding](https://askubuntu.com/a/718087)  
+```shell
+sudo apt-get install -y xorg openbox libgtk2.0-0 libgdk-pixbuf2.0-0 libfontconfig1 libxrender1 libx11-6 libglib2.0-0  libxft2 libfreetype6 libc6 zlib1g libpng12-0 libstdc++6-4.8-dbg-arm64-cross libgcc1 
+```
+  
 ## Miscellanious/Extra References
 
 ***************************************

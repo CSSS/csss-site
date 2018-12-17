@@ -1,12 +1,14 @@
 {% extends "csss/header.html" %}
 {%  load static %}
+{% load staticfiles %}
 {% block content %}
-	{% for message in final_posts %}
-		<h3>{{message.subject}}</h3>
-		<p>Posted by {{message.from_header}} on {{message.processed}}</p>
-		{{message.body|safe|linebreaks}}
-		{% for attachment in message.attachments.all %}
-			<a href="{% get_static_prefix %}{{attachment.document}}">{{attachment.document}}</a><br>		
+	{% for post in posts %}
+		<h3>{{post.subject}}</h3>
+		<p>Posted by {{post.from_header}} on {{post.processed}}</p>
+		{{post.body|safe|linebreaks}}
+		{% for attachment in post.attachments.all %}
+		<p></p>
+			<a href="{% get_static_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>		
 		{% endfor %}
 	{% endfor %}
 {% endblock %}
