@@ -23,6 +23,6 @@ urlpatterns = [
 	url(r'^photo_gallery$', views.photo_gallery, name='photo_gallery'),
 	url(r'^contactus$', views.photo_gallery, name='contact us'),
 	url(r'^upload/', include('django_file_form.urls')),
-	url(r'^killme/', include('django_form_example.urls')), ##the one that does the redirect
+	url(r'^file_uploading/', include('file_uploads.urls')), ##the one that does the redirect
 	url(r'^$', views.index, name='index'),
 ]
