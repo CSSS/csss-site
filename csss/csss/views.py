@@ -90,8 +90,8 @@ def remove_tzinfo(date):
 def index(request):
   print("announcements index")
   mailboxes = Mailbox.objects.all()
-  for mailbox in mailboxes:
-    mailbox.get_new_mail(condition=removePhotoEmails)
+  #for mailbox in mailboxes:
+  #  mailbox.get_new_mail(condition=removePhotoEmails)
   posts = filterSender(Message.objects.all().order_by('-id'))
   #attachments = MessageAttachment.objects.all().order_by('-id')
   for message in posts:
@@ -102,7 +102,8 @@ def index(request):
     message.from_header = extract_sender(message.from_header)
 
     #decoding the email body
-    message.body = get_body_from_message(message.get_email_object(), 'text', 'plain').strip().replace("align=center", "")
+    message.body = message.html.strip().replace("align=center", "").replace("bgcolor=\"1a1d20\"", "")
+    #message.body = get_body_from_message(message.get_email_object(), 'text', 'plain').strip().replace("align=center", "")
 
   for post in Post.objects.all().order_by('-id'):
     posts.append(post)
