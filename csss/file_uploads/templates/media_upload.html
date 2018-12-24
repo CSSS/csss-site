@@ -1,0 +1,38 @@
+{% extends "documents/header.html" %}
+
+{% block content %}
+{{ block.super }}
+{% load static %}
+{% load staticfiles %}
+
+{% block title %}Form example{% endblock %}
+
+{% block head %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static "ajaxuploader/css/fileuploader.css" %}">
+    <link rel="stylesheet" href="{% static "example.css" %}">
+{% endblock %}
+
+{% block body %}
+<p> media_upload</p>
+    <form
+        method="POST"
+        enctype="multipart/form-data"
+        id="example-form"
+    >
+        {% csrf_token %}
+        {{ form }}
+        <input class="btn btn-primary" type="submit" value="Save" />
+    </form>
+
+    {% include 'django_file_form/upload_template.html' %}
+
+    <script src="{% static "jquery/dist/jquery.js" %}"></script>
+    <script src="{% static "ajaxuploader/js/fileuploader.js" %}"></script>
+    <script src="{% static "file_form/file_form.js" %}"></script>
+    <script>
+        $(function() {
+            initUploadFields($('#example-form'));
+        });
+    </script>
+{% endblock %}

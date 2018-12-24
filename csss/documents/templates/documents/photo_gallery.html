@@ -2,6 +2,8 @@
 
 {% block content %}
 {{ block.super }}
+{% load static %}
+{% load staticfiles %}
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -29,6 +31,9 @@
       padding: 10px 20px;
   }
 </style>
+
+<p>"{% static '' %}"</p>
+<p>"{% get_static_prefix %}"</p>
 
 <div class="container-fluid bg-3 text-center">    
   <h3>Boardgames Night</h3><br>

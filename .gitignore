@@ -1,6 +1,8 @@
 *__pycache__*
 *db.sqlite3
 *pyc
-csss/announcement_attachments/*
-csss/announcements/migrations/*
-csss/mailbox_attachments/*
+/mailbox_attachments/
+/@eaDir/
+*.DS_Store*
+/announcement_attachments/*
+/migrations/*

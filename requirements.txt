@@ -2,3 +2,6 @@ django
 django-mailbox
 django-jinja
 django-bootstrap3
+pillow
+django_file_form
+django_bootstrap3_form

@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.http import HttpResponseRedirect
+from django.views.generic import TemplateView
 
 def index(request):
 	print("constitution index")
@@ -8,11 +10,11 @@ def policies(request):
 	print("policies index")
 	return render(request, 'documents/policies.html')
 
-def sfss(request):
-	print("sfss documents index")
-	return render(request, 'documents/sfss_documents.html')
+
+def photo_gallery(request):
+	print("photo_gallery not POST")
+	return render(request, 'documents/photo_gallery.html')
 
 def photos(request):
 	print("photo gallery index")
 	return render(request, 'documents/photo_gallery.html')
-# Create your views here.

@@ -1,6 +1,6 @@
 # csss-site-in-dev
 
-In active development on Jace Manshadi's personal AWS account.
+In active development on the CSSS Digital Ocean Account
 ### Table of Contents
  - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
  - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
@@ -12,6 +12,8 @@ In active development on Jace Manshadi's personal AWS account.
         - [Migrate Models](#migrate-models)
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
     - [Django-mailbox](#django-mailbox)
+    - [Determining what process is using a port](#determing-what-process-is-using-a-port)
+    - [Google Links to allow a gmail to be used with django-mailbox](#google-links-to-allow-a-gmail-to-be-used-with-django-mailbox)
 
 ## Basic Instructions that were used for Site creation
 
@@ -28,26 +30,25 @@ Also avaiable here: https://pythonprogramming.net/django-web-development-with-py
 These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.  
   
 ```shell
-sudo apt install python3-pip  
+sudo apt install python3 python3-pip  
 python3.5 -m pip install -U pip  
 python3.5 -m pip install -r requirements.txt  
 mkdir csss_website  
 cd csss_website/  
 django-admin startproject csss  
 ```
-made following commit:  
-add following host to settings.py  
-        ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']  
+
 ```shell
-python3.5 manage.py runserver 172.31.17.191:8000  
 python3.5 manage.py startapp webapp  
 python3.5 manage.py startapp personal  
+python3.5 manage.py runserver 0.0.0.0:8000  
+
 ```
-## Basic instructions for site set-up
+## Basic instructions for Site Set-up
 ```shell
 git clone https://github.com/CSSS/csss-site-in-dev.git
 cd csss-site-in-dev/
-sudo apt-get install -y python3-pip
+sudo apt-get install -y python3 python3-pip
 python3.6 -m pip install -U pip
 python3.6 -m pip install --upgrade pip
 sudo -H python3.6 -m pip install virtualenv
@@ -58,6 +59,12 @@ export ip_addr='46.101.225.142'
 cd csss
 python3.6 manage.py createsuperuser
 python3.6 manage.py runserver 0.0.0.0:8000
+
+#running site on a VM, the IP speciifed below is the private IP of the server
+python3.5 manage.py runserver 0.0.0.0:8000
+
+#running site on localhost
+python3.5 manage.py runserver 8000
 ```
 
 ## Miscellanious/Extra References
@@ -127,3 +134,11 @@ python3.5 manage.py migrate
 ```shell
 sudo lsof -n -i :<portNumber>
 ```
+
+*****************************************************************
+### Google Links to allow a gmail to be used with django-mailbox
+*****************************************************************
+
+- [Use IMAP to check Gmail on other email clients](https://support.google.com/mail/answer/7126229?visit_id=1-636603205765509733-1797557889&rd=2#cantsignin)
+- [Let less secure apps access your account](https://support.google.com/accounts/answer/6010255)
+  - [Allow less secure apps to access your account](https://myaccount.google.com/lesssecureapps)
