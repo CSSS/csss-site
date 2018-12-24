@@ -58,7 +58,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bootstrap3',
     'django_file_form',
-    'django_form_example',
+    'file_uploads',
     'django_file_form.ajaxuploader',
     'django_bootstrap3_form',
     'django_pony_forms',
