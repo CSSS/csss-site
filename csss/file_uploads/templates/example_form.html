@@ -1,4 +1,8 @@
-{% extends 'base.html' %}
+{% extends "documents/header.html" %}
+{% comment %}{% extends 'base.html' %}{% endcomment %}
+{% block content %}
+{{ block.super }}
+{% load static %}
 {% load staticfiles %}
 
 {% block title %}Form example{% endblock %}
@@ -31,4 +35,5 @@
             initUploadFields($('#example-form'));
         });
     </script>
+{% endblock %}
 {% endblock %}

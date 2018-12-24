@@ -7,7 +7,7 @@ from django_file_form.forms import ExistingFile
 from django_file_form.uploader import FileFormUploader
 
 from . import forms
-from .models import Example #, Example2, ExampleFile
+from .models import Example
 
 
 class BaseFormView(generic.FormView):
@@ -26,7 +26,7 @@ class ExampleView(BaseFormView):
 
 
 class ExampleSuccessView(generic.TemplateView):
-    template_name = 'success.html'
+    template_name = 'example_form.html'
 
 
 class MultipleExampleView(BaseFormView):
