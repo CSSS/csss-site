@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from announcements.models import Post, AnnouncementAttachment
 import announcements
-from django_mailbox.models import MessageAttachment, Message, Mailbox
+from django_mailbox.models import Message, Mailbox
 import base64
 import datetime
 import six
@@ -28,46 +28,6 @@ def filterSender(messages):
 def extract_sender(from_header):
   indexOfFirst=from_header.index("<")
   return from_header[0:indexOfFirst]
-
-def get_body_from_message(message, maintype, subtype):
-    """
-    Fetchs the body message matching main/sub content type.
-    """
-    body = six.text_type('')
-    for part in message.walk():
-        if part.get('content-disposition', '').startswith('attachment;'):
-            continue
-        if part.get_content_maintype() == maintype and \
-                part.get_content_subtype() == subtype:
-            charset = part.get_content_charset()
-            this_part = part.get_payload(decode=True)
-            if charset:
-                try:
-                    this_part = this_part.decode(charset, 'replace')
-                except LookupError:
-                    this_part = this_part.decode('ascii', 'replace')
-                    logger.warning(
-                        'Unknown encoding %s encountered while decoding '
-                        'text payload.  Interpreting as ASCII with '
-                        'replacement, but some data may not be '
-                        'represented as the sender intended.',
-                        charset
-                    )
-                except ValueError:
-                    this_part = this_part.decode('ascii', 'replace')
-                    logger.warning(
-                        'Error encountered while decoding text '
-                        'payload from an incorrectly-constructed '
-                        'e-mail; payload was converted to ASCII with '
-                        'replacement, but some data may not be '
-                        'represented as the sender intended.'
-                    )
-            else:
-                this_part = this_part.decode('ascii', 'replace')
-
-            body += this_part
-
-    return body
 
 def removePhotoEmails(message):
   if "Subject: [WEBSITE PHOTOS]" in str(message):

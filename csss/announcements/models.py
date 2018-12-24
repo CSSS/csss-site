@@ -7,12 +7,12 @@ class Post(models.Model):
 	subject = models.CharField(
 		_(u'Subject'),
 		max_length=255,
-        default="",
+        default='NA',
 	)
 	from_header = models.CharField(
 		_(u'Author'),
 		max_length=255,
-        default="",
+        default='NA',
 	)
 	body = models.TextField(
 		_(u'Body'),
@@ -20,7 +20,7 @@ class Post(models.Model):
 	processed = models.DateTimeField(
         _(u'Date and Time'),
         default=timezone.now,
-    )
+        )
 	def __str__ (self):
 		return self.subject
 

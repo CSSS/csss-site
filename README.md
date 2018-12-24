@@ -1,8 +1,8 @@
 # csss-site-in-dev
 
-In active development on Jace Manshadi's personal AWS account.
+In active development on the CSSS Digital Ocean Account
 ### Table of Contents
-  - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
+ - [Basic Instructions for Site creation](#basic-instructions-that-were-used-for-site-creation)
  - [Basic instructions for site set-up](#basic-instructions-for-site-set-up)
  - [Miscellanious/Extra References](#miscellaniousextra-references)
     - [mailbox uri to add to django_mailbox inside of CMS](#mailbox-uri-to-add-to-django_mailbox-inside-of-cms)
@@ -16,6 +16,8 @@ In active development on Jace Manshadi's personal AWS account.
     - [Google Links to allow a gmail to be used with django-mailbox](#google-links-to-allow-a-gmail-to-be-used-with-django-mailbox)
 
 ## Basic Instructions that were used for Site creation
+
+How the CSSS Site version 3 is being set up   
   
 By: Jace Manshadi  
 Position: Webmaster Summer 2017 - Present  
@@ -28,56 +30,43 @@ Also avaiable here: https://pythonprogramming.net/django-web-development-with-py
 These instructions were carried out on a VM on AWS with the Ubuntu 16.04 O.S.  
   
 ```shell
-ssh -i csssWebsiteKeyPair.pem ubuntu@ec2-52-91-226-24.compute-1.amazonaws.com  
-sudo apt install python3-pip  
+sudo apt install python3 python3-pip  
 python3.5 -m pip install -U pip  
 python3.5 -m pip install -r requirements.txt  
 mkdir csss_website  
 cd csss_website/  
 django-admin startproject csss  
 ```
-add following host to settings.py  
-        ALLOWED_HOSTS = ['ec2-52-91-226-24.compute-1.amazonaws.com']  
+
 ```shell
 python3.5 manage.py startapp webapp  
 python3.5 manage.py startapp personal  
-python3.5 manage.py runserver 172.31.17.191:8000  
+python3.5 manage.py runserver 0.0.0.0:8000  
 
 ```
 ## Basic instructions for Site Set-up
 ```shell
 git clone https://github.com/CSSS/csss-site-in-dev.git
-sudo apt-get install -y python3-pip
-python3.5 -m pip install -U pip
-python3.5 -m pip install --upgrade pip
-python3.5 -m pip install -r requirements.txt
+cd csss-site-in-dev/
+sudo apt-get install -y python3 python3-pip
+python3.6 -m pip install -U pip
+python3.6 -m pip install --upgrade pip
+sudo -H python3.6 -m pip install virtualenv
+virtualenv ENV
+. ENV/bin/activate
+python3.6 -m pip install -r requirements.txt
+export ip_addr='46.101.225.142'
 cd csss
+python3.6 manage.py createsuperuser
+python3.6 manage.py runserver 0.0.0.0:8000
 
 #running site on a VM, the IP speciifed below is the private IP of the server
-python3.5 manage.py runserver 172.31.17.191:8000
+python3.5 manage.py runserver 0.0.0.0:8000
 
 #running site on localhost
 python3.5 manage.py runserver 8000
 ```
-  
-### Setting up Sublime Text and X11 Forwarding on server  
-  
-#### Sublime  
-[Link for Commands to install sublime via commandline](http://tipsonubuntu.com/2017/05/30/install-sublime-text-3-ubuntu-16-04-official-way/)  
-```shell
-wget -qO - https://download.sublimetext.com/sublimehq-pub.gpg | sudo apt-key add -
-echo "deb https://download.sublimetext.com/ apt/stable/" | sudo tee /etc/apt/sources.list.d/sublime-text.list
-sudo apt-get update
-sudo apt-get install sublime-text
-```
-  
-#### X11 Forwarding  
-[First Link for commmands to set up X11 Forwarding](https://askubuntu.com/a/213685)  
-[Second Link for commmands to set up X11 Forwarding](https://askubuntu.com/a/718087)  
-```shell
-sudo apt-get install -y xorg openbox libgtk2.0-0 libgdk-pixbuf2.0-0 libfontconfig1 libxrender1 libx11-6 libglib2.0-0  libxft2 libfreetype6 libc6 zlib1g libpng12-0 libstdc++6-4.8-dbg-arm64-cross libgcc1 
-```
-  
+
 ## Miscellanious/Extra References
 
 ***************************************
@@ -145,6 +134,7 @@ python3.5 manage.py migrate
 ```shell
 sudo lsof -n -i :<portNumber>
 ```
+
 *****************************************************************
 ### Google Links to allow a gmail to be used with django-mailbox
 *****************************************************************
