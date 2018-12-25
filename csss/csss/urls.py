@@ -18,6 +18,9 @@ from django.contrib import admin
 
 from . import views
 
+from django.conf.urls.static import static
+from django.conf import settings
+
 urlpatterns = [
 	url(r'^admin', admin.site.urls),
 	url(r'^blog/', include('blog.urls')),
@@ -29,5 +32,5 @@ urlpatterns = [
     url(r'^bursaries_and_awards/', include('bursaries_and_awards.urls')),
     url(r'^associated_dsus_and_clubs/', include('associated_dsus_and_clubs.urls')),
     url(r'^announcements/', include('announcements.urls')),
-    url(r'^', views.index, name="index"),
-]
+    url(r'^$', views.index, name="index"),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

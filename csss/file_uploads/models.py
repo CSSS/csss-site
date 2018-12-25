@@ -9,7 +9,8 @@ class Example(models.Model):
     fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
     title = models.CharField(max_length=255)
-    input_file = models.FileField(max_length=255, upload_to='example', storage=fs)
+    input_file = models.FileField(max_length=255, upload_to=settings.FILE_FORM_MASTER_DIR+'singleFileUploads/', storage=fs) 
+    ##place where files get permantly stored is settings.MEDIA_ROOT/example_upload_to_here
 
 
 class Example2(models.Model):
@@ -20,7 +21,7 @@ class ExampleFile(models.Model):
     fs = FileSystemStorage(location=settings.MEDIA_ROOT)
 
     example = models.ForeignKey(Example2, related_name='files', on_delete=models.CASCADE)
-    input_file = models.FileField(max_length=255, upload_to='example', storage=fs)
+    input_file = models.FileField(max_length=255, upload_to=settings.FILE_FORM_MASTER_DIR+'multiFileUploads/', storage=fs)
 
     def __str__(self):
         return six.text_type(self.input_file)

@@ -3,18 +3,19 @@
 {% block content %}
 {{ block.super }}
 {% load static %}
-{% load staticfiles %}
 
 {% block title %}Form example{% endblock %}
 
 {% block head %}
     {{ block.super }}
     <link rel="stylesheet" href="{% static "ajaxuploader/css/fileuploader.css" %}">
-    <link rel="stylesheet" href="{% static "example.css" %}">
+    <link rel="stylesheet" href="{% static "file_uploads/example.css" %}">
 {% endblock %}
 
 {% block body %}
 <p>example_form</p>
+<p>Static="{% static '' %}"</p>
+<p>Static Prefix="{% get_static_prefix %}"</p>
     <form
         method="POST"
         enctype="multipart/form-data"
@@ -27,7 +28,7 @@
 
     {% include 'django_file_form/upload_template.html' %}
 
-    <script src="{% static "jquery/dist/jquery.js" %}"></script>
+    <script src="{% static "file_uploads/jquery/dist/jquery.js" %}"></script>
     <script src="{% static "ajaxuploader/js/fileuploader.js" %}"></script>
     <script src="{% static "file_form/file_form.js" %}"></script>
     <script>

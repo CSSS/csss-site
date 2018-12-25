@@ -8,7 +8,7 @@
 		{{post.body|safe|linebreaks}}
 		{% for attachment in post.attachments.all %}
 		<p></p>
-			<a href="{% get_static_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>		
+			<a href="{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>		
 		{% endfor %}
 	{% endfor %}
 {% endblock %}
