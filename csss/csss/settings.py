@@ -31,10 +31,7 @@ if 'ip_addr' not in os.environ:
 
 ALLOWED_HOSTS = [os.environ['ip_addr']]
 
-STATICFILES_DIRS = [
-	'~/csss_website/bootstrap-4.0.0/',
-	'/home/ubuntu/csss_website/csss',
-]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -141,8 +138,49 @@ USE_L10N = True
 
 USE_TZ = False
 
+#STATICFILES_DIRS = [
+#    'static_files/',
+#]
+#This is list of full paths your project should look fotr static files, beside standard apps. Namely, 
+#Django will automatically look for static files in your installed apps. If app has dir called static 
+#(app/static) all files and folders will be copied once you run collectstatic command. STATICFILES_DIRS 
+#defines additional paths where your staticfiles can be found
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
-STATIC_URL = '/static/'
 
+import environ
+ROOT_DIR = environ.Path(__file__) - 3
+
+STATIC_URL = '/STATIC_URL/' 
+#is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
+#This is something that tells your browser where to look for JavaScript and CSS files
+
+
+
+STATIC_ROOT = str(ROOT_DIR('STATIC_ROOT'))
+#This is destination directory for your static files. This should be absolute path in yor file system, 
+#for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all 
+#static files from your project and copy them into STATIC_ROOT dir
+
+MEDIA_URL = '/MEDIA_URL/'
+#URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash 
+#if set to a non-empty value. You will need to configure these files to be served in both development and production environments.
+
+
+MEDIA_ROOT = str(ROOT_DIR('MEDIA_ROOT'))
+#Absolute filesystem path to the directory that will hold user-uploaded files.
+
+
+FILE_FORM_MASTER_DIR = 'form_uploads/form_uploads/'
+FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR+'temporary_files/' ##temporary files from form upload go here
+DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/' #will be placed under the MEDIA_ROOT folder
+print("ROOT_DIR="+str(ROOT_DIR))
+print("STATIC_URL="+str(STATIC_URL))
+#print("STATICFILES_DIRS="+str(STATICFILES_DIRS))
+print("STATIC_ROOT="+str(STATIC_ROOT))
+print("MEDIA_ROOT="+str(MEDIA_ROOT))
+print("MEDIA_URL="+str(MEDIA_URL))
+print("FILE_FORM_MASTER_DIR="+str(FILE_FORM_MASTER_DIR))
+print("FILE_FORM_UPLOAD_DIR="+str(FILE_FORM_UPLOAD_DIR))
+print("DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO="+str(DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO))
