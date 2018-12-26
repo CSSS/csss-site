@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from announcements.models import Post, AnnouncementAttachment
+from approved_senders.models import Sender
 import announcements
 from django_mailbox.models import Message, Mailbox
 import base64
@@ -11,15 +12,12 @@ from pytz import timezone
 def filterSender(messages):
   theBody=""
   valid_messages = []
-  valid_senders = []
-  with open("csss/poster.txt", "r") as file:
-    for line in file:
-      valid_senders.append(line.rstrip().lower())
+  senders = Sender.objects.all()
 
   for message in messages:
     from_header = str(message.from_header.rstrip())
-    for sender in valid_senders:
-      if sender in from_header:
+    for sender in senders:
+      if sender.email in from_header:
         valid_messages.append(message)
         break
   
