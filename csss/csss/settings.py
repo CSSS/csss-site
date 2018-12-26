@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'django_file_form.ajaxuploader',
     'django_bootstrap3_form',
     'django_pony_forms',
+    'approved_senders',
 ]
 
 MIDDLEWARE = [
