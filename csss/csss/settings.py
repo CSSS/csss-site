@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'django_bootstrap3_form',
     'django_pony_forms',
     'approved_senders',
+    'elections',
 ]
 
 MIDDLEWARE = [

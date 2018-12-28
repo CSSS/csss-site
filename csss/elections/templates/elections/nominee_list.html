@@ -1,0 +1,25 @@
+{% extends "documents/header.html" %}
+
+{% block content %}
+{{ block.super }}
+{% load staticfiles %}
+{% block body %}
+<div id='title'>{{post_list.1.category.name}}</div>
+<div id='content'>
+		{% for nominee in nominee_list %}
+			{% ifchanged nominee.Position %}
+				<h1>Position: {{nominee.Position}}</h1>
+				<p><br/><br/>Nominee Name: <b>{{nominee.name}}</b></p>
+				<p>Contact/Social Media Links: <a href="{{nominee.Facebook}}">Facebook Profile</a> <b>|</b> <a href="{{nominee.LinkedIn}}">LinkedIn Profile</a><b> | </b><a href="mailto:{{nominee.Email}}">Email Link</a><b> | </b>Discord Profile: {{nominee.Discord_Username}}</p>
+				<p>Nominee Speech: {{nominee.Speech}}</p>
+			{% else %}
+				<p><br/><br/>Nominee Name: <b>{{nominee.name}}</b></p>
+				<p>Contact/Social Media: <a href="{{nominee.Facebook}}">Facebook Profile</a> <b>|</b> <a href="{{nominee.LinkedIn}}">LinkedIn Profile</a><b> | </b><a href="mailto:{{nominee.Email}}">Email Link</a><b> | </b>Discord Profile: {{nominee.Discord_Username}}</p>
+				<p>Nominee Speech: {{nominee.Speech}}</p>
+			{% endifchanged %}
+		{% empty %}
+			It seems like the time hasn't come to announce the nominees yet....
+		{% endfor %}
+</div>
+{% endblock %}
+{% endblock %}
