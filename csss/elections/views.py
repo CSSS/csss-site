@@ -11,12 +11,8 @@ class NomineeDetailView(generic.DetailView):
 
 class NomineeListView(generic.ListView):
 	def get_queryset(self):
-		for page in NominationPage.objects.all():
-			if self.kwargs['slug'] == page.slug:
-				if page.datePublic <= (datetime.now()):	
-					nominee =  Nominee.objects.filter(nominationPage__slug = self.kwargs['slug'])
-					print ("nominee="+str(nominee))
-					nominee = nominee.all().order_by('Position')
-					return nominee
-				else:
-					return Nominee.objects.filter(nominationPage__slug = 'None')
+		page = NominationPage.objects.get(slug=self.kwargs['slug'])
+		if page.datePublic <= (datetime.now()):	
+			return Nominee.objects.filter(nominationPage__slug = self.kwargs['slug']).all().order_by('Position')
+		else:
+			return Nominee.objects.filter(nominationPage__slug = 'None')
