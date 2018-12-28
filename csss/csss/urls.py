@@ -32,5 +32,6 @@ urlpatterns = [
     url(r'^bursaries_and_awards/', include('bursaries_and_awards.urls')),
     url(r'^associated_dsus_and_clubs/', include('associated_dsus_and_clubs.urls')),
     url(r'^announcements/', include('announcements.urls')),
+    url(r'^elections/', include('elections.urls')),
     url(r'^$', views.index, name="index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
