@@ -1,4 +1,7 @@
 from django.shortcuts import render
+from about.models import Officer
+
+# Create your views here.
 
 def index(request):
 	print("who we are index")
@@ -6,5 +9,5 @@ def index(request):
 
 def listOfOfficers(request):
 	print("list of officers index")
-	return render(request, 'about/list_of_officers.html')
-# Create your views here.
+	officers = Officer.objects.all().filter()
+	return render(request, 'about/list_of_officers.html', {'officers': officers})
