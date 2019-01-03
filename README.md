@@ -134,6 +134,13 @@ python3.5 manage.py migrate
 ```shell
 sudo lsof -n -i :<portNumber>
 ```
+  
+**********************  
+### Bootstrap Stuff **  
+**********************  
+https://getbootstrap.com/docs/3.3/javascript/#tabs  
+https://getbootstrap.com/docs/3.3/javascript/  
+https://getbootstrap.com/docs/3.3/components/#nav-dropdowns  
 
 *****************************************************************
 ### Google Links to allow a gmail to be used with django-mailbox
