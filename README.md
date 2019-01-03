@@ -13,6 +13,7 @@ In active development on the CSSS Digital Ocean Account
     - [Location of model where emails are stored](#location-of-model-where-emails-are-stored)
     - [Django-mailbox](#django-mailbox)
     - [Determining what process is using a port](#determing-what-process-is-using-a-port)
+    - [Bootstrap Stuff](#bootstrap-stuff)
     - [Google Links to allow a gmail to be used with django-mailbox](#google-links-to-allow-a-gmail-to-be-used-with-django-mailbox)
 
 ## Basic Instructions that were used for Site creation
