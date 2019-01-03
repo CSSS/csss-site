@@ -136,7 +136,7 @@ sudo lsof -n -i :<portNumber>
 ```
   
 **********************  
-### Bootstrap Stuff **  
+### Bootstrap Stuff  
 **********************  
 https://getbootstrap.com/docs/3.3/javascript/#tabs  
 https://getbootstrap.com/docs/3.3/javascript/  
