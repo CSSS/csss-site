@@ -67,7 +67,7 @@ def index(request):
     posts.append(post)
 
   posts.sort(key=lambda x: x.processed, reverse=True)
-  return render(request, 'announcements/announcements.html', {'posts': posts})
+  return render(request, 'announcements/announcements.html', {'tab': 'index'})
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
