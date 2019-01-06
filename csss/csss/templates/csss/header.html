@@ -62,16 +62,34 @@
 					<a class="navbar-brand" href="#">CSSS@SFU</a>
 				</div>
 				<ul class="nav navbar-nav nav-tabs">
-					<li id="index" class="nav-links"><a href="/">Home</a></li>
-					<li role="presentation" class="dropdown" id="about" class="nav-links">
+					{% if tab == 'index' %}
+						<li id="index" class="nav-links active"><a href="/">Home</a></li>
+					{% else %}
+						<li id="index" class="nav-links"><a href="/">Home</a></li>
+					{% endif %}
+
+					{% if tab == 'about' %}
+						<li role="presentation" class="dropdown nav-links active" id="about">
+					{% else %}
+						<li role="presentation" class="dropdown nav-links" id="about">
+					{% endif %}
 						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About</a>
 						<ul class="dropdown-menu">
 							<li><a href="/about/who_we_are">Who We Are</a></li>
 							<li><a href="/about/list_of_officers">List of Officers</a></li>
 						</ul>
 					</li>
-					<li role="presentation" class="dropdown" id="documents" class="nav-links">
-						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents</a>
+
+					{% if tab == 'documents' or not tab %}
+						{% if nominee_list is None %}
+							<li role="presentation" class="dropdown nav-links active" id="documents">
+						{% else %}
+							<li role="presentation" class="dropdown nav-links" id="documents">
+						{% endif %}
+					{% else %}
+							<li role="presentation" class="dropdown nav-links" id="documents">
+					{% endif %}
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents</a>
 						<ul class="dropdown-menu">
 							<li><a href="/documents/">CSSS Constitution</a></li>
 							<li><a href="/documents/policies">CSSS Policies</a></li>
@@ -80,8 +98,27 @@
 							<li><a href='/documents/file_uploading/multiple'>Upload Photo/Videos from CSSS Events</a></li>
 						</ul>
 					</li>
-					<li id="events" class="nav-links"><a href="/events/">Events</a></li>
-					<li role="presentation" class="dropdown" id="documents" class="nav-links">
+
+					{% if tab == 'events' %}
+						<li role="presentation" id="events" class="dropdown nav-links active">
+					{% else %}
+						<li role="presentation" id="events" class="dropdown nav-links">
+					{% endif %}
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events</a>
+						<ul class="dropdown-menu">
+							<li><a href="/events/">Calendar</a></li>
+							<li><a href="/events/general_meetings">What are General Meetings?</a></li>
+							<li><a href="/events/board_games">What are Board Games Night?</a></li>
+							<li><a href='/events/gameJam'>What are Game Jams?</a></li>
+							<li><a href='/events/frosh_week'>CSSS FroshWeek</a></li>
+						</ul>
+					</li>	
+					
+					{% if nominee_list is not None %}		
+						<li role="presentation" class="dropdown nav-links active" id="elections">
+					{% else %}
+						<li role="presentation" class="dropdown nav-links" id="elections">
+					{% endif %}
 						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elections</a>
 						<ul class="dropdown-menu">
 							{% get_nomPages as elections %}
@@ -90,11 +127,56 @@
 							{% endfor %}
 						</ul>
 					</li>
-					<li id="750_project" class="nav-links"><a href="/750_project/">750 Project</a></li>
-					<li id="comp_sci_guide" class="nav-links"><a href="/comp_sci_guide/">Comp Sci Guide</a></li>
-					<li id="bursaries_and_awards" class="nav-links"><a href="/bursaries_and_awards/">Bursaries and Awards</a></li>
-					<li id="associated_dsus_and_clubs" class="nav-links"><a href="/associated_dsus_and_clubs/">Associated Clubs and DSUs</a></li>
 
+					{% if tab == '750_project' %}
+						<li role="presentation" id="750_project" class="dropdown nav-links active">
+					{% else %}
+						<li role="presentation" id="750_project" class="dropdown nav-links">
+					{% endif %}
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">750 Project</a>
+						<ul class="dropdown-menu">
+							<li><a href="/750_project/">About 750</a></li>
+							<li><a href="/750_project/dev_tools">Dev Tools</a></li>
+							<li><a href="/750_project/hacktime">Hacktime</a></li>
+							<li><a href='/750_project/workshops'>Workshops</a></li>
+						</ul>
+					</li>
+
+					{% if tab == 'comp_sci_guide' %}
+						<li ole="presentation" id="comp_sci_guide" class="dropdown nav-links active">
+					{% else %}
+						<li ole="presentation" id="comp_sci_guide" class="dropdown nav-links">
+					{% endif %}
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comp Sci Guide</a>
+						<ul class="dropdown-menu">
+							<li><a href="/comp_sci_guide/">Comp Sci Guide</a></li>
+							<li><a href="/comp_sci_guide/software">Software</a></li>
+							<li><a href="/comp_sci_guide/textbooks">Textbooks</a></li>
+							<li><a href='/comp_sci_guide/course_reviews'>Course Review</a></li>
+						</ul>
+					</li>
+					
+
+					{% if tab == 'bursaries_and_awards' %}
+						<li id="bursaries_and_awards" class="nav-links active"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
+					{% else %}
+						<li id="bursaries_and_awards" class="nav-links"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
+					{% endif %}
+
+					{% if tab  == 'associated_dsus_and_clubs' %}		
+						<li role="presentation" class="dropdown nav-links active" id="associated_dsus_and_clubs">
+					{% else %}
+						<li role="presentation" class="dropdown nav-links" id="associated_dsus_and_clubs">
+					{% endif %}
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Associated Clubs and DSUs</a>
+						<ul class="dropdown-menu">
+							<li><a href="/associated_dsus_and_clubs/">WiCS</a></li>
+							<li><a href="/associated_dsus_and_clubs/esss">ESSS</a></li>
+							<li><a href="/associated_dsus_and_clubs/mechs">Mechs</a></li>
+							<li><a href='/associated_dsus_and_clubs/ssss'>SSSS</a></li>
+							<li><a href='/associated_dsus_and_clubs/wie'>WiE</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</nav>
@@ -115,29 +197,5 @@
 			<p><a href="#" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a></p>
 		</div>
 	</footer>	
-	<script type="text/javascript">
-			console.log("current url=["+window.location.href+"]")
-			url=window.location.href
-			var index = url.indexOf("8000")+5
-			console.log("2")
-			var endIndex = url.indexOf("/",index)
-			console.log("3")
-			if (endIndex == -1){
-				console.log("index page")
-				activePage="index"
-			}else{
-				activeSection = url.substring(index,endIndex)
-				console.log("index=["+index+"]\tendIndex=["+endIndex+"]")
-				console.log("link=["+activeSection+"]")	
-				activePage=activeSection;		
-			}
-			console.log("activePage=["+activePage+"]")
-			documents=document.querySelectorAll(".nav-links")
-
-			for (var i = 0; i < documents.length; i++) {
-				documents[i].classList.remove('active');  // Calling myNodeList.item(i) isn't necessary in JavaScript
-			}
-			document.getElementById(activePage).className += ' active';
-		</script>
 	</body>
 </html>
