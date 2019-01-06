@@ -25,12 +25,12 @@ SECRET_KEY = 'mndb=kgytc4+ap(^var_w0o-dlo@j7@6e9_#964jhd3m*vk+2v'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-if 'ip_addr' not in os.environ:
-    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
-    print(" export ip_addr = '<ipaddr>'");
+#if 'ip_addr' not in os.environ:
+#    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
+#    print(" export ip_addr = '<ipaddr>'");
 
-ALLOWED_HOSTS = [os.environ['ip_addr']]
-
+#ALLOWED_HOSTS = [os.environ['ip_addr']]
+ALLOWED_HOSTS = ['46.101.158.172']
 
 # Application definition
 
@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     '750_project',
     'comp_sci_guide',
     'bursaries_and_awards',
-    'associated_dsus_and_clubs',
     'blog',
     'personal',
     'django_mailbox',
@@ -152,15 +151,15 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 import environ
-ROOT_DIR = environ.Path(__file__) - 3
+ROOT_DIR = environ.Path(__file__) - 4
 
 STATIC_URL = '/STATIC_URL/' 
 #is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
 #This is something that tells your browser where to look for JavaScript and CSS files
 
-
-
+#STATIC_ROOT = os.path.join(BASE_DIR, 'STATIC_ROOT')
 STATIC_ROOT = str(ROOT_DIR('STATIC_ROOT'))
+
 #This is destination directory for your static files. This should be absolute path in yor file system, 
 #for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all 
 #static files from your project and copy them into STATIC_ROOT dir
@@ -180,7 +179,7 @@ DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/' #will be p
 print("ROOT_DIR="+str(ROOT_DIR))
 print("STATIC_URL="+str(STATIC_URL))
 #print("STATICFILES_DIRS="+str(STATICFILES_DIRS))
-#print("STATIC_ROOT="+str(STATIC_ROOT))
+print("STATIC_ROOT="+str(STATIC_ROOT))
 print("MEDIA_ROOT="+str(MEDIA_ROOT))
 print("MEDIA_URL="+str(MEDIA_URL))
 print("FILE_FORM_MASTER_DIR="+str(FILE_FORM_MASTER_DIR))
