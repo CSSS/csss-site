@@ -6,3 +6,6 @@ pillow
 django_file_form
 django_bootstrap3_form
 django-environ
+gunicorn
+requests
+wget
