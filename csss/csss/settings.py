@@ -30,7 +30,7 @@ DEBUG = True
 #    print(" export ip_addr = '<ipaddr>'");
 
 #ALLOWED_HOSTS = [os.environ['ip_addr']]
-ALLOWED_HOSTS = ['46.101.158.172']
+ALLOWED_HOSTS = ['dev.sfucsss.org', '46.101.158.172']
 
 # Application definition
 
@@ -142,9 +142,9 @@ USE_TZ = False
 #STATICFILES_DIRS = [
 #    'static_files/',
 #]
-#This is list of full paths your project should look fotr static files, beside standard apps. Namely, 
-#Django will automatically look for static files in your installed apps. If app has dir called static 
-#(app/static) all files and folders will be copied once you run collectstatic command. STATICFILES_DIRS 
+#This is list of full paths your project should look fotr static files, beside standard apps. Namely,
+#Django will automatically look for static files in your installed apps. If app has dir called static
+#(app/static) all files and folders will be copied once you run collectstatic command. STATICFILES_DIRS
 #defines additional paths where your staticfiles can be found
 
 # Static files (CSS, JavaScript, Images)
@@ -153,19 +153,19 @@ USE_TZ = False
 import environ
 ROOT_DIR = environ.Path(__file__) - 4
 
-STATIC_URL = '/STATIC_URL/' 
+STATIC_URL = '/STATIC_URL/'
 #is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
 #This is something that tells your browser where to look for JavaScript and CSS files
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'STATIC_ROOT')
 STATIC_ROOT = str(ROOT_DIR('STATIC_ROOT'))
 
-#This is destination directory for your static files. This should be absolute path in yor file system, 
-#for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all 
+#This is destination directory for your static files. This should be absolute path in yor file system,
+#for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 #static files from your project and copy them into STATIC_ROOT dir
 
 MEDIA_URL = '/MEDIA_URL/'
-#URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash 
+#URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
 #if set to a non-empty value. You will need to configure these files to be served in both development and production environments.
 
 
