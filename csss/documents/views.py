@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 from django.views.generic import TemplateView
+from documents.models import Media, Event, Album
 
 def index(request):
 	print("constitution index")
@@ -12,9 +13,9 @@ def policies(request):
 
 
 def photo_gallery(request):
-	print("photo_gallery not POST")
-	return render(request, 'documents/photo_gallery.html', {'tab': 'documents'})
+	print("photo_gallery")
+	events = Event.objects.all().filter()
+	albums = Album.objects.all().filter()
 
-def photos(request):
-	print("photo gallery index")
-	return render(request, 'documents/photo_gallery.html', {'tab': 'documents'})
+
+	return render(request, 'documents/photo_gallery.html', {'events': events, 'albums': albums, 'tab': 'documents'})
