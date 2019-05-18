@@ -4,6 +4,7 @@
 {{ block.super }}
 {% load static %}
 {% load staticfiles %}
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -34,26 +35,27 @@
 
 <p>"{% static '' %}"</p>
 <p>"{% get_static_prefix %}"</p>
-{% for event in events %}
-  <div class="container-fluid bg-3 text-center">
-    <h3>{{event}}</h3><br>
-    <div class="row">
-      {% for album in albums %}
-        {% if album.event == event %}
-          <div class="col-sm-3">
-            <!-- http://dev.sfucsss.org:8000/STATIC_URL/documents_static/event-photos/Tutorials/2015-11-10%20Git/12241747_10201174490840856_7097942773547939440_n.jpg -->
-            <a href="/documents/photo_gallery/{{album.name|iriencode}}/{{ album.date|iriencode }}">
-              <div class="polaroid">
-                <img src="{% static album.album_thumbnail.static_path %}" class="img-responsive" style="width:100%" alt="Image">
-                <div class="polaroid-container">
-                  <p>{{album}}</p>
-                </div>
-              </div>
-            </a>
+
+<a href="{{ previousButtonLink|safe }}">Previus Button</a>
+<a href="{{ nextButtonLink|safe }}">Next Button</a>
+
+<h1>{{album.date}}-{{album.name}}</h1>
+<div class="container-fluid bg-3 text-center">
+  <div class="row">
+    {% for media in medias %}
+      {% if media.video.youtube_link == None %}
+        <div class="col-sm-3">
+          <div class="polaroid">
+            <img src="{% static media.picture.static_path %}" class="img-responsive" style="width:100%" alt="Image">
+            <div class="polaroid-container">
+              <p>{{media.name}}</p>
+            </div>
           </div>
-        {% endif %}
-      {% endfor %}
-    </div>
+        </div>
+      {% else %}
+        {{media.video.youtube_link | safe}}
+      {% endif %}
+    {% endfor %}
   </div>
-{% endfor %}
+</div>
 {% endblock %}

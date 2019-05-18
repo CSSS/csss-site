@@ -69,29 +69,41 @@ class Album(models.Model):
     def __str__(self):
         return "{0} {1}".format(self.date,self.name)
 
-class Media(models.Model):
-    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
-    album_link = models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
-    name=models.CharField(
-    max_length=140,
-    help_text = _("File name to Display"),
-    verbose_name=('Name')
-    )
+class Picture(models.Model):
+    # fields that are used only for pictures
     absolute_file_path=models.CharField(
     max_length=1000,
     help_text = _("Location of File on Server"),
     verbose_name=('File Path'),
-    default=('NA')
     )
     static_path=models.CharField(
     max_length=2000,
-    default='',
     help_text = _("Directory that will be used for static serving of the media"),
     )
-    pictureType=models.BooleanField(
-    help_text = _("True for images and false for links to videos hosted elsewhere"),
-    verbose_name=("Media Type"),
-    default=True
+
+    def __str__(self):
+        return self.absolute_file_path
+
+class Video(models.Model):
+    youtube_link=models.CharField(
+    max_length=500,
+    verbose_name=('YouTube Link'),
+    default=('')
+    )
+
+    def __str__(self):
+        return self.youtube_link
+
+class Media(models.Model):
+    event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
+    album_link = models.ForeignKey(Album, on_delete=models.CASCADE, null=True)
+    picture = models.ForeignKey(Picture, on_delete=models.CASCADE, null=True)
+    video = models.ForeignKey(Video, on_delete=models.CASCADE, null=True)
+
+    name=models.CharField(
+    max_length=140,
+    help_text = _("File name to Display"),
+    verbose_name=('Name')
     )
 
     def __str__(self):

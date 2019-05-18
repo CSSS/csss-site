@@ -1,6 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from documents.models import DocumentToPull, Repo, Media, Album, Event, SubCategory
+from documents.models import DocumentToPull, Repo, Media, Picture, Video, Album, Event, SubCategory
 from django.utils.translation import ugettext_lazy as _
 import subprocess
 import os
@@ -63,28 +63,20 @@ class DocumentAdmin(admin.ModelAdmin):
 	)
 	actions = [get_update_documents]
 
-def goThroughYouTubeLinks(repo_dir, event, date, albumPath):
+def goThroughYouTubeLinks(repo_dir, event, date, albumPath, event_name, album_date, album_name):
 	file = open(albumPath, "r")
 	for link in file:
 		link = link.rstrip()
 		if link != '':
-			#localdate = date.replace('_','-')
-			#if '-' in localdate:
-			#	# print(localdate)
-			#	firstDash=localdate.find('-')
-			#	secondDash=localdate.find('-',firstDash+1)
-			#	# print("year={}\tmonth={}\tday={}".format(localdate[0:firstDash], localdate[firstDash+1:secondDash], localdate[secondDash+1:]))
-			#	localdate = datetime.datetime(int(localdate[0:firstDash]), int(localdate[firstDash+1:secondDash]), int(localdate[secondDash+1:]))
-			#	# print(localdate)
-			#else:
-			#	# print(localdate)
-			#	localdate = datetime.datetime(int(localdate), 1, 1)
-			itemInstance = Media(name=link, pictureType=False )
+			eventKey = Event.objects.get(event_name=event_name)
+			albumKey = Album.objects.get(date=album_date, name=album_name)
+			videoInst = Video(youtube_link=link)
+			videoInst.save()
+			itemInstance = Media(event=eventKey, album_link=albumKey,video=videoInst)
 			itemInstance.save()
 			itemSubCategories = subcategories.copy()
 			lvl=0
 			while len(itemSubCategories) != 0:
-				#print("create a subcategory for item {} where\n\tlevel={}\n\tname={}".format(itemInstance, lvl+1, itemSubCategories[0]))
 				subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
 				subCategoryInt.save()
 				itemSubCategories.pop(0)
@@ -97,28 +89,33 @@ def iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, event, album, fil
 		path_to_file.append(media)
 		if os.path.isdir(albumPath+'/'+media):
 			subcategories.append(media)
-			# print("{} being added to subcategory".format(media))
 			iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, event, album,files ,albumPath+'/'+media, event_name, album_date, album_name)
-			# print("subcategories has a length of {}".format(len(subcategories)))
 			subcategories.pop()
 		else:
 			if media == 'videos.txt':
-				goThroughYouTubeLinks(repo_dir, event, album, albumPath+'/'+media)
+				goThroughYouTubeLinks(repo_dir, event, album, albumPath+'/'+media, event_name, album_date, album_name)
 
 			elif media[0] != '.':
 				file_location = albumPath+'/'+media
-				#print("creating an item instance where\n\tname={}\n\tdate={}\n\tlocation={}\n\tevent_name={}".format(media, date, file_location, event))
 				eventKey = Event.objects.get(event_name=event_name)
 				albumKey = Album.objects.get(date=album_date, name=album_name)
-				itemInstance = Media(name=media, absolute_file_path=file_location, pictureType=True, event=eventKey, album=albumKey, static_path="/".join(path_to_file))
+				if albumKey is None:
+					print("/".join(path_to_file))
+				else:
+					print("albumKey={}".format(albumKey))
+				pictureInstance = Picture(absolute_file_path=file_location, static_path="/".join(path_to_file))
+				pictureInstance.save()
+
+				itemInstance = Media(name=media, event=eventKey, album_link=albumKey, picture=pictureInstance)
 				itemInstance.save()
+
+
 				if albumKey.album_thumbnail is None:
 					albumKey.album_thumbnail = itemInstance
 					albumKey.save()
 				itemSubCategories = subcategories.copy()
 				lvl=0
 				while len(itemSubCategories) != 0:
-					#print("create a subcategory for item {} where\n\tlevel={}\n\tname={}".format(itemInstance, lvl+1, itemSubCategories[0]))
 					subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
 					subCategoryInt.save()
 					itemSubCategories.pop(0)
@@ -127,18 +124,15 @@ def iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, event, album, fil
 
 
 def createPicturesFromRepo(repo_dir):
-	#print("1 - repo_dir={}".format(repo_dir))
 	folder_contents = os.listdir(repo_dir)
 	for eventName in folder_contents:
 		eventPath=repo_dir+eventName
-		#print("2 - eventPath={}".format(eventPath))
 		if os.path.isdir(eventPath) and eventName[0] != '.' :
 			path_to_file.append(eventName)
 			event_name=eventName
 			event = Event(event_name=eventName)
 			event.save()
 			albums = os.listdir(eventPath)
-			#print("3 - albums to iterate through={}".format(albums))
 			for album in albums:
 				if album[0] != '.':
 					path_to_file.append(album)
@@ -150,7 +144,6 @@ def createPicturesFromRepo(repo_dir):
 						if '-' in date_of_file: # in this case, the albumName has the following format "YYYY-MM-DDD <albumName>"
 							firstDash=date_of_file.find('-')
 							secondDash=date_of_file.find('-',firstDash+1)
-							# print("year={}\tmonth={}\tday={}".format(albumContent[0:firstDash], albumContent[firstDash+1:secondDash], albumContent[secondDash+1:]))
 							date_of_file = datetime.datetime(int(date_of_file[0:firstDash]), int(date_of_file[firstDash+1:secondDash]), int(date_of_file[secondDash+1:]))
 							albumName = album[indexOfSpace+1:]
 							albumInst = Album(date=date_of_file, name=albumName, event=event)
@@ -168,7 +161,6 @@ def createPicturesFromRepo(repo_dir):
 						if '-' in album: # in this case, the albumName has the following format "YYYY-MM-DDD"
 							firstDash=album.find('-')
 							secondDash=album.find('-',firstDash+1)
-							# print("year={}\tmonth={}\tday={}".format(albumContent[0:firstDash], albumContent[firstDash+1:secondDash], albumContent[secondDash+1:]))
 							date_of_file = datetime.datetime(int(album[0:firstDash]), int(album[firstDash+1:secondDash]), int(album[secondDash+1:]))
 							albumInst = Album(date=date_of_file, event=event)
 							album_date = date_of_file
@@ -180,8 +172,6 @@ def createPicturesFromRepo(repo_dir):
 							album_name = albumName
 							albumInst.save()
 					albumPath = "{0}/{1}".format(eventPath,album)
-					print("3 - album={}".format(album))
-					print("3 - albumPath={}".format(albumPath))
 					files = os.listdir(albumPath)
 					iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, eventName, album, files, albumPath, event_name, album_date, album_name)
 					path_to_file.pop()
@@ -221,12 +211,23 @@ class AlbumAdmin(admin.ModelAdmin):
 
 class MediaAdmin(admin.ModelAdmin):
 	list_display = (
+	'id',
 	'event',
 	'album_link',
 	'name',
+	'picture',
+	'video'
+	)
+
+class PictureAdmin(admin.ModelAdmin):
+	list_display = (
 	'absolute_file_path',
-	'static_path',
-	'pictureType'
+	'static_path'
+	)
+
+class VideoAdmin(admin.ModelAdmin):
+	list_display = (
+	'youtube_link',
 	)
 
 class SubCategoryAdmin(admin.ModelAdmin):
@@ -242,4 +243,6 @@ admin.site.register(Repo, RepoAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Album, AlbumAdmin)
 admin.site.register(Media, MediaAdmin)
+admin.site.register(Picture, PictureAdmin)
+admin.site.register(Video, VideoAdmin)
 admin.site.register(SubCategory, SubCategoryAdmin)
