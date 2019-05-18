@@ -18,6 +18,7 @@ class DocumentToPull(models.Model):
     filePath=models.CharField(
         max_length=500,
         default='Document File Path',
+        primary_key=True
     )
 
     def __str__(self):
@@ -38,6 +39,7 @@ class Repo(models.Model):
     max_length=2000,
     default='',
     help_text = _("Directory where repository is cloned to"),
+    primary_key=True
     )
     static_path=models.CharField(
     max_length=2000,
@@ -50,7 +52,8 @@ class Repo(models.Model):
 class Event(models.Model):
     event_name=models.CharField(
     max_length=140,
-    verbose_name=("Event Type")
+    verbose_name=("Event Type"),
+    primary_key=True
     )
     def __str__ (self):
         return self.event_name
@@ -58,7 +61,8 @@ class Event(models.Model):
 class Album(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, null=True)
     date=models.DateField(
-    help_text = _("Date")
+    help_text = _("Date"),
+    primary_key=True
     )
     name=models.CharField(
     max_length=1000,
@@ -79,6 +83,7 @@ class Picture(models.Model):
     static_path=models.CharField(
     max_length=2000,
     help_text = _("Directory that will be used for static serving of the media"),
+    primary_key=True
     )
 
     def __str__(self):
@@ -88,7 +93,8 @@ class Video(models.Model):
     youtube_link=models.CharField(
     max_length=500,
     verbose_name=('YouTube Link'),
-    default=('')
+    default=(''),
+    primary_key=True
     )
 
     def __str__(self):

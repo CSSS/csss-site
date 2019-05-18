@@ -63,52 +63,68 @@ class DocumentAdmin(admin.ModelAdmin):
 	)
 	actions = [get_update_documents]
 
-def goThroughYouTubeLinks(repo_dir, event, date, albumPath, event_name, album_date, album_name):
+def goThroughYouTubeLinks(albumPath, event_name, album_date, album_name):
 	file = open(albumPath, "r")
 	for link in file:
 		link = link.rstrip()
 		if link != '':
 			eventKey = Event.objects.get(event_name=event_name)
 			albumKey = Album.objects.get(date=album_date, name=album_name)
-			videoInst = Video(youtube_link=link)
-			videoInst.save()
-			itemInstance = Media(event=eventKey, album_link=albumKey,video=videoInst)
-			itemInstance.save()
+
+			retrievedObjects = Video.objects.all().filter(youtube_link=link)
+			if len(retrievedObjects) == 0:
+				videoInst = Video(youtube_link=link)
+				videoInst.save()
+			else:
+				videoInst = retrievedObjects[0]
+
+			retrievedObjects = Media.objects.all().filter(event=eventKey, album_link=albumKey,video=videoInst)
+			if len(retrievedObjects) == 0:
+				itemInstance = Media(event=eventKey, album_link=albumKey,video=videoInst)
+				itemInstance.save()
+			else:
+				itemInstance = retrievedObjects[0]
+
 			itemSubCategories = subcategories.copy()
 			lvl=0
 			while len(itemSubCategories) != 0:
-				subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
-				subCategoryInt.save()
+				if len(SubCategory.objects.all().filter(media=itemInstance, level=lvl+1, name=itemSubCategories[0])) == 0:
+					subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
+					subCategoryInt.save()
 				itemSubCategories.pop(0)
 				lvl+=1
 	file.close()
 
-def iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, event, album, files, albumPath, event_name, album_date, album_name):
+def iterateThroughMediaForSpecifiAlbum(path_to_file, albumPath, event_name, album_date, album_name):
 	albumContents = os.listdir(albumPath)
 	for media in albumContents:
 		path_to_file.append(media)
 		if os.path.isdir(albumPath+'/'+media):
 			subcategories.append(media)
-			iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, event, album,files ,albumPath+'/'+media, event_name, album_date, album_name)
+			iterateThroughMediaForSpecifiAlbum(path_to_file, albumPath+'/'+media, event_name, album_date, album_name)
 			subcategories.pop()
 		else:
 			if media == 'videos.txt':
-				goThroughYouTubeLinks(repo_dir, event, album, albumPath+'/'+media, event_name, album_date, album_name)
+				goThroughYouTubeLinks(albumPath+'/'+media, event_name, album_date, album_name)
 
 			elif media[0] != '.':
 				file_location = albumPath+'/'+media
 				eventKey = Event.objects.get(event_name=event_name)
 				albumKey = Album.objects.get(date=album_date, name=album_name)
-				if albumKey is None:
-					print("/".join(path_to_file))
+
+				retrievedObjects = Picture.objects.all().filter(absolute_file_path=file_location, static_path="/".join(path_to_file))
+				if len(retrievedObjects) == 0:
+					pictureInstance = Picture(absolute_file_path=file_location, static_path="/".join(path_to_file))
+					pictureInstance.save()
 				else:
-					print("albumKey={}".format(albumKey))
-				pictureInstance = Picture(absolute_file_path=file_location, static_path="/".join(path_to_file))
-				pictureInstance.save()
+					pictureInstance = retrievedObjects[0]
 
-				itemInstance = Media(name=media, event=eventKey, album_link=albumKey, picture=pictureInstance)
-				itemInstance.save()
-
+				retrievedObjects = Media.objects.all().filter(name=media, event=eventKey, album_link=albumKey, picture=pictureInstance)
+				if len(retrievedObjects) == 0:
+					itemInstance = Media(name=media, event=eventKey, album_link=albumKey, picture=pictureInstance)
+					itemInstance.save()
+				else:
+					itemInstance = retrievedObjects[0]
 
 				if albumKey.album_thumbnail is None:
 					albumKey.album_thumbnail = itemInstance
@@ -116,8 +132,9 @@ def iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, event, album, fil
 				itemSubCategories = subcategories.copy()
 				lvl=0
 				while len(itemSubCategories) != 0:
-					subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
-					subCategoryInt.save()
+					if len(SubCategory.objects.all().filter(media=itemInstance, level=lvl+1, name=itemSubCategories[0])) == 0:
+						subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
+						subCategoryInt.save()
 					itemSubCategories.pop(0)
 					lvl+=1
 		path_to_file.pop()
@@ -130,8 +147,12 @@ def createPicturesFromRepo(repo_dir):
 		if os.path.isdir(eventPath) and eventName[0] != '.' :
 			path_to_file.append(eventName)
 			event_name=eventName
-			event = Event(event_name=eventName)
-			event.save()
+			retrievedObjects = Event.objects.all().filter(event_name=event_name)
+			if len(retrievedObjects) == 0:
+				event = Event(event_name=eventName)
+				event.save()
+			else:
+				event = retrievedObjects[0]
 			albums = os.listdir(eventPath)
 			for album in albums:
 				if album[0] != '.':
@@ -146,36 +167,41 @@ def createPicturesFromRepo(repo_dir):
 							secondDash=date_of_file.find('-',firstDash+1)
 							date_of_file = datetime.datetime(int(date_of_file[0:firstDash]), int(date_of_file[firstDash+1:secondDash]), int(date_of_file[secondDash+1:]))
 							albumName = album[indexOfSpace+1:]
-							albumInst = Album(date=date_of_file, name=albumName, event=event)
 							album_date = date_of_file
 							album_name = albumName
-							albumInst.save()
+							if len(Album.objects.all().filter(date=date_of_file, name=albumName, event=event)) == 0:
+								albumInst = Album(date=date_of_file, name=albumName, event=event)
+								albumInst.save()
 						else: # in this case, the albumName has the following format "YYYY <albumName>"
 							date_of_file = datetime.datetime(int(date_of_file), 1, 1)
 							albumName = album[indexOfSpace+1:]
-							albumInst = Album(date=date_of_file, name=albumName, event=event)
 							album_date = date_of_file
 							album_name = albumName
-							albumInst.save()
+							if len(Album.objects.all().filter(date=date_of_file, name=albumName, event=event)) == 0:
+								albumInst = Album(date=date_of_file, name=albumName, event=event)
+								albumInst.save()
 					else: #there is no name in the album folder
 						if '-' in album: # in this case, the albumName has the following format "YYYY-MM-DDD"
 							firstDash=album.find('-')
 							secondDash=album.find('-',firstDash+1)
 							date_of_file = datetime.datetime(int(album[0:firstDash]), int(album[firstDash+1:secondDash]), int(album[secondDash+1:]))
-							albumInst = Album(date=date_of_file, event=event)
 							album_date = date_of_file
-							albumInst.save()
+							if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:
+								albumInst = Album(date=date_of_file, event=event)
+								albumInst.save()
 						else: # in this case, the albumName has the following format "YYYY"
 							date_of_file = datetime.datetime(int(album), 1, 1)
-							albumInst = Album(date=date_of_file, event=event)
 							album_date = date_of_file
 							album_name = albumName
-							albumInst.save()
+							if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:
+								albumInst = Album(date=date_of_file, event=event)
+								albumInst.save()
 					albumPath = "{0}/{1}".format(eventPath,album)
 					files = os.listdir(albumPath)
-					iterateThroughMediaForSpecifiAlbum(path_to_file, repo_dir, eventName, album, files, albumPath, event_name, album_date, album_name)
+					iterateThroughMediaForSpecifiAlbum(path_to_file, albumPath, event_name, album_date, album_name)
 					path_to_file.pop()
 			path_to_file.pop()
+
 def clone_repos(mailbox_admin, request, queryset):
 	for repo in queryset.all():
 		print('doing a git pull inside of {0}'.format(repo.url))
