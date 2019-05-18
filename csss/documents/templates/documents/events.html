@@ -1,0 +1,63 @@
+{% extends "documents/header.html" %}
+
+{% block content %}
+{{ block.super }}
+{% load static %}
+{% load staticfiles %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+  /* Remove the navbar's default margin-bottom and rounded borders */
+  .navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+
+  /* Add a gray background color and some padding to the footer */
+  footer {
+    background-color: #f2f2f2;
+    padding: 25px;
+  }
+  div.polaroid {
+    width: 80%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+
+  div.polaroid-container {
+      text-align: center;
+      padding: 10px 20px;
+  }
+</style>
+
+<p>"{% static '' %}"</p>
+<p>"{% get_static_prefix %}"</p>
+{% for content in contents %}
+  <p>content={{content}}</p>
+{% endfor %}
+{% for event in events %}
+  <div class="container-fluid bg-3 text-center">
+    <h3>{{event}}</h3><br>
+    <div class="row">
+      {% for album in albums %}
+        {% if album.event == event %}
+          <div class="col-sm-3">
+            <!-- http://dev.sfucsss.org:8000/STATIC_URL/documents_static/event-photos/Tutorials/2015-11-10%20Git/12241747_10201174490840856_7097942773547939440_n.jpg -->
+            <a href="/documents/photo_gallery/{{album.name|iriencode}}/{{ album.date|iriencode }}">
+              <div class="polaroid">
+                <img src="{% static album.album_thumbnail.picture.static_path %}" class="img-responsive" style="width:100%" alt="Image">
+                <div class="polaroid-container">
+                  <p>{{album}}</p>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endfor %}
+{% endblock %}

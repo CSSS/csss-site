@@ -1,0 +1,61 @@
+{% extends "documents/header.html" %}
+
+{% block content %}
+{{ block.super }}
+{% load static %}
+{% load staticfiles %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+  /* Remove the navbar's default margin-bottom and rounded borders */
+  .navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+  }
+
+  /* Add a gray background color and some padding to the footer */
+  footer {
+    background-color: #f2f2f2;
+    padding: 25px;
+  }
+  div.polaroid {
+    width: 80%;
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+
+  div.polaroid-container {
+      text-align: center;
+      padding: 10px 20px;
+  }
+</style>
+
+<p>"{% static '' %}"</p>
+<p>"{% get_static_prefix %}"</p>
+
+<a href="{{ previousButtonLink|safe }}">Previus Button</a>
+<a href="{{ nextButtonLink|safe }}">Next Button</a>
+
+<h1>{{album.date}}-{{album.name}}</h1>
+<div class="container-fluid bg-3 text-center">
+  <div class="row">
+    {% for media in medias %}
+      {% if media.video.youtube_link == None %}
+        <div class="col-sm-3">
+          <div class="polaroid">
+            <img src="{% static media.picture.static_path %}" class="img-responsive" style="width:100%" alt="Image">
+            <div class="polaroid-container">
+              <p>{{media.name}}</p>
+            </div>
+          </div>
+        </div>
+      {% else %}
+        {{media.video.youtube_link | safe}}
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
