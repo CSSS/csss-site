@@ -4,11 +4,27 @@ from datetime import date
 
 # Create your models here.
 
-class Order(models.Model):
+class Customer(models.Model):
 	name = models.CharField(
 		default='',
 		max_length=500,
 		help_text = _("Name"),
+	)
+	sfu_email = models.CharField(
+		default='',
+		max_length=500,
+		help_text = _("SFU Email"),
+	)
+
+	def __str__(self):
+		return f"{self.name}"
+
+
+class Order(models.Model):
+	order_customer_key = models.ForeignKey(
+		Customer,
+		on_delete=models.CASCADE,
+        default=1
 	)
 	order_id = models.CharField(
 		default='',
@@ -70,7 +86,7 @@ class OptionChoice(models.Model):
 	def __str__(self):
 		return f"{self.choice}"
 
-class OrderItem(models.Model):
+class SelectedOrderMerchandise(models.Model):
 	orderItem_order_key = models.ForeignKey(
 		Order,
 		on_delete=models.CASCADE,
@@ -86,19 +102,22 @@ class OrderItem(models.Model):
 	def __str__(self):
 		return f"item {self.orderItem_merchandise_key} with quantity {self.quantity} selected for order{self.orderItem_order_key.order_id}"
 
-class OptionChoiceSelected(models.Model):
-    optionChoiceSelected_orderItem_key = models.ForeignKey(
-        OrderItem,
+class SelectedOrderMerchandiseOptionChoice(models.Model):
+    OrderOptionChoiceSelected_orderItem_key = models.ForeignKey(
+        SelectedOrderMerchandise,
         on_delete=models.CASCADE,
     )
-    optionChoiceSelected_option_key = models.ForeignKey(
+    OrderOptionChoiceSelected_option_key = models.ForeignKey(
         Option,
         on_delete=models.CASCADE,
     )
-    optionChoiceSelected_optionChoice_key = models.ForeignKey(
+    OrderOptionChoiceSelected_optionChoice_key = models.ForeignKey(
         OptionChoice,
         on_delete=models.CASCADE,
     )
 
+    def get_order_id(self):
+        return self.OrderOptionChoiceSelected_orderItem_key.orderItem_order_key.order_id
+
     def __str__(self):
-        return f"choice {self.optionChoiceSelected_optionChoice_key} selected for option {self.optionChoiceSelected_option_key} for orderItem {self.optionChoiceSelected_orderItem_key}"
+        return f"choice {self.OrderOptionChoiceSelected_optionChoice_key} selected for option {self.OrderOptionChoiceSelected_option_key} for SelectedOrderMerchandise {self.OrderOptionChoiceSelected_orderItem_key}"

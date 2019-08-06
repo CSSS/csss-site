@@ -1,6 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from shopping.models import Order, Merchandise, Option, OptionChoice, OrderItem
+from shopping.models import Order, Merchandise, Option, OptionChoice, SelectedOrderMerchandise, SelectedOrderMerchandiseOptionChoice, Customer
 from django.utils.translation import ugettext_lazy as _
 # Register your models here.
 
@@ -71,13 +71,32 @@ def create_default_choices(mailbox_admin, request, queryset):
 
 create_default_choices.short_description = _('Create Default Choices')
 
+class CustomerAdmin(admin.ModelAdmin):
+    list_display = (
+    'name',
+    'get_sfu_email'
+    )
+    def get_sfu_email(self, obj):
+        return obj.sfu_email
+    get_sfu_email.short_description = "SFU Email"
+    get_sfu_email.admin_order_field = "sfu_email"
+
 class OrderAdmin(admin.ModelAdmin):
-	list_display = (
-		'order_id',
-		'name',
-		'date',
-		'time',
-	)
+    list_display = (
+    'get_order_id',
+    'get_customer_name',
+    'date',
+    'time'
+    )
+    def get_order_id(self, obj):
+        return obj.order_id
+    get_order_id.short_description = 'Order ID'
+    get_order_id.admin_order_field = 'order_id'
+
+    def get_customer_name(self, obj):
+        return obj.order_customer_key.name
+    get_customer_name.short_description = 'Customer Name'
+    get_customer_name.admin_order_field = 'customer_name'
 
 class MerchandiseAdmin(admin.ModelAdmin):
 	list_display = (
@@ -102,14 +121,52 @@ class OptionChoiceAdmin(admin.ModelAdmin):
 	'choice',
 	)
 
-class OrderItemAdmin(admin.ModelAdmin):
-	list_display = (
-	'orderItem_order_key',
-    'orderItem_merchandise_key',
-	)
+class SelectedOrderItemAdmin(admin.ModelAdmin):
+    list_display = (
+    'get_order_id',
+    'get_order_merchandises'
+    )
+    def get_order_id(self, obj):
+        return obj.orderItem_order_key.order_id
+    get_order_id.short_description = 'Order ID'
+    get_order_id.admin_order_field = 'order_id'
 
-admin.site.register(Order, OrderAdmin)
+    def get_order_merchandises(self, obj):
+        return obj.orderItem_merchandise_key.merchandise
+    get_order_merchandises.short_description = 'Merchandise'
+    get_order_merchandises.admin_order_field = 'Merchandise'
+
+class SelectedOrderOptionChoiceAdmin(admin.ModelAdmin):
+    list_display = (
+        'get_order_id',
+        'get_merchandise',
+        'get_merchandise_option',
+        'get_merchandise_option_choice'
+    )
+    def get_order_id(self, obj):
+        return obj.OrderOptionChoiceSelected_orderItem_key.orderItem_order_key.order_id
+    get_order_id.short_description = 'Order ID'
+    get_order_id.admin_order_field = 'order_id'
+
+    def get_merchandise(self, obj):
+        return obj.OrderOptionChoiceSelected_orderItem_key.orderItem_merchandise_key.merchandise
+    get_merchandise.short_description = 'Merchandise'
+    get_merchandise.admin_order_field = 'Merchandise'
+
+    def get_merchandise_option(self, obj):
+        return obj.OrderOptionChoiceSelected_option_key.option
+    get_merchandise_option.short_description = 'Option'
+    get_merchandise_option.admin_order_field = 'Option'
+
+    def get_merchandise_option_choice(self, obj):
+        return obj.OrderOptionChoiceSelected_optionChoice_key.choice
+    get_merchandise_option_choice.short_description = 'Choice'
+    get_merchandise_option_choice.admin_order_field = 'Choice'
+
+admin.site.register(Customer, CustomerAdmin)
 admin.site.register(Merchandise, MerchandiseAdmin)
-admin.site.register(Option, OptionAdmin)
 admin.site.register(OptionChoice, OptionChoiceAdmin)
-admin.site.register(OrderItem, OrderItemAdmin)
+admin.site.register(Option, OptionAdmin)
+admin.site.register(SelectedOrderMerchandise, SelectedOrderItemAdmin)
+admin.site.register(Order, OrderAdmin)
+admin.site.register(SelectedOrderMerchandiseOptionChoice, SelectedOrderOptionChoiceAdmin)

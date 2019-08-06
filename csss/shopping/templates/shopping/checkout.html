@@ -24,7 +24,13 @@
 			width: 100% ;
 		}
 	</style>
+    {% if object_selected is not None %}
     <div >
+        <form action="/shopping/checkout_form/" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="clear" value="clear" readonly>
+          <input type="submit" value="Clear Cart" />
+        </form>
         <form action="/shopping/checkout_form/" method="post">
             {% csrf_token %}
             <table>
@@ -67,6 +73,8 @@
 
         <form action="." method="post" id="payment-form">
           {% csrf_token %}
+          Full Name: <input type="text" name="full_name" required>
+          SFU Email: <input type="text" name="sfu_email" required>
           <div id="checkoutMethods">
               <div style="margin: 10px;">
                   <div class="form-row">
@@ -91,5 +99,7 @@
 
 <!-- script for the stripe form -->
 <script src="{% static 'shopping_static/js/checkout.js' %}"></script>
-
+{% else %}
+<p>No items were found in the cart, please visit our <a href="/shopping">merchandise page</a> to go shopping</p>
+ {% endif %}
 {% endblock %}
