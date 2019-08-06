@@ -60,6 +60,12 @@ INSTALLED_APPS = [
     'django_pony_forms',
     'approved_senders',
     'elections',
+	'shopping',
+    'stripe',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount'
 ]
 
 MIDDLEWARE = [
@@ -138,6 +144,21 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
+
+if DEBUG:
+    STRIPE_PUBLISHABLE_KEY = 'pk_test_MhY7lAQ9ZLpO1O6jt4eTXC5e'
+    STRIPE_SECRET_KEY = 'sk_test_BAsVtUiIpXqNgjHBiOpGCAyr'
+else:
+    STRIPE_PUBLISHABLE_KEY = 'live_pub_key'
+    STRIPE_SECRET_KEY = 'live_secret_key'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+SITE_ID = 1
+LOGIN_REDIRECT_URL = '/products'
 
 #STATICFILES_DIRS = [
 #    'static_files/',

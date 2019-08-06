@@ -1,0 +1,95 @@
+{% extends "shopping/header.html" %}
+
+{% block content %}
+	{{ block.super }}
+	{% load static %}
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'shopping_static/css/checkout.css' %}">
+    <style>
+      #checkoutMethods {
+        background: #fff;
+        border-radius: 2px;
+        display: inline-block;
+        max-height: 700px;
+        margin: 1rem;
+        position: relative;
+        width: 700px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+
+      }
+    </style>
+	<style>
+		table {
+			table-layout: fixed ;
+			width: 100% ;
+		}
+	</style>
+    <div >
+        <form action="/shopping/checkout_form/" method="post">
+            {% csrf_token %}
+            <table>
+                <tr>
+                    <td>Picture</td>
+                    <td>Merch</td>
+                    <td>Size</td>
+                    <td>Color</td>
+                    <td>Quantity</td>
+                    <td>Price</td>
+		            <td>Additional Options</td>
+                </tr>
+                {% for object in object_selected %}
+                    <tr>
+                        <td>
+                            <img src="{{ object.0.url }}" alt="img" width="80%"><br>
+                        </td>
+                        <td><input type="hidden" name="merchandise" value="{{object.1}}" readonly>{{object.1}}</td>
+                        <td><input type="hidden" name="size" value="{{object.3}}" readonly>{{object.3}}</td>
+                        <td><input type="hidden" name="color" value="{{object.4}}" readonly>{{object.4}}</td>
+                        <td><input type="number" name="Quantity" value="{{object.5}}" min="1"></td>
+                        <td>{{object.2}}</td>
+                        <td><button name="action" value="remove_{{object.1}}_{{object.2}}_{{object.3}}" type="submit" >Remove</button></td>
+                    </tr>
+                {% endfor %}
+                <tr>
+                    <td><b>Total:</b></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td><b>{{total}}</b></td>
+                </tr>
+            </table>
+        <button name="action" value="update_cart" type="submit">Update Cart</button>
+        </form>
+    </div>
+    <div id="collapseStripe" class="wrapper">
+        <script src="https://js.stripe.com/v3/"></script>
+
+        <!-- can't do this -->
+        <!-- <script src="{% static 'js/stripeV3.js' %}"></script> -->
+
+        <form action="." method="post" id="payment-form">
+          {% csrf_token %}
+          <div id="checkoutMethods">
+              <div style="margin: 10px;">
+                  <div class="form-row">
+                      <div id="card-element" class="StripeElement StripeElement--empty">
+                          <div class="__PrivateStripeElement" style="margin: 0px !important; padding: 0px !important; border: none !important; display: block !important; background: transparent !important; position: relative !important; opacity: 1 !important;">
+                              <iframe frameborder="0" allowtransparency="true" scrolling="no" name="__privateStripeFrame3" allowpaymentrequest="true" src="https://js.stripe.com/v3/elements-inner-card-8a434729e4eb82355db4882974049278.html#style[base][color]=%2332325d&amp;style[base][lineHeight]=18px&amp;style[base][fontFamily]=%22Helvetica+Neue%22%2C+Helvetica%2C+sans-serif&amp;style[base][fontSmoothing]=antialiased&amp;style[base][fontSize]=16px&amp;style[base][::placeholder][color]=%23aab7c4&amp;style[invalid][color]=%23fa755a&amp;style[invalid][iconColor]=%23fa755a&amp;componentName=card&amp;wait=false&amp;rtl=false&amp;features[noop]=false&amp;origin=https%3A%2F%2Fstripe.com&amp;referrer=https%3A%2F%2Fstripe.com%2Fdocs%2Fstripe-js%2Felements%2Fquickstart&amp;controllerId=__privateStripeController0" title="Secure payment input frame" style="border: none !important; margin: 0px !important; padding: 0px !important; width: 1px !important; min-width: 100% !important; overflow: hidden !important; display: block !important; height: 18px;">
+                              </iframe>
+                              <input class="__PrivateStripeElement-input" aria-hidden="true" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;">
+                              <input class="__PrivateStripeElement-safariInput" aria-hidden="true" tabindex="-1" style="border: none !important; display: block !important; position: absolute !important; height: 1px !important; top: 0px !important; left: 0px !important; padding: 0px !important; margin: 0px !important; width: 100% !important; opacity: 0 !important; background: transparent !important; pointer-events: none !important; font-size: 16px !important;">
+                          </div>
+                      </div><!-- Used to display form errors. -->
+                      <div id="card-errors" role="alert"></div>
+                  </div>
+                  <input type="hidden" id="nonce" name="payment_method_nonce" />
+              </div>
+          </div>
+          <button>Submit Payment</button>
+        </form>
+    </div>
+    <div id="stripe-token-handler" class="is-hidden">Success! Got token: <span class="token"></span></div>
+</div>
+
+<!-- script for the stripe form -->
+<script src="{% static 'shopping_static/js/checkout.js' %}"></script>
+
+{% endblock %}
