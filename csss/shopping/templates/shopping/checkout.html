@@ -53,7 +53,10 @@
                         <td><input type="hidden" name="color" value="{{object.4}}" readonly>{{object.4}}</td>
                         <td><input type="number" name="Quantity" value="{{object.5}}" min="1"></td>
                         <td>{{object.2}}</td>
-                        <td><button name="action" value="remove_{{object.1}}_{{object.2}}_{{object.3}}" type="submit" >Remove</button></td>
+                        <td><a href="/shopping/remove/{{object.1}}/{{object.3}}/{{object.4}}" data-balloon="remove this item from cart">
+                            Remove
+                        </a>
+                        <!-- <td><button name="action" value="remove/{{object.1}}/{{object.2}}/{{object.3}}" type="submit" >Remove</button></td> -->
                     </tr>
                 {% endfor %}
                 <tr>
