@@ -70,13 +70,22 @@ def clearCart(request):
     for key in keys_to_clear:
         print(f"[shopping/views.py clearCart()] clearing entry under request.session[{key}]")
         del request.session[key]
+    keys_to_clear = [key for key in request.COOKIES.keys()]
+    response = HttpResponseRedirect('/shopping')
+    for key in keys_to_clear:
+        print(f"[shopping/views.py clearCart()] clearing entry under request.COOKIES[{key}]")
+        response.delete_cookie(key)
+    return response
 
 def print_catalogue(request):
     print(f"[shopping/views.py print_catalogue()]")
     if 'clear' in request.POST:
         print(f"[shopping/views.py print_catalogue()] clear detected in request.POST")
-        clearCart(request)
-        return HttpResponseRedirect('/shopping')
+        return clearCart(request)
+
+    # request.session.create()
+    if 'sessionid' not in request.COOKIES:
+        request.session['csss_cookie']="set"
 
     object_list = Merchandise.objects.all()
 
@@ -104,6 +113,7 @@ def add_item_to_cart(request):
             date = datetime.date(now.year, now.month, now.day)
             time = now.time()
             ts = int(time_lib.time())
+
             order_id = str(request.COOKIES['sessionid']) + str(ts)
             order = Order(
                 order_id = order_id,
@@ -343,17 +353,20 @@ def purchase(request):
     return render(request, 'shopping/print_catalogue.html', context)
 
 
-def remove_item_from_cart(request):
+def remove_item(request):
     print("[shopping/views.py remove_item_from_cart()] ")
+
+    url = request.build_absolute_uri().replace("%20", " ")
+
+    indexOfLastSlash = url.rfind('/') + 1
+    indexOfSecondLastSlash = url.rfind('/', 0, indexOfLastSlash-1) + 1
+    indexOfThirdLastSlash = url.rfind('/', 0, indexOfSecondLastSlash-1) + 1
+    color = url[indexOfLastSlash:]
+    size = url[indexOfSecondLastSlash:indexOfLastSlash-1]
+    merchandise = url[indexOfThirdLastSlash:indexOfSecondLastSlash-1]
+
     merchandise_on_cart=convert_session_to_list(request)
     new_merchandise_list = []
-    token = request.POST['action']
-    firstIndex = token.index("_")
-    secondIndex = token.index("_", firstIndex+1)
-    merchandise = token[firstIndex+1:secondIndex]
-    thirdIndex = token.index("_", secondIndex+1)
-    size = token[secondIndex+1:thirdIndex]
-    color = token[thirdIndex+1:]
 
     index = 0
     print(f"[shopping/views.py remove_item_from_cart()] searching for {merchandise} {size} {color}")
@@ -375,10 +388,15 @@ def remove_item_from_cart(request):
             new_merchandise_list.append(merchandise_on_cart[index])
             index = index + 1
     convert_merchandse_list_to_session(new_merchandise_list, request)
-    return HttpResponseRedirect('/shopping/checkout')
+    return HttpResponseRedirect('/shopping/checkout_form')
 
 def checkout_form(request):
     print(f"[shopping/views.py checkout_form()]")
+    print("request.COOKIES="+str(request.COOKIES))
+    print("request.COOKIES.keys()="+str(request.COOKIES.keys()))
+    print("request.session="+str(request.session.keys()))
+    print("request.session.keys()="+str(request.session.keys()))
+    print("request.session.load()="+str(request.session.load()))
     if 'action' in request.POST and request.POST['action'] == 'update_cart':
         return update_cart(request)
     elif 'stripeToken' in request.POST:
