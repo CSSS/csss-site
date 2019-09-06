@@ -1,0 +1,34 @@
+{% extends "shopping/header.html" %}
+
+{% block content %}
+  {{ block.super }}
+  {% load staticfiles %}
+
+  <form action="/shopping/" method="post">
+    {% csrf_token %}
+    <input type="hidden" name="clear" value="clear" readonly>
+    <input type="submit" value="Clear Session" />
+  </form>
+
+  {% for object in object_list %}
+
+  <div >
+    <form action="/shopping/add_item_to_cart/" method="post">
+      {% csrf_token %}
+      <img src="{{ object.image.url }}" alt="img" width="10%">
+      <b>Merchandise Type:</b> {{object.merchandise}}<input type="hidden" name="merchandise" value="{{object.merchandise}}" readonly><br>
+      {% for option in object.option_set.all %}
+        {{option.option}}
+          <select name="{{option.option}}">
+            {% for choice in option.optionchoice_set.all %}
+              <option value="{{choice}}">{{choice}}</option>
+            {% endfor %}
+          </select>
+      {% endfor %}
+      {{object.merchandise}} Quantity: <input type="number" name="Quantity" value="1" min="1">
+      <input type="submit" value="Submit">
+    </form>
+
+  </div>
+  {% endfor %}
+{% endblock %}
