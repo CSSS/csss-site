@@ -40,7 +40,7 @@
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <body class="body" style="background-color:#f6f6f6">
-	<div class="container-fluid" style="margin-top:50px">
+	<div class="container-fluid" style="margin-top:160px">
 		<div class="row">
 			<div class="col-sm-2">
 				<br>
@@ -58,16 +58,8 @@
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
-				<div class="navbar-header">
-					<a class="navbar-brand" href="#">CSSS@SFU</a>
-				</div>
 				<ul class="nav navbar-nav nav-tabs">
-					{% if tab == 'index' %}
-						<li id="index" class="nav-links active"><a href="/">Home</a></li>
-					{% else %}
-						<li id="index" class="nav-links"><a href="/">Home</a></li>
-					{% endif %}
-
+                    <a class="navbar-brand" href="/">CSSS@SFU</a>
 					{% if tab == 'about' %}
 						<li role="presentation" class="dropdown nav-links active" id="about">
 					{% else %}
@@ -92,12 +84,8 @@
 					</ul>
 				</li>
 
-					{% if tab == 'documents' or not tab %}
-						{% if nominee_list is None %}
+					{% if tab == 'documents' %}
 							<li role="presentation" class="dropdown nav-links active" id="documents">
-						{% else %}
-							<li role="presentation" class="dropdown nav-links" id="documents">
-						{% endif %}
 					{% else %}
 							<li role="presentation" class="dropdown nav-links" id="documents">
 					{% endif %}
@@ -126,7 +114,7 @@
 						</ul>
 					</li>
 
-					{% if nominee_list is not None %}
+					{% if tab == 'elections' %}
 						<li role="presentation" class="dropdown nav-links active" id="elections">
 					{% else %}
 						<li role="presentation" class="dropdown nav-links" id="elections">
