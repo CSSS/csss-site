@@ -2,20 +2,24 @@
 {%  load static %}
 {% load staticfiles %}
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'announcements_static/style.css' %}">
 
 	{% for post in posts %}
-		<h3>{{post.subject}}</h3>
-		<p>Posted by {{post.from_header}} on {{post.processed}}</p>
-        
-        {% if post.html|safe|length > 0 %}
-            {{post.html|safe}}
-        {% else %}
-            {{post.text|safe|linebreaks}}
-        {% endif %}
+        <div id='announce'>
+    		<h3>{{post.subject}}</h3>
+    		<div class='details text-muted'><p>Posted by {{post.from_header}} on {{post.processed}}</p></div>
+            <div class ='content'>
+                {% if post.html|safe|length > 0 %}
+                    {{post.html|safe}}
+                {% else %}
+                    {{post.text|safe|linebreaks}}
+                {% endif %}
 
-		{% for attachment in post.attachments.all %}
-			<p> attachment: </p> <a href="{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
-		{% endfor %}
+        		{% for attachment in post.attachments.all %}
+        			<p> attachment: </p> <a href="{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
+    		     {% endfor %}
+            </div>
+        </div>
 	{% endfor %}
     <a href="{{ previousButtonLink|safe }}">Previus Button</a>
     <a href="{{ nextButtonLink|safe }}">Next Button</a>
