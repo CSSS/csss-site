@@ -1,11 +1,110 @@
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
 
+from django.core.files import File
+
+import json
 # Register your models here.
 
-from about.models import Officer, Term #, FavCourse, FavLanguage
+from about.models import Officer, Term, Source_File, AnnouncementEmailAddress #, FavCourse, FavLanguage
 
 from django import forms
 
+def getTerm(term, year, term_number):
+    retrievedObjects = Term.objects.all().filter(
+        term = term,
+        year = year,
+        term_number = term_number
+    )
+    if len(retrievedObjects) == 0:
+        term = Term(
+        term = term,
+        year = year,
+        term_number = term_number
+        )
+        term.save()
+        return term
+    return retrievedObjects[0]
+
+def saveOfficer( position_number, exec_info, term_number):
+
+    term = getTerm(exec_info['term'] , exec_info['year'], term_number)
+    retrievedObjects = Officer.objects.all().filter(
+        position = exec_info['position'],
+        position_number = position_number,
+        name = exec_info['name'],
+        sfuid = exec_info['sfuid'],
+        phone_number = exec_info['phone_number'],
+        github_username = exec_info['github_username'],
+        gmail = exec_info['gmail'],
+        course1 = exec_info['fav_course_1'],
+        course2 = exec_info['fav_course_2'],
+        language1 = exec_info['fav_language_1'],
+        language2 = exec_info['fav_language_2'],
+        bio = exec_info['bio'],
+        image = exec_info['profile_pic_path'],
+        elected_term = term
+    )
+    if len(retrievedObjects) == 0:
+        officer = Officer(
+            position = exec_info['position'],
+            position_number = position_number,
+            name = exec_info['name'],
+            sfuid = exec_info['sfuid'],
+            phone_number = exec_info['phone_number'],
+            github_username = exec_info['github_username'],
+            gmail = exec_info['gmail'],
+            course1 = exec_info['fav_course_1'],
+            course2 = exec_info['fav_course_2'],
+            language1 = exec_info['fav_language_1'],
+            language2 = exec_info['fav_language_2'],
+            bio = exec_info['bio'],
+            image = exec_info['profile_pic_path'],
+            elected_term = term
+        )
+        officer.save()
+        for email in exec_info['announcement_emails']:
+            emailObj = AnnouncementEmailAddress(email = email, officer = officer )
+            emailObj.save()
+    else:
+        officer = retrievedObjects[0]
+        for email in exec_info['announcement_emails']:
+            emailObj = AnnouncementEmailAddress(email = email, officer = officer )
+            emailObj.save()
+
+
+
+
+def import_exec_for_term(file):
+    position = 1
+    previousTermNumber = 0
+    print(f"[import_exec_for_term] will now try and read file {file}")
+    with open(file) as f:
+        execs = json.load(f)
+        for exec in execs:
+            term_number = int(exec['year']) * 10
+            if exec['term'] == "Spring":
+                term_number = term_number + 1
+            elif exec['term'] == "Summer":
+                term_number = term_number + 2
+            elif exec['term'] == "Fall":
+                term_number = term_number + 3
+            if (previousTermNumber != term_number):
+                position = 1
+            saveOfficer(position, exec, term_number )
+            position+=1
+            previousTermNumber = term_number
+
+def import_specific_term_officers(mailbox_admin, request, queryset):
+    for file in queryset.all():
+        print(f"parsing json_file {file.json_file}")
+        print(f"parsing json_file.name {file.json_file.name}")
+        print(f"parsing json_file.size {file.json_file.size}")
+        print(f"parsing json_file.file {file.json_file.file}")
+        # print(f"parsing json_file.mode {file.json_file.mode}")
+        import_exec_for_term(str(file.json_file.file))
+
+import_specific_term_officers.short_description = _('Refresh Execs For a Specific From File')
 
 class TermForm(forms.ModelForm):
 	class Meta:
@@ -18,25 +117,25 @@ class TermForm(forms.ModelForm):
 		year = self.cleaned_data.get('year')
 		position=0
 		if term == 'Fall':
-			position = ( year * 10 ) + 3
+			term_number = ( year * 10 ) + 3
 		elif term == 'Spring':
-			position = ( year * 10 ) + 1
+			term_number = ( year * 10 ) + 1
 		elif term == 'Summer':
-			position = ( year * 10 ) + 2
-		
+			term_number = ( year * 10 ) + 2
 
-		if len(Term.objects.all().filter(position=position)) is not 0:
+
+		if len(Term.objects.all().filter(term_number=position)) is not 0:
 			raise forms.ValidationError("That object could not be created as it is not unique" )
 
 		return self.cleaned_data
 
 	def save(self, commit=True):
 		if self.instance.term == 'Fall':
-			self.instance.position = ( self.instance.year * 10 ) + 3
+			self.instance.term_number = ( self.instance.year * 10 ) + 3
 		elif self.instance.term == 'Spring':
-			self.instance.position = ( self.instance.year * 10 ) + 1
+			self.instance.term_number = ( self.instance.year * 10 ) + 1
 		elif self.instance.term == 'Summer':
-			self.instance.position = ( self.instance.year * 10 ) + 2
+			self.instance.term_number = ( self.instance.year * 10 ) + 2
 
 		if self.errors:
 			raise ValueError(
@@ -44,7 +143,7 @@ class TermForm(forms.ModelForm):
 					self.instance._meta.object_name,
 					'created' if self.instance._state.adding else 'changed',
 				)
-			)		
+			)
 		if commit:
 			self.instance.save()
 			self._save_m2m()
@@ -53,70 +152,34 @@ class TermForm(forms.ModelForm):
 		return self.instance
 
 class TermAdmin(admin.ModelAdmin):
-	form = TermForm
-	list_display = ('position', 'term', 'year', )
+    form = TermForm
+    list_display = ('term', 'year', )
 
 admin.site.register(Term, TermAdmin)
 
 
-class OfficerForm(forms.ModelForm):
-	class Meta:
-		model = Officer
-		fields = '__all__' # Or a list of the fields that you want to include in your form
-
-	def save(self, commit=True):
-		if self.instance.elected_positions == 'President':
-			self.instance.index = (self.instance.elected_term.position*100)+1
-		elif self.instance.elected_positions == 'Vice-President':
-			self.instance.index = (self.instance.elected_term.position*100)+2
-		elif self.instance.elected_positions == 'Treasurer':
-			self.instance.index = (self.instance.elected_term.position*100)+3
-		elif self.instance.elected_positions == 'Director of Communications':
-			self.instance.index = (self.instance.elected_term.position*100)+4
-		elif self.instance.elected_positions == 'Director of Events':
-			self.instance.index = (self.instance.elected_term.position*100)+5
-		elif self.instance.elected_positions == 'Director of Resources':
-			self.instance.index = (self.instance.elected_term.position*100)+6
-		elif self.instance.elected_positions == 'Director of Archives':
-			self.instance.index = (self.instance.elected_term.position*100)+7
-		elif self.instance.elected_positions == 'Secretary':
-			self.instance.index = (self.instance.elected_term.position*100)+8
-		elif self.instance.elected_positions == 'Director of Activities':
-			self.instance.index = (self.instance.elected_term.position*100)+9
-		elif self.instance.elected_positions == 'Councilor':
-			self.instance.index = (self.instance.elected_term.position*100)+10
-		elif self.instance.elected_positions == 'Exec-at-Large 1':
-			self.instance.index = (self.instance.elected_term.position*100)+11
-		elif self.instance.elected_positions == 'Exec-at-Large 2':
-			self.instance.index = (self.instance.elected_term.position*100)+12
-		elif self.instance.elected_positions == 'First Year Representative 1':
-			self.instance.index = (self.instance.elected_term.position*100)+13
-		elif self.instance.elected_positions == 'First Year Representative 2':
-			self.instance.index = (self.instance.elected_term.position*100)+14
-		elif self.instance.elected_positions == 'Council Representative':
-			self.instance.index = (self.instance.elected_term.position*100)+15
-		elif self.instance.elected_positions == 'Election Officer':
-			self.instance.index = (self.instance.elected_term.position*100)+16
-		elif self.instance.elected_positions == 'Frosh Week Chair':
-			self.instance.index = (self.instance.elected_term.position*100)+17
-
-		if self.errors:
-			raise ValueError(
-				"The %s could not be %s because the data didn't validate." % (
-					self.instance._meta.object_name,
-					'created' if self.instance._state.adding else 'changed',
-				)
-			)		
-		if commit:
-			self.instance.save()
-			self._save_m2m()
-		else:
-			self.save_m2m = self._save_m2m
-		return self.instance
-
-
 class OfficerAdmin(admin.ModelAdmin):
-	form = OfficerForm
-	list_display = ('index','elected_term','elected_positions','Name', 'Bio', 'course1', 'course2', 'language1', 'language2' )
+    # form = OfficerForm
+    list_display = ('position','position_number', 'name', 'sfuid', 'phone_number', 'github_username', 'gmail', 'course1', 'course2', 'language1', 'language2', 'elected_term')
 
 admin.site.register(Officer, OfficerAdmin)
+
+class SourceFileAdmin(admin.ModelAdmin):
+    # form = OfficerForm
+    list_display = ('json_file','term', 'year')
+
+    actions = [import_specific_term_officers]
+
+
+admin.site.register(Source_File, SourceFileAdmin)
+
+class AnnouncementEmailAdmin(admin.ModelAdmin):
+    # form = OfficerForm
+    list_display = ('email','officer', 'get_term')
+
+    def get_term(self, obj):
+        return obj.officer.elected_term
+    get_term.short_description = "Elected Term"
+    get_term.admin_order_field = "Elected_Term"
+
+admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
