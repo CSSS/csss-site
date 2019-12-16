@@ -1,6 +1,8 @@
 from django.shortcuts import render
+from email.utils import formatdate, parseaddr
 from announcements.models import Post, AnnouncementAttachment
 from approved_senders.models import Sender
+from about.models import Officer, Term, AnnouncementEmailAddress
 import announcements
 from django_mailbox.models import Message, Mailbox
 import base64
@@ -8,66 +10,65 @@ import datetime
 import six
 from time import strptime
 from pytz import timezone
-
-def filterSender(messages):
-  theBody=""
-  valid_messages = []
-  senders = Sender.objects.all()
-
-  for message in messages:
-    from_header = str(message.from_header.rstrip())
-    for sender in senders:
-      if sender.email in from_header:
-        valid_messages.append(message)
-        break
-  
-  return valid_messages;
-
-def extract_sender(from_header):
-  indexOfFirst=from_header.index("<")
-  return from_header[0:indexOfFirst]
-
-def removePhotoEmails(message):
-  if "Subject: [WEBSITE PHOTOS]" in str(message):
-    print("email is for the photo gallery")
-    return False
-  else:
-    print("email is for the announcements")
-    return True
-
-def remove_tzinfo(date):
-  indexBeforeTZINFO=0
-  indexesPassed=0
-  while True:
-    if date[indexBeforeTZINFO] == " ":
-      indexesPassed+=1
-      if indexesPassed == 5:
-        return date[:indexBeforeTZINFO]
-    indexBeforeTZINFO+=1
+import math
 
 def index(request):
-  print("announcements index")
-  mailboxes = Mailbox.objects.all()
-  #for mailbox in mailboxes:
-  #  mailbox.get_new_mail(condition=removePhotoEmails)
-  posts = filterSender(Message.objects.all().order_by('-id'))
-  #attachments = MessageAttachment.objects.all().order_by('-id')
-  for message in posts:
-    #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
-    message.processed = datetime.datetime.strptime(remove_tzinfo(message.get_email_object().get('date')),'%a, %d %b %Y %H:%M:%S')
-    
-    #exracting the snder from the from_header field
-    message.from_header = extract_sender(message.from_header)
+    print("announcements index")
+    currentPage=request.GET.get('p', 'none')
+    if currentPage == 'none':
+        currentPage = 1
+    else:
+        currentPage=int(currentPage)
 
-    #decoding the email body
-    message.body = message.html.strip().replace("align=center", "").replace("bgcolor=\"1a1d20\"", "")
-    #message.body = get_body_from_message(message.get_email_object(), 'text', 'plain').strip().replace("align=center", "")
+    request_path = request.path
 
-  for post in Post.objects.all().order_by('-id'):
-    posts.append(post)
+    sfuEmails = [email.email for email in AnnouncementEmailAddress.objects.all()]
+    print(f" sfuEmails {sfuEmails}")
 
-  posts.sort(key=lambda x: x.processed, reverse=True)
-  return render(request, 'announcements/announcements.html', {'tab': 'index'})
+    messages = Message.objects.all().order_by('-id')
+
+    valid_messages = [message for message in messages if message.from_address[0] in sfuEmails]
+
+    number_of_valid_messages = len(valid_messages)
+
+    lowerBound = ( ( ( currentPage  - 1 ) * 5 ) + 1 )
+    upperBound = currentPage * 5
+
+    messages_to_display = []
+    index=0
+    for media in valid_messages:
+        index+=1
+        if ( lowerBound <= index ) and ( index <= upperBound ):
+            messages_to_display.append(media)
+
+    if currentPage == 1:
+        previousPage = math.floor((number_of_valid_messages / 5 ) + 1)
+        nextPage = 2
+    elif currentPage == math.floor((number_of_valid_messages / 5 ) + 1):
+        previousPage = currentPage - 1
+        nextPage = 1
+    else:
+        previousPage = currentPage - 1
+        nextPage = currentPage + 1
+
+    previousButtonLink=request_path+'?p='+str(previousPage)
+    nextButtonLink=request_path+'?p='+str(nextPage)
+
+    for message in messages_to_display:
+        #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
+        try:
+            dt = datetime.datetime.strptime(message.get_email_object().get('date'), '%a, %d %b %Y %H:%M:%S %z')
+        except ValueError as e:
+            dt = datetime.datetime.strptime(message.get_email_object().get('date')[:-6], '%a, %d %b %Y %H:%M:%S %z')
+        message.processed = dt
+        message.from_header = parseaddr(message.from_header)[0]
+
+
+    for post in Post.objects.all().order_by('-id'):
+        messages_to_display.append(post)
+
+    messages_to_display.sort(key=lambda x: x.processed, reverse=True)
+    return render(request, 'announcements/announcements.html', {'tab': 'index', 'posts': messages_to_display, 'nextButtonLink':nextButtonLink, 'previousButtonLink': previousButtonLink})
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})
