@@ -1,0 +1,39 @@
+
+
+
+.announce_title {
+	font-weight: 700;
+	font-size: x-large;
+	color: #B20000
+}
+
+
+.details {
+	font-style: italic;
+	font-size: small;
+	margin-bottom: 1em;
+	border-style: solid;
+	border-width: 0 0 1px 0;
+	border-color: #6A6A75;
+	text-align: right;
+}
+
+.text-muted {
+  color: #777;
+}
+
+
+#content {
+  background-color: #FFFFFA;
+	box-shadow: 0px 0px 6px 7px rgba(0,0,0,0.20);
+	height: 100%;
+	padding-bottom: 5em;
+}
+
+
+#announce {
+	margin: 1em auto 1em auto;
+	padding: 0.25em 0.5em 0.25em 0.5em;
+	background-color: #EEEEEE;
+    word-break:break-all;
+}
