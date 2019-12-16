@@ -4,15 +4,15 @@ from django.shortcuts import render
 from django.views import generic
 
 from .models import NominationPage, Nominee
-from datetime import datetime 
+from datetime import datetime
 
-class NomineeDetailView(generic.DetailView):
-	model = Nominee
 
-class NomineeListView(generic.ListView):
-	def get_queryset(self):
-		page = NominationPage.objects.get(slug=self.kwargs['slug'])
-		if page.datePublic <= (datetime.now()):	
-			return Nominee.objects.filter(nominationPage__slug = self.kwargs['slug']).all().order_by('Position')
-		else:
-			return Nominee.objects.filter(nominationPage__slug = 'None')
+def getNominees(request, slug):
+    retrievedObj = NominationPage.objects.filter(slug = slug)
+    if retrievedObj[0].datePublic <= datetime.now():
+        print("time to vote")
+        nominees = Nominee.objects.filter(nominationPage__slug = slug).all().order_by('Position')
+        return render(request, 'elections/nominee_list.html', {'election': retrievedObj[0], 'tab': 'elections', 'nominees' : nominees})
+    else:
+        print("cant vote yet")
+        return render(request, 'elections/nominee_list.html', {'tab': 'elections', 'nominees' : 'none'})
