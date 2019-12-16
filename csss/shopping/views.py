@@ -83,7 +83,7 @@ def print_catalogue(request):
         print(f"[shopping/views.py print_catalogue()] clear detected in request.POST")
         return clearCart(request)
 
-    # request.session.create()
+    # the shopping cart requires  sessionid to exist. to that effect, created a cookie will create a sessionid
     if 'sessionid' not in request.COOKIES:
         request.session['csss_cookie']="set"
 
