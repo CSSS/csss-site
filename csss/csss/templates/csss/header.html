@@ -40,7 +40,7 @@
 </head>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <body class="body" style="background-color:#f6f6f6">
-	<div class="container-fluid" style="margin-top:160px">
+	<div class="container-fluid" style="margin-top:50px">
 		<div class="row">
 			<div class="col-sm-2">
 				<br>
@@ -58,6 +58,16 @@
 
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target = "#navbar" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/"><img height="32" width="32" src="{% static 'csss_static/logo.png' %}"/></a>
+				</div><!-- /.navbar-header -->
+				<div id="navbar" class="collapse navbar-collapse">
 				<ul class="nav navbar-nav nav-tabs">
                     <a class="navbar-brand" href="/">CSSS@SFU</a>
 					{% if tab == 'about' %}
@@ -179,6 +189,7 @@
 					</li>
 				</ul>
 			</div>
+		</div>
 		</nav>
 
 
