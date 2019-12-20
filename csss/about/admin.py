@@ -147,7 +147,6 @@ import_specific_term_officers.short_description = _('Save Execs Specified in Fil
 # 		return self.instance
 
 class TermAdmin(admin.ModelAdmin):
-    form = TermForm
     list_display = ('term', 'year', )
 
 admin.site.register(Term, TermAdmin)
