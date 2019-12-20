@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     '750_project',
     'comp_sci_guide',
     'bursaries_and_awards',
-    'blog',
-    'personal',
     'django_mailbox',
     'django.contrib.admin',
     'django.contrib.auth',
