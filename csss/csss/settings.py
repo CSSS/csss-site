@@ -29,8 +29,8 @@ DEBUG = True
 #    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
 #    print(" export ip_addr = '<ipaddr>'");
 
-#ALLOWED_HOSTS = [os.environ['ip_addr']]
-ALLOWED_HOSTS = ['dev.sfucsss.org', '46.101.158.172']
+ALLOWED_HOSTS = [os.environ['ip_addr']]
+# ALLOWED_HOSTS = ['dev.sfucsss.org', '46.101.158.172']
 
 # Application definition
 
