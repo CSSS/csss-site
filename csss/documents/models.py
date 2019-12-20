@@ -45,6 +45,7 @@ class Repo(models.Model):
     max_length=2000,
     default='',
     help_text = _("Directory that will be used for static serving of the media"),
+    blank=True
     )
     def __str__(self):
         return self.name
