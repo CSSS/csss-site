@@ -14,7 +14,7 @@ from django_webtest import WebTest
 
 from django_file_form.models import UploadedFile
 
-from .models import Example, Example2
+from .models import Example, UserSubmission
 from .test_utils import get_random_id, get_random_ids, encode_datetime, remove_p
 
 
@@ -154,7 +154,7 @@ class FileFormWebTests(WebTest):
             form['title'] = 'abc'
             form.submit().follow()
 
-            example2 = Example2.objects.get(title='abc')
+            example2 = UserSubmission.objects.get(title='abc')
             files = example2.files.all()
             self.assertEqual(files.count(), 2)
             self.assertEqual(six.text_type(files[0]), 'example/{0!s}'.format(filename1))
@@ -181,7 +181,7 @@ class FileFormWebTests(WebTest):
             form['input_file'] = (filename, six.b('xyz'))
             form.submit().follow()
 
-            example2 = Example2.objects.get(title='abc')
+            example2 = UserSubmission.objects.get(title='abc')
             files = example2.files.all()
             self.assertEqual(files.count(), 1)
             self.assertEqual(files[0].input_file.name, 'example/{0!s}'.format(filename))
