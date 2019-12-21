@@ -1,15 +1,13 @@
 from django.contrib import admin
 
-from .models import Example, ExampleFile ,  Example2
+from .models import UploadedFile,  UserSubmission
 
 
 class ExampleFileInline(admin.TabularInline):
-    model = ExampleFile
+    model = UploadedFile
 
 
-class Example2Admin(admin.ModelAdmin):
+class UserSubmissionAdmin(admin.ModelAdmin):
     inlines = [ExampleFileInline]
 
-
-admin.site.register(Example)
-admin.site.register(Example2, Example2Admin)
+admin.site.register(UserSubmission, UserSubmissionAdmin)
