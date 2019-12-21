@@ -56,14 +56,13 @@ INSTALLED_APPS = [
     'django_file_form.ajaxuploader',
     'django_bootstrap3_form',
     'django_pony_forms',
-    'approved_senders',
     'elections',
 	'shopping',
     'stripe',
     'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount'
+    #'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount'
 ]
 
 MIDDLEWARE = [

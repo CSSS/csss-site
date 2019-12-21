@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from email.utils import formatdate, parseaddr
 from announcements.models import Post, AnnouncementAttachment
-from approved_senders.models import Sender
 from about.models import Officer, Term, AnnouncementEmailAddress
 import announcements
 from django_mailbox.models import Message, Mailbox
