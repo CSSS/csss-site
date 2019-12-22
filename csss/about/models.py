@@ -10,33 +10,13 @@ class aboutPage(models.Model):
         return self.title
 # Create your models here.
 
-class Source_File(models.Model):
+class SourceFile(models.Model):
     json_file = models.FileField(
         default = 'exec_positions/default',
         upload_to='exec_positions/'
     )
-
-    term_choices = (
-        ('Spring', 'Spring'),
-        ('Summer', 'Summer'),
-        ('Fall', 'Fall'),
-    )
-
-    term = models.CharField(
-        primary_key=True,
-        max_length=6,
-        choices=term_choices,
-        default='Fall',
-        help_text = _("You need to click on the dropbox above in order for the slug field to get populated"),
-    )
-
-    year = models.IntegerField(
-        choices=[ (b,b) for b in list(reversed(range(1970, datetime.datetime.now().year+1))) ],
-        default='2018',
-        help_text = _("You need to click on the dropbox above in order for the slug field to get populated"),
-    )
     def __str__(self):
-        return f"{self.year} {self.term}"
+        return f"{self.json_file}"
 
 class Term(models.Model):
     term_choices = (
