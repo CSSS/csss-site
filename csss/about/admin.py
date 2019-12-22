@@ -6,7 +6,7 @@ from django.core.files import File
 import json
 # Register your models here.
 
-from about.models import Officer, Term, Source_File, AnnouncementEmailAddress
+from about.models import Officer, Term, SourceFile, AnnouncementEmailAddress
 
 from django import forms
 
@@ -100,51 +100,7 @@ def import_specific_term_officers(mailbox_admin, request, queryset):
         import_exec_for_term(str(file.json_file.file))
 
 import_specific_term_officers.short_description = _('Save Execs Specified in File')
-#
-# class TermForm(forms.ModelForm):
-# 	class Meta:
-# 		model = Term
-# 		fields = '__all__'
-#
-# 	def clean(self):
-# 		print("self.cleaned_data="+str(self.cleaned_data))
-# 		term = self.cleaned_data.get('term')
-# 		year = self.cleaned_data.get('year')
-# 		position=0
-# 		if term == 'Fall':
-# 			term_number = ( year * 10 ) + 3
-# 		elif term == 'Spring':
-# 			term_number = ( year * 10 ) + 1
-# 		elif term == 'Summer':
-# 			term_number = ( year * 10 ) + 2
-#
-#
-# 		if len(Term.objects.all().filter(term_number=position)) is not 0:
-# 			raise forms.ValidationError("That object could not be created as it is not unique" )
-#
-# 		return self.cleaned_data
-#
-# 	def save(self, commit=True):
-# 		if self.instance.term == 'Fall':
-# 			self.instance.term_number = ( self.instance.year * 10 ) + 3
-# 		elif self.instance.term == 'Spring':
-# 			self.instance.term_number = ( self.instance.year * 10 ) + 1
-# 		elif self.instance.term == 'Summer':
-# 			self.instance.term_number = ( self.instance.year * 10 ) + 2
-#
-# 		if self.errors:
-# 			raise ValueError(
-# 				"The %s could not be %s because the data didn't validate." % (
-# 					self.instance._meta.object_name,
-# 					'created' if self.instance._state.adding else 'changed',
-# 				)
-# 			)
-# 		if commit:
-# 			self.instance.save()
-# 			self._save_m2m()
-# 		else:
-# 			self.save_m2m = self._save_m2m
-# 		return self.instance
+
 
 class TermAdmin(admin.ModelAdmin):
     list_display = ('term', 'year', )
@@ -160,12 +116,12 @@ admin.site.register(Officer, OfficerAdmin)
 
 class SourceFileAdmin(admin.ModelAdmin):
     # form = OfficerForm
-    list_display = ('json_file','term', 'year')
+    list_display = ('json_file',)
 
     actions = [import_specific_term_officers]
 
 
-admin.site.register(Source_File, SourceFileAdmin)
+admin.site.register(SourceFile, SourceFileAdmin)
 
 class AnnouncementEmailAdmin(admin.ModelAdmin):
     # form = OfficerForm
