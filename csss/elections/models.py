@@ -41,6 +41,7 @@ class NominationPage(models.Model):
         _("The link that the voters can use to vote on"),
         max_length = 300,
         default="NONE",
+        help_text = _("It is necessary to prefix the link with \"http[s]://\"")
     )
 
     def __str__(self):
