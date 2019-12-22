@@ -28,14 +28,31 @@ def index(request):
 
     valid_messages = [message for message in messages if message.from_address[0] in sfuEmails]
 
-    number_of_valid_messages = len(valid_messages)
+    sorted_messages = []
+    for message in valid_messages:
+        #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
+        try:
+            dt = datetime.datetime.strptime(message.get_email_object().get('date'), '%a, %d %b %Y %H:%M:%S %z')
+        except ValueError as e:
+            dt = datetime.datetime.strptime(message.get_email_object().get('date')[:-6], '%a, %d %b %Y %H:%M:%S %z')
+        message.processed = dt
+        message.from_header = parseaddr(message.from_header)[0]
+        sorted_messages.append(message)
+
+
+    for post in Post.objects.all().order_by('-id'):
+        sorted_messages.append(post)
+
+    sorted_messages.sort(key=lambda x: x.processed, reverse=True)
+
+    number_of_valid_messages = len(sorted_messages)
 
     lowerBound = ( ( ( currentPage  - 1 ) * 5 ) + 1 )
     upperBound = currentPage * 5
 
     messages_to_display = []
     index=0
-    for media in valid_messages:
+    for media in sorted_messages:
         index+=1
         if ( lowerBound <= index ) and ( index <= upperBound ):
             messages_to_display.append(media)
@@ -53,20 +70,7 @@ def index(request):
     previousButtonLink=request_path+'?p='+str(previousPage)
     nextButtonLink=request_path+'?p='+str(nextPage)
 
-    for message in messages_to_display:
-        #will modify the processed date to be change from the day the mailbox was polled to the date the email was sent
-        try:
-            dt = datetime.datetime.strptime(message.get_email_object().get('date'), '%a, %d %b %Y %H:%M:%S %z')
-        except ValueError as e:
-            dt = datetime.datetime.strptime(message.get_email_object().get('date')[:-6], '%a, %d %b %Y %H:%M:%S %z')
-        message.processed = dt
-        message.from_header = parseaddr(message.from_header)[0]
 
-
-    for post in Post.objects.all().order_by('-id'):
-        messages_to_display.append(post)
-
-    messages_to_display.sort(key=lambda x: x.processed, reverse=True)
     return render(request, 'announcements/announcements.html', {'tab': 'index', 'posts': messages_to_display, 'nextButtonLink':nextButtonLink, 'previousButtonLink': previousButtonLink})
 
 def contact(request):
