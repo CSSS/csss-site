@@ -50,7 +50,7 @@ class Officer(models.Model):
         default='President',
     )
 
-    position_number = models.IntegerField(
+    term_position_number = models.IntegerField(
         default=0,
     )
     name = models.CharField(

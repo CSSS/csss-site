@@ -26,12 +26,11 @@ def getTerm(term, year, term_number):
         return term
     return retrievedObjects[0]
 
-def saveOfficer( position_number, exec_info, term_number):
-
+def saveOfficer( term_position_number, exec_info, term_number):
     term = getTerm(exec_info['term'] , exec_info['year'], term_number)
     retrievedObjects = Officer.objects.all().filter(
         position = exec_info['position'],
-        position_number = position_number,
+        term_position_number = term_position_number,
         name = exec_info['name'],
         sfuid = exec_info['sfuid'],
         phone_number = exec_info['phone_number'],
@@ -48,7 +47,7 @@ def saveOfficer( position_number, exec_info, term_number):
     if len(retrievedObjects) == 0:
         officer = Officer(
             position = exec_info['position'],
-            position_number = position_number,
+            term_position_number = term_position_number,
             name = exec_info['name'],
             sfuid = exec_info['sfuid'],
             phone_number = exec_info['phone_number'],
@@ -110,7 +109,7 @@ admin.site.register(Term, TermAdmin)
 
 class OfficerAdmin(admin.ModelAdmin):
     # form = OfficerForm
-    list_display = ('position','position_number', 'name', 'sfuid', 'phone_number', 'github_username', 'gmail', 'course1', 'course2', 'language1', 'language2', 'elected_term')
+    list_display = ('elected_term', 'term_position_number', 'position','name', 'sfuid', 'phone_number', 'github_username', 'gmail', 'course1', 'course2', 'language1', 'language2')
 
 admin.site.register(Officer, OfficerAdmin)
 
