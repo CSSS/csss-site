@@ -40,17 +40,17 @@
                     <td>Color</td>
                     <td>Quantity</td>
                     <td>Price</td>
-		            <td>Additional Options</td>
+		            <td>Additional Features</td>
                 </tr>
                 {% for object in object_selected %}
                     <tr>
                         <td>
-                            <img src="{{ object.0.url }}" alt="img" width="80%"><br>
+                            <img src="{% static object.0 %}" alt="img" width="80%"><br>
                         </td>
-                        <td><input type="hidden" name="merchandise" value="{{object.1}}" readonly>{{object.1}}</td>
-                        <td><input type="hidden" name="size" value="{{object.3}}" readonly>{{object.3}}</td>
-                        <td><input type="hidden" name="color" value="{{object.4}}" readonly>{{object.4}}</td>
-                        <td><input type="number" name="Quantity" value="{{object.5}}" min="1"></td>
+                        <td><input type="hidden" name="selected_merchandise" value="{{object.1}}" readonly>{{object.1}}</td>
+                        <td><input type="hidden" name="size" value="{{object.4}}" readonly>{{object.4}}</td>
+                        <td><input type="hidden" name="color" value="{{object.3}}" readonly>{{object.3}}</td>
+                        <td><input style="width: 50%" type="number" name="Quantity" value="{{object.5}}" min="1"></td>
                         <td>{{object.2}}</td>
                         <td><a href="/shopping/remove/{{object.1}}/{{object.3}}/{{object.4}}" data-balloon="remove this item from cart">
                             Remove
@@ -102,6 +102,6 @@
 <!-- script for the stripe form -->
 <script src="{% static 'shopping_static/js/checkout.js' %}"></script>
 {% else %}
-<p>No items were found in the cart, please visit our <a href="/shopping">merchandise page</a> to go shopping</p>
+<p>No items were found in the cart, please visit our <a href="/shopping">selected_merchandise page</a> to go shopping</p>
  {% endif %}
 {% endblock %}

@@ -17,11 +17,11 @@ class Customer(models.Model):
 	)
 
 	def __str__(self):
-		return f"{self.name}"
+		return f"Customer {self.name}"
 
 
 class Order(models.Model):
-	order_customer_key = models.ForeignKey(
+	customer_key = models.ForeignKey(
 		Customer,
 		on_delete=models.CASCADE,
         default=1
@@ -40,58 +40,77 @@ class Order(models.Model):
 		help_text = _("Time"),
 	)
 	def __str__(self):
-		return f"{self.order_id}"
+		return f"Order: {self.order_id}"
+
+class SourceFile(models.Model):
+    json_file = models.FileField(
+        default = 'merchandise/default',
+        upload_to='merchandise/'
+    )
+
+    def __str__(self):
+        return f" Source File: {self.json_file}"
 
 class Merchandise(models.Model):
-    image = models.ImageField(
-        upload_to='merchandise_images',
-        #null=True,
-        blank = True,
-        default = None,
-    )
-    merchandise = models.CharField(
-        max_length=100,
-        default='',
-        help_text = _("Merchandise"),
-    )
-    price = models.FloatField(
-        default=0
-    )
-    def __str__(self):
-        return f"{self.merchandise}"
+	image_absolute_file_path = models.CharField(
+		max_length=1000,
+	    help_text = _("Location of File on Server"),
+	    verbose_name=('File Path'),
+	)
+	merchandise_type = models.CharField(
+		max_length=100,
+		default='',
+		help_text = _("Merchandise"),
+	)
+	price = models.FloatField(
+		default=0
+	)
+	active = models.BooleanField(
+		default=True
+	)
+	def __str__(self):
+		return f"Merchandise: {self.merchandise_type}"
 
-class Option(models.Model):
-	option_merchandise_key = models.ForeignKey(
+class Feature(models.Model):
+	merchandise_key = models.ForeignKey(
 		Merchandise,
+		related_name='feature',
 		on_delete=models.CASCADE,
 	)
-	option = models.CharField(
+	feature_type = models.CharField(
 		max_length=100,
 		default='',
-		help_text = _("Option"),
+		help_text = _("Feature"),
+	)
+	active = models.BooleanField(
+		default=True
 	)
 	def __str__(self):
-		return f"{self.option_merchandise_key} {self.option}"
+		return f" Feature {self.feature_type} for merchandise {self.merchandise_key_id}"
 
-class OptionChoice(models.Model):
-	optionChoice_option_key = models.ForeignKey(
-		Option,
+class Specification(models.Model):
+	feature_key = models.ForeignKey(
+		Feature,
+		related_name='spec',
 		on_delete=models.CASCADE,
 	)
-	choice = models.CharField(
+	specification_type = models.CharField(
 		max_length=100,
 		default='',
-		help_text = _("Choice"),
+		help_text = _("Specification"),
+	)
+	active = models.BooleanField(
+		default=True
 	)
 	def __str__(self):
-		return f"{self.choice}"
+		return f" Specification {self.specification_type} for {self.feature_key_id}"
 
-class SelectedOrderMerchandise(models.Model):
-	orderItem_order_key = models.ForeignKey(
+class OrderItem(models.Model):
+	order_key = models.ForeignKey(
 		Order,
 		on_delete=models.CASCADE,
 	)
-	orderItem_merchandise_key = models.ForeignKey(
+	merchandise_key = models.ForeignKey(
 		Merchandise,
 		on_delete=models.CASCADE,
 	)
@@ -100,24 +119,24 @@ class SelectedOrderMerchandise(models.Model):
 	)
 
 	def __str__(self):
-		return f"item {self.orderItem_merchandise_key} with quantity {self.quantity} selected for order{self.orderItem_order_key.order_id}"
+		return f"OrderItem of {self.merchandise_key_id} with quantity {self.quantity} selected for order {self.order_key.order_id}"
 
-class SelectedOrderMerchandiseOptionChoice(models.Model):
-    OrderOptionChoiceSelected_orderItem_key = models.ForeignKey(
-        SelectedOrderMerchandise,
+class OrderItemSpecification(models.Model):
+    orderItem_key = models.ForeignKey(
+        OrderItem,
         on_delete=models.CASCADE,
     )
-    OrderOptionChoiceSelected_option_key = models.ForeignKey(
-        Option,
+    feature_key = models.ForeignKey(
+        Feature,
         on_delete=models.CASCADE,
     )
-    OrderOptionChoiceSelected_optionChoice_key = models.ForeignKey(
-        OptionChoice,
+    specification_key = models.ForeignKey(
+        Specification,
         on_delete=models.CASCADE,
     )
 
     def get_order_id(self):
-        return self.OrderOptionChoiceSelected_orderItem_key.orderItem_order_key.order_id
+        return self.OrderFeatureSpecificationSelected_orderItem_key.order_key.order_id
 
     def __str__(self):
-        return f"choice {self.OrderOptionChoiceSelected_optionChoice_key} selected for option {self.OrderOptionChoiceSelected_option_key} for SelectedOrderMerchandise {self.OrderOptionChoiceSelected_orderItem_key}"
+        return f"Specification {self.OrderFeatureSpecificationSelected_FeatureSpecification_key} selected for feature {self.OrderFeatureSpecificationSelected_Feature_key} for OrderItem {self.OrderFeatureSpecificationSelected_orderItem_key}"
