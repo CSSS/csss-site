@@ -12,7 +12,18 @@ def getNominees(request, slug):
     if retrievedObj[0].datePublic <= datetime.now():
         print("time to vote")
         nominees = Nominee.objects.filter(nominationPage__slug = slug).all().order_by('Position')
-        return render(request, 'elections/nominee_list.html', {'election': retrievedObj[0], 'tab': 'elections', 'nominees' : nominees})
+        context = {
+            'election': retrievedObj[0],
+            'tab': 'elections',
+            'authenticated' : request.user.is_authenticated,
+            'nominees' : nominees
+        }
+        return render(request, 'elections/nominee_list.html', context)
     else:
         print("cant vote yet")
-        return render(request, 'elections/nominee_list.html', {'tab': 'elections', 'nominees' : 'none'})
+        context = {
+            'tab': 'elections',
+            'nominees' : 'none',
+            'authenticated' : request.user.is_authenticated,
+        }
+        return render(request, 'elections/nominee_list.html', context)

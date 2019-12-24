@@ -1,18 +1,34 @@
 from django.shortcuts import render
 
 def index(request):
-	print("Comp Sci Guide index")
-	return render(request, 'comp_sci_guide/course_map.html', {'tab': 'comp_sci_guide'})
+    print("Comp Sci Guide index")
+    context = {
+        'tab': 'comp_sci_guide',
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'comp_sci_guide/course_map.html', context)
 
 def software(request):
-	print("Software index")
-	return render(request, 'comp_sci_guide/software.html', {'tab': 'comp_sci_guide'})
+    print("Software index")
+    context = {
+        'tab': 'comp_sci_guide',
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'comp_sci_guide/software.html', context)
 
 def textbooks(request):
-	print("textbook index")
-	return render(request, 'comp_sci_guide/textbooks.html', {'tab': 'comp_sci_guide'})
+    print("textbook index")
+    context = {
+        'tab': 'comp_sci_guide',
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'comp_sci_guide/textbooks.html', context)
 
 def courseReview(request):
-	print("course reviews index")
-	return render(request, 'comp_sci_guide/course_reviews.html', {'tab': 'comp_sci_guide'})
+    print("course reviews index")
+    context = {
+        'tab': 'comp_sci_guide',
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'comp_sci_guide/course_reviews.html', context)
 # Create your views here.

@@ -13,6 +13,7 @@ import math
 
 def index(request):
     print("announcements index")
+
     currentPage=request.GET.get('p', 'none')
     if currentPage == 'none':
         currentPage = 1
@@ -70,8 +71,16 @@ def index(request):
     previousButtonLink=request_path+'?p='+str(previousPage)
     nextButtonLink=request_path+'?p='+str(nextPage)
 
+    context = {
+        'tab': 'index',
+        'authenticated' : request.user.is_authenticated,
+        'posts' : messages_to_display,
+        'nextButtonLink' : nextButtonLink,
+        'previousButtonLink': previousButtonLink
 
-    return render(request, 'announcements/announcements.html', {'tab': 'index', 'posts': messages_to_display, 'nextButtonLink':nextButtonLink, 'previousButtonLink': previousButtonLink})
+    }
+
+    return render(request, 'announcements/announcements.html', context)
 
 def contact(request):
 	return render(request, 'csss/basic.html', {'content':['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']})

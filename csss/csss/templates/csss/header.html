@@ -6,7 +6,8 @@
 		<meta charset="utf-8" />
 		{% load staticfiles %}
 		<meta name="viewport" content = "width=device-width, initial-scale=1.0">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{% static 'csss_static/style.css' %}">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
@@ -66,9 +67,8 @@
 						</button>
 						<a class="navbar-brand" href="/"><img height="32" width="32" src="{% static 'csss_static/logo.png' %}"/></a>
 					</div><!-- /.navbar-header -->
-					<div id="navbar" class="collapse navbar-collapse">
+					<div id="navbar" class="collapse navbar-collapse topnav">
 						<ul class="nav navbar-nav nav-tabs">
-							<a class="navbar-brand" href="/">CSSS@SFU</a>
 							{% if tab == 'about' %}
 								<li role="presentation" class="dropdown nav-links active" id="about">
 							{% else %}
@@ -184,6 +184,36 @@
 									<li><a href='http://www.sfu.ca/clubs/wie.html'>WiE</a></li>
 								</ul>
 							</li>
+
+                            {% if authenticated is True %}
+                                {% if tab == 'administration' %}
+                                    <li role="presentation" class="dropdown nav-links active" id="administration">
+                                {% else %}
+                                    <li role="presentation" class="dropdown nav-links" id="administration">
+                                {% endif %}
+                                        <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a href="/adminstration/exec">Exec Information</a></li>
+                                            <li><a href="/adminstration/elections">Election Administration</a></li>
+                                            <li><a href="/adminstration/merch">Merchandise Administration</a></li>
+                                            <li><a href="/adminstration/post">Add new Post</a></li>
+                                            <li><a href="/adminstration/fileUpload">View uploaded files</a></li>
+                                        </ul>
+                                    </li>
+                            {% endif %}
+
+                             <div class="login-container credentials">
+                                <form action="/administration/login" method="post">
+                                    {% csrf_token %}
+                                    <li id="administration" class="nav-links creds-padding"> Username: <input type="text" name="username" required></li>
+                                    <li id="administration" class="nav-links creds-padding"> Password: <input type="text" name="password" required></li>
+                                    <button class="creds-button">Login</button>
+                                 </form>
+                              </div>
+                                {% if authenticated is True %}
+                                    <li id="bursaries_and_awards" class="nav-links"><a href="/administration/logout">Logout</a></li>
+                                {% endif %}
+
 						</ul>
 					</div><!-- /.navbar-collapse -->
 				</div><!-- /.container-fluid -->

@@ -121,6 +121,7 @@ def print_catalogue(request):
     context = {
         'tab': 'shopping',
         'object_list': object_list,
+        'authenticated' : request.user.is_authenticated,
     }
     return render(request, 'shopping/catalogue.html', context)
 
@@ -262,7 +263,8 @@ def checkout_page(request):
         context = {
             'tab': 'shopping',
             'object_selected': merchandise_selected,
-            'total': get_order_total_from_cache(listOfFeatures)
+            'total': get_order_total_from_cache(listOfFeatures),
+            'authenticated' : request.user.is_authenticated,
         }
         print(f"[shopping/views.py checkout_page()] items detected and will be displayed")
 
@@ -396,7 +398,8 @@ def purchase(request):
 
     context = {
         'order': existing_order,
-        'STRIPE_PUBLISHABLE_KEY': publishKey
+        'STRIPE_PUBLISHABLE_KEY': publishKey,
+        'authenticated' : request.user.is_authenticated,
     }
     return render(request, 'shopping/print_catalogue.html', context)
 

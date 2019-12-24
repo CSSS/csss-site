@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 	'documents',
     'events',
     '750_project',
+    'administration',
     'comp_sci_guide',
     'bursaries_and_awards',
     'django_mailbox',
@@ -80,7 +81,7 @@ ROOT_URLCONF = 'csss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + '/templates/', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
