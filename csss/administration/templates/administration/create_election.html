@@ -5,50 +5,49 @@
 {% bootstrap_messages %}
 
 {% block content %}
-<h1>Create New election</h1>
-<form action="/administration/elections/submit" method="post">
-    {% csrf_token %}
-    <p>Election Date : <input type="date" name="election_date" required></p>
-    <p>Date and Time for Election to Go public: <input type="date" name="public_date" required> <input type="time" name="public_time" required><p>
-    <p>Election Type :
-        <select name="election_type">
-            <option value="by_election">By-Election</option>
-            <option value="general_election">General Election</option>
-        </select></p>
-    <p>Websurvey Link : <input type="text" name="websurvey" required></p>
-    <div id="nominee">
-        <p>Full Name: <input type="text" name="full_name" required></p>
-        <p>Position: <input type="text" name="position" required></p>
-        <p>Speech: <textarea name="speech" cols="40" rows="1" required></textarea></p>
-        <p>Facebook Link: <input type="text" name="facebook_link" required></p>
-        <p>LinkedIn Link: <input type="text" name="linkedin_link" required></p>
-        <p>Email Address: <input type="text" name="email_address" required></p>
-        <p>Discord Username: <input type="text" name="discord_username" required></p>
-    </div>
-
-    <input type="button" value="Add another text input" onClick="addNominee('nominee_1');">
-    <input type="submit" value="submit" />
-</form>
-
-<script type="text/javascript">
-
-    function addNominee(divName){
-
-        var newdiv = document.createElement('div');
-
-        newdiv.innerHTML = "<div id=\"nominee\">";
-        newdiv.innerHTML += "<p>Full Name: <input type=\"text\" name=\"full_name\" required></p>";
-        newdiv.innerHTML += "<p>Position: <input type=\"text\" name=\"position\" required></p>";
-        newdiv.innerHTML += "<p>Speech: <input type=\"text\" name=\"speech\" required></p>";
-        newdiv.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"facebook_link\" required></p>";
-        newdiv.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"linkedin_link\" required></p>";
-        newdiv.innerHTML += "<p>Email Address: <input type=\"text\" name=\"email_address\" required></p>";
-        newdiv.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"discord_username\" required></p>";
-        newdiv.innerHTML += "</div>";
-        document.getElementById(divName).appendChild(newdiv);
-
-        counter++;
-
-    }
-</script>
+	<h1>Create new Election</h1>
+	<form action="/administration/elections/submit" method="post">
+		{% csrf_token %}
+		<p>Date For Election to be publicly available: <input type="date" name="public_date" required> <p>
+		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
+			<input type="time" name="public_time" required>
+		</p>
+		<p>Election Type :
+			<select name="election_type">
+				<option value="by_election">By-Election</option>
+				<option value="general_election">General Election</option>
+			</select>
+		<p>
+		<p><b>For Any Links Below, leave as NONE if none to give. If however, you do have the link, remeber to prefix it with "http://"</b></p>
+		<p>Websurvey Link : <input type="text" name="websurvey" value="NONE" required></p>
+		<div id="nominees" >
+			<div style="border: 3px solid black; padding: 10px;">
+				<p>Full Name: <input type="text" name="full_name" required></p>
+				<p>Position: <input type="text" name="position" required></p>
+				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required></textarea></p>
+				<p><a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a>
+				<p>Facebook Link: <input type="text" name="facebook_link" value="NONE" required></p>
+				<p>LinkedIn Link: <input type="text" name="linkedin_link" value="NONE" required></p>
+				<p>Email Address: <input type="text" name="email_address" value="NONE" required></p>
+				<p>Discord Username: <input type="text" name="discord_username" value="NONE" required></p>
+			</div>
+		</div>
+		<input type="button" value="Add another Nominee" onClick="addNominee('nominees');">
+		<input type="submit" value="submit" />
+	</form>
+	<script type="text/javascript">
+		function addNominee(divName){
+			var newNominee = document.createElement('div');
+			newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
+			newNominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"full_name\" required></p>";
+			newNominee.innerHTML += "<p>Position: <input type=\"text\" name=\"position\" required></p>";
+			newNominee.innerHTML += "<p>Speech: (speech needs to already be in HTML format)<br><textarea name=\"speech\" cols=\"40\" rows=\"1\" required></textarea></p>";
+			newNominee.innerHTML += "<p>Facebook Link: <input type=\"text\" value=\"NONE\" name=\"facebook_link\" required></p>";
+			newNominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\"  value=\"NONE\" name=\"linkedin_link\" required></p>";
+			newNominee.innerHTML += "<p>Email Address: <input type=\"text\"  value=\"NONE\" name=\"email_address\" required></p>";
+			newNominee.innerHTML += "<p>Discord Username: <input type=\"text\"  value=\"NONE\" name=\"discord_username\" required></p>";
+			newNominee.innerHTML += "</div>";
+			document.getElementById(divName).appendChild(newNominee);
+		}
+	</script>
 {% endblock %}

@@ -22,16 +22,16 @@ from . import views
 # from django.conf import settings
 
 urlpatterns = [
-	url(r'^admin$', admin.site.urls),
-    url(r'^login$', views.login, name='login'),
+        url(r'^admin$', admin.site.urls),
+        
+        url(r'^login$', views.login, name='login'),
 	url(r'^logout$', views.logout, name='logout'),
-
-    url(r'^exec$', views.exec, name='exec'),
+        url(r'^exec$', views.exec, name='exec'),
 	url(r'^elections/modify$', views.modify_election, name='modify_election'),
 	url(r'^elections/create$', views.create_election, name='create_election'),
 	url(r'^elections/submit$', views.submit_election, name='create_election'),
 	url(r'^elections$', views.elections, name='elections'),
-    url(r'^merch$', views.merch, name='merch'),
+        url(r'^merch$', views.merch, name='merch'),
 	url(r'^post$', views.post, name='post'),
-    url(r'^fileUpload$', views.fileUpload, name='file upload'),
+        url(r'^fileUpload$', views.fileUpload, name='file upload'),
 ]

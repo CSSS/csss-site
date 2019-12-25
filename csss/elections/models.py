@@ -11,25 +11,17 @@ class NominationPage(models.Model):
     slug = models.SlugField(
         max_length=32,
         unique=True,
-        help_text = _("This field will be pre-populated using the below two fields."),
     )
 
     type_of_elections_choices = (
-        ('General_Election', 'General Election'),
-        ('By_Election', 'By-Election'),
+        ('general_election', 'General Election'),
+        ('by_election', 'By-Election'),
     )
 
     type_of_election = models.CharField(
         max_length=16,
         choices=type_of_elections_choices,
         default='General',
-        help_text = _("You need to click on the dropbox above in order for the slug field to get populated"),
-    )
-
-    slugDate = models.DateField(
-		_(u'Date to be used to create the slug field'),
-        default=datetime.now,
-        help_text = _("This field will be used to populate the slug field"),
     )
 
     datePublic = models.DateTimeField(
@@ -41,11 +33,10 @@ class NominationPage(models.Model):
         _("The link that the voters can use to vote on"),
         max_length = 300,
         default="NONE",
-        help_text = _("It is necessary to prefix the link with \"http[s]://\"")
     )
 
     def __str__(self):
-        return str(self.slugDate) +"_"+ self.type_of_election
+        return "{}_{}".format(self.datePublic, self.type_of_election)
 
 class Nominee(models.Model):
 	nominationPage = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
