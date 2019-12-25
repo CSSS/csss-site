@@ -37,21 +37,16 @@ def exec(request):
     }
     return render(request, 'administration/exec.html', context)
 
-def modify_election(request):
+def select_election(request):
+    elections = NominationPage.objects.all().order_by('-id') 
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
+        'elections' : elections
     }
-    return render(request, 'administration/elections.html', context)
+    return render(request, 'administration/select_election.html', context)
 
 def create_election(request):
-    context = {
-        'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-    }
-    return render(request, 'administration/create_election.html', context)
-
-def submit_election(request):
     print(f"request.POST={request.POST}")
     context = {
         'tab': 'administration',
@@ -122,6 +117,52 @@ def submit_election(request):
            
         return render(request, 'administration/create_election.html', context)
     return render(request, 'administration/create_election.html', context)
+
+def delete_election(election_id):
+    NominationPage.objects.filter(slug = election_id).delete()
+    return HttpResponseRedirect('/')
+
+def modify_election(request, election_id):
+    print(f"[modify_election] election_id={election_id}")
+    election = NominationPage.objects.get(slug = election_id)
+    print(f"[modify_election] election={election}")
+    retrievedObjects = Nominee.objects.all().filter(nominationPage = election)
+    print(f"[modify_election] retrievedObjects={retrievedObjects}")
+    nominees = [nominee for nominee in retrievedObjects]
+    print(f"[modify_election] nominees={nominees}")
+    nominees.sort(key=lambda x: x.Position, reverse=True)
+    date = election.datePublic.strftime("%Y-%m-%d")
+    time = election.datePublic.strftime("%H:%M")
+    print(f"[modify_election] election.type_of_election={election.type_of_election}")
+    context = {
+        'tab': 'administration',
+        'authenticated' : request.user.is_authenticated,
+        'nominees' : nominees,
+        'election' : election,
+        'date': date,
+        'time' : time,
+        'type_of_election': election.type_of_election
+    }
+    return render(request, 'administration/modify_election.html', context)
+
+
+
+def determine_election_action(request):
+    print(f"[determine_election_action] request.POST={request.POST}")
+    if 'action' in request.POST:
+        if request.POST['action'] == 'delete':
+            delete_election(request.POST['election_id'])
+        elif request.POST['action'] == 'Modify':
+            return modify_election(request, request.POST['election_id'])
+        else:
+            return HttpResponseRedirect('/')
+    else:
+        return HttpResponseRedirect('/')
+        context = {
+        'tab': 'administration',
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'administration/select_election.html', context)
 
 
 def elections(request):

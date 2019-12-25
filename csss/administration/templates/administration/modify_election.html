@@ -6,31 +6,39 @@
 
 {% block content %}
 	<h1>Create new Election</h1>
-	<form action="/administration/elections/create" method="post">
+	<form action="/administration/elections/update" method="post">
 		{% csrf_token %}
-		<p>Date For Election to be publicly available: <input type="date" name="public_date" required> <p>
+		<p>Date For Election to be publicly available: <input type="date" name="public_date" value="{{date}}" required> <p>
 		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
-			<input type="time" name="public_time" required>
+		<input type="time" name="public_time" value="{{time}}" required>
 		</p>
 		<p>Election Type :
 			<select name="election_type">
-				<option value="by_election">By-Election</option>
-				<option value="general_election">General Election</option>
+				{% if type_of_election == 'By-Election' %}
+					<option selected="selected" value="by_election">By-Election</option>
+					<option value="general_election" >By-Election</option>
+				{% elif type_of_election == 'General Election' %}
+					<option value="by_election">By-Election</option>
+					<option selected="selected" value="general_election" >General Election</option>
+
+				{% endif %}
 			</select>
 		<p>
 		<p><b>For Any Links Below, leave as NONE if none to give. If however, you do have the link, remeber to prefix it with "http://"</b></p>
 		<p>Websurvey Link : <input type="text" name="websurvey" value="NONE" required></p>
 		<div id="nominees" >
+		{% for nominee in nominees %}
 			<div style="border: 3px solid black; padding: 10px;">
-				<p>Full Name: <input type="text" name="full_name" required></p>
-				<p>Position: <input type="text" name="position" required></p>
-				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required></textarea></p>
+				<p>Full Name: <input type="text" name="full_name" value="{{nominee.name}}" required></p>
+				<p>Position: <input type="text" name="position" value="{{nominee.Position}}" required></p>
+				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" value="{{nominee.Speech}}" required></textarea></p>
 				<p><a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a>
-				<p>Facebook Link: <input type="text" name="facebook_link" value="NONE" required></p>
-				<p>LinkedIn Link: <input type="text" name="linkedin_link" value="NONE" required></p>
-				<p>Email Address: <input type="text" name="email_address" value="NONE" required></p>
-				<p>Discord Username: <input type="text" name="discord_username" value="NONE" required></p>
+				<p>Facebook Link: <input type="text" name="facebook_link" value="{{nominee.Facebook}}" required></p>
+				<p>LinkedIn Link: <input type="text" name="linkedin_link" value="{{nominee.LinkedIn}}" required></p>
+				<p>Email Address: <input type="text" name="email_address" value="{{nominee.Email}}" required></p>
+				<p>Discord Username: <input type="text" name="discord_username" value="{{nominee.Discord_Username}}" required></p>
 			</div>
+		{% endfor %}
 		</div>
 		<input type="button" value="Add another Nominee" onClick="addNominee('nominees');">
 		<input type="button" value="Remove the last Nominee Slot" onClick="removeNominee('#nominees');">

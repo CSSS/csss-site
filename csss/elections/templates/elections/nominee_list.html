@@ -4,7 +4,7 @@
     {{ block.super }}
     {% load staticfiles %}
     {% block body %}
-        <h1>{{election.type_of_election}} {{election.slugDate}}</h1>
+        <h1>{{election.type_of_election}} {{election.datePublic}}</h1>
         <div id='content'>
             {% if nominees == "none" %}
                 It seems like the time hasn't come to announce the nominees yet....

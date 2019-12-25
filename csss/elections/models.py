@@ -15,13 +15,14 @@ class NominationPage(models.Model):
 
     type_of_elections_choices = (
         ('general_election', 'General Election'),
-        ('by_election', 'By-Election'),
+        ('By-Election', 'By-Election'),
     )
 
     type_of_election = models.CharField(
+        _("Election Type"),
         max_length=16,
         choices=type_of_elections_choices,
-        default='General',
+        default='General Election',
     )
 
     datePublic = models.DateTimeField(
