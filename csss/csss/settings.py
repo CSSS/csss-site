@@ -13,14 +13,13 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'mndb=kgytc4+ap(^var_w0o-dlo@j7@6e9_#964jhd3m*vk+2v'
+SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -29,8 +28,7 @@ DEBUG = True
 #    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
 #    print(" export ip_addr = '<ipaddr>'");
 
-ALLOWED_HOSTS = [os.environ['ip_addr']]
-# ALLOWED_HOSTS = ['dev.sfucsss.org', '46.101.158.172']
+ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org', os.environ['ip_addr']]
 
 # Application definition
 
@@ -61,9 +59,6 @@ INSTALLED_APPS = [
 	'shopping',
     'stripe',
     'django.contrib.sites',
-    #'allauth',
-    #'allauth.account',
-    #'allauth.socialaccount'
 ]
 
 MIDDLEWARE = [
@@ -143,12 +138,9 @@ USE_L10N = True
 
 USE_TZ = False
 
-if DEBUG:
-    STRIPE_PUBLISHABLE_KEY = 'pk_test_MhY7lAQ9ZLpO1O6jt4eTXC5e'
-    STRIPE_SECRET_KEY = 'sk_test_BAsVtUiIpXqNgjHBiOpGCAyr'
-else:
-    STRIPE_PUBLISHABLE_KEY = 'live_pub_key'
-    STRIPE_SECRET_KEY = 'live_secret_key'
+STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
+STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -172,12 +164,15 @@ LOGIN_REDIRECT_URL = '/products'
 import environ
 ROOT_DIR = environ.Path(__file__) - 4
 
+print(f"ROOT_DIR={ROOT_DIR}")
+print(f"BASE_DIR={BASE_DIR}")
+
 STATIC_URL = '/STATIC_URL/'
 #is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
 #This is something that tells your browser where to look for JavaScript and CSS files
 
 #STATIC_ROOT = os.path.join(BASE_DIR, 'STATIC_ROOT')
-STATIC_ROOT = str(ROOT_DIR('STATIC_ROOT'))
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
 
 #This is destination directory for your static files. This should be absolute path in yor file system,
 #for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
@@ -188,7 +183,8 @@ MEDIA_URL = '/MEDIA_URL/'
 #if set to a non-empty value. You will need to configure these files to be served in both development and production environments.
 
 
-MEDIA_ROOT = str(ROOT_DIR('MEDIA_ROOT'))
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root/')
+
 #Absolute filesystem path to the directory that will hold user-uploaded files.
 
 
