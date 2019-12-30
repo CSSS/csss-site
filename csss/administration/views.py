@@ -9,9 +9,33 @@ from elections.models import NominationPage, Nominee
 from querystring_parser import parser
 
 import datetime
+import json
+
+NOM_NAME_KEY = 'name'
+NOM_POSITION_KEY = 'exec_position'
+NOM_SPEECH_KEY = 'speech'
+NOM_FACEBOOK_KEY = 'facebook'
+NOM_LINKEDIN_KEY = 'linked_in'
+NOM_EMAIL_KEY = 'email'
+NOM_DISCORD_USERNAME_KEY = 'discord'
+
+ELECTION_TYPE_KEY = 'election_type'
+ELECTION_DATE_KEY = 'date'
+ELECTION_WEBSURVEY_LINK_KEY = 'websurvey'
+ELECTION_NOMINEES_KEY = 'nominees'
+ELECTION_ID_KEY = 'election_id'
+
+DELETE_ACTION_POST_KEY = 'delete'
+UPDATE_ACTION_POST_KEY = 'update'
+UPDATE_WITH_JSON_ACTION_POST_KEY = 'update_with_json'
+
+ELECTION_DATE_POST_KEY = 'date'
+ELECTION_TIME_POST_KEY = 'time'
+
+JSON_INPUT_POST_KEY = 'input_json'
 
 def login(request):
-    print(f"request.POST={request.POST}")
+    print(f"[login] request.POST={request.POST}")
 
     if 'username' in request.POST and 'password' in request.POST:
         username = request.POST['username']
@@ -29,16 +53,8 @@ def logout(request):
     dj_logout(request)
     return HttpResponseRedirect('/')
 
-
-def exec(request):
-    context = {
-        'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-    }
-    return render(request, 'administration/exec.html', context)
-
-def select_election(request):
-    elections = NominationPage.objects.all().order_by('-id') 
+def select_election_to_update(request):
+    elections = NominationPage.objects.all().order_by('-id')
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
@@ -46,149 +62,347 @@ def select_election(request):
     }
     return render(request, 'administration/select_election.html', context)
 
-def create_election(request):
-    print(f"request.POST={request.POST}")
-    context = {
-        'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-    }
-    if 'election_type' in request.POST and 'public_date' in request.POST and 'public_time' in request.POST and 'websurvey' in request.POST:
-        print("creating new election")
-        if (request.POST['election_type'] == 'by_election'):
-            election_type = "By-Election"
-        elif (request.POST['election_type'] == 'general_election'):
-            election_type = "General Election"
-        public_date = request.POST['public_date']
-        public_time = request.POST['public_time']
-        websurvey_link = request.POST['websurvey']
-        print(f"public_date={public_date} public_time={public_time}")
-        dt = datetime.datetime.strptime("{} {}".format(public_date, public_time), '%Y-%m-%d %H:%M')
-        nomPage = NominationPage(
-            slug = "{}-{}".format(public_date,request.POST['election_type']),
-            type_of_election = election_type,
-            datePublic = dt,
-            websurvey = websurvey_link
-        )
-        nomPage.save()
-        post_dict = parser.parse(request.POST.urlencode())
-        print(f"post_dict={post_dict}")
-        print(f"full_name={post_dict['full_name']} len = {len(post_dict['full_name'])}")
-        if (len(post_dict['full_name'][0]) > 1):
-            for i in range(len(post_dict['full_name'])):
-                full_name = post_dict['full_name'][i]
-                position = post_dict['position'][i]
-                speech = post_dict['speech'][i]
-                facebook_link = post_dict['facebook_link'][i]
-                linkedin_link = post_dict['linkedin_link'][i]
-                email_address = post_dict['email_address'][i]
-                discord_username = post_dict['discord_username'][i]
-                print(f"saved user full_name={full_name} position={position} speech={speech} facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}  discord_username={discord_username}")
-                nom = Nominee(
-                    nominationPage = nomPage,
-                    name = full_name,
-                    Position = position,
-                    Speech = speech,
-                    Facebook = facebook_link,
-                    LinkedIn = linkedin_link,
-                    Email = email_address,
-                    Discord_Username = discord_username
-                )
-                nom.save()
+def determine_election_action(request):
+    print(f"[determine_election_action] request.POST={request.POST}")
+    if 'action' in request.POST:
+        if request.POST['action'] == DELETE_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST :
+            return delete_selected_election(request.POST[ELECTION_ID_KEY])
+        elif request.POST['action'] == UPDATE_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST :
+            return display_selected_election_for_updating(request, request.POST[ELECTION_ID_KEY])
+        elif request.POST['action'] == UPDATE_WITH_JSON_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST :
+            return display_selected_election_json_for_updating(request, request.POST[ELECTION_ID_KEY])
         else:
-            full_name = post_dict['full_name']
-            position = post_dict['position']
-            speech = post_dict['speech']
-            facebook_link = post_dict['facebook_link']
-            linkedin_link = post_dict['linkedin_link']
-            email_address = post_dict['email_address']
-            discord_username = post_dict['discord_username']
-            print(f"saved user full_name={full_name} position={position} speech={speech} facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}  discord_username={discord_username}")
-            nom = Nominee(
-                nominationPage = nomPage,
-                name = full_name,
-                Position = position,
-                Speech = speech,
-                Facebook = facebook_link,
-                LinkedIn = linkedin_link,
-                Email = email_address,
-                Discord_Username = discord_username
-            )
-            nom.save()
-           
-        return render(request, 'administration/create_election.html', context)
-    return render(request, 'administration/create_election.html', context)
+            return HttpResponseRedirect('/administration/elections/select_election')
+    else:
+        return HttpResponseRedirect('/administration/elections/select_election')
 
-def delete_election(election_id):
+def delete_selected_election(election_id):
     NominationPage.objects.filter(slug = election_id).delete()
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect('/administration/elections/select_election')
 
-def modify_election(request, election_id):
-    print(f"[modify_election] election_id={election_id}")
+def display_selected_election_for_updating(request, election_id):
     election = NominationPage.objects.get(slug = election_id)
-    print(f"[modify_election] election={election}")
-    retrievedObjects = Nominee.objects.all().filter(nominationPage = election)
-    print(f"[modify_election] retrievedObjects={retrievedObjects}")
-    nominees = [nominee for nominee in retrievedObjects]
-    print(f"[modify_election] nominees={nominees}")
-    nominees.sort(key=lambda x: x.Position, reverse=True)
-    date = election.datePublic.strftime("%Y-%m-%d")
-    time = election.datePublic.strftime("%H:%M")
-    print(f"[modify_election] election.type_of_election={election.type_of_election}")
+    nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page = election)]
+    nominees.sort(key=lambda x: x.position, reverse=True)
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
         'nominees' : nominees,
         'election' : election,
-        'date': date,
-        'time' : time,
-        'type_of_election': election.type_of_election
+        'date': election.date.strftime("%Y-%m-%d"),
+        'time' : election.date.strftime("%H:%M"),
+        'election_type': election.election_type,
+        'websurvey' : election.websurvey
     }
-    return render(request, 'administration/modify_election.html', context)
+    return render(request, 'administration/update_election.html', context)
 
+def display_selected_election_json_for_updating(request, election_id):
+    election = NominationPage.objects.get(slug = election_id)
+    nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page = election)]
+    nominees.sort(key= lambda x: x.position, reverse = True)
+    election_dict = {}
+    election_dict[ELECTION_TYPE_KEY] = election.election_type
+    election_dict[ELECTION_DATE_KEY] = election.date.strftime("%Y-%m-%d %H:%M")
+    election_dict[ELECTION_WEBSURVEY_LINK_KEY] = election.websurvey
+    election_dict[ELECTION_NOMINEES_KEY] = []
+    for nominee in nominees:
+        nom = {}
+        nom[NOM_NAME_KEY] = nominee.name
+        nom[NOM_POSITION_KEY] = nominee.exec_position
+        nom[NOM_SPEECH_KEY] = nominee.speech
+        nom[NOM_FACEBOOK_KEY] = nominee.facebook
+        nom[NOM_LINKEDIN_KEY] = nominee.linked_in
+        nom[NOM_EMAIL_KEY] = nominee.email
+        nom[NOM_DISCORD_USERNAME_KEY] = nominee.discord
+        election_dict[ELECTION_NOMINEES_KEY].append(nom)
+    context = {
+        'tab' : 'administration',
+        'authenticated' : request.user.is_authenticated,
+        'election_dict': json.dumps(election_dict)
+    }
 
+    return render(request, 'administration/update_election_json.html', context)
 
-def determine_election_action(request):
-    print(f"[determine_election_action] request.POST={request.POST}")
-    if 'action' in request.POST:
-        if request.POST['action'] == 'delete':
-            delete_election(request.POST['election_id'])
-        elif request.POST['action'] == 'Modify':
-            return modify_election(request, request.POST['election_id'])
+def get_nomination_page(request):
+    dt = datetime.datetime.strptime(f"{request[ELECTION_DATE_POST_KEY]} {request[ELECTION_TIME_POST_KEY]}", '%Y-%m-%d %H:%M')
+    slug = f"{dt.strftime('%Y-%m-%d')}-{request[ELECTION_TYPE_KEY]}"
+    NominationPage.objects.filter(
+        slug = slug,
+        election_type = request[ELECTION_TYPE_KEY],
+        date = dt,
+        websurvey = request[ELECTION_WEBSURVEY_LINK_KEY]
+    ).delete()
+
+    nomPage = NominationPage(
+        slug = slug,
+        election_type = request[ELECTION_TYPE_KEY],
+        date = dt,
+        websurvey = request[ELECTION_WEBSURVEY_LINK_KEY]
+    )
+    nomPage.save()
+    print(f" nomPage {nomPage} created")
+    return nomPage
+
+def get_nomination_page_json(input_json):
+    dt = datetime.datetime.strptime(f"{input_json[ELECTION_DATE_KEY]}", '%Y-%m-%d %H:%M')
+    slug = f"{dt.strftime('%Y-%m-%d')}-{input_json[ELECTION_TYPE_KEY]}"
+    NominationPage.objects.filter(
+        slug = slug,
+        election_type = input_json[ELECTION_TYPE_KEY],
+        date = dt,
+        websurvey = input_json[ELECTION_WEBSURVEY_LINK_KEY]
+    ).delete()
+
+    nomPage = NominationPage(
+        slug = slug,
+        election_type = input_json[ELECTION_TYPE_KEY],
+        date = dt,
+        websurvey = input_json[ELECTION_WEBSURVEY_LINK_KEY]
+    )
+    nomPage.save()
+    print(f" nomPage {nomPage} created")
+    return nomPage
+
+def update_specified_election(request):
+    context = {
+        'tab': 'administration',
+        'authenticated' : request.user.is_authenticated,
+    }
+    if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST \
+        and ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
+        nomPage = get_nomination_page(request.POST)
+        post_dict = parser.parse(request.POST.urlencode())
+        positionIndex=0
+        if (len(post_dict[NOM_NAME_KEY][0]) > 1):
+            for i in range(len(post_dict[NOM_NAME_KEY])):
+                full_name = post_dict[NOM_NAME_KEY][i]
+                exec_position = post_dict[NOM_POSITION_KEY][i]
+                speech = post_dict[NOM_SPEECH_KEY][i]
+                facebook_link = post_dict[NOM_FACEBOOK_KEY][i]
+                linkedin_link = post_dict[NOM_LINKEDIN_KEY][i]
+                email_address = post_dict[NOM_EMAIL_KEY][i]
+                discord_username = post_dict[NOM_DISCORD_USERNAME_KEY][i]
+                if full_name != 'NONE':
+                    print(
+                        f"saved user full_name={full_name} exec_position={exec_position} speech={speech} "
+                        "facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}"
+                        "  discord_username={discord_username}")
+                    nom = Nominee(
+                        nomination_page = nomPage,
+                        name = full_name,
+                        exec_position = exec_position,
+                        speech = speech,
+                        facebook = facebook_link,
+                        linked_in = linkedin_link,
+                        email = email_address,
+                        discord = discord_username,
+                        position = positionIndex
+                    )
+                    nom.save()
+                    positionIndex+=1
+                else:
+                    print(
+                        f"skipping saving user full_name={full_name} exec_position={exec_position} speech={speech} "
+                        "facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}  "
+                        "discord_username={discord_username}")
         else:
-            return HttpResponseRedirect('/')
-    else:
-        return HttpResponseRedirect('/')
-        context = {
-        'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-    }
-    return render(request, 'administration/select_election.html', context)
+            full_name = post_dict[NOM_NAME_KEY]
+            exec_position = post_dict[NOM_POSITION_KEY]
+            speech = post_dict[NOM_SPEECH_KEY]
+            facebook_link = post_dict[NOM_FACEBOOK_KEY]
+            linkedin_link = post_dict[NOM_LINKEDIN_KEY]
+            email_address = post_dict[NOM_EMAIL_KEY]
+            discord_username = post_dict[NOM_DISCORD_USERNAME_KEY]
+            print(
+                f"saved user full_name={full_name} exec_position={exec_position} speech={speech} facebook_link={facebook_link} "
+                "linkedin_link={linkedin_link} email_address={email_address}  discord_username={discord_username}")
+            nom = Nominee(
+                nomination_page = nomPage,
+                name = full_name,
+                exec_position = exec_position,
+                speech = speech,
+                facebook = facebook_link,
+                linked_in = linkedin_link,
+                email = email_address,
+                discord = discord_username,
+                position = positionIndex
+            )
+            nom.save()
 
+        return HttpResponseRedirect('/administration/elections/select_election')
+    return HttpResponseRedirect('/administration/elections/select_election')
 
-def elections(request):
+def create_or_update_specified_election_with_provided_json(request):
+    print(f"[create_or_update_specified_election_with_provided_json] request.POST={request.POST}")
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
     }
-    return render(request, 'administration/election.html', context)
+    if JSON_INPUT_POST_KEY in request.POST:
+        print("creating new election")
+        post_dict = parser.parse(request.POST.urlencode())
+        post_dict = json.loads(request.POST['input_json'])
+        print(f"post_dict={post_dict}")
+        nomPage = get_nomination_page_json(json.loads(request.POST['input_json']))
+        # post_dict = parser.parse(request.POST.urlencode())
+        print(f"post_dict={post_dict}")
+        print(f"full_name={post_dict[ELECTION_NOMINEES_KEY]} len = {len(post_dict[ELECTION_NOMINEES_KEY])}")
+        positionIndex=0
+        for nominee in post_dict[ELECTION_NOMINEES_KEY]:
+            full_name = nominee[NOM_NAME_KEY]
+            exec_position = nominee[NOM_POSITION_KEY]
+            speech = nominee[NOM_SPEECH_KEY]
+            facebook_link = nominee[NOM_FACEBOOK_KEY]
+            linkedin_link = nominee[NOM_LINKEDIN_KEY]
+            email_address = nominee[NOM_EMAIL_KEY]
+            discord_username = nominee[NOM_DISCORD_USERNAME_KEY]
+            print(
+                f"saved user full_name={full_name} exec_position={exec_position} speech={speech} facebook_link={facebook_link}"
+                " linkedin_link={linkedin_link} email_address={email_address}  discord_username={discord_username}")
+            nom = Nominee(
+                nomination_page = nomPage,
+                name = full_name,
+                exec_position = exec_position,
+                speech = speech,
+                facebook = facebook_link,
+                linked_in = linkedin_link,
+                email = email_address,
+                discord = discord_username,
+                position=positionIndex
+            )
+            nom.save()
+            positionIndex+=1
 
-def merch(request):
+        return render(request, 'administration/create_election_json.html', context)
+    return render(request, 'administration/create_election_json.html', context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def create_specified_election(request):
+    print(f"[create_specified_election] request.POST={request.POST}")
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
     }
-    return render(request, 'administration/merch.html', context)
+    if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST and \
+        ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
+        print("creating new election")
+        if (request.POST[ELECTION_TYPE_KEY] == 'by_election'):
+            election_type = "By-Election"
+        elif (request.POST[ELECTION_TYPE_KEY] == 'general_election'):
+            election_type = "General_Election"
+        nomPage = get_nomination_page(request.POST)
+        post_dict = parser.parse(request.POST.urlencode())
+        print(f"post_dict={post_dict}")
+        print(f"full_name={post_dict[NOM_NAME_KEY]} len = {len(post_dict[NOM_NAME_KEY])}")
+        positionIndex=0
+        if (len(post_dict[NOM_NAME_KEY][0]) > 1):
+            for i in range(len(post_dict[NOM_NAME_KEY])):
+                full_name = post_dict[NOM_NAME_KEY][i]
+                exec_position = post_dict[NOM_POSITION_KEY][i]
+                speech = post_dict[NOM_SPEECH_KEY][i]
+                facebook_link = post_dict[NOM_FACEBOOK_KEY][i]
+                linkedin_link = post_dict[NOM_LINKEDIN_KEY][i]
+                email_address = post_dict[NOM_EMAIL_KEY][i]
+                discord_username = post_dict[NOM_DISCORD_USERNAME_KEY][i]
+                print(
+                    f"saved user full_name={full_name} exec_position={exec_position} speech={speech} "
+                    "facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}"
+                    "  discord_username={discord_username}")
+                nom = Nominee(
+                    nomination_page = nomPage,
+                    name = full_name,
+                    exec_position = exec_position,
+                    speech = speech,
+                    facebook = facebook_link,
+                    linked_in = linkedin_link,
+                    email = email_address,
+                    discord = discord_username,
+                    position=positionIndex
+                )
+                nom.save()
+                positionIndex+=1
+        else:
+            full_name = post_dict[NOM_NAME_KEY]
+            exec_position = post_dict[NOM_POSITION_KEY]
+            speech = post_dict[NOM_SPEECH_KEY]
+            facebook_link = post_dict[NOM_FACEBOOK_KEY]
+            linkedin_link = post_dict[NOM_LINKEDIN_KEY]
+            email_address = post_dict[NOM_EMAIL_KEY]
+            discord_username = post_dict[NOM_DISCORD_USERNAME_KEY]
+            print(
+                f"saved user full_name={full_name} exec_position={exec_position} speech={speech} "
+                "facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}"
+                "  discord_username={discord_username}")
+            nom = Nominee(
+                nomination_page = nomPage,
+                name = full_name,
+                exec_position = exec_position,
+                speech = speech,
+                facebook = facebook_link,
+                linked_in = linkedin_link,
+                email = email_address,
+                discord = discord_username,
+                position=positionIndex
+            )
+            nom.save()
 
-def post(request):
+        return render(request, 'administration/create_election.html', context)
+    return render(request, 'administration/create_election.html', context)
+
+def create_or_update_specified_election_with_provided_json(request):
+    print(f"[create_or_update_specified_election_with_provided_json] request.POST={request.POST}")
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
     }
-    return render(request, 'administration/post.html', context)
+    if JSON_INPUT_POST_KEY in request.POST:
+        print("creating new election")
+        post_dict = parser.parse(request.POST.urlencode())
+        post_dict = json.loads(request.POST['input_json'])
+        print(f"post_dict={post_dict}")
+        nomPage = get_nomination_page_json(json.loads(request.POST['input_json']))
+        # post_dict = parser.parse(request.POST.urlencode())
+        print(f"post_dict={post_dict}")
+        print(f"full_name={post_dict[ELECTION_NOMINEES_KEY]} len = {len(post_dict[ELECTION_NOMINEES_KEY])}")
+        positionIndex=0
+        for nominee in post_dict[ELECTION_NOMINEES_KEY]:
+            full_name = nominee[NOM_NAME_KEY]
+            exec_position = nominee[NOM_POSITION_KEY]
+            speech = nominee[NOM_SPEECH_KEY]
+            facebook_link = nominee[NOM_FACEBOOK_KEY]
+            linkedin_link = nominee[NOM_LINKEDIN_KEY]
+            email_address = nominee[NOM_EMAIL_KEY]
+            discord_username = nominee[NOM_DISCORD_USERNAME_KEY]
+            print(
+                f"saved user full_name={full_name} exec_position={exec_position} speech={speech} "
+                "facebook_link={facebook_link} linkedin_link={linkedin_link} email_address={email_address}  "
+                "discord_username={discord_username}")
+            nom = Nominee(
+                nomination_page = nomPage,
+                name = full_name,
+                exec_position = exec_position,
+                speech = speech,
+                facebook = facebook_link,
+                linked_in = linkedin_link,
+                email = email_address,
+                discord = discord_username,
+                position=positionIndex
+            )
+            nom.save()
+            positionIndex+=1
 
-def fileUpload(request):
-    context = {
-        'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-    }
-    return render(request, 'administration/fileUpload.html', context)
+        return render(request, 'administration/create_election_json.html', context)
+    return render(request, 'administration/create_election_json.html', context)

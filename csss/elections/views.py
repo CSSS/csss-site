@@ -9,11 +9,12 @@ from datetime import datetime
 
 def getNominees(request, slug):
     retrievedObj = NominationPage.objects.filter(slug = slug)
-    if retrievedObj[0].datePublic <= datetime.now():
+    if retrievedObj[0].date <= datetime.now():
         print("time to vote")
-        nominees = Nominee.objects.filter(nominationPage__slug = slug).all().order_by('Position')
+        nominees = Nominee.objects.filter(nomination_page__slug = slug).all().order_by('position')
         context = {
             'election': retrievedObj[0],
+            'election_date': retrievedObj[0].date.strftime("%Y-%m-%d"),
             'tab': 'elections',
             'authenticated' : request.user.is_authenticated,
             'nominees' : nominees

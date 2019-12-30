@@ -13,19 +13,19 @@ class NominationPage(models.Model):
         unique=True,
     )
 
-    type_of_elections_choices = (
+    election_type_choices = (
         ('general_election', 'General Election'),
-        ('By-Election', 'By-Election'),
+        ('by_election', 'By-Election'),
     )
 
-    type_of_election = models.CharField(
+    election_type = models.CharField(
         _("Election Type"),
         max_length=16,
-        choices=type_of_elections_choices,
+        choices=election_type_choices,
         default='General Election',
     )
 
-    datePublic = models.DateTimeField(
+    date = models.DateTimeField(
         _(u'Date to be made Public'),
         default=datetime.now,
     )
@@ -37,21 +37,27 @@ class NominationPage(models.Model):
     )
 
     def __str__(self):
-        return "{}_{}".format(self.datePublic, self.type_of_election)
+        return "{}_{}".format(self.date, self.election_type)
 
 class Nominee(models.Model):
-	nominationPage = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
-	name = models.CharField(max_length=140)
+    nomination_page = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
 
-	Position = models.CharField(
-		max_length=40,
-		default='NA',
-	)
-	Speech = models.CharField(max_length=2000)
-	Facebook = models.CharField(_(u'Facebook Link'),max_length=300)
-	LinkedIn = models.CharField(_(u'LinkedIn Link'),max_length=300)
-	Email = models.CharField(_(u'Email Address'),max_length=300)
-	Discord_Username = models.CharField(_(u'Discord Username'),max_length=300)
+    name = models.CharField(max_length=140)
 
-	def __str__(self):
-		return self.name
+    exec_position = models.CharField(
+        max_length=40,
+        default='NA',
+    )
+
+    position = models.IntegerField(
+        default = 0
+    )
+
+    speech = models.CharField(max_length=2000)
+    facebook = models.CharField(_(u'Facebook Link'),max_length=300)
+    linked_in = models.CharField(_(u'LinkedIn Link'),max_length=300)
+    email = models.CharField(_(u'Email Address'),max_length=300)
+    discord = models.CharField(_(u'Discord Username'),max_length=300)
+
+    def __str__(self):
+        return self.name
