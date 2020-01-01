@@ -1,0 +1,67 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+{% load static %}
+{% load staticfiles %}
+	<h1>List of Merchandise</h1>
+	<form action="/administration/merch/update" method="post">
+		{% csrf_token %}
+		<p> To remove an item, replace their name with "NONE"</p>
+        <p> Use <a href="http://publicdev.sfucsss.org/STATIC_URL/">this page</a> to navigate the path<p>
+        <table id="POITable" style="border: 3px solid black; padding: 10px;">
+            <tr>
+                <td>Picture</td>
+                <td>Picture Link (root location of )</td>
+                <td>Merch</td>
+                <td>Size</td>
+                <td>Color</td>
+                <td>Quantity</td>
+                <td>Price</td>
+                <td>Active</td>
+            </tr>
+		    {% for merchandise in merchandises %}
+                <tr>
+                    <td><img src="{% static merchandise.0 %}" alt="img" width="80%"><br></td>
+                    <td>
+                        <label >/home/csss/csss-site-in-dev/csss/shopping/static</label>
+                        <input style="float: right; width: 20%" name="picture_link" value="{{merchandise.0}}" readonly>{{merchandise.0}}</td>
+                    <td><input style="width: 20%" name="merchandise" value="{{merchandise.1}}" readonly>{{merchandise.1}}</td>
+                    <td><input style="width: 20%" name="size" value="{{merchandise.4}}" readonly>{{merchandise.4}}</td>
+                    <td><input style="width: 20%" name="color" value="{{merchandise.3}}" readonly>{{merchandise.3}}</td>
+                    <td><input style="width: 20%" type="number" name="quantity" value="{{merchandise.5}}" min="1" readonly></td>
+                    <td>{{merchandise.2}}</td>
+                    <td><input type="checkbox" name="{{merchandise.1}}" value="active"></td>
+                </tr>
+            {% endfor %}
+        </table>
+		<input type="button" value="Add another Merchandise" onClick="insRow();">
+		<input type="submit" value="submit" />
+	</form>
+	<script type="text/javascript">
+        function insRow(){
+            var table = document.getElementById("POITable");
+
+            var row = table.insertRow(-1);
+
+            var cell1 = row.insertCell(0);
+            cell1.innerHTML = "<img src=\"{% static merchandise.0 %}\" alt=\"img\" width=\"80%\"><br>";
+            var cell2 = row.insertCell(1);
+            cell2.innerHTML = "<label>/home/csss/csss-site-in-dev/csss/shopping/static</label>"
+            cell2.innerHTML += "<input style=\"float: right; width: 10%\"  name=\"picture_link\" value=\"{{merchandise.0}}\">{{merchandise.0}}";
+            var cell3 = row.insertCell(2);
+            cell3.innerHTML = "<input  style=\"width: 30%\" name=\"merchandise\" value=\"{{merchandise.1}}\">{{merchandise.1}}";
+            var cell4 = row.insertCell(3);
+            cell4.innerHTML = "<input  style=\"width: 30%\" name=\"size\" value=\"{{merchandise.4}}\">{{merchandise.4}}";
+            var cell5 = row.insertCell(4);
+            cell5.innerHTML = "<input  style=\"width: 30%\" name=\"color\" value=\"{{merchandise.3}}\">{{merchandise.3}}";
+            var cell6 = row.insertCell(5);
+            cell6.innerHTML = "<input style=\"width: 30%\" type=\"number\" name=\"quantity\" value=\"{{merchandise.5}}\" min=\"1\" readonly>";
+            var cell7 = row.insertCell(6);
+            cell7.innerHTML = "<input style=\"width: 30%\" type=\"number\" name=\"price\" value=\"{{merchandise.2}}\" min=\"1\">";
+        }
+	</script>
+{% endblock %}
