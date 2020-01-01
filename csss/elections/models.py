@@ -11,28 +11,21 @@ class NominationPage(models.Model):
     slug = models.SlugField(
         max_length=32,
         unique=True,
-        help_text = _("This field will be pre-populated using the below two fields."),
     )
 
-    type_of_elections_choices = (
-        ('General_Election', 'General Election'),
-        ('By_Election', 'By-Election'),
+    election_type_choices = (
+        ('general_election', 'General Election'),
+        ('by_election', 'By-Election'),
     )
 
-    type_of_election = models.CharField(
+    election_type = models.CharField(
+        _("Election Type"),
         max_length=16,
-        choices=type_of_elections_choices,
-        default='General',
-        help_text = _("You need to click on the dropbox above in order for the slug field to get populated"),
+        choices=election_type_choices,
+        default='General Election',
     )
 
-    slugDate = models.DateField(
-		_(u'Date to be used to create the slug field'),
-        default=datetime.now,
-        help_text = _("This field will be used to populate the slug field"),
-    )
-
-    datePublic = models.DateTimeField(
+    date = models.DateTimeField(
         _(u'Date to be made Public'),
         default=datetime.now,
     )
@@ -41,25 +34,30 @@ class NominationPage(models.Model):
         _("The link that the voters can use to vote on"),
         max_length = 300,
         default="NONE",
-        help_text = _("It is necessary to prefix the link with \"http[s]://\"")
     )
 
     def __str__(self):
-        return str(self.slugDate) +"_"+ self.type_of_election
+        return "{}_{}".format(self.date, self.election_type)
 
 class Nominee(models.Model):
-	nominationPage = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
-	name = models.CharField(max_length=140)
+    nomination_page = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
 
-	Position = models.CharField(
-		max_length=40,
-		default='NA',
-	)
-	Speech = models.CharField(max_length=2000)
-	Facebook = models.CharField(_(u'Facebook Link'),max_length=300)
-	LinkedIn = models.CharField(_(u'LinkedIn Link'),max_length=300)
-	Email = models.CharField(_(u'Email Address'),max_length=300)
-	Discord_Username = models.CharField(_(u'Discord Username'),max_length=300)
+    name = models.CharField(max_length=140)
 
-	def __str__(self):
-		return self.name
+    exec_position = models.CharField(
+        max_length=40,
+        default='NA',
+    )
+
+    position = models.IntegerField(
+        default = 0
+    )
+
+    speech = models.CharField(max_length=2000)
+    facebook = models.CharField(_(u'Facebook Link'),max_length=300)
+    linked_in = models.CharField(_(u'LinkedIn Link'),max_length=300)
+    email = models.CharField(_(u'Email Address'),max_length=300)
+    discord = models.CharField(_(u'Discord Username'),max_length=300)
+
+    def __str__(self):
+        return self.name

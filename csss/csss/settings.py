@@ -24,11 +24,11 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-#if 'ip_addr' not in os.environ:
-#    print(" no environment variable \"ip_addr\" seems to exist....please specify the ip address attached to the network interface of the server like so:");
-#    print(" export ip_addr = '<ipaddr>'");
+ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org']
 
-ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org', os.environ['ip_addr']]
+if 'ip_addr' in os.environ:
+    ALLOWED_HOSTS.append(os.environ['ip_addr'])
+
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 	'documents',
     'events',
     '750_project',
+    'administration',
     'comp_sci_guide',
     'bursaries_and_awards',
     'django_mailbox',
@@ -75,7 +76,7 @@ ROOT_URLCONF = 'csss.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + '/templates/', ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

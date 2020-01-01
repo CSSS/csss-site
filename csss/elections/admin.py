@@ -6,9 +6,21 @@ from elections.models import NominationPage, Nominee #,Nomination
 
 from django import forms
 
-@admin.register(NominationPage)
 class NominationPageAdmin(admin.ModelAdmin):
-	prepopulated_fields = {"slug": ("slugDate","type_of_election",)}
+    list_display = (
+        'id',
+        'slug',
+        'get_election_type',
+        'date',
+        'websurvey'
+    )
+
+    def get_election_type(self, obj):
+        return obj.election_type
+    get_election_type.short_desription = "Election Type"
+    get_election_type.admin_order_field = "Election Type"
+
+admin.site.register(NominationPage, NominationPageAdmin)
 
 
 class NomineeForm(forms.ModelForm):
@@ -18,10 +30,20 @@ class NomineeForm(forms.ModelForm):
 
 class NomineeAdmin(admin.ModelAdmin):
     form = NomineeForm
-    list_display = ('name', 'Position', 'Speech', 'Facebook', 'LinkedIn', 'Email', 'Discord_Username', 'get_election')
+    list_display = (
+        'position',
+        'id',
+        'get_election',
+        'name',
+        'exec_position',
+        'facebook',
+        'linked_in',
+        'email',
+        'discord',
+    )
 
     def get_election(self, obj):
-        return obj.nominationPage
+        return obj.nomination_page
     get_election.short_description = "Election"
     get_election.admin_order_field = "Election"
 
