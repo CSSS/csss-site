@@ -20,7 +20,7 @@ pytz==2018.7
 requests==2.21.0
 six==1.12.0
 smmap2==2.0.5
-urllib3==1.24.1
+urllib3==1.24.2
 wget==3.2
 stripe==2.33.0
 django-allauth==0.39.1
