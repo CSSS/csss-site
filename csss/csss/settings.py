@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org']
 if 'ip_addr' in os.environ:
     ALLOWED_HOSTS.append(os.environ['ip_addr'])
 
+HOST_ADDRESS = "privatedev.sfucsss.org:8000"
 
 # Application definition
 

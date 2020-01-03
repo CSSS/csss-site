@@ -11,6 +11,9 @@ from querystring_parser import parser
 import datetime
 import json
 
+from django.conf import settings
+
+
 NOM_NAME_KEY = 'name'
 NOM_POSITION_KEY = 'exec_position'
 NOM_SPEECH_KEY = 'speech'
@@ -356,3 +359,43 @@ def save_nominees_from_json(nominees, nomPage):
         )
         nom.save()
         position_index+=1
+
+def show_create_link_page(request):
+    terms = [ 'Spring', 'Summer', 'Fall']
+    years = [ b for b in list(reversed(range(1970, datetime.datetime.now().year+1))) ]
+
+    context = {
+        'tab': 'administration',
+        'authenticated' : request.user.is_authenticated,
+        'terms' : terms,
+        'years' : years
+    }
+    return render(request, 'administration/show_create_link_page.html', context)
+
+def create_link(request):
+    post_keys = ['term', 'year', 'positions']
+    print(f"request.POST={request.POST}")
+    print(f"request.GET={request.GET}")
+    if len(request.POST.keys() ) == (len(post_keys) + 1 ):
+        print("correct numbers of request.POST keys detected")
+        for key in request.POST.keys():
+            if key not in post_keys:
+                print(f"invalid key '{key}' detected")
+
+        BASE_URL = settings.HOST_ADDRESS + '/about/input_exec_info?'
+        exec_links = []
+        positions = request.POST['positions'].splitlines()
+        position_number = 0
+        for position in positions:
+            print(f"interpreting position {position}")
+            exec_links.append(f"{BASE_URL}term={request.POST['term']}&year={request.POST['year']}&position={position}&position_number={position_number}")
+            position_number+=1
+        context = {
+            'tab': 'administration',
+            'authenticated' : request.user.is_authenticated,
+            'exec_links' : exec_links
+        }
+        print("here I am")
+        return render(request, 'administration/show_exec_links.html', context)
+
+    return HttpResponseRedirect('/')
