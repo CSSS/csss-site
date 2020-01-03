@@ -23,7 +23,7 @@ from . import views
 
 urlpatterns = [
         url(r'^admin$', admin.site.urls),
-        
+
         url(r'^login$', views.login, name='login'),
 	url(r'^logout$', views.logout, name='logout'),
 
@@ -33,8 +33,10 @@ urlpatterns = [
         url(r'^elections/update$', views.update_specified_election, name='update_election'),
 
 	url(r'^elections/create_or_update_json$', views.create_or_update_specified_election_with_provided_json, name='update_election_json'),
-        
+
         url(r'^elections/create$', views.create_specified_election, name='create_election'),
 
 
+        url(r'^show_create_link_page$', views.show_create_link_page, name='Create Link'),
+        url(r'^create_link$', views.create_link, name='Create Link'),
 ]
