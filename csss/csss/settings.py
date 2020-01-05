@@ -9,12 +9,14 @@ https://docs.djangoproject.com/en/1.11/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.11/ref/settings/
 """
-
+import environ
 import os
-
+import logging
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+logger = initialize_logger()
 
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
@@ -23,13 +25,17 @@ SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
 ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org']
 
 if 'ip_addr' in os.environ:
     ALLOWED_HOSTS.append(os.environ['ip_addr'])
 
+logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
+
 HOST_ADDRESS = "privatedev.sfucsss.org:8000"
+logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 
 # Application definition
 
@@ -162,29 +168,31 @@ LOGIN_REDIRECT_URL = '/products'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-import environ
 ROOT_DIR = environ.Path(__file__) - 4
-
-print(f"ROOT_DIR={ROOT_DIR}")
-print(f"BASE_DIR={BASE_DIR}")
+logger.info(f'[settings.py] ROOT_DIR set to {ROOT_DIR}')
 
 STATIC_URL = '/STATIC_URL/'
+logger.info(f'[settings.py] STATIC_URL set to {STATIC_URL}')
+
 #is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
 #This is something that tells your browser where to look for JavaScript and CSS files
 
-#STATIC_ROOT = os.path.join(BASE_DIR, 'STATIC_ROOT')
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
+logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 
 #This is destination directory for your static files. This should be absolute path in yor file system,
 #for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 #static files from your project and copy them into STATIC_ROOT dir
 
 MEDIA_URL = '/MEDIA_URL/'
+logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
+
 #URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
 #if set to a non-empty value. You will need to configure these files to be served in both development and production environments.
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root/')
+logger.info(f'[settings.py] MEDIA_ROOT set to {MEDIA_ROOT}')
 
 #Absolute filesystem path to the directory that will hold user-uploaded files.
 
@@ -192,12 +200,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root/')
 FILE_FORM_MASTER_DIR = 'form_uploads/form_uploads/'
 FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR+'temporary_files/' ##temporary files from form upload go here
 DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/' #will be placed under the MEDIA_ROOT folder
-print("ROOT_DIR="+str(ROOT_DIR))
-print("STATIC_URL="+str(STATIC_URL))
-#print("STATICFILES_DIRS="+str(STATICFILES_DIRS))
-print("STATIC_ROOT="+str(STATIC_ROOT))
-print("MEDIA_ROOT="+str(MEDIA_ROOT))
-print("MEDIA_URL="+str(MEDIA_URL))
-print("FILE_FORM_MASTER_DIR="+str(FILE_FORM_MASTER_DIR))
-print("FILE_FORM_UPLOAD_DIR="+str(FILE_FORM_UPLOAD_DIR))
-print("DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO="+str(DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO))
+logger.info(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
+logger.info(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
+logger.info(f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}')

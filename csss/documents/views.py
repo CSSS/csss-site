@@ -5,8 +5,10 @@ from documents.models import Media, Event, Album, Picture, Video
 import datetime
 import math
 
+import logging
+logger = logging.getLogger('csss_site')
+
 def index(request):
-    print("constitution index")
     context = {
         'tab': 'documents',
         'authenticated' : request.user.is_authenticated,
@@ -14,7 +16,6 @@ def index(request):
     return render(request, 'documents/constitution.html', context)
 
 def policies(request):
-    print("policies index")
     context = {
         'tab': 'documents',
         'authenticated' : request.user.is_authenticated,
@@ -22,7 +23,6 @@ def policies(request):
     return render(request, 'documents/policies.html', context)
 
 def events(request):
-    print("photo_gallery")
     events = Event.objects.all().filter()
     albums = Album.objects.all().filter()
     context = {
