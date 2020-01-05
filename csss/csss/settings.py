@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 import environ
 import os
 import logging
+from csss.logger_setup import initialize_logger
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 logger = initialize_logger()
 
@@ -108,6 +110,16 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'test_password',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
