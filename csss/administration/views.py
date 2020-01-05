@@ -6,6 +6,8 @@ from django.http import HttpResponseRedirect
 
 from elections.models import NominationPage, Nominee
 
+from shopping.models import Merchandise
+
 from querystring_parser import parser
 
 import datetime
@@ -34,6 +36,12 @@ UPDATE_WITH_JSON_ACTION_POST_KEY = 'update_with_json'
 
 ELECTION_DATE_POST_KEY = 'date'
 ELECTION_TIME_POST_KEY = 'time'
+
+MERCHANDISE_PICTURE_LINK_KEY = 'picture_link'
+MERCHANDISE_NAME_KEY = 'merchandise'
+MERCHANDISE_SIZE_KEY = 'size'
+MERCHANDISE_COLOR_KEY = 'color'
+MERCHANDISE_PRICE_KEY = 'price'
 
 JSON_INPUT_POST_KEY = 'input_json'
 import logging
@@ -348,6 +356,68 @@ def save_nominees_from_json(nominees, nomPage):
         )
         nom.save()
         position_index+=1
+
+def merch_list(request):
+    merchandises = Merchandise.objects.all()
+    context = {
+        'tab': 'administration',
+        'merchandises': merchandises,
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'administration/merchandise_list.html', context)
+
+MERCHANDISE_PICTURE_LINK_KEY = 'picture_link'
+MERCHANDISE_NAME_KEY = 'merchandise'
+MERCHANDISE_SIZE_KEY = 'size'
+MERCHANDISE_COLOR_KEY = 'color'
+MERCHANDISE_PRICE_KEY = 'price'
+
+from io import StringIO
+import csv
+
+def merch_update(request):
+    print(f"[administration/views.py merch_update()]")
+    print(f"request.POST={request.POST}")
+    if MERCHANDISE_PICTURE_LINK_KEY in request.POST and MERCHANDISE_NAME_KEY in request.POST and MERCHANDISE_SIZE_KEY in request.POST \
+        and MERCHANDISE_COLOR_KEY in request.POST and MERCHANDISE_PRICE_KEY in request.POST:
+        post_dict = parser.parse(request.POST.urlencode())
+        print(f"post_dict = {post_dict}")
+        print(f"post_dict[MERCHANDISE_NAME_KEY] = {post_dict[MERCHANDISE_NAME_KEY]}")
+        print(f"len(post_dict[MERCHANDISE_NAME_KEY]) = {len(post_dict[MERCHANDISE_NAME_KEY])}")
+        if len(post_dict[MERCHANDISE_NAME_KEY][0]) == 1: # only one merchandise was added
+            print(f"only 1 merchandise {post_dict[MERCHANDISE_NAME_KEY]} was added")
+            print(f"price = {post_dict[MERCHANDISE_NAME_KEY]}, image_absolute_file_path = {post_dict[MERCHANDISE_PICTURE_LINK_KEY]}")
+            print(f"color = {post_dict[MERCHANDISE_COLOR_KEY]}, size = {post_dict[MERCHANDISE_SIZE_KEY]}")
+            merch, created = Merchandise.objects.get_or_create(
+                image_absolute_file_path= post_dict[MERCHANDISE_PICTURE_LINK_KEY],
+                merchandise_type= post_dict[MERCHANDISE_NAME_KEY],
+                price= post_dict[MERCHANDISE_PRICE_KEY],
+            )
+            feat, created = Feature.objects.get_or_create(
+                merchandise_key = merch,
+                feature_type = MERCHANDISE_COLOR_KEY
+            )
+            colors = [color.strip() for row in csv.reader(StringIO(post_dict[MERCHANDISE_COLOR_KEY]), delimiter=',') for color in row]
+            for color in colors:
+                spec, created = Feature.objects.get_or_create(
+                    merchandise_key
+            sizes = [size.strip() for row in csv.reader(StringIO(post_dict[MERCHANDISE_SIZE_KEY]), delimiter=',') for size in row]
+            print(f"colors={colors}")
+            print(f"sizes={sizes}")
+            return HttpResponseRedirect('/administration/merch/list')
+
+        else:
+            for i in range(len(post_dict[MERCHANDISE_NAME_KEY])):
+                print(f"post_dict[{MERCHANDISE_NAME_KEY}][{i}] == {post_dict[MERCHANDISE_NAME_KEY][i]}")
+
+def order_list(request):
+    object_list = Merchandise.objects.all()
+    context = {
+        'tab': 'administration',
+        'object_list': object_list,
+        'authenticated' : request.user.is_authenticated,
+    }
+    return render(request, 'administration/merchandise_list.html', context)
 
 def show_create_link_page(request):
     terms = [ 'Spring', 'Summer', 'Fall']
