@@ -1,0 +1,43 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+	{{ block.super }}
+	{% load static %}
+	{% load staticfiles %}
+
+	<form action="/about/process_exec_info" method="post">
+		{% csrf_token %}
+		<p>
+			Term: <input type="text" name="term" value="{{term}}" readonly >
+			Year: <input type="text" name="year" value="{{year}}" readonly >
+			Position: <input type="text" name="position" value="{{position}}" readonly >
+		</p>
+		<input hidden type="text" name="term_position" value="{{position_number}}" >
+		<p>Name: <input type="text" name="name" required ></p>
+		<p>SFUID: <input type="text" name="sfuid" required >@sfu.ca</p>
+		<p>
+			Emails <br>
+			(list all the emails you intend to use for CSSS related emails, use commas to separate multiple emails):<br>
+			<textarea name="email" cols="80" rows="2" required></textarea>
+		</p>
+		<p>Gmail: <input type="text" name="gmail" required></p>
+		<p>
+			Phone Number: <br>
+			(if you are comfortable with the CSSS having it)<br>
+			<input type="number" name="phone_number" required value="0"></p>
+		<p>Github Username: <input type="text" name="github_username" required></p>
+		<p>
+			Your 2 Favorite SFU Course:<br>preferably comp sci related<br>
+			<input type="text" name="course1" required > & <input type="text" name="course2" required>
+		</p>
+		<p>
+			Your 2 Favorite Computer Science programming languages of choice:<br>
+			<input type="text" name="language1" required> & <input type="text" name="language2" required>
+		</p>
+		<p>
+			Bio: (needs to already be in <a href="https://wordtohtml.net/">HTML format</a>)<br>
+			For exampls look at <a href="http://sfucsss.org/about/officers/"> Past Bios</a><br>
+			<textarea name="bio" cols="40" rows="1" required></textarea></p>
+		<input type="submit" value="Submit">
+	</form>
+{% endblock %}

@@ -5,9 +5,7 @@
 {% bootstrap_messages %}
 
 {% block content %}
-	<ul>
-		<li><a href='/bursaries_and_awards/'>Bursaries and Awards</a></li>
-	</ul>
-{% include "csss/includes/htmlsnippet.html" %}
+	{% for position in exec_links %}
+		<p>{{position}}<p>
+	{% endfor %}
 {% endblock %}
-

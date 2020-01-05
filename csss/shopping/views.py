@@ -11,6 +11,9 @@ import xml.etree.ElementTree as ET
 
 # Create your views here.
 
+import logging
+logger = logging.getLogger('csss_site')
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 def convert_session_to_list(request):
