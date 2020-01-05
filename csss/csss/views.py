@@ -11,9 +11,10 @@ from time import strptime
 from pytz import timezone
 import math
 
-def index(request):
-    print("announcements index")
+import logging
+logger = logging.getLogger('csss_site')
 
+def index(request):
     currentPage=request.GET.get('p', 'none')
     if currentPage == 'none':
         currentPage = 1
@@ -23,7 +24,7 @@ def index(request):
     request_path = request.path
 
     sfuEmails = [email.email for email in AnnouncementEmailAddress.objects.all()]
-    print(f" sfuEmails {sfuEmails}")
+    logger.info(f"[csss/views.py index()] sfuEmails {sfuEmails}")
 
     messages = Message.objects.all().order_by('-id')
 

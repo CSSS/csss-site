@@ -4,11 +4,14 @@ from shopping.models import Order, Merchandise, Feature, Specification, OrderIte
 from django.utils.translation import ugettext_lazy as _
 # Register your models here.
 
+import logging
+logger = logging.getLogger('csss_site')
+
 import json
 
 def create_default_Specifications(mailbox_admin, request, queryset):
 	for merch in queryset.all():
-		print(f"digesting {merch.merchandise_type}")
+		logger.info(f"[shopping/admin.py create_default_Specifications()] processing {merch.merchandise_type}")
 		opt1 = Feature(
 			merchandise_key = merch,
 			feature_type = 'Size'
@@ -222,10 +225,10 @@ def getFeature(merchandise_key, feature_type):
 def saveMerchandise(merch):
 	savedMerch = getMerch(merch['image'] , merch['merchandise_type'], merch['price'])
 	for feature in merch['Feature']:
-		print(f"feature={feature}")
+		logger.info(f"[shopping/admin.py saveMerchandise()] feature={feature}")
 		savedFeature = getFeature(savedMerch, merch['Feature'][feature]['feature_type'])
 		for spec in merch['Feature'][feature]['specification']:
-			print(f"spec={spec}")
+			logger.info(f"[shopping/admin.py saveMerchandise()] spec={spec}")
 			retrievedObjects = Specification.objects.all().filter(
 				feature_key = savedFeature,
 				specification_type = spec
@@ -241,12 +244,12 @@ def saveMerchandise(merch):
 				retrievedObjects[0].active = True
 
 def import_merchandise(file):
-	print(f"[import_merchandise] will now try and read file {file}")
+	logger.info(f"[shopping/admin.py saveMerchandise()] will now try and read file {file}")
 	with open(file) as f:
 		merchs = json.load(f)
-		print(f"merches={merchs}")
+		logger.info(f"[shopping/admin.py saveMerchandise()] merches={merchs}")
 		for merch in merchs:
-			print(f"merch={merch}")
+			logger.info(f"[shopping/admin.py saveMerchandise()] merch={merch}")
 			saveMerchandise(merch)
 
 def import_specific_merchandise(mailbox_admin, request, queryset):

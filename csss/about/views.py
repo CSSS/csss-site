@@ -7,11 +7,11 @@ import datetime
 from django.http import HttpResponseRedirect
 from io import StringIO
 import csv
-
+import logging
+logger = logging.getLogger('csss_site')
 
 
 def index(request):
-    print("who we are index")
     context = {
         'tab': 'about',
         'authenticated' : request.user.is_authenticated,
@@ -19,7 +19,6 @@ def index(request):
     return render(request, 'about/who_we_are.html', context)
 
 def listOfOfficers(request):
-    print("list of officers index")
     officers = Officer.objects.all().filter()
     now = datetime.datetime.now()
     termActive = (now.year*10) + int(now.month / 4)
@@ -32,16 +31,16 @@ def listOfOfficers(request):
     return render(request, 'about/list_of_officers.html', context)
 
 def input_exec_info(request):
-    print(f"request.GET={request.GET}")
+    logger.info(f"[about/views.py input_exec_info()] request.GET={request.GET}")
     context = {}
     get_keys = ['term', 'year', 'position', 'position_number']
     if (len(request.GET.keys()) == len(get_keys)):
-        print("correct number of request.GET keys detected")
+        logger.info(f"[about/views.py input_exec_info()] correct number of request.GET keys detected")
 
         term = 0 ; year = 0 ; position = 0 ; position_number = 0
         for key in request.GET.keys():
             if key not in get_keys:
-                print(f"invalid key detected")
+                logger.info(f"[about/views.py input_exec_info()] invalid key '{key}' detected")
             if key == 'term':
                 term=1
                 context.update({ key : request.GET[key] })
@@ -59,22 +58,24 @@ def input_exec_info(request):
             ( (term == 1) and (year == 1) and (position == 1) and (position_number == 1) ):
             context.update({'tab': 'about'})
             context.update({'authenticated': request.user.is_authenticated})
-            print(f"context={context}")
+            logger.info(f"[about/views.py input_exec_info()] context set to '{context}'")
+            logger.info(f"[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
+        logger.info(f"[about/views.py input_exec_info()] returning '/administration/show_create_link_page'")
         return HttpResponseRedirect('/administration/show_create_link_page')
+    logger.info(f"[about/views.py input_exec_info()] returning the index")
     return HttpResponseRedirect('/')
 
 def process_exec_info(request):
-    print("add_exec")
-    print(f"request.POST={request.POST}")
+    logger.info(f"[about/views.py add_exec()] request.POST={request.POST}")
     context = {}
     post_keys = ['term', 'year', 'position', 'term_position', 'name', 'sfuid', 'email', 'gmail', 'phone_number', 'github_username', 'course1', 'course2', 'language1', 'language2', 'bio']
 
     if (len(request.POST.keys()) == (len(post_keys) + 1 ) ):
-        print("correct number of request.POST keys detected")
+        logger.info("[about/views.py add_exec()] correct number of request.POST keys detected")
         for key in request.POST.keys():
             if key not in post_keys:
-                print(f"invalid key '{key}' detected")
+                logger.info(f"[about/views.py add_exec()] invalid key '{key}' detected")
 
         term_number = int(request.POST['year']) * 10
         if request.POST['term'] == "Spring":

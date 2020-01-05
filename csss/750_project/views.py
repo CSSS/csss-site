@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 def index(request):
-    print("About 750 index")
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
@@ -9,7 +8,6 @@ def index(request):
     return render(request, '750_project/about_750.html', context)
 
 def hacktime(request):
-    print("Hacktime index")
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
@@ -17,7 +15,6 @@ def hacktime(request):
     return render(request, '750_project/hacktime.html', context)
 
 def devTools(request):
-    print("dev tools index")
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
@@ -25,7 +22,6 @@ def devTools(request):
     return render(request, '750_project/dev_tools.html', context)
 
 def workshops(request):
-    print("workshops index")
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
