@@ -63,8 +63,6 @@ INSTALLED_APPS = [
     'django_bootstrap3_form',
     'django_pony_forms',
     'elections',
-	'shopping',
-    'stripe',
     'django.contrib.sites',
 ]
 
@@ -144,9 +142,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-
-STRIPE_PUBLISHABLE_KEY = os.environ['STRIPE_PUBLISHABLE_KEY']
-STRIPE_SECRET_KEY = os.environ['STRIPE_SECRET_KEY']
 
 
 AUTHENTICATION_BACKENDS = (
