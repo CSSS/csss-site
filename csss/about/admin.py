@@ -6,7 +6,7 @@ from django.core.files import File
 import json
 # Register your models here.
 
-from about.models import Officer, Term, SourceFile, AnnouncementEmailAddress
+from about.models import Officer, Term, SourceFile, AnnouncementEmailAddress, EmailList
 
 from django import forms
 
@@ -102,7 +102,7 @@ import_specific_term_officers.short_description = _('Save Execs Specified in Fil
 
 
 class TermAdmin(admin.ModelAdmin):
-    list_display = ('term', 'year', )
+    list_display = ('term', 'year', 'term_number')
 
 admin.site.register(Term, TermAdmin)
 
@@ -132,3 +132,14 @@ class AnnouncementEmailAdmin(admin.ModelAdmin):
     get_term.admin_order_field = "Elected_Term"
 
 admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
+
+class EmailListAdmin(admin.ModelAdmin):
+    # form = OfficerForm
+    list_display = ('email','officer', 'get_term')
+
+    def get_term(self, obj):
+        return obj.officer.elected_term
+    get_term.short_description = "Elected Term"
+    get_term.admin_order_field = "Elected_Term"
+
+admin.site.register(EmailList, EmailListAdmin)
