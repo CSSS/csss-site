@@ -6,6 +6,9 @@ import json
 import logging
 from querystring_parser import parser
 from about.models import Term, Officer, AnnouncementEmailAddress
+from administration.models import OfficerUpdatePassphrase
+import random
+import string
 
 JSON_INPUT_POST_KEY = 'input_json'
 
@@ -17,6 +20,18 @@ JSON_EXEC_KEY = 'execs'
 logger = logging.getLogger('csss_site')
 
 def create_link(request):
+    groups = list(request.user.groups.values_list('name',flat = True))
+    context = {
+        'tab': 'administration',
+        'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
+    }
+    if not (request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
+
     post_keys = ['term', 'year', 'positions']
     logger.info(f"[administration/views.py create_link()] request.POST={request.POST}")
     logger.info(f"[administration/views.py create_link()] request.GET={request.GET}")
@@ -31,22 +46,15 @@ def create_link(request):
         positions = request.POST['positions'].splitlines()
         position_number = 0
         for position in positions:
+            lettersAndDigits = string.ascii_letters + string.digits
+            passphrase = ''.join(random.choice(lettersAndDigits) for i in range(10))
+            passphrase = OfficerUpdatePassphrase(passphrase = passphrase)
+            passphrase.save()
             logger.info(f"[administration/views.py create_link()] interpreting position {position}")
-            exec_links.append(f"{BASE_URL}term={request.POST['term']}&year={request.POST['year']}&position={position}&position_number={position_number}")
+            exec_links.append(f"{BASE_URL}term={request.POST['term']}&year={request.POST['year']}&position={position}&position_number={position_number}&passphrase={passphrase.passphrase}")
             position_number+=1
-        groups = list(request.user.groups.values_list('name',flat = True))
-        context = {
-            'tab': 'administration',
-            'authenticated' : request.user.is_authenticated,
-            'exec_links' : exec_links,
-            'Exec' : ('Exec' in groups),
-            'ElectionOfficer' : ('ElectionOfficer' in groups),
-            'Staff' : request.user.is_staff,
-            'Username' : request.user.username
-        }
-        if not (request.user.is_staff or 'Exec' in groups):
-            return render(request, 'administration/invalid_access.html', context)
-        return render(request, 'administration/show_exec_links.html', context)
+        context.update({ 'exec_links' : exec_links })
+        return render(request, 'administration/show_generated_officer_links.html', context)
 
     return HttpResponseRedirect('/')
 
@@ -68,7 +76,7 @@ def show_create_link_page(request):
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
-    return render(request, 'administration/show_create_link_page.html', context)
+    return render(request, 'administration/show_create_link_for_officer_page.html', context)
 
 def create_or_update_specified_term_with_provided_json(request):
     logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] [create_or_update_specified_term_with_provided_json] request.POST={request.POST}")
@@ -93,8 +101,8 @@ def create_or_update_specified_term_with_provided_json(request):
         logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] post_dict={post_dict}")
         save_execs_from_json(post_dict[JSON_EXEC_KEY], term)
 
-        return render(request, 'administration/update_execs_for_term_json.html', context)
-    return render(request, 'administration/update_execs_for_term_json.html', context)
+        return render(request, 'administration/update_officers_for_term_json.html', context)
+    return render(request, 'administration/update_officers_for_term_json.html', context)
 
 def get_term_json(input_json):
     year = input_json[JSON_YEAR_KEY]

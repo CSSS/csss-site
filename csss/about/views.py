@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from about.models import Term, Officer, AnnouncementEmailAddress
+from administration.models import OfficerUpdatePassphrase
 
 # Create your views here.
 from querystring_parser import parser
@@ -52,7 +53,7 @@ def input_exec_info(request):
     logger.info(f"[about/views.py input_exec_info()] request.GET={request.GET}")
     groups = list(request.user.groups.values_list('name',flat = True))
     context = {}
-    get_keys = ['term', 'year', 'position', 'position_number']
+    get_keys = ['term', 'year', 'position', 'position_number', 'passphrase']
     if (len(request.GET.keys()) == len(get_keys)):
         logger.info(f"[about/views.py input_exec_info()] correct number of request.GET keys detected")
 
@@ -72,15 +73,29 @@ def input_exec_info(request):
             elif key == 'position_number':
                 position_number = 1
                 context.update({ key : request.GET[key]})
+            elif key == 'passphrase':
+                passphrase_number = 1
+                passphrase = request.GET[key]
 
-        if ( (term == 0) and ( year == 0) and (position == 0) and (position_number == 0) ) or \
-            ( (term == 1) and (year == 1) and (position == 1) and (position_number == 1) ):
+        if ( (term == 0) and ( year == 0) and (position == 0) and (position_number == 0) and (passphrase_number == 0) ) or \
+            ( (term == 1) and (year == 1) and (position == 1) and (position_number == 1) and (passphrase_number == 1)):
+            logger.info(f"[about/views.py input_exec_info()] passphrase = '{passphrase}'")
+            passphrase = OfficerUpdatePassphrase.objects.all().filter(
+                passphrase = passphrase,
+            )
+            logger.info(f"[about/views.py input_exec_info()] len(passphrase) = '{len(passphrase)}'")
+            if (len(passphrase) < 1):
+                return HttpResponseRedirect('/about/bad_passphrase')
+            logger.info(f"[about/views.py input_exec_info()] passphrase[0].used = '{passphrase[0].used}'")
+            if (passphrase[0].used):
+                return HttpResponseRedirect('/about/bad_passphrase')
             context.update({'tab': 'about'})
             context.update({'authenticated': request.user.is_authenticated})
             context.update({'Exec' : ('Exec' in groups)})
             context.update({'ElectionOfficer' : ('ElectionOfficer' in groups)}),
             context.update({'Staff' : request.user.is_staff})
             context.update({'Username' : request.user.username})
+            context.update({'passphrase' : passphrase[0].passphrase})
             logger.info(f"[about/views.py input_exec_info()] context set to '{context}'")
             logger.info(f"[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
@@ -91,13 +106,24 @@ def input_exec_info(request):
 
 def process_exec_info(request):
     logger.info(f"[about/views.py add_exec()] request.POST={request.POST}")
-    post_keys = ['term', 'year', 'position', 'term_position', 'name', 'sfuid', 'email', 'gmail', 'phone_number', 'github_username', 'course1', 'course2', 'language1', 'language2', 'bio']
+    post_keys = ['term', 'year', 'position', 'term_position', 'name', 'sfuid', 'email', 'gmail', 'phone_number', 'github_username', 'course1', 'course2', 'language1', 'language2', 'bio', 'passphrase']
 
     if (len(request.POST.keys()) == (len(post_keys) + 1 ) ):
         logger.info("[about/views.py add_exec()] correct number of request.POST keys detected")
         for key in request.POST.keys():
             if key not in post_keys:
                 logger.info(f"[about/views.py add_exec()] invalid key '{key}' detected")
+        passphrase = OfficerUpdatePassphrase.objects.all().filter(
+            passphrase = request.POST['passphrase'],
+        )
+        if (len(passphrase) < 1):
+            return HttpResponseRedirect('/about/bad_passphrase')
+        if (passphrase[0].used):
+            return HttpResponseRedirect('/about/bad_passphrase')
+        logger.info(f"[about/views.py add_exec()] passphrase is accurate")
+        passphrase = passphrase[0]
+        passphrase.used = True
+        passphrase.save()
 
         term_number = int(request.POST['year']) * 10
         if request.POST['term'] == "Spring":
@@ -138,3 +164,15 @@ def process_exec_info(request):
                 officer = officer
             )
     return HttpResponseRedirect('/')
+
+def bad_passphrase(request):
+    groups = list(request.user.groups.values_list('name',flat = True))
+    context = {
+        'tab': 'about',
+        'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
+    }
+    return render(request, 'about/bad_passphrase.html', context)

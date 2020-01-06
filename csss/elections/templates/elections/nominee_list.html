@@ -19,16 +19,16 @@
 					<p><br/><br/>Nominee Name: <b>{{nominee.name}}</b></p>
 					{% if nominee.facebook != "NONE" or nominee.linked_in != "NONE" or nominee.email != "NONE" or nominee.discord != "NONE" %}
 						<p> Contact/Social Media:
-						{% if nominee.facebook == "NONE" %}
-							<a href="{{nominee.facebook}}">Facebook Profile</a>
+						{% if nominee.facebook != "NONE" %}
+							<a href="{{nominee.facebook}}">Facebook Profile</a> |
 						{% endif %}
-						{% if nominee.linked_in == "NONE" %}
-							<a href="{{nominee.linked_in}}">LinkedIn Profile</a>
+						{% if nominee.linked_in != "NONE" %}
+							<a href="{{nominee.linked_in}}">LinkedIn Profile</a> |
 						{% endif %}
-						{% if nominee.email == "NONE" %}
-							Email: {{nominee.email}}
+						{% if nominee.email != "NONE" %}
+							Email: {{nominee.email}} |
 						{% endif %}
-						{% if nominee.discord == "NONE" %}
+						{% if nominee.discord != "NONE" %}
 							Discord Username: {{nominee.discord}}
 						{% endif %}
 					{% endif %}

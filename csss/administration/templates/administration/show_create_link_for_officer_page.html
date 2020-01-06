@@ -5,8 +5,8 @@
 {% bootstrap_messages %}
 
 {% block content %}
-	<h1>Create Links for New Term of Execs</h1>
-	<form action="/administration/create_link" method="post">
+	<h1>Create Links for New Term of Officers</h1>
+	<form action="/administration/officer/create_link" method="post">
 		{% csrf_token %}
 		<p>Term:
 			<select name="term">

@@ -14,12 +14,12 @@
 		</p>
 		<p>Election Type :
 			<select name="election_type">
-				{% if election_type == 'By-Election' %}
-					<option selected="selected" value="By-Election">By-Election</option>
-					<option value="General Election" >General Election</option>
-				{% elif election_type == 'General Election' %}
-					<option value="By-Election">By-Election</option>
-					<option selected="selected" value="General Election" >General Election</option>
+				{% if election_type == 'by_election' %}
+					<option selected="selected" value="by_election">By-Election</option>
+					<option value="general_election" >General Election</option>
+				{% elif election_type == 'general_election' %}
+					<option value="by_election">By-Election</option>
+					<option selected="selected" value="general_election" >General Election</option>
 
 				{% endif %}
 			</select>
