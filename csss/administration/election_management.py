@@ -32,9 +32,14 @@ ELECTION_TIME_POST_KEY = 'time'
 JSON_INPUT_POST_KEY = 'input_json'
 
 def update_specified_election(request):
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST \
         and ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
@@ -72,10 +77,17 @@ def update_specified_election(request):
 
 def create_specified_election(request):
     logger.info(f"[administration/views.py create_specified_election()] request.POST={request.POST}")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST and \
         ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
         logger.info(f"[administration/views.py create_specified_election()] creating new election")
@@ -147,10 +159,17 @@ def save_nominees(post_dict, nomPage, position_index):
 
 def create_or_update_specified_election_with_provided_json(request):
     logger.info(f"[administration/views.py create_or_update_specified_election_with_provided_json()] [create_or_update_specified_election_with_provided_json] request.POST={request.POST}")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(f"[administration/views.py create_or_update_specified_election_with_provided_json()] creating new election")
         post_dict = parser.parse(request.POST.urlencode())
@@ -167,10 +186,17 @@ def create_or_update_specified_election_with_provided_json(request):
 
 def create_or_update_specified_election_with_provided_json(request):
     logger.info(f"[administration/views.py create_or_update_specified_election_with_provided_json()] request.POST={request.POST}")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(f"[administration/views.py create_or_update_specified_election_with_provided_json()] creating new election")
         post_dict = parser.parse(request.POST.urlencode())
@@ -213,12 +239,19 @@ def save_nominees_from_json(nominees, nomPage):
 
 
 def select_election_to_update(request):
-    elections = NominationPage.objects.all().order_by('-id')
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
-        'elections' : elections
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
+    elections = NominationPage.objects.all().order_by('-id')
+    context.update({'elections' : elections})
     return render(request, 'administration/select_election.html', context)
 
 
@@ -228,6 +261,7 @@ def delete_selected_election(election_id):
 
 
 def display_selected_election_for_updating(request, election_id):
+    groups = list(request.user.groups.values_list('name',flat = True))
     election = NominationPage.objects.get(slug = election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page = election)]
     nominees.sort(key=lambda x: x.position, reverse=True)
@@ -239,12 +273,19 @@ def display_selected_election_for_updating(request, election_id):
         'date': election.date.strftime("%Y-%m-%d"),
         'time' : election.date.strftime("%H:%M"),
         'election_type': election.election_type,
-        'websurvey' : election.websurvey
+        'websurvey' : election.websurvey,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     return render(request, 'administration/update_election.html', context)
 
 
 def display_selected_election_json_for_updating(request, election_id):
+    groups = list(request.user.groups.values_list('name',flat = True))
     election = NominationPage.objects.get(slug = election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page = election)]
     nominees.sort(key= lambda x: x.position, reverse = True)
@@ -266,9 +307,14 @@ def display_selected_election_json_for_updating(request, election_id):
     context = {
         'tab' : 'administration',
         'authenticated' : request.user.is_authenticated,
-        'election_dict': json.dumps(election_dict)
+        'election_dict': json.dumps(election_dict),
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
-
+    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     return render(request, 'administration/update_election_json.html', context)
 
 

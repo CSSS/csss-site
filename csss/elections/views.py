@@ -10,6 +10,7 @@ import logging
 logger = logging.getLogger('csss_site')
 
 def getNominees(request, slug):
+    groups = list(request.user.groups.values_list('name',flat = True))
     retrievedObj = NominationPage.objects.filter(slug = slug)
     if retrievedObj[0].date <= datetime.now():
         logger.info(f"[elections/views.py getNominees()] time to vote")
@@ -19,7 +20,11 @@ def getNominees(request, slug):
             'election_date': retrievedObj[0].date.strftime("%Y-%m-%d"),
             'tab': 'elections',
             'authenticated' : request.user.is_authenticated,
-            'nominees' : nominees
+            'nominees' : nominees,
+            'Exec' : ('Exec' in groups),
+            'ElectionOfficer' : ('ElectionOfficer' in groups),
+            'Staff' : request.user.is_staff,
+            'Username' : request.user.username
         }
         return render(request, 'elections/nominee_list.html', context)
     else:
@@ -28,5 +33,9 @@ def getNominees(request, slug):
             'tab': 'elections',
             'nominees' : 'none',
             'authenticated' : request.user.is_authenticated,
+            'Exec' : ('Exec' in groups),
+            'ElectionOfficer' : ('ElectionOfficer' in groups),
+            'Staff' : request.user.is_staff,
+            'Username' : request.user.username
         }
         return render(request, 'elections/nominee_list.html', context)

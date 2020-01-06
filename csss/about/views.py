@@ -12,28 +12,45 @@ logger = logging.getLogger('csss_site')
 
 
 def index(request):
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'about',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, 'about/who_we_are.html', context)
 
 def listOfOfficers(request):
+    groups = list(request.user.groups.values_list('name',flat = True))
     officers = Officer.objects.all().filter()
     now = datetime.datetime.now()
-    termActive = (now.year*10) + int(now.month / 4)
+    termActive = (now.year*10)
+    if (int(now.month) <= 4):
+        termActive += 1
+    elif (int(now.month) <= 8):
+        termActive += 2
+    else:
+        termActive += 3
     terms = Term.objects.all().order_by('-term_number')
     context = {
         'tab': 'about',
         'authenticated' : request.user.is_authenticated,
         'officers': officers,
         'termActive' : termActive,
-        'terms' : terms
+        'terms' : terms,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, 'about/list_of_officers.html', context)
 
 def input_exec_info(request):
     logger.info(f"[about/views.py input_exec_info()] request.GET={request.GET}")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {}
     get_keys = ['term', 'year', 'position', 'position_number']
     if (len(request.GET.keys()) == len(get_keys)):
@@ -60,6 +77,10 @@ def input_exec_info(request):
             ( (term == 1) and (year == 1) and (position == 1) and (position_number == 1) ):
             context.update({'tab': 'about'})
             context.update({'authenticated': request.user.is_authenticated})
+            context.update({'Exec' : ('Exec' in groups)})
+            context.update({'ElectionOfficer' : ('ElectionOfficer' in groups)}),
+            context.update({'Staff' : request.user.is_staff})
+            context.update({'Username' : request.user.username})
             logger.info(f"[about/views.py input_exec_info()] context set to '{context}'")
             logger.info(f"[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
@@ -70,7 +91,6 @@ def input_exec_info(request):
 
 def process_exec_info(request):
     logger.info(f"[about/views.py add_exec()] request.POST={request.POST}")
-    context = {}
     post_keys = ['term', 'year', 'position', 'term_position', 'name', 'sfuid', 'email', 'gmail', 'phone_number', 'github_username', 'course1', 'course2', 'language1', 'language2', 'bio']
 
     if (len(request.POST.keys()) == (len(post_keys) + 1 ) ):

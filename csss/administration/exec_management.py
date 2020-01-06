@@ -34,11 +34,18 @@ def create_link(request):
             logger.info(f"[administration/views.py create_link()] interpreting position {position}")
             exec_links.append(f"{BASE_URL}term={request.POST['term']}&year={request.POST['year']}&position={position}&position_number={position_number}")
             position_number+=1
+        groups = list(request.user.groups.values_list('name',flat = True))
         context = {
             'tab': 'administration',
             'authenticated' : request.user.is_authenticated,
-            'exec_links' : exec_links
+            'exec_links' : exec_links,
+            'Exec' : ('Exec' in groups),
+            'ElectionOfficer' : ('ElectionOfficer' in groups),
+            'Staff' : request.user.is_staff,
+            'Username' : request.user.username
         }
+        if not (request.user.is_staff or 'Exec' in groups):
+            return render(request, 'administration/invalid_access.html', context)
         return render(request, 'administration/show_exec_links.html', context)
 
     return HttpResponseRedirect('/')
@@ -47,21 +54,35 @@ def create_link(request):
 def show_create_link_page(request):
     terms = [ 'Spring', 'Summer', 'Fall']
     years = [ b for b in list(reversed(range(1970, datetime.datetime.now().year+1))) ]
+    groups = list(request.user.groups.values_list('name',flat = True))
 
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
         'terms' : terms,
-        'years' : years
+        'years' : years,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not (request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     return render(request, 'administration/show_create_link_page.html', context)
 
 def create_or_update_specified_term_with_provided_json(request):
     logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] [create_or_update_specified_term_with_provided_json] request.POST={request.POST}")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'administration',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
+    if not (request.user.is_staff or 'Exec' in groups):
+        return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election")
         post_dict = parser.parse(request.POST.urlencode())
@@ -145,6 +166,7 @@ def save_execs_from_json(execs, term):
             language2 = language2,
             bio = bio,
             elected_term = term,
+            image = pic_path
         )
         officer.save()
 

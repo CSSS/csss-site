@@ -72,13 +72,18 @@ def index(request):
     previousButtonLink=request_path+'?p='+str(previousPage)
     nextButtonLink=request_path+'?p='+str(nextPage)
 
+    groups = list(request.user.groups.values_list('name',flat = True))
+
     context = {
         'tab': 'index',
         'authenticated' : request.user.is_authenticated,
         'posts' : messages_to_display,
         'nextButtonLink' : nextButtonLink,
-        'previousButtonLink': previousButtonLink
-
+        'previousButtonLink': previousButtonLink,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
 
     return render(request, 'announcements/announcements.html', context)

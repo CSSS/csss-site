@@ -1,4 +1,4 @@
-{% extends "documents/header.html" %}
+{% extends "csss/header.html" %}
 
 {% block content %}
 {{ block.super }}
@@ -32,8 +32,6 @@
   }
 </style>
 
-<p>"{% static '' %}"</p>
-<p>"{% get_static_prefix %}"</p>
 {% for content in contents %}
   <p>content={{content}}</p>
 {% endfor %}
