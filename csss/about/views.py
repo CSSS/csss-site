@@ -22,11 +22,13 @@ def listOfOfficers(request):
     officers = Officer.objects.all().filter()
     now = datetime.datetime.now()
     termActive = (now.year*10) + int(now.month / 4)
+    terms = Term.objects.all().order_by('-term_number')
     context = {
         'tab': 'about',
         'authenticated' : request.user.is_authenticated,
         'officers': officers,
         'termActive' : termActive,
+        'terms' : terms
     }
     return render(request, 'about/list_of_officers.html', context)
 
