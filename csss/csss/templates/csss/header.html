@@ -38,7 +38,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<div  id="content-desktop">
 		<a href="https://github.com/CSSS/csss-site-in-dev" target="_blank">
-			<img style="position: absolute; top: 0; right: 0; border: 0; z-index: 1031" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub">
+			<img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1031" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub">
 		</a>
 	</div>
 	<body class="body" style="background-color:#f6f6f6">
@@ -82,19 +82,7 @@
 									<li><a href="/about/list_of_officers">List of Officers</a></li>
 								</ul>
 							</li>
-							
-							{% if tab == 'shopping' %}
-								<li role="presentation" id="shopping" class="dropdown nav-links active">
-							{% else %}
-								<li role="presentation" id="shopping" class="dropdown nav-links">
-							{% endif %}
-								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Merchandise</a>
-								<ul class="dropdown-menu">
-									<li><a href="/shopping">Shopping</a></li>
-									<li><a href="/shopping/checkout_form">Checkout</a></li>
-								</ul>
-							</li>
-							
+
 							{% if tab == 'documents' %}
 								<li role="presentation" class="dropdown nav-links active" id="documents">
 							{% else %}
@@ -109,7 +97,7 @@
 									<li><a href='/documents/file_uploading/multiple'>Upload Photo/Videos from CSSS Events</a></li>
 								</ul>
 							</li>
-							
+
 							{% if tab == 'events' %}
 								<li role="presentation" id="events" class="dropdown nav-links active">
 							{% else %}
@@ -121,10 +109,10 @@
 									<li><a href="/events/general_meetings">What are General Meetings?</a></li>
 									<li><a href="/events/board_games">What are Board Games Night?</a></li>
 									<li><a href='/events/gameJam'>What are Game Jams?</a></li>
-									<li><a href='/events/frosh_week'>CSSS FroshWeek</a></li>
+									<li><a target="_blank" href='http://sfucsss.org/frosh/'>CSSS FroshWeek</a></li>
 								</ul>
 							</li>
-							
+
 							{% if tab == 'elections' %}
 								<li role="presentation" class="dropdown nav-links active" id="elections">
 							{% else %}
@@ -138,7 +126,7 @@
 									{% endfor %}
 								</ul>
 							</li>
-							
+
 							{% if tab == '750_project' %}
 								<li role="presentation" id="750_project" class="dropdown nav-links active">
 							{% else %}
@@ -152,7 +140,7 @@
 									<li><a href='/750_project/workshops'>Workshops</a></li>
 								</ul>
 							</li>
-							
+
 							{% if tab == 'comp_sci_guide' %}
 								<li role="presentation" id="comp_sci_guide" class="dropdown nav-links active">
 							{% else %}
@@ -166,14 +154,14 @@
 									<li><a href='/comp_sci_guide/course_reviews'>Course Review</a></li>
 								</ul>
 							</li>
-							
+
 							{% if tab == 'bursaries_and_awards' %}
 								<li id="bursaries_and_awards" class="nav-links active"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
 							{% else %}
 								<li id="bursaries_and_awards" class="nav-links"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
 							{% endif %}
-							
-							
+
+
 							{% if tab  == 'associated_dsus_and_clubs' %}
 								<li role="presentation" class="dropdown nav-links active" id="associated_dsus_and_clubs">
 							{% else %}
@@ -188,7 +176,7 @@
 									<li><a target="_blank" href='http://www.sfu.ca/clubs/wie.html'>WiE</a></li>
 								</ul>
 							</li>
-							
+
 							{% if authenticated is True %}
 								{% if tab == 'administration' %}
 									<li role="presentation" class="dropdown nav-links active" id="administration">
@@ -197,24 +185,37 @@
 								{% endif %}
 									<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
 									<ul class="dropdown-menu">
-										<li><a href="/administration/elections/create">Create Election</a></li>
-										<li><a href="/administration/elections/create_or_update_json">Create Election With JSON</a></li>
-										<li><a href="/administration/elections/select_election">Modify/Delete Election</a></li>
+										{% if ElectionOfficer or Exec or Staff %}
+											<li><a href="/administration/elections/create">Election: Create Election</a></li>
+											<li><a href="/administration/elections/create_or_update_json">Election: Create Election via JSON</a></li>
+											<li><a href="/administration/elections/select_election">Election: Modify/Delete Election</a></li>
+										{% endif %}
+										{% if Exec or Staff %}
+											<li><a href="/administration/elections/select_election">Merchandise stuff</a></li>
+										{% endif %}
+										{% if Staff %}
+											<li><a href="/administration/officer/show_create_link_page">Officers: Generate Exec Creation Links</a></li>
+											<li><a href="/administration/officer/create_or_update_json">Officers: Update Execs for specific term via JSON</a></li>
+											<li><a href="/administration/officer/create_or_update_all_json">Officers: Update Execs for all terms via JSON</a></li>
+											<li><a href="/administration/officer/show_maillist_creation">Officers: Create a maillist</a></li>
+											<li><a href="/administration/officer/assign_maillists">Officers: Assign maillists to officer</a></li>
+											<li><a href="/admin">Django Admin</a></li>
+										{% endif %}
+
+
 									</ul>
 								</li>
-							{% endif %}
-							
-							<div class="login-container credentials">
-								<form action="/administration/login" method="post">
-									{% csrf_token %}
-									<li id="administration" class="nav-links creds-padding"> Username: <input type="text" name="username" required></li>
-									<li id="administration" class="nav-links creds-padding"> Password: <input type="text" name="password" required></li>
-									<button class="creds-button">Login</button>
-								</form>
-							</div>
-							
-							{% if authenticated is True %}
 								<li id="bursaries_and_awards" class="nav-links"><a href="/administration/logout">Logout</a></li>
+								<li style="color:white;" >Logged in as {{Username}}</li>
+							{% else %}
+								<div class="login-container credentials">
+									<form action="/administration/login" method="post">
+										{% csrf_token %}
+										<li id="administration" class="nav-links creds-padding"> Username: <input type="text" name="username" required></li>
+										<li id="administration" class="nav-links creds-padding"> Password: <input type="text" name="password" required></li>
+										<button class="creds-button">Login</button>
+									</form>
+								</div>
 							{% endif %}
 						</ul>
 					</div><!-- /.navbar-collapse -->

@@ -11,9 +11,10 @@ from time import strptime
 from pytz import timezone
 import math
 
-def index(request):
-    print("announcements index")
+import logging
+logger = logging.getLogger('csss_site')
 
+def index(request):
     currentPage=request.GET.get('p', 'none')
     if currentPage == 'none':
         currentPage = 1
@@ -23,7 +24,7 @@ def index(request):
     request_path = request.path
 
     sfuEmails = [email.email for email in AnnouncementEmailAddress.objects.all()]
-    print(f" sfuEmails {sfuEmails}")
+    logger.info(f"[csss/views.py index()] sfuEmails {sfuEmails}")
 
     messages = Message.objects.all().order_by('-id')
 
@@ -71,13 +72,18 @@ def index(request):
     previousButtonLink=request_path+'?p='+str(previousPage)
     nextButtonLink=request_path+'?p='+str(nextPage)
 
+    groups = list(request.user.groups.values_list('name',flat = True))
+
     context = {
         'tab': 'index',
         'authenticated' : request.user.is_authenticated,
         'posts' : messages_to_display,
         'nextButtonLink' : nextButtonLink,
-        'previousButtonLink': previousButtonLink
-
+        'previousButtonLink': previousButtonLink,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
 
     return render(request, 'announcements/announcements.html', context)

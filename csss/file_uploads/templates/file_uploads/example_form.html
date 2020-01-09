@@ -1,10 +1,9 @@
-{% extends "documents/header.html" %}
-{% comment %}{% extends 'base.html' %}{% endcomment %}
+{% extends "csss/header.html" %}
 {% block content %}
 {{ block.super }}
 {% load static %}
 
-{% block title %}Form example{% endblock %}
+{% block title %}Upload media to CSSS Website{% endblock %}
 
 {% block head %}
     {{ block.super }}
@@ -13,14 +12,7 @@
 {% endblock %}
 
 {% block body %}
-<p>example_form</p>
-<p>Static="{% static '' %}"</p>
-<p>Static Prefix="{% get_static_prefix %}"</p>
-    <form
-        method="POST"
-        enctype="multipart/form-data"
-        id="example-form"
-    >
+    <form method="POST" enctype="multipart/form-data" id="example-form">
         {% csrf_token %}
         {{ form }}
         <input class="btn btn-primary" type="submit" value="Save" />

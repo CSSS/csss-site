@@ -53,7 +53,7 @@ class Nominee(models.Model):
         default = 0
     )
 
-    speech = models.CharField(max_length=2000)
+    speech = models.CharField(max_length=10000)
     facebook = models.CharField(_(u'Facebook Link'),max_length=300)
     linked_in = models.CharField(_(u'LinkedIn Link'),max_length=300)
     email = models.CharField(_(u'Email Address'),max_length=300)

@@ -1,4 +1,4 @@
-{% extends "about/header.html" %}
+{% extends "csss/header.html" %}
 
 {% load officers_tags %}
 {% load static %}
@@ -6,8 +6,7 @@
 
 {% block content %}
 	{{ block.super }}
-
-    <!-- used to style the exec photos -->
+	<!-- used to style the exec photos -->
 	<style>
 		.exec-photos {
 			border-radius: 50%;
@@ -18,7 +17,7 @@
 			height: auto;
 		}
 	</style>
-	Please feel free to contact us anytime.
+	<p>Please feel free to contact us anytime.</p>
 	<ul>
 		<li>General Inquires for</li>
 		<ul>
@@ -32,65 +31,46 @@
 	<p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
 	<hr>
 	<div>
-			<ul class="nav nav-tabs" role="tablist">
-				{% get_specificTerm as terms %} <!-- templatetags used to get all the current terms that have been filled. should be switched out for a variable that is
-                    passed in through view.py instead -->
+		<ul class="nav nav-tabs" role="tablist">
+			{% for term in terms %}
+				{% if termActive == term.term_number %}
+					<li role="presentation" class="active"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
+				{% else %}
+					<li role="presentation"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
+				{% endif %}
+			{% endfor %}
+		</ul>
 
-                    <!-- used to determine which tab to set out as "active" -->
-					{% for term in terms %}
-						{% if termActive == term.term_number %}
-							<li role="presentation" class="active"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
-						{% else %}
-							<li role="presentation"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
-						{% endif %}
-					{% endfor %}
-			</ul>
-			<!-- Tab panes -->
-			<div class="tab-content">
-				{% get_specificTerm as terms %}
-					{% for term in terms %}
-						{% if termActive == term.term_number %}
-							<div role="tabpanel" class="tab-pane active" id="{{term.term}}_{{term.year}}">
-								<h1>Executives for {{term.term}} {{term.year}} Term</h1>
-								<div class="row">
-									{% for officer in officers %}
-										{% if officer.elected_term == term %}
-											<div class="col-md-4">
-												<center><img class="exec-photos" src="{% static officer.image %}"></center>
-											</div>
-											<div class="col-md-6">
-												<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
-												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
-												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
-												<p class="lead">Contact - <a href="mailto:csss-president[at]sfu.ca ">csss-president[at]sfu.ca </a><br></p>
-												<p class="lead">Bio - {{officer.bio}}</p>
-											</div>
-										{% endif %}
-									{% endfor %}
+		<!-- Tab panes -->
+		<div class="tab-content">
+			{% for term in terms %}
+				{% if termActive == term.term_number %}
+					<div role="tabpanel" class="tab-pane active" id="{{term.term}}_{{term.year}}">
+				{% else %}
+					<div role="tabpanel" class="tab-pane" id="{{term.term}}_{{term.year}}">
+				{% endif %}
+					<h1>Executives for {{term.term}} {{term.year}} Term</h1>
+					<div class="row">
+						{% for officer in officers %}
+							{% if officer.elected_term == term %}
+								<div class="col-md-4">
+									<center><img class="exec-photos" src="{% static officer.image %}"></center>
 								</div>
-							</div>
-						{% else %}
-							<div role="tabpanel" class="tab-pane" id="{{term.term}}_{{term.year}}">
-								<h1>Executives for {{term.term}} {{term.year}} Term</h1>
-								<div class="row">
-									{% for officer in officers %}
-										{% if officer.elected_term == term %}
-											<div class="col-md-4">
-												<center><img class="exec-photos" src="{% static officer.image %}"></center>
-											</div>
-											<div class="col-md-6">
-												<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
-												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
-												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
-												<p class="lead">Bio - {{officer.bio}}</p>
-											</div>
-										{% endif %}
+								<div class="col-md-6">
+									<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
+									<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
+									<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
+									{% for email in officer.email.all %}
+										<p class="lead">Contact - <a href="{{email.email}}">{{email.email}}</a><br></p>
 									{% endfor %}
+									<p class="lead">Bio - {{officer.bio}}</p>
 								</div>
-							</div>
-						{% endif %}
-					{% endfor %}
-			</div>
+							{% endif %}
+						{% endfor %}
+					</div>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 	<script type="text/javascript">
 		$('#myTabs a').click(function (e) {

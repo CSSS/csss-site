@@ -9,10 +9,12 @@ import os
 import datetime
 import time
 # Register your models here.
+import logging
+logger = logging.getLogger('csss_site')
 
 def get_update_documents(mailbox_admin, request, queryset):
 	for document in queryset.all():
-		print('Receiving mail for %s' % document)
+		logger.info(f"[documents/admin.py get_update_documents()] Receiving mail for {document}")
 		#response = urllib2.urlopen(document.url)
 		#file = open(document.filePath+"/"+document.name, 'w')
 		#file.write(response.read())
@@ -204,10 +206,10 @@ def createPicturesFromRepo(repo_dir):
 
 def clone_repos(mailbox_admin, request, queryset):
 	for repo in queryset.all():
-		print('doing a git pull inside of {0}'.format(repo.url))
-		commands='cd {0}; git pull'.format(repo.absolute_path)
+		logger.info(f"[documents/admin.py clone_repos()] doing a git pull inside of {repo.url}")
+		commands=f'cd {repo.absolute_path}; git pull'
 		exitCode, output = subprocess.getstatusoutput(commands)
-		print("exitCode={0} and output={1}".format(exitCode, output))
+		logger.info(f"[documents/admin.py clone_repos()] exitCode={exitCode} and output={output}")
 		createPicturesFromRepo(repo.absolute_path)
 
 

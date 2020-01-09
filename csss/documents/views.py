@@ -5,24 +5,35 @@ from documents.models import Media, Event, Album, Picture, Video
 import datetime
 import math
 
+import logging
+logger = logging.getLogger('csss_site')
+
 def index(request):
-    print("constitution index")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'documents',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, 'documents/constitution.html', context)
 
 def policies(request):
-    print("policies index")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': 'documents',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, 'documents/policies.html', context)
 
 def events(request):
-    print("photo_gallery")
+    groups = list(request.user.groups.values_list('name',flat = True))
     events = Event.objects.all().filter()
     albums = Album.objects.all().filter()
     context = {
@@ -30,10 +41,15 @@ def events(request):
         'albums': albums,
         'tab': 'documents',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, 'documents/events.html', context)
 
 def album(request):
+    groups = list(request.user.groups.values_list('name',flat = True))
     currentPage=request.GET.get('p', 'none')
     if currentPage == 'none':
         currentPage = 1
@@ -80,5 +96,9 @@ def album(request):
         'nextButtonLink':nextButtonLink,
         'previousButtonLink': previousButtonLink,
         'medias': medias,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, 'documents/album.html', context)

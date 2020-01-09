@@ -63,7 +63,7 @@ class Officer(models.Model):
         default="NA"
     )
 
-    phone_number = models.IntegerField(
+    phone_number = models.BigIntegerField(
         default=0
     )
 
@@ -79,25 +79,25 @@ class Officer(models.Model):
 
     course1 = models.CharField(
         _(u'First Favorite Course'),
-        max_length=10,
+        max_length=100,
         default="NA"
     )
 
     course2 = models.CharField(
         _(u'Second Favorite Course'),
-        max_length=10,
+        max_length=100,
         default="NA"
     )
 
     language1 = models.CharField(
         _(u'First Favorite Language'),
-        max_length=10,
+        max_length=100,
         default="NA"
     )
 
     language2 = models.CharField(
         _(u'Second Favorite Language'),
-        max_length=10,
+        max_length=100,
         default="NA"
     )
 
@@ -114,7 +114,7 @@ class Officer(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"{self.name} {self.elected_term}"
 
 
 class AnnouncementEmailAddress(models.Model):
@@ -129,3 +129,17 @@ class AnnouncementEmailAddress(models.Model):
 
     def __str__(self):
         return f"{self.officer.name} {self.email} {self.officer.elected_term}"
+
+class EmailList(models.Model):
+    email = models.CharField(
+        max_length = 140,
+        default="NA"
+    )
+    officer = models.ForeignKey(
+        Officer,
+        related_name='email',
+        on_delete = models.CASCADE
+    )
+
+    def __str__(self):
+        return f"{self.officer.name} {self.email}"

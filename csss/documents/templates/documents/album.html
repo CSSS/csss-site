@@ -1,4 +1,4 @@
-{% extends "documents/header.html" %}
+{% extends "csss/header.html" %}
 
 {% block content %}
 {{ block.super }}
@@ -31,9 +31,6 @@
       padding: 10px 20px;
   }
 </style>
-
-<p>"{% static '' %}"</p>
-<p>"{% get_static_prefix %}"</p>
 
 <a href="{{ previousButtonLink|safe }}">Previus Button</a>
 <a href="{{ nextButtonLink|safe }}">Next Button</a>

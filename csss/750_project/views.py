@@ -1,34 +1,50 @@
 from django.shortcuts import render
 
 def index(request):
-    print("About 750 index")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, '750_project/about_750.html', context)
 
 def hacktime(request):
-    print("Hacktime index")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, '750_project/hacktime.html', context)
 
 def devTools(request):
-    print("dev tools index")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render(request, '750_project/dev_tools.html', context)
 
 def workshops(request):
-    print("workshops index")
+    groups = list(request.user.groups.values_list('name',flat = True))
     context = {
         'tab': '750_project',
         'authenticated' : request.user.is_authenticated,
+        'Exec' : ('Exec' in groups),
+        'ElectionOfficer' : ('ElectionOfficer' in groups),
+        'Staff' : request.user.is_staff,
+        'Username' : request.user.username
     }
     return render( request, '750_project/workshops.html', context)
 
