@@ -1,0 +1,5 @@
+flake8
+pytest
+pytest-flake8
+pep8-naming
+Django==2.1.4
