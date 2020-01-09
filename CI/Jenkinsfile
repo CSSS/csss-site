@@ -5,6 +5,7 @@ node {
 
     def object = readJSON text: "${payload}"
     def BRANCH_NAME = object.ref
+    sh "ls -l"
     sh label: '', script: """bash -c \'
         git checkout ${BRANCH_NAME}
         export COMPOSE_PROJECT_NAME=TEST_WEBSITE_{BRANCH_NAME};
