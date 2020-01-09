@@ -2,8 +2,12 @@ node {
    stage('Validate Code') {
     // Trigger: GitHub webhook whenever a branch is deleted
     // Action: Delete branch's testing channels and containers
+
+    def object = readJSON text: "${payload}"
+    def BRANCH_NAME = object.ref
     sh label: '', script: """bash -c \'
-        export COMPOSE_PROJECT_NAME=TEST_WEBSITE;
+        git checkout ${BRANCH_NAME}
+        export COMPOSE_PROJECT_NAME=TEST_WEBSITE_{BRANCH_NAME};
         export CONTAINER_HOME_DIR=/usr/src/app;
         export CONTAINER_TEST_DIR=\${CONTAINER_HOME_DIR}/tests;
         export TEST_RESULT_FILE_NAME=all-unit-tests.xml;
