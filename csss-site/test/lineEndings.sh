@@ -2,6 +2,7 @@
 
 # PURPOSE: used by both the user and jenkins to verify that all the plain test files in the repo used linux
 # line endings
+
 traverse_files(){
 	# echo "layer="$1
 	local files_in_current_folder
