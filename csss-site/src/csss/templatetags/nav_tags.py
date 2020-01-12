@@ -4,6 +4,7 @@ from elections.models import NominationPage
 
 register = template.Library()
 
+
 @register.simple_tag
-def get_nomPages():
+def get_nom_pages():
     return NominationPage.objects.all()

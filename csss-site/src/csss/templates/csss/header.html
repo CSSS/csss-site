@@ -108,7 +108,7 @@
 									<li><a href="/events/">Calendar</a></li>
 									<li><a href="/events/general_meetings">What are General Meetings?</a></li>
 									<li><a href="/events/board_games">What are Board Games Night?</a></li>
-									<li><a href='/events/gameJam'>What are Game Jams?</a></li>
+									<li><a href='/events/game_jam'>What are Game Jams?</a></li>
 									<li><a target="_blank" href='http://sfucsss.org/frosh/'>CSSS FroshWeek</a></li>
 								</ul>
 							</li>
@@ -120,7 +120,7 @@
 							{% endif %}
 								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elections</a>
 								<ul class="dropdown-menu">
-									{% get_nomPages as elections %}
+									{% get_nom_pages as elections %}
 									{% for election in elections %}
 										<li><a href="/elections/{{election.slug}}">{{election.slug}}</a></li>
 									{% endfor %}

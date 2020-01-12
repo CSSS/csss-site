@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
 # Create your models here.
 
+
 class NominationPage(models.Model):
     class Meta:
         verbose_name_plural = "NominationPages"
@@ -32,12 +33,13 @@ class NominationPage(models.Model):
 
     websurvey = models.CharField(
         _("The link that the voters can use to vote on"),
-        max_length = 300,
+        max_length=300,
         default="NONE",
     )
 
     def __str__(self):
         return "{}_{}".format(self.date, self.election_type)
+
 
 class Nominee(models.Model):
     nomination_page = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
@@ -50,14 +52,28 @@ class Nominee(models.Model):
     )
 
     position = models.IntegerField(
-        default = 0
+        default=0
     )
 
-    speech = models.CharField(max_length=10000)
-    facebook = models.CharField(_(u'Facebook Link'),max_length=300)
-    linked_in = models.CharField(_(u'LinkedIn Link'),max_length=300)
-    email = models.CharField(_(u'Email Address'),max_length=300)
-    discord = models.CharField(_(u'Discord Username'),max_length=300)
+    speech = models.CharField(
+        max_length=10000
+    )
+    facebook = models.CharField(
+        _(u'Facebook Link'),
+        max_length=300
+    )
+    linked_in = models.CharField(
+        _(u'LinkedIn Link'),
+        max_length=300
+    )
+    email = models.CharField(
+        _(u'Email Address'),
+        max_length=300
+    )
+    discord = models.CharField(
+        _(u'Discord Username'),
+        max_length=300
+    )
 
     def __str__(self):
         return self.name

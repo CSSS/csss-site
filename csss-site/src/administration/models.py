@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 
+
 class OfficerUpdatePassphrase(models.Model):
 
     passphrase = models.CharField(
@@ -9,5 +10,5 @@ class OfficerUpdatePassphrase(models.Model):
         primary_key=True,
     )
     used = models.BooleanField(
-        default = False,
+        default=False,
     )

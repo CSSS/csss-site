@@ -10,4 +10,5 @@ class ExampleFileInline(admin.TabularInline):
 class UserSubmissionAdmin(admin.ModelAdmin):
     inlines = [ExampleFileInline]
 
+
 admin.site.register(UserSubmission, UserSubmissionAdmin)

@@ -2,29 +2,34 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from announcements import utils
 from django.utils import timezone
+import six
+
 
 class Post(models.Model):
-	subject = models.CharField(
-		_(u'Subject'),
-		max_length=255,
+    subject = models.CharField(
+         _(u'Subject'),
+         max_length=255,
+         default='NA',
+    )
+
+    from_header = models.CharField(
+        _(u'Author'),
+        max_length=255,
         default='NA',
-	)
-	from_header = models.CharField(
-		_(u'Author'),
-		max_length=255,
-        default='NA',
-	)
-	body = models.TextField(
-		_(u'Body'),
-	)
-	processed = models.DateTimeField(
+    )
+
+    body = models.TextField(
+        _(u'Body'),
+    )
+
+    processed = models.DateTimeField(
         _(u'Date and Time'),
         default=timezone.now,
-        )
-	def __str__ (self):
-		return self.subject
+    )
 
-# Create your models here.
+    def __str__(self):
+        return self.subject
+
 
 class AnnouncementAttachment(models.Model):
     message = models.ForeignKey(
@@ -45,18 +50,6 @@ class AnnouncementAttachment(models.Model):
         """Deletes the attachment."""
         self.document.delete()
         return super(AnnouncementAttachment, self).delete(*args, **kwargs)
-
-    def _get_rehydrated_headers(self):
-        headers = self.headers
-        if headers is None:
-            return EmailMessage()
-        if sys.version_info < (3, 0):
-            try:
-                headers = headers.encode('utf-8')
-            except UnicodeDecodeError:
-                headers = headers.decode('utf-8').encode('utf-8')
-        return email.message_from_string(headers)
-
 
     def __delitem__(self, name):
         rehydrated = self._get_rehydrated_headers()

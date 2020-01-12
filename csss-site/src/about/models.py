@@ -2,21 +2,25 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import datetime
 
-class aboutPage(models.Model):
-    title=models.CharField(max_length=140)
-    body=models.TextField()
+
+class AboutPage(models.Model):
+    title = models.CharField(max_length=140)
+    body = models.TextField()
 
     def __str__(self):
         return self.title
 # Create your models here.
 
+
 class SourceFile(models.Model):
     json_file = models.FileField(
-        default = 'exec_positions/default',
+        default='exec_positions/default',
         upload_to='exec_positions/'
     )
+
     def __str__(self):
         return f"{self.json_file}"
+
 
 class Term(models.Model):
     term_choices = (
@@ -29,19 +33,20 @@ class Term(models.Model):
         max_length=6,
         choices=term_choices,
         default='Fall',
-        help_text = _("You need to click on the dropbox above in order for the slug field to get populated"),
+        help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
     term_number = models.IntegerField(
         default=0,
     )
     year = models.IntegerField(
-        choices=[ (b,b) for b in list(reversed(range(1970, datetime.datetime.now().year+1))) ],
+        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year+1)))],
         default='2018',
-        help_text = _("You need to click on the dropbox above in order for the slug field to get populated"),
+        help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
 
     def __str__(self):
         return f"{self.year} {self.term}"
+
 
 class Officer(models.Model):
 
@@ -106,7 +111,11 @@ class Officer(models.Model):
         default="NA"
     )
 
-    image = models.CharField(_(u'Link to Profile Picture'),max_length=400,default='NA')
+    image = models.CharField(
+        _(u'Link to Profile Picture'),
+        max_length=400,
+        default='NA'
+    )
 
     elected_term = models.ForeignKey(
         Term,
@@ -130,15 +139,16 @@ class AnnouncementEmailAddress(models.Model):
     def __str__(self):
         return f"{self.officer.name} {self.email} {self.officer.elected_term}"
 
+
 class EmailList(models.Model):
     email = models.CharField(
-        max_length = 140,
+        max_length=140,
         default="NA"
     )
     officer = models.ForeignKey(
         Officer,
         related_name='email',
-        on_delete = models.CASCADE
+        on_delete=models.CASCADE
     )
 
     def __str__(self):

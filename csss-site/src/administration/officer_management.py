@@ -12,22 +12,23 @@ import string
 
 JSON_INPUT_POST_KEY = 'input_json'
 
-JSON_YEAR_KEY='year'
-JSON_TERM_KEY='term'
+JSON_YEAR_KEY = 'year'
+JSON_TERM_KEY = 'term'
 
 JSON_EXEC_KEY = 'execs'
 
 logger = logging.getLogger('csss_site')
 
+
 def create_link(request):
-    groups = list(request.user.groups.values_list('name',flat = True))
+    groups = list(request.user.groups.values_list('name', flat=True))
     context = {
         'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-        'Exec' : ('Exec' in groups),
-        'ElectionOfficer' : ('ElectionOfficer' in groups),
-        'Staff' : request.user.is_staff,
-        'Username' : request.user.username
+        'authenticated': request.user.is_authenticated,
+        'Exec': ('Exec' in groups),
+        'ElectionOfficer': ('ElectionOfficer' in groups),
+        'Staff': request.user.is_staff,
+        'Username': request.user.username
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -35,74 +36,88 @@ def create_link(request):
     post_keys = ['term', 'year', 'positions']
     logger.info(f"[administration/views.py create_link()] request.POST={request.POST}")
     logger.info(f"[administration/views.py create_link()] request.GET={request.GET}")
-    if len(request.POST.keys() ) == (len(post_keys) + 1 ):
+    if len(request.POST.keys()) == (len(post_keys) + 1):
         logger.info(f"[administration/views.py create_link()] correct numbers of request.POST keys detected")
         for key in request.POST.keys():
             if key not in post_keys:
                 logger.info(f"[administration/views.py create_link()] invalid key '{key}' detected")
 
-        BASE_URL = settings.HOST_ADDRESS + '/about/input_exec_info?'
+        base_url = settings.HOST_ADDRESS + '/about/input_exec_info?'
         exec_links = []
         positions = request.POST['positions'].splitlines()
         position_number = 0
         for position in positions:
-            lettersAndDigits = string.ascii_letters + string.digits
-            passphrase = ''.join(random.choice(lettersAndDigits) for i in range(10))
-            passphrase = OfficerUpdatePassphrase(passphrase = passphrase)
+            letters_and_digits = string.ascii_letters + string.digits
+            passphrase = ''.join(random.choice(letters_and_digits) for i in range(10))
+            passphrase = OfficerUpdatePassphrase(passphrase=passphrase)
             passphrase.save()
             logger.info(f"[administration/views.py create_link()] interpreting position {position}")
-            exec_links.append(f"{BASE_URL}term={request.POST['term']}&year={request.POST['year']}&position={position}&position_number={position_number}&passphrase={passphrase.passphrase}")
-            position_number+=1
-        context.update({ 'exec_links' : exec_links })
+            exec_links.append(
+                f"{base_url}term={request.POST['term']}&year={request.POST['year']}&"
+                "position={position}&position_number={position_number}&passphrase={passphrase.passphrase}"
+            )
+            position_number += 1
+        context.update({'exec_links': exec_links})
         return render(request, 'administration/show_generated_officer_links.html', context)
 
     return HttpResponseRedirect('/')
 
 
 def show_create_link_page(request):
-    terms = [ 'Spring', 'Summer', 'Fall']
-    years = [ b for b in list(reversed(range(1970, datetime.datetime.now().year+1))) ]
-    groups = list(request.user.groups.values_list('name',flat = True))
+    terms = ['Spring', 'Summer', 'Fall']
+    years = [b for b in list(reversed(range(1970, datetime.datetime.now().year+1)))]
+    groups = list(request.user.groups.values_list('name', flat=True))
 
     context = {
         'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-        'terms' : terms,
-        'years' : years,
-        'Exec' : ('Exec' in groups),
-        'ElectionOfficer' : ('ElectionOfficer' in groups),
-        'Staff' : request.user.is_staff,
-        'Username' : request.user.username
+        'authenticated': request.user.is_authenticated,
+        'terms': terms,
+        'years': years,
+        'Exec': ('Exec' in groups),
+        'ElectionOfficer': ('ElectionOfficer' in groups),
+        'Staff': request.user.is_staff,
+        'Username': request.user.username
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
     return render(request, 'administration/show_create_link_for_officer_page.html', context)
 
+
 def create_or_update_specified_term_with_provided_json(request):
-    logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] [create_or_update_specified_term_with_provided_json] request.POST={request.POST}")
-    groups = list(request.user.groups.values_list('name',flat = True))
+    logger.info(
+        f"[administration/views.py create_or_update_specified_term_with_provided_json()] "
+        "[create_or_update_specified_term_with_provided_json] request.POST={request.POST}"
+    )
+    groups = list(request.user.groups.values_list('name', flat=True))
     context = {
         'tab': 'administration',
-        'authenticated' : request.user.is_authenticated,
-        'Exec' : ('Exec' in groups),
-        'ElectionOfficer' : ('ElectionOfficer' in groups),
-        'Staff' : request.user.is_staff,
-        'Username' : request.user.username
+        'authenticated': request.user.is_authenticated,
+        'Exec': ('Exec' in groups),
+        'ElectionOfficer': ('ElectionOfficer' in groups),
+        'Staff': request.user.is_staff,
+        'Username': request.user.username
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
-        logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election")
+        logger.info(
+            f"[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election"
+        )
         post_dict = parser.parse(request.POST.urlencode())
         post_dict = json.loads(request.POST['input_json'])
-        logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] post_dict={post_dict}")
+        logger.info(
+            f"[administration/views.py create_or_update_specified_term_with_provided_json()] post_dict={post_dict}"
+        )
         term = get_term_json(json.loads(request.POST['input_json']))
         # post_dict = parser.parse(request.POST.urlencode())
-        logger.info(f"[administration/views.py create_or_update_specified_term_with_provided_json()] post_dict={post_dict}")
+        logger.info(
+            f"[administration/views.py create_or_update_specified_term_with_provided_json()] post_dict={post_dict}"
+        )
         save_execs_from_json(post_dict[JSON_EXEC_KEY], term)
 
         return render(request, 'administration/update_officers_for_term_json.html', context)
     return render(request, 'administration/update_officers_for_term_json.html', context)
+
 
 def get_term_json(input_json):
     year = input_json[JSON_YEAR_KEY]
@@ -115,19 +130,20 @@ def get_term_json(input_json):
     elif term == "Fall":
         term_number = term_number + 3
     Term.objects.filter(
-        term = term,
-        term_number = term_number,
-        year = year
+        term=term,
+        term_number=term_number,
+        year=year
     ).delete()
 
     term = Term(
-        term = term,
-        term_number = term_number,
-        year = year,
+        term=term,
+        term_number=term_number,
+        year=year,
     )
     term.save()
     logger.info(f"[administration/views.py get_term_json()] term {term} created")
     return term
+
 
 JSON_NAME_KEY = 'name'
 JSON_SFUID_KEY = 'sfuid'
@@ -143,8 +159,9 @@ JSON_BIO_KEY = 'bio'
 JSON_PIC_PATH_KEY = 'profile_pic_path'
 JSON_EXEC_POSITION_KEY = 'exec_position'
 
+
 def save_execs_from_json(execs, term):
-    position_index=0
+    position_index = 0
     for exec in execs:
         exec_position = exec[JSON_EXEC_POSITION_KEY]
         full_name = exec[JSON_NAME_KEY]
@@ -159,29 +176,32 @@ def save_execs_from_json(execs, term):
         bio = exec[JSON_BIO_KEY]
         pic_path = exec[JSON_PIC_PATH_KEY]
 
-        logger.info(f"[administration/views.py save_execs_from_json()] saved user term={term} full_name={full_name} exec_position={exec_position}")
+        logger.info(
+            f"[administration/views.py save_execs_from_json()] "
+            "saved user term={term} full_name={full_name} exec_position={exec_position}"
+        )
         officer = Officer(
-            position = exec_position,
-            term_position_number = position_index,
-            name = full_name,
-            sfuid = sfuid,
-            phone_number = phone_number,
-            github_username = github,
-            gmail = gmail,
-            course1 = course1,
-            course2 = course2,
-            language1 = language1,
-            language2 = language2,
-            bio = bio,
-            elected_term = term,
-            image = pic_path
+            position=exec_position,
+            term_position_number=position_index,
+            name=full_name,
+            sfuid=sfuid,
+            phone_number=phone_number,
+            github_username=github,
+            gmail=gmail,
+            course1=course1,
+            course2=course2,
+            language1=language1,
+            language2=language2,
+            bio=bio,
+            elected_term=term,
+            image=pic_path
         )
         officer.save()
 
         for email in exec[JSON_ANNOUNCEMENT_EMAILS_KEY]:
-            announceEmails = AnnouncementEmailAddress(
-                email = email,
-                officer = officer
+            announce_emails = AnnouncementEmailAddress(
+                email=email,
+                officer=officer
             )
-            announceEmails.save()
-        position_index+=1
+            announce_emails.save()
+        position_index += 1

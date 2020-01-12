@@ -22,9 +22,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-	url(r'^admin/', admin.site.urls),
-	url(r'^about/',include('about.urls')),
-	url(r'^documents/', include('documents.urls')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^about/', include('about.urls')),
+    url(r'^documents/', include('documents.urls')),
     url(r'^events/', include('events.urls')),
     url(r'^750_project/', include('750_project.urls')),
     url(r'^comp_sci_guide/', include('comp_sci_guide.urls')),

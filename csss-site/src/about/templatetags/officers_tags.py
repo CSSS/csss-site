@@ -4,6 +4,7 @@ from about.models import Term
 
 register = template.Library()
 
+
 @register.simple_tag
-def get_specificTerm():
-	return list(reversed(Term.objects.all()))
+def get_specific_term():
+    return list(reversed(Term.objects.all()))

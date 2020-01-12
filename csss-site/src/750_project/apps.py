@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class Seven50_ProjectConfig(AppConfig):
+class Seven50ProjectConfig(AppConfig):
     name = '750_project'

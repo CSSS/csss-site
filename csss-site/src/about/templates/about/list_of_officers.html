@@ -33,7 +33,7 @@
 	<div>
 		<ul class="nav nav-tabs" role="tablist">
 			{% for term in terms %}
-				{% if termActive == term.term_number %}
+				{% if term_active == term.term_number %}
 					<li role="presentation" class="active"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
 				{% else %}
 					<li role="presentation"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
@@ -44,7 +44,7 @@
 		<!-- Tab panes -->
 		<div class="tab-content">
 			{% for term in terms %}
-				{% if termActive == term.term_number %}
+				{% if term_active == term.term_number %}
 					<div role="tabpanel" class="tab-pane active" id="{{term.term}}_{{term.year}}">
 				{% else %}
 					<div role="tabpanel" class="tab-pane" id="{{term.term}}_{{term.year}}">

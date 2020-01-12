@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 import environ
 import os
-import logging
+# import logging
 from csss.logger_setup import initialize_logger
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -43,10 +43,10 @@ logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 # Application definition
 
 INSTALLED_APPS = [
-	'csss',
-	'announcements',
-	'about',
-	'documents',
+    'csss',
+    'announcements',
+    'about',
+    'documents',
     'events',
     '750_project',
     'administration',
@@ -165,13 +165,13 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/products'
 
-#STATICFILES_DIRS = [
+# STATICFILES_DIRS = [
 #    'static_files/',
-#]
-#This is list of full paths your project should look fotr static files, beside standard apps. Namely,
-#Django will automatically look for static files in your installed apps. If app has dir called static
-#(app/static) all files and folders will be copied once you run collectstatic command. STATICFILES_DIRS
-#defines additional paths where your staticfiles can be found
+# ]
+# This is list of full paths your project should look fotr static files, beside standard apps. Namely,
+# Django will automatically look for static files in your installed apps. If app has dir called static
+# (app/static) all files and folders will be copied once you run collectstatic command. STATICFILES_DIRS
+# defines additional paths where your staticfiles can be found
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
@@ -182,32 +182,33 @@ logger.info(f'[settings.py] ROOT_DIR set to {ROOT_DIR}')
 STATIC_URL = '/STATIC_URL/'
 logger.info(f'[settings.py] STATIC_URL set to {STATIC_URL}')
 
-#is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
-#This is something that tells your browser where to look for JavaScript and CSS files
+# is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
+# This is something that tells your browser where to look for JavaScript and CSS files
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
 logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 
-#This is destination directory for your static files. This should be absolute path in yor file system,
-#for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
-#static files from your project and copy them into STATIC_ROOT dir
+# This is destination directory for your static files. This should be absolute path in yor file system,
+# for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
+# static files from your project and copy them into STATIC_ROOT dir
 
 MEDIA_URL = '/MEDIA_URL/'
 logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
 
-#URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
-#if set to a non-empty value. You will need to configure these files to be served in both development and production environments.
+# URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
+# if set to a non-empty value. You will need to configure these
+# files to be served in both development and production environments.
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root/')
 logger.info(f'[settings.py] MEDIA_ROOT set to {MEDIA_ROOT}')
 
-#Absolute filesystem path to the directory that will hold user-uploaded files.
+# Absolute filesystem path to the directory that will hold user-uploaded files.
 
 
 FILE_FORM_MASTER_DIR = 'form_uploads/form_uploads/'
-FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR+'temporary_files/' ##temporary files from form upload go here
-DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/' #will be placed under the MEDIA_ROOT folder
+FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR+'temporary_files/'  # temporary files from form upload go here
+DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/'  # will be placed under the MEDIA_ROOT folder
 logger.info(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
 logger.info(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
 logger.info(f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}')

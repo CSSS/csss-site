@@ -4,266 +4,305 @@ from documents.models import DocumentToPull, Repo, Media, Picture, Video, Album,
 from django.utils.translation import ugettext_lazy as _
 import subprocess
 import os
-import requests, shutil
-import os
+import requests
+import shutil
+# import os
 import datetime
-import time
-# Register your models here.
+# import time
+import urllib3
+import wget
 import logging
+
+# Register your models here.
 logger = logging.getLogger('csss_site')
 
+
 def get_update_documents(mailbox_admin, request, queryset):
-	for document in queryset.all():
-		logger.info(f"[documents/admin.py get_update_documents()] Receiving mail for {document}")
-		#response = urllib2.urlopen(document.url)
-		#file = open(document.filePath+"/"+document.name, 'w')
-		#file.write(response.read())
-		#file.close()
+    for document in queryset.all():
+        logger.info(f"[documents/admin.py get_update_documents()] Receiving mail for {document}")
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+        url = document.url  # Note: It's https
+        r = requests.get(url, verify=False, stream=True)
+        r.raw.decode_content = True
+        with open(document.file_path+"/"+document.file_name, 'wb') as f:
+            shutil.copyfileobj(r.raw, f)
 
+        url = document.url
+        wget.download(url, document.file_path+"/"+document.file_name)
 
-		#response = requests.get(document.url)
-		#with open(document.filePath+"/"+document.name, 'wb') as f:
-		#	f.write(response.content)
-		#open(document.filePath+"/"+document.name , 'wb').write(r.content)
-
-
-		#from pathlib import Path
-		#import requests
-		#filename = Path(document.filePath+"/"+document.name)
-		#url = document.url
-		#response = requests.get(url)
-		#filename.write_bytes(response.content)
-
-		import urllib3
-		urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-
-		import requests
-		url=document.url    #Note: It's https
-		r = requests.get(url, verify=False,stream=True)
-		r.raw.decode_content = True
-		with open(document.filePath+"/"+document.fileName , 'wb') as f:
-			shutil.copyfileobj(r.raw, f)
-
-		import wget
-
-		#print('\nBeginning file download with wget module\n')
-
-		url = document.url
-		wget.download(url, document.filePath+"/"+document.fileName)
 
 get_update_documents.short_description = _('Poll Document')
 
 subcategories = []
 path_to_file = ['documents_static', 'event-photos']
 
+
 class DocumentAdmin(admin.ModelAdmin):
-	list_display = (
-		'name',
-		'fileName',
-		'url',
-		'filePath',
-	)
-	actions = [get_update_documents]
+    list_display = (
+        'name',
+        'file_name',
+        'url',
+        'file_path',
+    )
 
-def goThroughYouTubeLinks(albumPath, event_name, album_date, album_name):
-	file = open(albumPath, "r")
-	for link in file:
-		link = link.rstrip()
-		if link != '':
-			eventKey = Event.objects.get(event_name=event_name)
-			albumKey = Album.objects.get(date=album_date, name=album_name)
-
-			retrievedObjects = Video.objects.all().filter(youtube_link=link)
-			if len(retrievedObjects) == 0:
-				videoInst = Video(youtube_link=link)
-				videoInst.save()
-			else:
-				videoInst = retrievedObjects[0]
-
-			retrievedObjects = Media.objects.all().filter(event=eventKey, album_link=albumKey,video=videoInst)
-			if len(retrievedObjects) == 0:
-				itemInstance = Media(event=eventKey, album_link=albumKey,video=videoInst)
-				itemInstance.save()
-			else:
-				itemInstance = retrievedObjects[0]
-
-			itemSubCategories = subcategories.copy()
-			lvl=0
-			while len(itemSubCategories) != 0:
-				if len(SubCategory.objects.all().filter(media=itemInstance, level=lvl+1, name=itemSubCategories[0])) == 0:
-					subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
-					subCategoryInt.save()
-				itemSubCategories.pop(0)
-				lvl+=1
-	file.close()
-
-def iterateThroughMediaForSpecifiAlbum(path_to_file, albumPath, event_name, album_date, album_name):
-	albumContents = os.listdir(albumPath)
-	for media in albumContents:
-		path_to_file.append(media)
-		if os.path.isdir(albumPath+'/'+media):
-			subcategories.append(media)
-			iterateThroughMediaForSpecifiAlbum(path_to_file, albumPath+'/'+media, event_name, album_date, album_name)
-			subcategories.pop()
-		else:
-			if media == 'videos.txt':
-				goThroughYouTubeLinks(albumPath+'/'+media, event_name, album_date, album_name)
-
-			elif media[0] != '.':
-				file_location = albumPath+'/'+media
-				eventKey = Event.objects.get(event_name=event_name)
-				albumKey = Album.objects.get(date=album_date, name=album_name)
-
-				retrievedObjects = Picture.objects.all().filter(absolute_file_path=file_location, static_path="/".join(path_to_file))
-				if len(retrievedObjects) == 0:
-					pictureInstance = Picture(absolute_file_path=file_location, static_path="/".join(path_to_file))
-					pictureInstance.save()
-				else:
-					pictureInstance = retrievedObjects[0]
-
-				retrievedObjects = Media.objects.all().filter(name=media, event=eventKey, album_link=albumKey, picture=pictureInstance)
-				if len(retrievedObjects) == 0:
-					itemInstance = Media(name=media, event=eventKey, album_link=albumKey, picture=pictureInstance)
-					itemInstance.save()
-				else:
-					itemInstance = retrievedObjects[0]
-
-				if albumKey.album_thumbnail is None:
-					albumKey.album_thumbnail = itemInstance
-					albumKey.save()
-				itemSubCategories = subcategories.copy()
-				lvl=0
-				while len(itemSubCategories) != 0:
-					if len(SubCategory.objects.all().filter(media=itemInstance, level=lvl+1, name=itemSubCategories[0])) == 0:
-						subCategoryInt = SubCategory(media=itemInstance, level=lvl+1, name=itemSubCategories[0])
-						subCategoryInt.save()
-					itemSubCategories.pop(0)
-					lvl+=1
-		path_to_file.pop()
+    actions = [get_update_documents]
 
 
-def createPicturesFromRepo(repo_dir):
-	folder_contents = os.listdir(repo_dir)
-	for eventName in folder_contents:
-		eventPath=repo_dir+eventName
-		if os.path.isdir(eventPath) and eventName[0] != '.' :
-			path_to_file.append(eventName)
-			event_name=eventName
-			retrievedObjects = Event.objects.all().filter(event_name=event_name)
-			if len(retrievedObjects) == 0:
-				event = Event(event_name=eventName)
-				event.save()
-			else:
-				event = retrievedObjects[0]
-			albums = os.listdir(eventPath)
-			for album in albums:
-				if album[0] != '.':
-					path_to_file.append(album)
-					album_date = ''
-					album_name = ''
-					if ' ' in album: #there is a name for the album as well as a date
-						indexOfSpace = album.find(' ')
-						date_of_file=album[0:indexOfSpace]
-						if '-' in date_of_file: # in this case, the albumName has the following format "YYYY-MM-DDD <albumName>"
-							firstDash=date_of_file.find('-')
-							secondDash=date_of_file.find('-',firstDash+1)
-							date_of_file = datetime.datetime(int(date_of_file[0:firstDash]), int(date_of_file[firstDash+1:secondDash]), int(date_of_file[secondDash+1:]))
-							albumName = album[indexOfSpace+1:]
-							album_date = date_of_file
-							album_name = albumName
-							if len(Album.objects.all().filter(date=date_of_file, name=albumName, event=event)) == 0:
-								albumInst = Album(date=date_of_file, name=albumName, event=event)
-								albumInst.save()
-						else: # in this case, the albumName has the following format "YYYY <albumName>"
-							date_of_file = datetime.datetime(int(date_of_file), 1, 1)
-							albumName = album[indexOfSpace+1:]
-							album_date = date_of_file
-							album_name = albumName
-							if len(Album.objects.all().filter(date=date_of_file, name=albumName, event=event)) == 0:
-								albumInst = Album(date=date_of_file, name=albumName, event=event)
-								albumInst.save()
-					else: #there is no name in the album folder
-						if '-' in album: # in this case, the albumName has the following format "YYYY-MM-DDD"
-							firstDash=album.find('-')
-							secondDash=album.find('-',firstDash+1)
-							date_of_file = datetime.datetime(int(album[0:firstDash]), int(album[firstDash+1:secondDash]), int(album[secondDash+1:]))
-							album_date = date_of_file
-							if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:
-								albumInst = Album(date=date_of_file, event=event)
-								albumInst.save()
-						else: # in this case, the albumName has the following format "YYYY"
-							date_of_file = datetime.datetime(int(album), 1, 1)
-							album_date = date_of_file
-							album_name = albumName
-							if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:
-								albumInst = Album(date=date_of_file, event=event)
-								albumInst.save()
-					albumPath = "{0}/{1}".format(eventPath,album)
-					files = os.listdir(albumPath)
-					iterateThroughMediaForSpecifiAlbum(path_to_file, albumPath, event_name, album_date, album_name)
-					path_to_file.pop()
-			path_to_file.pop()
+def go_through_youtube_links(album_path, event_name, album_date, album_name):
+    file = open(album_path, "r")
+    for link in file:
+        link = link.rstrip()
+        if link != '':
+            event_key = Event.objects.get(event_name=event_name)
+            album_key = Album.objects.get(date=album_date, name=album_name)
+
+            retrieved_objects = Video.objects.all().filter(youtube_link=link)
+            if len(retrieved_objects) == 0:
+                video_instance = Video(youtube_link=link)
+                video_instance.save()
+            else:
+                video_instance = retrieved_objects[0]
+
+            retrieved_objects = Media.objects.all().filter(
+                event=event_key,
+                album_link=album_key,
+                video=video_instance
+            )
+            if len(retrieved_objects) == 0:
+                item_instance = Media(event=event_key, album_link=album_key, video=video_instance)
+                item_instance.save()
+            else:
+                item_instance = retrieved_objects[0]
+
+            item_sub_category = subcategories.copy()
+            lvl = 0
+            while len(item_sub_category) != 0:
+                if len(
+                    SubCategory.objects.all().filter(
+                        media=item_instance,
+                        level=lvl+1,
+                        name=item_sub_category[0]
+                    )
+                ) == 0:
+                    sub_category_instance = SubCategory(media=item_instance, level=lvl+1, name=item_sub_category[0])
+                    sub_category_instance.save()
+                item_sub_category.pop(0)
+                lvl += 1
+    file.close()
+
+
+def iterate_through_media_for_specific_album(path_to_file, album_path, event_name, album_date, album_name):
+    album_contents = os.listdir(album_path)
+    for media in album_contents:
+        path_to_file.append(media)
+        if os.path.isdir(album_path+'/'+media):
+            subcategories.append(media)
+            iterate_through_media_for_specific_album(
+                path_to_file,
+                album_path+'/'+media,
+                event_name,
+                album_date,
+                album_name
+            )
+            subcategories.pop()
+        else:
+            if media == 'videos.txt':
+                go_through_youtube_links(album_path+'/'+media, event_name, album_date, album_name)
+            elif media[0] != '.':
+                file_location = album_path+'/'+media
+                event_key = Event.objects.get(event_name=event_name)
+                album_key = Album.objects.get(date=album_date, name=album_name)
+                retrieved_objects = Picture.objects.all().filter(
+                    absolute_file_path=file_location,
+                    static_path="/".join(path_to_file)
+                )
+                if len(retrieved_objects) == 0:
+                    picture_instance = Picture(absolute_file_path=file_location, static_path="/".join(path_to_file))
+                    picture_instance.save()
+                else:
+                    picture_instance = retrieved_objects[0]
+
+                retrieved_objects = Media.objects.all().filter(
+                    name=media,
+                    event=event_key,
+                    album_link=album_key,
+                    picture=picture_instance
+                )
+                if len(retrieved_objects) == 0:
+                    item_instance = Media(name=media, event=event_key, album_link=album_key, picture=picture_instance)
+                    item_instance.save()
+                else:
+                    item_instance = retrieved_objects[0]
+
+                if album_key.album_thumbnail is None:
+                    album_key.album_thumbnail = item_instance
+                    album_key.save()
+
+                item_sub_category = subcategories.copy()
+                lvl = 0
+                while len(item_sub_category) != 0:
+                    if len(SubCategory.objects.all().filter(
+                        media=item_instance,
+                        level=lvl+1,
+                        name=item_sub_category[0]
+                        )
+                    ) == 0:
+                        sub_category_instance = SubCategory(
+                            media=item_instance,
+                            level=lvl+1,
+                            name=item_sub_category[0]
+                        )
+                        sub_category_instance.save()
+                    item_sub_category.pop(0)
+                    lvl += 1
+        path_to_file.pop()
+
+
+def create_pictures_from_repo(repo_dir):
+    folder_contents = os.listdir(repo_dir)
+    for event_name in folder_contents:
+        event_path = repo_dir+event_name
+        if os.path.isdir(event_path) and event_name[0] != '.':
+            path_to_file.append(event_name)
+            event_name = event_name
+            retrieved_objects = Event.objects.all().filter(event_name=event_name)
+            if len(retrieved_objects) == 0:
+                event = Event(event_name=event_name)
+                event.save()
+            else:
+                event = retrieved_objects[0]
+            albums = os.listdir(event_path)
+            for album in albums:
+                if album[0] != '.':
+                    path_to_file.append(album)
+                    album_date = ''
+                    album_name = ''
+                    if ' ' in album:  # there is a name for the album as well as a date
+                        index_of_space = album.find(' ')
+                        date_of_file = album[0:index_of_space]
+                        if '-' in date_of_file:  # in this case,
+                            # the album_name has the following format "YYYY-MM-DDD <album_name>"
+                            first_dash = date_of_file.find('-')
+                            second_dash = date_of_file.find('-', first_dash+1)
+                            date_of_file = datetime.datetime(
+                                int(date_of_file[0:first_dash]),
+                                int(date_of_file[first_dash+1:second_dash]),
+                                int(date_of_file[second_dash+1:])
+                            )
+                            album_name = album[index_of_space+1:]
+                            album_date = date_of_file
+                            album_name = album_name
+                            if len(Album.objects.all().filter(date=date_of_file, name=album_name, event=event)) == 0:
+                                album_instance = Album(date=date_of_file, name=album_name, event=event)
+                                album_instance.save()
+                        else:  # in this case, the album_name has the following format "YYYY <album_name>"
+                            date_of_file = datetime.datetime(int(date_of_file), 1, 1)
+                            album_name = album[index_of_space+1:]
+                            album_date = date_of_file
+                            album_name = album_name
+                            if len(Album.objects.all().filter(date=date_of_file, name=album_name, event=event)) == 0:
+                                album_instance = Album(date=date_of_file, name=album_name, event=event)
+                                album_instance.save()
+                    else:  # there is no name in the album folder
+                        if '-' in album:  # in this case, the album_name has the following format "YYYY-MM-DDD"
+                            first_dash = album.find('-')
+                            second_dash = album.find('-', first_dash+1)
+                            date_of_file = datetime.datetime(
+                                int(album[0:first_dash]),
+                                int(album[first_dash+1:second_dash]),
+                                int(album[second_dash+1:])
+                            )
+                            album_date = date_of_file
+                            if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:
+                                album_instance = Album(date=date_of_file, event=event)
+                                album_instance.save()
+                        else:  # in this case, the album_name has the following format "YYYY"
+                            date_of_file = datetime.datetime(int(album), 1, 1)
+                            album_date = date_of_file
+                            album_name = album_name
+                            if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:
+                                album_instance = Album(date=date_of_file, event=event)
+                                album_instance.save()
+                    album_path = "{0}/{1}".format(event_path, album)
+                    # files = os.listdir(album_path)
+                    iterate_through_media_for_specific_album(
+                        path_to_file,
+                        album_path,
+                        event_name,
+                        album_date,
+                        album_name
+                    )
+                    path_to_file.pop()
+            path_to_file.pop()
+
 
 def clone_repos(mailbox_admin, request, queryset):
-	for repo in queryset.all():
-		logger.info(f"[documents/admin.py clone_repos()] doing a git pull inside of {repo.url}")
-		commands=f'cd {repo.absolute_path}; git pull'
-		exitCode, output = subprocess.getstatusoutput(commands)
-		logger.info(f"[documents/admin.py clone_repos()] exitCode={exitCode} and output={output}")
-		createPicturesFromRepo(repo.absolute_path)
+    for repo in queryset.all():
+        logger.info(f"[documents/admin.py clone_repos()] doing a git pull inside of {repo.url}")
+        commands = f'cd {repo.absolute_path}; git pull'
+        exit_code, output = subprocess.getstatusoutput(commands)
+        logger.info(f"[documents/admin.py clone_repos()] exit_code={exit_code} and output={output}")
+        create_pictures_from_repo(repo.absolute_path)
 
 
 clone_repos.short_description = _('Git Pull')
 
+
 class RepoAdmin(admin.ModelAdmin):
-	list_display = (
-	'name',
-	'url',
-	'absolute_path',
-	'static_path'
-	)
-	actions = [clone_repos]
+    list_display = (
+        'name',
+        'url',
+        'absolute_path',
+        'static_path'
+    )
+    actions = [clone_repos]
+
 
 class EventAdmin(admin.ModelAdmin):
-	list_display = (
-	'event_name',
-	)
+    list_display = (
+        'event_name',
+    )
+
 
 class AlbumAdmin(admin.ModelAdmin):
-	list_display = (
-	'event',
-	'date',
-	'name',
-	'album_thumbnail'
-	)
+    list_display = (
+        'event',
+        'date',
+        'name',
+        'album_thumbnail'
+    )
+
 
 class MediaAdmin(admin.ModelAdmin):
-	list_display = (
-	'id',
-	'event',
-	'album_link',
-	'name',
-	'picture',
-	'video'
-	)
+    list_display = (
+        'id',
+        'event',
+        'album_link',
+        'name',
+        'picture',
+        'video'
+    )
+
 
 class PictureAdmin(admin.ModelAdmin):
-	list_display = (
-	'absolute_file_path',
-	'static_path'
-	)
+    list_display = (
+        'absolute_file_path',
+        'static_path'
+    )
+
 
 class VideoAdmin(admin.ModelAdmin):
-	list_display = (
-	'youtube_link',
-	)
+    list_display = (
+        'youtube_link',
+    )
+
 
 class SubCategoryAdmin(admin.ModelAdmin):
-	list_display = (
-	'media',
-	'level',
-	'name'
-	)
+    list_display = (
+        'media',
+        'level',
+        'name'
+    )
 
 
 admin.site.register(DocumentToPull, DocumentAdmin)

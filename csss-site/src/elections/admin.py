@@ -2,9 +2,10 @@ from django.contrib import admin
 
 # Register your models here.
 
-from elections.models import NominationPage, Nominee #,Nomination
+from elections.models import NominationPage, Nominee  # ,Nomination
 
 from django import forms
+
 
 class NominationPageAdmin(admin.ModelAdmin):
     list_display = (
@@ -20,13 +21,15 @@ class NominationPageAdmin(admin.ModelAdmin):
     get_election_type.short_desription = "Election Type"
     get_election_type.admin_order_field = "Election Type"
 
+
 admin.site.register(NominationPage, NominationPageAdmin)
 
 
 class NomineeForm(forms.ModelForm):
-	class Meta:
-		model = Nominee
-		fields = '__all__'
+    class Meta:
+        model = Nominee
+        fields = '__all__'
+
 
 class NomineeAdmin(admin.ModelAdmin):
     form = NomineeForm
@@ -46,5 +49,6 @@ class NomineeAdmin(admin.ModelAdmin):
         return obj.nomination_page
     get_election.short_description = "Election"
     get_election.admin_order_field = "Election"
+
 
 admin.site.register(Nominee, NomineeAdmin)
