@@ -6,7 +6,6 @@ set -e -o xtrace
 
 ./csss-site/test/lineEndings.sh
 
-
 echo ENVIRONMENT=${ENVIRONMENT}
 echo COMPOSE_PROJECT_NAME=${COMPOSE_PROJECT_NAME}
 

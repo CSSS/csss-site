@@ -23,7 +23,7 @@ pipeline {
                     export DOCKER_TEST_IMAGE=\${COMPOSE_PROJECT_NAME}_website_pytest;
                     export DOCKER_TEST_CONTAINER=\${COMPOSE_PROJECT_NAME}_pytest;
 
-                    ./CI/server_scripts/validate-formatting.sh;
+                    ./CI/validate-formatting.sh;
                 \'"""
             }
         }
