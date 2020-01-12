@@ -7,7 +7,7 @@ from about.models import Officer, Term, SourceFile, AnnouncementEmailAddress, Em
 # from django import forms
 
 
-def getTerm(term, year, term_number):
+def get_term(term, year, term_number):
     retrieved_objects = Term.objects.all().filter(
         term=term,
         year=year,
