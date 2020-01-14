@@ -1,6 +1,3 @@
-# from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from django.http import HttpResponseRedirect
 

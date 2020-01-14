@@ -1,4 +1,4 @@
-from django.conf.urls import url  # , include
+from django.conf.urls import url
 from django.views.generic import ListView, DetailView
 from announcements.models import Post
 

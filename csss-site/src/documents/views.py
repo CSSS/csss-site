@@ -1,7 +1,5 @@
-from django.shortcuts import render  # , redirect
-# from django.http import HttpResponseRedirect
-# from django.views.generic import TemplateView
-from documents.models import Media, Event, Album  # , Picture, Video
+from django.shortcuts import render
+from documents.models import Media, Event, Album
 import datetime
 import math
 

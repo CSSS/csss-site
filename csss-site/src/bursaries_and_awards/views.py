@@ -12,4 +12,3 @@ def index(request):
         'Username': request.user.username
     }
     return render(request, 'bursaries_and_awards/index.html', context)
-# Create your views here.
