@@ -37,7 +37,7 @@ def create_link(request):
     logger.info(f"[administration/views.py create_link()] request.POST={request.POST}")
     logger.info(f"[administration/views.py create_link()] request.GET={request.GET}")
     if len(request.POST.keys()) == (len(post_keys) + 1):
-        logger.info(f"[administration/views.py create_link()] correct numbers of request.POST keys detected")
+        logger.info("[administration/views.py create_link()] correct numbers of request.POST keys detected")
         for key in request.POST.keys():
             if key not in post_keys:
                 logger.info(f"[administration/views.py create_link()] invalid key '{key}' detected")
@@ -54,7 +54,7 @@ def create_link(request):
             logger.info(f"[administration/views.py create_link()] interpreting position {position}")
             exec_links.append(
                 f"{base_url}term={request.POST['term']}&year={request.POST['year']}&"
-                "position={position}&position_number={position_number}&passphrase={passphrase.passphrase}"
+                f"position={position}&position_number={position_number}&passphrase={passphrase.passphrase}"
             )
             position_number += 1
         context.update({'exec_links': exec_links})
@@ -85,8 +85,8 @@ def show_create_link_page(request):
 
 def create_or_update_specified_term_with_provided_json(request):
     logger.info(
-        f"[administration/views.py create_or_update_specified_term_with_provided_json()] "
-        "[create_or_update_specified_term_with_provided_json] request.POST={request.POST}"
+        "[administration/views.py create_or_update_specified_term_with_provided_json()] "
+        f"[create_or_update_specified_term_with_provided_json] request.POST={request.POST}"
     )
     groups = list(request.user.groups.values_list('name', flat=True))
     context = {
@@ -101,7 +101,7 @@ def create_or_update_specified_term_with_provided_json(request):
         return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
-            f"[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election"
+            "[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election"
         )
         post_dict = parser.parse(request.POST.urlencode())
         post_dict = json.loads(request.POST['input_json'])
@@ -177,8 +177,8 @@ def save_execs_from_json(execs, term):
         pic_path = exec[JSON_PIC_PATH_KEY]
 
         logger.info(
-            f"[administration/views.py save_execs_from_json()] "
-            "saved user term={term} full_name={full_name} exec_position={exec_position}"
+            "[administration/views.py save_execs_from_json()] "
+            f"saved user term={term} full_name={full_name} exec_position={exec_position}"
         )
         officer = Officer(
             position=exec_position,

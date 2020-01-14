@@ -57,7 +57,7 @@ def input_exec_info(request):
     context = {}
     get_keys = ['term', 'year', 'position', 'position_number', 'passphrase']
     if (len(request.GET.keys()) == len(get_keys)):
-        logger.info(f"[about/views.py input_exec_info()] correct number of request.GET keys detected")
+        logger.info("[about/views.py input_exec_info()] correct number of request.GET keys detected")
 
         term = 0
         year = 0
@@ -110,11 +110,11 @@ def input_exec_info(request):
             context.update({'Username': request.user.username})
             context.update({'passphrase': passphrase[0].passphrase})
             logger.info(f"[about/views.py input_exec_info()] context set to '{context}'")
-            logger.info(f"[about/views.py input_exec_info()] returning 'about/add_exec.html'")
+            logger.info("[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
-        logger.info(f"[about/views.py input_exec_info()] returning '/administration/show_create_link_page'")
+        logger.info("[about/views.py input_exec_info()] returning '/administration/show_create_link_page'")
         return HttpResponseRedirect('/administration/show_create_link_page')
-    logger.info(f"[about/views.py input_exec_info()] returning the index")
+    logger.info("[about/views.py input_exec_info()] returning the index")
     return HttpResponseRedirect('/')
 
 
@@ -138,7 +138,7 @@ def process_exec_info(request):
             return HttpResponseRedirect('/about/bad_passphrase')
         if (passphrase[0].used):
             return HttpResponseRedirect('/about/bad_passphrase')
-        logger.info(f"[about/views.py add_exec()] passphrase is accurate")
+        logger.info("[about/views.py add_exec()] passphrase is accurate")
         passphrase = passphrase[0]
         passphrase.used = True
         passphrase.save()

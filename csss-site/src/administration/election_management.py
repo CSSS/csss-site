@@ -47,13 +47,13 @@ def create_specified_election(request):
         return render(request, 'administration/invalid_access.html', context)
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST and \
             ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
-        logger.info(f"[administration/views.py create_specified_election()] creating new election")
+        logger.info("[administration/views.py create_specified_election()] creating new election")
         nomination_page = get_nomination_page(request.POST)
         post_dict = parser.parse(request.POST.urlencode())
         logger.info(f"[administration/views.py create_specified_election()] post_dict={post_dict}")
         logger.info(
-            f"[administration/views.py create_specified_election()] "
-            "full_name={post_dict[NOM_NAME_KEY]} len = {len(post_dict[NOM_NAME_KEY])}"
+            "[administration/views.py create_specified_election()] "
+            f"full_name={post_dict[NOM_NAME_KEY]} len = {len(post_dict[NOM_NAME_KEY])}"
         )
         position_index = 0
         if (len(post_dict[NOM_NAME_KEY][0]) > 1):
@@ -69,11 +69,11 @@ def create_specified_election(request):
             discord_username = post_dict[NOM_DISCORD_USERNAME_KEY]
             if full_name != 'NONE':
                 logger.info(
-                    f"[administration/views.py create_specified_election()] "
-                    "saved user full_name={full_name} exec_position={exec_position} "
-                    "speech={speech} facebook_link={facebook_link} linkedin_link="
-                    "{linkedin_link} email_address={email_address} discord_username"
-                    "={discord_username}"
+                    "[administration/views.py create_specified_election()] "
+                    f"saved user full_name={full_name} exec_position={exec_position} "
+                    f"speech={speech} facebook_link={facebook_link} linkedin_link="
+                    f"{linkedin_link} email_address={email_address} discord_username"
+                    f"={discord_username}"
                 )
                 nom = Nominee(
                     nomination_page=nomination_page,
@@ -102,10 +102,10 @@ def save_nominees(post_dict, nomination_page, position_index):
         email_address = post_dict[NOM_EMAIL_KEY][i]
         discord_username = post_dict[NOM_DISCORD_USERNAME_KEY][i]
         logger.info(
-            f"[administration/views.py save_nominees()] saved user "
-            "full_name={full_name} exec_position={exec_position} speech={speech}"
-            " facebook_link={facebook_link} linkedin_link={linkedin_link} "
-            "email_address={email_address} discord_username={discord_username}"
+            "[administration/views.py save_nominees()] saved user "
+            f"full_name={full_name} exec_position={exec_position} speech={speech}"
+            f" facebook_link={facebook_link} linkedin_link={linkedin_link} "
+            f"email_address={email_address} discord_username={discord_username}"
         )
         if full_name != 'NONE':
             nom = Nominee(
@@ -122,17 +122,17 @@ def save_nominees(post_dict, nomination_page, position_index):
             nom.save()
         else:
             logger.info(
-                f"[administration/views.py save_nominees()] skipping saving user "
-                "full_name={full_name} exec_position={exec_position} speech={speech} "
-                "facebook_link={facebook_link} linkedin_link={linkedin_link} "
-                "email_address={email_address}  discord_username={discord_username}"
+                "[administration/views.py save_nominees()] skipping saving user "
+                f"full_name={full_name} exec_position={exec_position} speech={speech} "
+                f"facebook_link={facebook_link} linkedin_link={linkedin_link} "
+                f"email_address={email_address}  discord_username={discord_username}"
             )
 
 
 def create_or_update_specified_election_with_provided_json(request):
     logger.info(
-        f"[administration/views.py create_or_update_specified_election_with_provided_json()] "
-        "[create_or_update_specified_election_with_provided_json] request.POST={request.POST}"
+        "[administration/views.py create_or_update_specified_election_with_provided_json()] "
+        f"[create_or_update_specified_election_with_provided_json] request.POST={request.POST}"
     )
     groups = list(request.user.groups.values_list('name', flat=True))
     context = {
@@ -147,24 +147,24 @@ def create_or_update_specified_election_with_provided_json(request):
         return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
-            f"[administration/views.py create_or_update_specified_election_with_provided_json()] "
+            "[administration/views.py create_or_update_specified_election_with_provided_json()] "
             "creating new election"
         )
         post_dict = parser.parse(request.POST.urlencode())
         post_dict = json.loads(request.POST['input_json'])
         logger.info(
-            f"[administration/views.py create_or_update_specified_election_with_provided_json()] "
-            "post_dict={post_dict}"
+            "[administration/views.py create_or_update_specified_election_with_provided_json()] "
+            f"post_dict={post_dict}"
         )
         nomination_page = get_nomination_page_json(json.loads(request.POST['input_json']))
         # post_dict = parser.parse(request.POST.urlencode())
         logger.info(
-            f"[administration/views.py create_or_update_specified_election_with_provided_json()] "
-            "post_dict={post_dict}"
+            "[administration/views.py create_or_update_specified_election_with_provided_json()] "
+            f"post_dict={post_dict}"
         )
         logger.info(
-            f"[administration/views.py create_or_update_specified_election_with_provided_json()] "
-            "full_name={post_dict[ELECTION_NOMINEES_KEY]} len = {len(post_dict[ELECTION_NOMINEES_KEY])}"
+            "[administration/views.py create_or_update_specified_election_with_provided_json()] "
+            f"full_name={post_dict[ELECTION_NOMINEES_KEY]} len = {len(post_dict[ELECTION_NOMINEES_KEY])}"
         )
         save_nominees_from_json(post_dict[ELECTION_NOMINEES_KEY], nomination_page)
 
@@ -204,10 +204,10 @@ def save_nominees_from_json(nominees, nomination_page):
         email_address = nominee[NOM_EMAIL_KEY]
         discord_username = nominee[NOM_DISCORD_USERNAME_KEY]
         logger.info(
-            f"[administration/views.py save_nominees_from_json()] saved user "
-            "full_name={full_name} exec_position={exec_position} speech={speech} "
-            "facebook_link={facebook_link} linkedin_link={linkedin_link} email_address="
-            "{email_address}  discord_username={discord_username}"
+            "[administration/views.py save_nominees_from_json()] saved user "
+            f"full_name={full_name} exec_position={exec_position} speech={speech} "
+            f"facebook_link={facebook_link} linkedin_link={linkedin_link} email_address="
+            f"{email_address}  discord_username={discord_username}"
         )
         nom = Nominee(
             nomination_page=nomination_page,
@@ -270,13 +270,13 @@ def determine_election_action(request):
             return display_selected_election_json_for_updating(request, request.POST[ELECTION_ID_KEY])
         else:
             logger.info(
-                f"[administration/views.py determine_election_action()] incorrect action detected, "
+                "[administration/views.py determine_election_action()] incorrect action detected, "
                 "returning /administration/elections/select_election"
             )
             return HttpResponseRedirect('/administration/elections/select_election')
     else:
         logger.info(
-            f"[administration/views.py determine_election_action()] action "
+            "[administration/views.py determine_election_action()] action "
             "is not detected, returning /administration/elections/select_election"
         )
         return HttpResponseRedirect('/administration/elections/select_election')
@@ -374,7 +374,7 @@ def update_specified_election(request):
             discord_username = post_dict[NOM_DISCORD_USERNAME_KEY]
             if full_name != 'NONE':
                 logger.info(
-                    f"[administration/views.py update_specified_election()] "
+                    "[administration/views.py update_specified_election()] "
                     f"saved user full_name={full_name} exec_position={exec_position} "
                     f"speech={speech} facebook_link={facebook_link} linkedin_link={linkedin_link} "
                     f"email_address={email_address}  discord_username={discord_username}")

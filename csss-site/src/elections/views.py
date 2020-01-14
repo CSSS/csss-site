@@ -14,7 +14,7 @@ def get_nominees(request, slug):
     groups = list(request.user.groups.values_list('name', flat=True))
     retrieved_obj = NominationPage.objects.filter(slug=slug)
     if retrieved_obj[0].date <= datetime.now():
-        logger.info(f"[elections/views.py get_nominees()] time to vote")
+        logger.info("[elections/views.py get_nominees()] time to vote")
         nominees = Nominee.objects.filter(nomination_page__slug=slug).all().order_by('position')
         context = {
             'election': retrieved_obj[0],
@@ -29,7 +29,7 @@ def get_nominees(request, slug):
         }
         return render(request, 'elections/nominee_list.html', context)
     else:
-        logger.info(f"[elections/views.py get_nominees()] cant vote yet")
+        logger.info("[elections/views.py get_nominees()] cant vote yet")
         context = {
             'tab': 'elections',
             'nominees': 'none',
