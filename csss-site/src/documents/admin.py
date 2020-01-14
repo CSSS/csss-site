@@ -4,10 +4,7 @@ from documents.models import Repo, Media, Picture, Video, Album, Event, SubCateg
 from django.utils.translation import ugettext_lazy as _
 import subprocess
 import os
-import requests
-import shutil
 import datetime
-import wget
 import logging
 
 # Register your models here.
