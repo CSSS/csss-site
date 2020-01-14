@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 import datetime
 
+
 class SourceFile(models.Model):
     json_file = models.FileField(
         default='exec_positions/default',
