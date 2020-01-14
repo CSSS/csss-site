@@ -5,9 +5,12 @@ from csss.logger_setup import initialize_logger
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 logger = initialize_logger()
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-BASE_DIR = '/home/csss'
+if 'BASE_DIR' in os.environ:
+    BASE_DIR = os.environ['BASE_DIR']
+else:
+    BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
