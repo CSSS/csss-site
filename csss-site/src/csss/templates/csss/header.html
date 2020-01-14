@@ -1,0 +1,240 @@
+{% load nav_tags %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="robots" content="noindex">
+		<title>SFU CSSS</title>
+		<meta charset="utf-8" />
+		{% load staticfiles %}
+		<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="{% static 'csss_static/style.css' %}">
+		<style type="text/css">
+			html,
+			body {
+				height:100%
+			}
+			ul.nav-links {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				background-color: #333;
+			}
+			li.nav-links {
+				float: left;
+			}
+			li.nav-links a.nav-links {
+				display: block;
+				color: white;
+				text-align: center;
+				padding: 14px 16px;
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<div  id="content-desktop">
+		<a href="https://github.com/CSSS/csss-site-in-dev" target="_blank">
+			<img style="position: fixed; top: 0; right: 0; border: 0; z-index: 1031" src="https://github.blog/wp-content/uploads/2008/12/forkme_right_darkblue_121621.png?resize=149%2C149" alt="Fork me on GitHub">
+		</a>
+	</div>
+	<body class="body" style="background-color:#f6f6f6">
+		<div class="container-fluid" style="margin-top:160px">
+			<div class="row">
+				<div class="col-sm-2">
+					<br>
+					<center>
+						<img src="{% static 'csss_static/logo.png' %}" class="responsive-img" style='max-height:100px;' alt="face">
+					</center>
+				</div>
+				<div class="col-sm-10">
+					<br>
+					<center>
+						<h3>SFU's Computing Science Student Society</h3>
+					</center>
+				</div>
+			</div>
+			<hr>
+			<nav class="navbar navbar-inverse navbar-fixed-top">
+				<div class="container-fluid">
+					<div class="navbar-header">
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target = "#navbar" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<a class="navbar-brand" href="/"><img height="32" width="32" src="{% static 'csss_static/logo.png' %}"/></a>
+					</div><!-- /.navbar-header -->
+					<div id="navbar" class="collapse navbar-collapse topnav">
+						<ul class="nav navbar-nav nav-tabs">
+							{% if tab == 'about' %}
+								<li role="presentation" class="dropdown nav-links active" id="about">
+							{% else %}
+								<li role="presentation" class="dropdown nav-links" id="about">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About</a>
+								<ul class="dropdown-menu">
+									<li><a href="/about/who_we_are">Who We Are</a></li>
+									<li><a href="/about/list_of_officers">List of Officers</a></li>
+								</ul>
+							</li>
+
+							{% if tab == 'documents' %}
+								<li role="presentation" class="dropdown nav-links active" id="documents">
+							{% else %}
+								<li role="presentation" class="dropdown nav-links" id="documents">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documents</a>
+								<ul class="dropdown-menu">
+									<li><a target="_blank" href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2019.pdf">CSSS Constitution</a></li>
+									<li><a target="_blank" href="https://github.com/CSSS/public-docs/blob/master/policies/Policies_2017_February.pdf">CSSS Policies</a></li>
+									<li><a target="_blank" href="http://sfss.ca/about/documents/">SFSS Documents</a></li>
+									<li><a href="/documents/photo_gallery">Photo Galleries</a></li>
+									<li><a href='/documents/file_uploading/multiple'>Upload Photo/Videos from CSSS Events</a></li>
+								</ul>
+							</li>
+
+							{% if tab == 'events' %}
+								<li role="presentation" id="events" class="dropdown nav-links active">
+							{% else %}
+								<li role="presentation" id="events" class="dropdown nav-links">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Events</a>
+								<ul class="dropdown-menu">
+									<li><a href="/events/">Calendar</a></li>
+									<li><a href="/events/general_meetings">What are General Meetings?</a></li>
+									<li><a href="/events/board_games">What are Board Games Night?</a></li>
+									<li><a href='/events/game_jam'>What are Game Jams?</a></li>
+									<li><a target="_blank" href='http://sfucsss.org/frosh/'>CSSS FroshWeek</a></li>
+								</ul>
+							</li>
+
+							{% if tab == 'elections' %}
+								<li role="presentation" class="dropdown nav-links active" id="elections">
+							{% else %}
+								<li role="presentation" class="dropdown nav-links" id="elections">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Elections</a>
+								<ul class="dropdown-menu">
+									{% get_nom_pages as elections %}
+									{% for election in elections %}
+										<li><a href="/elections/{{election.slug}}">{{election.slug}}</a></li>
+									{% endfor %}
+								</ul>
+							</li>
+
+							{% if tab == '750_project' %}
+								<li role="presentation" id="750_project" class="dropdown nav-links active">
+							{% else %}
+								<li role="presentation" id="750_project" class="dropdown nav-links">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">750 Project</a>
+								<ul class="dropdown-menu">
+									<li><a href="/750_project/">About 750</a></li>
+									<li><a href="/750_project/dev_tools">Dev Tools</a></li>
+									<li><a href="/750_project/hacktime">Hacktime</a></li>
+									<li><a href='/750_project/workshops'>Workshops</a></li>
+								</ul>
+							</li>
+
+							{% if tab == 'comp_sci_guide' %}
+								<li role="presentation" id="comp_sci_guide" class="dropdown nav-links active">
+							{% else %}
+								<li role="presentation" id="comp_sci_guide" class="dropdown nav-links">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comp Sci Guide</a>
+								<ul class="dropdown-menu">
+									<li><a href="/comp_sci_guide/">Comp Sci Guide</a></li>
+									<li><a href="/comp_sci_guide/software">Software</a></li>
+									<li><a href="/comp_sci_guide/textbooks">Textbooks</a></li>
+									<li><a href='/comp_sci_guide/course_reviews'>Course Review</a></li>
+								</ul>
+							</li>
+
+							{% if tab == 'bursaries_and_awards' %}
+								<li id="bursaries_and_awards" class="nav-links active"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
+							{% else %}
+								<li id="bursaries_and_awards" class="nav-links"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
+							{% endif %}
+
+
+							{% if tab  == 'associated_dsus_and_clubs' %}
+								<li role="presentation" class="dropdown nav-links active" id="associated_dsus_and_clubs">
+							{% else %}
+                                                        	<li role="presentation" class="dropdown nav-links" id="associated_dsus_and_clubs">
+							{% endif %}
+								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Associated Clubs and DSUs</a>
+								<ul class="dropdown-menu">
+									<li><a target="_blank" href="https://www.sfu.ca/computing/wics/">WiCS</a></li>
+									<li><a target="_blank" href="http://esss.ca/">ESSS</a></li>
+									<li><a target="_blank" href="https://msess.ca/index.html">Mechs</a></li>
+									<li><a target="_blank" href='https://www.facebook.com/ssss.sfu/'>SSSS</a></li>
+									<li><a target="_blank" href='http://www.sfu.ca/clubs/wie.html'>WiE</a></li>
+								</ul>
+							</li>
+
+							{% if authenticated is True %}
+								{% if tab == 'administration' %}
+									<li role="presentation" class="dropdown nav-links active" id="administration">
+								{% else %}
+									<li role="presentation" class="dropdown nav-links" id="administration">
+								{% endif %}
+									<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+									<ul class="dropdown-menu">
+										{% if ElectionOfficer or Exec or Staff %}
+											<li><a href="/administration/elections/create">Election: Create Election</a></li>
+											<li><a href="/administration/elections/create_or_update_json">Election: Create Election via JSON</a></li>
+											<li><a href="/administration/elections/select_election">Election: Modify/Delete Election</a></li>
+										{% endif %}
+										{% if Exec or Staff %}
+											<li><a href="/administration/elections/select_election">Merchandise stuff</a></li>
+										{% endif %}
+										{% if Staff %}
+											<li><a href="/administration/officer/show_create_link_page">Officers: Generate Exec Creation Links</a></li>
+											<li><a href="/administration/officer/create_or_update_json">Officers: Update Execs for specific term via JSON</a></li>
+											<li><a href="/administration/officer/create_or_update_all_json">Officers: Update Execs for all terms via JSON</a></li>
+											<li><a href="/administration/officer/show_maillist_creation">Officers: Create a maillist</a></li>
+											<li><a href="/administration/officer/assign_maillists">Officers: Assign maillists to officer</a></li>
+											<li><a href="/admin">Django Admin</a></li>
+										{% endif %}
+
+
+									</ul>
+								</li>
+								<li id="bursaries_and_awards" class="nav-links"><a href="/administration/logout">Logout</a></li>
+								<li style="color:white;" >Logged in as {{Username}}</li>
+							{% else %}
+								<div class="login-container credentials">
+									<form action="/administration/login" method="post">
+										{% csrf_token %}
+										<li id="administration" class="nav-links creds-padding"> Username: <input type="text" name="username" required></li>
+										<li id="administration" class="nav-links creds-padding"> Password: <input type="text" name="password" required></li>
+										<button class="creds-button">Login</button>
+									</form>
+								</div>
+							{% endif %}
+						</ul>
+					</div><!-- /.navbar-collapse -->
+				</div><!-- /.container-fluid -->
+			</nav><!-- /.navbar navbar-inverse navbar-fixed-top-->
+			<div class="row">
+				<div class="col-sm-10">
+					<div class='container-fluid'>
+						<br><br>
+						{% block content %}
+						{% endblock %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<footer>
+			<div class="container-fluid" style='margin-left:15px'>
+				<p><a href="#" target="blank">Contact</a> | <a href="#" target="blank">LinkedIn</a> | <a href="#" target="blank">Twitter</a> | <a href="#" target="blank">Google+</a></p>
+			</div>
+		</footer>
+	</body>
+</html>
