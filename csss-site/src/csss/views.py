@@ -1,14 +1,9 @@
 from django.shortcuts import render
-from email.utils import parseaddr  # , formatdate
-from announcements.models import Post  # , AnnouncementAttachment
-from about.models import AnnouncementEmailAddress  # , Officer, Term,
-# import announcements
-from django_mailbox.models import Message  # , Mailbox
-# import base64
+from email.utils import parseaddr
+from announcements.models import Post
+from about.models import AnnouncementEmailAddress
+from django_mailbox.models import Message
 import datetime
-# import six
-# from time import strptime
-# from pytz import timezone
 import math
 
 import logging
@@ -88,10 +83,3 @@ def index(request):
     }
 
     return render(request, 'announcements/announcements.html', context)
-
-
-def contact(request):
-    context = {
-        'content': ['If you would like to contact me, please email me', 'csss-webmaster@sfu.ca']
-    }
-    return render(request, 'csss/basic.html', context)

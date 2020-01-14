@@ -1,6 +1,3 @@
-
-# from django.urls import reverse
-
 import django_bootstrap3_form
 
 from django_file_form.forms import MultipleUploadedFileField, FileFormMixin

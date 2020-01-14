@@ -2,7 +2,6 @@ from django.shortcuts import render
 from about.models import Term, Officer, AnnouncementEmailAddress
 from administration.models import OfficerUpdatePassphrase
 
-# Create your views here.
 from querystring_parser import parser
 import datetime
 from django.http import HttpResponseRedirect

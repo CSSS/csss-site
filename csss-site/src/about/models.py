@@ -1,15 +1,6 @@
+import datetime
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-import datetime
-
-
-class AboutPage(models.Model):
-    title = models.CharField(max_length=140)
-    body = models.TextField()
-
-    def __str__(self):
-        return self.title
-# Create your models here.
 
 
 class SourceFile(models.Model):

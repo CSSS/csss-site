@@ -6,9 +6,7 @@ import subprocess
 import os
 import requests
 import shutil
-# import os
 import datetime
-# import time
 import urllib3
 import wget
 import logging
