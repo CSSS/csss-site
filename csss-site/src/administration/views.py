@@ -18,8 +18,8 @@ def login(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             dj_login(request, user)
-            logger.info(f"[administration/views.py login()] it was a successful login")
-    logger.info(f"[administration/views.py login()] it was an insuccessful login")
+            logger.info("[administration/views.py login()] it was a successful login")
+    logger.info("[administration/views.py login()] it was an insuccessful login")
     return HttpResponseRedirect('/')
 
 
