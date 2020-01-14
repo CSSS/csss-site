@@ -1,31 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-
-# Create your models here.
-class DocumentToPull(models.Model):
-    name = models.CharField(
-        max_length=140,
-        default='Document Name',
-    )
-    file_name = models.CharField(
-        max_length=140,
-        default='File Name',
-    )
-    url = models.CharField(
-        max_length=2000,
-        default='Document URL',
-    )
-    file_path = models.CharField(
-        max_length=500,
-        default='Document File Path',
-        primary_key=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class Repo(models.Model):
     name = models.CharField(
         max_length=50,
