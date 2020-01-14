@@ -1,49 +1,17 @@
 # Register your models here.
 from django.contrib import admin
-from documents.models import DocumentToPull, Repo, Media, Picture, Video, Album, Event, SubCategory
+from documents.models import Repo, Media, Picture, Video, Album, Event, SubCategory
 from django.utils.translation import ugettext_lazy as _
 import subprocess
 import os
-import requests
-import shutil
 import datetime
-import urllib3
-import wget
 import logging
 
 # Register your models here.
 logger = logging.getLogger('csss_site')
 
-
-def get_update_documents(mailbox_admin, request, queryset):
-    for document in queryset.all():
-        logger.info(f"[documents/admin.py get_update_documents()] Receiving mail for {document}")
-        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-        url = document.url  # Note: It's https
-        r = requests.get(url, verify=False, stream=True)
-        r.raw.decode_content = True
-        with open(document.file_path+"/"+document.file_name, 'wb') as f:
-            shutil.copyfileobj(r.raw, f)
-
-        url = document.url
-        wget.download(url, document.file_path+"/"+document.file_name)
-
-
-get_update_documents.short_description = _('Poll Document')
-
 subcategories = []
 path_to_file = ['documents_static', 'event-photos']
-
-
-class DocumentAdmin(admin.ModelAdmin):
-    list_display = (
-        'name',
-        'file_name',
-        'url',
-        'file_path',
-    )
-
-    actions = [get_update_documents]
 
 
 def go_through_youtube_links(album_path, event_name, album_date, album_name):
@@ -303,7 +271,6 @@ class SubCategoryAdmin(admin.ModelAdmin):
     )
 
 
-admin.site.register(DocumentToPull, DocumentAdmin)
 admin.site.register(Repo, RepoAdmin)
 admin.site.register(Event, EventAdmin)
 admin.site.register(Album, AlbumAdmin)
