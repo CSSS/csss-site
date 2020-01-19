@@ -15,20 +15,28 @@ logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+if 'SECRET_KEY' not in os.environ:
+    logger.error("[settings.py] NO SECRET_KEY was detected")
+    exit(1)
+
 SECRET_KEY = os.environ['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if "DEBUG" not in os.environ:
+    logger.error("[settings.py] DEBUG was not detected")
+DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
-ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org']
+ALLOWED_HOSTS = ['sfucsss.org', 'dev.sfucsss.org']
 
 if 'ip_addr' in os.environ:
     ALLOWED_HOSTS.append(os.environ['ip_addr'])
 
 logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
-HOST_ADDRESS = "privatedev.sfucsss.org:8000"
+if "HOST_ADDRESS" not in os.environ:
+    logger.error("[settings.py] HOST_ADDRESS was not detected")
+HOST_ADDRESS = os.environ['HOST_ADDRESS']
 logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 
 # Application definition
