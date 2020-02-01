@@ -2,4 +2,4 @@ flake8
 pytest
 pytest-flake8
 pep8-naming
-Django==2.1.15
+Django==2.2.9
