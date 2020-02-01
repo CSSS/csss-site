@@ -47,7 +47,9 @@ python3.7 manage.py migrate
 python3.7 manage.py makemigrations file_uploads
 python3.7 manage.py migrate
 
-python3.7 manage.py collectstatic
+python3.7 manage.py collectstatic --noinput
+
+find /home/csss/csss-site/csss-site/src -mindepth 1 -regex '.*static.*' -delete
 
 sudo systemctl restart gunicorn.service
 
