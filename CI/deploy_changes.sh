@@ -6,13 +6,14 @@ set -e -o xtrace
 cd ~/csss-site
 python3.7 -m pip install -r requirements.txt
 cd csss-site/src
-export DB_PORT=5432
+
+chmod +x ~/setEnv.sh
+. ~/setEnv.sh site_envs
+
 docker run --name csss_site_db -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${DB_PASSWORD} postgres:alpine || true
 
 mkdir -p ~/csss-site/csss-site/src/logs
 
-chmod +x ~/setEnv.sh
-. ~/setEnv.sh site_envs
 python3.7 manage.py migrate
 python3.7 manage.py makemigrations
 python3.7 manage.py migrate
