@@ -11,6 +11,8 @@ docker run --name csss_site_db -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${
 
 mkdir -p ~/csss-site/csss-site/src/logs
 
+chmod +x ~/setEnv.sh
+. ~/setEnv.sh /home/csss/site_envs
 python3.7 manage.py migrate
 python3.7 manage.py makemigrations
 python3.7 manage.py migrate
