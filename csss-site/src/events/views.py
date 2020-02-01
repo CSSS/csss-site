@@ -66,7 +66,7 @@ def frosh_week(request):
     return render(request, 'events/frosh_week.html', context)
 
 
-def mountain_madness(request):
+def mountain_madness2020(request):
     groups = list(request.user.groups.values_list('name', flat=True))
     context = {
         'tab': 'events',
@@ -76,7 +76,6 @@ def mountain_madness(request):
         'Staff': request.user.is_staff,
         'Username': request.user.username
     }
-    return render(request, 'events/mountainmadness.github.io/index.html',
-                  context)
+    return render(request, 'events/mountain_madness2020.html', context)
 
 # Create your views here.
