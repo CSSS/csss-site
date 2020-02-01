@@ -4,7 +4,7 @@ set -e -o xtrace
 
 # remove all old and replace with newer code. will make sure that the migrations are not deleted as they need to be
 # persistent through the changes
-ssh csss@sfucsss.org "find /home/csss/csss-site/csss-site/src -mindepth 1 ! -regex '.*migrations.*' -delete"
+ssh csss@sfucsss.org "find /home/csss/csss-site/csss-site/src -mindepth 1 ! -regex '.*migrations.*' -delete" || true
 ssh csss@sfucsss.org "mkdir -p /home/csss/csss-site/csss-site/src"
 scp -r "csss-site/src"/* csss@sfucsss.org:/home/csss/csss-site/csss-site/src/
 
