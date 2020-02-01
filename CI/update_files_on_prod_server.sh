@@ -30,6 +30,6 @@ echo "DB_TYPE=\"postgres\"" >> site_envs
 scp site_envs csss@sfucsss.org:/home/csss/site_envs
 scp "CI/setEnv.sh" csss@sfucsss.org:/home/csss/setEnv.sh
 
-scp migrate_apps csss@sfucsss.org:/home/csss/migrate_apps.sh
+scp CI/migrate_apps.sh csss@sfucsss.org:/home/csss/migrate_apps.sh
 
 ssh csss@sfucsss.org "/home/csss/deploy_changes.sh"
