@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    {% load staticfiles %}
     <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
-    <link rel="stylesheet" href="./main.css">
+    <link rel="stylesheet" href="{% static 'csss_static/mm_hackathon/main.css' %}">
     <title>Mountain Madness</title>
   </head>
   <body>
@@ -38,7 +38,7 @@
         <h3>The CSSS presents</h3>
         <h1>Mountain Madness</h1>
         <h3>Feb 22-23, 2020 @ Simon Fraser University</h3>
-        <h2><a href="https://www.eventbrite.ca/e/mountain-madness-2019-tickets-55194346777?utm-medium=discovery&utm-campaign=social&utm-content=attendeeshare&aff=escb&utm-source=cp&utm-term=listing" class='btn'>Register</a></h2>
+        <h2><a href="https://www.eventbrite.ca/e/mountain-madness-2020-tickets-91965630677" class='btn'>Register</a></h2>
       </header>
 
 
@@ -57,7 +57,7 @@
       <article id='about'>
         <div>
           <h2>What is Mountain Madness</h2>
-          <p>Mountain Madness is the annual hackathon organized by the SFU Computing Science Student Society. Our hackathons are cozy, tight-knit events welcoming students of all skill levels and experience. The "Mountain" in the name pays homage to Burnaby Mountain, the original foundation of Simon Fraser University, and the scenic location for a full weekend's worth of fun. The "Madness" part refers to the Rube Goldberg prize we give to the maddest [computer] scientist at the event!
+          <p>Mountain Madness is the annual hackathon organized by the SFU Computing Science Student Society. Our hackathons are cozy, tight-knit events welcoming students of all skill levels and experience. The "Mountain" in the name pays homage to Burnaby Mountain, the original foundation of Simon Fraser University, and the scenic location for a full weekend's worth of fun. The "Madness" part refers to the Rube Goldberg and DeLorean prizes we give to the maddest [computer] scientists at the event!
           </p>
         </div>
       </article>
@@ -251,10 +251,10 @@
         <h3>You make great events like this happen.</h3>
         <h2><a class='btn' href="sponsorship.pdf">Support Us!</a></h2>
           <a href="https://sfss.org">
-            <img src="SFSS_COLOR_LOGO.png">
+            <img src="{% static 'csss_static/mm_hackathon/SFSS_COLOR_LOGO.png' %}">
           </a>
           <a href="https://www.sfu.ca/fas.html">
-            <img src="sfu_logo.png">
+            <img src="{% static 'csss_static/mm_hackathon/sfu_logo.png' %}">
           </a>
         </div>
       </article-->

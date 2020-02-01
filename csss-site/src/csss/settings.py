@@ -21,7 +21,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = True
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
-ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org', '0.0.0.0']
+ALLOWED_HOSTS = ['publicdev.sfucsss.org', 'privatedev.sfucsss.org']
 
 if 'ip_addr' in os.environ:
     ALLOWED_HOSTS.append(os.environ['ip_addr'])
