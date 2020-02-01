@@ -16,7 +16,7 @@ mkdir -p ~/csss-site/csss-site/src/logs
 cd csss-site/src
 
 chmod +x ~/migrate_apps.sh
-. ~/migrate_apps.sh site_envs
+. ~/migrate_apps.sh site_envs || true
 
 python3.7 manage.py collectstatic --noinput
 
