@@ -20,7 +20,8 @@ class LoggerWriter:
 def initialize_logger():
     # setting up log requirements
     logger = logging.getLogger('csss_site')
-    logger.setLevel(logging.DEBUG)
+    logging.basicConfig(level=logging.DEBUG)
+    # logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s = %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
     stream_handler = logging.StreamHandler()
     stream_handler.setLevel(logging.DEBUG)
