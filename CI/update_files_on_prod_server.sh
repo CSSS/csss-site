@@ -25,6 +25,7 @@ echo "DB_PASSWORD=\"${DB_PASSWORD}\"" >> site_envs
 echo "STRIPE_PUBLISHABLE_KEY=\"${STRIPE_PUBLISHABLE_KEY}\"" >> site_envs
 echo "STRIPE_SECRET_KEY=\"${STRIPE_SECRET_KEY}\"" >> site_envs
 echo "DB_PORT=\"5432\"" >> site_envs
+echo "DB_TYPE=\"postgres\"" >> site_envs
 
 scp site_envs csss@sfucsss.org:/home/csss/site_envs
 scp "CI/setEnv.sh" csss@sfucsss.org:/home/csss/setEnv.sh

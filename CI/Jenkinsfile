@@ -47,7 +47,8 @@ pipeline {
                         export HOST_ADDRESS=sfucsss.org;
                         export DB_PASSWORD=${WEBSITE_DB_PASSWORD};
 
-                        ./CI/deploy_to_prod_server.sh
+                        ./CI/update_files_on_prod_server.sh;
+                        ssh csss@sfucsss.org "/home/csss/deploy_changes.sh"
                     \'"""
                 }
             }
