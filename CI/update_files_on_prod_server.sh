@@ -18,7 +18,7 @@ scp "requirements.txt" csss@sfucsss.org:/home/csss/csss-site/requirements.txt
 scp "CI/deploy_changes.sh" csss@sfucsss.org:/home/csss/deploy_changes.sh
 
 echo "BASE_DIR=\"${BASE_DIR}\"" > site_envs
-echo "SECRET_KEY=\"${WEBSITE_SECRET_KEY}\"" >> site_envs
+echo "WEBSITE_SECRET_KEY=\"${WEBSITE_SECRET_KEY}\"" >> site_envs
 echo "DEBUG=\"${DEBUG}\"" >> site_envs
 echo "HOST_ADDRESS=\"${HOST_ADDRESS}\"" >> site_envs
 echo "DB_PASSWORD=\"${DB_PASSWORD}\"" >> site_envs

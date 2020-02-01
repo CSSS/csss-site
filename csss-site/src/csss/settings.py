@@ -15,11 +15,11 @@ logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if 'SECRET_KEY' not in os.environ:
-    logger.error("[settings.py] NO SECRET_KEY was detected")
+if 'WEBSITE_SECRET_KEY' not in os.environ:
+    logger.error("[settings.py] NO WEBSITE_SECRET_KEY was detected")
     exit(1)
 
-SECRET_KEY = os.environ['SECRET_KEY']
+SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if "DEBUG" not in os.environ:
