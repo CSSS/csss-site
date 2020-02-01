@@ -75,6 +75,6 @@ def mountain_madness(request):
         'Staff': request.user.is_staff,
         'Username': request.user.username
     }
-    return render(request, 'events/mountainmadness.github.io/index.html')
+    return render(request, 'events/mountainmadness.github.io/index.html', context)
 
 # Create your views here.
