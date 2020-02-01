@@ -37,6 +37,16 @@ ALLOWED_HOSTS = [HOST_ADDRESS]
 logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
+if "DB_PASSWORD" not in os.environ:
+    logger.error("[settings.py] DB_PASSWORD is not detected")
+    exit(1)
+DB_PASSWORD = os.environ['DB_PASSWORD']
+
+if "DB_PORT" not in os.environ:
+    logger.error("[settings.py] DB_PORT is not detected")
+    exit(1)
+DB_PORT = os.environ['DB_PORT']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -108,9 +118,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
         'USER': 'postgres',
-        'PASSWORD': 'test_password',
+        'PASSWORD': DB_PASSWORD,
         'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'PORT': DB_PORT,
     }
 }
 
