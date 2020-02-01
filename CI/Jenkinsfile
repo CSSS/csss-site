@@ -32,9 +32,22 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh label: '', script: """bash -c \'
-                    ./CI/deploy_to_prod_server.sh
-                \'"""
+                withCredentials(
+                    [
+                        string(credentialsId: 'WEBSITE_SECRET_KEY', variable: 'WEBSITE_SECRET_KEY'),
+                        string(credentialsId: 'WEBSITE_DB_PASSWORD', variable: 'WEBSITE_DB_PASSWORD')
+                    ]
+                ) {
+                    sh label: '', script: """bash -c \'
+                        export BASE_DIR=/home/csss;
+                        export SECRET_KEY=${WEBSITE_SECRET_KEY};
+                        export DEBUG=false;
+                        export HOST_ADDRESS=sfucsss.org;
+                        export DB_PASSWORD=${WEBSITE_DB_PASSWORD};
+
+                        ./CI/deploy_to_prod_server.sh
+                    \'"""
+                }
             }
         }
     }
