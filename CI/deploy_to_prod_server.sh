@@ -12,7 +12,7 @@ scp -r "csss-site/src"/* csss@sfucsss.org:/home/csss/csss-site/csss-site/src/
 scp "requirements.txt" csss@sfucsss.org:/home/csss/csss-site/requirements.txt
 scp "CI/deploy_changes.sh" csss@sfucsss.org:/home/csss/deploy_changes.sh
 
-echo "BASE_DIR=${BASE_DIR}" >> site_envs
+echo "BASE_DIR=${BASE_DIR}" > site_envs
 echo "SECRET_KEY=${WEBSITE_SECRET_KEY}" >> site_envs
 echo "DEBUG=${DEBUG}" >> site_envs
 echo "HOST_ADDRESS=${HOST_ADDRESS}" >> site_envs
