@@ -40,7 +40,7 @@ pipeline {
                 ) {
                     sh label: '', script: """bash -c \'
                         export BASE_DIR=/home/csss;
-                        export SECRET_KEY=${WEBSITE_SECRET_KEY};
+                        export SECRET_KEY="${WEBSITE_SECRET_KEY}";
                         export DEBUG=false;
                         export HOST_ADDRESS=sfucsss.org;
                         export DB_PASSWORD=${WEBSITE_DB_PASSWORD};
