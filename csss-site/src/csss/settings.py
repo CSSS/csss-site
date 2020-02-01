@@ -27,7 +27,7 @@ if "DEBUG" not in os.environ:
 DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
-ALLOWED_HOSTS = ['sfucsss.org', 'dev.sfucsss.org']
+ALLOWED_HOSTS = []
 
 if 'ip_addr' in os.environ:
     ALLOWED_HOSTS.append(os.environ['ip_addr'])
