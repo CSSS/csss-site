@@ -35,7 +35,9 @@ pipeline {
                 withCredentials(
                     [
                         string(credentialsId: 'WEBSITE_SECRET_KEY', variable: 'WEBSITE_SECRET_KEY'),
-                        string(credentialsId: 'WEBSITE_DB_PASSWORD', variable: 'WEBSITE_DB_PASSWORD')
+                        string(credentialsId: 'WEBSITE_DB_PASSWORD', variable: 'WEBSITE_DB_PASSWORD'),
+                        string(credentialsId: 'STRIPE_PUBLISHABLE_KEY', variable: 'STRIPE_PUBLISHABLE_KEY'),
+                        string(credentialsId: 'STRIPE_SECRET_KEY', variable: 'STRIPE_SECRET_KEY')
                     ]
                 ) {
                     sh label: '', script: """bash -c \'
