@@ -5,7 +5,6 @@ set -e -o xtrace
 . ~/envCSSS/bin/activate
 cd ~/csss-site
 python3.7 -m pip install -r requirements.txt
-cd csss-site/src
 
 chmod +x ~/setEnv.sh
 . ~/setEnv.sh site_envs
@@ -16,7 +15,7 @@ mkdir -p ~/csss-site/csss-site/src/logs
 
 cd csss-site/src
 
-../../CI/migrate_apps.sh ./
+../../CI/migrate_apps.sh
 
 python3.7 manage.py collectstatic --noinput
 
