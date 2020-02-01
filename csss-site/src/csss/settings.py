@@ -42,6 +42,10 @@ if "DB_PASSWORD" not in os.environ:
     exit(1)
 DB_PASSWORD = os.environ['DB_PASSWORD']
 
+if "DB_PORT" not in os.environ:
+    logger.error("[settings.py] DB_PORT is not detected")
+    exit(1)
+DB_PORT = os.environ['DB_PORT']
 
 # Application definition
 
