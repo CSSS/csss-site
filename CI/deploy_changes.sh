@@ -14,38 +14,9 @@ docker run --name csss_site_db -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${
 
 mkdir -p ~/csss-site/csss-site/src/logs
 
-python3.7 manage.py migrate
-python3.7 manage.py makemigrations
-python3.7 manage.py migrate
-python3.7 manage.py makemigrations 750_project
-python3.7 manage.py migrate
+cd csss-site/src
 
-python3.7 manage.py makemigrations about
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations administration
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations announcements
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations bursaries_and_awards
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations comp_sci_guide
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations documents
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations elections
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations events
-python3.7 manage.py migrate
-
-python3.7 manage.py makemigrations file_uploads
-python3.7 manage.py migrate
+../../CI/migrate_apps.sh ./
 
 python3.7 manage.py collectstatic --noinput
 
