@@ -46,3 +46,9 @@ python3.7 manage.py migrate
 
 python3.7 manage.py makemigrations file_uploads
 python3.7 manage.py migrate
+
+python3.7 manage.py collectstatic
+
+sudo systemctl restart gunicorn.service
+
+sudo systemctl status gunicorn.service
