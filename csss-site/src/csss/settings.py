@@ -37,15 +37,11 @@ ALLOWED_HOSTS = [HOST_ADDRESS]
 logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
-if "DB_PASSWORD" not in os.environ:
-    logger.error("[settings.py] DB_PASSWORD is not detected")
-    exit(1)
-DB_PASSWORD = os.environ['DB_PASSWORD']
 
-if "DB_PORT" not in os.environ:
-    logger.error("[settings.py] DB_PORT is not detected")
+if "DB_TYPE" not in os.environ:
+    logger.error("[settings.py] DB_TYPE is not detected")
     exit(1)
-DB_PORT = os.environ['DB_PORT']
+DB_TYPE = os.environ['DB_TYPE']
 
 # Application definition
 
@@ -113,17 +109,41 @@ LOGIN_REDIRECT_URL = '/done/'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': DB_PASSWORD,
-        'HOST': '127.0.0.1',
-        'PORT': DB_PORT,
-    }
-}
 
+if DB_TYPE == "sqlite3":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
+
+elif DB_TYPE == "postgres":
+
+    if "DB_PASSWORD" not in os.environ:
+        logger.error("[settings.py] DB_PASSWORD is not detected")
+        exit(1)
+    DB_PASSWORD = os.environ['DB_PASSWORD']
+
+    if "DB_PORT" not in os.environ:
+        logger.error("[settings.py] DB_PORT is not detected")
+        exit(1)
+    DB_PORT = os.environ['DB_PORT']
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'PASSWORD': DB_PASSWORD,
+            'HOST': '127.0.0.1',
+            'PORT': DB_PORT,
+        }
+    }
+else:
+    logger.error("[settings.py] DB_TYPE is not set to an acceptable type")
+    logger.error("[settings.py] need to use either \"sqlite3\" or \"postgres\"")
+    exit(1)
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
