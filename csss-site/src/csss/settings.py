@@ -24,20 +24,18 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 if "DEBUG" not in os.environ:
     logger.error("[settings.py] DEBUG was not detected")
+    exit(1)
 DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
-ALLOWED_HOSTS = []
-
-if 'ip_addr' in os.environ:
-    ALLOWED_HOSTS.append(os.environ['ip_addr'])
-
-logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
-
 if "HOST_ADDRESS" not in os.environ:
     logger.error("[settings.py] HOST_ADDRESS was not detected")
+    exit(1)
 HOST_ADDRESS = os.environ['HOST_ADDRESS']
+ALLOWED_HOSTS = [HOST_ADDRESS]
+
 logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
+logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
 # Application definition
 
