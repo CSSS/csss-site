@@ -1,7 +1,7 @@
 backports.functools-lru-cache==1.5
 certifi==2018.11.29
 chardet==3.0.4
-Django==2.1.15
+Django==2.2.9
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
@@ -12,7 +12,7 @@ django-pony-forms==0.6.0
 gitdb2==2.0.5
 gunicorn==19.9.0
 idna==2.8
-Jinja2==2.10
+Jinja2==2.10.1
 MarkupSafe==1.1.0
 pathlib==1.0.1
 pytz==2018.7
