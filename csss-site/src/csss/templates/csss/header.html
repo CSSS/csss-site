@@ -108,7 +108,6 @@
 									<li><a href="/events/">Calendar</a></li>
 									<li><a href="/events/general_meetings">What are General Meetings?</a></li>
 									<li><a href="/events/board_games">What are Board Games Night?</a></li>
-									<li><a href='/events/game_jam'>What are Game Jams?</a></li>
 									<li><a target="_blank" href='http://sfucsss.org/frosh/'>CSSS FroshWeek</a></li>
 									<li><a href="/events/mountain_madness2020">Mountain Madness 2020</a></li>
 								</ul>
@@ -128,33 +127,11 @@
 								</ul>
 							</li>
 
-							{% if tab == '750_project' %}
-								<li role="presentation" id="750_project" class="dropdown nav-links active">
-							{% else %}
-								<li role="presentation" id="750_project" class="dropdown nav-links">
-							{% endif %}
-								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">750 Project</a>
-								<ul class="dropdown-menu">
-									<li><a href="/750_project/">About 750</a></li>
-									<li><a href="/750_project/dev_tools">Dev Tools</a></li>
-									<li><a href="/750_project/hacktime">Hacktime</a></li>
-									<li><a href='/750_project/workshops'>Workshops</a></li>
-								</ul>
-							</li>
-
 							{% if tab == 'comp_sci_guide' %}
-								<li role="presentation" id="comp_sci_guide" class="dropdown nav-links active">
+								<li id="comp_sci_guide" class="nav-link active"><a href="/comp_sci_guide">Software Guide</a></li>
 							{% else %}
-								<li role="presentation" id="comp_sci_guide" class="dropdown nav-links">
+								<li id="comp_sci_guide" class="nav-link"><a href="/comp_sci_guide">Software Guide</a></li>
 							{% endif %}
-								<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Comp Sci Guide</a>
-								<ul class="dropdown-menu">
-									<li><a href="/comp_sci_guide/">Comp Sci Guide</a></li>
-									<li><a href="/comp_sci_guide/software">Software</a></li>
-									<li><a href="/comp_sci_guide/textbooks">Textbooks</a></li>
-									<li><a href='/comp_sci_guide/course_reviews'>Course Review</a></li>
-								</ul>
-							</li>
 
 							{% if tab == 'bursaries_and_awards' %}
 								<li id="bursaries_and_awards" class="nav-links active"><a href="/bursaries_and_awards">Bursaries and Awards</a></li>
@@ -232,6 +209,7 @@
 				</div>
 			</div>
 		</div>
+		<br><br><br><br><br>
 		<footer  style="position: fixed; bottom: 0; width: 100%; height: 50px; background-color: #f6f6f6;">
 			<div class="container-fluid" style='margin-left:15px'>
                 <div style="margin-top: 1em;" id="footer-links">

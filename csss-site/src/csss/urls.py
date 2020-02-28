@@ -11,7 +11,6 @@ urlpatterns = [
     url(r'^about/', include('about.urls')),
     url(r'^documents/', include('documents.urls')),
     url(r'^events/', include('events.urls')),
-    url(r'^750_project/', include('750_project.urls')),
     url(r'^comp_sci_guide/', include('comp_sci_guide.urls')),
     url(r'^bursaries_and_awards/', include('bursaries_and_awards.urls')),
     url(r'^announcements/', include('announcements.urls')),

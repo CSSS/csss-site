@@ -40,19 +40,6 @@ def board_games(request):
     return render(request, 'events/board_games.html', context)
 
 
-def game_jam(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'events',
-        'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username
-    }
-    return render(request, 'events/game_jam.html', context)
-
-
 def frosh_week(request):
     groups = list(request.user.groups.values_list('name', flat=True))
     context = {
