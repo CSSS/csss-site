@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'about',
     'documents',
     'events',
-    '750_project',
     'administration',
     'comp_sci_guide',
     'bursaries_and_awards',
