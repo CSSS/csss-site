@@ -62,7 +62,13 @@
 									{% for email in officer.email.all %}
 										<p class="lead">Contact - <a href="{{email.email}}">{{email.email}}</a><br></p>
 									{% endfor %}
-									<p class="lead">Bio - {{officer.bio}}</p>
+									<div class="lead"><p>Bio -</p>
+										{% if officer.bio|safe|length > 0 %}
+						                    {{officer.bio|safe}}
+						                {% else %}
+						                    {{officer.bio|safe|linebreaks}}
+						                {% endif %}
+									 </div>
 								</div>
 							{% endif %}
 						{% endfor %}
