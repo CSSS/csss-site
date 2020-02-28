@@ -74,10 +74,12 @@ def create_link(request):
             passphrase = OfficerUpdatePassphrase(passphrase=passphrase)
             passphrase.save()
             logger.info(f"[administration/views.py create_link()] interpreting position {position}")
-            exec_links.append(
+            link_to_create = (
                 f"{base_url}term={request.POST['term']}&year={request.POST['year']}&"
                 f"position={position}&position_number={position_number}&passphrase={passphrase.passphrase}"
             )
+            link_to_create = link_to_create.replace(" ", "%20")
+            exec_links.append(link_to_create)
             position_number += 1
         context.update({'exec_links': exec_links})
         return render(request, 'administration/show_generated_officer_links.html', context)
