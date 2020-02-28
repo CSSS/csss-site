@@ -39,6 +39,7 @@ def board_games(request):
     }
     return render(request, 'events/board_games.html', context)
 
+
 def frosh_week(request):
     groups = list(request.user.groups.values_list('name', flat=True))
     context = {
