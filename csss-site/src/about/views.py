@@ -53,47 +53,17 @@ def list_of_officers(request):
 def input_exec_info(request):
     logger.info(f"[about/views.py input_exec_info()] request.GET={request.GET}")
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = {}
     get_keys = ['term', 'year', 'position', 'position_number', 'passphrase']
     if (len(request.GET.keys()) == len(get_keys)):
         logger.info("[about/views.py input_exec_info()] correct number of request.GET keys detected")
-
-        term = 0
-        year = 0
-        position = 0
-        position_number = 0
+        term_context = {}
         for key in request.GET.keys():
-            if key not in get_keys:
-                logger.info(f"[about/views.py input_exec_info()] invalid key '{key}' detected")
-            if key == 'term':
-                term = 1
-                context.update({key: request.GET[key]})
-            elif key == 'year':
-                year = 1
-                context.update({key: request.GET[key]})
-            elif key == 'position':
-                position = 1
-                context.update({key: request.GET[key]})
-            elif key == 'position_number':
-                position_number = 1
-                context.update({key: request.GET[key]})
-            elif key == 'passphrase':
-                passphrase_number = 1
-                passphrase = request.GET[key]
-
-        if (
-                (
-                    (term == 0) and (year == 0) and (position == 0) and (position_number == 0) and
-                    (passphrase_number == 0)
-                ) or
-                (
-                    (term == 1) and (year == 1) and (position == 1) and (position_number == 1) and
-                    (passphrase_number == 1)
-                )
-           ):
-            logger.info(f"[about/views.py input_exec_info()] passphrase = '{passphrase}'")
+            if key in get_keys:
+                term_context.update({key: request.GET[key]})
+        if (len(term_context.keys()) == len(get_keys)):
+            logger.info(f"[about/views.py input_exec_info()] passphrase = '{term_context['passphrase']}'")
             passphrase = OfficerUpdatePassphrase.objects.all().filter(
-                passphrase=passphrase,
+                passphrase=term_context['passphrase'],
             )
             logger.info(f"[about/views.py input_exec_info()] len(passphrase) = '{len(passphrase)}'")
             if (len(passphrase) < 1):
@@ -101,6 +71,7 @@ def input_exec_info(request):
             logger.info(f"[about/views.py input_exec_info()] passphrase[0].used = '{passphrase[0].used}'")
             if (passphrase[0].used):
                 return HttpResponseRedirect('/about/bad_passphrase')
+            context = {}
             context.update({'tab': 'about'})
             context.update({'authenticated': request.user.is_authenticated})
             context.update({'Exec': ('Exec' in groups)})
@@ -108,6 +79,8 @@ def input_exec_info(request):
             context.update({'Staff': request.user.is_staff})
             context.update({'Username': request.user.username})
             context.update({'passphrase': passphrase[0].passphrase})
+            for key in term_context:
+                context.update({key: term_context[key]})
             logger.info(f"[about/views.py input_exec_info()] context set to '{context}'")
             logger.info("[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
@@ -171,7 +144,8 @@ def process_exec_info(request):
             course2=request.POST['course2'],
             language1=request.POST['language1'],
             language2=request.POST['language2'],
-            elected_term=term
+            elected_term=term,
+            bio=request.POST['bio']
         )
         post_dict = parser.parse(request.POST.urlencode())
         emails = [email.strip() for row in csv.reader(StringIO(post_dict['email']), delimiter=',') for email in row]

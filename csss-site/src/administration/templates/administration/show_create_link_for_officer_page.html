@@ -25,6 +25,12 @@
 		<p>Positions:<br>(enter them in a newline separated list)<br>
 			<textarea name="positions" cols=40" rows=10" required></textarea>
 		</p>
+
+		Overwrite Officers:<br>
+		<input type="radio" name="overwrite" value="true" required>
+		Overwrite Current Officer for selected term<br>
+		<input type="radio" name="overwrite" value="false" required>
+		Append Specified Officers to list of officers for selected term<br><br>
 		<input type="submit" value="submit" />
 	</form>
 {% endblock %}

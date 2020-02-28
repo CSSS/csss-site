@@ -33,7 +33,7 @@ def create_link(request):
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
 
-    post_keys = ['term', 'year', 'positions']
+    post_keys = ['term', 'year', 'positions', 'overwrite']
     logger.info(f"[administration/views.py create_link()] request.POST={request.POST}")
     logger.info(f"[administration/views.py create_link()] request.GET={request.GET}")
     if len(request.POST.keys()) == (len(post_keys) + 1):
@@ -45,7 +45,29 @@ def create_link(request):
         base_url = settings.HOST_ADDRESS + '/about/input_exec_info?'
         exec_links = []
         positions = request.POST['positions'].splitlines()
-        position_number = 0
+        if request.POST['overwrite'] == "true":
+            position_number = 0
+        elif request.POST['overwrite'] == "false":
+            term_number = int(request.POST['year']) * 10
+            if request.POST['term'] == "Spring":
+                term_number = term_number + 1
+            elif request.POST['term'] == "Summer":
+                term_number = term_number + 2
+            elif request.POST['term'] == "Fall":
+                term_number = term_number + 3
+            term = Term.objects.filter(
+                year=request.POST['year'],
+                term=request.POST['term'],
+                term_number=term_number
+            )
+            if len(term) < 1:
+                position_number = 0
+            else:
+                officers = Officer.objects.all().filter(
+                    elected_term=term[0]
+                ).order_by('-term_position_number')
+                logger.info(f"[administration/views.py] create_link()] officers={officers[0]}")
+                position_number = officers[0].term_position_number+1
         for position in positions:
             letters_and_digits = string.ascii_letters + string.digits
             passphrase = ''.join(random.choice(letters_and_digits) for i in range(10))
