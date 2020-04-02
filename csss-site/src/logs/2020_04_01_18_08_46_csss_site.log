@@ -1,0 +1,41 @@
+2020-04-01 18:08:46 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 18:08:46 = INFO - [settings.py] DEBUG set to True
+2020-04-01 18:08:46 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 18:08:46 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 18:08:46 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 18:08:46 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 18:08:46 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 18:08:46 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 18:08:46 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 18:08:46 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 18:08:46 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 18:08:46 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 18:08:46 = WARNING - Watching for file changes with StatReloader
+
+2020-04-01 18:08:46 = INFO - Performing system checks...
+
+
+2020-04-01 18:08:46 = INFO - System check identified no issues (0 silenced).
+
+2020-04-01 18:08:46 = INFO - April 01, 2020 - 18:08:46
+
+2020-04-01 18:08:46 = INFO - Django version 2.2.10, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-04-01 18:08:49 = WARNING - Internal Server Error: /documents/photo_gallery/Frosh Fun/2020-04-01
+Traceback (most recent call last):
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/core/handlers/exception.py", line 34, in inner
+    response = get_response(request)
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/core/handlers/base.py", line 115, in _get_response
+    response = self.process_exception_by_middleware(e, request)
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/core/handlers/base.py", line 113, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "/home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/documents/views.py", line 81, in album
+    print(media.picture.id)
+AttributeError: 'Picture' object has no attribute 'id'
+
+2020-04-01 18:08:49 = WARNING - [01/Apr/2020 18:08:49] "GET /documents/photo_gallery/Frosh%20Fun/2020-04-01 HTTP/1.1" 500 77664
+
+2020-04-01 18:08:57 = WARNING - /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/documents/views.py changed, reloading.
+

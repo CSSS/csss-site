@@ -78,6 +78,7 @@ def album(request):
         index += 1
         if (lower_bound <= index) and (index <= upper_bound):
             medias.append(media)
+        print(media.id)
 
         if current_page == 1:
             previous_page = math.floor((number_of_medias / 10) + 1)

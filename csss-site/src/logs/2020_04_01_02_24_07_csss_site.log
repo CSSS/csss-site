@@ -1,0 +1,696 @@
+2020-04-01 02:24:07 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 02:24:07 = INFO - [settings.py] DEBUG set to True
+2020-04-01 02:24:07 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 02:24:07 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 02:24:07 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 02:24:07 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 02:24:07 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 02:24:07 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 02:24:07 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 02:24:07 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 02:24:07 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 02:24:07 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 02:24:07 = WARNING - Watching for file changes with StatReloader
+
+2020-04-01 02:24:07 = INFO - Performing system checks...
+
+
+2020-04-01 02:24:07 = INFO - System check identified no issues (0 silenced).
+
+2020-04-01 02:24:08 = INFO - April 01, 2020 - 02:24:08
+
+2020-04-01 02:24:08 = INFO - Django version 2.2.10, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-04-01 02:24:09 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:24:09 = WARNING - [01/Apr/2020 02:24:09] "GET / HTTP/1.1" 200 9529
+
+2020-04-01 02:24:31 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:24:31 = WARNING - [01/Apr/2020 02:24:31] "GET / HTTP/1.1" 200 10752
+
+2020-04-01 02:24:52 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:24:52 = WARNING - [01/Apr/2020 02:24:52] "GET / HTTP/1.1" 200 10750
+
+2020-04-01 02:25:01 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:25:01 = WARNING - [01/Apr/2020 02:25:01] "GET / HTTP/1.1" 200 10752
+
+2020-04-01 02:26:27 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:26:28 = WARNING - [01/Apr/2020 02:26:28] "GET / HTTP/1.1" 200 10894
+
+2020-04-01 02:26:41 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:26:41 = WARNING - [01/Apr/2020 02:26:41] "GET / HTTP/1.1" 200 10894
+
+2020-04-01 02:27:26 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:27:26 = WARNING - [01/Apr/2020 02:27:26] "GET / HTTP/1.1" 200 10900
+
+2020-04-01 02:27:59 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:27:59 = WARNING - [01/Apr/2020 02:27:59] "GET / HTTP/1.1" 200 10922
+
+2020-04-01 02:28:41 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:28:41 = WARNING - [01/Apr/2020 02:28:41] "GET / HTTP/1.1" 200 10942
+
+2020-04-01 02:30:01 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:30:01 = WARNING - [01/Apr/2020 02:30:01] "GET / HTTP/1.1" 200 10955
+
+2020-04-01 02:30:25 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:30:25 = WARNING - [01/Apr/2020 02:30:25] "GET / HTTP/1.1" 200 10968
+
+2020-04-01 02:30:32 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:30:32 = WARNING - [01/Apr/2020 02:30:32] "GET / HTTP/1.1" 200 10968
+
+2020-04-01 02:31:15 = WARNING - [01/Apr/2020 02:31:15] "GET /administration/logout HTTP/1.1" 302 0
+
+2020-04-01 02:31:15 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:31:16 = WARNING - [01/Apr/2020 02:31:16] "GET / HTTP/1.1" 200 10552
+
+2020-04-01 02:31:44 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:31:44 = WARNING - [01/Apr/2020 02:31:44] "GET / HTTP/1.1" 200 10502
+
+2020-04-01 02:31:55 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:31:55 = WARNING - [01/Apr/2020 02:31:55] "GET / HTTP/1.1" 200 10502
+
+2020-04-01 02:34:04 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:34:04 = WARNING - [01/Apr/2020 02:34:04] "GET / HTTP/1.1" 200 10778
+
+2020-04-01 02:34:21 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:34:21 = WARNING - [01/Apr/2020 02:34:21] "GET / HTTP/1.1" 200 10775
+
+2020-04-01 02:34:54 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:34:54 = WARNING - [01/Apr/2020 02:34:54] "GET / HTTP/1.1" 200 10776
+
+2020-04-01 02:35:29 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:35:29 = WARNING - [01/Apr/2020 02:35:29] "GET / HTTP/1.1" 200 10733
+
+2020-04-01 02:35:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:35:37 = WARNING - [01/Apr/2020 02:35:37] "GET / HTTP/1.1" 200 10733
+
+2020-04-01 02:35:56 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:35:56 = WARNING - [01/Apr/2020 02:35:56] "GET / HTTP/1.1" 200 10745
+
+2020-04-01 02:36:15 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:36:15 = WARNING - [01/Apr/2020 02:36:15] "GET / HTTP/1.1" 200 10751
+
+2020-04-01 02:37:08 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:37:08 = WARNING - [01/Apr/2020 02:37:08] "GET / HTTP/1.1" 200 10765
+
+2020-04-01 02:37:24 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:37:24 = WARNING - [01/Apr/2020 02:37:24] "GET / HTTP/1.1" 200 10767
+
+2020-04-01 02:38:55 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:38:55 = WARNING - [01/Apr/2020 02:38:55] "GET / HTTP/1.1" 200 10898
+
+2020-04-01 02:40:30 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:40:30 = WARNING - [01/Apr/2020 02:40:30] "GET / HTTP/1.1" 200 10882
+
+2020-04-01 02:40:44 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:40:44 = WARNING - [01/Apr/2020 02:40:44] "GET / HTTP/1.1" 200 10757
+
+2020-04-01 02:41:39 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:41:39 = WARNING - [01/Apr/2020 02:41:39] "GET / HTTP/1.1" 200 10760
+
+2020-04-01 02:41:57 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:41:57 = WARNING - [01/Apr/2020 02:41:57] "GET / HTTP/1.1" 200 10760
+
+2020-04-01 02:42:55 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:42:55 = WARNING - [01/Apr/2020 02:42:55] "GET / HTTP/1.1" 200 11111
+
+2020-04-01 02:43:22 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:43:22 = WARNING - [01/Apr/2020 02:43:22] "GET / HTTP/1.1" 200 11010
+
+2020-04-01 02:43:38 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:43:38 = WARNING - [01/Apr/2020 02:43:38] "GET / HTTP/1.1" 200 11010
+
+2020-04-01 02:43:53 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:43:53 = WARNING - [01/Apr/2020 02:43:53] "GET / HTTP/1.1" 200 11010
+
+2020-04-01 02:43:54 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:43:54 = WARNING - [01/Apr/2020 02:43:54] "GET / HTTP/1.1" 200 11010
+
+2020-04-01 02:44:04 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:44:04 = WARNING - [01/Apr/2020 02:44:04] "GET / HTTP/1.1" 200 11006
+
+2020-04-01 02:44:05 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:44:05 = WARNING - [01/Apr/2020 02:44:05] "GET / HTTP/1.1" 200 11006
+
+2020-04-01 02:44:05 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:44:05 = WARNING - [01/Apr/2020 02:44:05] "GET / HTTP/1.1" 200 11006
+
+2020-04-01 02:44:06 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:44:06 = WARNING - [01/Apr/2020 02:44:06] "GET / HTTP/1.1" 200 11006
+
+2020-04-01 02:44:06 = WARNING - [01/Apr/2020 02:44:06] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 200 20211
+
+2020-04-01 02:44:06 = WARNING - [01/Apr/2020 02:44:06] "GET /STATIC_URL/csss_static/new_style.css HTTP/1.1" 200 229963
+
+2020-04-01 02:44:06 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:44:06 = WARNING - [01/Apr/2020 02:44:06] "GET / HTTP/1.1" 200 11006
+
+2020-04-01 02:44:06 = WARNING - [01/Apr/2020 02:44:06] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 200 20211
+
+2020-04-01 02:44:06 = WARNING - [01/Apr/2020 02:44:06] "GET /STATIC_URL/csss_static/new_style.css HTTP/1.1" 200 229963
+
+2020-04-01 02:44:10 = WARNING - Not Found: /favicon.ico
+
+2020-04-01 02:44:10 = WARNING - [01/Apr/2020 02:44:10] "GET /favicon.ico HTTP/1.1" 404 3123
+
+2020-04-01 02:44:21 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:44:21 = WARNING - [01/Apr/2020 02:44:21] "GET / HTTP/1.1" 200 11006
+
+2020-04-01 02:45:02 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:45:02 = WARNING - [01/Apr/2020 02:45:02] "GET / HTTP/1.1" 200 10940
+
+2020-04-01 02:45:21 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:45:21 = WARNING - [01/Apr/2020 02:45:21] "GET / HTTP/1.1" 200 10951
+
+2020-04-01 02:45:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:45:37 = WARNING - [01/Apr/2020 02:45:37] "GET / HTTP/1.1" 200 10962
+
+2020-04-01 02:46:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:46:37 = WARNING - [01/Apr/2020 02:46:37] "GET / HTTP/1.1" 200 10965
+
+2020-04-01 02:47:05 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:47:05 = WARNING - [01/Apr/2020 02:47:05] "GET / HTTP/1.1" 200 10977
+
+2020-04-01 02:47:06 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:47:06 = WARNING - [01/Apr/2020 02:47:06] "GET / HTTP/1.1" 200 10977
+
+2020-04-01 02:49:59 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:49:59 = WARNING - [01/Apr/2020 02:49:59] "GET / HTTP/1.1" 200 11050
+
+2020-04-01 02:50:09 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:50:09 = WARNING - [01/Apr/2020 02:50:09] "GET / HTTP/1.1" 200 11027
+
+2020-04-01 02:50:29 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:50:29 = WARNING - [01/Apr/2020 02:50:29] "GET / HTTP/1.1" 200 11027
+
+2020-04-01 02:52:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:52:37 = WARNING - [01/Apr/2020 02:52:37] "GET / HTTP/1.1" 200 11123
+
+2020-04-01 02:53:14 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:53:14 = WARNING - [01/Apr/2020 02:53:14] "GET / HTTP/1.1" 200 11122
+
+2020-04-01 02:54:48 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:54:48 = WARNING - [01/Apr/2020 02:54:48] "GET / HTTP/1.1" 200 11135
+
+2020-04-01 02:55:38 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:55:38 = WARNING - [01/Apr/2020 02:55:38] "GET / HTTP/1.1" 200 11157
+
+2020-04-01 02:55:38 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:55:39 = WARNING - [01/Apr/2020 02:55:39] "GET / HTTP/1.1" 200 11157
+
+2020-04-01 02:55:47 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:55:47 = WARNING - [01/Apr/2020 02:55:47] "GET / HTTP/1.1" 200 11181
+
+2020-04-01 02:56:07 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:56:07 = WARNING - [01/Apr/2020 02:56:07] "GET / HTTP/1.1" 200 11192
+
+2020-04-01 02:56:08 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:56:08 = WARNING - [01/Apr/2020 02:56:08] "GET / HTTP/1.1" 200 11192
+
+2020-04-01 02:56:22 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:56:22 = WARNING - [01/Apr/2020 02:56:22] "GET / HTTP/1.1" 200 11201
+
+2020-04-01 02:56:35 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:56:35 = WARNING - [01/Apr/2020 02:56:35] "GET / HTTP/1.1" 200 11213
+
+2020-04-01 02:57:11 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 02:57:11 = WARNING - [01/Apr/2020 02:57:11] "GET / HTTP/1.1" 200 11213
+
+2020-04-01 03:04:17 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:04:17 = WARNING - [01/Apr/2020 03:04:17] "GET / HTTP/1.1" 200 11653
+
+2020-04-01 03:04:17 = WARNING - [01/Apr/2020 03:04:17] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 200 606863
+
+2020-04-01 03:05:10 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:05:10 = WARNING - [01/Apr/2020 03:05:10] "GET / HTTP/1.1" 200 11668
+
+2020-04-01 03:05:10 = WARNING - [01/Apr/2020 03:05:10] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:05:24 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:05:24 = WARNING - [01/Apr/2020 03:05:24] "GET / HTTP/1.1" 200 11661
+
+2020-04-01 03:06:00 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:06:01 = WARNING - [01/Apr/2020 03:06:01] "GET / HTTP/1.1" 200 11682
+
+2020-04-01 03:06:01 = WARNING - [01/Apr/2020 03:06:01] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:06:01 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:06:02 = WARNING - [01/Apr/2020 03:06:02] "GET / HTTP/1.1" 200 11682
+
+2020-04-01 03:06:19 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:06:19 = WARNING - [01/Apr/2020 03:06:19] "GET / HTTP/1.1" 200 11710
+
+2020-04-01 03:07:28 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:07:28 = WARNING - [01/Apr/2020 03:07:28] "GET / HTTP/1.1" 200 11682
+
+2020-04-01 03:07:28 = WARNING - [01/Apr/2020 03:07:28] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:07:43 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:07:43 = WARNING - [01/Apr/2020 03:07:43] "GET / HTTP/1.1" 200 11737
+
+2020-04-01 03:09:40 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:09:41 = WARNING - [01/Apr/2020 03:09:41] "GET / HTTP/1.1" 200 11768
+
+2020-04-01 03:09:41 = WARNING - [01/Apr/2020 03:09:41] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:09:50 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:09:50 = WARNING - [01/Apr/2020 03:09:50] "GET / HTTP/1.1" 200 11709
+
+2020-04-01 03:10:56 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:10:56 = WARNING - [01/Apr/2020 03:10:56] "GET / HTTP/1.1" 200 11703
+
+2020-04-01 03:10:56 = WARNING - [01/Apr/2020 03:10:56] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:12:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:12:37 = WARNING - [01/Apr/2020 03:12:37] "GET / HTTP/1.1" 200 11711
+
+2020-04-01 03:12:38 = WARNING - [01/Apr/2020 03:12:38] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:13:30 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:13:30 = WARNING - [01/Apr/2020 03:13:30] "GET / HTTP/1.1" 200 11712
+
+2020-04-01 03:13:51 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:13:51 = WARNING - [01/Apr/2020 03:13:51] "GET / HTTP/1.1" 200 11712
+
+2020-04-01 03:14:19 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:14:19 = WARNING - [01/Apr/2020 03:14:19] "GET / HTTP/1.1" 200 11722
+
+2020-04-01 03:14:19 = WARNING - [01/Apr/2020 03:14:19] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:15:00 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:15:00 = WARNING - [01/Apr/2020 03:15:00] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:15:20 = INFO - [administration/views.py login()] request.POST=<QueryDict: {'csrfmiddlewaretoken': ['6ZejraTneXMe8Rm0U85kaK4TciS227j6wWCMit3Lh8pcNIcOSjvC5v9W8b5XEw7v'], 'username': ['ryan'], 'password': ['password']}>
+2020-04-01 03:15:20 = INFO - [administration/views.py login()] username = ryan
+2020-04-01 03:15:20 = INFO - [administration/views.py login()] it was a successful login
+2020-04-01 03:15:20 = INFO - [administration/views.py login()] it was an insuccessful login
+2020-04-01 03:15:20 = WARNING - [01/Apr/2020 03:15:20] "POST /administration/login HTTP/1.1" 302 0
+
+2020-04-01 03:15:20 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:15:20 = WARNING - [01/Apr/2020 03:15:20] "GET / HTTP/1.1" 200 12137
+
+2020-04-01 03:15:28 = INFO - [administration/views.py create_specified_election()] request.POST=<QueryDict: {}>
+2020-04-01 03:15:28 = WARNING - [01/Apr/2020 03:15:28] "GET /administration/elections/create HTTP/1.1" 200 11454
+
+2020-04-01 03:15:42 = WARNING - Not Found: /administration/officer/show_maillist_creation
+
+2020-04-01 03:15:42 = WARNING - [01/Apr/2020 03:15:42] "GET /administration/officer/show_maillist_creation HTTP/1.1" 404 5194
+
+2020-04-01 03:15:46 = INFO - [administration/views.py create_specified_election()] request.POST=<QueryDict: {}>
+2020-04-01 03:15:46 = WARNING - [01/Apr/2020 03:15:46] "GET /administration/elections/create HTTP/1.1" 200 11454
+
+2020-04-01 03:15:51 = WARNING - [01/Apr/2020 03:15:51] "GET /administration/elections/select_election HTTP/1.1" 200 8944
+
+2020-04-01 03:15:58 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:15:58 = WARNING - [01/Apr/2020 03:15:58] "GET / HTTP/1.1" 200 12137
+
+2020-04-01 03:15:58 = WARNING - [01/Apr/2020 03:15:58] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:18:48 = WARNING - [01/Apr/2020 03:18:48] "GET /administration/logout HTTP/1.1" 302 0
+
+2020-04-01 03:18:48 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:18:48 = WARNING - [01/Apr/2020 03:18:48] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:18:48 = WARNING - [01/Apr/2020 03:18:48] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:21:40 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:21:40 = WARNING - [01/Apr/2020 03:21:40] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:21:41 = WARNING - [01/Apr/2020 03:21:41] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:24:38 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:24:38 = WARNING - [01/Apr/2020 03:24:38] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:24:38 = WARNING - [01/Apr/2020 03:24:38] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:25:27 = WARNING - [01/Apr/2020 03:25:27] "GET /STATIC_URL/csss_static/bulma.css.map HTTP/1.1" 404 1707
+
+2020-04-01 03:26:04 = WARNING - [01/Apr/2020 03:26:04] "GET /comp_sci_guide/ HTTP/1.1" 200 11228
+
+2020-04-01 03:26:12 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:26:12 = WARNING - [01/Apr/2020 03:26:12] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:26:12 = WARNING - [01/Apr/2020 03:26:12] "GET /STATIC_URL/csss_static/bulma.css.map HTTP/1.1" 404 1707
+
+2020-04-01 03:26:46 = WARNING - [01/Apr/2020 03:26:46] "GET /STATIC_URL/csss_static/bulma.css.map HTTP/1.1" 404 1707
+
+2020-04-01 03:27:36 = WARNING - [01/Apr/2020 03:27:36] "GET /STATIC_URL/csss_static/bulma.css.map HTTP/1.1" 404 1707
+
+2020-04-01 03:28:47 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:28:47 = WARNING - [01/Apr/2020 03:28:47] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:28:48 = WARNING - [01/Apr/2020 03:28:48] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:28:48 = WARNING - [01/Apr/2020 03:28:48] "GET /STATIC_URL/csss_static/bulma.css.map HTTP/1.1" 404 1707
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /documents/file_uploading/multiple HTTP/1.1" 200 10761
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/ajaxuploader/css/fileuploader.css HTTP/1.1" 200 5030
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/file_uploads/example.css HTTP/1.1" 404 1704
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/file_uploads/jquery/dist/jquery.js HTTP/1.1" 404 1734
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/file_form/file_form.js HTTP/1.1" 200 1496
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/ajaxuploader/js/fileuploader.js HTTP/1.1" 200 387500
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/file_uploads/example.css HTTP/1.1" 404 1704
+
+2020-04-01 03:29:52 = WARNING - [01/Apr/2020 03:29:52] "GET /STATIC_URL/file_uploads/jquery/dist/jquery.js HTTP/1.1" 404 1734
+
+2020-04-01 03:30:17 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:30:17 = WARNING - [01/Apr/2020 03:30:17] "GET / HTTP/1.1" 200 11721
+
+2020-04-01 03:34:54 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:34:54 = WARNING - [01/Apr/2020 03:34:54] "GET / HTTP/1.1" 200 11725
+
+2020-04-01 03:34:54 = WARNING - [01/Apr/2020 03:34:54] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:35:43 = WARNING - [01/Apr/2020 03:35:43] "GET /about/who_we_are HTTP/1.1" 200 9489
+
+2020-04-01 03:35:52 = WARNING - [01/Apr/2020 03:35:52] "GET /documents/photo_gallery HTTP/1.1" 200 8063
+
+2020-04-01 03:39:01 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:39:01 = WARNING - [01/Apr/2020 03:39:01] "GET / HTTP/1.1" 200 11725
+
+2020-04-01 03:39:02 = WARNING - [01/Apr/2020 03:39:02] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 03:39:13 = WARNING - [01/Apr/2020 03:39:13] "GET /about/who_we_are HTTP/1.1" 200 9489
+
+2020-04-01 03:39:29 = WARNING - [01/Apr/2020 03:39:29] "GET /comp_sci_guide/ HTTP/1.1" 200 11228
+
+2020-04-01 03:39:33 = WARNING - [01/Apr/2020 03:39:33] "GET /bursaries_and_awards/ HTTP/1.1" 200 11581
+
+2020-04-01 03:40:11 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:40:11 = WARNING - [01/Apr/2020 03:40:11] "GET /?p=2 HTTP/1.1" 200 9373
+
+2020-04-01 03:40:14 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:40:14 = WARNING - [01/Apr/2020 03:40:14] "GET /?p=1 HTTP/1.1" 200 11725
+
+2020-04-01 03:40:16 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:40:16 = WARNING - [01/Apr/2020 03:40:16] "GET /?p=2 HTTP/1.1" 200 9373
+
+2020-04-01 03:40:18 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:40:18 = WARNING - [01/Apr/2020 03:40:18] "GET /?p=1 HTTP/1.1" 200 11725
+
+2020-04-01 03:40:35 = WARNING - [01/Apr/2020 03:40:35] "GET /events/general_meetings HTTP/1.1" 200 7431
+
+2020-04-01 03:40:39 = WARNING - [01/Apr/2020 03:40:39] "GET /events/mountain_madness2020 HTTP/1.1" 200 11612
+
+2020-04-01 03:40:39 = WARNING - [01/Apr/2020 03:40:39] "GET /STATIC_URL/events_static/mm_hackathon2020/mm2020_main.css HTTP/1.1" 304 0
+
+2020-04-01 03:41:21 = WARNING - [01/Apr/2020 03:41:21] "GET /bursaries_and_awards/ HTTP/1.1" 200 11581
+
+2020-04-01 03:41:23 = WARNING - [01/Apr/2020 03:41:23] "GET /comp_sci_guide/ HTTP/1.1" 200 11228
+
+2020-04-01 03:41:29 = WARNING - [01/Apr/2020 03:41:29] "GET /about/who_we_are HTTP/1.1" 200 9489
+
+2020-04-01 03:41:31 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 03:41:31 = WARNING - [01/Apr/2020 03:41:31] "GET / HTTP/1.1" 200 11725
+
+2020-04-01 13:15:49 = INFO - [administration/views.py login()] request.POST=<QueryDict: {'csrfmiddlewaretoken': ['RaqesarMvRq66WlJ4rsjnaklvTQuvVdgB3cBSPWJTlO5r8Rzlwv0zv74iKuVJGQr'], 'username': ['ryan'], 'password': ['password']}>
+2020-04-01 13:15:49 = INFO - [administration/views.py login()] username = ryan
+2020-04-01 13:15:49 = INFO - [administration/views.py login()] it was a successful login
+2020-04-01 13:15:49 = INFO - [administration/views.py login()] it was an insuccessful login
+2020-04-01 13:15:49 = WARNING - [01/Apr/2020 13:15:49] "POST /administration/login HTTP/1.1" 302 0
+
+2020-04-01 13:15:49 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:15:49 = WARNING - [01/Apr/2020 13:15:49] "GET / HTTP/1.1" 200 12141
+
+2020-04-01 13:15:49 = WARNING - [01/Apr/2020 13:15:49] "GET /STATIC_URL/csss_static/new_style.css HTTP/1.1" 304 0
+
+2020-04-01 13:15:49 = WARNING - [01/Apr/2020 13:15:49] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 304 0
+
+2020-04-01 13:15:49 = WARNING - [01/Apr/2020 13:15:49] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 13:19:54 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:19:54 = WARNING - [01/Apr/2020 13:19:54] "GET / HTTP/1.1" 200 12358
+
+2020-04-01 13:22:03 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:22:03 = WARNING - [01/Apr/2020 13:22:03] "GET / HTTP/1.1" 200 12489
+
+2020-04-01 13:22:04 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:22:04 = WARNING - [01/Apr/2020 13:22:04] "GET / HTTP/1.1" 200 12489
+
+2020-04-01 13:22:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:22:37 = WARNING - [01/Apr/2020 13:22:37] "GET / HTTP/1.1" 200 12493
+
+2020-04-01 13:22:38 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:22:38 = WARNING - [01/Apr/2020 13:22:38] "GET / HTTP/1.1" 200 12493
+
+2020-04-01 13:23:05 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:23:05 = WARNING - [01/Apr/2020 13:23:05] "GET / HTTP/1.1" 200 12493
+
+2020-04-01 13:23:40 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:23:40 = WARNING - [01/Apr/2020 13:23:40] "GET / HTTP/1.1" 200 12647
+
+2020-04-01 13:24:18 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:24:18 = WARNING - [01/Apr/2020 13:24:18] "GET / HTTP/1.1" 200 13386
+
+2020-04-01 13:25:07 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:25:07 = WARNING - [01/Apr/2020 13:25:07] "GET / HTTP/1.1" 200 13487
+
+2020-04-01 13:25:50 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:25:50 = WARNING - [01/Apr/2020 13:25:50] "GET / HTTP/1.1" 200 13487
+
+2020-04-01 13:26:20 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:26:20 = WARNING - [01/Apr/2020 13:26:20] "GET / HTTP/1.1" 200 13474
+
+2020-04-01 13:26:37 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:26:37 = WARNING - [01/Apr/2020 13:26:37] "GET / HTTP/1.1" 200 13474
+
+2020-04-01 13:26:54 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:26:54 = WARNING - [01/Apr/2020 13:26:54] "GET / HTTP/1.1" 200 13474
+
+2020-04-01 13:27:56 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:27:56 = WARNING - [01/Apr/2020 13:27:56] "GET / HTTP/1.1" 200 13406
+
+2020-04-01 13:30:29 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:30:29 = WARNING - [01/Apr/2020 13:30:29] "GET / HTTP/1.1" 200 13417
+
+2020-04-01 13:30:52 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:30:52 = WARNING - [01/Apr/2020 13:30:52] "GET / HTTP/1.1" 200 13268
+
+2020-04-01 13:31:32 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:31:32 = WARNING - [01/Apr/2020 13:31:32] "GET / HTTP/1.1" 200 13306
+
+2020-04-01 13:31:59 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:31:59 = WARNING - [01/Apr/2020 13:31:59] "GET / HTTP/1.1" 200 13342
+
+2020-04-01 13:32:25 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:32:25 = WARNING - [01/Apr/2020 13:32:25] "GET / HTTP/1.1" 200 13352
+
+2020-04-01 13:32:51 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:32:51 = WARNING - [01/Apr/2020 13:32:51] "GET / HTTP/1.1" 200 13367
+
+2020-04-01 13:33:16 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:33:17 = WARNING - [01/Apr/2020 13:33:17] "GET / HTTP/1.1" 200 13430
+
+2020-04-01 13:33:47 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:33:47 = WARNING - [01/Apr/2020 13:33:47] "GET / HTTP/1.1" 200 13437
+
+2020-04-01 13:34:12 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:34:12 = WARNING - [01/Apr/2020 13:34:12] "GET / HTTP/1.1" 200 13460
+
+2020-04-01 13:34:44 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:34:44 = WARNING - [01/Apr/2020 13:34:44] "GET / HTTP/1.1" 200 13448
+
+2020-04-01 13:35:04 = WARNING - [01/Apr/2020 13:35:04] "GET /bursaries_and_awards/ HTTP/1.1" 200 12591
+
+2020-04-01 13:35:04 = WARNING - [01/Apr/2020 13:35:04] "GET /STATIC_URL/csss_static/style.css HTTP/1.1" 304 0
+
+2020-04-01 13:35:07 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:35:07 = WARNING - [01/Apr/2020 13:35:07] "GET / HTTP/1.1" 200 13448
+
+2020-04-01 13:35:35 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:35:35 = WARNING - [01/Apr/2020 13:35:35] "GET / HTTP/1.1" 200 13456
+
+2020-04-01 13:36:42 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:36:42 = WARNING - [01/Apr/2020 13:36:42] "GET / HTTP/1.1" 200 13473
+
+2020-04-01 13:36:42 = WARNING - [01/Apr/2020 13:36:42] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 304 0
+
+2020-04-01 13:36:42 = WARNING - [01/Apr/2020 13:36:42] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 13:37:39 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:37:39 = WARNING - [01/Apr/2020 13:37:39] "GET / HTTP/1.1" 200 13548
+
+2020-04-01 13:38:02 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:38:02 = WARNING - [01/Apr/2020 13:38:02] "GET / HTTP/1.1" 200 13454
+
+2020-04-01 13:38:23 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:38:23 = WARNING - [01/Apr/2020 13:38:23] "GET / HTTP/1.1" 200 13461
+
+2020-04-01 13:39:10 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:39:10 = WARNING - [01/Apr/2020 13:39:10] "GET / HTTP/1.1" 200 13563
+
+2020-04-01 13:40:17 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:40:17 = WARNING - [01/Apr/2020 13:40:17] "GET / HTTP/1.1" 200 12444
+
+2020-04-01 13:40:52 = WARNING - [01/Apr/2020 13:40:52] "GET /administration/logout HTTP/1.1" 302 0
+
+2020-04-01 13:40:52 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:40:52 = WARNING - [01/Apr/2020 13:40:52] "GET / HTTP/1.1" 200 12028
+
+2020-04-01 13:44:22 = WARNING - [01/Apr/2020 13:44:22] "GET /STATIC_URL/csss_static/bulma.css.map HTTP/1.1" 404 1707
+
+2020-04-01 13:46:26 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:46:26 = WARNING - [01/Apr/2020 13:46:26] "GET / HTTP/1.1" 200 12028
+
+2020-04-01 13:46:26 = WARNING - [01/Apr/2020 13:46:26] "GET /STATIC_URL/csss_static/new_style.css HTTP/1.1" 200 229963
+
+2020-04-01 13:46:26 = WARNING - [01/Apr/2020 13:46:26] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 200 20211
+
+2020-04-01 13:46:26 = WARNING - [01/Apr/2020 13:46:26] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 200 606863
+
+2020-04-01 13:46:27 = WARNING - Not Found: /favicon.ico
+
+2020-04-01 13:46:27 = WARNING - [01/Apr/2020 13:46:27] "GET /favicon.ico HTTP/1.1" 404 3123
+
+2020-04-01 13:46:57 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:46:57 = WARNING - [01/Apr/2020 13:46:57] "GET /?p=2 HTTP/1.1" 200 9676
+
+2020-04-01 13:48:15 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:48:15 = WARNING - [01/Apr/2020 13:48:15] "GET / HTTP/1.1" 200 12028
+
+2020-04-01 13:48:29 = WARNING - [01/Apr/2020 13:48:29] "GET /about/who_we_are HTTP/1.1" 200 9489
+
+2020-04-01 13:49:06 = WARNING - [01/Apr/2020 13:49:06] "GET /about/who_we_are HTTP/1.1" 200 11452
+
+2020-04-01 13:50:31 = WARNING - [01/Apr/2020 13:50:31] "GET /about/who_we_are HTTP/1.1" 200 11629
+
+2020-04-01 13:50:53 = WARNING - [01/Apr/2020 13:50:53] "GET /about/list_of_officers HTTP/1.1" 200 9020
+
+2020-04-01 13:51:03 = WARNING - [01/Apr/2020 13:51:03] "GET /admin/ HTTP/1.1" 302 0
+
+2020-04-01 13:51:03 = WARNING - [01/Apr/2020 13:51:03] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1836
+
+2020-04-01 13:51:03 = WARNING - [01/Apr/2020 13:51:03] "GET /STATIC_URL/admin/css/login.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:03 = WARNING - [01/Apr/2020 13:51:03] "GET /STATIC_URL/admin/css/base.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:03 = WARNING - [01/Apr/2020 13:51:03] "GET /STATIC_URL/admin/css/responsive.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:04 = WARNING - [01/Apr/2020 13:51:04] "GET /admin/ HTTP/1.1" 302 0
+
+2020-04-01 13:51:04 = WARNING - [01/Apr/2020 13:51:04] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1836
+
+2020-04-01 13:51:04 = WARNING - [01/Apr/2020 13:51:04] "GET /STATIC_URL/admin/css/fonts.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:04 = WARNING - [01/Apr/2020 13:51:04] "GET /STATIC_URL/admin/fonts/Roboto-Regular-webfont.woff HTTP/1.1" 200 85876
+
+2020-04-01 13:51:04 = WARNING - [01/Apr/2020 13:51:04] "GET /STATIC_URL/admin/fonts/Roboto-Light-webfont.woff HTTP/1.1" 200 85692
+
+2020-04-01 13:51:14 = WARNING - [01/Apr/2020 13:51:14] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+
+2020-04-01 13:51:14 = WARNING - [01/Apr/2020 13:51:14] "GET /admin/ HTTP/1.1" 200 16995
+
+2020-04-01 13:51:14 = WARNING - [01/Apr/2020 13:51:14] "GET /STATIC_URL/admin/css/dashboard.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:14 = WARNING - [01/Apr/2020 13:51:14] "GET /STATIC_URL/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+
+2020-04-01 13:51:14 = WARNING - [01/Apr/2020 13:51:14] "GET /STATIC_URL/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+
+2020-04-01 13:51:14 = WARNING - [01/Apr/2020 13:51:14] "GET /STATIC_URL/admin/fonts/Roboto-Bold-webfont.woff HTTP/1.1" 200 86184
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /admin/about/officer/ HTTP/1.1" 200 3220
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/css/changelists.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 271817
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/urlify.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/core.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/actions.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/jquery.init.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/prepopulate.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 200 128820
+
+2020-04-01 13:51:20 = WARNING - [01/Apr/2020 13:51:20] "GET /STATIC_URL/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+
+2020-04-01 13:51:22 = WARNING - [01/Apr/2020 13:51:22] "GET /admin/about/officer/add/ HTTP/1.1" 200 11378
+
+2020-04-01 13:51:22 = WARNING - [01/Apr/2020 13:51:22] "GET /STATIC_URL/admin/css/forms.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:22 = WARNING - [01/Apr/2020 13:51:22] "GET /STATIC_URL/admin/js/change_form.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:22 = WARNING - [01/Apr/2020 13:51:22] "GET /STATIC_URL/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+
+2020-04-01 13:51:22 = WARNING - [01/Apr/2020 13:51:22] "GET /STATIC_URL/admin/css/widgets.css HTTP/1.1" 304 0
+
+2020-04-01 13:51:22 = WARNING - [01/Apr/2020 13:51:22] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 13:53:37 = WARNING - [01/Apr/2020 13:53:37] "GET /admin/about/term/add/?_to_field=term&_popup=1 HTTP/1.1" 200 6342
+
+2020-04-01 13:53:37 = WARNING - [01/Apr/2020 13:53:37] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 13:53:48 = WARNING - [01/Apr/2020 13:53:48] "POST /admin/about/term/add/?_to_field=term&_popup=1 HTTP/1.1" 200 371
+
+2020-04-01 13:53:48 = WARNING - [01/Apr/2020 13:53:48] "GET /STATIC_URL/admin/js/popup_response.js HTTP/1.1" 200 569
+
+2020-04-01 13:54:29 = WARNING - [01/Apr/2020 13:54:29] "POST /admin/about/officer/add/ HTTP/1.1" 200 11689
+
+2020-04-01 13:54:29 = WARNING - [01/Apr/2020 13:54:29] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 13:54:37 = WARNING - [01/Apr/2020 13:54:37] "POST /admin/about/officer/add/ HTTP/1.1" 302 0
+
+2020-04-01 13:54:37 = WARNING - [01/Apr/2020 13:54:37] "GET /admin/about/officer/ HTTP/1.1" 200 6863
+
+2020-04-01 13:54:37 = WARNING - [01/Apr/2020 13:54:37] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 13:54:37 = WARNING - [01/Apr/2020 13:54:37] "GET /STATIC_URL/admin/img/icon-yes.svg HTTP/1.1" 304 0
+
+2020-04-01 13:54:44 = WARNING - [01/Apr/2020 13:54:44] "GET /about/list_of_officers HTTP/1.1" 200 10974
+
+2020-04-01 13:54:44 = WARNING - [01/Apr/2020 13:54:44] "GET /STATIC_URL/csss_static/style.css HTTP/1.1" 304 0
+
+2020-04-01 13:54:44 = WARNING - [01/Apr/2020 13:54:44] "GET /STATIC_URL/https%3A/imgur.com/RRyVWi7 HTTP/1.1" 404 1704
+
+2020-04-01 13:54:44 = WARNING - [01/Apr/2020 13:54:44] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 304 0
+
+2020-04-01 13:54:52 = WARNING - [01/Apr/2020 13:54:52] "GET /about/list_of_officers HTTP/1.1" 200 10974
+
+2020-04-01 13:54:52 = WARNING - [01/Apr/2020 13:54:52] "GET /STATIC_URL/https%3A/imgur.com/RRyVWi7 HTTP/1.1" 404 1704
+
+2020-04-01 13:56:11 = WARNING - [01/Apr/2020 13:56:11] "GET /about/list_of_officers HTTP/1.1" 200 10974
+
+2020-04-01 13:56:11 = WARNING - [01/Apr/2020 13:56:11] "GET /STATIC_URL/https%3A/imgur.com/RRyVWi7 HTTP/1.1" 404 1704
+
+2020-04-01 13:56:12 = WARNING - [01/Apr/2020 13:56:12] "GET /about/list_of_officers HTTP/1.1" 200 10974
+
+2020-04-01 13:56:12 = WARNING - [01/Apr/2020 13:56:12] "GET /STATIC_URL/https%3A/imgur.com/RRyVWi7 HTTP/1.1" 404 1704
+
+2020-04-01 13:56:20 = WARNING - [01/Apr/2020 13:56:20] "GET /about/who_we_are HTTP/1.1" 200 12045
+
+2020-04-01 13:56:29 = WARNING - [01/Apr/2020 13:56:29] "GET /about/list_of_officers HTTP/1.1" 200 10974
+
+2020-04-01 13:56:29 = WARNING - [01/Apr/2020 13:56:29] "GET /STATIC_URL/https%3A/imgur.com/RRyVWi7 HTTP/1.1" 404 1704
+
+2020-04-01 13:56:48 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 13:56:48 = WARNING - [01/Apr/2020 13:56:48] "GET / HTTP/1.1" 200 12444
+
+2020-04-01 13:56:57 = WARNING - [01/Apr/2020 13:56:57] "GET /about/who_we_are HTTP/1.1" 200 12045
+
+2020-04-01 13:57:13 = WARNING - [01/Apr/2020 13:57:13] "GET /about/who_we_are HTTP/1.1" 200 12045
+
+2020-04-01 13:58:03 = WARNING - [01/Apr/2020 13:58:03] "GET /about/list_of_officers HTTP/1.1" 200 10974
+
+2020-04-01 13:58:03 = WARNING - [01/Apr/2020 13:58:03] "GET /STATIC_URL/https%3A/imgur.com/RRyVWi7 HTTP/1.1" 404 1704
+
+2020-04-01 14:03:56 = WARNING - [01/Apr/2020 14:03:56] "GET /admin/about/officer/1/change/ HTTP/1.1" 200 11790
+
+2020-04-01 14:03:56 = WARNING - [01/Apr/2020 14:03:56] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 14:05:32 = WARNING - /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/about/views.py changed, reloading.
+

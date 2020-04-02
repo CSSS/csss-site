@@ -1,0 +1,74 @@
+2020-04-01 14:27:21 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 14:27:21 = INFO - [settings.py] DEBUG set to True
+2020-04-01 14:27:21 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 14:27:21 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 14:27:21 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 14:27:21 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 14:27:21 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 14:27:21 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 14:27:21 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 14:27:21 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 14:27:21 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 14:27:21 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 14:27:21 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 14:27:21 = INFO - [settings.py] DEBUG set to True
+2020-04-01 14:27:21 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 14:27:21 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 14:27:21 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 14:27:21 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 14:27:21 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 14:27:21 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 14:27:21 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 14:27:21 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 14:27:21 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 14:27:21 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 14:27:22 = WARNING - Watching for file changes with StatReloader
+
+2020-04-01 14:27:22 = INFO - Performing system checks...
+
+
+2020-04-01 14:27:22 = INFO - System check identified no issues (0 silenced).
+
+2020-04-01 14:27:22 = INFO - April 01, 2020 - 14:27:22
+
+2020-04-01 14:27:22 = INFO - Django version 2.2.10, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-04-01 14:27:24 = WARNING - [01/Apr/2020 14:27:24] "GET /about/list_of_officers HTTP/1.1" 200 12505
+
+2020-04-01 14:27:24 = WARNING - [01/Apr/2020 14:27:24] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 200 4343
+
+2020-04-01 14:27:28 = WARNING - [01/Apr/2020 14:27:28] "GET /about/who_we_are HTTP/1.1" 200 12010
+
+2020-04-01 14:27:31 = WARNING - [01/Apr/2020 14:27:31] "GET /about/list_of_officers HTTP/1.1" 200 12505
+
+2020-04-01 14:42:21 = WARNING - [01/Apr/2020 14:42:21] "GET /about/list_of_officers HTTP/1.1" 200 12481
+
+2020-04-01 14:42:21 = WARNING - [01/Apr/2020 14:42:21] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 304 0
+
+2020-04-01 14:42:21 = WARNING - [01/Apr/2020 14:42:21] "GET /STATIC_URL/csss_static/sfu_hero_image.jpg HTTP/1.1" 304 0
+
+2020-04-01 14:49:34 = WARNING - [01/Apr/2020 14:49:34] "GET /about/list_of_officers HTTP/1.1" 200 12481
+
+2020-04-01 14:49:34 = WARNING - [01/Apr/2020 14:49:34] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 304 0
+
+2020-04-01 14:59:18 = WARNING - [01/Apr/2020 14:59:18] "GET /about/list_of_officers HTTP/1.1" 200 12471
+
+2020-04-01 14:59:18 = WARNING - [01/Apr/2020 14:59:18] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 304 0
+
+2020-04-01 14:59:19 = WARNING - [01/Apr/2020 14:59:19] "GET /about/list_of_officers HTTP/1.1" 200 12471
+
+2020-04-01 15:00:19 = WARNING - [01/Apr/2020 15:00:19] "GET /about/list_of_officers HTTP/1.1" 200 12491
+
+2020-04-01 15:05:03 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 15:05:03 = WARNING - [01/Apr/2020 15:05:03] "GET / HTTP/1.1" 200 12444
+
+2020-04-01 15:05:21 = WARNING - [01/Apr/2020 15:05:21] "GET /about/list_of_officers HTTP/1.1" 200 12498
+
+2020-04-01 15:05:21 = WARNING - [01/Apr/2020 15:05:21] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 304 0
+
+2020-04-01 15:05:50 = WARNING - [01/Apr/2020 15:05:50] "GET /about/list_of_officers HTTP/1.1" 200 12511
+
+2020-04-01 15:06:03 = WARNING - [01/Apr/2020 15:06:03] "GET /about/list_of_officers HTTP/1.1" 200 12498
+

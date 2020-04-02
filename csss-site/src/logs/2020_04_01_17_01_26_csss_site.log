@@ -1,0 +1,53 @@
+2020-04-01 17:01:26 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 17:01:26 = INFO - [settings.py] DEBUG set to True
+2020-04-01 17:01:26 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 17:01:26 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 17:01:26 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 17:01:26 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 17:01:26 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 17:01:26 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 17:01:26 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 17:01:26 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 17:01:26 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 17:01:26 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 17:01:26 = WARNING - Watching for file changes with StatReloader
+
+2020-04-01 17:01:26 = WARNING - Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/threading.py", line 926, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.7/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/utils/autoreload.py", line 54, in wrapper
+    fn(*args, **kwargs)
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/core/management/commands/runserver.py", line 109, in inner_run
+    autoreload.raise_last_exception()
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/utils/autoreload.py", line 77, in raise_last_exception
+    raise _exception[1]
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/core/management/__init__.py", line 337, in execute
+    autoreload.check_errors(django.setup)()
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/utils/autoreload.py", line 54, in wrapper
+    fn(*args, **kwargs)
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/apps/registry.py", line 114, in populate
+    app_config.import_models()
+  File "/home/ryan/.local/lib/python3.7/site-packages/django/apps/config.py", line 211, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 724, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 860, in get_code
+  File "<frozen importlib._bootstrap_external>", line 791, in source_to_code
+  File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+  File "/home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/documents/models.py", line 118
+    blank=True
+        ^
+SyntaxError: invalid syntax
+
+2020-04-01 17:01:34 = WARNING - /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/documents/models.py changed, reloading.
+

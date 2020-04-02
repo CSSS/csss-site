@@ -1,0 +1,7 @@
+BASE_DIR='<folder that contains csss-site repo>'
+SECRET_KEY='https://miniwebtool.com/django-secret-key-generator/'
+DEBUG='true'
+HOST_ADDRESS='<serverIP>>'
+DB_TYPE='<sqlite3 or postgres>'
+DB_PASSWORD='test_password'
+DB_PORT='5432'

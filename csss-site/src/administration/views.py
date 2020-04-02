@@ -8,6 +8,7 @@ logger = logging.getLogger('csss_site')
 
 def login(request):
     logger.info(f"[administration/views.py login()] request.POST={request.POST}")
+    #print("From login, request.post", request.POST)
     if 'username' in request.POST and 'password' in request.POST:
         username = request.POST['username']
         password = request.POST['password']

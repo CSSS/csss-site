@@ -35,6 +35,7 @@ def list_of_officers(request):
         term_active += 2
     else:
         term_active += 3
+    print(term_active)
     terms = Term.objects.all().order_by('-term_number')
     context = {
         'tab': 'about',
@@ -168,3 +169,4 @@ def bad_passphrase(request):
         'Username': request.user.username
     }
     return render(request, 'about/bad_passphrase.html', context)
+

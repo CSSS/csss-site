@@ -1,0 +1,181 @@
+2020-04-01 15:07:14 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 15:07:14 = INFO - [settings.py] DEBUG set to True
+2020-04-01 15:07:14 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 15:07:14 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 15:07:14 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 15:07:14 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 15:07:14 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 15:07:14 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 15:07:14 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 15:07:14 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 15:07:14 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 15:07:14 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 15:07:14 = INFO - [settings.py] BASE_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src
+2020-04-01 15:07:14 = INFO - [settings.py] DEBUG set to True
+2020-04-01 15:07:14 = INFO - [settings.py] HOST_ADDRESS set to *
+2020-04-01 15:07:14 = INFO - [settings.py] ALLOWED_HOSTS set to ['*']
+2020-04-01 15:07:14 = INFO - [settings.py] ROOT_DIR set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site
+2020-04-01 15:07:14 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-04-01 15:07:14 = INFO - [settings.py] STATIC_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/static_root/
+2020-04-01 15:07:14 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-04-01 15:07:14 = INFO - [settings.py] MEDIA_ROOT set to /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/media_root/
+2020-04-01 15:07:14 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-04-01 15:07:14 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-04-01 15:07:14 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-04-01 15:07:14 = WARNING - Watching for file changes with StatReloader
+
+2020-04-01 15:07:14 = INFO - Performing system checks...
+
+
+2020-04-01 15:07:14 = INFO - System check identified no issues (0 silenced).
+
+2020-04-01 15:07:14 = INFO - April 01, 2020 - 15:07:14
+
+2020-04-01 15:07:14 = INFO - Django version 2.2.10, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-04-01 15:07:17 = WARNING - [01/Apr/2020 15:07:17] "GET /about/list_of_officers HTTP/1.1" 200 12719
+
+2020-04-01 15:08:25 = WARNING - [01/Apr/2020 15:08:25] "GET /about/list_of_officers HTTP/1.1" 200 12718
+
+2020-04-01 15:10:07 = WARNING - [01/Apr/2020 15:10:07] "GET /about/list_of_officers HTTP/1.1" 200 12791
+
+2020-04-01 15:10:36 = WARNING - [01/Apr/2020 15:10:36] "GET /about/list_of_officers HTTP/1.1" 200 12717
+
+2020-04-01 15:10:36 = WARNING - [01/Apr/2020 15:10:36] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 304 0
+
+2020-04-01 15:11:07 = WARNING - [01/Apr/2020 15:11:07] "GET /about/list_of_officers HTTP/1.1" 200 12730
+
+2020-04-01 15:11:22 = WARNING - [01/Apr/2020 15:11:22] "GET /about/list_of_officers HTTP/1.1" 200 12717
+
+2020-04-01 15:12:27 = WARNING - [01/Apr/2020 15:12:27] "GET /administration/logout HTTP/1.1" 302 0
+
+2020-04-01 15:12:27 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 15:12:27 = WARNING - [01/Apr/2020 15:12:27] "GET / HTTP/1.1" 200 12028
+
+2020-04-01 15:12:48 = WARNING - [01/Apr/2020 15:12:48] "GET /about/list_of_officers HTTP/1.1" 200 12301
+
+2020-04-01 15:12:55 = WARNING - [01/Apr/2020 15:12:55] "GET /about/who_we_are HTTP/1.1" 200 11594
+
+2020-04-01 15:13:13 = WARNING - [01/Apr/2020 15:13:13] "GET /about/list_of_officers HTTP/1.1" 200 12301
+
+2020-04-01 15:13:24 = WARNING - [01/Apr/2020 15:13:24] "GET /admin/ HTTP/1.1" 302 0
+
+2020-04-01 15:13:24 = WARNING - [01/Apr/2020 15:13:24] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1836
+
+2020-04-01 15:13:25 = WARNING - [01/Apr/2020 15:13:25] "GET /admin/ HTTP/1.1" 302 0
+
+2020-04-01 15:13:25 = WARNING - [01/Apr/2020 15:13:25] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 1836
+
+2020-04-01 15:13:29 = WARNING - [01/Apr/2020 15:13:29] "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+
+2020-04-01 15:13:29 = WARNING - [01/Apr/2020 15:13:29] "GET /admin/ HTTP/1.1" 200 17581
+
+2020-04-01 15:13:36 = WARNING - [01/Apr/2020 15:13:36] "GET /admin/about/term/Fall/change/ HTTP/1.1" 200 7500
+
+2020-04-01 15:13:36 = WARNING - [01/Apr/2020 15:13:36] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:13:43 = WARNING - [01/Apr/2020 15:13:43] "POST /admin/about/term/Fall/change/ HTTP/1.1" 302 0
+
+2020-04-01 15:13:43 = WARNING - [01/Apr/2020 15:13:43] "GET /admin/about/term/add/ HTTP/1.1" 200 7497
+
+2020-04-01 15:13:43 = WARNING - [01/Apr/2020 15:13:43] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:13:56 = WARNING - [01/Apr/2020 15:13:56] "POST /admin/about/term/add/ HTTP/1.1" 200 7437
+
+2020-04-01 15:13:56 = WARNING - [01/Apr/2020 15:13:56] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:09 = WARNING - [01/Apr/2020 15:14:09] "POST /admin/about/term/add/ HTTP/1.1" 200 7437
+
+2020-04-01 15:14:09 = WARNING - [01/Apr/2020 15:14:09] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:11 = WARNING - [01/Apr/2020 15:14:11] "GET /admin/ HTTP/1.1" 200 17869
+
+2020-04-01 15:14:16 = WARNING - [01/Apr/2020 15:14:16] "GET /admin/about/term/Fall/change/ HTTP/1.1" 200 7500
+
+2020-04-01 15:14:16 = WARNING - [01/Apr/2020 15:14:16] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:19 = WARNING - [01/Apr/2020 15:14:19] "GET /admin/ HTTP/1.1" 200 17869
+
+2020-04-01 15:14:27 = WARNING - [01/Apr/2020 15:14:27] "GET /admin/about/term/ HTTP/1.1" 200 4752
+
+2020-04-01 15:14:27 = WARNING - [01/Apr/2020 15:14:27] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:30 = WARNING - [01/Apr/2020 15:14:30] "GET /admin/about/term/add/ HTTP/1.1" 200 7282
+
+2020-04-01 15:14:30 = WARNING - [01/Apr/2020 15:14:30] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:35 = WARNING - [01/Apr/2020 15:14:35] "POST /admin/about/term/add/ HTTP/1.1" 200 7437
+
+2020-04-01 15:14:35 = WARNING - [01/Apr/2020 15:14:35] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:38 = WARNING - [01/Apr/2020 15:14:38] "POST /admin/about/term/add/ HTTP/1.1" 200 7437
+
+2020-04-01 15:14:38 = WARNING - [01/Apr/2020 15:14:38] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:42 = WARNING - [01/Apr/2020 15:14:42] "POST /admin/about/term/add/ HTTP/1.1" 302 0
+
+2020-04-01 15:14:43 = WARNING - [01/Apr/2020 15:14:43] "GET /admin/about/term/ HTTP/1.1" 200 5229
+
+2020-04-01 15:14:43 = WARNING - [01/Apr/2020 15:14:43] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:45 = WARNING - [01/Apr/2020 15:14:45] "GET /admin/about/term/?o=3 HTTP/1.1" 200 5360
+
+2020-04-01 15:14:45 = WARNING - [01/Apr/2020 15:14:45] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:45 = WARNING - [01/Apr/2020 15:14:45] "GET /STATIC_URL/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+
+2020-04-01 15:14:48 = WARNING - [01/Apr/2020 15:14:48] "GET /admin/about/ HTTP/1.1" 200 4284
+
+2020-04-01 15:14:54 = WARNING - [01/Apr/2020 15:14:54] "GET /admin/about/officer/ HTTP/1.1" 200 6666
+
+2020-04-01 15:14:54 = WARNING - [01/Apr/2020 15:14:54] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:14:57 = WARNING - [01/Apr/2020 15:14:57] "GET /admin/about/officer/add/ HTTP/1.1" 200 11468
+
+2020-04-01 15:14:57 = WARNING - [01/Apr/2020 15:14:57] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:16:22 = WARNING - [01/Apr/2020 15:16:22] "POST /admin/about/officer/add/ HTTP/1.1" 302 0
+
+2020-04-01 15:16:22 = WARNING - [01/Apr/2020 15:16:22] "GET /admin/about/officer/ HTTP/1.1" 200 7552
+
+2020-04-01 15:16:22 = WARNING - [01/Apr/2020 15:16:22] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:16:32 = INFO - [csss/views.py index()] sfu_emails []
+2020-04-01 15:16:32 = WARNING - [01/Apr/2020 15:16:32] "GET / HTTP/1.1" 200 12444
+
+2020-04-01 15:16:37 = WARNING - [01/Apr/2020 15:16:37] "GET /admin/ HTTP/1.1" 200 18461
+
+2020-04-01 15:16:41 = WARNING - [01/Apr/2020 15:16:41] "GET /about/list_of_officers HTTP/1.1" 200 13644
+
+2020-04-01 15:16:41 = WARNING - [01/Apr/2020 15:16:41] "GET /STATIC_URL/csss_static/images.jpg HTTP/1.1" 304 0
+
+2020-04-01 15:17:13 = WARNING - [01/Apr/2020 15:17:13] "GET /about/list_of_officers HTTP/1.1" 200 13612
+
+2020-04-01 15:17:14 = WARNING - [01/Apr/2020 15:17:14] "GET /about/list_of_officers HTTP/1.1" 200 13612
+
+2020-04-01 15:17:33 = WARNING - [01/Apr/2020 15:17:33] "GET /about/list_of_officers HTTP/1.1" 200 13648
+
+2020-04-01 15:17:40 = WARNING - [01/Apr/2020 15:17:40] "GET /admin/about/ HTTP/1.1" 200 4284
+
+2020-04-01 15:17:42 = WARNING - [01/Apr/2020 15:17:42] "GET /admin/ HTTP/1.1" 200 18461
+
+2020-04-01 15:17:52 = WARNING - [01/Apr/2020 15:17:52] "GET /admin/about/term/ HTTP/1.1" 200 5044
+
+2020-04-01 15:17:52 = WARNING - [01/Apr/2020 15:17:52] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:18:00 = WARNING - [01/Apr/2020 15:18:00] "GET /admin/about/ HTTP/1.1" 200 4284
+
+2020-04-01 15:18:02 = WARNING - [01/Apr/2020 15:18:02] "GET /admin/ HTTP/1.1" 200 18461
+
+2020-04-01 15:18:04 = WARNING - [01/Apr/2020 15:18:04] "GET /admin/about/sourcefile/ HTTP/1.1" 200 3246
+
+2020-04-01 15:18:04 = WARNING - [01/Apr/2020 15:18:04] "GET /admin/jsi18n/ HTTP/1.1" 200 3223
+
+2020-04-01 15:18:06 = WARNING - [01/Apr/2020 15:18:06] "GET /admin/ HTTP/1.1" 200 18461
+
+2020-04-01 15:18:34 = WARNING - [01/Apr/2020 15:18:34] "GET /about/list_of_officers HTTP/1.1" 200 13648
+
+2020-04-01 15:19:55 = WARNING - /home/ryan/Desktop/SFU/CSSS_Site/csss-site/csss-site/src/about/views.py changed, reloading.
+

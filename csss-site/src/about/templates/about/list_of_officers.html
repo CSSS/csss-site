@@ -1,4 +1,4 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 
 {% load static %}
 {% load staticfiles %}
@@ -16,71 +16,101 @@
 			height: auto;
 		}
 	</style>
-	<p>Please feel free to contact us anytime.</p>
-	<ul>
-		<li>General Inquires for</li>
-		<ul>
-			<li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss[at]sfu.ca">csss[at]sfu.ca</a></li>
-			<li>Only Current Execs : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
-			<li>All Current and Past Execs : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
-		</ul>
-		<li>Computing Science Office: <a href="mailto:csdept[at]sfu.ca">csdept[at]sfu.ca</a></li>
-	</ul>
-	<p>Note: If you wish to contact an Executive member directly, see their addresses as listed below.</p>
-	<p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
-	<hr>
-	<div>
-		<ul class="nav nav-tabs" role="tablist">
-			{% for term in terms %}
-				{% if term_active == term.term_number %}
-					<li role="presentation" class="active"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
-				{% else %}
-					<li role="presentation"><a href="#{{term.term}}_{{term.year}}" aria-controls="{{term.term}}_{{term.year}}" role="tab" data-toggle="tab">{{term.term}} {{term.year}}</a></li>
-				{% endif %}
-			{% endfor %}
-		</ul>
+	<body>
 
-		<!-- Tab panes -->
-		<div class="tab-content">
-			{% for term in terms %}
-				{% if term_active == term.term_number %}
-					<div role="tabpanel" class="tab-pane active" id="{{term.term}}_{{term.year}}">
-				{% else %}
-					<div role="tabpanel" class="tab-pane" id="{{term.term}}_{{term.year}}">
-				{% endif %}
-					<h1>Executives for {{term.term}} {{term.year}} Term</h1>
-					<div class="row">
-						{% for officer in officers %}
-							{% if officer.elected_term == term %}
-								<div class="col-md-4">
-									<center><img class="exec-photos" src="{% static officer.image %}"></center>
-								</div>
-								<div class="col-md-6">
-									<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
-									<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
-									<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
-									{% for email in officer.email.all %}
-										<p class="lead">Contact - <a href="{{email.email}}">{{email.email}}</a><br></p>
-									{% endfor %}
-									<div class="lead"><p>Bio -</p>
-										{% if officer.bio|safe|length > 0 %}
-						                    {{officer.bio|safe}}
-						                {% else %}
-						                    {{officer.bio|safe|linebreaks}}
-						                {% endif %}
-									 </div>
-								</div>
+		<section class="section">
+			<div class="container">
+				<div class="content" >
+					<p>Please feel free to contact us anytime.</p>
+					<ul>
+						<li>General Inquires for</li>
+						<ul>
+							<li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss[at]sfu.ca">csss[at]sfu.ca</a></li>
+							<li>Only Current Execs : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
+							<li>All Current and Past Execs : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
+						</ul>
+						<li>Computing Science Office: <a href="mailto:csdept[at]sfu.ca">csdept[at]sfu.ca</a></li>
+					</ul>
+					<p>Note: If you wish to contact an Executive member directly, see their addresses as listed below.</p>
+					<p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
+					<hr>
+					<!--Tab buttons-->
+
+					<div class="tabs" id="tabs">
+						<ul>
+							{% for term in terms %}
+								{% if term_active == term.term_number %}
+									<li data-tab="{{term.term}}_{{term.year}}" class="is-active"><a>{{term.term}} {{term.year}}</a></li>
+								{% else %}
+									<li data-tab="{{term.term}}_{{term.year}}"><a>{{term.term}} {{term.year}}</a></li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</div>
+
+					<!-- Tab panes -->
+
+					<div id="tab-content">
+						{% for term in terms %}
+							{% if term_active == term.term_number %}
+								<div data-content="{{term.term}}_{{term.year}}">
+							{% else %}
+								<div class="is-hidden" data-content="{{term.term}}_{{term.year}}">
 							{% endif %}
+									<h1 class="title">Executives for {{term.term}} {{term.year}} Term</h1>
+									<hr>
+									<div class="row">
+										{% for officer in officers %}
+											{% if officer.elected_term == term %}
+												<div class="col-md-4">
+													<center><img class="exec-photos" src="{% static 'csss_static/images.jpg' %}"></center>
+												</div>
+												<div class="col-md-6">
+													<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
+													<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
+													<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
+													{% for email in officer.email.all %}
+														<p class="lead">Contact - <a href="{{email.email}}">{{email.email}}</a><br></p>
+													{% endfor %}
+													<div class="lead"><p>Bio -</p>
+														{% if officer.bio|safe|length > 0 %}
+															{{officer.bio|safe}}
+														{% else %}
+															{{officer.bio|safe|linebreaks}}
+														{% endif %}
+													</div>
+												</div>
+											{% endif %}
+										{% endfor %}
+									</div>
+								</div>
 						{% endfor %}
 					</div>
+
+
 				</div>
-			{% endfor %}
-		</div>
-	</div>
+			</div>
+		</section>
+		<br>
+		<br>
+		<br>
+		<br>
+
+	</body>
+
 	<script type="text/javascript">
-		$('#myTabs a').click(function (e) {
-			e.preventDefault()
-			$(this).tab('show')
-		})
+		$(document).ready(function() {
+		$('#tabs li').on('click', function() {
+			var tab = $(this).data('tab');
+
+			$('#tabs li').removeClass('is-active');
+			$(this).addClass('is-active');
+
+			console.log(tab);
+
+			$('#tab-content div[data-content]').addClass('is-hidden');
+			$('div[data-content="' + tab + '"]').removeClass('is-hidden');
+		});
+		});
 	</script>
 {% endblock %}
