@@ -19,7 +19,7 @@
                     <p class="is-size-6 has-text-grey has-text-right">Posted by {{post.from_header}} on {{post.processed}}</p>
                     <div class="is-size-6">
                     {% if post.html|safe|length > 0 %}
-                        {{post.body|safe|linebreaks}}
+                        {{post.html|safe}}
                     {% else %}
                         {{post.body|safe|linebreaks}}
                     {% endif %}
