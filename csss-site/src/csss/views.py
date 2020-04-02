@@ -70,8 +70,6 @@ def index(request):
 
     groups = list(request.user.groups.values_list('name', flat=True))
 
-
-
     context = {
         'tab': 'index',
         'authenticated': request.user.is_authenticated,

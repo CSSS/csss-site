@@ -168,4 +168,3 @@ def bad_passphrase(request):
         'Username': request.user.username
     }
     return render(request, 'about/bad_passphrase.html', context)
-
