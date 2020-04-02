@@ -63,7 +63,7 @@
 										{% for officer in officers %}
 											{% if officer.elected_term == term %}
 												<div class="col-md-4">
-													<center><img class="exec-photos" src="{% static 'csss_static/images.jpg' %}"></center>
+													<center><img class="exec-photos" src="{% static officer.image %}"></center>
 												</div>
 												<div class="col-md-6">
 													<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
