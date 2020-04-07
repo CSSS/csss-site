@@ -1,0 +1,34 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+	<h1>Select Resource to update</h1>
+	<form action="/administration/resources/selected_resource" method="post">
+		{% csrf_token %}
+        Resource:<br>
+		<input type="radio" name="resource" value="gdrive" required>
+		Google Drive<br>
+		<input type="radio" name="resource" value="github" required>
+		Github<br><br>
+        <input type="radio" name="resource" value="gitlab" required>
+		Gitlab<br><br>
+        <input type="radio" name="resource" value="maillists" required>
+		Maillist<br><br>
+		<br><input type="submit" value="submit" />
+	</form>
+
+    <h1>Ensure Access is Valid on All Resources</h1>
+    <form action="/administration/resources/validate_access" method="post">
+        {% csrf_token %}
+		<input type="checkbox" name="resource" value="gdrive" required>
+		Google Drive:<br>
+		<input type="checkbox" name="resource" value="github" required>
+		Github<br>
+		<input type="checkbox" name="resource" value="maillist" required>
+        SFU Maillist<br>
+		<br><<input type="submit" value="submit" />
+    </form>
+{% endblock %}

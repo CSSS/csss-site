@@ -11,5 +11,5 @@ do
    :
    echo "migrating ${app_to_migrate}"
    python3.7 manage.py makemigrations ${app_to_migrate}
-   python3.7 manage.py migrate
+   python3.7 manage.py migrate --noinput
 done

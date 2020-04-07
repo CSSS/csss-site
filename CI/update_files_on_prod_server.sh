@@ -31,5 +31,3 @@ scp site_envs csss@sfucsss.org:/home/csss/site_envs
 scp "CI/setEnv.sh" csss@sfucsss.org:/home/csss/setEnv.sh
 
 scp CI/migrate_apps.sh csss@sfucsss.org:/home/csss/migrate_apps.sh
-
-ssh csss@sfucsss.org "/home/csss/deploy_changes.sh"

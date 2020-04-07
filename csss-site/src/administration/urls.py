@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from . import views, election_management, officer_management
+from . import views, election_management, officer_management, resource_management, gdrive_management
 
 
 urlpatterns = [
@@ -25,4 +25,34 @@ urlpatterns = [
         officer_management.create_or_update_specified_term_with_provided_json,
         name='Create Link'
     ),
+    url(
+        r'^resources/select_resources$',
+        resource_management.select_resources,
+        name="Select Resource"
+    ),
+    url(
+        r'^resources/selected_resource$',
+        resource_management.selected_resource,
+        name="Selected Resource"
+    ),
+    url(
+        r'^resources/add_users_gdrive$',
+        gdrive_management.add_users_gdrive,
+        name="Add Users to Google Drive"
+    ),
+    url(
+        r'^resources/remove_users_gdrive$',
+        gdrive_management.remove_users_gdrive,
+        name="Remove Users from Google Drive"
+    ),
+    url(
+        r'^resources/make_folder_public_gdrive$',
+        gdrive_management.make_public_link_gdrive,
+        name="Make GDrive Folder Public"
+    ),
+    url(
+        r'^resources/remove_public_link_gdrive$',
+        gdrive_management.remove_public_link_gdrive,
+        name="Remove Public GDrive Folder"
+    )
 ]

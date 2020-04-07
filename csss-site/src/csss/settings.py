@@ -43,6 +43,24 @@ if "DB_TYPE" not in os.environ:
     exit(1)
 DB_TYPE = os.environ['DB_TYPE']
 
+
+# SETTINGS FOR GOOGLE_DRIVE
+GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
+
+if 'GDRIVE_ROOT_FOLDER_ID' not in os.environ:
+    logger.error("[settings.py] GDRIVE_ROOT_FOLDER_ID was not detected")
+    exit(1)
+GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
+
+if 'CLIENT_ID_JSON_FILE' not in os.environ:
+    logger.error("[settings.py] CLIENT_ID_JSON_FILE was not detected")
+    exit(1)
+GDRIVE_CLIENT_ID_JSON_FILE = os.environ['CLIENT_ID_JSON_FILE']
+
+if 'TOKEN_LOCATION' not in os.environ:
+    logger.error("[settings.py] TOKEN_LOCATION was not detected")
+    exit(1)
+GDRIVE_FILE_ID = os.environ['TOKEN_LOCATION']
 # Application definition
 
 INSTALLED_APPS = [
