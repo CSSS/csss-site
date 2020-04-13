@@ -10,7 +10,7 @@ function install_latest_python_requirements {
 
 function setup_website_db {
   docker run --name csss_site_db -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-  ./CI/wait-for-postgres.sh 127:0:0:1:"${DB_PORT}"
+   ~/wait-for-postgres.sh 127:0:0:1:"${DB_PORT}"
 }
 
 function create_directory_for_website_logs {
