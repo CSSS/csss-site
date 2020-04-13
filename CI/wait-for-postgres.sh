@@ -6,7 +6,7 @@ set -e
 
 port="$1"
 
-until PGPASSWORD=$POSTGRES_PASSWORD psql -h localhost -p "$port" -U "postgres" -c '\q'; do
+until PGPASSWORD=$DB_PASSWORD psql -h localhost -p "$port" -U "postgres" -c '\q'; do
   >&2 echo "Postgres is unavailable - sleeping"
   sleep 1
 done
