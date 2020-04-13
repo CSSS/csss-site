@@ -10,19 +10,19 @@ pipeline {
                 sh label: '', script: """bash -c \'
                     ./csss-site/test/lineEndings.sh
                     export ENVIRONMENT=TEST;
-                    export COMPOSE_PROJECT_NAME=TEST_WEBSITE_${BRANCH_NAME};
+                    export COMPOSE_PROJECT_NAME=TEST_WEBSITE_"${BRANCH_NAME}";
 
                     export CONTAINER_HOME_DIR=/usr/src/app;
-                    export CONTAINER_TEST_DIR=\${CONTAINER_HOME_DIR}/tests;
-                    export CONTAINER_SRC_DIR=\${CONTAINER_HOME_DIR}/src;
+                    export CONTAINER_TEST_DIR="\${CONTAINER_HOME_DIR}"/tests;
+                    export CONTAINER_SRC_DIR="\${CONTAINER_HOME_DIR}"/src;
 
                     export LOCALHOST_SRC_DIR=${WORKSPACE}/website/src/;
                     export LOCALHOST_TEST_DIR=test_results;
                     export TEST_RESULT_FILE_NAME=all-unit-tests.xml;
-                    export LOCALHOST_TEST_DIR=${WORKSPACE}/\${LOCALHOST_TEST_DIR};
+                    export LOCALHOST_TEST_DIR=${WORKSPACE}/"\${LOCALHOST_TEST_DIR}";
 
-                    export DOCKER_TEST_IMAGE=\${COMPOSE_PROJECT_NAME}_website_pytest;
-                    export DOCKER_TEST_CONTAINER=\${COMPOSE_PROJECT_NAME}_pytest;
+                    export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
+                    export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
                     ./CI/validate-formatting.sh;
                 \'"""
             }
@@ -42,11 +42,11 @@ pipeline {
                 ) {
                     sh label: '', script: """bash -c \'
                       export BASE_DIR=/home/csss;
-                      export WEBSITE_SECRET_KEY="'"'${WEBSITE_DEV_SECRET_KEY}'"'";
+                      export WEBSITE_SECRET_KEY="${WEBSITE_DEV_SECRET_KEY}";
                       export DEBUG=false;
                       export HOST_ADDRESS=dev.sfucsss.org;
 
-                      export DB_PASSWORD="'"'${WEBSITE_DEV_DB_PASSWORD}'"'";
+                      export DB_PASSWORD="${WEBSITE_DEV_DB_PASSWORD}";
                       export STRIPE_PUBLISHABLE_KEY="${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}";
                       export STRIPE_SECRET_KEY="${WEBSITE_DEV_STRIPE_SECRET_KEY}";
                       export TARGET_SERVER="\${HOST_ADDRESS}";
@@ -71,11 +71,11 @@ pipeline {
                 ) {
                     sh label: '', script: """bash -c \'
                         export BASE_DIR=/home/csss;
-                        export WEBSITE_SECRET_KEY="'"'${WEBSITE_PROD_SECRET_KEY}'"'";
+                        export WEBSITE_SECRET_KEY="${WEBSITE_PROD_SECRET_KEY}";
                         export DEBUG=false;
                         export HOST_ADDRESS=sfucsss.org;
 
-                        export DB_PASSWORD=${WEBSITE_PROD_DB_PASSWORD};
+                        export DB_PASSWORD="${WEBSITE_PROD_DB_PASSWORD}";
                         export STRIPE_PUBLISHABLE_KEY="${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}";
                         export STRIPE_SECRET_KEY="${WEBSITE_PROD_STRIPE_SECRET_KEY}";
                         export TARGET_SERVER="\${HOST_ADDRESS}";
