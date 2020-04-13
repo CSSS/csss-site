@@ -46,7 +46,7 @@ pipeline {
                       export DEBUG=false;
                       export HOST_ADDRESS=dev.sfucsss.org;
 
-                      export DB_PASSWORD="${WEBSITE_DEV_DB_PASSWORD}";
+                      export DB_PASSWORD="'"'${WEBSITE_DEV_DB_PASSWORD}'"'";
                       export STRIPE_PUBLISHABLE_KEY="${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}";
                       export STRIPE_SECRET_KEY="${WEBSITE_DEV_STRIPE_SECRET_KEY}";
                       export TARGET_SERVER="\${HOST_ADDRESS}";
