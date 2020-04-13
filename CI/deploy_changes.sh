@@ -9,7 +9,7 @@ function install_latest_python_requirements {
 }
 
 function setup_website_db {
-  docker run --name csss_site_db -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${DB_PASSWORD} postgres:alpine || true
+  docker run --name csss_site_db -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
 }
 
 function create_directory_for_website_logs {
@@ -19,6 +19,9 @@ function create_directory_for_website_logs {
 function applying_latest_db_migrations {
   chmod +x ~/set_env.sh
   . ~/set_env.sh site_envs
+
+  setup_website_db
+
   cd csss-site/src
   chmod +x ~/migrate_apps.sh
   . ~/migrate_apps.sh || true
@@ -38,7 +41,6 @@ function updating_gunincorn {
 }
 
 install_latest_python_requirements
-setup_website_db
 create_directory_for_website_logs
 applying_latest_db_migrations
 update_static_files_location
