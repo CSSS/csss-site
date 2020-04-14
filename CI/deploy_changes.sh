@@ -3,7 +3,21 @@
 set -e -o xtrace
 
 function install_latest_python_requirements {
-  . ~/envCSSS/bin/activate
+  python3.8 -m pip install virtualenv
+  if [ -f envCSSS/bin/python ]; then
+    virtualenv_python_version=$(./envCSSS/bin/python --version)
+    if [ "${virtualenv_python_version}" != "Python 3.8.0" ]; then
+      echo "the python version on the target server is not 3.8.0"
+      echo "the system may act in unintended ways"
+      echo "exiting now"
+      exit 1
+    fi
+    . ~/envCSSS/bin/activate
+  else
+    python3.8 -m virtualenv envCSSS
+    . ~/envCSSS/bin/activate
+  fi
+
   cd ~/csss-site
   python3.8 -m pip install -r requirements.txt
 }
