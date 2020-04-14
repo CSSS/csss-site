@@ -79,7 +79,7 @@ pipeline {
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
                         export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
                         export TARGET_SERVER="\${HOST_ADDRESS}";
-                        ./CI/update_files_on_prod_server.sh;
+                        ./CI/update_files_on_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""
                 }
