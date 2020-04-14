@@ -49,6 +49,7 @@ function transfer_file_to_deploy_all_above_changes {
   scp "CI/deploy_changes.sh" csss@"${TARGET_SERVER}":/home/csss/deploy_changes.sh
 }
 
+echo "${TARGET_SERVER}"
 remove_existing_files
 transfer_source_code_and_reqs
 transfer_env_variables_to_server
