@@ -12,10 +12,10 @@ function remove_existing_files {
   ssh csss@"${TARGET_SERVER}" "rm /home/csss/deploy_changes.sh" || true
   ssh csss@"${TARGET_SERVER}" "rm /home/csss/site_envs" || true
   ssh csss@"${TARGET_SERVER}" "rm /home/csss/set_env.sh" || true
-  ssh csss@"${TARGET_SERVER}" "rm /home/csss/wait-for-postgres.sh" || true
+  ssh csss@"${TARGET_SERVER}" "rm /home/csss/migrate_apps.sh" || true
 }
 
-function copy_source_code_and_reqs {
+function transfer_source_code_and_reqs {
   # create the folder that the source code for the website will go under
   # and copy the source code to that folder
   ssh csss@"${TARGET_SERVER}" "mkdir -p /home/csss/csss-site/csss-site/src"
@@ -45,16 +45,12 @@ function transfer_file_for_automating_app_migration {
   scp CI/migrate_apps.sh csss@"${TARGET_SERVER}":/home/csss/migrate_apps.sh
 }
 
-function transfer_script_used_to_determine_when_db_is_ready_for_connection {
-  scp "CI/wait-for-postgres.sh" csss@"${TARGET_SERVER}":/home/csss/wait-for-postgres.sh
-}
-
 function transfer_file_to_deploy_all_above_changes {
   scp "CI/deploy_changes.sh" csss@"${TARGET_SERVER}":/home/csss/deploy_changes.sh
 }
 
 remove_existing_files
-copy_source_code_and_reqs
+transfer_source_code_and_reqs
 transfer_env_variables_to_server
 transfer_file_for_automating_app_migration
 transfer_script_used_to_determine_when_db_is_ready_for_connection
