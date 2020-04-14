@@ -49,7 +49,7 @@ pipeline {
                       export DB_PASSWORD="'"'${WEBSITE_DEV_DB_PASSWORD}'"'";
                       export STRIPE_PUBLISHABLE_KEY="'"'${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}'"'";
                       export STRIPE_SECRET_KEY="'"'${WEBSITE_DEV_STRIPE_SECRET_KEY}'"'";
-                      export TARGET_SERVER="'"'\${HOST_ADDRESS}'"'";
+                      export TARGET_SERVER="'"\${HOST_ADDRESS}"'";
                       ./CI/update_files_on_server.sh;
                       ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""
