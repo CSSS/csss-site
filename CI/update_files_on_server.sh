@@ -28,13 +28,13 @@ function transfer_source_code_and_reqs {
 function transfer_env_variables_to_server {
   # create the file that contains all the environment variables that
   # site needs to run
-  echo 'BASE_DIR='"'"'${BASE_DIR}'"'" > site_envs
-  echo 'WEBSITE_SECRET_KEY='"'"'${WEBSITE_SECRET_KEY}'"'" >> site_envs
-  echo 'DEBUG='"'"'${DEBUG}'"'" >> site_envs
-  echo 'HOST_ADDRESS='"'"'${HOST_ADDRESS}'"'" >> site_envs
-  echo 'DB_PASSWORD='"'"'${DB_PASSWORD}'"'" >> site_envs
-  echo 'STRIPE_PUBLISHABLE_KEY='"'"'${STRIPE_PUBLISHABLE_KEY}'"'" >> site_envs
-  echo 'STRIPE_SECRET_KEY='"'"'${STRIPE_SECRET_KEY}'"'" >> site_envs
+  echo 'BASE_DIR='"'"${BASE_DIR}"'" > site_envs
+  echo 'WEBSITE_SECRET_KEY='"'"${WEBSITE_SECRET_KEY}"'" >> site_envs
+  echo 'DEBUG='"'"${DEBUG}"'" >> site_envs
+  echo 'HOST_ADDRESS='"'"${HOST_ADDRESS}"'" >> site_envs
+  echo 'DB_PASSWORD='"'"${DB_PASSWORD}"'" >> site_envs
+  echo 'STRIPE_PUBLISHABLE_KEY='"'"${STRIPE_PUBLISHABLE_KEY}"'" >> site_envs
+  echo 'STRIPE_SECRET_KEY='"'"${STRIPE_SECRET_KEY}"'" >> site_envs
   echo 'DB_PORT='"'"'5432'"'" >> site_envs
   echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
   scp site_envs csss@"${TARGET_SERVER}":/home/csss/site_envs
