@@ -50,6 +50,7 @@ function transfer_file_to_deploy_all_above_changes {
 }
 
 echo "${TARGET_SERVER}"
+echo "${DEBUG}"
 remove_existing_files
 transfer_source_code_and_reqs
 transfer_env_variables_to_server
