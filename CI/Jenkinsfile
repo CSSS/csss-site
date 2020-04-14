@@ -71,16 +71,16 @@ pipeline {
                 ) {
                     sh label: '', script: """bash -c \'
                         export BASE_DIR=/home/csss;
-                        export WEBSITE_SECRET_KEY="${WEBSITE_PROD_SECRET_KEY}";
+                        export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
                         export DEBUG=false;
                         export HOST_ADDRESS=sfucsss.org;
 
-                        export DB_PASSWORD="${WEBSITE_PROD_DB_PASSWORD}";
-                        export STRIPE_PUBLISHABLE_KEY="${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}";
-                        export STRIPE_SECRET_KEY="${WEBSITE_PROD_STRIPE_SECRET_KEY}";
+                        export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
+                        export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
+                        export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
                         export TARGET_SERVER="\${HOST_ADDRESS}";
                         ./CI/update_files_on_prod_server.sh;
-                        # ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
+                        ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""
                 }
             }
