@@ -29,7 +29,7 @@ function transfer_env_variables_to_server {
   # create the file that contains all the environment variables that
   # site needs to run
   echo "BASE_DIR=\"${BASE_DIR}\"" > site_envs
-  echo "WEBSITE_SECRET_KEY=\"${WEBSITE_SECRET_KEY}\"" >> site_envs
+  echo 'WEBSITE_SECRET_KEY='"'"${WEBSITE_SECRET_KEY}"'"'' >> site_envs
   echo "DEBUG=\"${DEBUG}\"" >> site_envs
   echo "HOST_ADDRESS=\"${HOST_ADDRESS}\"" >> site_envs
   echo "DB_PASSWORD=\"${DB_PASSWORD}\"" >> site_envs
