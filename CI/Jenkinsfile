@@ -51,7 +51,7 @@ pipeline {
                       export STRIPE_SECRET_KEY="${WEBSITE_DEV_STRIPE_SECRET_KEY}";
                       export TARGET_SERVER="\${HOST_ADDRESS}";
                       ./CI/update_files_on_server.sh;
-                      ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
+                      // ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""
                 }
             }
