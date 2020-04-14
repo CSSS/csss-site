@@ -8,9 +8,19 @@ function install_latest_python_requirements {
   python3.8 -m pip install -r requirements.txt
 }
 
+function wait_for_postgres_db {
+  # aquired from https://docs.docker.com/compose/startup-order/
+  until PGPASSWORD=$DB_PASSWORD psql -h localhost -p "${DB_PORT}" -U "postgres" -c '\q'; do
+    >&2 echo "Postgres is unavailable - sleeping"
+    sleep 1
+  done
+
+  >&2 echo "Postgres is up"
+}
+
 function setup_website_db {
   docker run --name csss_site_db -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-   ~/wait-for-postgres.sh "${DB_PORT}"
+  wait_for_postgres_db
 }
 
 function create_directory_for_website_logs {
