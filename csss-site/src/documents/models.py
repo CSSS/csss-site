@@ -99,26 +99,22 @@ class Media(models.Model):
     event = models.ForeignKey(
         Event,
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        null=True
     )
     album_link = models.ForeignKey(
         Album,
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        null=True
     )
     picture = models.ForeignKey(
         Picture,
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        null=True
     )
     video = models.ForeignKey(
         Video,
         on_delete=models.CASCADE,
-        null=True,
-        blank=True
+        null=True
     )
 
     name = models.CharField(
