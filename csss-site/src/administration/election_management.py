@@ -177,9 +177,6 @@ def get_nomination_page_json(input_json):
     slug = f"{dt.strftime('%Y-%m-%d')}-{input_json[ELECTION_TYPE_KEY]}"
     NominationPage.objects.filter(
         slug=slug,
-        election_type=input_json[ELECTION_TYPE_KEY],
-        date=dt,
-        websurvey=input_json[ELECTION_WEBSURVEY_LINK_KEY]
     ).delete()
 
     nomination_page = NominationPage(
@@ -402,10 +399,7 @@ def get_nomination_page(request):
     )
     slug = f"{dt.strftime('%Y-%m-%d')}-{request[ELECTION_TYPE_KEY]}"
     NominationPage.objects.filter(
-        slug=slug,
-        election_type=request[ELECTION_TYPE_KEY],
-        date=dt,
-        websurvey=request[ELECTION_WEBSURVEY_LINK_KEY]
+        slug=slug
     ).delete()
 
     nomination_page = NominationPage(
