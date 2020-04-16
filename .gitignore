@@ -4,3 +4,4 @@
 /@eaDir/
 *.DS_Store*
 **/migrations/
+CI/site_envs
