@@ -15,24 +15,19 @@ logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-os.environ['WEBSITE_SECRET_KEY'] = '12345'
 if 'WEBSITE_SECRET_KEY' not in os.environ:
     logger.error("[settings.py] NO WEBSITE_SECRET_KEY was detected")
     exit(1)
 
 SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
-os.environ['DEBUG'] = 'true'
 if "DEBUG" not in os.environ:
     logger.error("[settings.py] DEBUG was not detected")
     exit(1)
 DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
-os.environ['HOST_ADDRESS'] = '*'
 if "HOST_ADDRESS" not in os.environ:
     logger.error("[settings.py] HOST_ADDRESS was not detected")
     exit(1)
@@ -43,7 +38,6 @@ logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
 
-os.environ['DB_TYPE'] = 'sqlite3'
 if "DB_TYPE" not in os.environ:
     logger.error("[settings.py] DB_TYPE is not detected")
     exit(1)
