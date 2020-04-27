@@ -50,12 +50,6 @@ function transfer_file_for_automating_app_migration {
   scp CI/migrate_apps.sh csss@"${HOST_ADDRESS}":"${BASE_DIR}/migrate_apps.sh"
 }
 
-function transfer_nginx_configuration_script {
-  if [ "${BRANCH_NAME}" != "master" ]; then
-    scp CI/update_nginx_conf.sh csss@"${HOST_ADDRESS}":"${BASE_DIR}/update_nginx_conf.sh"
-  fi
-}
-
 function transfer_file_to_deploy_all_above_changes {
   scp "CI/deploy_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
 }
@@ -64,5 +58,4 @@ remove_existing_files
 transfer_source_code_and_reqs
 transfer_env_variables_to_server
 transfer_file_for_automating_app_migration
-transfer_nginx_configuration_script
 transfer_file_to_deploy_all_above_changes
