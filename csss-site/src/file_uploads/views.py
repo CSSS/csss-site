@@ -3,6 +3,7 @@
 from django.shortcuts import render
 from django.views import generic
 from django.urls import reverse
+from django.conf import settings
 
 from . import forms
 
@@ -27,7 +28,7 @@ def success(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'file_uploads/success.html', context)
 
