@@ -43,9 +43,9 @@ if "DB_TYPE" not in os.environ:
     exit(1)
 DB_TYPE = os.environ['DB_TYPE']
 
-URL_ROOT = ""
+URL_ROOT = "/"
 if "BRANCH_NAME" in os.environ:
-    URL_ROOT = f"/{os.environ['BRANCH_NAME']}"
+    URL_ROOT = f"/{os.environ['BRANCH_NAME']}/"
 
 # Application definition
 
