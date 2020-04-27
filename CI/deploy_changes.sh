@@ -153,7 +153,6 @@ function clean_up_after_deployment {
   rm "/home/csss/${BRANCH_NAME}/deploy_changes.sh"
   rm "/home/csss/${BRANCH_NAME}/migrate_apps.sh"
   rm "/home/csss/${BRANCH_NAME}/set_env.sh"
-  rm "/home/csss/${BRANCH_NAME}/update_nginx_conf.sh"
 
 }
 
