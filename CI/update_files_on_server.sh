@@ -5,9 +5,6 @@ set -e -o xtrace
 function remove_existing_files {
   # remove all old and replace with newer code. will make sure that the migrations are not deleted as they need to be
   # persistent through the changes
-  if [ "${BRANCH_NAME}" != "master" ]; then
-    ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/update_nginx_conf.sh" || true
-  fi
   ssh csss@"${HOST_ADDRESS}" \
       "find ${BASE_DIR}/csss-site/csss-site/src -mindepth 1 ! -regex '.*migrations.*' -delete" \
       || true
