@@ -126,6 +126,7 @@ function updating_gunincorn {
 
 function update_nginx_configuration {
   if [ "${BRANCH_NAME}" != "master" ]; then
+    cd ~/
     echo "location /${BRANCH_NAME}/STATIC_URL/ {
         autoindex on;
         alias /home/csss/${BRANCH_NAME}/static_root/;
@@ -139,8 +140,8 @@ location /${BRANCH_NAME}/MEDIA_URL/ {
 location /${BRANCH_NAME}/ {
         include proxy_params;
         proxy_pass http://unix:/home/csss/${BRANCH_NAME}/gunicorn.sock;
-}" > "${BRANCH_NAME}"
-    cat /home/csss/nginx_site_config PR_* | sudo tee /etc/nginx/sites-available/PR_sites
+}" > "branch_${BRANCH_NAME}"
+    cat /home/csss/nginx_site_config branch_* | sudo tee /etc/nginx/sites-available/PR_sites
     echo "}" | sudo tee -a /etc/nginx/sites-available/PR_sites
     sudo ln -s /etc/nginx/sites-available/PR_sites /etc/nginx/sites-enabled/ || true
     sudo nginx -t
