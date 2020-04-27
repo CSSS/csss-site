@@ -339,7 +339,8 @@ def display_selected_election_json_for_updating(request, election_id):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     return render(request, 'administration/update_election_json.html', context)
 
