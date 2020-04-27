@@ -5,6 +5,7 @@ from elections.models import NominationPage, Nominee
 import json
 import logging
 from querystring_parser import parser
+from django.conf import settings
 
 logger = logging.getLogger('csss_site')
 
@@ -41,7 +42,8 @@ def create_specified_election(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -141,7 +143,8 @@ def create_or_update_specified_election_with_provided_json(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -232,7 +235,8 @@ def select_election_to_update(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -254,7 +258,8 @@ def determine_election_action(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -301,7 +306,8 @@ def display_selected_election_for_updating(request, election_id):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     return render(request, 'administration/update_election.html', context)
 
@@ -349,7 +355,8 @@ def update_specified_election(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)

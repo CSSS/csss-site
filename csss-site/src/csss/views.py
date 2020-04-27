@@ -5,7 +5,7 @@ from about.models import AnnouncementEmailAddress
 from django_mailbox.models import Message
 import datetime
 import math
-
+from django.conf import settings
 import logging
 logger = logging.getLogger('csss_site')
 
@@ -79,7 +79,8 @@ def index(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
 
     return render(request, 'announcements/announcements.html', context)

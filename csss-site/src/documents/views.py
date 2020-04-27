@@ -2,7 +2,7 @@ from django.shortcuts import render
 from documents.models import Media, Event, Album
 import datetime
 import math
-
+from django.conf import settings
 import logging
 logger = logging.getLogger('csss_site')
 
@@ -15,7 +15,8 @@ def index(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     return render(request, 'documents/constitution.html', context)
 
@@ -28,7 +29,8 @@ def policies(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     return render(request, 'documents/policies.html', context)
 
@@ -45,7 +47,8 @@ def events(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     return render(request, 'documents/events.html', context)
 
@@ -101,6 +104,7 @@ def album(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': "/"+settings.URL_ROOT
     }
     return render(request, 'documents/album.html', context)
