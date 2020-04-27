@@ -16,5 +16,5 @@ urlpatterns = [
     url(r'^'+settings.URL_ROOT+'announcements/', include('announcements.urls')),
     url(r'^'+settings.URL_ROOT+'elections/', include('elections.urls')),
     url(r'^'+settings.URL_ROOT+'administration/', include('administration.urls')),
-    url(r'^$', views.index, name="index"),
+    url(r'^'+settings.URL_ROOT+'$', views.index, name="index"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
