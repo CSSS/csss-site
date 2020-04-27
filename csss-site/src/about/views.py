@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from about.models import Term, Officer, AnnouncementEmailAddress
 from administration.models import OfficerUpdatePassphrase
-
+from django.conf import settings
 from querystring_parser import parser
 import datetime
 from django.http import HttpResponseRedirect
@@ -9,7 +9,7 @@ from io import StringIO
 import csv
 import logging
 logger = logging.getLogger('csss_site')
-from django.conf import settings
+
 
 def index(request):
     groups = list(request.user.groups.values_list('name', flat=True))

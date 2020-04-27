@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.conf import settings
 
+
 def software(request):
     groups = list(request.user.groups.values_list('name', flat=True))
     context = {
