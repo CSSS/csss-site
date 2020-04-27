@@ -27,7 +27,7 @@ def get_nominees(request, slug):
             'ElectionOfficer': ('ElectionOfficer' in groups),
             'Staff': request.user.is_staff,
             'Username': request.user.username,
-            'URL_ROOT': "/"+settings.URL_ROOT
+            'URL_ROOT': settings.URL_ROOT
         }
         return render(request, 'elections/nominee_list.html', context)
     else:
@@ -40,6 +40,6 @@ def get_nominees(request, slug):
             'ElectionOfficer': ('ElectionOfficer' in groups),
             'Staff': request.user.is_staff,
             'Username': request.user.username,
-            'URL_ROOT': "/"+settings.URL_ROOT
+            'URL_ROOT': settings.URL_ROOT
         }
         return render(request, 'elections/nominee_list.html', context)

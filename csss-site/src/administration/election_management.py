@@ -43,7 +43,7 @@ def create_specified_election(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -144,7 +144,7 @@ def create_or_update_specified_election_with_provided_json(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -236,7 +236,7 @@ def select_election_to_update(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -259,7 +259,7 @@ def determine_election_action(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -307,7 +307,7 @@ def display_selected_election_for_updating(request, election_id):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'administration/update_election.html', context)
 
@@ -340,7 +340,7 @@ def display_selected_election_json_for_updating(request, election_id):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'administration/update_election_json.html', context)
 
@@ -357,7 +357,7 @@ def update_specified_election(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)

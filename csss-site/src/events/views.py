@@ -11,7 +11,7 @@ def index(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/calendar.html', context)
 
@@ -25,7 +25,7 @@ def gm(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/gm.html', context)
 
@@ -39,7 +39,7 @@ def board_games(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/board_games.html', context)
 
@@ -53,7 +53,7 @@ def frosh_week(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/frosh_week.html', context)
 
@@ -67,7 +67,7 @@ def mountain_madness2020(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/mountain_madness2020.html', context)
 

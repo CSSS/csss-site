@@ -20,7 +20,7 @@ def index(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'about/who_we_are.html', context)
 
@@ -47,7 +47,7 @@ def list_of_officers(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'about/list_of_officers.html', context)
 
@@ -80,7 +80,7 @@ def input_exec_info(request):
             context.update({'ElectionOfficer': ('ElectionOfficer' in groups)}),
             context.update({'Staff': request.user.is_staff})
             context.update({'Username': request.user.username})
-            context.update({'URL_ROOT': "/"+settings.URL_ROOT})
+            context.update({'URL_ROOT': settings.URL_ROOT})
             context.update({'passphrase': passphrase[0].passphrase})
             for key in term_context:
                 context.update({key: term_context[key]})
@@ -169,6 +169,6 @@ def bad_passphrase(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'about/bad_passphrase.html', context)

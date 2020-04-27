@@ -16,7 +16,7 @@ def index(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'documents/constitution.html', context)
 
@@ -30,7 +30,7 @@ def policies(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'documents/policies.html', context)
 
@@ -48,7 +48,7 @@ def events(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'documents/events.html', context)
 
@@ -105,6 +105,6 @@ def album(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'documents/album.html', context)

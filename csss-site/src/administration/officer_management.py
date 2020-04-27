@@ -29,7 +29,7 @@ def create_link(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -102,7 +102,7 @@ def show_create_link_page(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -122,7 +122,7 @@ def create_or_update_specified_term_with_provided_json(request):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'URL_ROOT': "/"+settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
