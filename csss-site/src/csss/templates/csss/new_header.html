@@ -1,0 +1,322 @@
+{% load nav_tags %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SFU CSSS</title>
+		{% load staticfiles %}
+		<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link rel="stylesheet" href="{% static 'csss_static/bulma.css' %}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+
+	</head>
+<nav class="navbar is-dark is-fixed-top" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+        <img src="{% static 'csss_static/logo.png' %}" width="30" height="30">
+      </a>
+
+    </div>
+  
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+
+
+    <div id="navbarBasicExample" class="navbar-menu">
+      <div class="navbar-start">
+
+        <!--About-->
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          {% if tab == 'about' %}
+          <a class="navbar-link is-active">
+            About
+          </a>   
+          {% else %}
+          <a class="navbar-link">
+            About
+          </a>        
+          {% endif %}
+          <div class="navbar-dropdown">
+            <a href="/about/who_we_are" class="navbar-item">
+              Who We Are
+            </a>
+            <a href="/about/list_of_officers" class="navbar-item">
+              List of Officers
+            </a>
+          </div>
+        </div>
+
+        <!--Documents-->
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          {% if tab == 'documents' %}
+          <a class="navbar-link is-active">
+            Documents
+          </a>   
+          {% else %}
+          <a class="navbar-link">
+            Documents
+          </a>        
+          {% endif %}
+          <div class="navbar-dropdown">
+            <a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2019.pdf">CSSS Constitution</a>
+            <a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/blob/master/policies/Policies_2017_February.pdf">CSSS Policies</a>
+            <a target="_blank" class="navbar-item" href="http://sfss.ca/about/documents/">SFSS Documents</a>
+            <a href="/documents/photo_gallery" class="navbar-item" >Photo Galleries</a>
+            <a href='/documents/file_uploading/multiple' class="navbar-item">Upload Photo/Videos from CSSS Events</a>
+          </div>
+        </div>
+
+        <!--Events-->
+
+        <div id="events" class="navbar-item has-dropdown is-hoverable">
+          {% if tab == 'events' %}
+          <a class="navbar-link is-active">
+            Events
+          </a>   
+          {% else %}
+          <a class="navbar-link">
+            Events
+          </a>        
+          {% endif %}
+          <div class="navbar-dropdown">
+            <a href="/events/" class="navbar-item">Calendar</a>            
+            <a href="/events/general_meetings" class="navbar-item">What are General Meetings?</a>            
+            <a href="/events/board_games" class="navbar-item">What are Board Games Night?</a>            
+            <a target="_blank" href='http://sfucsss.org/frosh/' class="navbar-item">CSSS FroshWeek</a>            
+            <a href="/events/mountain_madness2020" class="navbar-item">Mountain Madness 2020</a>          
+          </div>
+        </div>
+  
+        <!--Elections-->
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          {% if tab == 'elections' %}
+          <a class="navbar-link is-active">
+            Elections
+          </a>   
+          {% else %}
+          <a class="navbar-link">
+            Elections
+          </a>        
+          {% endif %}
+          <div class="navbar-dropdown">
+            {% get_nom_pages as elections %}
+            {% for election in elections %}
+              <a href="/elections/{{election.slug}}" class="navbar-link" >{{election.slug}}</a>
+            {% endfor %}          
+          </div>
+        </div>
+
+        <!--More-->
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <div class="navbar-link">
+            More
+          </div>   
+          <div class="navbar-dropdown">
+            {% if tab == 'comp_sci_guide' %}
+            <a class="navbar-item is-active" href="/comp_sci_guide">
+              Software Guide
+            </a>   
+            {% else %}
+            <a class="navbar-item" href="/comp_sci_guide">
+              Software Guide
+            </a>        
+            {% endif %}
+
+            {% if tab == 'bursaries_and_awards' %}
+            <a class="navbar-item is-active" href="/bursaries_and_awards">
+              Bursaries and Awards
+            </a>   
+            {% else %}
+            <a class="navbar-item" href="/bursaries_and_awards">
+              Bursaries and Awards
+            </a>        
+
+            {% endif %}
+
+            <div class="navbar-item has-dropdown is-hoverable">
+
+              <div class="navbar-dropdown">
+                <div class="navbar-item">
+                  Associated Clubs and DSUs
+                </div>
+
+                <a target="_blank" class="navbar-item" href="https://www.sfu.ca/computing/wics/">&nbsp&nbsp&nbsp&nbspWiCS</a>            
+                <a target="_blank" class="navbar-item" href="http://esss.ca/">&nbsp&nbsp&nbsp&nbspESSS</a>            
+                <a target="_blank" class="navbar-item" href="https://msess.ca/index.html">&nbsp&nbsp&nbsp&nbspMechs</a>           
+                <a target="_blank"  class="navbar-item" href='https://www.facebook.com/ssss.sfu/'>&nbsp&nbsp&nbsp&nbspSSSS</a>            
+                <a target="_blank" class="navbar-item" href='http://www.sfu.ca/clubs/wie.html'>&nbsp&nbsp&nbsp&nbspWiE</a>     
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+      <!--Administration-->
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        {% if tab == 'administration' %}
+        <a class="navbar-link is-active">
+          Administration
+        </a>   
+        {% else %}
+        <a class="navbar-link">
+          Administration
+        </a>        
+        {% endif %}
+
+        <div class="navbar-dropdown">
+          {% if authenticated is True %}
+            {% if ElectionOfficer or Exec or Staff %}
+            <a href="/administration/elections/create" class="navbar-item">Election: Create Election</a>            
+            <a href="/administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
+            <a href="/administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
+            {% endif %}
+            <hr class="dropdown-divider">
+            {% if Exec or Staff %}     
+            <a href="/administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
+            {% endif %}
+            <hr class="dropdown-divider">
+            {% if Staff %}            
+            <a href="/administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Exec Creation Links</a>
+            <a href="/administration/officer/create_or_update_json" class="navbar-item">Officers: Update Execs for specific term via JSON</a>   
+            <a href="/administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
+            <a href="/administration/officer/assign_maillists" class="navbar-item">Officers: Assign maillists to officer</a>    
+            <a href="/admin" class="navbar-item">Django Admin</a>   
+            {% endif %}
+          <hr class="dropdown-divider">
+          
+          <div class="dropdown-item">
+            <p><b>Logged in as {{Username}}</b></p>
+          </div>
+
+          <div class="dropdown-item">
+            <div class="buttons">
+              <a class="button is-light" href="/administration/logout">
+                <strong>Log Out</strong>
+              </a>
+            </div>
+          </div>
+
+          {% else %}
+            <div class="dropdown-item">
+              <form action="/administration/login" method="post">
+                {% csrf_token %}
+                <div class="field">
+                  <label class="label">Username&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                  <div class="control">
+                    <input name="username" class="input" type="text" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Password&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
+                  <div class="control">
+                    <input name="password" class="input" type="password" required>
+                  </div>
+                </div>
+                <div class="field">
+                  <div class="control">
+                    <button type="submit" class="button is-light">Log In</button>
+                  </div>
+                </div> 
+              </form> 
+            </div>
+          {% endif %}
+  
+        </div>
+      </div>      
+    </div>
+
+    </div>
+  </nav>
+
+  <!--Hacky way to lower the hero so it's not covered by the fixed navbar-->
+  <p>&nbsp</p>
+  <p>&nbsp</p>
+
+<!--Hacky way to give the hero a background image-->
+  <style>
+    .bg-img { 
+        background-image: url({% static 'csss_static/sfu_hero_image.jpg' %}) ;
+        background-position: center;
+        background-repeat:  no-repeat;
+        background-attachment: fixed;
+        background-size:  cover;
+        background-color: #999;
+
+    }
+  </style>
+
+
+  <section class="hero is-light is-small bg-img">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns is-vcentered">
+          <div class="column is-one-quarter">
+            <div class="has-text-centered">
+              <figure class="image is-128x128 is-inline-block">
+                <img src="{% static 'csss_static/logo.png' %}">
+              </figure>
+            </div>
+          </div>
+          <div class="column">
+              <h1 class="title has-text-white is-size-1" style="text-shadow: 7px 6px 14px rgba(0,0,0,0.89);">
+                SFU's Computing Science Student Society
+              </h1>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  {% block content %}
+  {% endblock %}
+
+
+
+  <footer  style="position: fixed; bottom: 0; width: 100%; height: 60px; background-color: #f6f6f6;">
+    <div class="container-fluid" style='margin-left:15px'>
+              <div style="margin-top: 1em;" id="footer-links">
+                      <p><a href="mailto:csss-exec-current[at]sfu.ca" target="blank">Contact</a> | <a href="https://www.facebook.com/sfucsss/" target="blank">Facebook</a> | <a href="https://twitter.com/sfucsss" target="blank">Twitter</a> | <a href="https://www.instagram.com/sfucsss/" target="blank">Instagram</a></p>
+              </div>
+    </div>
+  </footer>
+
+</html>
+
+<script>
+$(document).ready(function() {
+
+// Check for click events on the navbar burger icon
+$(".navbar-burger").click(function() {
+
+    // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+    $(".navbar-burger").toggleClass("is-active");
+    $(".navbar-menu").toggleClass("is-active");
+
+});
+
+});
+
+</script>
+
+
+
+
+
+<!--Fork me on github image-->
+
+<a class="github-fork-ribbon is-hidden-mobile is-fixed-top" href="https://github.com/CSSS/csss-site-in-dev" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
