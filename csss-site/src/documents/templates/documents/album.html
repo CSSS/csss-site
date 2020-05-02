@@ -1,57 +1,85 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 
 {% block content %}
 {{ block.super }}
 {% load static %}
 {% load staticfiles %}
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<style>
-  /* Remove the navbar's default margin-bottom and rounded borders */
-  .navbar {
-    margin-bottom: 0;
-    border-radius: 0;
-  }
 
-  /* Add a gray background color and some padding to the footer */
-  footer {
-    background-color: #f2f2f2;
-    padding: 25px;
-  }
-  div.polaroid {
-    width: 80%;
-    background-color: white;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
+<body>
+  <section class="section">
+    <div class="container">
 
+      <nav class="pagination is-right" role="navigation" aria-label="pagination">
+        <a href="{{ previousButtonLink|safe }}" class="pagination-previous">Previous</a>
+        <a  href="{{ nextButtonLink|safe }}" class="pagination-next">Next page</a>
+      </nav> 
 
-  div.polaroid-container {
-      text-align: center;
-      padding: 10px 20px;
-  }
-</style>
+      <h1 class="title has-text-centered">{{album.date}} - {{album.name}}</h1>
 
-<a href="{{ previousButtonLink|safe }}">Previus Button</a>
-<a href="{{ nextButtonLink|safe }}">Next Button</a>
+      <div class="container-fluid bg-3 text-center">
+        <div class="tile is-ancestor">
+          {% for media in medias %}
+            {% if media.video.youtube_link == None %}
 
-<h1>{{album.date}}-{{album.name}}</h1>
-<div class="container-fluid bg-3 text-center">
-  <div class="row">
-    {% for media in medias %}
-      {% if media.video.youtube_link == None %}
-        <div class="col-sm-3">
-          <div class="polaroid">
-            <img src="{% static media.picture.static_path %}" class="img-responsive" style="width:100%" alt="Image">
-            <div class="polaroid-container">
-              <p>{{media.name}}</p>
+              <!--Generate image previews-->
+
+              <div class="tile is-parent">
+                  <div class="tile is-child">
+                    <figure class="image">                    
+                      <img id="{{ media.id }}" src="{% static media.picture.static_path %}" class="img-responsive" style="width:100%" alt="Image">
+                    </figure>
+                    <p class="subtitle">{{media.name}}</p>
+                  </div>
+              </div>
+            {% else %}
+              {{media.video.youtube_link | safe}}
+            {% endif %}
+
+            <!--Generate image modals-->
+
+            <div class="modal" data-content="{{ media.id }}">
+              <div class="modal-background"></div>
+              <div class="modal-content">
+                <p class="image">
+                  <img src="{% static media.picture.static_path %}" alt="">
+                </p>
+              </div>
+              <button class="modal-close is-large" aria-label="close"></button>
             </div>
-          </div>
+            
+          {% endfor %}
         </div>
-      {% else %}
-        {{media.video.youtube_link | safe}}
-      {% endif %}
-    {% endfor %}
-  </div>
-</div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+  <br>
+  <br>
+
+</body>
+  
+<script>
+
+$(document).ready(function() {
+$('img').on('click', function() {
+  var id = $(this).attr("id")
+  console.log(id)
+  $("div[data-content=" + id + "]").addClass('is-active');
+});
+
+$("div[class='modal-background'").click(function() {
+   $(".modal").removeClass("is-active");
+});
+
+$("button[class*='modal-close'").click(function() {
+   $(".modal").removeClass("is-active");
+});
+
+});
+
+</script>
+
 {% endblock %}
