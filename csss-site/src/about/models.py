@@ -20,13 +20,13 @@ class Term(models.Model):
         ('Fall', 'Fall'),
     )
     term = models.CharField(
-        primary_key=True,
         max_length=6,
         choices=term_choices,
         default='Fall',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
     term_number = models.IntegerField(
+        primary_key=True,
         default=0,
     )
     year = models.IntegerField(
