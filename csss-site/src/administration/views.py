@@ -24,7 +24,7 @@ def logout(request):
     dj_logout(request)
     return HttpResponseRedirect(settings.URL_ROOT)
 
+
 def db_dump(request):
     dict['about'] = {}
-
     return HttpResponseRedirect(settings.URL_ROOT)
