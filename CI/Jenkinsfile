@@ -39,7 +39,7 @@ pipeline {
                     ]
                 ) {
                       sh label: '', script: """bash -c \'
-                        export BRANCH_NAME=${CHANGE_ID};
+                        export BRANCH_NAME=${BRANCH_NAME};
                         export BASE_DIR=/home/csss/\${BRANCH_NAME};
 
                         export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";

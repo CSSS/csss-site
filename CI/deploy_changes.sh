@@ -43,7 +43,7 @@ function wait_for_postgres_db {
 function setup_website_db {
   if [ "${BRANCH_NAME}" != "master" ]; then
     docker run --name "csss_site_db_dev" -p 5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE ${DB_NAME} WITH TEMPLATE postgres OWNER postgres;" || true
+    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" WITH TEMPLATE postgres OWNER postgres;" || true
     IFS=':' read -r -a array <<< $(docker port "csss_site_db_dev")
     export DB_PORT="${array[1]}"
     echo 'DB_PORT='"'"${DB_PORT}"'" >> site_envs
