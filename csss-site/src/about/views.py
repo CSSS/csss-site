@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from about.models import Term, Officer, AnnouncementEmailAddress
 from administration.models import OfficerUpdatePassphrase
-
+from django.conf import settings
 from querystring_parser import parser
 import datetime
 from django.http import HttpResponseRedirect
@@ -19,7 +19,8 @@ def index(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'about/who_we_are.html', context)
 
@@ -45,7 +46,8 @@ def list_of_officers(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'about/list_of_officers.html', context)
 
@@ -67,10 +69,10 @@ def input_exec_info(request):
             )
             logger.info(f"[about/views.py input_exec_info()] len(passphrase) = '{len(passphrase)}'")
             if (len(passphrase) < 1):
-                return HttpResponseRedirect('/about/bad_passphrase')
+                return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
             logger.info(f"[about/views.py input_exec_info()] passphrase[0].used = '{passphrase[0].used}'")
             if (passphrase[0].used):
-                return HttpResponseRedirect('/about/bad_passphrase')
+                return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
             context = {}
             context.update({'tab': 'about'})
             context.update({'authenticated': request.user.is_authenticated})
@@ -78,6 +80,7 @@ def input_exec_info(request):
             context.update({'ElectionOfficer': ('ElectionOfficer' in groups)}),
             context.update({'Staff': request.user.is_staff})
             context.update({'Username': request.user.username})
+            context.update({'URL_ROOT': settings.URL_ROOT})
             context.update({'passphrase': passphrase[0].passphrase})
             for key in term_context:
                 context.update({key: term_context[key]})
@@ -85,9 +88,9 @@ def input_exec_info(request):
             logger.info("[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
         logger.info("[about/views.py input_exec_info()] returning '/administration/show_create_link_page'")
-        return HttpResponseRedirect('/administration/show_create_link_page')
+        return HttpResponseRedirect(f"{settings.URL_ROOT}administration/show_create_link_page")
     logger.info("[about/views.py input_exec_info()] returning the index")
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}")
 
 
 def process_exec_info(request):
@@ -107,9 +110,9 @@ def process_exec_info(request):
             passphrase=request.POST['passphrase'],
         )
         if (len(passphrase) < 1):
-            return HttpResponseRedirect('/about/bad_passphrase')
+            return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
         if (passphrase[0].used):
-            return HttpResponseRedirect('/about/bad_passphrase')
+            return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
         logger.info("[about/views.py add_exec()] passphrase is accurate")
         passphrase = passphrase[0]
         passphrase.used = True
@@ -154,7 +157,7 @@ def process_exec_info(request):
                 email=email,
                 officer=officer
             )
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}")
 
 
 def bad_passphrase(request):
@@ -165,6 +168,7 @@ def bad_passphrase(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'about/bad_passphrase.html', context)

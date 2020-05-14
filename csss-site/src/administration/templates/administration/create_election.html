@@ -6,7 +6,7 @@
 
 {% block content %}
 	<h1>Create new Election</h1>
-	<form action="/administration/elections/create" method="post">
+	<form action="{{URL_ROOT}}administration/elections/create" method="post">
 		{% csrf_token %}
 		<p>Date For Election to be publicly available: <input type="date" name="date" required> <p>
 		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>

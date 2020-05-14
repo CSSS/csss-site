@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 
 
 def index(request):
@@ -9,7 +10,8 @@ def index(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/calendar.html', context)
 
@@ -22,7 +24,8 @@ def gm(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/gm.html', context)
 
@@ -35,7 +38,8 @@ def board_games(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/board_games.html', context)
 
@@ -48,7 +52,8 @@ def frosh_week(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/frosh_week.html', context)
 
@@ -61,7 +66,8 @@ def mountain_madness2020(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     return render(request, 'events/mountain_madness2020.html', context)
 

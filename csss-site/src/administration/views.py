@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from django.http import HttpResponseRedirect
-
+from django.conf import settings
 
 import logging
 logger = logging.getLogger('csss_site')
@@ -17,9 +17,14 @@ def login(request):
             dj_login(request, user)
             logger.info("[administration/views.py login()] it was a successful login")
     logger.info("[administration/views.py login()] it was an insuccessful login")
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(settings.URL_ROOT)
 
 
 def logout(request):
     dj_logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(settings.URL_ROOT)
+
+
+def db_dump(request):
+    dict['about'] = {}
+    return HttpResponseRedirect(settings.URL_ROOT)

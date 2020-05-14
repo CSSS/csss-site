@@ -5,7 +5,7 @@
 	{% load static %}
 	{% load staticfiles %}
 
-	<form action="/about/process_exec_info" method="post">
+	<form action="{{URL_ROOT}}about/process_exec_info" method="post">
 		{% csrf_token %}
 		<input type="text" name="passphrase" value="{{passphrase}}" hidden >
 		<p>
