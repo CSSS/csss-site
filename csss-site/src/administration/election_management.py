@@ -275,18 +275,18 @@ def determine_election_action(request):
                 "[administration/views.py determine_election_action()] incorrect action detected, "
                 "returning /administration/elections/select_election"
             )
-            return HttpResponseRedirect('/administration/elections/select_election')
+            return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
     else:
         logger.info(
             "[administration/views.py determine_election_action()] action "
             "is not detected, returning /administration/elections/select_election"
         )
-        return HttpResponseRedirect('/administration/elections/select_election')
+        return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def delete_selected_election(election_id):
     NominationPage.objects.filter(slug=election_id).delete()
-    return HttpResponseRedirect('/administration/elections/select_election')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def display_selected_election_for_updating(request, election_id):
@@ -396,8 +396,8 @@ def update_specified_election(request):
                 )
                 nom.save()
 
-        return HttpResponseRedirect('/administration/elections/select_election')
-    return HttpResponseRedirect('/administration/elections/select_election')
+        return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
+    return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def get_nomination_page(request):

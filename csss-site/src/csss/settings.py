@@ -42,12 +42,26 @@ if "DB_TYPE" not in os.environ:
     logger.error("[settings.py] DB_TYPE is not detected")
     exit(1)
 DB_TYPE = os.environ['DB_TYPE']
+logger.info(f'[settings.py] DB_TYPE set to {DB_TYPE}')
 
-URL_ROOT = "/"
-URL_PATTERN = ""
+
 if "BRANCH_NAME" in os.environ:
-    URL_ROOT = f"/{os.environ['BRANCH_NAME']}/"
-    URL_PATTERN = f"{os.environ['BRANCH_NAME']}/"
+    BRANCH_NAME = os.environ['BRANCH_NAME']
+    if BRANCH_NAME != "master":
+        URL_ROOT = f"/{os.environ['BRANCH_NAME']}/"
+        URL_PATTERN = f"{os.environ['BRANCH_NAME']}/"
+    else:
+        URL_ROOT = "/"
+        URL_PATTERN = ""
+    logger.info(f'[settings.py] BASE_DIR set to {BRANCH_NAME}')
+    logger.info(f'[settings.py] BASE_DIR set to {URL_ROOT}')
+    logger.info(f'[settings.py] BASE_DIR set to {URL_PATTERN}')
+else:
+    URL_ROOT = "/"
+    URL_PATTERN = ""
+    logger.info(f'[settings.py] BASE_DIR set to {URL_ROOT}')
+    logger.info(f'[settings.py] BASE_DIR set to {URL_PATTERN}')
+
 
 # Application definition
 
@@ -134,11 +148,15 @@ elif DB_TYPE == "postgres":
         logger.error("[settings.py] DB_PORT is not detected")
         exit(1)
     DB_PORT = os.environ['DB_PORT']
+    if "DB_NAME" not in os.environ:
+        logger.error("[settings.py] DB_NAME is not detected")
+        exit(1)
+    DB_NAME = os.environ['DB_NAME']
 
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'postgres',
+            'NAME': DB_NAME,
             'USER': 'postgres',
             'PASSWORD': DB_PASSWORD,
             'HOST': '127.0.0.1',
@@ -204,7 +222,7 @@ LOGIN_REDIRECT_URL = '/products'
 ROOT_DIR = environ.Path(__file__) - 4
 logger.info(f'[settings.py] ROOT_DIR set to {ROOT_DIR}')
 
-STATIC_URL = '/STATIC_URL/'
+STATIC_URL = f"{URL_ROOT}STATIC_URL/"
 logger.info(f'[settings.py] STATIC_URL set to {STATIC_URL}')
 
 # is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/

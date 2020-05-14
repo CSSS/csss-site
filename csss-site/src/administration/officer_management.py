@@ -9,6 +9,7 @@ from about.models import Term, Officer, AnnouncementEmailAddress
 from administration.models import OfficerUpdatePassphrase
 import random
 import string
+from django.conf import settings
 
 JSON_INPUT_POST_KEY = 'input_json'
 
@@ -85,7 +86,7 @@ def create_link(request):
         context.update({'exec_links': exec_links})
         return render(request, 'administration/show_generated_officer_links.html', context)
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}")
 
 
 def show_create_link_page(request):

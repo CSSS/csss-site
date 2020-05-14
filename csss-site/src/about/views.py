@@ -8,6 +8,7 @@ from django.http import HttpResponseRedirect
 from io import StringIO
 import csv
 import logging
+from django.conf import settings
 logger = logging.getLogger('csss_site')
 
 
@@ -69,10 +70,10 @@ def input_exec_info(request):
             )
             logger.info(f"[about/views.py input_exec_info()] len(passphrase) = '{len(passphrase)}'")
             if (len(passphrase) < 1):
-                return HttpResponseRedirect('/about/bad_passphrase')
+                return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
             logger.info(f"[about/views.py input_exec_info()] passphrase[0].used = '{passphrase[0].used}'")
             if (passphrase[0].used):
-                return HttpResponseRedirect('/about/bad_passphrase')
+                return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
             context = {}
             context.update({'tab': 'about'})
             context.update({'authenticated': request.user.is_authenticated})
@@ -88,9 +89,9 @@ def input_exec_info(request):
             logger.info("[about/views.py input_exec_info()] returning 'about/add_exec.html'")
             return render(request, 'about/add_exec.html', context)
         logger.info("[about/views.py input_exec_info()] returning '/administration/show_create_link_page'")
-        return HttpResponseRedirect('/administration/show_create_link_page')
+        return HttpResponseRedirect(f"{settings.URL_ROOT}administration/show_create_link_page")
     logger.info("[about/views.py input_exec_info()] returning the index")
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}")
 
 
 def process_exec_info(request):
@@ -110,9 +111,9 @@ def process_exec_info(request):
             passphrase=request.POST['passphrase'],
         )
         if (len(passphrase) < 1):
-            return HttpResponseRedirect('/about/bad_passphrase')
+            return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
         if (passphrase[0].used):
-            return HttpResponseRedirect('/about/bad_passphrase')
+            return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
         logger.info("[about/views.py add_exec()] passphrase is accurate")
         passphrase = passphrase[0]
         passphrase.used = True
@@ -157,7 +158,7 @@ def process_exec_info(request):
                 email=email,
                 officer=officer
             )
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}")
 
 
 def bad_passphrase(request):

@@ -42,19 +42,22 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
-                    sh label: '', script: """bash -c \'
+                    if(env.CHANGE_ID){
+                      sh label: '', script: """bash -c \'
+                        export BRANCH_NAME=${BRANCH_NAME};
+                        export BASE_DIR=/home/csss/\${BRANCH_NAME};
 
-                      export BASE_DIR=/home/csss/${BRANCH_NAME};
-                      export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
-                      export DEBUG=true;
-                      export HOST_ADDRESS=dev.sfucsss.org;
+                        export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
+                        export DEBUG=true;
+                        export HOST_ADDRESS=dev.sfucsss.org;
 
-                      export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
-                      export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
-                      export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
-                      ./CI/update_files_on_server.sh;
-                      ssh csss@"\${HOST_ADDRESS}" "/home/csss/${BRANCH_NAME}/deploy_changes.sh";
-                    \'"""
+                        export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
+                        export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
+                        export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
+                        ./CI/update_files_on_server.sh;
+                        ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
+                      \'"""
+                    }
                 }
             }
         }
@@ -72,6 +75,7 @@ pipeline {
                     ]
                 ) {
                     sh label: '', script: """bash -c \'
+                        export BRANCH_NAME=${BRANCH_NAME};
                         export BASE_DIR=/home/csss;
                         export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
                         export DEBUG=false;

@@ -39,6 +39,11 @@ function transfer_env_variables_to_server {
   echo 'DB_PORT='"'"'5432'"'" >> site_envs
   echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
   echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> site_envs
+  if [ "${BRANCH_NAME}" != "master" ]; then
+    echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
+  else
+    echo 'DB_NAME='"'postgres'" >> site_envs
+  fi
   scp site_envs csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs"
   scp "CI/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }

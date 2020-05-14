@@ -42,10 +42,12 @@ function wait_for_postgres_db {
 
 function setup_website_db {
   if [ "${BRANCH_NAME}" != "master" ]; then
-    docker run --name "csss_site_db_${BRANCH_NAME}" -p 5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    IFS=':' read -r -a array <<< $(docker port "csss_site_db_${BRANCH_NAME}")
+    docker run --name "csss_site_db_dev" -p 5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
+    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE ${DB_NAME} WITH TEMPLATE postgres OWNER postgres;" || true
+    IFS=':' read -r -a array <<< $(docker port "csss_site_db_dev")
     export DB_PORT="${array[1]}"
     echo 'DB_PORT='"'"${DB_PORT}"'" >> site_envs
+
   else
     docker run --name "csss_site_db" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
   fi
@@ -63,12 +65,25 @@ function applying_latest_db_migrations {
   . "${BASE_DIR}/migrate_apps.sh" || true
 }
 
+function create_super_user {
+  echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell
+}
+
 function update_static_files_location {
   # copying static files under their root directory
   python3.8 manage.py collectstatic --noinput
 
   # removing the static files that are under the source directory
   find "${BASE_DIR}/csss-site/csss-site/src" -mindepth 1 -regex '.*static.*' -delete
+}
+
+function update_media_files {
+  if [ "${BRANCH_NAME}" != "master" ]; then
+    mkdir -p "${BASE_DIR}/media_root"
+    cp -r /home/csss/dev/media_root/mailbox_attachments "${BASE_DIR}/media_root/."
+    mkdir -p "${BASE_DIR}/static_root/documents_static"
+    ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/event-photos"
+  fi
 }
 
 function set_gunicorn_files {
@@ -127,20 +142,21 @@ function updating_gunincorn {
 function update_nginx_configuration {
   if [ "${BRANCH_NAME}" != "master" ]; then
     cd ~/
-    echo "location /${BRANCH_NAME}/STATIC_URL/ {
-        autoindex on;
-        alias /home/csss/${BRANCH_NAME}/static_root/;
-}
+    echo -e "
 
-location /${BRANCH_NAME}/MEDIA_URL/ {
-  autoindex on;
-  alias /home/csss/${BRANCH_NAME}/media_root/;
-}
+    	location /${BRANCH_NAME}/STATIC_URL/ {
+		autoindex on;
+		alias /home/csss/${BRANCH_NAME}/static_root/;
+	}
+	location /${BRANCH_NAME}/MEDIA_URL/ {
+		autoindex on;
+		alias /home/csss/${BRANCH_NAME}/media_root/;
+	}
+	location /${BRANCH_NAME}/ {
+		include proxy_params;
+		proxy_pass http://unix:/home/csss/${BRANCH_NAME}/gunicorn.sock;
 
-location /${BRANCH_NAME}/ {
-        include proxy_params;
-        proxy_pass http://unix:/home/csss/${BRANCH_NAME}/gunicorn.sock;
-}" > "branch_${BRANCH_NAME}"
+	}" > "branch_${BRANCH_NAME}"
     cat /home/csss/nginx_site_config branch_* | sudo tee /etc/nginx/sites-available/PR_sites
     echo "}" | sudo tee -a /etc/nginx/sites-available/PR_sites
     sudo ln -s /etc/nginx/sites-available/PR_sites /etc/nginx/sites-enabled/ || true
@@ -151,17 +167,25 @@ location /${BRANCH_NAME}/ {
 }
 
 function clean_up_after_deployment {
-  rm "/home/csss/${BRANCH_NAME}/deploy_changes.sh"
-  rm "/home/csss/${BRANCH_NAME}/migrate_apps.sh"
-  rm "/home/csss/${BRANCH_NAME}/set_env.sh"
-
+  if [ "${BRANCH_NAME}" != "master" ]; then
+    rm "/home/csss/${BRANCH_NAME}/deploy_changes.sh"
+    rm "/home/csss/${BRANCH_NAME}/migrate_apps.sh"
+    rm "/home/csss/${BRANCH_NAME}/set_env.sh"
+  else
+    rm "/home/csss/deploy_changes.sh"
+    rm "/home/csss/migrate_apps.sh"
+    rm "/home/csss/set_env.sh"
+  fi
 }
+
 
 go_to_root_directory
 install_latest_python_requirements
 create_directory_for_website_logs
 applying_latest_db_migrations
+# create_super_user
 update_static_files_location
+update_media_files
 set_gunicorn_files
 updating_gunincorn
 update_nginx_configuration

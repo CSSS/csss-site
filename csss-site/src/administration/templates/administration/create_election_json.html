@@ -6,7 +6,7 @@
 
 {% block content %}
 	<h1>Create new Election</h1>
-	<form action="/administration/elections/create_or_update_json" method="post">
+	<form action="{{URL_ROOT}}administration/elections/create_or_update_json" method="post">
 		{% csrf_token %}
 		<p>Instructions
 			<ul>

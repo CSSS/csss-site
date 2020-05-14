@@ -1,6 +1,11 @@
 from django.contrib.auth import authenticate, login as dj_login, logout as dj_logout
 from django.http import HttpResponseRedirect
+from django.conf import settings
 
+from about.models import Term, Officer, AnnouncementEmailAddress
+from announcements.models import Post
+from documents.models import Repo, Event, Album, Picture, Video, Media, SubCategory
+from elections.models import NominationPage, Nominee
 
 import logging
 logger = logging.getLogger('csss_site')
@@ -17,9 +22,14 @@ def login(request):
             dj_login(request, user)
             logger.info("[administration/views.py login()] it was a successful login")
     logger.info("[administration/views.py login()] it was an insuccessful login")
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(settings.URL_ROOT)
 
 
 def logout(request):
     dj_logout(request)
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(settings.URL_ROOT)
+
+def db_dump(request):
+    dict['about'] = {}
+
+    return HttpResponseRedirect(settings.URL_ROOT)
