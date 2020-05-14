@@ -28,11 +28,7 @@ pipeline {
             }
         }
         stage('Deploy to Test Server') {
-            when {
-              not {
-                branch 'master'
-              }
-            }
+            when { changeRequest target: 'master' }
             steps {
                 withCredentials(
                     [
@@ -42,7 +38,6 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
-                    if (env.CHANGE_ID) {
                       sh label: '', script: """bash -c \'
                         export BRANCH_NAME=${BRANCH_NAME};
                         export BASE_DIR=/home/csss/\${BRANCH_NAME};
@@ -57,7 +52,6 @@ pipeline {
                         ./CI/update_files_on_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
                       \'"""
-                    }
                 }
             }
         }
