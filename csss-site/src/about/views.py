@@ -8,7 +8,6 @@ from django.http import HttpResponseRedirect
 from io import StringIO
 import csv
 import logging
-from django.conf import settings
 logger = logging.getLogger('csss_site')
 
 

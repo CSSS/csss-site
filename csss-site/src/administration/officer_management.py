@@ -9,7 +9,6 @@ from about.models import Term, Officer, AnnouncementEmailAddress
 from administration.models import OfficerUpdatePassphrase
 import random
 import string
-from django.conf import settings
 
 JSON_INPUT_POST_KEY = 'input_json'
 

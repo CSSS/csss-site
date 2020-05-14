@@ -2,11 +2,6 @@ from django.contrib.auth import authenticate, login as dj_login, logout as dj_lo
 from django.http import HttpResponseRedirect
 from django.conf import settings
 
-from about.models import Term, Officer, AnnouncementEmailAddress
-from announcements.models import Post
-from documents.models import Repo, Event, Album, Picture, Video, Media, SubCategory
-from elections.models import NominationPage, Nominee
-
 import logging
 logger = logging.getLogger('csss_site')
 
