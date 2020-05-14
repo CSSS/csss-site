@@ -42,7 +42,7 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
-                    if(env.CHANGE_ID){
+                    if (env.CHANGE_ID) {
                       sh label: '', script: """bash -c \'
                         export BRANCH_NAME=${BRANCH_NAME};
                         export BASE_DIR=/home/csss/\${BRANCH_NAME};
