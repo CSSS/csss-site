@@ -6,7 +6,7 @@
 
 {% block content %}
 	<h1>Update Officers for Given Term</h1>
-	<form action="/administration/officer/create_or_update_json" method="post">
+	<form action="{{URL_ROOT}}administration/officer/create_or_update_json" method="post">
 		{% csrf_token %}
 		<p>Instructions
 			<ul>

@@ -6,7 +6,7 @@
 
 {% block content %}
 	<h1>Create Links for New Term of Officers</h1>
-	<form action="/administration/officer/create_link" method="post">
+	<form action="{{URL_ROOT}}administration/officer/create_link" method="post">
 		{% csrf_token %}
 		<p>Term:
 			<select name="term">

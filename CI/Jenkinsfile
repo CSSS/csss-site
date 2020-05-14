@@ -28,9 +28,7 @@ pipeline {
             }
         }
         stage('Deploy to Test Server') {
-            when {
-                branch 'dev'
-            }
+            when { changeRequest target: 'master' }
             steps {
                 withCredentials(
                     [
@@ -40,19 +38,20 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
-                    sh label: '', script: """bash -c \'
-                      export BASE_DIR=/home/csss;
-                      export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
-                      export DEBUG=false;
-                      export HOST_ADDRESS=dev.sfucsss.org;
+                      sh label: '', script: """bash -c \'
+                        export BRANCH_NAME=${BRANCH_NAME};
+                        export BASE_DIR=/home/csss/\${BRANCH_NAME};
 
-                      export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
-                      export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
-                      export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
-                      export TARGET_SERVER="\${HOST_ADDRESS}";
-                      ./CI/update_files_on_server.sh;
-                      ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
-                    \'"""
+                        export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
+                        export DEBUG=true;
+                        export HOST_ADDRESS=dev.sfucsss.org;
+
+                        export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
+                        export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
+                        export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
+                        ./CI/update_files_on_server.sh;
+                        ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
+                      \'"""
                 }
             }
         }
@@ -70,6 +69,7 @@ pipeline {
                     ]
                 ) {
                     sh label: '', script: """bash -c \'
+                        export BRANCH_NAME=${BRANCH_NAME};
                         export BASE_DIR=/home/csss;
                         export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
                         export DEBUG=false;
@@ -78,7 +78,6 @@ pipeline {
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
                         export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
-                        export TARGET_SERVER="\${HOST_ADDRESS}";
                         ./CI/update_files_on_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""

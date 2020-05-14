@@ -5,6 +5,7 @@ from django.shortcuts import render
 
 from .models import NominationPage, Nominee
 from datetime import datetime
+from django.conf import settings
 
 import logging
 logger = logging.getLogger('csss_site')
@@ -25,7 +26,8 @@ def get_nominees(request, slug):
             'Exec': ('Exec' in groups),
             'ElectionOfficer': ('ElectionOfficer' in groups),
             'Staff': request.user.is_staff,
-            'Username': request.user.username
+            'Username': request.user.username,
+            'URL_ROOT': settings.URL_ROOT
         }
         return render(request, 'elections/nominee_list.html', context)
     else:
@@ -37,6 +39,7 @@ def get_nominees(request, slug):
             'Exec': ('Exec' in groups),
             'ElectionOfficer': ('ElectionOfficer' in groups),
             'Staff': request.user.is_staff,
-            'Username': request.user.username
+            'Username': request.user.username,
+            'URL_ROOT': settings.URL_ROOT
         }
         return render(request, 'elections/nominee_list.html', context)

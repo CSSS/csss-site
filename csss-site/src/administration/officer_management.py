@@ -28,7 +28,8 @@ def create_link(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -84,7 +85,7 @@ def create_link(request):
         context.update({'exec_links': exec_links})
         return render(request, 'administration/show_generated_officer_links.html', context)
 
-    return HttpResponseRedirect('/')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}")
 
 
 def show_create_link_page(request):
@@ -100,7 +101,8 @@ def show_create_link_page(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
@@ -119,7 +121,8 @@ def create_or_update_specified_term_with_provided_json(request):
         'Exec': ('Exec' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
-        'Username': request.user.username
+        'Username': request.user.username,
+        'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Exec' in groups):
         return render(request, 'administration/invalid_access.html', context)
