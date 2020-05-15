@@ -17,7 +17,7 @@
 	</head>
 <nav class="navbar is-dark is-fixed-top" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <a class="navbar-item" href="/">
+      <a class="navbar-item" href="{{URL_ROOT}}">
         <img src="{% static 'csss_static/logo.png' %}" width="30" height="30">
       </a>
 
@@ -46,10 +46,10 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
-            <a href="/about/who_we_are" class="navbar-item">
+            <a href="{{URL_ROOT}}about/who_we_are" class="navbar-item">
               Who We Are
             </a>
-            <a href="/about/list_of_officers" class="navbar-item">
+            <a href="{{URL_ROOT}}about/list_of_officers" class="navbar-item">
               List of Officers
             </a>
           </div>
@@ -71,8 +71,8 @@
             <a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2019.pdf">CSSS Constitution</a>
             <a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/blob/master/policies/Policies_2017_February.pdf">CSSS Policies</a>
             <a target="_blank" class="navbar-item" href="http://sfss.ca/about/documents/">SFSS Documents</a>
-            <a href="/documents/photo_gallery" class="navbar-item" >Photo Galleries</a>
-            <a href='/documents/file_uploading/multiple' class="navbar-item">Upload Photo/Videos from CSSS Events</a>
+            <a href="{{URL_ROOT}}documents/photo_gallery" class="navbar-item" >Photo Galleries</a>
+            <a href='{{URL_ROOT}}documents/file_uploading/multiple' class="navbar-item">Upload Photo/Videos from CSSS Events</a>
           </div>
         </div>
 
@@ -89,11 +89,11 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
-            <a href="/events/" class="navbar-item">Calendar</a>            
-            <a href="/events/general_meetings" class="navbar-item">What are General Meetings?</a>            
-            <a href="/events/board_games" class="navbar-item">What are Board Games Night?</a>            
+            <a href="{{URL_ROOT}}events/" class="navbar-item">Calendar</a>            
+            <a href="{{URL_ROOT}}events/general_meetings" class="navbar-item">What are General Meetings?</a>            
+            <a href="{{URL_ROOT}}events/board_games" class="navbar-item">What are Board Games Night?</a>            
             <a target="_blank" href='http://sfucsss.org/frosh/' class="navbar-item">CSSS FroshWeek</a>            
-            <a href="/events/mountain_madness2020" class="navbar-item">Mountain Madness 2020</a>          
+            <a href="{{URL_ROOT}}events/mountain_madness2020" class="navbar-item">Mountain Madness 2020</a>          
           </div>
         </div>
   
@@ -112,7 +112,7 @@
           <div class="navbar-dropdown">
             {% get_nom_pages as elections %}
             {% for election in elections %}
-              <a href="/elections/{{election.slug}}" class="navbar-link" >{{election.slug}}</a>
+              <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-link" >{{election.slug}}</a>
             {% endfor %}          
           </div>
         </div>
@@ -125,21 +125,21 @@
           </div>   
           <div class="navbar-dropdown">
             {% if tab == 'comp_sci_guide' %}
-            <a class="navbar-item is-active" href="/comp_sci_guide">
+            <a class="navbar-item is-active" href="{{URL_ROOT}}comp_sci_guide">
               Software Guide
             </a>   
             {% else %}
-            <a class="navbar-item" href="/comp_sci_guide">
+            <a class="navbar-item" href="{{URL_ROOT}}comp_sci_guide">
               Software Guide
             </a>        
             {% endif %}
 
             {% if tab == 'bursaries_and_awards' %}
-            <a class="navbar-item is-active" href="/bursaries_and_awards">
+            <a class="navbar-item is-active" href="{{URL_ROOT}}bursaries_and_awards">
               Bursaries and Awards
             </a>   
             {% else %}
-            <a class="navbar-item" href="/bursaries_and_awards">
+            <a class="navbar-item" href="{{URL_ROOT}}bursaries_and_awards">
               Bursaries and Awards
             </a>        
 
@@ -177,21 +177,21 @@
         <div class="navbar-dropdown">
           {% if authenticated is True %}
             {% if ElectionOfficer or Exec or Staff %}
-            <a href="/administration/elections/create" class="navbar-item">Election: Create Election</a>            
-            <a href="/administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
-            <a href="/administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
+            <a href="{{URL_ROOT}}administration/elections/create" class="navbar-item">Election: Create Election</a>            
+            <a href="{{URL_ROOT}}administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
+            <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
             {% endif %}
             <hr class="dropdown-divider">
             {% if Exec or Staff %}     
-            <a href="/administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
+            <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
             {% endif %}
             <hr class="dropdown-divider">
             {% if Staff %}            
-            <a href="/administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Exec Creation Links</a>
-            <a href="/administration/officer/create_or_update_json" class="navbar-item">Officers: Update Execs for specific term via JSON</a>   
-            <a href="/administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
-            <a href="/administration/officer/assign_maillists" class="navbar-item">Officers: Assign maillists to officer</a>    
-            <a href="/admin" class="navbar-item">Django Admin</a>   
+            <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Exec Creation Links</a>
+            <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Execs for specific term via JSON</a>   
+            <a href="{{URL_ROOT}}administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
+            <a href="{{URL_ROOT}}administration/officer/assign_maillists" class="navbar-item">Officers: Assign maillists to officer</a>    
+            <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>   
             {% endif %}
           <hr class="dropdown-divider">
           
@@ -201,7 +201,7 @@
 
           <div class="dropdown-item">
             <div class="buttons">
-              <a class="button is-light" href="/administration/logout">
+              <a class="button is-light" href="{{URL_ROOT}}administration/logout">
                 <strong>Log Out</strong>
               </a>
             </div>
@@ -209,7 +209,7 @@
 
           {% else %}
             <div class="dropdown-item">
-              <form action="/administration/login" method="post">
+              <form action="{{URL_ROOT}}administration/login" method="post">
                 {% csrf_token %}
                 <div class="field">
                   <label class="label">Username&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</label>
