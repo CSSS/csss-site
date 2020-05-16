@@ -112,7 +112,7 @@
           <div class="navbar-dropdown">
             {% get_nom_pages as elections %}
             {% for election in elections %}
-              <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-link" >{{election.slug}}</a>
+              <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
             {% endfor %}          
           </div>
         </div>

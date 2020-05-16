@@ -14,9 +14,12 @@
 
         <section class="section">
             <div class="container">
-                <div class="content notification has-background-light" >
+                <div class="notification has-background-light" >
                     <h3 class="title">{{post.subject}}</h3>
                     <p class="is-size-6 has-text-grey has-text-right">Posted by {{post.from_header}} on {{post.processed}}</p>
+                    <hr style=
+                    "border:solid 1px grey;
+                    height: 0px;">
                     <div class="is-size-6">
                     {% if post.html|safe|length > 0 %}
                         {{post.html|safe}}
