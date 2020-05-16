@@ -30,8 +30,8 @@
                       <a href="{{URL_ROOT}}documents/photo_gallery/{{album.name|iriencode}}/{{ album.date|iriencode }}">
                         <figure class="image is-128x128">                    
                           <img src="{% static album.album_thumbnail.picture.static_path %}" class="img-responsive" alt="Image">
+                          <p class="subtitle is-6" >{{album}}</p>
                         </figure>
-                        <p class="subtitle is-6" >{{album}}</p>
                       </a>
                     </div>
                   {% endif %}

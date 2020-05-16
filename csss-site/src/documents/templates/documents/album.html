@@ -17,6 +17,7 @@
       </nav> 
 
       <h1 class="title has-text-centered">{{album.date}} - {{album.name}}</h1>
+      <br>
 
       <div class="container-fluid bg-3 text-center">
         <div class="tile is-ancestor">
@@ -28,8 +29,8 @@
                 <div class="tile is-child">
                   <figure class="image is-128x128">                    
                     <img id="{{ media.id }}" src="{% static media.picture.static_path %}" class="img-responsive" alt="Image">
+                    <p class="subtitle is-6">{{media.name}}</p>
                   </figure>
-                  <p class="subtitle is-6">{{media.name}}</p>
                 </div>
                 {% else %}
                   {{media.video.youtube_link | safe}}
