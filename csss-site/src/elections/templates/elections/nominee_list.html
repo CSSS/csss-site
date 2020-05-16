@@ -1,12 +1,15 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 
 {% block content %}
-	{{ block.super }}
-	{% load staticfiles %}
-	{% block body %}
-		<h1>{{election.type_of_election}} {{election_date}}</h1>
-		<div id='content'>
-			{% if nominees == "none" %}
+{{ block.super }}
+{% load staticfiles %}
+{% block body %}
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="content" >
+				<h1>{{election.type_of_election}} {{election_date}}</h1>
+				{% if nominees == "none" %}
 				It seems like the time hasn't come to announce the nominees yet....
 			{% else %}
 				{% if election.websurvey != "NONE" %}
@@ -35,6 +38,9 @@
 					<p>Nominee Speech:</p> {{nominee.speech|safe|linebreaks}}
 				{% endfor %}
 			{% endif %}
+			</div>
 		</div>
-	{% endblock %}
+	</section>
+</body>
+{% endblock %}
 {% endblock %}
