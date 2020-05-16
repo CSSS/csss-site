@@ -82,7 +82,7 @@ function update_media_files {
     mkdir -p "${BASE_DIR}/media_root"
     cp -r /home/csss/dev/media_root/mailbox_attachments "${BASE_DIR}/media_root/."
     mkdir -p "${BASE_DIR}/static_root/documents_static"
-    ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/event-photos"
+    ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/event-photos" || true
   fi
 }
 
