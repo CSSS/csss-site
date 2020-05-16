@@ -20,22 +20,22 @@
 
       <div class="container-fluid bg-3 text-center">
         <div class="tile is-ancestor">
-          {% for media in medias %}
-            {% if media.video.youtube_link == None %}
+            <!--Generate image previews-->
+            <div class="tile is-parent" style="flex-wrap: wrap;">
+              {% for media in medias %}
+                {% if media.video.youtube_link == None %}
+  
+                <div class="tile is-child">
+                  <figure class="image is-128x128">                    
+                    <img id="{{ media.id }}" src="{% static media.picture.static_path %}" class="img-responsive" alt="Image">
+                  </figure>
+                  <p class="subtitle is-6">{{media.name}}</p>
+                </div>
+                {% else %}
+                  {{media.video.youtube_link | safe}}
+                {% endif %}
+            </div>
 
-              <!--Generate image previews-->
-
-              <div class="tile is-parent">
-                  <div class="tile is-child">
-                    <figure class="image">                    
-                      <img id="{{ media.id }}" src="{% static media.picture.static_path %}" class="img-responsive" style="width:100%" alt="Image">
-                    </figure>
-                    <p class="subtitle is-6">{{media.name}}</p>
-                  </div>
-              </div>
-            {% else %}
-              {{media.video.youtube_link | safe}}
-            {% endif %}
 
             <!--Generate image modals-->
 
