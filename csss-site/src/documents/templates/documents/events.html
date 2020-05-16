@@ -25,14 +25,13 @@
             {% for album in albums %}
               {% if album.event == event %}
               <div class="tile is-parent">
-                <div class="tile is-child is-2">
+                <div class="tile is-child">
                   <!-- http://dev.sfucsss.org:8000/STATIC_URL/documents_static/event-photos/Tutorials/2015-11-10%20Git/12241747_10201174490840856_7097942773547939440_n.jpg -->
                   <a href="{{URL_ROOT}}documents/photo_gallery/{{album.name|iriencode}}/{{ album.date|iriencode }}">
                     <figure class="image">                    
                       <img src="{% static album.album_thumbnail.picture.static_path %}" style="width:100%" alt="Image">
                     </figure>
-                    <p class="subtitle" >{{album}}</p>
-
+                    <p class="subtitle is-6" >{{album}}</p>
                   </a>
                 </div>
               </div>
