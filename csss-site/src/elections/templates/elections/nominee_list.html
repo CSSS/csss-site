@@ -38,9 +38,11 @@
 						{% endif %}
 					{% endif %}
 					<br>
-					<p>Nominee Speech:</p> 
-					<br>
-					{{nominee.speech|safe|linebreaks}}
+					<div class="notification">
+						<p>Nominee Speech:</p> 
+						<br>
+						{{nominee.speech|safe|linebreaks}}
+					</div>
 					<hr>
 				{% endfor %}
 			{% endif %}
