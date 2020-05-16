@@ -19,39 +19,40 @@
       <h1 class="title has-text-centered">{{album.date}} - {{album.name}}</h1>
       <br>
 
-      <div class="container-fluid bg-3 text-center">
-        <div class="tile is-ancestor">
-            <!--Generate image previews-->
-            <div class="tile is-parent" style="flex-wrap: wrap;">
-              {% for media in medias %}
-                {% if media.video.youtube_link == None %}
-  
-                <div class="tile is-child">
-                  <figure class="image is-128x128">                    
-                    <img id="{{ media.id }}" src="{% static media.picture.static_path %}" class="img-responsive" alt="Image">
-                    <p class="subtitle is-6">{{media.name}}</p>
-                  </figure>
+      <div class="columns is-multiline">
+          <!--Generate image previews-->
+            {% for media in medias %}
+              {% if media.video.youtube_link == None %}
+                <div class="column is-one-quarter-desktop is-half-tablet">
+                  <div class="card">
+                      <div class="card-image">
+                          <figure class="image is-3by2">
+                            <img id="{{ media.id }}" src="{% static media.picture.static_path %}" alt="Image">
+                          </figure>
+                      </div>
+                      <footer class="card-footer">
+                        <p class="subtitle is-6">{{media.name}}</p>                      
+                      </footer>
+                  </div>
                 </div>
-                {% else %}
-                  {{media.video.youtube_link | safe}}
-                {% endif %}
+              {% else %}
+                {{media.video.youtube_link | safe}}
+              {% endif %}
+
+
+          <!--Generate image modals-->
+
+          <div class="modal" data-content="{{ media.id }}">
+            <div class="modal-background"></div>
+            <div class="modal-content">
+              <p class="image">
+                <img src="{% static media.picture.static_path %}" alt="">
+              </p>
             </div>
-
-
-            <!--Generate image modals-->
-
-            <div class="modal" data-content="{{ media.id }}">
-              <div class="modal-background"></div>
-              <div class="modal-content">
-                <p class="image">
-                  <img src="{% static media.picture.static_path %}" alt="">
-                </p>
-              </div>
-              <button class="modal-close is-large" aria-label="close"></button>
-            </div>
-            
-          {% endfor %}
-        </div>
+            <button class="modal-close is-large" aria-label="close"></button>
+          </div>
+          
+        {% endfor %}
       </div>
     </div>
   </section>

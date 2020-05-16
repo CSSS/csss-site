@@ -20,24 +20,25 @@
           <h3 class="title">{{event}}</h3>
           <br>
 
-          <div class="row">
-            <div class="tile is-ancestor">
-              <div class="tile is-parent" style="flex-wrap: wrap;">
-                {% for album in albums %}
-                  {% if album.event == event %}
-                    <div class="tile is-child">
-                      <!-- http://dev.sfucsss.org:8000/STATIC_URL/documents_static/event-photos/Tutorials/2015-11-10%20Git/12241747_10201174490840856_7097942773547939440_n.jpg -->
-                      <a href="{{URL_ROOT}}documents/photo_gallery/{{album.name|iriencode}}/{{ album.date|iriencode }}">
-                        <figure class="image is-128x128">                    
-                          <img src="{% static album.album_thumbnail.picture.static_path %}" class="img-responsive" alt="Image">
-                          <p class="subtitle is-6" >{{album}}</p>
-                        </figure>
-                      </a>
-                    </div>
-                  {% endif %}
-                {% endfor %}
-              </div>
-            </div>
+          <div class="columns is-multiline">
+            {% for album in albums %}
+              {% if album.event == event %}
+
+                <div class="column is-one-quarter-desktop is-half-tablet">
+                  <div class="card">
+                      <div class="card-image">
+                          <figure class="image is-3by2">
+                            <img src="{% static album.album_thumbnail.picture.static_path %}" alt="Image">
+                          </figure>
+                      </div>
+                      <footer class="card-footer">
+                          <a href="{{URL_ROOT}}documents/photo_gallery/{{album.name|iriencode}}/{{ album.date|iriencode }}">{{album}}</a>
+                      </footer>
+                  </div>
+                </div>
+            
+              {% endif %}
+            {% endfor %}
           </div>
           
         </div>
