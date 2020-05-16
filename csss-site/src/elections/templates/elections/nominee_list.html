@@ -38,11 +38,11 @@
 						{% endif %}
 					{% endif %}
 					<br>
-					<div class="notification">
-						<p>Nominee Speech:</p> 
-						<br>
+					<p>Nominee Speech:</p> 
+					<br>
+					<article class="notification">
 						{{nominee.speech|safe|linebreaks}}
-					</div>
+					</article>
 					<hr>
 				{% endfor %}
 			{% endif %}
@@ -50,5 +50,27 @@
 		</div>
 	</section>
 </body>
+
+
+<script>
+
+var screen = $(window);  
+if (screen.width() < 600) {
+		$('article').removeClass('notification');
+	} else {
+		$('article').addClass('notification');
+	}
+
+
+$(window).resize(function () {
+	var screen = $(window);  
+	if (screen.width() < 600) {
+		$('article').removeClass('notification');
+	} else {
+		$('article').addClass('notification');
+	}
+})
+</script>
+   
 {% endblock %}
 {% endblock %}

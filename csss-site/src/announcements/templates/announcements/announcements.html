@@ -2,7 +2,6 @@
 {% load static %}
 {% load staticfiles %}
 
-
 {% block content %}
 <body>
 
@@ -14,7 +13,7 @@
 
         <section class="section">
             <div class="container">
-                <div class="notification has-background-light" >
+                <article class="notification" >
                     <h3 class="title">{{post.subject}}</h3>
                     <p class="is-size-6 has-text-grey has-text-right">Posted by {{post.from_header}} on {{post.processed}}</p>
                     <hr style=
@@ -30,7 +29,7 @@
                     {% for attachment in post.attachments.all %}
                         <p> attachment: </p> <a href="{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
                     {% endfor %}
-                </div>
+                </article>
             </div>
         </section>
         {% endfor %}
@@ -49,4 +48,26 @@
 
 
 </body>
+
+<script>
+ var screen = $(window);  
+ if (screen.width() < 600) {
+         $('article').removeClass('notification');
+     } else {
+         $('article').addClass('notification');
+     }
+
+
+ $(window).resize(function () {
+     var screen = $(window);  
+     if (screen.width() < 600) {
+         $('article').removeClass('notification');
+     } else {
+         $('article').addClass('notification');
+     }
+})
+</script>
+
+
 {% endblock %}
+
