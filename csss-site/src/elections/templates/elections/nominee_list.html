@@ -7,7 +7,7 @@
 <body>
     <section class="section">
         <div class="container">
-            <div class="content" >
+            <div>
 				<h1>{{election.type_of_election}} {{election_date}}</h1>
 				{% if nominees == "none" %}
 				It seems like the time hasn't come to announce the nominees yet....
@@ -36,6 +36,7 @@
 						{% endif %}
 					{% endif %}
 					<p>Nominee Speech:</p> {{nominee.speech|safe|linebreaks}}
+					<hr>
 				{% endfor %}
 			{% endif %}
 			</div>
