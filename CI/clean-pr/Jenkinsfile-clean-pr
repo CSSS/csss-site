@@ -1,0 +1,18 @@
+node {
+    stage('Cleanup PR') {
+        // Trigger: GitHub webhook whenever a Pull Request Event occurs
+        // Actions:
+        // PR to master Closed: remove the PR code from the dev site
+        def object = readJSON text: "${payload}"
+        def pr_number = object.number
+        def action = object.action
+        if (action.equals("closed")){
+            sh label: '', script: """bash -c \'
+                exort PR_NUMBER=${pr_number};
+                scp clear-pr-env.sh csss$dev.sfucsss.org@/home/csss/clear-pr-${PR_NUMBER}-env.sh;
+                ssh csss@dev.sfucsss.org "/home/csss/clear-pr-${PR_NUMBER}-env.sh \"${PR_NUMBER}\"";
+                ssh csss@dev.sfucsss.org "rm -fr "/home/csss/clear-pr-${PR_NUMBER}-env.sh"";
+              \'"""
+          }
+    }
+}
