@@ -6,6 +6,7 @@ node {
         def object = readJSON text: "${payload}"
         def pr_number = object.number
         def action = object.action
+        sh "echo ${action}"
         if (action.equals("closed")){
             sh label: '', script: """bash -c \'
                 exort PR_NUMBER=${pr_number};
