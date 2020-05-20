@@ -5,7 +5,7 @@ set -e -o xtrace
 
 export PR_NAME="PR-${1}"
 
-function remove_wbsite_code(){
+function remove_website_code(){
 	rm -fr /home/csss/${PR_NAME} || true
 }
 
@@ -17,10 +17,9 @@ function remove_nginx_config(){
 	sudo systemctl restart nginx
 }
 
-function remove_gunicorn_sytemd_files{
+function remove_gunicorn_systemd_files(){
 	gunicorn_socket="gunicorn_${PR_NAME}.socket"
 	gunicorn="gunicorn_${PR_NAME}.service"
-	socket_file_location="/home/csss/${PR_NAME}/gunicorn.sock"
 
 	sudo systemctl stop "${gunicorn_socket}"
 	sudo systemctl disable "${gunicorn_socket}"
@@ -28,12 +27,20 @@ function remove_gunicorn_sytemd_files{
 	sudo systemctl stop "${gunicorn}"
 	sudo systemctl disable "${gunicorn}"
 
-	sudo rm /etc/systemd/system/gunicorn_${PR_NAME}.socket
-	sudo rm /etc/systemd/system/gunicorn_${PR_NAME}.service
+	sudo rm /etc/systemd/system/"${gunicorn_socket}"
+	sudo rm /etc/systemd/system/"${gunicorn}"
+
+	sudo systemctl daemon-reload
 }
 
-remove_wbsite_code
+function remove_database(){
+	docker exec csss_site_db_dev psql -U postgres -d postgres -c "DROP DATABASE \"${DB_NAME}\";" || true
+
+}
+remove_website_code
 
 remove_nginx_config
 
-remove_gunicorn_sytemd_files
+remove_gunicorn_systemd_files
+
+remove_database

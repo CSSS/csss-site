@@ -10,9 +10,9 @@ node {
         if (action.equals("closed")){
             sh label: '', script: """bash -c \'
                 exort PR_NUMBER=${pr_number};
-                scp clear-pr-env.sh csss$dev.sfucsss.org@/home/csss/clear-pr-${PR_NUMBER}-env.sh;
-                ssh csss@dev.sfucsss.org "/home/csss/clear-pr-${PR_NUMBER}-env.sh \"${PR_NUMBER}\"";
-                ssh csss@dev.sfucsss.org "rm -fr "/home/csss/clear-pr-${PR_NUMBER}-env.sh"";
+                scp clear_pr_env.sh csss$dev.sfucsss.org@/home/csss/clear_pr_${PR_NUMBER}_env.sh;
+                ssh csss@dev.sfucsss.org "/home/csss/clear_pr_${PR_NUMBER}_env.sh \"${PR_NUMBER}\"";
+                ssh csss@dev.sfucsss.org "rm -fr "/home/csss/clear_pr_${PR_NUMBER}_env.sh"";
               \'"""
           }
     }

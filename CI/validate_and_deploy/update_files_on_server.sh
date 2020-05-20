@@ -39,7 +39,7 @@ function transfer_env_variables_to_server {
   echo 'DB_PORT='"'"'5432'"'" >> site_envs
   echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
   echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-  if [ "${BRANCH_NAME}" != "master" ]; then
+  if [[ "${BRANCH_NAME}" != "master" && "${BRANCH_NAME}" != "dev" ]]; then
     echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
   else
     echo 'DB_NAME='"'postgres'" >> site_envs
