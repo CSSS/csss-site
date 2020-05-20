@@ -39,21 +39,21 @@ function transfer_env_variables_to_server {
   echo 'DB_PORT='"'"'5432'"'" >> site_envs
   echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
   echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-  if [ "${BRANCH_NAME}" != "master" ]; then
+  if [[ "${BRANCH_NAME}" != "master" && "${BRANCH_NAME}" != "dev" ]]; then
     echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
   else
     echo 'DB_NAME='"'postgres'" >> site_envs
   fi
   scp site_envs csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs"
-  scp "CI/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
+  scp "CI/validate_and_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
 function transfer_file_for_automating_app_migration {
-  scp CI/migrate_apps.sh csss@"${HOST_ADDRESS}":"${BASE_DIR}/migrate_apps.sh"
+  scp CI/validate_and_deploy/migrate_apps.sh csss@"${HOST_ADDRESS}":"${BASE_DIR}/migrate_apps.sh"
 }
 
 function transfer_file_to_deploy_all_above_changes {
-  scp "CI/deploy_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
+  scp "CI/validate_and_deploy/deploy_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
 }
 
 remove_existing_files
