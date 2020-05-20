@@ -12,7 +12,7 @@ node {
                 export PR_NUMBER=${pr_number};
                 scp CI/clean_pr/clear_pr_env.sh csss@dev.sfucsss.org@/home/csss/clear_pr_\${PR_NUMBER}_env.sh;
                 ssh csss@dev.sfucsss.org "/home/csss/clear_pr_\${PR_NUMBER}_env.sh \"\${PR_NUMBER}\"";
-                ssh csss@dev.sfucsss.org "rm -fr "/home/csss/clear_pr_\${PR_NUMBER}_env.sh"";
+                ssh csss@dev.sfucsss.org "rm -fr \"/home/csss/clear_pr_\${PR_NUMBER}_env.sh\"";
               \'"""
           }
     }
