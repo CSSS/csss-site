@@ -8,7 +8,7 @@ pipeline {
         stage('Validate Formatting') {
             steps {
                 sh label: '', script: """bash -c \'
-                    ./csss-site/test/lineEndings.sh
+                    ./csss-site/test/line_endings.sh
                     export ENVIRONMENT=TEST;
                     export COMPOSE_PROJECT_NAME=TEST_WEBSITE_"${BRANCH_NAME}";
 
@@ -23,7 +23,7 @@ pipeline {
 
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
-                    ./CI/validate-formatting.sh;
+                    ./CI/validate_and_deploy/run_dockerized_formatting_test.sh
                 \'"""
             }
         }
@@ -49,7 +49,7 @@ pipeline {
                         export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
                         export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
-                        ./CI/update_files_on_server.sh;
+                        ./CI/validate_and_deploy/update_files_on_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
                       \'"""
                 }
@@ -78,7 +78,7 @@ pipeline {
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
                         export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
-                        ./CI/update_files_on_server.sh;
+                        ./CI/validate-and-deploy/update_files_on_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""
                 }

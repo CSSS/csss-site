@@ -41,17 +41,17 @@ function wait_for_postgres_db {
 }
 
 function setup_website_db {
-  if [ "${BRANCH_NAME}" != "master" ]; then
-    docker run --name "csss_site_db_dev" -p 5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" WITH TEMPLATE postgres OWNER postgres;" || true
-    IFS=':' read -r -a array <<< $(docker port "csss_site_db_dev")
-    export DB_PORT="${array[1]}"
-    echo 'DB_PORT='"'"${DB_PORT}"'" >> site_envs
-
-  else
-    docker run --name "csss_site_db" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-  fi
-  wait_for_postgres_db
+    if [ "${BRANCH_NAME}" = "dev" ]; then
+        docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine
+        wait_for_postgres_db
+    elif [ "${BRANCH_NAME}" != "master" ]; then
+        docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
+        wait_for_postgres_db
+        docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" WITH TEMPLATE postgres OWNER postgres;" || true
+    else
+        docker run --name "csss_site_db" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
+        wait_for_postgres_db
+    fi
 }
 
 function applying_latest_db_migrations {
@@ -66,7 +66,9 @@ function applying_latest_db_migrations {
 }
 
 function create_super_user {
-  echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell
+    if [ "${BRANCH_NAME}" = "dev" ]; then
+        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell
+    fi
 }
 
 function update_static_files_location {
@@ -80,7 +82,9 @@ function update_static_files_location {
 function update_media_files {
   if [ "${BRANCH_NAME}" != "master" ]; then
     mkdir -p "${BASE_DIR}/media_root"
-    cp -r /home/csss/dev/media_root/mailbox_attachments "${BASE_DIR}/media_root/."
+    if [ "${BRANCH_NAME}" != "dev" ]; then
+        cp -r /home/csss/dev/media_root/mailbox_attachments "${BASE_DIR}/media_root/."
+    fi
     mkdir -p "${BASE_DIR}/static_root/documents_static"
     ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/event-photos" || true
   fi
@@ -108,10 +112,11 @@ User=csss
 Group=www-data
 WorkingDirectory=/home/csss/${BRANCH_NAME}/csss-site/csss-site/src
 ExecStart=/home/csss/${BRANCH_NAME}/envCSSS/bin/gunicorn \\
-          --access-logfile - \\
-          --workers 3 \\
-          --bind unix:/home/csss/${BRANCH_NAME}/gunicorn.sock \\
-          csss.wsgi:application
+	--access-logfile - \\
+	--timeout 120 \\
+	--workers 3 \\
+	--bind unix:/home/csss/${BRANCH_NAME}/gunicorn.sock \\
+	csss.wsgi:application
 
 [Install]
 WantedBy=multi-user.target" | sudo tee /etc/systemd/system/gunicorn_${BRANCH_NAME}.service
@@ -145,14 +150,17 @@ function update_nginx_configuration {
     echo -e "
 
     	location /${BRANCH_NAME}/STATIC_URL/ {
+		proxy_read_timeout 3600;
 		autoindex on;
 		alias /home/csss/${BRANCH_NAME}/static_root/;
 	}
 	location /${BRANCH_NAME}/MEDIA_URL/ {
+		proxy_read_timeout 3600;
 		autoindex on;
 		alias /home/csss/${BRANCH_NAME}/media_root/;
 	}
 	location /${BRANCH_NAME}/ {
+		proxy_read_timeout 3600;
 		include proxy_params;
 		proxy_pass http://unix:/home/csss/${BRANCH_NAME}/gunicorn.sock;
 
@@ -170,11 +178,9 @@ function clean_up_after_deployment {
   if [ "${BRANCH_NAME}" != "master" ]; then
     rm "/home/csss/${BRANCH_NAME}/deploy_changes.sh"
     rm "/home/csss/${BRANCH_NAME}/migrate_apps.sh"
-    rm "/home/csss/${BRANCH_NAME}/set_env.sh"
   else
     rm "/home/csss/deploy_changes.sh"
     rm "/home/csss/migrate_apps.sh"
-    rm "/home/csss/set_env.sh"
   fi
 }
 
@@ -183,7 +189,7 @@ go_to_root_directory
 install_latest_python_requirements
 create_directory_for_website_logs
 applying_latest_db_migrations
-# create_super_user
+create_super_user
 update_static_files_location
 update_media_files
 set_gunicorn_files
