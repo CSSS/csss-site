@@ -10,17 +10,9 @@ node {
         if (action.equals("closed")){
             sh label: '', script: """bash -c \'
                 export PR_NUMBER=${pr_number};
-                rm -fr csss-site || true;
-                mkdir csss-site;
-                git init;
-                git remote add origin https://github.com/CSSS/csss-site.git;
-                git fetch --depth 1 origin;
-                git checkout master;
-                scp clear_pr_env.sh csss@dev.sfucsss.org@/home/csss/clear_pr_\${PR_NUMBER}_env.sh;
+                scp CI/clean_pr/clear_pr_env.sh csss@dev.sfucsss.org:/home/csss/clear_pr_\${PR_NUMBER}_env.sh;
                 ssh csss@dev.sfucsss.org "/home/csss/clear_pr_\${PR_NUMBER}_env.sh \"\${PR_NUMBER}\"";
-                ssh csss@dev.sfucsss.org "rm -fr "/home/csss/clear_pr_\${PR_NUMBER}_env.sh"";
-                cd ../;
-                rm -fr csss-site;
+                ssh csss@dev.sfucsss.org "rm -fr \"/home/csss/clear_pr_\${PR_NUMBER}_env.sh\"";
               \'"""
           }
     }
