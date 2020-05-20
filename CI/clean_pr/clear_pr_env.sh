@@ -34,7 +34,7 @@ function remove_gunicorn_systemd_files(){
 }
 
 function remove_database(){
-	docker exec csss_site_db_dev psql -U postgres -d postgres -c "DROP DATABASE \"${DB_NAME}\";" || true
+	docker exec csss_site_db_dev psql -U postgres -d postgres -c "DROP DATABASE \"${PR_NAME}\";" || true
 
 }
 remove_website_code
