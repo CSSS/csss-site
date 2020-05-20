@@ -16,7 +16,7 @@
                 {% endif %}
 
         		{% for attachment in post.attachments.all %}
-        			<p> attachment: </p> <a href="{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
+        			<p> attachment: </p> <a href="{{URL_ROOT}}{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
     		     {% endfor %}
             </div>
         </div>
