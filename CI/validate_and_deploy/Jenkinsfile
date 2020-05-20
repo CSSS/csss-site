@@ -23,7 +23,7 @@ pipeline {
 
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
-                    ./CI/validate-and-deploy/validate_formatting.sh;
+                    ./CI/validate_and_deploy/run_dockerized_formatting_test.sh
                 \'"""
             }
         }
