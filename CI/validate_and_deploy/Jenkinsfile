@@ -8,7 +8,7 @@ pipeline {
         stage('Validate Formatting') {
             steps {
                 sh label: '', script: """bash -c \'
-                    ./csss-site/test/lineEndings.sh
+                    ./csss-site/test/line_endings.sh
                     export ENVIRONMENT=TEST;
                     export COMPOSE_PROJECT_NAME=TEST_WEBSITE_"${BRANCH_NAME}";
 
