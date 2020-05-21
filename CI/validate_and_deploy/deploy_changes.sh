@@ -42,7 +42,7 @@ function wait_for_postgres_db {
 
 function setup_website_db {
     if [ "${BRANCH_NAME}" = "dev" ]; then
-        docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine
+        docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
         wait_for_postgres_db
     elif [ "${BRANCH_NAME}" != "master" ]; then
         docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
@@ -67,7 +67,7 @@ function applying_latest_db_migrations {
 
 function create_super_user {
     if [ "${BRANCH_NAME}" = "dev" ]; then
-        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell
+        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell || true
     fi
 }
 
@@ -86,7 +86,10 @@ function update_media_files {
         cp -r /home/csss/dev/media_root/mailbox_attachments "${BASE_DIR}/media_root/."
     fi
     mkdir -p "${BASE_DIR}/static_root/documents_static"
-    ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/event-photos" || true
+    ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
+
+    mkdir -p "${BASE_DIR}/static_root/about_static"
+    ln -s /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
   fi
 }
 
