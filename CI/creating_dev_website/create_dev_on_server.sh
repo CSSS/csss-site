@@ -60,5 +60,5 @@ export BASE_DIR="/home/csss/${BRANCH_NAME}";
 export DEBUG=true;
 export HOST_ADDRESS=dev.sfucsss.org;
 
-./CI/validate-and-deploy/update_files_on_server.sh;
+./CI/validate_and_deploy/update_files_on_server.sh;
 ssh csss@"${HOST_ADDRESS}" "/home/csss/${BRANCH_NAME}/deploy_changes.sh";
