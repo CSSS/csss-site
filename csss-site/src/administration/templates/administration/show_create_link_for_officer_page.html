@@ -5,7 +5,7 @@
 {% bootstrap_messages %}
 
 {% block content %}
-	<h1>Create Links for New Term of Officers</h1>
+	<h1 class="title">Create Links for New Term of Officers</h1>
 	<form action="{{URL_ROOT}}administration/officer/create_link" method="post" class="form">
 		{% csrf_token %}
 		<p>Term:
@@ -32,6 +32,12 @@
 		<input type="radio" name="overwrite" value="false" required>
 		Append Specified Officers to list of officers for selected term<br><br>
 		<input type="submit" value="submit" />
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 		<br>
 		<br>
 		<br>
