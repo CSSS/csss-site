@@ -6,7 +6,7 @@
 
 {% block content %}
 	<h1>Create new Election</h1>
-	<form action="{{URL_ROOT}}administration/elections/create_or_update_json" method="post">
+	<form action="{{URL_ROOT}}administration/elections/create_or_update_json" method="post" class="form">
 		{% csrf_token %}
 		<p>Instructions
 			<ul>
@@ -37,6 +37,10 @@
 
 		</textarea>
 		<br><input type="submit" value="submit" />
+		<br>
+		<br>
+		<br>
+	
 	</form>
 	</script>
 {% endblock %}

@@ -5,7 +5,7 @@
 {% bootstrap_messages %}
 
 {% block content %}
-    <form action="{{URL_ROOT}}administration/elections/determine_election_action" method="post">
+    <form action="{{URL_ROOT}}administration/elections/determine_election_action" method="post" class="form">
       {% csrf_token %}
       <p>Election to Modify/Delete:
           <select name="election_id">
@@ -16,6 +16,10 @@
         </p>
 	<button name="action" value="delete" type="submit">Delete</button>
 	<button name="action" value="update" type="submit">Modify via Web Form</button>
-	<button name="action" value="update_with_json" type="submit">Modify via JSON</button>
+    <button name="action" value="update_with_json" type="submit">Modify via JSON</button>
+    <br>
+    <br>
+    <br>
+
     </form>
 {% endblock %}
