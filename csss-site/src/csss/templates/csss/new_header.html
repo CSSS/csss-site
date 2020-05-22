@@ -264,15 +264,16 @@
     <div class="hero-body">
       <div class="container">
         <div class="columns is-vcentered">
-          <div class="column is-one-quarter">
+          <div id="logo_id" class="column is-one-quarter">
             <div class="has-text-centered">
               <figure class="image is-128x128 is-inline-block">
                 <img src="{% static 'csss_static/logo.png' %}">
               </figure>
             </div>
           </div>
+
           <div class="column">
-              <h1 class="title has-text-white is-size-2" style="text-shadow: 7px 6px 14px rgba(0,0,0,0.89);">
+              <h1 id="hero_title_id" class="title has-text-white has-text-centered is-size-2" style="text-shadow: 7px 6px 14px rgba(0,0,0,0.89);">
                 SFU's Computing Science Student Society
               </h1>
           </div>
@@ -310,6 +311,34 @@ $(".navbar-burger").click(function() {
 });
 
 });
+
+
+//This javascript changes the hero when on mobile 
+
+var screen = $(window);  
+ if (screen.width() < 600) {
+         $('#logo_id').hide();
+         $('#hero_title_id').removeClass("is-size-2");
+         $('#hero_title_id').addClass("is-size-3");
+     } else {
+         $('#logo_id').show();
+         $('#hero_title_id').removeClass("is-size-3");
+         $('#hero_title_id').addClass("is-size-2");
+     }
+
+
+ $(window).resize(function () {
+     var screen = $(window);  
+     if (screen.width() < 600) {
+        $('#logo_id').hide();
+         $('#hero_title_id').removeClass("is-size-2");
+         $('#hero_title_id').addClass("is-size-3");
+     } else {
+         $('#logo_id').show();
+         $('#hero_title_id').removeClass("is-size-3");
+         $('#hero_title_id').addClass("is-size-2");
+     }
+})
 
 </script>
 
