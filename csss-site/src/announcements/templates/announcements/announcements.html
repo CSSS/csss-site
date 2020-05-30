@@ -13,7 +13,7 @@
 
         <section class="section">
             <div class="container">
-                <article class="notification" >
+                <article class="box is-light" >
                     <h3 class="title is-size-3">{{post.subject}}</h3>
                     <p class="is-size-6 has-text-grey has-text-right">Posted by {{post.from_header}} on {{post.processed}}</p>
                     <hr style=
@@ -53,21 +53,21 @@
 //This javascript removes the grey box around the announcements when on mobile so that
 // the text isnt as squished
 
-//todo: do something better than this
+//todo: something better than this
 
  
  if ($(window).width() < 600) {
-         $('article').removeClass('notification');
+         $('article').removeClass('box');
      } else {
-         $('article').addClass('notification');
+         $('article').addClass('box');
      }
 
 
  $(window).resize(function () {
      if ($(window).width() < 600) {
-         $('article').removeClass('notification');
+         $('article').removeClass('box');
      } else {
-         $('article').addClass('notification');
+         $('article').addClass('box');
      }
 });
 </script>
