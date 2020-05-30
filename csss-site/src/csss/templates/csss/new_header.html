@@ -315,8 +315,7 @@ $(".navbar-burger").click(function() {
 
 //This javascript changes the hero when on mobile 
 
-var screen = $(window);  
- if (screen.width() < 600) {
+ if ($(window).width() < 600) {
          $('#logo_id').hide();
          $('#hero_title_id').removeClass("is-size-2");
          $('#hero_title_id').addClass("is-size-3");
@@ -328,8 +327,7 @@ var screen = $(window);
 
 
  $(window).resize(function () {
-     var screen = $(window);  
-     if (screen.width() < 600) {
+     if ($(window).width() < 600) {
         $('#logo_id').hide();
          $('#hero_title_id').removeClass("is-size-2");
          $('#hero_title_id').addClass("is-size-3");
