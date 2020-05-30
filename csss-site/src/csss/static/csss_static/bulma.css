@@ -10856,3 +10856,11 @@
     padding: 3rem 1.5rem 6rem;
   }
   /*# sourceMappingURL=bulma.css.map */
+
+
+/* https://github.com/jgthms/bulma/issues/2503 (this is not bulma code, I added this) */
+.navbar-item.is-hoverable:hover .navbar-dropdown.is-boxed {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
