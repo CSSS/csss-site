@@ -1,13 +1,13 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
 {% block content %}
-    <form action="{{URL_ROOT}}administration/elections/determine_election_action" method="post">
+    <form action="{{URL_ROOT}}administration/elections/determine_election_action" method="post" class="form">
       {% csrf_token %}
-      <p>Election to Modify/Delete:
+      <p><h1 class="title">Election to Modify/Delete:</h1>
           <select name="election_id">
                 {% for election in elections %}
                     <option value="{{election.slug}}">{{election}}</option>
@@ -16,6 +16,16 @@
         </p>
 	<button name="action" value="delete" type="submit">Delete</button>
 	<button name="action" value="update" type="submit">Modify via Web Form</button>
-	<button name="action" value="update_with_json" type="submit">Modify via JSON</button>
+    <button name="action" value="update_with_json" type="submit">Modify via JSON</button>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+
     </form>
 {% endblock %}

@@ -1,22 +1,27 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 
 {% block content %}
-	{{ block.super }}
-	{% load staticfiles %}
-	{% block body %}
-		<h1>{{election.type_of_election}} {{election_date}}</h1>
-		<div id='content'>
-			{% if nominees == "none" %}
+{{ block.super }}
+{% load staticfiles %}
+{% block body %}
+<body>
+    <section class="section">
+        <div class="container">
+            <div>
+				<h1 class="title is-2">{{election.type_of_election}} {{election_date}}</h1>
+				<br>
+				{% if nominees == "none" %}
 				It seems like the time hasn't come to announce the nominees yet....
 			{% else %}
 				{% if election.websurvey != "NONE" %}
 					<p> <a href="{{election.websurvey}}">websurvey Link</a></p>
 				{% endif %}
+				<br>
 				{% for nominee in nominees %}
 					{% ifchanged nominee.exec_position %}
-						<h1>Position: {{nominee.exec_position}}</h1>
+						<h1 class="title is-3">Position: {{nominee.exec_position}}</h1>
 					{% endifchanged %}
-					<p><br/><br/>Nominee Name: <b>{{nominee.name}}</b></p>
+					<p>Nominee Name: <b>{{nominee.name}}</b></p>
 					{% if nominee.facebook != "NONE" or nominee.linked_in != "NONE" or nominee.email != "NONE" or nominee.discord != "NONE" %}
 						<p> Contact/Social Media:
 						{% if nominee.facebook != "NONE" %}
@@ -32,9 +37,40 @@
 							Discord Username: {{nominee.discord}}
 						{% endif %}
 					{% endif %}
-					<p>Nominee Speech:</p> {{nominee.speech|safe|linebreaks}}
+					<br>
+					<p>Nominee Speech:</p> 
+					<br>
+					<article class="box is-light">
+						{{nominee.speech|safe|linebreaks}}
+					</article>
+					<hr>
 				{% endfor %}
 			{% endif %}
+			</div>
 		</div>
-	{% endblock %}
+	</section>
+</body>
+
+
+<script>
+
+var screen = $(window);  
+if (screen.width() < 600) {
+		$('article').removeClass('box');
+	} else {
+		$('article').addClass('box');
+	}
+
+
+$(window).resize(function () {
+	var screen = $(window);  
+	if (screen.width() < 600) {
+		$('article').removeClass('box');
+	} else {
+		$('article').addClass('box');
+	}
+})
+</script>
+   
+{% endblock %}
 {% endblock %}
