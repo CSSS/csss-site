@@ -1,7 +1,7 @@
 backports.functools-lru-cache==1.5
 certifi==2018.11.29
 chardet==3.0.4
-Django==2.2.10
+Django==2.2.13
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
