@@ -26,10 +26,6 @@ psycopg2-binary
 
 cachetools==3.1.0
 chardet==3.0.4
-google-api-python-client==1.7.8
-google-auth==1.6.3
-google-auth-httplib2==0.0.3
-google-auth-oauthlib==0.3.0
 httplib2==0.12.1
 idna==2.8
 oauthlib==3.0.1
@@ -41,3 +37,18 @@ rsa==4.0
 six==1.12.0
 uritemplate==3.0.0
 urllib3==1.24.2
+
+
+# google_drive requirements
+google-api-python-client==1.7.8
+google-auth-oauthlib==0.3.0
+# google-auth==1.6.3
+google-auth-httplib2==0.0.3
+oauth2client==3.0.0
+
+
+# github management
+PyGithub
+
+# gitlab management
+python-gitlab

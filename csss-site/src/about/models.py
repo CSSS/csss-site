@@ -14,23 +14,24 @@ class SourceFile(models.Model):
 
 
 class Term(models.Model):
+    term_number = models.IntegerField(
+        primary_key=True,
+        default=0,
+    )
     term_choices = (
         ('Spring', 'Spring'),
         ('Summer', 'Summer'),
         ('Fall', 'Fall'),
     )
     term = models.CharField(
-        primary_key=True,
         max_length=6,
         choices=term_choices,
         default='Fall',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
-    term_number = models.IntegerField(
-        default=0,
-    )
+
     year = models.IntegerField(
-        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year+1)))],
+        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 1)))],
         default='2018',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
@@ -40,7 +41,6 @@ class Term(models.Model):
 
 
 class Officer(models.Model):
-
     position = models.CharField(
         max_length=300,
         default='President',
@@ -117,6 +117,19 @@ class Officer(models.Model):
         return f"{self.name} {self.elected_term}"
 
 
+class GithubTeam(models.Model):
+    team_name = models.CharField(
+        max_length=5000
+    )
+    officer = models.ForeignKey(
+        Officer,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return f"{self.officer.name} {self.team_name}"
+
+
 class AnnouncementEmailAddress(models.Model):
     email = models.CharField(
         max_length=140,
@@ -129,18 +142,3 @@ class AnnouncementEmailAddress(models.Model):
 
     def __str__(self):
         return f"{self.officer.name} {self.email} {self.officer.elected_term}"
-
-
-class EmailList(models.Model):
-    email = models.CharField(
-        max_length=140,
-        default="NA"
-    )
-    officer = models.ForeignKey(
-        Officer,
-        related_name='email',
-        on_delete=models.CASCADE
-    )
-
-    def __str__(self):
-        return f"{self.officer.name} {self.email}"

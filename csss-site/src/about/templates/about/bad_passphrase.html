@@ -2,6 +2,9 @@
 
 {% block content %}
 {{ block.super }}
-	<h1>Invalid Passphase</h1>
+	<h1>Error Detected</h1>
+    {%  for error in error_experienced %}
+        {{ error }}
+    {% endfor %}
 	<p>Invalid passphrase detected</p>
 {% endblock %}

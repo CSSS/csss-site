@@ -7,16 +7,16 @@ logger = logging.getLogger('csss_site')
 
 
 def login(request):
-    logger.info(f"[administration/views.py login()] request.POST={request.POST}")
+    logger.info(f"[administration/login_views.py login()] request.POST={request.POST}")
     if 'username' in request.POST and 'password' in request.POST:
         username = request.POST['username']
         password = request.POST['password']
-        logger.info(f"[administration/views.py login()] username = {username}")
+        logger.info(f"[administration/login_views.py login()] username = {username}")
         user = authenticate(request, username=username, password=password)
         if user is not None:
             dj_login(request, user)
-            logger.info("[administration/views.py login()] it was a successful login")
-    logger.info("[administration/views.py login()] it was an insuccessful login")
+            logger.info("[administration/login_views.py login()] it was a successful login")
+    logger.info("[administration/login_views.py login()] it was an insuccessful login")
     return HttpResponseRedirect('/')
 
 

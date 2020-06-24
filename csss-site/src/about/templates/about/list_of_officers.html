@@ -51,26 +51,31 @@
 					<h1>Executives for {{term.term}} {{term.year}} Term</h1>
 					<div class="row">
 						{% for officer in officers %}
-							{% if officer.elected_term == term %}
+                            {% if officer.elected_term == term %}
 								<div class="col-md-4">
 									<center><img class="exec-photos" src="{% static officer.image %}"></center>
 								</div>
 								<div class="col-md-6">
 									<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
+                                    {% if ElectionOfficer or Exec or Staff %}
+                                        <p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
+                                        <p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
+                                    {%  endif %}
 									<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
 									<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
 									{% for email in officer.email.all %}
 										<p class="lead">Contact - <a href="{{email.email}}">{{email.email}}</a><br></p>
 									{% endfor %}
-									<div class="lead"><p>Bio -</p>
+                                    <div class="lead"><p>Bio - </p><p>
 										{% if officer.bio|safe|length > 0 %}
 						                    {{officer.bio|safe}}
 						                {% else %}
 						                    {{officer.bio|safe|linebreaks}}
 						                {% endif %}
+                                    </p>
 									 </div>
 								</div>
-							{% endif %}
+                            {%  endif %}
 						{% endfor %}
 					</div>
 				</div>

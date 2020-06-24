@@ -4,6 +4,25 @@ import pytz
 import sys
 
 
+
+def initialize_logger():
+    logger = logging.getLogger('csss_site')
+    if not len(logger.handlers):
+        # setting up log requirements
+        logger = logging.getLogger('csss_site')
+        logger.propagate = False
+        logging.basicConfig(level=logging.DEBUG)
+        # logger.setLevel(logging.DEBUG)
+        formatter = logging.Formatter('%(asctime)s = %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(logging.DEBUG)
+        stream_handler.setFormatter(formatter)
+        logger.addHandler(stream_handler)
+        sys.stdout = LoggerWriter(logger, logging.INFO)
+        sys.stderr = LoggerWriter(logger, logging.WARNING)
+        create_log_file(formatter, logger)
+    return logger
+
 class LoggerWriter:
     def __init__(self, logger, level):
         self.logger = logger
@@ -15,23 +34,6 @@ class LoggerWriter:
 
     def flush(self):
         pass
-
-
-def initialize_logger():
-    # setting up log requirements
-    logger = logging.getLogger('csss_site')
-    logging.basicConfig(level=logging.DEBUG)
-    # logger.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s = %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
-    stream_handler = logging.StreamHandler()
-    stream_handler.setLevel(logging.DEBUG)
-    stream_handler.setFormatter(formatter)
-    logger.addHandler(stream_handler)
-    sys.stdout = LoggerWriter(logger, logging.INFO)
-    sys.stderr = LoggerWriter(logger, logging.WARNING)
-    create_log_file(formatter, logger)
-    return logger
-
 
 def create_log_file(formatter, logger):
     date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")

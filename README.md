@@ -16,7 +16,7 @@ python3.7 -m pip install -r requirements.txt
 ifconfig
 # want to know why the wierd way of quotes are used? -> https://stackoverflow.com/a/1250279/7734535
 echo 'BASE_DIR='"'"'<folder that contains csss-site repo>'"'"'' > CI/site_envs
-echo 'SECRET_KEY='"'"'https://miniwebtool.com/django-secret-key-generator/'"'"'' >> CI/site_envs
+echo 'WEBSITE_SECRET_KEY='"'"'https://miniwebtool.com/django-secret-key-generator/'"'"'' >> CI/site_envs
 echo 'DEBUG='"'"'true'"'"'' >> CI/site_envs
 echo 'HOST_ADDRESS='"'"'<serverIP>>'"'"'' >> CI/site_envs
 

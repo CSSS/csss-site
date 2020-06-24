@@ -1,68 +1,27 @@
 from django.shortcuts import render
 
+from administration.views.views_helper import create_context
+
+TAB_STRING = 'events'
+
 
 def index(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'events',
-        'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username
-    }
-    return render(request, 'events/calendar.html', context)
+    return render(request, 'events/calendar.html', create_context(request, TAB_STRING))
 
 
 def gm(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'events',
-        'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username
-    }
-    return render(request, 'events/gm.html', context)
+    return render(request, 'events/gm.html', create_context(request, TAB_STRING))
 
 
 def board_games(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'events',
-        'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username
-    }
-    return render(request, 'events/board_games.html', context)
+    return render(request, 'events/board_games.html', create_context(request, TAB_STRING))
 
 
 def frosh_week(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'events',
-        'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username
-    }
-    return render(request, 'events/frosh_week.html', context)
+    return render(request, 'events/frosh_week.html', create_context(request, TAB_STRING))
 
 
 def mountain_madness2020(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'events',
-        'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username
-    }
-    return render(request, 'events/mountain_madness2020.html', context)
+    return render(request, 'events/mountain_madness2020.html', create_context(request, TAB_STRING))
 
 # Create your views here.

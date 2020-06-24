@@ -5,40 +5,40 @@
 	{% load static %}
 	{% load staticfiles %}
 
-	<form action="/about/process_exec_info" method="post">
+	<form action="/administration/officer/process_exec_info" method="post">
 		{% csrf_token %}
-		<input type="text" name="passphrase" value="{{passphrase}}" hidden >
+		<input type="text" name="{{ passphrase }}" value="{{passphrase_key}}" hidden >
 		<p>
-			Term: <input type="text" name="term" value="{{term}}" readonly >
-			Year: <input type="text" name="year" value="{{year}}" readonly >
-			Position: <input type="text" name="position" value="{{position}}" readonly >
+			Term: <input type="text" name="{{ term }}" value="{{term_key}}" readonly >
+			Year: <input type="text" name="{{ year }}" value="{{year_key}}" readonly >
+			Position: <input type="text" name="{{ term_position }}" value="{{term_position_key}}" readonly >
 		</p>
-		<input hidden type="text" name="term_position" value="{{position_number}}" >
-		<p>Name: <input type="text" name="name" required ></p>
-		<p>SFUID: <input type="text" name="sfuid" required >@sfu.ca</p>
+		<input hidden type="text" name="{{ term_position_number }}" value="{{term_position_number_key}}" >
+		<p>Name: <input type="text" name="{{name_key}}" value="{{name}}" required ></p>
+		<p>SFUID: <input type="text" name="{{sfuid_key}}" value="{{sfuid}}" required >@sfu.ca</p>
 		<p>
 			Emails <br>
 			(list all the emails you intend to use for CSSS related emails, use commas to separate multiple emails):<br>
-			<textarea name="email" cols="80" rows="2" required></textarea>
+			<textarea name="{{email_key}}" cols="80" rows="2" required>{{ email }}</textarea>
 		</p>
-		<p>Gmail: <input type="text" name="gmail" required></p>
+		<p>Gmail: <input type="text" name="{{gmail_key}}" value="{{ gmail }}" required></p>
 		<p>
 			Phone Number: <br>
 			(if you are comfortable with the CSSS having it)<br>
-			<input type="number" name="phone_number" required value="0"></p>
-		<p>Github Username: <input type="text" name="github_username" required></p>
+			<input type="number" name="{{phone_number_key}}" required value="{{phone_number}}"></p>
+		<p>Github Username: <input type="text" name="{{github_username_key}}" value="{{ github_username }}" required></p>
 		<p>
 			Your 2 Favorite SFU Course:<br>preferably comp sci related<br>
-			<input type="text" name="course1" required > & <input type="text" name="course2" required>
+			<input type="text" name="{{course1_key}}" value="{{ course1 }}" required > & <input type="text" name="{{course2_key}}" value="{{ course2 }}" required>
 		</p>
 		<p>
 			Your 2 Favorite Computer Science programming languages of choice:<br>
-			<input type="text" name="language1" required> & <input type="text" name="language2" required>
+			<input type="text" name="{{language1_key}}" value="{{ language1 }}" required> & <input type="text" name="{{language2_key}}" value="{{ language2 }}" required>
 		</p>
 		<p>
 			Bio: (needs to already be in <a href="https://wordtohtml.net/">HTML format</a>)<br>
-			For exampls look at <a href="http://sfucsss.org/about/officers/"> Past Bios</a><br>
-			<textarea name="bio" cols="40" rows="1" required></textarea></p>
+			For examples look at <a href="http://sfucsss.org/about/list_of_officers"> Past Bios</a><br>
+			<textarea name="{{bio_key}}" cols="40" rows="1" required>{{bio}}</textarea></p>
 		<input type="submit" value="Submit">
 	</form>
 {% endblock %}

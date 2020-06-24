@@ -8,25 +8,25 @@
 	<h1>Create Links for New Term of Officers</h1>
 	<form action="/administration/officer/create_link" method="post">
 		{% csrf_token %}
-		<p>Term:
+        <id>Term <id style="color: #ff0000">*</id>
 			<select name="term">
 				{% for term in terms %}
 					<option value="{{term}}">{{term}}</option>
 				{% endfor %}
 			</select>
 
-		<p>Year:
+		<p>Year <id style="color: #ff0000">*</id>
 			<select name="year">
 				{% for year in years %}
 					<option value="{{year}}">{{year}}</option>
 				{% endfor %}
 			</select>
 
-		<p>Positions:<br>(enter them in a newline separated list)<br>
+		<p>Positions *<br>(enter them in a newline separated list)<br>
 			<textarea name="positions" cols=40" rows=10" required></textarea>
 		</p>
 
-		Overwrite Officers:<br>
+		Overwrite Officers <id style="color: #ff0000">*</id><br>
 		<input type="radio" name="overwrite" value="true" required>
 		Overwrite Current Officer for selected term<br>
 		<input type="radio" name="overwrite" value="false" required>

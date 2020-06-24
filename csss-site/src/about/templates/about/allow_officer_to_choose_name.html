@@ -1,0 +1,24 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+	{{ block.super }}
+	{% load static %}
+	{% load staticfiles %}
+
+	<form action="/about/display_page_for_officer_to_input_info" method="post">
+		{% csrf_token %}
+    <input type="text" name="passphrase" value="{{passphrase_key}}" hidden >
+    {%  if past_officers %}
+    <label for="bio_selected">Past Bio To Select: </label>
+        <select name="bio_selected" id="bio_selected">
+            {%  for officer in past_officers %}
+            <option value="{{officer.id}}">{{officer.name}} - {{ officer.position }} - {{ officer.elected_term }}</option>
+            {%  endfor %}
+        </select>
+        <input type="submit" name="reuse-bio" value="Proceed with Selected Bio">
+        <br><br><br>
+        <p>or
+    {%  endif %}
+        <input type="submit" name="new-bio" value="Create New Bio"></p>
+	</form>
+{% endblock %}

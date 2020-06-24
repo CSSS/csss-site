@@ -28,6 +28,10 @@ if "DEBUG" not in os.environ:
 DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
+if "PORT" in os.environ:
+    PORT = os.environ
+    logger.info(f'[settings.py] PORT set to {PORT}')
+
 if "HOST_ADDRESS" not in os.environ:
     logger.error("[settings.py] HOST_ADDRESS was not detected")
     exit(1)
@@ -47,20 +51,35 @@ DB_TYPE = os.environ['DB_TYPE']
 # SETTINGS FOR GOOGLE_DRIVE
 GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 
-if 'GDRIVE_ROOT_FOLDER_ID' not in os.environ:
-    logger.error("[settings.py] GDRIVE_ROOT_FOLDER_ID was not detected")
-    exit(1)
-GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
+if DEBUG is False:
+    if 'GDRIVE_ROOT_FOLDER_ID' not in os.environ:
+        logger.error("[settings.py] GDRIVE_ROOT_FOLDER_ID was not detected")
+        exit(1)
+    GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
 
-if 'CLIENT_ID_JSON_FILE' not in os.environ:
-    logger.error("[settings.py] CLIENT_ID_JSON_FILE was not detected")
-    exit(1)
-GDRIVE_CLIENT_ID_JSON_FILE = os.environ['CLIENT_ID_JSON_FILE']
+    if 'GDRIVE_TOKEN_LOCATION' not in os.environ:
+        logger.error("[settings.py] GDRIVE_TOKEN_LOCATION was not detected")
+        exit(1)
+    GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
 
-if 'TOKEN_LOCATION' not in os.environ:
-    logger.error("[settings.py] TOKEN_LOCATION was not detected")
-    exit(1)
-GDRIVE_FILE_ID = os.environ['TOKEN_LOCATION']
+    if 'GITHUB_ACCESS_TOKEN' not in os.environ:
+        logger.error("[settings.py] GITHUB_ACCESS_TOKEN was not detected")
+        exit(1)
+    GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
+
+    if "EXEC_PHOTOS_PATH" not in os.environ:
+        logger.error("[settings.py] EXEC_PHOTOS_PATH was not detected")
+        exit(1)
+    EXEC_PHOTOS_PATH = os.environ['EXEC_PHOTOS_PATH']
+else:
+    if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
+        GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
+    if 'GDRIVE_TOKEN_LOCATION' in os.environ:
+        GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
+    if 'GITHUB_ACCESS_TOKEN' in os.environ:
+        GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
+    if 'EXEC_PHOTOS_PATH' in os.environ:
+        EXEC_PHOTOS_PATH = os.environ['EXEC_PHOTOS_PATH']
 # Application definition
 
 INSTALLED_APPS = [

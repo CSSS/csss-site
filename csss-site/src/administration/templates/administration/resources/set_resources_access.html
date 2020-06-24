@@ -13,22 +13,16 @@
 		Google Drive<br>
 		<input type="radio" name="resource" value="github" required>
 		Github<br><br>
-        <input type="radio" name="resource" value="gitlab" required>
-		Gitlab<br><br>
-        <input type="radio" name="resource" value="maillists" required>
-		Maillist<br><br>
 		<br><input type="submit" value="submit" />
 	</form>
 
     <h1>Ensure Access is Valid on All Resources</h1>
     <form action="/administration/resources/validate_access" method="post">
         {% csrf_token %}
-		<input type="checkbox" name="resource" value="gdrive" required>
+		<input type="checkbox" name="resource" value="gdrive">
 		Google Drive:<br>
-		<input type="checkbox" name="resource" value="github" required>
+		<input type="checkbox" name="resource" value="github">
 		Github<br>
-		<input type="checkbox" name="resource" value="maillist" required>
-        SFU Maillist<br>
-		<br><<input type="submit" value="submit" />
+		<br><input type="submit" value="submit" />
     </form>
 {% endblock %}
