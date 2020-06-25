@@ -1,12 +1,12 @@
+import logging
+from datetime import datetime
+
 from django.shortcuts import render
 
 # Create your views here.
 # from django.views import generic
 from administration.views.views_helper import create_context
 from .models import NominationPage, Nominee
-from datetime import datetime
-
-import logging
 
 logger = logging.getLogger('csss_site')
 TAB_STRING = 'elections'

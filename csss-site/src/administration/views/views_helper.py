@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import logging
@@ -16,7 +17,8 @@ def create_context(request, tab, groups=None):
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
-        'tab': tab
+        'tab': tab,
+        'URL_ROOT': settings.URL_ROOT
     }
     return context
 

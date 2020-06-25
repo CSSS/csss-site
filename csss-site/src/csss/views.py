@@ -1,14 +1,15 @@
-from django.shortcuts import render
+import datetime
+import logging
+import math
 from email.utils import parseaddr
 
+from django.shortcuts import render
+from django_mailbox.models import Message
+
+from about.models import AnnouncementEmailAddress
 from administration.views.views_helper import create_context
 from announcements.models import Post
-from about.models import AnnouncementEmailAddress
-from django_mailbox.models import Message
-import datetime
-import math
 
-import logging
 logger = logging.getLogger('csss_site')
 
 
@@ -79,5 +80,4 @@ def index(request):
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
     })
-
     return render(request, 'announcements/announcements.html', context)

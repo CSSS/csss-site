@@ -1,27 +1,77 @@
-{% extends "csss/header.html" %}
-{%  load static %}
+{% extends "csss/new_header.html" %}
+{% load static %}
 {% load staticfiles %}
+
 {% block content %}
-<link rel="stylesheet" type="text/css" href="{% static 'announcements_static/style.css' %}">
+<body>
 
-	{% for post in posts %}
-        <div id='announce'>
-    		<h3>{{post.subject}}</h3>
-    		<div class='details text-muted'><p>Posted by {{post.from_header}} on {{post.processed}}</p></div>
-            <div class ='content'>
-                {% if post.html|safe|length > 0 %}
-                    {{post.html|safe}}
-                {% else %}
-                    {{post.text|safe|linebreaks}}
-                {% endif %}
 
-        		{% for attachment in post.attachments.all %}
-        			<p> attachment: </p> <a href="{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
-    		     {% endfor %}
+<div class="columns">
+    <div class="column is-three-quarters ">
+
+        {% for post in posts %}
+
+        <section class="section">
+            <div class="container">
+                <article class="box is-light" >
+                    <h3 class="title is-size-3">{{post.subject}}</h3>
+                    <p class="is-size-6 has-text-grey has-text-right">Posted by {{post.from_header}} on {{post.processed}}</p>
+                    <hr style=
+                    "border:solid 1px grey;
+                    height: 0px;">
+                    <div class="is-size-6">
+                    {% if post.html|safe|length > 0 %}
+                        {{post.html|safe}}
+                    {% else %}
+                        {{post.body|safe|linebreaks}}
+                    {% endif %}
+                    </div>
+                    {% for attachment in post.attachments.all %}
+                        <p> attachment: </p> <a href="{{URL_ROOT}}{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
+                    {% endfor %}
+                </article>
             </div>
-        </div>
-	{% endfor %}
-    <a href="{{ previousButtonLink|safe }}">Previus Posts</a>
-    <a href="{{ nextButtonLink|safe }}">Next Posts</a>
-    <br><br><br><br><br>
+        </section>
+        {% endfor %}
+        <section class="section">
+            <div class="container">
+
+                <nav class="pagination is-right" role="navigation" aria-label="pagination">
+                    <a href="{{ previousButtonLink|safe }}" class="pagination-previous">Previous</a>
+                    <a  href="{{ nextButtonLink|safe }}" class="pagination-next">Next page</a>
+                </nav>  
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+</body>
+
+<script>
+//This javascript removes the grey box around the announcements when on mobile so that
+// the text isnt as squished
+
+//todo: something better than this
+
+ 
+ if ($(window).width() < 600) {
+         $('article').removeClass('box');
+     } else {
+         $('article').addClass('box');
+     }
+
+
+ $(window).resize(function () {
+     if ($(window).width() < 600) {
+         $('article').removeClass('box');
+     } else {
+         $('article').addClass('box');
+     }
+});
+</script>
+
+
 {% endblock %}
+

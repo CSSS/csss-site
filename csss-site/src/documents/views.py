@@ -1,33 +1,14 @@
+import datetime
+import logging
+import math
+
 from django.shortcuts import render
 
 from administration.views.views_helper import create_context
 from documents.models import Media, Event, Album
-import datetime
-import math
-
-import logging
 
 logger = logging.getLogger('csss_site')
 TAB_STRING = 'documents'
-
-
-def index(request):
-    return render(
-        request,
-        'documents/constitution.html',
-        create_context(request, TAB_STRING)
-    )
-
-
-def policies(request):
-    return render(
-        request,
-        'documents/policies.html',
-        create_context(
-            request,
-            TAB_STRING
-        )
-    )
 
 
 def events(request):
@@ -40,7 +21,6 @@ def events(request):
 
 
 def album(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
     current_page = request.GET.get('p', 'none')
     if current_page == 'none':
         current_page = 1

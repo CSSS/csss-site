@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 
 from administration.views.views_helper import create_context
 
@@ -23,5 +24,3 @@ def frosh_week(request):
 
 def mountain_madness2020(request):
     return render(request, 'events/mountain_madness2020.html', create_context(request, TAB_STRING))
-
-# Create your views here.

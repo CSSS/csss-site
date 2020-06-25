@@ -1,9 +1,9 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 {% block content %}
 {{ block.super }}
 {% load static %}
 
-{% block title %}Upload media to CSSS Website{% endblock %}
+<!--{% block title %}Upload media to CSSS Website{% endblock %}-->
 
 {% block head %}
     {{ block.super }}
@@ -12,21 +12,33 @@
 {% endblock %}
 
 {% block body %}
-    <form method="POST" enctype="multipart/form-data" id="example-form">
-        {% csrf_token %}
-        {{ form }}
-        <input class="btn btn-primary" type="submit" value="Save" />
-    </form>
 
-    {% include 'django_file_form/upload_template.html' %}
+<div class="container">
+    <div class="section">
+        <h1 class="is-size-3">Upload media to CSSS Website</h1>
+        <hr><br>
 
-    <script src="{% static "file_uploads/jquery/dist/jquery.js" %}"></script>
-    <script src="{% static "ajaxuploader/js/fileuploader.js" %}"></script>
-    <script src="{% static "file_form/file_form.js" %}"></script>
-    <script>
-        $(function() {
-            initUploadFields($('#example-form'));
-        });
-    </script>
+        <form method="POST" enctype="multipart/form-data" id="example-form" class="form">
+                {% csrf_token %}
+                {{ form }}
+                <input class="button is-primary" type="submit" value="Save" />
+        </form>
+
+        {% include 'django_file_form/upload_template.html' %}
+
+        <br>
+        <br>
+        <br>
+
+        <script src="{% static "file_uploads/jquery/dist/jquery.js" %}"></script>
+        <script src="{% static "ajaxuploader/js/fileuploader.js" %}"></script>
+        <script src="{% static "file_form/file_form.js" %}"></script>
+        <script>
+            $(function() {
+                initUploadFields($('#example-form'));
+            });
+        </script>
+    </div>
+</div>
 {% endblock %}
 {% endblock %}

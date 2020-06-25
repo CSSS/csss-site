@@ -2,11 +2,12 @@ import datetime
 import json
 import logging
 
+from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from administration.views.views_helper import verify_access_logged_user_and_create_context
+from administration.views.views_helper import verify_access_logged_user_and_create_context, there_are_multiple_entries
 from elections.models import NominationPage, Nominee
 
 logger = logging.getLogger('csss_site')
@@ -53,7 +54,7 @@ def create_specified_election(request):
             f"full_name={post_dict[NOM_NAME_KEY]} len = {len(post_dict[NOM_NAME_KEY])}"
         )
         position_index = 0
-        if len(post_dict[NOM_NAME_KEY][0]) > 1:
+        if there_are_multiple_entries(post_dict, NOM_NAME_KEY):
             save_nominees(post_dict, nomination_page, position_index)
             position_index += 1
         else:
@@ -84,9 +85,7 @@ def create_specified_election(request):
                     position=position_index
                 )
                 nom.save()
-
-        return render(request, 'administration/create_election.html', context)
-    return render(request, 'administration/create_election.html', context)
+    return render(request, 'administration/elections/create_election.html', context)
 
 
 def save_nominees(post_dict, nomination_page, position_index):
@@ -139,14 +138,12 @@ def create_or_update_specified_election_with_provided_json(request):
             "[administration/login_views.py create_or_update_specified_election_with_provided_json()] "
             "creating new election"
         )
-        post_dict = parser.parse(request.POST.urlencode())
         post_dict = json.loads(request.POST['input_json'])
         logger.info(
             "[administration/login_views.py create_or_update_specified_election_with_provided_json()] "
             f"post_dict={post_dict}"
         )
-        nomination_page = get_nomination_page_json(json.loads(request.POST['input_json']))
-        # post_dict = parser.parse(request.POST.urlencode())
+        nomination_page = get_nomination_page_json(post_dict)
         logger.info(
             "[administration/login_views.py create_or_update_specified_election_with_provided_json()] "
             f"post_dict={post_dict}"
@@ -156,9 +153,7 @@ def create_or_update_specified_election_with_provided_json(request):
             f"full_name={post_dict[ELECTION_NOMINEES_KEY]} len = {len(post_dict[ELECTION_NOMINEES_KEY])}"
         )
         save_nominees_from_json(post_dict[ELECTION_NOMINEES_KEY], nomination_page)
-
-        return render(request, 'administration/create_election_json.html', context)
-    return render(request, 'administration/create_election_json.html', context)
+    return render(request, 'administration/elections/create_election_json.html', context)
 
 
 def get_nomination_page_json(input_json):
@@ -166,9 +161,6 @@ def get_nomination_page_json(input_json):
     slug = f"{dt.strftime('%Y-%m-%d')}-{input_json[ELECTION_TYPE_KEY]}"
     NominationPage.objects.filter(
         slug=slug,
-        election_type=input_json[ELECTION_TYPE_KEY],
-        date=dt,
-        websurvey=input_json[ELECTION_WEBSURVEY_LINK_KEY]
     ).delete()
 
     nomination_page = NominationPage(
@@ -214,21 +206,17 @@ def save_nominees_from_json(nominees, nomination_page):
 
 
 # displays page that allows the user to select the election and what action they want to perform on the election
-
-
 def select_election_to_update(request):
     (render_value, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:
         return render_value
     elections = NominationPage.objects.all().order_by('-id')
     context.update({'elections': elections})
-    return render(request, 'administration/select_election.html', context)
+    return render(request, 'administration/elections/select_election.html', context)
 
 
-# calls the function that does the action that was requred by the user on select_election.html page
-# that the above function displayes for the user
-
-
+# calls the function that does the action that was required by the user on select_election.html page
+# that the above function displays for the user
 def determine_election_action(request):
     logger.info(f"[administration/login_views.py determine_election_action()] request.POST={request.POST}")
     (render_value, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
@@ -246,18 +234,18 @@ def determine_election_action(request):
                 "[administration/login_views.py determine_election_action()] incorrect action detected, "
                 "returning /administration/elections/select_election"
             )
-            return HttpResponseRedirect('/administration/elections/select_election')
+            return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
     else:
         logger.info(
             "[administration/login_views.py determine_election_action()] action "
             "is not detected, returning /administration/elections/select_election"
         )
-        return HttpResponseRedirect('/administration/elections/select_election')
+        return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def delete_selected_election(election_id):
     NominationPage.objects.filter(slug=election_id).delete()
-    return HttpResponseRedirect('/administration/elections/select_election')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def display_selected_election_for_updating(request, election_id):
@@ -275,7 +263,7 @@ def display_selected_election_for_updating(request, election_id):
         'election_type': election.election_type,
         'websurvey': election.websurvey,
     })
-    return render(request, 'administration/update_election.html', context)
+    return render(request, 'administration/elections/update_election.html', context)
 
 
 def display_selected_election_json_for_updating(request, election_id):
@@ -292,17 +280,17 @@ def display_selected_election_json_for_updating(request, election_id):
         ELECTION_NOMINEES_KEY: []
     }
     for nominee in nominees:
-        election_dict[ELECTION_NOMINEES_KEY].append({
-            NOM_NAME_KEY: nominee.legal_name,
+        nom = {
+            NOM_NAME_KEY: nominee.name,
             NOM_POSITION_KEY: nominee.exec_position,
             NOM_SPEECH_KEY: nominee.speech,
             NOM_FACEBOOK_KEY: nominee.facebook,
             NOM_LINKEDIN_KEY: nominee.linked_in,
             NOM_EMAIL_KEY: nominee.email,
             NOM_DISCORD_USERNAME_KEY: nominee.discord
-        })
-    context['election_dict'] = json.dumps(election_dict)
-    return render(request, 'administration/update_election_json.html', context)
+        }
+        election_dict[ELECTION_NOMINEES_KEY].append(nom)
+    return render(request, 'administration/elections/update_election_json.html', context)
 
 
 # deletes the election and recreates it with the nominees that the user has specified
@@ -346,9 +334,7 @@ def update_specified_election(request):
                     position=position_index
                 )
                 nom.save()
-
-        return HttpResponseRedirect('/administration/elections/select_election')
-    return HttpResponseRedirect('/administration/elections/select_election')
+    return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def get_nomination_page(request):
@@ -358,10 +344,7 @@ def get_nomination_page(request):
     )
     slug = f"{dt.strftime('%Y-%m-%d')}-{request[ELECTION_TYPE_KEY]}"
     NominationPage.objects.filter(
-        slug=slug,
-        election_type=request[ELECTION_TYPE_KEY],
-        date=dt,
-        websurvey=request[ELECTION_WEBSURVEY_LINK_KEY]
+        slug=slug
     ).delete()
 
     nomination_page = NominationPage(

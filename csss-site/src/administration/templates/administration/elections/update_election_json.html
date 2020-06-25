@@ -1,15 +1,24 @@
-{% extends "csss/header.html" %}
+{% extends "csss/new_header.html" %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
 {% block content %}
-	<h1>Modify Election</h1>
-	<form action="/administration/elections/create_or_update_json" method="post">
+	<h1 class="title">Modify Election</h1>
+	<form action="{{URL_ROOT}}administration/elections/create_or_update_json" method="post" class="form">
 		{% csrf_token %}
 		<p> You can Beautify the below output with <a href="https://codebeautify.org/jsonviewer" target="_blank">Code Beautify</a>
 		<textarea name="input_json" cols="40" rows="40" required>{{election_dict|safe}}</textarea></p>
 		<input type="submit" value="submit" />
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
+		<br>
 	</form>
 {% endblock %}

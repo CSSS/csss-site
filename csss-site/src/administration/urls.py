@@ -61,11 +61,11 @@ urlpatterns = [
         name="Github Management"
     ),
     url(
-        r'^resources/add_non_officer_to_github_team',
+        r'^resources/github/add_non_officer_to_github_team',
         github_views.add_non_officer_to_github_team,
         name="Add Non Officer To Github Teams"
     ), url(
-        r'^resources/update_github_non_officer',
+        r'^resources/github/update_github_non_officer',
         github_views.update_github_non_officer,
         name="Update Non Officer"
     ),
