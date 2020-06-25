@@ -29,7 +29,6 @@ class Term(models.Model):
         default='Fall',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
-
     year = models.IntegerField(
         choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 1)))],
         default='2018',

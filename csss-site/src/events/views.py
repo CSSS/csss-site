@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.conf import settings
 
 from administration.views.views_helper import create_context
 

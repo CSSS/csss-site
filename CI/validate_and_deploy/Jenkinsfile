@@ -1,0 +1,97 @@
+pipeline {
+    agent any
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+    }
+    stages {
+        stage('Validate Formatting') {
+            steps {
+                sh label: '', script: """bash -c \'
+                    ./csss-site/test/line_endings.sh
+                    export ENVIRONMENT=TEST;
+                    export COMPOSE_PROJECT_NAME=TEST_WEBSITE_"${BRANCH_NAME}";
+
+                    export CONTAINER_HOME_DIR=/usr/src/app;
+                    export CONTAINER_TEST_DIR="\${CONTAINER_HOME_DIR}"/tests;
+                    export CONTAINER_SRC_DIR="\${CONTAINER_HOME_DIR}"/src;
+
+                    export LOCALHOST_SRC_DIR=${WORKSPACE}/website/src/;
+                    export LOCALHOST_TEST_DIR=test_results;
+                    export TEST_RESULT_FILE_NAME=all-unit-tests.xml;
+                    export LOCALHOST_TEST_DIR=${WORKSPACE}/"\${LOCALHOST_TEST_DIR}";
+
+                    export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
+                    export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
+                    ./CI/validate_and_deploy/run_dockerized_formatting_test.sh
+                \'"""
+            }
+        }
+        stage('Deploy to Test Server') {
+            when { changeRequest target: 'master' }
+            steps {
+                withCredentials(
+                    [
+                        string(credentialsId: 'WEBSITE_DEV_SECRET_KEY', variable: 'WEBSITE_DEV_SECRET_KEY'),
+                        string(credentialsId: 'WEBSITE_DEV_DB_PASSWORD', variable: 'WEBSITE_DEV_DB_PASSWORD'),
+                        string(credentialsId: 'WEBSITE_DEV_STRIPE_SECRET_KEY', variable: 'WEBSITE_DEV_STRIPE_SECRET_KEY'),
+                        string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
+                    ]
+                ) {
+                      sh label: '', script: """bash -c \'
+                        export BRANCH_NAME=${BRANCH_NAME};
+                        export BASE_DIR=/home/csss/\${BRANCH_NAME};
+
+                        export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
+                        export DEBUG=true;
+                        export HOST_ADDRESS=dev.sfucsss.org;
+
+                        export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
+                        export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
+                        export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
+                        ./CI/validate_and_deploy/update_files_on_server.sh;
+                        ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
+                      \'"""
+                }
+            }
+        }
+        stage('Deploy to Prod Server') {
+            when {
+                branch 'master'
+            }
+            steps {
+                withCredentials(
+                    [
+                        string(credentialsId: 'WEBSITE_PROD_SECRET_KEY', variable: 'WEBSITE_PROD_SECRET_KEY'),
+                        string(credentialsId: 'WEBSITE_PROD_DB_PASSWORD', variable: 'WEBSITE_PROD_DB_PASSWORD'),
+                        string(credentialsId: 'WEBSITE_PROD_STRIPE_SECRET_KEY', variable: 'WEBSITE_PROD_STRIPE_SECRET_KEY'),
+                        string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY')
+                    ]
+                ) {
+                    sh label: '', script: """bash -c \'
+                        export BRANCH_NAME=${BRANCH_NAME};
+                        export BASE_DIR=/home/csss;
+                        export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
+                        export DEBUG=false;
+                        export HOST_ADDRESS=sfucsss.org;
+
+                        export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
+                        export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
+                        export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
+                        ./CI/validate_and_deploy/update_files_on_server.sh;
+                        ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
+                    \'"""
+                }
+            }
+        }
+    }
+    post {
+      always {
+          script {
+              if (fileExists('test_results/all-unit-tests.xml')){
+                  junit 'test_results/all-unit-tests.xml'
+              }
+          }
+      }
+  }
+}

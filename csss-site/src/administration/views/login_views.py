@@ -16,7 +16,11 @@ def login(request):
         if user is not None:
             dj_login(request, user)
             logger.info("[administration/views.py login()] it was a successful login")
+<<<<<<< HEAD:csss-site/src/administration/views/login_views.py
     logger.info("[administration/views.py login()] it was an unsuccessful login")
+=======
+    logger.info("[administration/views.py login()] it was an insuccessful login")
+>>>>>>> f2648f8f41c3c733115db055a8b9bed7438d1056:csss-site/src/administration/views.py
     return HttpResponseRedirect(settings.URL_ROOT)
 
 

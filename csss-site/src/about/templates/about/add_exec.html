@@ -4,8 +4,7 @@
 	{{ block.super }}
 	{% load static %}
 	{% load staticfiles %}
-
-	<form action="/administration/officer/process_exec_info" method="post">
+	<form action="{{URL_ROOT}}administration/officer/process_exec_info" method="post">
 		{% csrf_token %}
 		<input type="text" name="{{ passphrase }}" value="{{passphrase_key}}" hidden >
 		<p>

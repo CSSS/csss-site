@@ -6,6 +6,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
+from django.conf import settings
 
 from administration.views.views_helper import verify_access_logged_user_and_create_context, there_are_multiple_entries
 from elections.models import NominationPage, Nominee

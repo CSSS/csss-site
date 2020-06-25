@@ -66,8 +66,6 @@ else:
     logger.info(f'[settings.py] BASE_DIR set to {URL_ROOT}')
     logger.info(f'[settings.py] BASE_DIR set to {URL_PATTERN}')
 
-
-
 # SETTINGS FOR GOOGLE_DRIVE
 GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 
