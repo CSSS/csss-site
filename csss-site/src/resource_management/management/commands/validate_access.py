@@ -44,6 +44,3 @@ class Command(BaseCommand):
             logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
                         "to the SFU Gitlab")
             validate_sfu_gitlab()
-
-
-

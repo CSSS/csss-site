@@ -1,9 +1,8 @@
 import logging
-
 import github
+from github import Github
 
 logger = logging.getLogger('csss_site')
-from github import Github
 
 
 class GitHubAPI:
@@ -16,7 +15,9 @@ class GitHubAPI:
         try:
             self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
             self.org = self.git.get_organization(
-                'CSSS')  # https://pygithub.readthedocs.io/en/latest/github_objects/Organization.html#github.Organization.Organization
+                'CSSS')
+            # https://pygithub.readthedocs.io/en/latest/github_objects/Organization.html
+            # #github.Organization.Organization
             self.connection_successful = True
         except Exception as e:
             logger.error(
@@ -46,15 +47,18 @@ class GitHubAPI:
                         github_user = github_users[0]
                         if github_user not in self.org.get_members():
                             logger.info(
-                                f"[Github add_user_to_team()] adding {github_user} to CSSS org and inviting them to {team} team.")
+                                f"[Github add_user_to_team()] adding {github_user} "
+                                f"to CSSS org and inviting them to {team} team."
+                            )
                             self.org.invite_user(user=github_user, teams=[team])
                         elif not team.has_in_members(github_user):
                             logger.info(f"[Github add_user_to_team()] adding {github_user} to the {team} team.")
                             team.add_membership(github_user)
                         else:
                             logger.info(
-                                f"[Github add_user_to_team()] it seems that {github_user} already is in the org and a member "
-                                f"of the {team} team")
+                                f"[Github add_user_to_team()] it seems that {github_user} already is in "
+                                f"the org and a member of the {team} team"
+                            )
                 except Exception as e:
                     logger.error(
                         f"[Github add_user_to_team()] Unable to find user \"{user}\" due to following error\n{e}"

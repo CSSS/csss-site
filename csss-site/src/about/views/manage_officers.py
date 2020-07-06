@@ -14,8 +14,8 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import Term, Officer, AnnouncementEmailAddress
-from resource_management.models import ProcessNewOfficer, NaughtyOfficer, OfficerGithubTeamMapping, OfficerGithubTeam, \
-    GoogleMailAccountCredentials
+from resource_management.models import ProcessNewOfficer, NaughtyOfficer, \
+    OfficerGithubTeamMapping, OfficerGithubTeam, GoogleMailAccountCredentials
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
@@ -117,7 +117,9 @@ def verify_passphrase_access_and_create_context(request, tab):
 
         passphrase = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
         logger.info(
-            f"[administration/manage_officers.py verify_passphrase_access_and_create_context()] len(passphrase) = '{len(passphrase)}'")
+            "[administration/manage_officers.py verify_passphrase_access_and_create_context()] len(passphrase) "
+            f"= '{len(passphrase)}'"
+        )
         if len(passphrase) == 0:
             return HttpResponseRedirect(
                 '/error'), None, "You did not supply a passphrase that matched any" \
@@ -204,7 +206,9 @@ def show_page_with_creation_links(request):
                 link=link_to_create
             ).save()
             logger.info(
-                f"[administration/manage_officers.py show_page_with_creation_links()] interpreting position {position}")
+                "[administration/manage_officers.py show_page_with_creation_links()] "
+                f"interpreting position {position}"
+            )
 
             link_to_create = link_to_create.replace(" ", "%20")
             officer_creation_links.append(link_to_create)
@@ -280,7 +284,9 @@ def display_page_for_officers_to_input_their_info(request):
 
     """
     logger.info(
-        f"[administration/manage_officers.py display_page_for_officers_to_input_their_info()] request.GET={request.GET}")
+        "[administration/manage_officers.py display_page_for_officers_to_input_their_info()] "
+        f"request.GET={request.GET}"
+    )
     (render_value, context, error_message, passphrase) = verify_passphrase_access_and_create_context(request,
                                                                                                      TAB_STRING)
     if context is None:
@@ -394,9 +400,15 @@ def process_information_entered_by_officer(request):
         bio = request.POST[HTML_BIO_KEY].strip()
         (term_year, term_season_number, term_identifier) = get_term_info(term)
         if settings.OFFICER_PHOTOS_PATH is None:
-            pic_path = f"OFFICER_PHOTOS_PATH/{term_year}_0{term_season_number}_{term_identifier}/{full_name_in_pic}.jpg"
+            pic_path = (
+                f"OFFICER_PHOTOS_PATH/{term_year}_0{term_season_number}_"
+                f"{term_identifier}/{full_name_in_pic}.jpg"
+            )
         else:
-            pic_path = f"{settings.OFFICER_PHOTOS_PATH}/{term_year}_0{term_season_number}_{term_identifier}/{full_name_in_pic}.jpg"
+            pic_path = (
+                f"{settings.OFFICER_PHOTOS_PATH}/{term_year}_0"
+                f"{term_season_number}_{term_identifier}/{full_name_in_pic}.jpg"
+            )
 
         officer, created = Officer.objects.get_or_create(
             position=officer_position,
@@ -441,17 +453,16 @@ def process_information_entered_by_officer(request):
                 " 1. check the email associated with your github for an invitation to our SFU CSSS Github org on "
                 "Github\n "
                 " 2. check your sfu email for an invitation to join our SFU CSSS org on SFU Gitlab\n\n"
-                "Apart from that, take the following documentation, which is linked here, as it is a nightmare trying "
-                "to figure "
-                "out "
+                "Apart from that, take the following documentation, which is linked here, as it is a "
+                "nightmare trying to figure out "
                 "markdown for gmail from a python script: https://github.com/CSSS/documents/wiki"
             )
         elif officer_position in ELECTION_OFFICER_POSITIONS:
             body = (
                 f"Hello {full_name},\n\n"
                 "Congrats on becoming a CSSS Election Officer,\n\n"
-                "Please read the following documentation, which is linked here, as it is a nightmare trying to figure "
-                "out "
+                "Please read the following documentation, which is linked here, "
+                "as it is a nightmare trying to figure out "
                 "markdown for gmail from a python script: https://github.com/CSSS/elections-documentation"
             )
         if body is not None:
@@ -497,7 +508,8 @@ def get_term_info(term):
 
     Returns
     term_year -- the year for the term object
-    term_season_number -- the number of the tem, e.g. 1, 2, or 3. this can also be -1 if the term does not have a valid season
+    term_season_number -- the number of the tem, e.g. 1, 2, or 3. this can also be -1 if the
+        term does not have a valid season
     term_season -- the season for the term, e.g. Spring, Summer or Fall
     """
     term_year = term.year
@@ -585,7 +597,9 @@ def send_instructional_email_to_new_officer(subject, body, from_name, from_email
     server.ehlo()
     server.starttls()
     logger.info(
-        f"[administration/manage_officers.py send_instructional_email_to_new_officer()] Logging into your {from_email}")
+        f"[administration/manage_officers.py send_instructional_email_to_new_officer()] "
+        f"Logging into your {from_email}"
+    )
     server.login(from_email, password)
     logger.info("[administration/manage_officers.py send_instructional_email_to_new_officer()] Sending email...")
     server.send_message(from_addr=from_email, to_addrs=to_email, msg=msg)

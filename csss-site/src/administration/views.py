@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 
 import logging
+
 logger = logging.getLogger('csss_site')
 
 

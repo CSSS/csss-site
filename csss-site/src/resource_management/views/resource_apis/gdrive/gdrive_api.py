@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 
 logger = logging.getLogger('csss_site')
 
-mimeType = [
+mime_type = [
     'application/vnd.google-apps.audio',
     'application/vnd.google-apps.document',
     'application/vnd.google-apps.drawing',
@@ -113,12 +113,15 @@ class GoogleDrive:
 
             name = response['name']
             for user in users:
-                emailMessage = (
+                email_message = (
                     f"Hello {user},"
-                    "You have been granted acces to a subfolder in the CSSS Google Drive. Please be careful when deleting as you have \"master\" access, as do all the officers."
-                    "Furthermore, when creating a file on the CSSS Google Drive, please try to transfer ownerships of any files you create to \"sfucsss@gmail.com\" account "
+                    "You have been granted acces to a subfolder in the CSSS Google Drive. "
+                    "Please be careful when deleting as you have \"master\" access, as do all the officers."
+                    "Furthermore, when creating a file on the CSSS Google Drive, please "
+                    "try to transfer ownerships of any files you create to \"sfucsss@gmail.com\" account "
                     "as this makes it easier for me to remove your access when it's time to revoke it."
-                    "You can figure out how to do that with these instructions: https://github.com/CSSS/managingCSSSResources/tree/master/google_drive"
+                    "You can figure out how to do that with these instructions: "
+                    "https://github.com/CSSS/managingCSSSResources/tree/master/google_drive"
                     "-Your Sys Admin"
                 )
                 body = {}
@@ -127,11 +130,19 @@ class GoogleDrive:
                 body['emailAddress'] = user.lower()
                 try:
                     logger.info(
-                        f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} permission to access the sfu csss google drive")
-                    response = self.gdrive.permissions().create(fileId=file_id, emailMessage=emailMessage,
-                                                     sendNotificationEmail=True, body=body).execute()
+                        f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
+                        "permission to access the sfu csss google drive"
+                    )
+                    self.gdrive.permissions().create(
+                        fileId=file_id,
+                        emailMessage=email_message,
+                        sendNotificationEmail=True,
+                        body=body
+                    ).execute()
                     logger.info(
-                        f"[GoogleDrive add_users_gdrive()] email sent to {user.lower()} regarding their access to the sfu google drive")
+                        f"[GoogleDrive add_users_gdrive()] email sent to {user.lower()} "
+                        "regarding their access to the sfu google drive"
+                    )
                     return True, name, None
                 except Exception as e:
                     logger.info(
@@ -153,24 +164,32 @@ class GoogleDrive:
                 file_id = self.root_file_id
             try:
                 logger.info(
-                    f"[GoogleDrive remove_users_gdrive()] attempting to get the list of permisisons for file with id {file_id}")
+                    "[GoogleDrive remove_users_gdrive()] attempting to get the list of permisisons for "
+                    f"file with id {file_id}"
+                )
                 permissions = self.gdrive.permissions().list(fileId=file_id, fields='permissions').execute()
-                logger.info(f"[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
+                logger.info("[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
                 for user in users:
                     for permission in permissions['permissions']:
                         if permission['emailAddress'].lower() == user:
                             try:
                                 logger.info(
-                                    f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s access to file with id {file_id}")
+                                    f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
+                                    f"access to file with id {file_id}"
+                                )
                                 self.gdrive.permissions().delete(fileId=file_id,
                                                                  permissionId=permission['id']).execute()
-                                logger.info(f"[GoogleDrive remove_users_gdrive()] attempt successful")
+                                logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
                                 logger.info(
-                                    f"[GoogleDrive remove_users_gdrive()] encountered following error with permission removed. \n {e}")
+                                    "[GoogleDrive remove_users_gdrive()] encountered following error "
+                                    f"with permission removed. \n {e}"
+                                )
             except Exception as e:
                 logger.info(
-                    f"[GoogleDrive remove_users_gdrive()] encountred the following error when trying to get the list of permissions. \n{e}")
+                    "[GoogleDrive remove_users_gdrive()] encountred the following error when trying "
+                    f"to get the list of permissions. \n{e}"
+                )
 
     def make_public_link_gdrive(self, file_id):
         """Create a public-link for a CSSS Google Drive Folder/File
@@ -187,9 +206,11 @@ class GoogleDrive:
             body['type'] = 'anyone'
             try:
                 logger.info(
-                    f"[GoogleDrive make_public_link_gdrive()] will attempt to make the file with id {file_id} publicly available.")
+                    f"[GoogleDrive make_public_link_gdrive()] will attempt to make the file with id {file_id} "
+                    f"publicly available."
+                )
                 self.gdrive.permissions().create(fileId=file_id, body=body).execute()
-                logger.info(f"[GoogleDrive make_public_link_gdrive()] will attempt to get the public link to file.")
+                logger.info("[GoogleDrive make_public_link_gdrive()] will attempt to get the public link to file.")
                 response = self.gdrive.files().get(fileId=file_id, fields='name, webViewLink').execute()
                 return True, response['name'], response['webViewLink'], None
             except Exception as e:
@@ -209,7 +230,9 @@ class GoogleDrive:
                     f"that is enabled for file with id {file_id}"
                 )
                 self.gdrive.permissions().delete(fileId=file_id, permissionId='anyoneWithLink').execute()
-                logger.info(f"[GoogleDrive remove_public_link_gdrive()] removed public link for file with id {file_id}")
+                logger.info(
+                    f"[GoogleDrive remove_public_link_gdrive()] removed public link for file with id {file_id}"
+                )
             except Exception as e:
                 logger.info(
                     "[GoogleDrive remove_public_link_gdrive()] experienced the following error when "
@@ -225,13 +248,13 @@ class GoogleDrive:
         """
         if self.connection_successful:
             while True:
-                daResponse = self.gdrive.files().get(fileId=file_id, fields='*').execute()
+                response = self.gdrive.files().get(fileId=file_id, fields='*').execute()
                 # logger.info(json.dumps(daResponse, indent=4, sort_keys=True))
-                if daResponse['id'] == parent_folder:
+                if response['id'] == parent_folder:
                     return True
-                if 'parents' not in daResponse:
+                if 'parents' not in response:
                     return False
-                file_id = daResponse['parents'][0]
+                file_id = response['parents'][0]
                 # id, name and parent id
 
     def ensure_root_permissions_are_correct(self, google_drive_perms):
@@ -258,7 +281,8 @@ class GoogleDrive:
                 response = self.gdrive.files().get(fileId=self.root_file_id, fields='*').execute()
             except Exception as e:
                 logger.info(
-                    f"[GoogleDrive ensure_root_permissions_are_correct()] unable to get all the files under root due to following error.\n {e}")
+                    "[GoogleDrive ensure_root_permissions_are_correct()] unable to get all the files "
+                    f"under root due to following error.\n {e}")
                 return False
             # first doing a check for the permissions to the root folder "CSSS"
             # once the new permissions have gone through, will check each individual file to make sure
@@ -279,25 +303,25 @@ class GoogleDrive:
 
             # once the function tries to set the permissions correctly at the top-level, it will then wait 10 second
             # to give time for the above changes to propagate through before it does a call to
-            # ensure_permissions_are_correct to deal with cases where subfiles/folders are now owned by sfucsss@gmail.com
-            # which prevents removing the owner of that file from the drive
+            # ensure_permissions_are_correct to deal with cases where subfiles/folders are now owned
+            # by sfucsss@gmail.com which prevents removing the owner of that file from the drive
             time.sleep(10)
             self.ensure_permissions_are_correct(google_drive_perms, [self.root_file_id])
 
     def ensure_permissions_are_correct(self, google_drive_perms, parent_id):
         """Goes through each single file and folder under "CSSS" root folder and checking each file/folder to make sure
-         that either it has the proper permission sets or is duplicated or its owner notified that they need to correct
-         who the owner of the file is so that its permissions can be corrected
+         that either it has the proper permission sets or is duplicated or its owner notified that
+         they need to correct who the owner of the file is so that its permissions can be corrected
 
          Keyword Arguments:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
          parent_id -- the folder folder that needs to have its contents searched
         """
-        nextPageToken = None
+        next_page_token = None
         while True:
             try:
                 response = self.gdrive.files().list(
-                    pageToken=nextPageToken,
+                    pageToken=next_page_token,
                     fields='*',
                     pageSize=999,
                     q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
@@ -320,8 +344,8 @@ class GoogleDrive:
                         if 'anyoneWithLink' not in google_drive_perms.keys():
                             # there are no link-shares enabled at this time
                             logger.info(
-                                f"[GoogleDrive ensure_permissions_are_correct()] removing public "
-                                "link for file with id {file['id']} and name {file['name']}"
+                                "[GoogleDrive ensure_permissions_are_correct()] removing public "
+                                f"link for file with id {file['id']} and name {file['name']}"
                             )
                             self.remove_public_link_gdrive(file['id'])
                         else:
@@ -329,8 +353,8 @@ class GoogleDrive:
                                 # check to see if this particular file has not been link-share enabled or
                                 # one of this particular file's parent folders have also not been link-share enabled
                                 logger.info(
-                                    f"[GoogleDrive ensure_permissions_are_correct()] removing public "
-                                    "link for file with id {file['id']} and name {file['name']}"
+                                    "[GoogleDrive ensure_permissions_are_correct()] removing public "
+                                    f"link for file with id {file['id']} and name {file['name']}"
                                 )
                                 self.remove_public_link_gdrive(file['id'])
                     elif 'emailAddress' in permission:
@@ -358,7 +382,7 @@ class GoogleDrive:
             if 'nextPageToken' not in response:
                 # no more files to look at under this folder so need to go back up the recursive stack
                 return
-            nextPageToken = response['nextPageToken']
+            next_page_token = response['nextPageToken']
 
     def ensure_correct_owner_for_file(self, file_info):
         """Checks what kind of a file has been passed and what needs to happen to ensure its owner is sfucsss@gmail.com
@@ -367,7 +391,8 @@ class GoogleDrive:
         file_info -- the file_info for the file that needs to have its permissions checked
         """
         if 'google-apps' not in file_info['mimeType']:
-            # any file that is not a google native document cannot have its owner changes, it needs to be duplicated instead.
+            # any file that is not a google native document cannot have its owner changes,
+            # it needs to be duplicated instead.
             if file_info['ownedByMe']:
                 return True
             else:
@@ -388,20 +413,22 @@ class GoogleDrive:
         Keyword Arguments:
         file_info -- the file_info for the file that needs to have its permissions checked
         """
-        file_info = None
         try:
             self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
 
             body = {}
             body['name'] = 'duplicated_and_removed'
             try:
-                response = self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
             except Exception as e:
                 logger.info(
-                    f"[GoogleDrive duplicate_file()] counldnt update {file_info['name']} to \"duplicated_and_removed\" due to following error.\n{e}")
+                    f"[GoogleDrive duplicate_file()] counldnt update {file_info['name']} to "
+                    f"\"duplicated_and_removed\" due to following error.\n{e}"
+                )
                 return
 
-            # google drive api doesnt allow a function that "removes" a file from the sfucsss@gmail.com's google drive.
+            # google drive api doesnt allow a function that "removes" a file from the sfucsss@gmail.com's
+            # google drive.
             # it only allows a file that deletes it and deleting a file can only be done by the owner.
             # the only alternative seems to be to just remove all permissions from the file so that only the
             # original owner can see it.
@@ -409,31 +436,47 @@ class GoogleDrive:
                 if "emailAddress" in permission:
                     if permission['emailAddress'].lower() == "sfucsss@gmail.com":
                         # sfucsss@gmail.com's permissions is being saved to be removed later on as it needs to
-                        # keep its access to the file in order to remove any remaining non-owner permissions that may exist.
+                        # keep its access to the file in order to remove any remaining non-owner permissions
+                        # that may exist.
                         sfucsss_permission_id = permission['id']
                     else:
                         try:
-                            self.gdrive.permissions().delete(fileId=file_info['id'],
-                                                                        permissionId=permission['id']).execute()
+                            self.gdrive.permissions().delete(
+                                fileId=file_info['id'],
+                                permissionId=permission['id']
+                            ).execute()
                             logger.info(
-                                f"[GoogleDrive duplicate_file()] removed {permission['emailAddress'].lower()}'s access to {file_info['name']}")
+                                f"[GoogleDrive duplicate_file()] removed {permission['emailAddress'].lower()}'s "
+                                f"access to {file_info['name']}"
+                            )
                         except Exception as e:
                             logger.info(
-                                f"[GoogleDrive duplicate_file()] couldnt remove {permission['emailAddress'].lower()}'s access to {file_info['name']} due to following error.\n{e}")
+                                "[GoogleDrive duplicate_file()] couldnt remove "
+                                f"{permission['emailAddress'].lower()}'s access to {file_info['name']} "
+                                f"due to following error.\n{e}"
+                            )
                             return
-            self.gdrive.permissions().delete(fileId=file_info['id'],
-                                                        permissionId=sfucsss_permission_id).execute()
+            self.gdrive.permissions().delete(
+                fileId=file_info['id'],
+                permissionId=sfucsss_permission_id
+            ).execute()
         except Exception as e:
             logger.info(
-                f"[GoogleDrive duplicate_file()] unable to duplicate and remove file from drive due to following error.\n{e}")
+                f"[GoogleDrive duplicate_file()] unable to duplicate and remove file "
+                f"from drive due to following error.\n{e}"
+            )
 
     def alert_user_to_change_owner(self, file_info):
         try:
             body = {}
-            body[
-                'content'] = "Please change owner of this file to sfucsss@gmail.com.\nInstructions for doing so can be found here: https://github.com/CSSS/managingCSSSResources"
-            resp = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+            body['content'] = (
+                "Please change owner of this file to sfucsss@gmail.com.\nInstructions for doing so can be found"
+                " here: https://github.com/CSSS/managingCSSSResources"
+            )
+            self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
             logger.info(f"[GoogleDrive alert_user_to_change_owner()] comment added to file {file_info['name']}")
         except Exception as e:
             logger.info(
-                f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} due to following error.\n{e}")
+                f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
+                f"due to following error.\n{e}"
+            )

@@ -1,8 +1,8 @@
 import logging
 
 from django.conf import settings
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
+
 ERROR_MESSAGE_KEY = 'error_message'
 
 logger = logging.getLogger('csss_site')

@@ -26,7 +26,10 @@ def create_gitlab_perms():
 
     for index in range(0, 5):
         term = Term.objects.get(term_number=term_active)
-        logger.info(f"[resource_management create_gitlab_perms()] collecting the list of officers for the term with term_number {term_active}")
+        logger.info(
+            "[resource_management create_gitlab_perms()] collecting the list of officers "
+            f"for the term with term_number {term_active}"
+        )
         naughty_officers = NaughtyOfficer.objects.all()
         term_specific_officers = [
             officer for officer in Officer.objects.all().filter(elected_term=term)

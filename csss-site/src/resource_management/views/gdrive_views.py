@@ -74,7 +74,9 @@ def add_users_to_gdrive(request):
         if there_are_multiple_entries(post_dict, GOOGLE_DRIVE_USERS_NAME_KEY):
             number_of_entries = len(post_dict[GOOGLE_DRIVE_USERS_NAME_KEY])
             logger.info(
-                f"[resource_management/gdrive_views.py add_users_to_gdrive()] {number_of_entries} total multiple entries detected")
+                f"[resource_management/gdrive_views.py add_users_to_gdrive()] {number_of_entries} "
+                "total multiple entries detected"
+            )
             for index in range(number_of_entries):
                 gmail = post_dict[GOOGLE_DRIVE_USERS_GMAIL_KEY][index]
                 logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] processing user {gmail}")
@@ -138,7 +140,9 @@ def update_permissions_for_existing_gdrive_user(request):
 
     """
     logger.info(
-        f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] request.POST={request.POST}")
+        "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
+        f"request.POST={request.POST}"
+    )
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
@@ -148,7 +152,9 @@ def update_permissions_for_existing_gdrive_user(request):
         if 'action' in request.POST:
             if request.POST['action'] == 'update':
                 logger.info(
-                    f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] processing an update")
+                    "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
+                    "processing an update"
+                )
                 gdrive_user = NonOfficerGoogleDriveUser.objects.get(id=request.POST[GOOGLE_DRIVE_USERS_DB_RECORD_KEY])
                 file_id = settings.GDRIVE_ROOT_FOLDER_ID \
                     if request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY] == "" \
@@ -157,9 +163,11 @@ def update_permissions_for_existing_gdrive_user(request):
                         request.POST[
                             GOOGLE_DRIVE_USERS_FILE_ID_KEY]:
                     logger.info(
-                        f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] replacing gmail {gdrive_user.gmail}'s "
-                        f"access to {gdrive_user.file_id} with {request.POST[GOOGLE_DRIVE_USERS_GMAIL_KEY]} access to "
-                        f"{request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]}")
+                        f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
+                        f"replacing gmail {gdrive_user.gmail}'s "
+                        f"access to {gdrive_user.file_id} with {request.POST[GOOGLE_DRIVE_USERS_GMAIL_KEY]} "
+                        f"access to {request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]}"
+                    )
                     gdrive.remove_users_gdrive([gdrive_user.gmail], gdrive_user.file_id)
                     time.sleep(5)  # if I do not put this in, the line after this one does not take effect
                     success, file_name, error_message = gdrive.add_users_gdrive(
@@ -167,8 +175,10 @@ def update_permissions_for_existing_gdrive_user(request):
                         file_id)
                 elif gdrive_user.gmail != request.POST[GOOGLE_DRIVE_USERS_GMAIL_KEY]:
                     logger.info(
-                        f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] replacing gmail"
-                        f" {gdrive_user.gmail}'s with {request.POST[GOOGLE_DRIVE_USERS_GMAIL_KEY]} for user {gdrive_user.id}")
+                        f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
+                        f"replacing gmail {gdrive_user.gmail}'s with {request.POST[GOOGLE_DRIVE_USERS_GMAIL_KEY]} "
+                        f"for user {gdrive_user.id}"
+                    )
                     gdrive.remove_users_gdrive([gdrive_user.gmail], request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY])
                     time.sleep(5)  # if I do not put this in, the line after this one does not take effect
                     success, file_name, error_message = gdrive.add_users_gdrive(
@@ -177,7 +187,9 @@ def update_permissions_for_existing_gdrive_user(request):
                 elif gdrive_user.file_id != request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]:
                     logger.info(
                         f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
-                        f"replacing file {gdrive_user.file_id}'s with {request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]} for user {gdrive_user.id}")
+                        f"replacing file {gdrive_user.file_id}'s with {request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]} "
+                        f"for user {gdrive_user.id}"
+                    )
                     gdrive.remove_users_gdrive([gdrive_user.gmail], gdrive_user.file_id)
                     time.sleep(5)  # if I do not put this in, the line after this one does not take effect
                     success, file_name, error_message = gdrive.add_users_gdrive([gdrive_user.gmail], file_id)
@@ -192,7 +204,9 @@ def update_permissions_for_existing_gdrive_user(request):
             elif request.POST['action'] == 'delete':
                 gdrive_user = NonOfficerGoogleDriveUser.objects.get(id=request.POST[GOOGLE_DRIVE_USERS_DB_RECORD_KEY])
                 logger.info(
-                    f"[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] removing {gdrive_user.id}/{gdrive_user.gmail}'s file access")
+                    "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
+                    f"removing {gdrive_user.id}/{gdrive_user.gmail}'s file access"
+                )
                 gdrive.remove_users_gdrive([gdrive_user.gmail], gdrive_user.file_id)
                 gdrive_user.delete()
     return HttpResponseRedirect('/resource_management/resources/gdrive/')
@@ -214,7 +228,9 @@ def make_folders_public_gdrive(request):
         if there_are_multiple_entries(post_dict, GOOGLE_DRIVE_USERS_FILE_ID_KEY):
             number_of_entries = len(post_dict[GOOGLE_DRIVE_USERS_FILE_ID_KEY])
             logger.info(
-                f"[resource_management/gdrive_views.py make_folders_public_gdrive()] {number_of_entries} total multiple entries detected")
+                f"[resource_management/gdrive_views.py make_folders_public_gdrive()] {number_of_entries} "
+                "total multiple entries detected"
+            )
             for index in range(number_of_entries):
                 success, result = make_folder_public_gdrive(gdrive, post_dict[GOOGLE_DRIVE_USERS_FILE_ID_KEY][index])
                 if not success:
@@ -272,12 +288,14 @@ def update_gdrive_public_links(request):
         if 'action' in request.POST:
             if request.POST['action'] == 'update':
                 logger.info(
-                    f"[resource_management/gdrive_views.py update_gdrive_public_links()] processing an update")
+                    "[resource_management/gdrive_views.py update_gdrive_public_links()] processing an update"
+                )
                 gdrive_public_files = GoogleDrivePublicFile.objects.get(
                     id=request.POST[GOOGLE_DRIVE_USERS_DB_RECORD_KEY])
                 if gdrive_public_files.file_id != request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]:
                     logger.info(
-                        f"[resource_management/gdrive_views.py update_gdrive_public_links()] updating public link {gdrive_public_files.file_id}"
+                        "[resource_management/gdrive_views.py update_gdrive_public_links()] "
+                        f"updating public link {gdrive_public_files.file_id}"
                         f"to file {request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]}")
 
                     gdrive.remove_public_link_gdrive(gdrive_public_files.file_id)
@@ -294,7 +312,9 @@ def update_gdrive_public_links(request):
                 gdrive_public_file = GoogleDrivePublicFile.objects.get(
                     file_id=request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY])
                 logger.info(
-                    f"[resource_management/gdrive_views.py update_gdrive_public_links()] removing public file {gdrive_public_file.file_id}")
+                    f"[resource_management/gdrive_views.py update_gdrive_public_links()] removing "
+                    f"public file {gdrive_public_file.file_id}"
+                )
                 gdrive.remove_public_link_gdrive(gdrive_public_file.file_id)
                 gdrive_public_file.delete()
     return HttpResponseRedirect('/resource_management/resources/gdrive/')
@@ -327,13 +347,19 @@ def create_google_drive_perms():
     google_drive_perms = {}
     for index in range(0, 5):
         term = Term.objects.get(term_number=term_active)
-        logger.info(f"[resource_management/gdrive_views.py create_google_drive_perms()] collecting the list of officers for the term with term_number {term_active}")
+        logger.info(
+            f"[resource_management/gdrive_views.py create_google_drive_perms()] collecting the "
+            f"list of officers for the term with term_number {term_active}"
+        )
         naughty_officers = NaughtyOfficer.objects.all()
         current_officers = [
             officer for officer in Officer.objects.all().filter(elected_term=term)
             if officer.name not in [name.strip() for name in naughty_officers.name]
         ]
-        logger.info(f"[resource_management/gdrive_views.py create_google_drive_perms()] current_officers retrieved = {current_officers}")
+        logger.info(
+            "[resource_management/gdrive_views.py create_google_drive_perms()] current_officers retrieved"
+            f" = {current_officers}"
+        )
         officer_list.extend(current_officers)
         if (term_active % 10) == 3:
             term_active -= 1
@@ -341,18 +367,30 @@ def create_google_drive_perms():
             term_active -= 1
         elif (term_active % 10) == 1:
             term_active -= 8
-    logger.info(f"[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com to root folder {settings.GDRIVE_ROOT_FOLDER_ID}")
+    logger.info(
+        "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "
+        f"to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"
+    )
     google_drive_perms["sfucsss@gmail.com"] = settings.GDRIVE_ROOT_FOLDER_ID
     for officer in officer_list:
         if officer.gmail not in google_drive_perms.keys() and officer.gmail != "":
             google_drive_perms[officer.gmail.lower()] = [settings.GDRIVE_ROOT_FOLDER_ID]
-            logger.info(f"[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail {officer.gmail.lower()} to root folder {settings.GDRIVE_ROOT_FOLDER_ID}")
+            logger.info(
+                f"[resource_management/gdrive_views.py create_google_drive_perms()] "
+                f"adding gmail {officer.gmail.lower()} to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"
+            )
     non_officer_users_with_access = NonOfficerGoogleDriveUser.objects.all()
     for user in non_officer_users_with_access:
         if user.gmail not in google_drive_perms.keys():
             google_drive_perms[user.gmail.lower()] = [user.file_id]
-            logger.info(f"[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail {user.gmail.lower()} to root folder {user.file_id}")
+            logger.info(
+                f"[resource_management/gdrive_views.py create_google_drive_perms()] "
+                f"adding gmail {user.gmail.lower()} to root folder {user.file_id}"
+            )
         else:
             google_drive_perms[user.gmail.lower()].append(user.file_id)
-            logger.info(f"[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail {user.gmail.lower()} to root folder {user.file_id}")
+            logger.info(
+                f"[resource_management/gdrive_views.py create_google_drive_perms()] "
+                f"adding gmail {user.gmail.lower()} to root folder {user.file_id}"
+            )
     return google_drive_perms
