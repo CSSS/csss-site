@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from about.models import Officer, Term, AnnouncementEmailAddress, GithubTeam
+from about.models import Officer, Term, AnnouncementEmailAddress
 
 
 class TermAdmin(admin.ModelAdmin):
@@ -26,10 +26,3 @@ class AnnouncementEmailAdmin(admin.ModelAdmin):
 
 
 admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
-
-
-class GithubTeamAdmin(admin.ModelAdmin):
-    list_display = ('officer', 'team_name')
-
-
-admin.site.register(GithubTeam, GithubTeamAdmin)

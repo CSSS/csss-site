@@ -3,8 +3,8 @@ import logging
 import math
 
 from django.shortcuts import render
-from administration.views.views_helper import create_context
 from documents.models import Media, Event, Album
+from csss.views_helper import create_context
 
 logger = logging.getLogger('csss_site')
 TAB_STRING = 'documents'

@@ -1,13 +1,10 @@
 # from pathlib import Path
 
-from django.conf import settings
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 
-from administration.views.views_helper import create_context
-from django.conf import settings
-
+from csss.views_helper import create_context
 from . import forms
 
 

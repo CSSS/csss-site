@@ -4,7 +4,6 @@ import pytz
 import sys
 
 
-
 def initialize_logger():
     logger = logging.getLogger('csss_site')
     if not len(logger.handlers):
@@ -23,6 +22,7 @@ def initialize_logger():
         create_log_file(formatter, logger)
     return logger
 
+
 class LoggerWriter:
     def __init__(self, logger, level):
         self.logger = logger
@@ -34,6 +34,7 @@ class LoggerWriter:
 
     def flush(self):
         pass
+
 
 def create_log_file(formatter, logger):
     date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")

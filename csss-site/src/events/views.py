@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from administration.views.views_helper import create_context
+from csss.views_helper import create_context
 
 TAB_STRING = 'events'
 

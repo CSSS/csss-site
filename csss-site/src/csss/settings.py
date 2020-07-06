@@ -29,8 +29,10 @@ DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
 if "PORT" in os.environ:
-    PORT = os.environ
-    logger.info(f'[settings.py] PORT set to {PORT}')
+    PORT = os.environ['PORT']
+else:
+    PORT = None
+logger.info(f'[settings.py] PORT set to {PORT}')
 
 if "HOST_ADDRESS" not in os.environ:
     logger.error("[settings.py] HOST_ADDRESS was not detected")
@@ -69,35 +71,49 @@ else:
 # SETTINGS FOR GOOGLE_DRIVE
 GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 
-if DEBUG is False:
-    if 'GDRIVE_ROOT_FOLDER_ID' not in os.environ:
+if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
+    GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
+else:
+    GDRIVE_ROOT_FOLDER_ID = None
+if 'GDRIVE_TOKEN_LOCATION' in os.environ:
+    GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
+else:
+    GDRIVE_TOKEN_LOCATION = None
+if 'GITHUB_ACCESS_TOKEN' in os.environ:
+    GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
+else:
+    GITHUB_ACCESS_TOKEN = None
+if 'GITLAB_PRIVATE_TOKEN' in os.environ:
+    GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
+else:
+    GITLAB_PRIVATE_TOKEN = None
+if 'OFFICER_PHOTOS_PATH' in os.environ:
+    OFFICER_PHOTOS_PATH = os.environ['OFFICER_PHOTOS_PATH']
+else:
+    OFFICER_PHOTOS_PATH = None
+
+if not DEBUG:
+    if GDRIVE_ROOT_FOLDER_ID is None:
         logger.error("[settings.py] GDRIVE_ROOT_FOLDER_ID was not detected")
         exit(1)
-    GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
 
-    if 'GDRIVE_TOKEN_LOCATION' not in os.environ:
+    if GDRIVE_TOKEN_LOCATION is None:
         logger.error("[settings.py] GDRIVE_TOKEN_LOCATION was not detected")
         exit(1)
-    GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
 
-    if 'GITHUB_ACCESS_TOKEN' not in os.environ:
+    if GITHUB_ACCESS_TOKEN is None:
         logger.error("[settings.py] GITHUB_ACCESS_TOKEN was not detected")
         exit(1)
-    GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
 
-    if "EXEC_PHOTOS_PATH" not in os.environ:
-        logger.error("[settings.py] EXEC_PHOTOS_PATH was not detected")
+    if OFFICER_PHOTOS_PATH is None:
+        logger.error("[settings.py] OFFICER_PHOTOS_PATH was not detected")
         exit(1)
-    EXEC_PHOTOS_PATH = os.environ['EXEC_PHOTOS_PATH']
-else:
-    if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
-        GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
-    if 'GDRIVE_TOKEN_LOCATION' in os.environ:
-        GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
-    if 'GITHUB_ACCESS_TOKEN' in os.environ:
-        GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
-    if 'EXEC_PHOTOS_PATH' in os.environ:
-        EXEC_PHOTOS_PATH = os.environ['EXEC_PHOTOS_PATH']
+
+    if GITLAB_PRIVATE_TOKEN is None:
+        logger.error("[settings.py] GITLAB_PRIVATE_TOKEN was not detected")
+        exit(1)
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -107,6 +123,7 @@ INSTALLED_APPS = [
     'documents',
     'events',
     'administration',
+    'resource_management',
     'comp_sci_guide',
     'bursaries_and_awards',
     'django_mailbox',

@@ -11,7 +11,6 @@ class NominationPage(models.Model):
 
     slug = models.SlugField(
         max_length=32,
-        unique=True,
     )
 
     election_type_choices = (
@@ -46,7 +45,7 @@ class Nominee(models.Model):
 
     name = models.CharField(max_length=140)
 
-    exec_position = models.CharField(
+    officer_position = models.CharField(
         max_length=40,
         default='NA',
     )

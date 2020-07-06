@@ -3,16 +3,6 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class SourceFile(models.Model):
-    json_file = models.FileField(
-        default='exec_positions/default',
-        upload_to='exec_positions/'
-    )
-
-    def __str__(self):
-        return f"{self.json_file}"
-
-
 class Term(models.Model):
     term_number = models.IntegerField(
         primary_key=True,
@@ -114,19 +104,6 @@ class Officer(models.Model):
 
     def __str__(self):
         return f"{self.name} {self.elected_term}"
-
-
-class GithubTeam(models.Model):
-    team_name = models.CharField(
-        max_length=5000
-    )
-    officer = models.ForeignKey(
-        Officer,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return f"{self.officer.name} {self.team_name}"
 
 
 class AnnouncementEmailAddress(models.Model):
