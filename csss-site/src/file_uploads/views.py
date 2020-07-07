@@ -12,7 +12,7 @@ class BaseFormView(generic.FormView):
     template_name = 'file_uploads/example_form.html'
 
     def get_context_data(self, *args, **kwargs):
-        kwargs = create_context(self.request, 'documents')
+        kwargs.update(create_context(self.request, 'documents'))
         return super().get_context_data(*args, **kwargs)
 
     def get_success_url(self):
@@ -25,6 +25,7 @@ class BaseFormView(generic.FormView):
 
 def success(request):
     return render(request, 'file_uploads/success.html', create_context(request, 'documents'))
+
 
 class SubmissionUpoadSuccess(generic.TemplateView):
     template_name = 'file_uploads/example_form.html'

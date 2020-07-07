@@ -71,10 +71,7 @@ def index(request):
     previous_button_link = request_path + '?p=' + str(previous_page)
     next_button_link = request_path + '?p=' + str(next_page)
 
-    context = create_context(
-        request,
-        'index'
-    )
+    context = create_context(request, 'index')
     context.update({
         'posts': messages_to_display,
         'nextButtonLink': next_button_link,
