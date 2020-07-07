@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 
 import logging
+
 logger = logging.getLogger('csss_site')
 
 
@@ -22,9 +23,4 @@ def login(request):
 
 def logout(request):
     dj_logout(request)
-    return HttpResponseRedirect(settings.URL_ROOT)
-
-
-def db_dump(request):
-    dict['about'] = {}
     return HttpResponseRedirect(settings.URL_ROOT)

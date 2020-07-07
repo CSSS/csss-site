@@ -24,8 +24,5 @@ urlpatterns = [
         r'^officer/create_or_update_json$',
         officer_management.create_or_update_specified_term_with_provided_json,
         name='Create Link'
-    ),
-    url(
-        r'^db_dump$', views.db_dump, name="db_dump"
     )
 ]
