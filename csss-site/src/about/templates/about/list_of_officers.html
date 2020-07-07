@@ -5,9 +5,9 @@
 
 {% block content %}
 	{{ block.super }}
-	<!-- used to style the exec photos -->
+	<!-- used to style the officer photos -->
 	<style>
-		.exec-photos {
+		.officer-photos {
 			border-radius: 50%;
 			border: 1px solid #ddd;
 			padding: 5px;
@@ -26,12 +26,12 @@
 						<li>General Inquires for</li>
 						<ul>
 							<li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss[at]sfu.ca">csss[at]sfu.ca</a></li>
-							<li>Only Current Execs : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
-							<li>All Current and Past Execs : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
+							<li>Only Current Officers : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
+							<li>All Current and Past Executive Officer of the past 2 years : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
 						</ul>
 						<li>Computing Science Office: <a href="mailto:csdept[at]sfu.ca">csdept[at]sfu.ca</a></li>
 					</ul>
-					<p>Note: If you wish to contact an Executive member directly, see their addresses as listed below.</p>
+					<p>Note: If you wish to contact an Officer member directly, see their addresses as listed below.</p>
 					<p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
 					<!--Tab buttons-->
 
@@ -56,13 +56,13 @@
 							{% else %}
 								<div class="is-hidden" data-content="{{term.term}}_{{term.year}}">
 							{% endif %}
-									<h1 class="title">Executives for {{term.term}} {{term.year}} Term</h1>
+									<h1 class="title">Officers for {{term.term}} {{term.year}} Term</h1>
 									<hr>
 									<div class="row">
 										{% for officer in officers %}
 											{% if officer.elected_term == term %}
 												<div class="col-md-4">
-													<center><img class="exec-photos" src="{% static officer.image %}"></center>
+													<center><img class="officer-photos" src="{% static officer.image %}"></center>
 												</div>
 												<div class="col-md-6">
 													<p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>

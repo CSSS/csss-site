@@ -177,19 +177,19 @@
 
         <div class="navbar-dropdown">
           {% if authenticated is True %}
-            {% if ElectionOfficer or Exec or Staff %}
+            {% if ElectionOfficer or Officer or Staff %}
             <a href="{{URL_ROOT}}administration/elections/create" class="navbar-item">Election: Create Election</a>            
             <a href="{{URL_ROOT}}administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
             <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
             {% endif %}
             <hr class="dropdown-divider">
-            {% if Exec or Staff %}     
+            {% if Officer or Staff %}
             <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
             {% endif %}
             <hr class="dropdown-divider">
             {% if Staff %}            
-            <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Exec Creation Links</a>
-            <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Execs for specific term via JSON</a>   
+            <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Officer Creation Links</a>
+            <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Officers for specific term via JSON</a>
             <a href="{{URL_ROOT}}administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
             <a href="{{URL_ROOT}}administration/officer/assign_maillists" class="navbar-item">Officers: Assign maillists to officer</a>    
             <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>   

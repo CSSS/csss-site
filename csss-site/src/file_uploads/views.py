@@ -16,7 +16,7 @@ class BaseFormView(generic.FormView):
         kwargs.update(
             tab='documents',
             authenticated=self.request.user.is_authenticated,
-            Exec=('Exec' in groups),
+            Officer=('Officer' in groups),
             ElectionOfficer=('ElectionOfficer' in groups),
             Staff=self.request.user.is_staff,
             Username=self.request.user.username,
@@ -37,7 +37,7 @@ def success(request):
     context = {
         'tab': 'documents',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,

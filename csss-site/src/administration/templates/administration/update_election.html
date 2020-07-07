@@ -31,7 +31,7 @@
 		{% for nominee in nominees %}
 			<div style="border: 3px solid black; padding: 10px;">
 				<p>Full Name: <input type="text" name="name" value="{{nominee.name}}" required></p>
-				<p>Position: <input type="text" name="exec_position" value="{{nominee.exec_position}}" required></p>
+				<p>Position: <input type="text" name="officer_position" value="{{nominee.officer_position}}" required></p>
 				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required>{{nominee.speech|safe}}</textarea></p>
 				<p><a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a>
 				<p>Facebook Link: <input type="text" name="facebook" value="{{nominee.facebook}}" required></p>
@@ -59,7 +59,7 @@
 			var newNominee = document.createElement('div');
 			newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
 			newNominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"name\" required></p>";
-			newNominee.innerHTML += "<p>Position: <input type=\"text\" name=\"exec_position\" required></p>";
+			newNominee.innerHTML += "<p>Position: <input type=\"text\" name=\"officer_position\" required></p>";
 			newNominee.innerHTML += "<p>Speech: (speech needs to already be in HTML format)<br><textarea name=\"speech\" cols=\"40\" rows=\"1\" required></textarea></p>";
 			newNominee.innerHTML += "<p>Facebook Link: <input type=\"text\" value=\"NONE\" name=\"facebook\" required></p>";
 			newNominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\"  value=\"NONE\" name=\"linked_in\" required></p>";

@@ -24,79 +24,79 @@ def get_term(term, year, term_number):
     return retrieved_objects[0]
 
 
-def save_officer(term_position_number, exec_info, term_number):
-    term = get_term(exec_info['term'], exec_info['year'], term_number)
+def save_officer(term_position_number, officer_info, term_number):
+    term = get_term(officer_info['term'], officer_info['year'], term_number)
     retrieved_objects = Officer.objects.all().filter(
-        position=exec_info['position'],
+        position=officer_info['position'],
         term_position_number=term_position_number,
-        name=exec_info['name'],
-        sfuid=exec_info['sfuid'],
-        phone_number=exec_info['phone_number'],
-        github_username=exec_info['github_username'],
-        gmail=exec_info['gmail'],
-        course1=exec_info['fav_course_1'],
-        course2=exec_info['fav_course_2'],
-        language1=exec_info['fav_language_1'],
-        language2=exec_info['fav_language_2'],
-        bio=exec_info['bio'],
-        image=exec_info['profile_pic_path'],
+        name=officer_info['name'],
+        sfuid=officer_info['sfuid'],
+        phone_number=officer_info['phone_number'],
+        github_username=officer_info['github_username'],
+        gmail=officer_info['gmail'],
+        course1=officer_info['fav_course_1'],
+        course2=officer_info['fav_course_2'],
+        language1=officer_info['fav_language_1'],
+        language2=officer_info['fav_language_2'],
+        bio=officer_info['bio'],
+        image=officer_info['profile_pic_path'],
         elected_term=term
     )
     if len(retrieved_objects) == 0:
         officer = Officer(
-            position=exec_info['position'],
+            position=officer_info['position'],
             term_position_number=term_position_number,
-            name=exec_info['name'],
-            sfuid=exec_info['sfuid'],
-            phone_number=exec_info['phone_number'],
-            github_username=exec_info['github_username'],
-            gmail=exec_info['gmail'],
-            course1=exec_info['fav_course_1'],
-            course2=exec_info['fav_course_2'],
-            language1=exec_info['fav_language_1'],
-            language2=exec_info['fav_language_2'],
-            bio=exec_info['bio'],
-            image=exec_info['profile_pic_path'],
+            name=officer_info['name'],
+            sfuid=officer_info['sfuid'],
+            phone_number=officer_info['phone_number'],
+            github_username=officer_info['github_username'],
+            gmail=officer_info['gmail'],
+            course1=officer_info['fav_course_1'],
+            course2=officer_info['fav_course_2'],
+            language1=officer_info['fav_language_1'],
+            language2=officer_info['fav_language_2'],
+            bio=officer_info['bio'],
+            image=officer_info['profile_pic_path'],
             elected_term=term
         )
         officer.save()
-        for email in exec_info['announcement_emails']:
+        for email in officer_info['announcement_emails']:
             email_object = AnnouncementEmailAddress(email=email, officer=officer)
             email_object.save()
     else:
         officer = retrieved_objects[0]
-        for email in exec_info['announcement_emails']:
+        for email in officer_info['announcement_emails']:
             email_object = AnnouncementEmailAddress(email=email, officer=officer)
             email_object.save()
 
 
-def import_exec_for_term(file):
+def import_officer_for_term(file):
     position = 1
     previous_term_number = 0
-    print(f"[import_exec_for_term] will now try and read file {file}")
+    print(f"[import_officer_for_term] will now try and read file {file}")
     with open(file) as f:
-        execs = json.load(f)
-        for exec in execs:
-            term_number = int(exec['year']) * 10
-            if exec['term'] == "Spring":
+        officers = json.load(f)
+        for officer in officers:
+            term_number = int(officer['year']) * 10
+            if officer['term'] == "Spring":
                 term_number = term_number + 1
-            elif exec['term'] == "Summer":
+            elif officer['term'] == "Summer":
                 term_number = term_number + 2
-            elif exec['term'] == "Fall":
+            elif officer['term'] == "Fall":
                 term_number = term_number + 3
             if (previous_term_number != term_number):
                 position = 1
-            save_officer(position, exec, term_number)
+            save_officer(position, officer, term_number)
             position += 1
             previous_term_number = term_number
 
 
 def import_specific_term_officers(mailbox_admin, request, queryset):
     for file in queryset.all():
-        import_exec_for_term(str(file.json_file.file))
+        import_officer_for_term(str(file.json_file.file))
 
 
-import_specific_term_officers.short_description = _('Save Execs Specified in File')
+import_specific_term_officers.short_description = _('Save Officers Specified in File')
 
 
 class TermAdmin(admin.ModelAdmin):
