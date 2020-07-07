@@ -26,7 +26,6 @@ class BaseFormView(generic.FormView):
 def success(request):
     return render(request, 'file_uploads/success.html', create_context(request, 'documents'))
 
-
 class SubmissionUpoadSuccess(generic.TemplateView):
     template_name = 'file_uploads/example_form.html'
 

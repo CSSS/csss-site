@@ -221,7 +221,6 @@
 
             </div>
 
-
             <!--Administration-->
 
             <div class="navbar-item has-dropdown is-hoverable">
@@ -277,8 +276,51 @@
                             </form>
                         </div>
                     {% endif %}
-                </div>
+      <!--Administration-->
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        {% if tab == 'administration' %}
+        <a class="navbar-link is-active">
+          Administration
+        </a>   
+        {% else %}
+        <a class="navbar-link">
+          Administration
+        </a>        
+        {% endif %}
+
+        <div class="navbar-dropdown">
+          {% if authenticated is True %}
+            {% if Staff %}
+            <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>   
+            {% endif %}
+          <hr class="dropdown-divider">
+          
+          <div class="dropdown-item">
+            <p><b>Logged in as {{Username}}</b></p>
+          </div>
+
+          <div class="dropdown-item">
+            <div class="buttons">
+              <a class="button is-light" href="{{URL_ROOT}}administration/logout">
+                <strong>Log Out</strong>
+              </a>
             </div>
+          </div>
+
+          {% else %}
+            <div class="dropdown-item">
+              <form action="{{URL_ROOT}}administration/login" method="post">
+                {% csrf_token %}
+                <div class="field">
+                  <label class="label">Username&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                  <div class="control">
+                    <input name="username" class="input" type="text" required>
+                  </div>
+                </div>
+              </form>
+            </div>
+        {%  endif %}
         </div>
     </div>
 </nav>

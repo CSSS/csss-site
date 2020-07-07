@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
+
 class Term(models.Model):
     term_number = models.IntegerField(
         primary_key=True,
