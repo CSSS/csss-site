@@ -3,6 +3,8 @@ from django.shortcuts import render
 from csss.views_helper import create_context
 
 TAB = 'events'
+
+
 def index(request):
     return render(request, 'events/calendar.html', create_context(request, TAB))
 

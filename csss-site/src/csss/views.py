@@ -1,13 +1,13 @@
-from django.shortcuts import render
-from email.utils import parseaddr
-from announcements.models import Post
-from about.models import AnnouncementEmailAddress
-from django_mailbox.models import Message
 import datetime
-import math
-from django.conf import settings
 import logging
+import math
+from email.utils import parseaddr
 
+from django.shortcuts import render
+from django_mailbox.models import Message
+
+from about.models import AnnouncementEmailAddress
+from announcements.models import Post
 from csss.views_helper import create_context
 
 logger = logging.getLogger('csss_site')

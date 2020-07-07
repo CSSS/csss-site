@@ -15,6 +15,7 @@ logger = logging.getLogger('csss_site')
 
 TAB = 'about'
 
+
 def index(request):
     return render(request, 'about/who_we_are.html', create_context(request, TAB))
 
@@ -22,7 +23,7 @@ def index(request):
 def list_of_officers(request):
     officers = Officer.objects.all().filter()
     now = datetime.datetime.now()
-    term_active = (now.year*10)
+    term_active = (now.year * 10)
     if (int(now.month) <= 4):
         term_active += 1
     elif (int(now.month) <= 8):
@@ -41,7 +42,6 @@ def list_of_officers(request):
 
 def input_officer_info(request):
     logger.info(f"[about/views.py input_officer_info()] request.GET={request.GET}")
-    groups = list(request.user.groups.values_list('name', flat=True))
     get_keys = ['term', 'year', 'position', 'position_number', 'passphrase']
     if (len(request.GET.keys()) == len(get_keys)):
         logger.info("[about/views.py input_officer_info()] correct number of request.GET keys detected")

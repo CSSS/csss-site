@@ -1,13 +1,13 @@
+import logging
+from datetime import datetime
+
 from django.shortcuts import render
 
 # Create your views here.
 # from django.views import generic
 from csss.views_helper import create_context
 from .models import NominationPage, Nominee
-from datetime import datetime
-from django.conf import settings
 
-import logging
 logger = logging.getLogger('csss_site')
 
 

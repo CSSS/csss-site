@@ -1,13 +1,15 @@
+import datetime
+import logging
+import math
+
 from django.shortcuts import render
 
 from csss.views_helper import create_context
 from documents.models import Media, Event, Album
-import datetime
-import math
-from django.conf import settings
-import logging
+
 logger = logging.getLogger('csss_site')
 TAB = 'documents'
+
 
 def index(request):
     return render(request, 'documents/constitution.html', create_context(request, TAB))
@@ -35,11 +37,11 @@ def album(request):
 
     request_path = request.path
     index_of_last_forward_slash = request_path.rfind('/')
-    year = request_path[index_of_last_forward_slash+1:]
+    year = request_path[index_of_last_forward_slash + 1:]
     date = datetime.datetime(int(year[0:4]), int(year[5:7]), int(year[8:10]))
 
-    index_of_second_last_forward_slash = request_path[:index_of_last_forward_slash-1].rfind('/')
-    name = request_path[index_of_second_last_forward_slash+1:index_of_last_forward_slash]
+    index_of_second_last_forward_slash = request_path[:index_of_last_forward_slash - 1].rfind('/')
+    name = request_path[index_of_second_last_forward_slash + 1:index_of_last_forward_slash]
 
     album = Album.objects.get(date=date, name=name)
 
@@ -67,8 +69,8 @@ def album(request):
     context = create_context(request, TAB)
     context.update({
         'album': album,
-        'nextButtonLink': request_path+'?p='+str(next_page),
-        'previousButtonLink': request_path+'?p='+str(previous_page),
+        'nextButtonLink': request_path + '?p=' + str(next_page),
+        'previousButtonLink': request_path + '?p=' + str(previous_page),
         'medias': medias,
     })
     return render(request, 'documents/album.html', context)
