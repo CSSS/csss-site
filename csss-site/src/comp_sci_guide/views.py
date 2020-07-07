@@ -7,7 +7,7 @@ def software(request):
     context = {
         'tab': 'comp_sci_guide',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,

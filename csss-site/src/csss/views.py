@@ -76,7 +76,7 @@ def index(request):
         'posts': messages_to_display,
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,

@@ -38,7 +38,7 @@ class NomineeAdmin(admin.ModelAdmin):
         'id',
         'get_election',
         'name',
-        'exec_position',
+        'officer_position',
         'facebook',
         'linked_in',
         'email',

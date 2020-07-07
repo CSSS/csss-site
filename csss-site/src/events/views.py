@@ -7,7 +7,7 @@ def index(request):
     context = {
         'tab': 'events',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
@@ -21,7 +21,7 @@ def gm(request):
     context = {
         'tab': 'events',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
@@ -35,7 +35,7 @@ def board_games(request):
     context = {
         'tab': 'events',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
@@ -49,7 +49,7 @@ def frosh_week(request):
     context = {
         'tab': 'events',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
@@ -63,7 +63,7 @@ def mountain_madness2020(request):
     context = {
         'tab': 'events',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,

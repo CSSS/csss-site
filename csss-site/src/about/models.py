@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 class SourceFile(models.Model):
     json_file = models.FileField(
-        default='exec_positions/default',
-        upload_to='exec_positions/'
+        default='officer_positions/default',
+        upload_to='officer_positions/'
     )
 
     def __str__(self):

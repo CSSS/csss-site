@@ -7,7 +7,7 @@ def index(request):
     context = {
         'tab': 'bursaries_and_awards',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,

@@ -15,7 +15,7 @@ JSON_INPUT_POST_KEY = 'input_json'
 JSON_YEAR_KEY = 'year'
 JSON_TERM_KEY = 'term'
 
-JSON_EXEC_KEY = 'execs'
+JSON_OFFICER_KEY = 'officers'
 
 logger = logging.getLogger('csss_site')
 
@@ -25,13 +25,13 @@ def create_link(request):
     context = {
         'tab': 'administration',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
         'URL_ROOT': settings.URL_ROOT
     }
-    if not (request.user.is_staff or 'Exec' in groups):
+    if not (request.user.is_staff or 'Officer' in groups):
         return render(request, 'administration/invalid_access.html', context)
 
     post_keys = ['term', 'year', 'positions', 'overwrite']
@@ -43,8 +43,8 @@ def create_link(request):
             if key not in post_keys:
                 logger.info(f"[administration/views.py create_link()] invalid key '{key}' detected")
 
-        base_url = settings.HOST_ADDRESS + '/about/input_exec_info?'
-        exec_links = []
+        base_url = settings.HOST_ADDRESS + '/about/input_officer_info?'
+        officer_links = []
         positions = request.POST['positions'].splitlines()
         if request.POST['overwrite'] == "true":
             position_number = 0
@@ -80,9 +80,9 @@ def create_link(request):
                 f"position={position}&position_number={position_number}&passphrase={passphrase.passphrase}"
             )
             link_to_create = link_to_create.replace(" ", "%20")
-            exec_links.append(link_to_create)
+            officer_links.append(link_to_create)
             position_number += 1
-        context.update({'exec_links': exec_links})
+        context.update({'officer_links': officer_links})
         return render(request, 'administration/show_generated_officer_links.html', context)
 
     return HttpResponseRedirect(f"{settings.URL_ROOT}")
@@ -98,13 +98,13 @@ def show_create_link_page(request):
         'authenticated': request.user.is_authenticated,
         'terms': terms,
         'years': years,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
         'URL_ROOT': settings.URL_ROOT
     }
-    if not (request.user.is_staff or 'Exec' in groups):
+    if not (request.user.is_staff or 'Officer' in groups):
         return render(request, 'administration/invalid_access.html', context)
     return render(request, 'administration/show_create_link_for_officer_page.html', context)
 
@@ -118,13 +118,13 @@ def create_or_update_specified_term_with_provided_json(request):
     context = {
         'tab': 'administration',
         'authenticated': request.user.is_authenticated,
-        'Exec': ('Exec' in groups),
+        'Officer': ('Officer' in groups),
         'ElectionOfficer': ('ElectionOfficer' in groups),
         'Staff': request.user.is_staff,
         'Username': request.user.username,
         'URL_ROOT': settings.URL_ROOT
     }
-    if not (request.user.is_staff or 'Exec' in groups):
+    if not (request.user.is_staff or 'Officer' in groups):
         return render(request, 'administration/invalid_access.html', context)
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
@@ -140,7 +140,7 @@ def create_or_update_specified_term_with_provided_json(request):
         logger.info(
             f"[administration/views.py create_or_update_specified_term_with_provided_json()] post_dict={post_dict}"
         )
-        save_execs_from_json(post_dict[JSON_EXEC_KEY], term)
+        save_officers_from_json(post_dict[JSON_OFFICER_KEY], term)
 
         return render(request, 'administration/update_officers_for_term_json.html', context)
     return render(request, 'administration/update_officers_for_term_json.html', context)
@@ -184,31 +184,31 @@ JSON_LANGUAGE1_KEY = 'fav_language_1'
 JSON_LANGUAGE2_KEY = 'fav_language_2'
 JSON_BIO_KEY = 'bio'
 JSON_PIC_PATH_KEY = 'profile_pic_path'
-JSON_EXEC_POSITION_KEY = 'exec_position'
+JSON_OFFICER_POSITION_KEY = 'officer_position'
 
 
-def save_execs_from_json(execs, term):
+def save_officers_from_json(officers, term):
     position_index = 0
-    for exec in execs:
-        exec_position = exec[JSON_EXEC_POSITION_KEY]
-        full_name = exec[JSON_NAME_KEY]
-        sfuid = exec[JSON_SFUID_KEY]
-        phone_number = exec[JSON_PHONE_NUMBER_KEY]
-        github = exec[JSON_GITHUB_USERNAME_KEY]
-        gmail = exec[JSON_GMAIL_KEY]
-        course1 = exec[JSON_COURSE1_KEY]
-        course2 = exec[JSON_COURSE2_KEY]
-        language1 = exec[JSON_LANGUAGE1_KEY]
-        language2 = exec[JSON_LANGUAGE2_KEY]
-        bio = exec[JSON_BIO_KEY]
-        pic_path = exec[JSON_PIC_PATH_KEY]
+    for officer in officers:
+        officer_position = officer[JSON_OFFICER_POSITION_KEY]
+        full_name = officer[JSON_NAME_KEY]
+        sfuid = officer[JSON_SFUID_KEY]
+        phone_number = officer[JSON_PHONE_NUMBER_KEY]
+        github = officer[JSON_GITHUB_USERNAME_KEY]
+        gmail = officer[JSON_GMAIL_KEY]
+        course1 = officer[JSON_COURSE1_KEY]
+        course2 = officer[JSON_COURSE2_KEY]
+        language1 = officer[JSON_LANGUAGE1_KEY]
+        language2 = officer[JSON_LANGUAGE2_KEY]
+        bio = officer[JSON_BIO_KEY]
+        pic_path = officer[JSON_PIC_PATH_KEY]
 
         logger.info(
-            "[administration/views.py save_execs_from_json()] "
-            f"saved user term={term} full_name={full_name} exec_position={exec_position}"
+            "[administration/views.py save_officers_from_json()] "
+            f"saved user term={term} full_name={full_name} officer_position={officer_position}"
         )
         officer = Officer(
-            position=exec_position,
+            position=officer_position,
             term_position_number=position_index,
             name=full_name,
             sfuid=sfuid,
@@ -225,7 +225,7 @@ def save_execs_from_json(execs, term):
         )
         officer.save()
 
-        for email in exec[JSON_ANNOUNCEMENT_EMAILS_KEY]:
+        for email in officer[JSON_ANNOUNCEMENT_EMAILS_KEY]:
             announce_emails = AnnouncementEmailAddress(
                 email=email,
                 officer=officer
