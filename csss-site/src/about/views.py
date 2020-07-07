@@ -8,25 +8,18 @@ from django.http import HttpResponseRedirect
 from io import StringIO
 import csv
 import logging
+
+from csss.views_helper import create_context
+
 logger = logging.getLogger('csss_site')
 
+TAB = 'about'
 
 def index(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'about',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    return render(request, 'about/who_we_are.html', context)
+    return render(request, 'about/who_we_are.html', create_context(request, TAB))
 
 
 def list_of_officers(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
     officers = Officer.objects.all().filter()
     now = datetime.datetime.now()
     term_active = (now.year*10)
@@ -37,18 +30,12 @@ def list_of_officers(request):
     else:
         term_active += 3
     terms = Term.objects.all().order_by('-term_number')
-    context = {
-        'tab': 'about',
-        'authenticated': request.user.is_authenticated,
+    context = create_context(request, TAB)
+    context.update({
         'officers': officers,
         'term_active': term_active,
         'terms': terms,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
+    })
     return render(request, 'about/list_of_officers.html', context)
 
 
@@ -73,14 +60,7 @@ def input_officer_info(request):
             logger.info(f"[about/views.py input_officer_info()] passphrase[0].used = '{passphrase[0].used}'")
             if (passphrase[0].used):
                 return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
-            context = {}
-            context.update({'tab': 'about'})
-            context.update({'authenticated': request.user.is_authenticated})
-            context.update({'Officer': ('Officer' in groups)})
-            context.update({'ElectionOfficer': ('ElectionOfficer' in groups)}),
-            context.update({'Staff': request.user.is_staff})
-            context.update({'Username': request.user.username})
-            context.update({'URL_ROOT': settings.URL_ROOT})
+            context = create_context(request, TAB)
             context.update({'passphrase': passphrase[0].passphrase})
             for key in term_context:
                 context.update({key: term_context[key]})
@@ -161,14 +141,4 @@ def process_officer_info(request):
 
 
 def bad_passphrase(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'about',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    return render(request, 'about/bad_passphrase.html', context)
+    return render(request, 'about/bad_passphrase.html', create_context(request, TAB))
