@@ -2,7 +2,7 @@
 
 
 apps_to_migrate=($(ls -1 ./))
-python3 manage.py migrate
+yes | python3 manage.py migrate
 yes | python3 manage.py makemigrations
 yes | python3 manage.py migrate
 
