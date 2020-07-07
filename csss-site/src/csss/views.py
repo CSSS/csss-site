@@ -1,12 +1,15 @@
-from django.shortcuts import render
-from email.utils import parseaddr
-from announcements.models import Post
-from about.models import AnnouncementEmailAddress
-from django_mailbox.models import Message
 import datetime
-import math
-from django.conf import settings
 import logging
+import math
+from email.utils import parseaddr
+
+from django.shortcuts import render
+from django_mailbox.models import Message
+
+from about.models import AnnouncementEmailAddress
+from announcements.models import Post
+from csss.views_helper import create_context
+
 logger = logging.getLogger('csss_site')
 
 
@@ -68,19 +71,11 @@ def index(request):
     previous_button_link = request_path+'?p='+str(previous_page)
     next_button_link = request_path+'?p='+str(next_page)
 
-    groups = list(request.user.groups.values_list('name', flat=True))
-
-    context = {
-        'tab': 'index',
-        'authenticated': request.user.is_authenticated,
+    context = create_context(request, 'index')
+    context.update({
         'posts': messages_to_display,
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
+    })
 
     return render(request, 'announcements/announcements.html', context)

@@ -1,60 +1,34 @@
-from django.shortcuts import render
-from documents.models import Media, Event, Album
 import datetime
-import math
-from django.conf import settings
 import logging
+import math
+
+from django.shortcuts import render
+
+from csss.views_helper import create_context
+from documents.models import Media, Event, Album
+
 logger = logging.getLogger('csss_site')
+TAB = 'documents'
 
 
 def index(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'documents',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    return render(request, 'documents/constitution.html', context)
+    return render(request, 'documents/constitution.html', create_context(request, TAB))
 
 
 def policies(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'documents',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    return render(request, 'documents/policies.html', context)
+    return render(request, 'documents/policies.html', create_context(request, TAB))
 
 
 def events(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    events = Event.objects.all().filter()
-    albums = Album.objects.all().filter()
-    context = {
-        'events': events,
-        'albums': albums,
-        'tab': 'documents',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
+    context = create_context(request, TAB)
+    context.update({
+        'events': Event.objects.all().filter(),
+        'albums': Album.objects.all().filter(),
+    })
     return render(request, 'documents/events.html', context)
 
 
 def album(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
     current_page = request.GET.get('p', 'none')
     if current_page == 'none':
         current_page = 1
@@ -63,11 +37,11 @@ def album(request):
 
     request_path = request.path
     index_of_last_forward_slash = request_path.rfind('/')
-    year = request_path[index_of_last_forward_slash+1:]
+    year = request_path[index_of_last_forward_slash + 1:]
     date = datetime.datetime(int(year[0:4]), int(year[5:7]), int(year[8:10]))
 
-    index_of_second_last_forward_slash = request_path[:index_of_last_forward_slash-1].rfind('/')
-    name = request_path[index_of_second_last_forward_slash+1:index_of_last_forward_slash]
+    index_of_second_last_forward_slash = request_path[:index_of_last_forward_slash - 1].rfind('/')
+    name = request_path[index_of_second_last_forward_slash + 1:index_of_last_forward_slash]
 
     album = Album.objects.get(date=date, name=name)
 
@@ -92,19 +66,11 @@ def album(request):
             previous_page = current_page - 1
             next_page = current_page + 1
 
-    previous_button_link = request_path+'?p='+str(previous_page)
-    next_button_link = request_path+'?p='+str(next_page)
-    context = {
-        'tab': 'documents',
-        'authenticated': request.user.is_authenticated,
+    context = create_context(request, TAB)
+    context.update({
         'album': album,
-        'nextButtonLink': next_button_link,
-        'previousButtonLink': previous_button_link,
+        'nextButtonLink': request_path + '?p=' + str(next_page),
+        'previousButtonLink': request_path + '?p=' + str(previous_page),
         'medias': medias,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
+    })
     return render(request, 'documents/album.html', context)
