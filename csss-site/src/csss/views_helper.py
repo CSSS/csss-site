@@ -3,6 +3,8 @@ import logging
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
+from elections.models import NominationPage
+
 ERROR_MESSAGE_KEY = 'error_message'
 
 logger = logging.getLogger('csss_site')
@@ -11,6 +13,9 @@ logger = logging.getLogger('csss_site')
 def create_context(request, tab, groups=None):
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
+    nom_pages = NominationPage.objects.all()
+    if len(nom_pages) == 0:
+        nom_pages = None
     context = {
         'authenticated': request.user.is_authenticated,
         'officer': ('officer' in groups),
@@ -18,7 +23,8 @@ def create_context(request, tab, groups=None):
         'staff': request.user.is_staff,
         'username': request.user.username,
         'tab': tab,
-        'URL_ROOT': settings.URL_ROOT
+        'URL_ROOT': settings.URL_ROOT,
+        'nom_pages': nom_pages
     }
     return context
 

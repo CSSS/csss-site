@@ -110,10 +110,11 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
-            {% get_nom_pages as elections %}
-            {% for election in elections %}
-              <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
-            {% endfor %}          
+              {%  if nom_pages != None%}
+                  {% for election in nom_pages %}
+                      <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
+                  {% endfor %}
+              {%  endif %}
           </div>
         </div>
 
