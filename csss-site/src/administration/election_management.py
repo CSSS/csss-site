@@ -257,15 +257,6 @@ def select_election_to_update(request):
 def determine_election_action(request):
     logger.info(f"[administration/views.py determine_election_action()] request.POST={request.POST}")
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
         request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
         return HttpResponseRedirect(f"{settings.URL_ROOT}error")
@@ -356,15 +347,6 @@ def display_selected_election_json_for_updating(request, election_id):
 
 def update_specified_election(request):
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
         request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
         return HttpResponseRedirect(f"{settings.URL_ROOT}error")
