@@ -9,7 +9,7 @@ from io import StringIO
 import csv
 import logging
 
-from csss.views_helper import create_context
+from csss.views_helper import create_context, ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')
 
@@ -56,10 +56,12 @@ def input_officer_info(request):
             )
             logger.info(f"[about/views.py input_officer_info()] len(passphrase) = '{len(passphrase)}'")
             if (len(passphrase) < 1):
-                return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
+                request.session[ERROR_MESSAGE_KEY] = "No matching passphrase found"
+                return HttpResponseRedirect(f"{settings.URL_ROOT}error")
             logger.info(f"[about/views.py input_officer_info()] passphrase[0].used = '{passphrase[0].used}'")
             if (passphrase[0].used):
-                return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
+                request.session[ERROR_MESSAGE_KEY] = "the specified passphrase has already been used"
+                return HttpResponseRedirect(f"{settings.URL_ROOT}error")
             context = create_context(request, TAB)
             context.update({'passphrase': passphrase[0].passphrase})
             for key in term_context:
@@ -90,9 +92,11 @@ def process_officer_info(request):
             passphrase=request.POST['passphrase'],
         )
         if (len(passphrase) < 1):
-            return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
+            request.session[ERROR_MESSAGE_KEY] = "No matching passphrase found"
+            return HttpResponseRedirect(f"{settings.URL_ROOT}error")
         if (passphrase[0].used):
-            return HttpResponseRedirect(f"{settings.URL_ROOT}about/bad_passphrase")
+            request.session[ERROR_MESSAGE_KEY] = "the specified passphrase has already been used"
+            return HttpResponseRedirect(f"{settings.URL_ROOT}error")
         logger.info("[about/views.py add_officer()] passphrase is accurate")
         passphrase = passphrase[0]
         passphrase.used = True
@@ -138,7 +142,3 @@ def process_officer_info(request):
                 officer=officer
             )
     return HttpResponseRedirect(f"{settings.URL_ROOT}")
-
-
-def bad_passphrase(request):
-    return render(request, 'about/bad_passphrase.html', create_context(request, TAB))

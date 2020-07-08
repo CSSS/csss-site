@@ -1,6 +1,8 @@
 import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+
+from csss.views_helper import ERROR_MESSAGE_KEY
 from elections.models import NominationPage, Nominee
 import json
 import logging
@@ -46,7 +48,8 @@ def create_specified_election(request):
         'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST and \
             ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
         logger.info("[administration/views.py create_specified_election()] creating new election")
@@ -147,7 +150,8 @@ def create_or_update_specified_election_with_provided_json(request):
         'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
             "[administration/views.py create_or_update_specified_election_with_provided_json()] "
@@ -239,7 +243,8 @@ def select_election_to_update(request):
         'URL_ROOT': settings.URL_ROOT
     }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     elections = NominationPage.objects.all().order_by('-id')
     context.update({'elections': elections})
     return render(request, 'administration/select_election.html', context)
@@ -252,17 +257,9 @@ def select_election_to_update(request):
 def determine_election_action(request):
     logger.info(f"[administration/views.py determine_election_action()] request.POST={request.POST}")
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     if 'action' in request.POST:
         if request.POST['action'] == DELETE_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST:
             return delete_selected_election(request.POST[ELECTION_ID_KEY])
@@ -350,17 +347,9 @@ def display_selected_election_json_for_updating(request, election_id):
 
 def update_specified_election(request):
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
     if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST \
             and ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
         nomination_page = get_nomination_page(request.POST)

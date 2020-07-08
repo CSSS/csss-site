@@ -8,7 +8,7 @@ from django_mailbox.models import Message
 
 from about.models import AnnouncementEmailAddress
 from announcements.models import Post
-from csss.views_helper import create_context
+from csss.views_helper import create_context, ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')
 
@@ -68,8 +68,8 @@ def index(request):
         previous_page = current_page - 1
         next_page = current_page + 1
 
-    previous_button_link = request_path+'?p='+str(previous_page)
-    next_button_link = request_path+'?p='+str(next_page)
+    previous_button_link = request_path + '?p=' + str(previous_page)
+    next_button_link = request_path + '?p=' + str(next_page)
 
     context = create_context(request, 'index')
     context.update({
@@ -77,5 +77,15 @@ def index(request):
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
     })
-
     return render(request, 'announcements/announcements.html', context)
+
+
+def errors(request):
+    context = create_context(
+        request,
+        'index'
+    )
+    if ERROR_MESSAGE_KEY in request.session:
+        context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
+        del request.session[ERROR_MESSAGE_KEY]
+    return render(request, 'csss/error.html', context)
