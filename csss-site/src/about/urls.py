@@ -7,5 +7,4 @@ urlpatterns = [
     url(r'^input_officer_info$', views.input_officer_info, name='Add an Officer'),
     url(r'^process_officer_info$', views.process_officer_info, name='Add an Officer'),
     url(r'^who_we_are$', views.index, name='index'),
-    url(r'^bad_passphrase$', views.bad_passphrase, name='index'),
 ]

@@ -10,6 +10,8 @@ from administration.models import OfficerUpdatePassphrase
 import random
 import string
 
+from csss.views_helper import ERROR_MESSAGE_KEY
+
 JSON_INPUT_POST_KEY = 'input_json'
 
 JSON_YEAR_KEY = 'year'
@@ -32,7 +34,8 @@ def create_link(request):
         'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
 
     post_keys = ['term', 'year', 'positions', 'overwrite']
     logger.info(f"[administration/views.py create_link()] request.POST={request.POST}")
@@ -105,7 +108,8 @@ def show_create_link_page(request):
         'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     return render(request, 'administration/show_create_link_for_officer_page.html', context)
 
 
@@ -125,7 +129,8 @@ def create_or_update_specified_term_with_provided_json(request):
         'URL_ROOT': settings.URL_ROOT
     }
     if not (request.user.is_staff or 'Officer' in groups):
-        return render(request, 'administration/invalid_access.html', context)
+        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
+        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
             "[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election"
