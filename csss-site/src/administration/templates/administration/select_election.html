@@ -10,7 +10,7 @@
       <p><h1 class="title">Election to Modify/Delete:</h1>
           <select name="election_id">
                 {% for election in elections %}
-                    <option value="{{election.slug}}">{{election}}</option>
+                    <option value="{{election.id}}">{{election}}</option>
                 {% endfor %}
             </select>
         </p>

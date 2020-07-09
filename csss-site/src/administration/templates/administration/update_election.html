@@ -8,6 +8,7 @@
 	<h1 class="title">Modify Election</h1>
 	<form action="{{URL_ROOT}}administration/elections/update" method="post" class="form">
 		{% csrf_token %}
+            <input type="text" name="election_id" value="{{election.id}}" hidden readonly>
 		<p>Date For Election to be publicly available: <input type="date" name="date" value="{{date}}" required> <p>
 		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
 		<input type="time" name="time" value="{{time}}" required>
