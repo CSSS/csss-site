@@ -60,5 +60,10 @@ export BASE_DIR="/home/csss/${BRANCH_NAME}";
 export DEBUG=true;
 export HOST_ADDRESS=dev.sfucsss.org;
 
+scp CI/clean_staging_env/clean_staging_env.sh csss@dev.sfucsss.org:/home/csss/clean_staging_env_${BRANCH_NAME}_env.sh;
+ssh csss@dev.sfucsss.org "/home/csss/clean_staging_env_${BRANCH_NAME}_env.sh -staging_name \"${BRANCH_NAME}\"";
+ssh csss@dev.sfucsss.org "rm -fr \"/home/csss/clean_staging_env_${BRANCH_NAME}_env.sh\"";
+
+
 ./CI/validate_and_deploy/update_files_on_server.sh;
 ssh csss@"${HOST_ADDRESS}" "/home/csss/${BRANCH_NAME}/deploy_changes.sh";
