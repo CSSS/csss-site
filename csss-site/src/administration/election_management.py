@@ -187,6 +187,7 @@ def get_nomination_page(request):
         request[ELECTION_WEBSURVEY_LINK_KEY]
     )
 
+
 def get_nomination_page_json(input_json):
     return get_nomination_page_obj(
         input_json[ELECTION_DATE_KEY],
@@ -194,6 +195,7 @@ def get_nomination_page_json(input_json):
         input_json[ELECTION_TYPE_KEY],
         input_json[ELECTION_WEBSURVEY_LINK_KEY]
     )
+
 
 def get_nomination_page_obj(election_date, election_id, election_type, election_websurvey):
     dt = datetime.datetime.strptime(f"{election_date}", '%Y-%m-%d %H:%M')
@@ -214,6 +216,7 @@ def get_nomination_page_obj(election_date, election_id, election_type, election_
         f"[administration/list_nominees.py get_nomination_page()] nomination_page {nomination_page} created"
     )
     return nomination_page
+
 
 def save_nominees_from_json(nominees, nomination_page):
     position_index = 0
