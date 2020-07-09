@@ -11,7 +11,6 @@ class NominationPage(models.Model):
 
     slug = models.SlugField(
         max_length=32,
-        unique=True,
     )
 
     election_type_choices = (

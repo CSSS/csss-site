@@ -24,6 +24,7 @@ ELECTION_DATE_KEY = 'date'
 ELECTION_WEBSURVEY_LINK_KEY = 'websurvey'
 ELECTION_NOMINEES_KEY = 'nominees'
 ELECTION_ID_KEY = 'election_id'
+ELECTION_ID_POST_KEY = 'election_id'
 
 DELETE_ACTION_POST_KEY = 'delete'
 UPDATE_ACTION_POST_KEY = 'update'
@@ -157,13 +158,12 @@ def create_or_update_specified_election_with_provided_json(request):
             "[administration/views.py create_or_update_specified_election_with_provided_json()] "
             "creating new election"
         )
-        post_dict = parser.parse(request.POST.urlencode())
-        post_dict = json.loads(request.POST['input_json'])
+        post_dict = json.loads(request.POST[JSON_INPUT_POST_KEY])
         logger.info(
             "[administration/views.py create_or_update_specified_election_with_provided_json()] "
             f"post_dict={post_dict}"
         )
-        nomination_page = get_nomination_page_json(json.loads(request.POST['input_json']))
+        nomination_page = get_nomination_page_json(post_dict)
         # post_dict = parser.parse(request.POST.urlencode())
         logger.info(
             "[administration/views.py create_or_update_specified_election_with_provided_json()] "
@@ -179,23 +179,41 @@ def create_or_update_specified_election_with_provided_json(request):
     return render(request, 'administration/create_election_json.html', context)
 
 
+def get_nomination_page(request):
+    return get_nomination_page_obj(
+        f"{request[ELECTION_DATE_POST_KEY]} {request[ELECTION_TIME_POST_KEY]}",
+        request[ELECTION_ID_POST_KEY],
+        request[ELECTION_TYPE_KEY],
+        request[ELECTION_WEBSURVEY_LINK_KEY]
+    )
+
 def get_nomination_page_json(input_json):
-    dt = datetime.datetime.strptime(f"{input_json[ELECTION_DATE_KEY]}", '%Y-%m-%d %H:%M')
-    slug = f"{dt.strftime('%Y-%m-%d')}-{input_json[ELECTION_TYPE_KEY]}"
+    return get_nomination_page_obj(
+        input_json[ELECTION_DATE_KEY],
+        input_json[ELECTION_ID_POST_KEY],
+        input_json[ELECTION_TYPE_KEY],
+        input_json[ELECTION_WEBSURVEY_LINK_KEY]
+    )
+
+def get_nomination_page_obj(election_date, election_id, election_type, election_websurvey):
+    dt = datetime.datetime.strptime(f"{election_date}", '%Y-%m-%d %H:%M')
     NominationPage.objects.filter(
-        slug=slug,
+        id=f"{election_id}"
     ).delete()
 
+    slug = f"{dt.strftime('%Y-%m-%d')}-{election_type}"
     nomination_page = NominationPage(
         slug=slug,
-        election_type=input_json[ELECTION_TYPE_KEY],
+        election_type=election_type,
         date=dt,
-        websurvey=input_json[ELECTION_WEBSURVEY_LINK_KEY]
+        websurvey=election_websurvey
     )
-    nomination_page.save()
-    logger.info(f"[administration/views.py get_nomination_page_json()] nomination_page {nomination_page} created")
-    return nomination_page
 
+    nomination_page.save()
+    logger.info(
+        f"[administration/list_nominees.py get_nomination_page()] nomination_page {nomination_page} created"
+    )
+    return nomination_page
 
 def save_nominees_from_json(nominees, nomination_page):
     position_index = 0
@@ -282,13 +300,13 @@ def determine_election_action(request):
 
 
 def delete_selected_election(election_id):
-    NominationPage.objects.filter(slug=election_id).delete()
+    NominationPage.objects.filter(id=election_id).delete()
     return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
 def display_selected_election_for_updating(request, election_id):
     groups = list(request.user.groups.values_list('name', flat=True))
-    election = NominationPage.objects.get(slug=election_id)
+    election = NominationPage.objects.get(id=election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
     nominees.sort(key=lambda x: x.position, reverse=True)
     context = {
@@ -311,13 +329,14 @@ def display_selected_election_for_updating(request, election_id):
 
 def display_selected_election_json_for_updating(request, election_id):
     groups = list(request.user.groups.values_list('name', flat=True))
-    election = NominationPage.objects.get(slug=election_id)
+    election = NominationPage.objects.get(id=election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
     nominees.sort(key=lambda x: x.position, reverse=True)
     election_dict = {}
     election_dict[ELECTION_TYPE_KEY] = election.election_type
     election_dict[ELECTION_DATE_KEY] = election.date.strftime("%Y-%m-%d %H:%M")
     election_dict[ELECTION_WEBSURVEY_LINK_KEY] = election.websurvey
+    election_dict[ELECTION_ID_KEY] = election.id
     election_dict[ELECTION_NOMINEES_KEY] = []
     for nominee in nominees:
         nom = {}
@@ -387,24 +406,3 @@ def update_specified_election(request):
 
         return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
     return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
-
-
-def get_nomination_page(request):
-    dt = datetime.datetime.strptime(
-        f"{request[ELECTION_DATE_POST_KEY]} {request[ELECTION_TIME_POST_KEY]}",
-        '%Y-%m-%d %H:%M'
-    )
-    slug = f"{dt.strftime('%Y-%m-%d')}-{request[ELECTION_TYPE_KEY]}"
-    NominationPage.objects.filter(
-        slug=slug
-    ).delete()
-
-    nomination_page = NominationPage(
-        slug=slug,
-        election_type=request[ELECTION_TYPE_KEY],
-        date=dt,
-        websurvey=request[ELECTION_WEBSURVEY_LINK_KEY]
-    )
-    nomination_page.save()
-    logger.info(f"[administration/views.py get_nomination_page()] nomination_page {nomination_page} created")
-    return nomination_page
