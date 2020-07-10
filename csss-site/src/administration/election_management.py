@@ -40,7 +40,10 @@ TAB_STRING = 'administration'
 
 def create_specified_election(request):
     logger.info(f"[administration/views.py create_specified_election()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+        request,
+        TAB_STRING
+    )
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
@@ -133,7 +136,10 @@ def create_or_update_specified_election_with_provided_json(request):
         "[administration/views.py create_or_update_specified_election_with_provided_json()] "
         f"[create_or_update_specified_election_with_provided_json] request.POST={request.POST}"
     )
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+        request,
+        TAB_STRING
+    )
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
@@ -237,7 +243,10 @@ def save_nominees_from_json(nominees, nomination_page):
 
 
 def select_election_to_update(request):
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+        request,
+        TAB_STRING
+    )
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
@@ -252,7 +261,10 @@ def select_election_to_update(request):
 
 def determine_election_action(request):
     logger.info(f"[administration/views.py determine_election_action()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+        request,
+        TAB_STRING
+    )
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
@@ -331,7 +343,10 @@ def display_selected_election_json_for_updating(request, context, election_id):
 
 
 def update_specified_election(request):
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+        request,
+        TAB_STRING
+    )
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
