@@ -2,7 +2,7 @@ import datetime
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from csss.views_helper import ERROR_MESSAGE_KEY
+from csss.views_helper import ERROR_MESSAGE_KEY, verify_access_logged_user_and_create_context_for_elections
 from elections.models import NominationPage, Nominee
 import json
 import logging
@@ -38,19 +38,10 @@ JSON_INPUT_POST_KEY = 'input_json'
 
 def create_specified_election(request):
     logger.info(f"[administration/views.py create_specified_election()] request.POST={request.POST}")
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request)
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST and \
             ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
         logger.info("[administration/views.py create_specified_election()] creating new election")
@@ -140,19 +131,10 @@ def create_or_update_specified_election_with_provided_json(request):
         "[administration/views.py create_or_update_specified_election_with_provided_json()] "
         f"[create_or_update_specified_election_with_provided_json] request.POST={request.POST}"
     )
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request)
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
             "[administration/views.py create_or_update_specified_election_with_provided_json()] "
@@ -253,19 +235,10 @@ def save_nominees_from_json(nominees, nomination_page):
 
 
 def select_election_to_update(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request)
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     elections = NominationPage.objects.all().order_by('-id')
     context.update({'elections': elections})
     return render(request, 'administration/select_election.html', context)
@@ -277,17 +250,17 @@ def select_election_to_update(request):
 
 def determine_election_action(request):
     logger.info(f"[administration/views.py determine_election_action()] request.POST={request.POST}")
-    groups = list(request.user.groups.values_list('name', flat=True))
-    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request)
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     if 'action' in request.POST:
         if request.POST['action'] == DELETE_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST:
             return delete_selected_election(request.POST[ELECTION_ID_KEY])
         elif request.POST['action'] == UPDATE_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST:
-            return display_selected_election_for_updating(request, request.POST[ELECTION_ID_KEY])
+            return display_selected_election_for_updating(request, context, request.POST[ELECTION_ID_KEY])
         elif request.POST['action'] == UPDATE_WITH_JSON_ACTION_POST_KEY and ELECTION_ID_KEY in request.POST:
-            return display_selected_election_json_for_updating(request, request.POST[ELECTION_ID_KEY])
+            return display_selected_election_json_for_updating(request, context, request.POST[ELECTION_ID_KEY])
         else:
             logger.info(
                 "[administration/views.py determine_election_action()] incorrect action detected, "
@@ -307,60 +280,48 @@ def delete_selected_election(election_id):
     return HttpResponseRedirect(f"{settings.URL_ROOT}administration/elections/select_election")
 
 
-def display_selected_election_for_updating(request, election_id):
-    groups = list(request.user.groups.values_list('name', flat=True))
+def display_selected_election_for_updating(request, context, election_id):
     election = NominationPage.objects.get(id=election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
     nominees.sort(key=lambda x: x.position, reverse=True)
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
+    context.update({
         'nominees': nominees,
         'election': election,
         'date': election.date.strftime("%Y-%m-%d"),
         'time': election.date.strftime("%H:%M"),
         'election_type': election.election_type,
         'websurvey': election.websurvey,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
+    })
     return render(request, 'administration/update_election.html', context)
 
 
-def display_selected_election_json_for_updating(request, election_id):
-    groups = list(request.user.groups.values_list('name', flat=True))
+def display_selected_election_json_for_updating(request, context, election_id):
     election = NominationPage.objects.get(id=election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
     nominees.sort(key=lambda x: x.position, reverse=True)
-    election_dict = {}
-    election_dict[ELECTION_TYPE_KEY] = election.election_type
-    election_dict[ELECTION_DATE_KEY] = election.date.strftime("%Y-%m-%d %H:%M")
-    election_dict[ELECTION_WEBSURVEY_LINK_KEY] = election.websurvey
-    election_dict[ELECTION_ID_KEY] = election.id
-    election_dict[ELECTION_NOMINEES_KEY] = []
-    for nominee in nominees:
-        nom = {}
-        nom[NOM_NAME_KEY] = nominee.name
-        nom[NOM_POSITION_KEY] = nominee.officer_position
-        nom[NOM_SPEECH_KEY] = nominee.speech
-        nom[NOM_FACEBOOK_KEY] = nominee.facebook
-        nom[NOM_LINKEDIN_KEY] = nominee.linked_in
-        nom[NOM_EMAIL_KEY] = nominee.email
-        nom[NOM_DISCORD_USERNAME_KEY] = nominee.discord
-        election_dict[ELECTION_NOMINEES_KEY].append(nom)
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'election_dict': json.dumps(election_dict),
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
+    election_dict = {
+        ELECTION_TYPE_KEY: election.election_type,
+        ELECTION_DATE_KEY: election.date.strftime("%Y-%m-%d %H:%M"),
+        ELECTION_WEBSURVEY_LINK_KEY: election.websurvey,
+        ELECTION_ID_KEY: election.id,
+        ELECTION_NOMINEES_KEY: []
     }
+    for nominee in nominees:
+        election_dict[ELECTION_NOMINEES_KEY].append(
+            {
+                NOM_NAME_KEY: nominee.name,
+                NOM_POSITION_KEY: nominee.officer_position,
+                NOM_SPEECH_KEY: nominee.speech,
+                NOM_FACEBOOK_KEY: nominee.facebook,
+                NOM_LINKEDIN_KEY: nominee.linked_in,
+                NOM_EMAIL_KEY: nominee.email,
+                NOM_DISCORD_USERNAME_KEY: nominee.discord
+            }
+        )
+    context.update({
+        'election_dict': json.dumps(election_dict),
+        'URL_ROOT': settings.URL_ROOT
+    })
     return render(request, 'administration/update_election_json.html', context)
 
 
@@ -368,16 +329,16 @@ def display_selected_election_json_for_updating(request, election_id):
 
 
 def update_specified_election(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    if not ('ElectionOfficer' in groups or request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request)
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     if ELECTION_TYPE_KEY in request.POST and ELECTION_DATE_POST_KEY in request.POST \
             and ELECTION_TIME_POST_KEY in request.POST and ELECTION_WEBSURVEY_LINK_KEY in request.POST:
         nomination_page = get_nomination_page(request.POST)
         post_dict = parser.parse(request.POST.urlencode())
         position_index = 0
-        if (len(post_dict[NOM_NAME_KEY][0]) > 1):
+        if len(post_dict[NOM_NAME_KEY][0]) > 1:
             save_nominees(post_dict, nomination_page, position_index)
             position_index += 1
         else:
