@@ -109,11 +109,9 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
-              {%  if nom_pages != None%}
-                  {% for election in nom_pages %}
-                      <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
-                  {% endfor %}
-              {%  endif %}
+              {% for election in nom_pages %}
+                  <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
+              {% endfor %}
           </div>
         </div>
 
@@ -181,23 +179,23 @@
             <a href="{{URL_ROOT}}administration/elections/create" class="navbar-item">Election: Create Election</a>            
             <a href="{{URL_ROOT}}administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
             <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
-            {% endif %}
             <hr class="dropdown-divider">
+            {% endif %}
             {% if officer or staff %}
             <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
-            {% endif %}
             <hr class="dropdown-divider">
-            {% if staff %}            
+            {% endif %}
+            {% if staff %}
             <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Officer Creation Links</a>
             <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Officers for specific term via JSON</a>
             <a href="{{URL_ROOT}}administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
             <a href="{{URL_ROOT}}administration/officer/assign_maillists" class="navbar-item">Officers: Assign maillists to officer</a>    
-            <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>   
+            <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>
+            <hr class="dropdown-divider">
             {% endif %}
-          <hr class="dropdown-divider">
-          
+
           <div class="dropdown-item">
-            <p><b>Logged in as {{Username}}</b></p>
+            <p><b>Logged in as {{username}}</b></p>
           </div>
 
           <div class="dropdown-item">
