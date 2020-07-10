@@ -177,17 +177,17 @@
 
         <div class="navbar-dropdown">
           {% if authenticated is True %}
-            {% if ElectionOfficer or Officer or Staff %}
+            {% if election_officer or officer or staff %}
             <a href="{{URL_ROOT}}administration/elections/create" class="navbar-item">Election: Create Election</a>            
             <a href="{{URL_ROOT}}administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
             <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
             {% endif %}
             <hr class="dropdown-divider">
-            {% if Officer or Staff %}
+            {% if officer or staff %}
             <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
             {% endif %}
             <hr class="dropdown-divider">
-            {% if Staff %}            
+            {% if staff %}            
             <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Officer Creation Links</a>
             <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Officers for specific term via JSON</a>
             <a href="{{URL_ROOT}}administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
