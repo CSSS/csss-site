@@ -32,7 +32,7 @@ def create_context(request, tab, groups=None):
 def verify_access_logged_user_and_create_context_for_elections(request, tab):
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_context(request, tab, groups)
-    if not ('election_officer' in groups or request.user.is_staff or 'officer' in groups):
+    if not ('election_officer' in groups or request.user.is_staff):
         return HttpResponseRedirect(
             '/error'), "You are not authorized to access this page", None
     return None, None, context
