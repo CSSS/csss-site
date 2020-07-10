@@ -10,7 +10,7 @@ from administration.models import OfficerUpdatePassphrase
 import random
 import string
 
-from csss.views_helper import ERROR_MESSAGE_KEY
+from csss.views_helper import ERROR_MESSAGE_KEY, verify_access_logged_user_and_create_context
 
 JSON_INPUT_POST_KEY = 'input_json'
 
@@ -19,24 +19,19 @@ JSON_TERM_KEY = 'term'
 
 JSON_OFFICER_KEY = 'officers'
 
+TAB_STRING = 'administration'
+
 logger = logging.getLogger('csss_site')
 
 
 def create_link(request):
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    if not (request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
-
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context(
+        request,
+        TAB_STRING
+    )
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     post_keys = ['term', 'year', 'positions', 'overwrite']
     logger.info(f"[administration/views.py create_link()] request.POST={request.POST}")
     logger.info(f"[administration/views.py create_link()] request.GET={request.GET}")
@@ -92,24 +87,17 @@ def create_link(request):
 
 
 def show_create_link_page(request):
-    terms = ['Spring', 'Summer', 'Fall']
-    years = [b for b in list(reversed(range(1970, datetime.datetime.now().year+1)))]
-    groups = list(request.user.groups.values_list('name', flat=True))
-
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'terms': terms,
-        'years': years,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    if not (request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context(
+        request,
+        TAB_STRING
+    )
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
+    context.update({
+        'terms': ['Spring', 'Summer', 'Fall'],
+        'years': [b for b in list(reversed(range(1970, datetime.datetime.now().year+1)))],
+    })
     return render(request, 'administration/show_create_link_for_officer_page.html', context)
 
 
@@ -118,19 +106,13 @@ def create_or_update_specified_term_with_provided_json(request):
         "[administration/views.py create_or_update_specified_term_with_provided_json()] "
         f"[create_or_update_specified_term_with_provided_json] request.POST={request.POST}"
     )
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = {
-        'tab': 'administration',
-        'authenticated': request.user.is_authenticated,
-        'Officer': ('Officer' in groups),
-        'ElectionOfficer': ('ElectionOfficer' in groups),
-        'Staff': request.user.is_staff,
-        'Username': request.user.username,
-        'URL_ROOT': settings.URL_ROOT
-    }
-    if not (request.user.is_staff or 'Officer' in groups):
-        request.session[ERROR_MESSAGE_KEY] = "You are not authorized to access this page!"
-        return HttpResponseRedirect(f"{settings.URL_ROOT}error")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context(
+        request,
+        TAB_STRING
+    )
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
     if JSON_INPUT_POST_KEY in request.POST:
         logger.info(
             "[administration/views.py create_or_update_specified_term_with_provided_json()] creating new election"
