@@ -108,13 +108,13 @@
             Elections
           </a>        
           {% endif %}
-                    {% if election_officer or staff %}
+          <div class="navbar-dropdown">
+          {% if election_officer or staff %}
             <a href="{{URL_ROOT}}elections/create" class="navbar-item">Election: Create Election</a>
             <a href="{{URL_ROOT}}elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>
             <a href="{{URL_ROOT}}elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
             <hr class="dropdown-divider">
             {% endif %}
-          <div class="navbar-dropdown">
               {% for election in nom_pages %}
                   <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
               {% endfor %}
