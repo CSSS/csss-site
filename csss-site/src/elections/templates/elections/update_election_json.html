@@ -26,14 +26,16 @@
     {{ election_dict|json_script:"hello-data" }}
     <script>
         (function () {
-            el = JSON.parse(JSON.parse(document.getElementById('hello-data').textContent));
-            $('textarea').text(JSON.stringify(el,null,'\t'));
+            raw_string = document.getElementById('hello-data').textContent
+            el = JSON.parse(JSON.parse(raw_string));
+            $('textarea').val(JSON.stringify(el,null,'\t'));
         })();
     </script>
     <script>
     function beautify() {
-        elObj = JSON.parse(document.getElementsByName('input_json')[0].innerHTML);
-        $('textarea').text(JSON.stringify(elObj,null,'\t'));
+        raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
+        el = JSON.parse(JSON.parse(raw_string));
+        $('textarea').val(JSON.stringify(el,null,'\t'));
     }
     </script>
 {% endblock %}
