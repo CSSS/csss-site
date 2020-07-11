@@ -24,8 +24,8 @@
 	</form>
     <script>
         (function () {
-            const value = JSON.parse(document.getElementById('hello-data').textContent);
-            $('textarea').text(JSON.stringify(value,null,'\t'));
+            el = JSON.parse(JSON.parse(document.getElementById('hello-data').textContent));
+            $('textarea').text(JSON.stringify(el,null,'\t'));
         })();
     </script>
 {% endblock %}
