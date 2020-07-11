@@ -11,6 +11,7 @@
 		<p> You can Beautify the below output with <a href="https://codebeautify.org/jsonviewer" target="_blank">Code Beautify</a><br>
 
 		<textarea name="input_json" cols="80" rows="40" required></textarea></p>
+        <input id="clickMe" type="button" value="clickme" onclick="beautify();" />
 		<input type="submit" value="submit" />
 		<br>
 		<br>
@@ -28,5 +29,11 @@
             el = JSON.parse(JSON.parse(document.getElementById('hello-data').textContent));
             $('textarea').text(JSON.stringify(el,null,'\t'));
         })();
+    </script>
+    <script>
+    function beautify() {
+        elObj = JSON.parse(document.getElementsByName('input_json')[0].innerHTML);
+        $('textarea').text(JSON.stringify(elObj,null,'\t'));
+    }
     </script>
 {% endblock %}
