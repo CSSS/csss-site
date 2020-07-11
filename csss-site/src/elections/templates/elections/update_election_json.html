@@ -21,8 +21,11 @@
 		<br>
 		<br>
 	</form>
+    {% load argonauts %}
     <script>
+        (function () {
         var jsonobj = {{ election_dict| json }};
-        $('textarea').text(JSON.stringify(election_dict,null,'\t'));
+        $('textarea').text(JSON.stringify(jsonobj,null,'\t'));
+        })();
     </script>
 {% endblock %}
