@@ -5,7 +5,7 @@
 {% bootstrap_messages %}
 
 {% block content %}
-    <form action="{{URL_ROOT}}administration/elections/determine_election_action" method="post" class="form">
+    <form action="{{URL_ROOT}}elections/determine_election_action/" method="post" class="form">
       {% csrf_token %}
       <p><h1 class="title">Election to Modify/Delete:</h1>
           <select name="election_id">

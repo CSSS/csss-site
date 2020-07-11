@@ -6,7 +6,7 @@
 
 {% block content %}
 	<h1 class="title">Modify Election</h1>
-	<form action="{{URL_ROOT}}administration/elections/create_or_update_json/" method="post" class="form">
+	<form action="{{URL_ROOT}}elections/create_or_update_json/" method="post" class="form">
 		{% csrf_token %}
 		<p> You can Beautify the below output with <a href="https://codebeautify.org/jsonviewer" target="_blank">Code Beautify</a>
 		<textarea name="input_json" cols="40" rows="40" required>{{election_dict|safe}}</textarea></p>
