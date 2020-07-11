@@ -37,7 +37,7 @@ ELECTION_TIME_POST_KEY = 'time'
 
 JSON_INPUT_POST_KEY = 'input_json'
 
-TAB_STRING = 'administration'
+TAB_STRING = 'elections'
 
 
 def create_specified_election(request):
