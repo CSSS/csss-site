@@ -43,8 +43,9 @@ from elections.views.election_management_helper import _create_new_election_from
     _get_information_for_election_user_wants_to_modify, _get_existing_election_by_id, \
     _validate_information_for_existing_election_from_webform_and_return_it, \
     _validate_nominees_information_for_existing_election_from_webform_and_return_them, \
-    _update_nominee_information_for_existing_election_from_webform, _update_information_for_existing_election_from_json, \
-    _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes
+    _update_nominee_information_for_existing_election_from_webform, \
+    _update_information_for_existing_election_from_json, \
+    _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes # noqa
 
 logger = logging.getLogger('csss_site')
 
@@ -129,7 +130,8 @@ def process_new_election_information_from_webform(request):
             NOM_EMAIL_POST_KEY in updated_elections_information and \
             NOM_DISCORD_USERNAME_POST_KEY in updated_elections_information:
         logger.info(f"[elections/election_management.py "
-                    f"process_new_election_information_from_webform()] updated_elections_information={updated_elections_information}")
+                    f"process_new_election_information_from_webform()] "
+                    f"updated_elections_information={updated_elections_information}")
         election = _create_new_election_from_webform(updated_elections_information)
         if there_are_multiple_entries(updated_elections_information, NOM_NAME_POST_KEY):
             _save_nominees_for_new_election_from_webform(election, updated_elections_information)
@@ -203,7 +205,8 @@ def process_new_election_information_from_json(request):
             nomination_page.save()
             logger.info(
                 "[elections/election_management.py process_new_election_information_from_json()] nomination_page "
-                f"{nomination_page} created with slug {nomination_page.slug}, election_type={nomination_page.election_type}, date={nomination_page.date}, "
+                f"{nomination_page} created with slug {nomination_page.slug}, "
+                f"election_type={nomination_page.election_type}, date={nomination_page.date}, "
                 f"websurvey={nomination_page.websurvey}, human_friendly_name={nomination_page.human_friendly_name} "
             )
             for nominee in nominees:
@@ -245,10 +248,12 @@ def determine_election_action(request):
         if request.POST[ELECTION_MODIFY_POST_KEY] == UPDATE_JSON_POST_KEY and ELECTION_ID_POST_KEY in request.POST:
             request.session[ELECTION_ID_SESSION_KEY] = request.POST[ELECTION_ID_POST_KEY]
             return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-        elif request.POST[ELECTION_MODIFY_POST_KEY] == UPDATE_WEBFORM_POST_KEY and ELECTION_ID_POST_KEY in request.POST:
+        elif request.POST[ELECTION_MODIFY_POST_KEY] == UPDATE_WEBFORM_POST_KEY and \
+                ELECTION_ID_POST_KEY in request.POST:
             request.session[ELECTION_ID_SESSION_KEY] = request.POST[ELECTION_ID_POST_KEY]
             return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_webform")
-        elif request.POST[ELECTION_MODIFY_POST_KEY] == DELETE_ACTION_POST_KEY and ELECTION_ID_POST_KEY in request.POST:
+        elif request.POST[ELECTION_MODIFY_POST_KEY] == DELETE_ACTION_POST_KEY \
+                and ELECTION_ID_POST_KEY in request.POST:
             request.session[ELECTION_ID_SESSION_KEY] = request.POST[ELECTION_ID_POST_KEY]
             return HttpResponseRedirect(f"{settings.URL_ROOT}elections/delete")
     logger.info(
@@ -352,7 +357,8 @@ def process_existing_election_information_from_webform(request):
         nomination_page = _get_existing_election_by_id(updated_elections_information[ELECTION_ID_POST_KEY])
         if nomination_page is None:
             request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(
-                f"The Selected election for date {updated_elections_information[ELECTION_DATE_POST_KEY]} does not exist"
+                f"The Selected election for date {updated_elections_information[ELECTION_DATE_POST_KEY]} "
+                "does not exist"
             )
             return render_value
         nom_page = _validate_information_for_existing_election_from_webform_and_return_it(
@@ -402,7 +408,8 @@ def process_existing_election_information_from_json(request):
         nomination_page = _get_existing_election_by_id(election_id)
         if nomination_page is None:
             request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(
-                f"The Selected election for date {updated_elections_information[ELECTION_DATE_POST_KEY]} does not exist"
+                f"The Selected election for date {updated_elections_information[ELECTION_DATE_POST_KEY]} "
+                "does not exist"
             )
             request.session[JSON_INPUT_FIELD_POST_KEY] = updated_elections_information
             request.session[ELECTION_ID_SESSION_KEY] = election_id
@@ -421,8 +428,9 @@ def process_existing_election_information_from_json(request):
                 request.session[JSON_INPUT_FIELD_POST_KEY] = updated_elections_information
                 request.session[ELECTION_ID_SESSION_KEY] = election_id
                 return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-            success, error_message = _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes(
-                nomination_page, updated_elections_information[ELECTION_NOMINEES_POST_KEY])
+            success, error_message = \
+                _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes(
+                    nomination_page, updated_elections_information[ELECTION_NOMINEES_POST_KEY])
             if not success:
                 request.session[ERROR_MESSAGE_KEY] = error_message
                 request.session[JSON_INPUT_FIELD_POST_KEY] = updated_elections_information
@@ -450,7 +458,6 @@ def delete_selected_election(request):
 
 
 def list_of_elections(request):
-    logger.info(f"[administration/election_management.py "
-                f"list_of_elections()]")
+    logger.info("[administration/election_management.py list_of_elections()]")
     context = create_context(request, TAB_STRING)
     return render(request, 'elections/list_elections.html', context)

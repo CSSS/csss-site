@@ -1,14 +1,16 @@
 import datetime
 import logging
 
-logger = logging.getLogger('csss_site')
 
 from elections.models import NominationPage, Nominee
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, \
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
-    ELECTION_DATE_POST_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, \
-    NOM_FACEBOOK_KEY, NOM_NAME_KEY, NOM_SPEECH_KEY, NOM_POSITION_KEY, NOM_DISCORD_USERNAME_KEY, NOM_EMAIL_KEY, \
-    NOM_LINKEDIN_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY
+    ELECTION_DATE_POST_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
+    ELECTION_NOMINEES_KEY, NOM_FACEBOOK_KEY, NOM_NAME_KEY, NOM_SPEECH_KEY, NOM_POSITION_KEY, \
+    NOM_DISCORD_USERNAME_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, \
+    ELECTION_WEBSURVEY_LINK_POST_KEY
+
+logger = logging.getLogger('csss_site')
 
 
 def _create_new_election_from_webform(updated_elections_information):
@@ -22,7 +24,8 @@ def _create_new_election_from_webform(updated_elections_information):
     nomination_page -- the saved election object
     """
     dt = datetime.datetime.strptime(
-        f"{updated_elections_information[ELECTION_DATE_POST_KEY]} {updated_elections_information[ELECTION_TIME_POST_KEY]}",
+        f"{updated_elections_information[ELECTION_DATE_POST_KEY]} "
+        f"{updated_elections_information[ELECTION_TIME_POST_KEY]}",
         '%Y-%m-%d %H:%M'
     )
     success, election_page, error_message = \
@@ -302,11 +305,13 @@ def _validate_information_for_existing_election_from_webform_and_return_it(nomin
     nomination_page -- the election object, if it existed. otherwise None
     """
     dt = datetime.datetime.strptime(
-        f"{updated_elections_information[ELECTION_DATE_POST_KEY]} {updated_elections_information[ELECTION_TIME_POST_KEY]}",
+        f"{updated_elections_information[ELECTION_DATE_POST_KEY]} "
+        f"{updated_elections_information[ELECTION_TIME_POST_KEY]}",
         '%Y-%m-%d %H:%M')
-    success, nomination_page, error_message = _validate_information_for_existing_election_obj_and_return_it(dt,
-                                                                                                            nomination_page,
-                                                                                                            updated_elections_information)
+    success, nomination_page, error_message = \
+        _validate_information_for_existing_election_obj_and_return_it(dt,
+                                                                      nomination_page,
+                                                                      updated_elections_information)
     return nomination_page
 
 
@@ -333,8 +338,8 @@ def _validate_information_for_existing_election_obj_and_return_it(dt, nomination
             f"given election_type of {chosen_election_type} is not one of the valid options:"
             f" {valid_election_type_choices}"
         )
-        return False, None, f"the election type you entered {chosen_election_type} is not one of the valid options: " \
-                            f" {valid_election_type_choices}"
+        return False, None, f"the election type you entered {chosen_election_type} " \
+                            f"is not one of the valid options: {valid_election_type_choices}"
     election_websurvey = updated_elections_information[ELECTION_WEBSURVEY_LINK_POST_KEY]
     slug, human_friendly_name = _create_slug_and_human_friendly_name_election(dt, chosen_election_type)
     nomination_page.slug = slug
@@ -368,15 +373,16 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
         if full_name not in existing_nominees_names:
             success, nominee, error_message = \
                 _validate_and_return_new_nominee(
-                    full_name, officer_position, speech, facebook_link, linkedin_link, email_address, discord_username,
-                    position_index
+                    full_name, officer_position, speech, facebook_link, linkedin_link,
+                    email_address, discord_username, position_index
                 )
             if success and nominee is not None:
                 nominee.nomination_page = nomination_page
                 nominee.save()
                 logger.info(
                     "[elections/election_management.py _validate_nominees_information_for_existing_election_from"
-                    f"_webform_and_return_them()] saved user full_name={full_name} officer_position={officer_position}"
+                    f"_webform_and_return_them()] saved user full_name={full_name} "
+                    f"officer_position={officer_position}"
                     f" facebook_link={facebook_link} linkedin_link={linkedin_link} "
                     f"email_address={email_address} discord_username={discord_username}"
                 )
@@ -418,7 +424,8 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
     discord_username -- the nominee's discord username
-    nominee_index -- the index of the nominee which determines in what order the nominee will be shown on the nomination page
+    nominee_index -- the index of the nominee which determines in what order the nominee
+    will be shown on the nomination page
 
     Return
     Boolean -- false if the nominee could not be found.
@@ -529,13 +536,15 @@ def _update_information_for_existing_election_from_json(nomination_page, updated
         dt = datetime.datetime.strptime(f"{updated_elections_information[ELECTION_DATE_POST_KEY]}", '%Y-%m-%d %H:%M')
     except ValueError:
         logger.error(
-            f"[elections/election_management.py _update_information_for_existing_election_from_json()] given date of {updated_elections_information[ELECTION_DATE_POST_KEY]} is not in the valid format of YYYY-MM-DD HH:MM")
-        return False, None, f"the date you entered {updated_elections_information[ELECTION_DATE_POST_KEY]} is not in a valid " \
-                            "format of \"YYYY-MM-DD HH:MM\""
+            "[elections/election_management.py _update_information_for_existing_election_from_json()] given "
+            f"date of {updated_elections_information[ELECTION_DATE_POST_KEY]} is not"
+            " in the valid format of YYYY-MM-DD HH:MM")
+        return False, None, f"the date you entered {updated_elections_information[ELECTION_DATE_POST_KEY]} " \
+                            "is not in a valid format of \"YYYY-MM-DD HH:MM\""
     except TypeError:
         logger.error(
-            f"[elections/election_management.py _create_new_election_from_json()] given date seems to be unreadable")
-        return False, None, f"the date you entered seems to be unreadable "
+            "[elections/election_management.py _create_new_election_from_json()] given date seems to be unreadable")
+        return False, None, "the date you entered seems to be unreadable "
     return _validate_information_for_existing_election_obj_and_return_it(dt, nomination_page,
                                                                          updated_elections_information)
 
@@ -544,8 +553,9 @@ def _validate_nominee_information_for_existing_elections_from_json_and_save_all_
                                                                                         updated_nominees_information):
     """Takes in the election object and list of nominees that new to be created under it
     will then validate all the updated nominees to ensure they are all correct. After they are all validated, if they
-    all passed the validation, it will then save the updated nomination page object as well as all the updated nominees
-    while also deleting any outdated nominees. Otherwise, it will return an error explaining why it could not do so.
+    all passed the validation, it will then save the updated nomination page object as well as all the
+    updated nominees while also deleting any outdated nominees. Otherwise, it will return an error explaining
+    why it could not do so.
 
     Keyword Argument
     nomination_page -- the election object that needs to be updated
@@ -572,10 +582,11 @@ def _validate_nominee_information_for_existing_elections_from_json_and_save_all_
             email_address = nominee[NOM_EMAIL_POST_KEY]
             discord_username = nominee[NOM_DISCORD_USERNAME_POST_KEY]
             if full_name not in existing_nominees_names:
-                success, nominee, error_message = _validate_and_return_new_nominee(full_name, officer_position, speech,
-                                                                                   facebook_link, linkedin_link,
-                                                                                   email_address, discord_username,
-                                                                                   position_index)
+                success, nominee, error_message = \
+                    _validate_and_return_new_nominee(full_name, officer_position, speech,
+                                                     facebook_link, linkedin_link,
+                                                     email_address, discord_username,
+                                                     position_index)
                 if success:
                     if nominee is not None:
                         nominees_to_save.append(nominee)
