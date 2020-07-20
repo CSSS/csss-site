@@ -6,9 +6,12 @@
 
 {% block content %}
 	<h1 class="title">Modify Election</h1>
-	<form action="{{URL_ROOT}}elections/update/" method="post" class="form">
+	<form action="{{URL_ROOT}}elections/update_webform/" method="post" class="form">
 		{% csrf_token %}
-        <input type="text" name="election_id" value="{{election.id}}" hidden readonly>
+        <input type="button" value="Add another Nominee" onClick="addNominee('nominees');">
+		<input type="button" value="Remove the last Nominee Slot" onClick="removeNominee('#nominees');">
+		<input type="submit" value="submit" />
+        <input type="text" name="election_id" value="{{election_id}}" hidden readonly>
 		<p>Date For Election to be publicly available: <input type="date" name="date" value="{{date}}" required> <p>
 		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
 		<input type="time" name="time" value="{{time}}" required>

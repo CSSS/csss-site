@@ -6,36 +6,25 @@
 
 {% block content %}
 	<h1 class="title">Create new Election</h1>
-	<form action="{{URL_ROOT}}elections/create_or_update_json" method="post" class="form">
+    {% if error_message %}
+        <p style="color: red">Experienced Following Error<br>
+            {{ error_message }}<br>
+        </p>
+    {%  endif %}
+	<form action="{{URL_ROOT}}elections/create_json/" method="post" class="form">
 		{% csrf_token %}
-		<p>Instructions
+        <input type="button" value="Beautify JSON" onclick="beautify();" />
+        <input type="submit" value="submit" />
+		<p><strong>Instructions</strong>
 			<ul>
 				<li>Options for "type_of_election": "by_election", "general_election"</li>
-				<li>the HH in datePublic needs to be 24 hour time</li>
+				<li>the HH in date needs to be 24 hour time</li>
 				<li>the html links all need to begin with "http://"</li>
 				<li>speech needs to already be in HTML format: <a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a></li>
 			</ul>
 		</p>
-		<textarea name="input_json" cols="70" rows="30" required>
-            {
-            	"election_type" : "",
-            	"date" : "YYYY-MM-DD HH:MM",
-            	"websurvey" : "NONE",
-            	"nominees" :
-            		[
-            			{
-            				"name" : "",
-            				"officer_position" : "",
-            				"speech" : "",
-            				"facebook" :"NONE",
-            				"linked_in" : "NONE",
-            				"email" : "NONE",
-            				"discord" : "NONE"
-            			}
-            		]
-            }
-
-		</textarea>
+		<textarea name="input_json" cols="80" rows="40" required></textarea></p>
+        <input type="button" value="Beautify JSON" onclick="beautify();" />
 		<br><input type="submit" value="submit" />
 		<br>
 		<br>
@@ -47,4 +36,18 @@
 		<br>
 		<br>
 	</form>
-{% endblock %}
+    {{ input_json|json_script:"hello-data" }}
+    <script>
+        (function () {
+            raw_string = document.getElementById('hello-data').textContent
+            el = JSON.parse(JSON.parse(raw_string));
+            $('textarea').val(JSON.stringify(el,null,'\t'));
+        })();
+    </script>
+    <script>
+    function beautify() {
+        raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
+        el = JSON.parse(JSON.parse(raw_string));
+        $('textarea').val(JSON.stringify(el,null,'\t'));
+    }
+    </script>{% endblock %}

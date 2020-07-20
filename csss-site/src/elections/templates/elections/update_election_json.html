@@ -6,8 +6,24 @@
 
 {% block content %}
 	<h1 class="title">Modify Election</h1>
-	<form action="{{URL_ROOT}}elections/create_or_update_json/" method="post" class="form">
+        {% if error_message %}
+        <p style="color: red">Experienced Following Error<br>
+            {{ error_message }}<br>
+        </p>
+    {%  endif %}
+	<form action="{{URL_ROOT}}elections/update_json/" method="post" class="form">
+        <input type="text" name="election_id" value="{{ election_id }}" readonly hidden>
 		{% csrf_token %}
+        <input type="button" value="Beautify JSON" onclick="beautify();" />
+		<input type="submit" value="submit" />
+        <p><strong>Instructions</strong>
+			<ul>
+				<li>Options for "type_of_election": "by_election", "general_election"</li>
+				<li>the HH in date needs to be 24 hour time</li>
+				<li>the html links all need to begin with "http://"</li>
+				<li>speech needs to already be in HTML format: <a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a></li>
+			</ul>
+		</p>
 		<textarea name="input_json" cols="80" rows="40" required></textarea></p>
         <input type="button" value="Beautify JSON" onclick="beautify();" />
 		<input type="submit" value="submit" />

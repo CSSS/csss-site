@@ -6,8 +6,16 @@
 
 {% block content %}
 	<h1 class="title">Create new Election</h1>
-	<form action="{{URL_ROOT}}elections/create/" method="post" class="form">
+        {% if error_message %}
+        <p style="color: red">Experienced Following Error<br>
+            {{ error_message }}<br>
+        </p>
+    {%  endif %}
+	<form action="{{URL_ROOT}}elections/create_webform/" method="post" class="form">
 		{% csrf_token %}
+        <input type="button" value="Add another Nominee" onClick="addNominee('nominees');">
+		<input type="button" value="Remove the last Nominee Slot" onClick="removeNominee('#nominees');">
+		<input type="submit" value="submit" />
 		<p>Date For Election to be publicly available: <input type="date" name="date" required> <p>
 		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
 			<input type="time" name="time" required>
@@ -24,7 +32,7 @@
 			<div style="border: 3px solid black; padding: 10px;">
 				<p>Full Name: <input type="text" name="name" required></p>
 				<p>Position: <input type="text" name="officer_position" required></p>
-				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required></textarea></p>
+				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required>NONE</textarea></p>
 				<p><a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a>
 				<p>Facebook Link: <input type="text" name="facebook" value="NONE" required></p>
 				<p>LinkedIn Link: <input type="text" name="linked_in" value="NONE" required></p>
@@ -51,7 +59,7 @@
 			newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
 			newNominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"name\" required></p>";
 			newNominee.innerHTML += "<p>Position: <input type=\"text\" name=\"officer_position\" required></p>";
-			newNominee.innerHTML += "<p>Speech: (speech needs to already be in HTML format)<br><textarea name=\"speech\" cols=\"40\" rows=\"1\" required></textarea></p>";
+			newNominee.innerHTML += "<p>Speech: (speech needs to already be in HTML format)<br><textarea name=\"speech\" cols=\"40\" rows=\"1\" required>NONE</textarea></p>";
 			newNominee.innerHTML += "<p>Facebook Link: <input type=\"text\" value=\"NONE\" name=\"facebook\" required></p>";
 			newNominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\"  value=\"NONE\" name=\"linked_in\" required></p>";
 			newNominee.innerHTML += "<p>Email Address: <input type=\"text\"  value=\"NONE\" name=\"email\" required></p>";

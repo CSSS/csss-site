@@ -13,7 +13,7 @@ logger = logging.getLogger('csss_site')
 def create_context(request, tab, groups=None):
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
-    nom_pages = NominationPage.objects.all()
+    nom_pages = NominationPage.objects.all().order_by('-date')
     if len(nom_pages) == 0:
         nom_pages = None
     context = {
