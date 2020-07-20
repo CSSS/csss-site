@@ -109,8 +109,16 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
+          {% if election_officer or staff %}
+            <a href="{{URL_ROOT}}elections/show_create_webform" class="navbar-item">Create Election with WebForm</a>
+            <a href="{{URL_ROOT}}elections/show_create_json" class="navbar-item">Create Election with JSON</a>
+            <a href="{{URL_ROOT}}elections/select_election_to_update" class="navbar-item">Update or Remove Election</a>
+              {%  if nom_pages != None %}
+            <hr class="dropdown-divider">
+              {%  endif %}
+          {% endif %}
               {% for election in nom_pages %}
-                  <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.slug}}</a>
+                  <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.human_friendly_name}}</a>
               {% endfor %}
           </div>
         </div>
@@ -175,16 +183,6 @@
 
         <div class="navbar-dropdown">
           {% if authenticated is True %}
-            {% if election_officer or officer or staff %}
-            <a href="{{URL_ROOT}}administration/elections/create" class="navbar-item">Election: Create Election</a>            
-            <a href="{{URL_ROOT}}administration/elections/create_or_update_json" class="navbar-item">Election: Create Election via JSON</a>            
-            <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Election: Modify/Delete Election</a>
-            <hr class="dropdown-divider">
-            {% endif %}
-            {% if officer or staff %}
-            <a href="{{URL_ROOT}}administration/elections/select_election" class="navbar-item">Merchandise stuff</a>
-            <hr class="dropdown-divider">
-            {% endif %}
             {% if staff %}
             <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Officer Creation Links</a>
             <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Officers for specific term via JSON</a>

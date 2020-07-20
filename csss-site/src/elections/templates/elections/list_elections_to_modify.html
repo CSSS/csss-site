@@ -1,0 +1,26 @@
+{% extends "csss/new_header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+    {% if elections != None %}
+        <form action="{{URL_ROOT}}elections/determine_election_action/" method="post" class="form">
+        {% csrf_token %}
+            <h1 class="title">Select Election To Modify</h1>
+            <select name="election_id">
+                {%  for election in elections %}
+                    <option value="{{election.id}}">{{election}}</option>
+                {% endfor %}
+            </select>
+            <button name="modify" value="json" type="submit">Modify via JSON</button>
+            <button name="modify" value="webform" type="submit">Modify via Web Form</button>
+            <button name="modify" value="delete" type="submit">Delete Election</button>
+
+
+        </form>
+    {%  else %}
+        <h1 class="title">No Elections To Modify</h1>
+    {%  endif %}
+{% endblock %}
