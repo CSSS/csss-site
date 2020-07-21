@@ -105,6 +105,7 @@ def add_users_to_gdrive(request):
                 request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
+
 def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inputted_gmail):
     """Takes in a single user and give them access to the SFU CSSS Google Drive and save them in the database
 
@@ -245,6 +246,7 @@ def make_folders_public_gdrive(request):
                 else:
                     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(result)
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
+
 
 def make_folder_public_gdrive(gdrive, user_inputted_file_id):
     """Makes a google drive folder publicly available

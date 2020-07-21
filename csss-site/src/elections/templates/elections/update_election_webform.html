@@ -5,32 +5,45 @@
 {% bootstrap_messages %}
 
 {% block content %}
-	<h1 class="title">Create new Election</h1>
-	<form action="{{URL_ROOT}}elections/create/" method="post" class="form">
+	<h1 class="title">Modify Election</h1>
+	<form action="{{URL_ROOT}}elections/update_webform/" method="post" class="form">
 		{% csrf_token %}
-		<p>Date For Election to be publicly available: <input type="date" name="date" required> <p>
+        <input type="button" value="Add another Nominee" onClick="addNominee('nominees');">
+		<input type="button" value="Remove the last Nominee Slot" onClick="removeNominee('#nominees');">
+		<input type="submit" value="submit" />
+        <input type="text" name="election_id" value="{{election_id}}" hidden readonly>
+		<p>Date For Election to be publicly available: <input type="date" name="date" value="{{date}}" required> <p>
 		<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
-			<input type="time" name="time" required>
+		<input type="time" name="time" value="{{time}}" required>
 		</p>
 		<p>Election Type :
 			<select name="election_type">
-				<option value="by_election">By-Election</option>
-				<option value="general_election">General Election</option>
+				{% if election_type == 'by_election' %}
+					<option selected="selected" value="by_election">By-Election</option>
+					<option value="general_election" >General Election</option>
+				{% elif election_type == 'general_election' %}
+					<option value="by_election">By-Election</option>
+					<option selected="selected" value="general_election" >General Election</option>
+
+				{% endif %}
 			</select>
 		<p>
 		<p><b>For Any Links Below, leave as NONE if none to give. If however, you do have the link, remeber to prefix it with "http://"</b></p>
-		<p>Websurvey Link : <input type="text" name="websurvey" value="NONE" required></p>
+		<p>Websurvey Link : <input type="text" name="websurvey" value="{{websurvey}}" required></p>
 		<div id="nominees" >
+		<p> To remove a nominee, replace their name with "NONE"</p>
+		{% for nominee in nominees %}
 			<div style="border: 3px solid black; padding: 10px;">
-				<p>Full Name: <input type="text" name="name" required></p>
-				<p>Position: <input type="text" name="officer_position" required></p>
-				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required></textarea></p>
+				<p>Full Name: <input type="text" name="name" value="{{nominee.name}}" required></p>
+				<p>Position: <input type="text" name="officer_position" value="{{nominee.officer_position}}" required></p>
+				<p>Speech: (speech needs to already be in HTML format)<br><textarea name="speech" cols="40" rows="1" required>{{nominee.speech|safe}}</textarea></p>
 				<p><a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a>
-				<p>Facebook Link: <input type="text" name="facebook" value="NONE" required></p>
-				<p>LinkedIn Link: <input type="text" name="linked_in" value="NONE" required></p>
-				<p>Email Address: <input type="text" name="email" value="NONE" required></p>
-				<p>Discord Username: <input type="text" name="discord" value="NONE" required></p>
+				<p>Facebook Link: <input type="text" name="facebook" value="{{nominee.facebook}}" required></p>
+				<p>LinkedIn Link: <input type="text" name="linked_in" value="{{nominee.linked_in}}" required></p>
+				<p>Email Address: <input type="text" name="email" value="{{nominee.email}}" required></p>
+				<p>Discord Username: <input type="text" name="discord" value="{{nominee.discord}}" required></p>
 			</div>
+		{% endfor %}
 		</div>
 		<input type="button" value="Add another Nominee" onClick="addNominee('nominees');">
 		<input type="button" value="Remove the last Nominee Slot" onClick="removeNominee('#nominees');">
@@ -63,5 +76,4 @@
 			$(divName).children().last().remove();
 		}
 	</script>
-
 {% endblock %}

@@ -104,6 +104,7 @@ def add_non_officer_to_github_team(request):
                     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
 
+
 def update_github_non_officer(request):
     """updates the specified github team membership, either changes the username or the team name that is associated
     with the membership
@@ -166,6 +167,7 @@ def update_github_non_officer(request):
                 github.remove_users_from_a_team([github_user.username], github_user.team_name)
                 github_user.delete()
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
+
 
 def create_github_perms():
     """

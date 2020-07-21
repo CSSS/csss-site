@@ -14,6 +14,7 @@ cd csss-site
 python3.7 -m pip install -r requirements.txt
 ```
 
+
 ## Setting the Necessary Environment Variables  
 > want to know why the weird way of quotes are used? -> https://stackoverflow.com/a/1250279/7734535  
 ```shell

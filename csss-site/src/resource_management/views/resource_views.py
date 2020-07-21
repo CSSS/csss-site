@@ -54,6 +54,7 @@ def validate_access(request):
         determine_resource_to_validate(request.POST[RESOURCES_KEY])
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/show_resources_for_validation')
 
+
 def determine_resource_to_validate(selected_resource_to_validate):
     """determine which resource needs to be validated
 
