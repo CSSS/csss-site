@@ -22,3 +22,18 @@ stripe==2.33.0
 django-allauth==0.39.1
 querystring_parser
 psycopg2-binary
+
+
+# google_drive requirements
+google-api-python-client==1.7.8
+google-auth-oauthlib==0.3.0
+# google-auth==1.6.3
+google-auth-httplib2==0.0.3
+oauth2client==3.0.0
+
+
+# github management
+PyGithub
+
+# gitlab management
+python-gitlab
