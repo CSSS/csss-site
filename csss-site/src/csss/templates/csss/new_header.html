@@ -127,31 +127,23 @@
 
       <!-- Resource Management -->
       {% if election_officer or officer or staff %}
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        {% if tab == 'resource_management' %}
-                            <a class="navbar-link is-active">
-                                Resource Management
-                            </a>
-                        {% else %}
-                            <a class="navbar-link">
-                                Resource Management
-                            </a>
-                        {% endif %}
-                        <div class="navbar-dropdown">
-                            {% if authenticated is True %}
-                                {% if staff %}
-                                    <a href="{{ URL_ROOT }}resource_management/resources/show_resources_for_validation"
-                                       class="navbar-item">Validate Access On All Resources</a>
-                                    <a href="{{ URL_ROOT }}resource_management/resources/gdrive" class="navbar-item">Modify Google
-                                        Drive Access</a>
-                                    <a href="{{ URL_ROOT }}resource_management/resources/github" class="navbar-item">Modify SFU
-                                        Github Access</a>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
-            {% endif %}
+          <div class="navbar-item has-dropdown is-hoverable">
+              {% if tab == 'resource_management' %}
+                  <a class="navbar-link is-active">Resource Management</a>
+              {% else %}
+                  <a class="navbar-link">Resource Management</a>
+              {% endif %}
+              <div class="navbar-dropdown">
+                  {% if authenticated is True %}
+                      {% if staff %}
+                          <a href="{{ URL_ROOT }}resource_management/resources/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
+                          <a href="{{ URL_ROOT }}resource_management/resources/gdrive" class="navbar-item">Modify Google Drive Access</a>
+                          <a href="{{ URL_ROOT }}resource_management/resources/github" class="navbar-item">Modify SFU Github Access</a>
+                      {% endif %}
+                  {% endif %}
+              </div>
+          </div>
+      {% endif %}
 
         <!--More-->
 
