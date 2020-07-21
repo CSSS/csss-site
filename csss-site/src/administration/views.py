@@ -17,7 +17,6 @@ def login(request):
         if user is not None:
             dj_login(request, user)
             logger.info("[administration/views.py login()] it was a successful login")
-    logger.info("[administration/views.py login()] it was an insuccessful login")
     return HttpResponseRedirect(settings.URL_ROOT)
 
 

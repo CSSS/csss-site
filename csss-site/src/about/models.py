@@ -3,17 +3,11 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class SourceFile(models.Model):
-    json_file = models.FileField(
-        default='officer_positions/default',
-        upload_to='officer_positions/'
-    )
-
-    def __str__(self):
-        return f"{self.json_file}"
-
-
 class Term(models.Model):
+    term_number = models.IntegerField(
+        primary_key=True,
+        default=0,
+    )
     term_choices = (
         ('Spring', 'Spring'),
         ('Summer', 'Summer'),
@@ -25,12 +19,8 @@ class Term(models.Model):
         default='Fall',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
-    term_number = models.IntegerField(
-        primary_key=True,
-        default=0,
-    )
     year = models.IntegerField(
-        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year+1)))],
+        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 1)))],
         default='2018',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
@@ -40,7 +30,6 @@ class Term(models.Model):
 
 
 class Officer(models.Model):
-
     position = models.CharField(
         max_length=300,
         default='President',
@@ -129,18 +118,3 @@ class AnnouncementEmailAddress(models.Model):
 
     def __str__(self):
         return f"{self.officer.name} {self.email} {self.officer.elected_term}"
-
-
-class EmailList(models.Model):
-    email = models.CharField(
-        max_length=140,
-        default="NA"
-    )
-    officer = models.ForeignKey(
-        Officer,
-        related_name='email',
-        on_delete=models.CASCADE
-    )
-
-    def __str__(self):
-        return f"{self.officer.name} {self.email}"

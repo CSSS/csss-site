@@ -81,10 +81,7 @@ def index(request):
 
 
 def errors(request):
-    context = create_context(
-        request,
-        'index'
-    )
+    context = create_context(request, 'index')
     if ERROR_MESSAGE_KEY in request.session:
         context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]

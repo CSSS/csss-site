@@ -45,12 +45,14 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
-            <a href="{{URL_ROOT}}about/who_we_are" class="navbar-item">
-              Who We Are
-            </a>
-            <a href="{{URL_ROOT}}about/list_of_officers" class="navbar-item">
-              List of Officers
-            </a>
+              {% if authenticated is True %}
+                  {% if staff %}
+                      <a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
+                      <hr class="dropdown-divider">
+                  {% endif %}
+              {% endif %}
+              <a href="{{URL_ROOT}}about/who_we_are" class="navbar-item">Who We Are</a>
+              <a href="{{URL_ROOT}}about/list_of_officers" class="navbar-item">List of Officers</a>
           </div>
         </div>
 
@@ -123,6 +125,26 @@
           </div>
         </div>
 
+      <!-- Resource Management -->
+      {% if election_officer or officer or staff %}
+          <div class="navbar-item has-dropdown is-hoverable">
+              {% if tab == 'resource_management' %}
+                  <a class="navbar-link is-active">Resource Management</a>
+              {% else %}
+                  <a class="navbar-link">Resource Management</a>
+              {% endif %}
+              <div class="navbar-dropdown">
+                  {% if authenticated is True %}
+                      {% if staff %}
+                          <a href="{{ URL_ROOT }}resource_management/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
+                          <a href="{{ URL_ROOT }}resource_management/gdrive" class="navbar-item">Modify Google Drive Access</a>
+                          <a href="{{ URL_ROOT }}resource_management/github" class="navbar-item">Modify SFU Github Access</a>
+                      {% endif %}
+                  {% endif %}
+              </div>
+          </div>
+      {% endif %}
+
         <!--More-->
 
         <div class="navbar-item has-dropdown is-hoverable">
@@ -184,16 +206,11 @@
         <div class="navbar-dropdown">
           {% if authenticated is True %}
             {% if staff %}
-            <a href="{{URL_ROOT}}administration/officer/show_create_link_page" class="navbar-item">Officers: Generate Officer Creation Links</a>
-            <a href="{{URL_ROOT}}administration/officer/create_or_update_json" class="navbar-item">Officers: Update Officers for specific term via JSON</a>
-            <a href="{{URL_ROOT}}administration/officer/show_maillist_creation" class="navbar-item">Officers: Create a maillist</a>
-            <a href="{{URL_ROOT}}administration/officer/assign_maillists" class="navbar-item">Officers: Assign maillists to officer</a>
-            <hr class="dropdown-divider">
             <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>
-            <hr class="dropdown-divider">
             {% endif %}
 
-          <div class="dropdown-item">
+                                  <hr class="dropdown-divider">
+              <div class="dropdown-item">
             <p><b>Logged in as {{username}}</b></p>
           </div>
 

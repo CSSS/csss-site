@@ -65,6 +65,8 @@ pipeline {
                         string(credentialsId: 'WEBSITE_PROD_SECRET_KEY', variable: 'WEBSITE_PROD_SECRET_KEY'),
                         string(credentialsId: 'WEBSITE_PROD_DB_PASSWORD', variable: 'WEBSITE_PROD_DB_PASSWORD'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_SECRET_KEY', variable: 'WEBSITE_PROD_STRIPE_SECRET_KEY'),
+                        string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
+                        string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
@@ -74,6 +76,12 @@ pipeline {
                         export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
                         export DEBUG=false;
                         export HOST_ADDRESS=sfucsss.org;
+
+                        export GDRIVE_TOKEN_LOCATION="/home/csss/resource_management_tools_creds/token.pickle";
+                        export OFFICER_PHOTOS_PATH="/mnt/csss_website_media/exec-photos";
+                        export GDRIVE_ROOT_FOLDER_ID="0B5w0O-VrxOd3UDg4Y3cyd3NFWEE";
+                        export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
+                        export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
 
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";

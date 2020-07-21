@@ -1,0 +1,19 @@
+{% extends "csss/new_header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+    <h1 class="title">Ensure Access is Valid on All Resources</h1>
+    <form action="{{URL_ROOT}}resource_management/validate_access" method="post">
+        {% csrf_token %}
+		<input type="checkbox" name="resource" value="gdrive">
+		Google Drive:<br>
+        <input type="checkbox" name="resource" value="github">
+        Github<br>
+        <input type="checkbox" name="resource" value="gitlab">
+		SFU Gitlab<br>
+		<br><input type="submit" value="submit" />
+    </form>
+{% endblock %}
