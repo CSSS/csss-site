@@ -136,9 +136,9 @@
               <div class="navbar-dropdown">
                   {% if authenticated is True %}
                       {% if staff %}
-                          <a href="{{ URL_ROOT }}resource_management/resources/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
-                          <a href="{{ URL_ROOT }}resource_management/resources/gdrive" class="navbar-item">Modify Google Drive Access</a>
-                          <a href="{{ URL_ROOT }}resource_management/resources/github" class="navbar-item">Modify SFU Github Access</a>
+                          <a href="{{ URL_ROOT }}resource_management/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
+                          <a href="{{ URL_ROOT }}resource_management/gdrive" class="navbar-item">Modify Google Drive Access</a>
+                          <a href="{{ URL_ROOT }}resource_management/github" class="navbar-item">Modify SFU Github Access</a>
                       {% endif %}
                   {% endif %}
               </div>
