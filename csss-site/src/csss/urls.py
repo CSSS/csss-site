@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^'+settings.URL_PATTERN+'bursaries_and_awards/', include('bursaries_and_awards.urls')),
     url(r'^'+settings.URL_PATTERN+'announcements/', include('announcements.urls')),
     url(r'^'+settings.URL_PATTERN+'elections/', include('elections.urls')),
+    url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
     url(r'^'+settings.URL_PATTERN+'administration/', include('administration.urls')),
     url(r'^'+settings.URL_PATTERN+'$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'error/', views.errors, name="error page"),
