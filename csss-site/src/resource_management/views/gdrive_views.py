@@ -103,8 +103,7 @@ def add_users_to_gdrive(request):
             )
             if not success:
                 request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-    return HttpResponseRedirect('/resource_management/resources/gdrive/')
-
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inputted_gmail):
     """Takes in a single user and give them access to the SFU CSSS Google Drive and save them in the database
@@ -209,7 +208,7 @@ def update_permissions_for_existing_gdrive_user(request):
                 )
                 gdrive.remove_users_gdrive([gdrive_user.gmail], gdrive_user.file_id)
                 gdrive_user.delete()
-    return HttpResponseRedirect('/resource_management/resources/gdrive/')
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
 def make_folders_public_gdrive(request):
@@ -245,8 +244,7 @@ def make_folders_public_gdrive(request):
                     request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(result)
                 else:
                     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(result)
-    return HttpResponseRedirect('/resource_management/resources/gdrive/')
-
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 def make_folder_public_gdrive(gdrive, user_inputted_file_id):
     """Makes a google drive folder publicly available
@@ -317,7 +315,7 @@ def update_gdrive_public_links(request):
                 )
                 gdrive.remove_public_link_gdrive(gdrive_public_file.file_id)
                 gdrive_public_file.delete()
-    return HttpResponseRedirect('/resource_management/resources/gdrive/')
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
 def create_google_drive_perms():

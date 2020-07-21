@@ -6,7 +6,7 @@
 
 {% block content %}
     <h1 class="title">Ensure Access is Valid on All Resources</h1>
-    <form action="/resource_management/resources/validate_access" method="post">
+    <form action="{{URL_ROOT}}resource_management/validate_access" method="post">
         {% csrf_token %}
 		<input type="checkbox" name="resource" value="gdrive">
 		Google Drive:<br>

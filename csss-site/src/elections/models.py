@@ -12,6 +12,10 @@ class NominationPage(models.Model):
     slug = models.SlugField(
         max_length=32,
     )
+    human_friendly_name = models.CharField(
+        max_length=32,
+        default="NONE"
+    )
 
     election_type_choices = (
         ('general_election', 'General Election'),

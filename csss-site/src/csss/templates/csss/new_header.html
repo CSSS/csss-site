@@ -1,4 +1,3 @@
-{% load nav_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,7 +32,7 @@
 
 
     <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
+        < class="navbar-start">
 
             <!--About-->
 
@@ -77,19 +76,16 @@
                     </a>
                 {% endif %}
                 <div class="navbar-dropdown">
-                    <a target="_blank" class="navbar-item"
-                       href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2019.pdf">CSSS
-                        Constitution</a>
-                    <a target="_blank" class="navbar-item"
-                       href="https://github.com/CSSS/public-docs/blob/master/policies/Policies_2017_February.pdf">CSSS
-                        Policies</a>
+            <a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2019.pdf">CSSS Constitution</a>
+
+            <a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/blob/master/policies/Policies_2019_January.pdf">CSSS Policies</a>
+
                     <a target="_blank" class="navbar-item" href="http://sfss.ca/about/documents/">SFSS Documents</a>
                     <a href="{{ URL_ROOT }}documents/photo_gallery" class="navbar-item">Photo Galleries</a>
                     <a href='{{ URL_ROOT }}documents/file_uploading/multiple' class="navbar-item">Upload Photo/Videos
                         from CSSS Events</a>
                 </div>
             </div>
-
             <!--Events-->
 
             <div id="events" class="navbar-item has-dropdown is-hoverable">
@@ -111,66 +107,52 @@
                 </div>
             </div>
 
-            <!--Elections-->
-            <div class="navbar-item has-dropdown is-hoverable">
-                {% if tab == 'elections' %}
-                    <a class="navbar-link is-active">
-                        Elections
-                    </a>
-                {% else %}
-                    <a class="navbar-link">
-                        Elections
-                    </a>
-                {% endif %}
-                <div class="navbar-dropdown">
-                    {% if authenticated is True %}
-                        {% if election_officer or officer or staff %}
-                            <a href="{{ URL_ROOT }}elections/create" class="navbar-item">Election: Create Election</a>
-                            <a href="{{ URL_ROOT }}elections/create_or_update_json" class="navbar-item">Election: Create
-                                Election via JSON</a>
-                            <a href="{{ URL_ROOT }}elections/select_election" class="navbar-item">Election:
-                                Modify/Delete Election</a>
+        <!--Elections-->
 
-                        {% endif %}
-                    {% endif %}
-                    {% get_nom_pages as elections %}
-                    {%  if not elections == None %}
-                        <hr class="dropdown-divider">
-                    {%  endif %}
-                    {% for election in elections %}
-                        <a href="{{ URL_ROOT }}elections/{{ election.slug }}"
-                           class="navbar-item">{{ election.slug }}</a>
-                    {% endfor %}
-                </div>
-            </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          {% if tab == 'elections' %}
+          <a class="navbar-link is-active">
+            Elections
+          </a>   
+          {% else %}
+          <a class="navbar-link">
+            Elections
+          </a>        
+          {% endif %}
+          <div class="navbar-dropdown">
+          {% if election_officer or staff %}
+            <a href="{{URL_ROOT}}elections/show_create_webform" class="navbar-item">Create Election with WebForm</a>
+            <a href="{{URL_ROOT}}elections/show_create_json" class="navbar-item">Create Election with JSON</a>
+            <a href="{{URL_ROOT}}elections/select_election_to_update" class="navbar-item">Update or Remove Election</a>
+              {%  if nom_pages != None %}
+            <hr class="dropdown-divider">
+              {%  endif %}
+          {% endif %}
+              {% for election in nom_pages %}
+                  <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.human_friendly_name}}</a>
+              {% endfor %}
+          </div>
+        </div>
 
-                    {% if authenticated is True %}
-                {% if election_officer or officer or staff %}
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        {% if tab == 'resource_management' %}
-                            <a class="navbar-link is-active">
-                                Resource Management
-                            </a>
-                        {% else %}
-                            <a class="navbar-link">
-                                Resource Management
-                            </a>
-                        {% endif %}
-                        <div class="navbar-dropdown">
-                            {% if authenticated is True %}
-                                {% if staff %}
-                                    <a href="{{ URL_ROOT }}resource_management/resources/show_resources_for_validation"
-                                       class="navbar-item">Validate Access On All Resources</a>
-                                    <a href="{{ URL_ROOT }}resource_management/resources/gdrive" class="navbar-item">Modify Google
-                                        Drive Access</a>
-                                    <a href="{{ URL_ROOT }}resource_management/resources/github" class="navbar-item">Modify SFU
-                                        Github Access</a>
-                                {% endif %}
-                            {% endif %}
-                        </div>
-                    </div>
-                {% endif %}
-            {% endif %}
+      <!-- Resource Management -->
+      {% if election_officer or officer or staff %}
+          <div class="navbar-item has-dropdown is-hoverable">
+              {% if tab == 'resource_management' %}
+                  <a class="navbar-link is-active">Resource Management</a>
+              {% else %}
+                  <a class="navbar-link">Resource Management</a>
+              {% endif %}
+              <div class="navbar-dropdown">
+                  {% if authenticated is True %}
+                      {% if staff %}
+                          <a href="{{ URL_ROOT }}resource_management/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
+                          <a href="{{ URL_ROOT }}resource_management/gdrive" class="navbar-item">Modify Google Drive Access</a>
+                          <a href="{{ URL_ROOT }}resource_management/github" class="navbar-item">Modify SFU Github Access</a>
+                      {% endif %}
+                  {% endif %}
+              </div>
+          </div>
+      {% endif %}
 
             <!--More-->
 
@@ -291,13 +273,13 @@
 
         <div class="navbar-dropdown">
           {% if authenticated is True %}
-            {% if Staff %}
-            <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>   
+            {% if staff %}
+            <a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>
             {% endif %}
-          <hr class="dropdown-divider">
-          
-          <div class="dropdown-item">
-            <p><b>Logged in as {{Username}}</b></p>
+
+                                  <hr class="dropdown-divider">
+              <div class="dropdown-item">
+            <p><b>Logged in as {{username}}</b></p>
           </div>
 
           <div class="dropdown-item">
