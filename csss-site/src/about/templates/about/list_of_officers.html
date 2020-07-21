@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
-                                            {% if election_officer or officer or staff %}
+                                            {% if election_officer or authenticated_officer or staff %}
                                                 <p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
                                                 <p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
                                             {%  endif %}
