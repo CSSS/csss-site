@@ -18,7 +18,7 @@ def create_context(request, tab, groups=None):
         nom_pages = None
     context = {
         'authenticated': request.user.is_authenticated,
-        'officer': ('officer' in groups),
+        'authenticated_officer': ('officer' in groups),
         'election_officer': ('election_officer' in groups),
         'staff': request.user.is_staff,
         'username': request.user.username,
