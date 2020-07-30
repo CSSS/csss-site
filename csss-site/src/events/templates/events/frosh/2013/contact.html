@@ -1,0 +1,14 @@
+{% extends "events/frosh/2013/header.html" %}
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+{{ block.super }}
+    <h1>Contact Information</h1>
+    <p>To register for FroshWeek please fill out our <a href="{{ URL_ROOT }}events/frosh/2013/registration">Online Registration Form</a>.
+        Also be sure to attend the first event:
+    <p class="eventinfo">Registration and BBQ</p>
+    <p class="eventinfo">Location: <span class="eventdetails">SFU Burnaby, ASB 9802</span></p>
+    <p class="eventinfo">Time: <span class="eventdetails">Tuesday September 3rd 2013, 11:00am-12:00pm</span></p>
+    <p>For more information about the Computing Science FroshWeek, including questions, concerns and sponsorship queries, please contact our FroshWeek team at: <a href="mailto:csss-frosh@sfu.ca">csss-frosh@sfu.ca</a></p>
+
+{% endblock %}
