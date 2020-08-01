@@ -4,7 +4,7 @@ import logging
 from django.shortcuts import render
 
 from about.models import Term, Officer
-from csss.views_helper import create_context
+from csss.views_helper import create_main_context
 
 logger = logging.getLogger('csss_site')
 TAB_STRING = 'about'
@@ -14,12 +14,12 @@ def index(request):
     return render(
         request,
         'about/who_we_are.html',
-        create_context(request, TAB_STRING)
+        create_main_context(request, TAB_STRING)
     )
 
 
 def list_of_officers(request):
-    context = create_context(request, TAB_STRING)
+    context = create_main_context(request, TAB_STRING)
     officers = Officer.objects.all().filter().order_by('elected_term__term_number', 'term_position_number')
     now = datetime.datetime.now()
     term_active = (now.year * 10)

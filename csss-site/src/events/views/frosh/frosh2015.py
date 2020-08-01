@@ -2,43 +2,27 @@ from django.shortcuts import render
 
 from csss.views_helper import create_context
 
-TAB = 'events'
-
-FROSH_TAB = 'frosh_2015_tab'
-
 
 def index(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2015/index.html', context)
+    return render(request, 'events/frosh/2015/index.html', create_context())
 
 
 def schedule(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2015/schedule.html', context)
+    return render(request, 'events/frosh/2015/schedule.html', create_context())
 
 
 
 def registration(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2015/registration.html', context)
+    return render(request, 'events/frosh/2015/registration.html', create_context())
 
 
 def faq(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2015/faq.html', context)
+    return render(request, 'events/frosh/2015/faq.html', create_context())
 
 
 def contact_us(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2015/contact.html', context)
+    return render(request, 'events/frosh/2015/contact.html', create_context())
 
 
 def sponsors(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2015/sponsors.html', context)
+    return render(request, 'events/frosh/2015/sponsors.html', create_context())

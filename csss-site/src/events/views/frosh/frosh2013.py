@@ -2,42 +2,26 @@ from django.shortcuts import render
 
 from csss.views_helper import create_context
 
-TAB = 'events'
-
-FROSH_TAB = 'frosh_2013_tab'
-
 
 def index(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'index'
-    return render(request, 'events/frosh/2013/index.html', context)
+    return render(request, 'events/frosh/2013/index.html', create_context())
 
 
 def schedule(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'schedule'
-    return render(request, 'events/frosh/2013/schedule.html', context)
+    return render(request, 'events/frosh/2013/schedule.html', create_context())
 
 
 def registration(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'registration'
-    return render(request, 'events/frosh/2013/registration.html', context)
+    return render(request, 'events/frosh/2013/registration.html', create_context())
 
 
 def faq(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'faq'
-    return render(request, 'events/frosh/2013/faq.html', context)
+    return render(request, 'events/frosh/2013/faq.html', create_context())
 
 
 def sponsors(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'faq'
-    return render(request, 'events/frosh/2013/sponsors.html', context)
+    return render(request, 'events/frosh/2013/sponsors.html', create_context())
 
 
 def contact(request):
-    context = create_context(request, TAB)
-    context[FROSH_TAB] = 'contact'
-    return render(request, 'events/frosh/2013/contact.html', context)
+    return render(request, 'events/frosh/2013/contact.html', create_context())
