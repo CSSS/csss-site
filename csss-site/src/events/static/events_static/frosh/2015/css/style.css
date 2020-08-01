@@ -1,0 +1,104 @@
+/* Frosh Week 2015 Website Stylings */ 
+
+/*
+e88530 orange
+1e8eaf blue
+*/
+body {
+    background: black;
+    color: white;
+}
+
+h2 {
+       color:  #e88530;
+}
+
+h1 {
+        color: #1e8eaf;
+}
+
+/* Schedule Page */
+
+
+
+table {
+	width: 55em;
+	border-collapse:collapse;
+        border: 1px solid black;
+}
+
+tr, td, th {
+	border-top: 0px;
+	border-bottom: 0px;
+        text-align: center;
+}
+
+
+td {
+	width: 20%;
+        border: thin solid black;
+}
+
+td a {
+        color: white;
+}
+
+.schedule-nothing {
+        border: thin solid black;
+    
+}
+
+.schedule-event {
+	color: #FFFFFF;    
+	background-color: #e88530;
+}
+
+.schedule-class {
+	background-color: #1e8eaf;
+	color: #FFFFFF;	
+}
+
+.table-schedule tr:nth-child(even) {
+
+}
+
+.table-schedule tr:nth-child(odd) {
+    
+}
+
+.table-title {
+	background-color: #e88530;
+	color: #FFFFFF;
+}
+
+.location {
+        color:  #1e8eaf;
+}
+
+.emphasis, .question {
+        color: #e88530;
+}
+
+.alt_emphasis {
+        color: #1e8eaf;
+}
+
+@-moz-document url-prefix() {
+        fieldset {display: table-cell;}
+}
+
+/* Sponsors */
+h3 {
+    color: white;
+    background-color: #1e8eaf;
+    padding: 5px;
+}
+
+.package ul li, {
+    color: #e88530;
+}
+
+.cutout {
+    background-color: #e88530;
+    padding: 5px;
+}

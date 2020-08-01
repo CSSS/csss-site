@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>CSSS FroshWeek 2015</title>
+
+    <!-- Bootstrap -->
+    <link href="{%  static 'events_static/frosh/2015/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- CSSS FroshWeek Stylings -->
+    <link href="{%  static 'events_static/frosh/2015/css/style.css' %}" rel="stylesheet">
+    <link href="{%  static 'events_static/frosh/2015/css/bs-overrides.css' %}" rel="stylesheet">
+</head>
+<body>
+<!-- Navigation Section -->
+<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <!-- Navigation Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Navigation Toggle</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ URL_ROOT }}"><img src="{%  static 'events_static/frosh/2015/images/CSSSFinalLogoMini.png' %}" alt="CSSS"></a>
+        </div>
+
+        <!-- Nav links -->
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{{ URL_ROOT }}events/frosh/2015" class="active">Home</a></li>
+                <li><a href="{{ URL_ROOT }}events/frosh/2015/schedule">Schedule</a></li>
+                <li><a href="{{ URL_ROOT }}events/frosh/2015/registration">Registration</a></li>
+                <li><a href="{{ URL_ROOT }}events/frosh/2015/faq">FAQ</a></li>
+                <li><a href="{{ URL_ROOT }}events/frosh/2015/contact_us">Contact Us</a></li>
+                <li><a href="{{ URL_ROOT }}events/frosh/2015/sponsors">Sponsors</a><li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Content Section -->
+<div class="container-fluid">
+    {% block content %}
+
+    {% endblock %}
+</div> <!-- end container-fluid -->
+
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="col-xs-8 col-md-8">
+            <p class="text-muted">&copy; Copyright 2015 - <a href="{{ URL_ROOT}}">Computing Science Student Society</a></p>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{%  static 'events_static/frosh/2015/js/bootstrap.min.js' %}"></script>
+</body>
+</html>

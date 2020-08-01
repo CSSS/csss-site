@@ -1,0 +1,36 @@
+/* Bootstrap Style Overrides */
+
+.navbar-default {
+        background-color: #e88530;
+        border: thin solid #e88530;
+}
+
+.navbar-default .navbar-nav > li > a {
+         color: white;
+}
+
+.navbar-default a.navbar-brand {
+        color: white;
+}
+
+.row-fluid {
+        padding-top: 100px;  
+}
+
+.carousel-inner > .item > img {
+        margin: 0 auto;
+}
+
+.carousel-indicators {
+        bottom: -50px;  
+}
+
+.carousel-indicators li {
+        
+        border: 2px solid #1e8eaf;
+}
+
+.carousel-indicators .active {
+        background-color: #e88530;
+        border: 2px solid #e88530;
+}
