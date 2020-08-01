@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import views
-from .views.frosh import frosh2012, frosh2013, frosh2014, frosh2015
+from .views.frosh import frosh2012, frosh2013, frosh2014, frosh2015, frosh2016
 
 urlpatterns = [
     url(r'^general_meetings$', views.gm, name='gm'),
@@ -30,5 +30,8 @@ urlpatterns = [
     url(r'^frosh/2015/frosh$', frosh2015.frosh, name="Frosh Week 2015 Frosh"),
     url(r'^frosh/2015/conditions$', frosh2015.conditions, name="Frosh Week 2015 Conditions"),
     url(r'^frosh/2015/contact$', frosh2015.contact, name="Frosh Week 2015 Contact Us"),
+    url(r'^frosh/2016$', frosh2016.index, name="Frosh Week 2016"),
+    url(r'^frosh/2016/frosh$', frosh2016.frosh, name="Frosh Week 2016 Frosh"),
+    url(r'^frosh/2016/conditions$', frosh2016.conditions, name="Frosh Week 2016 Conditions"),
     url(r'^$', views.index, name='index'),
 ]
