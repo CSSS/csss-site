@@ -36,6 +36,5 @@ urlpatterns = [
     url(r'^frosh/2015_v2/frosh$', frosh2015_v2.frosh, name="Frosh Week 2015 Frosh"),
     url(r'^frosh/2015_v2/conditions$', frosh2015_v2.conditions, name="Frosh Week 2015 Conditions"),
     url(r'^frosh/2015_v2/contact$', frosh2015_v2.contact, name="Frosh Week 2015 Contact Us"),
-    url(r'^frosh/2015_v2/team$', frosh2015_v2.team, name="Frosh Week 2015 Team"),
     url(r'^$', views.index, name='index'),
 ]
