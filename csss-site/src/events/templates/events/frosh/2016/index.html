@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta name="description" content="CSSS Frosh Week 2016"/>
@@ -23,26 +23,26 @@
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-      <script src="../../../../csssfroshweek.github.io/archive/frosh2016/assets/js/respond.min.js"></script>
-      <![endif]-->
+    <script src="assets/js/html5shiv.js"></script>
+    <script src="../../../../csssfroshweek.github.io/archive/frosh2016/assets/js/respond.min.js"></script>
+    <![endif]-->
 
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
 
-  </head>
-  <!-- START BODY -->
-  <body class="nomobile">
+</head>
+<!-- START BODY -->
+<body class="nomobile">
 
-    <!-- START HEADER -->
-    <section id="header">
-        <div class="container">
-            <header class="row">
-                <div class="col-xs-10 col-xs-offset-1">
-                    <!-- HEADLINE -->
-                    <h1 data-animated="GoIn">Computing Science Student Society Frosh 2016</h1>
-                </div>
-            </header>
+<!-- START HEADER -->
+<section id="header">
+    <div class="container">
+        <header class="row">
+            <div class="col-xs-10 col-xs-offset-1">
+                <!-- HEADLINE -->
+                <h1 data-animated="GoIn">Computing Science Student Society Frosh 2016</h1>
+            </div>
+        </header>
 
 
 
@@ -68,57 +68,59 @@
         </div> -->
         <!-- END SLIDER -->
 
-            <!-- START TIMER -->
+        <!-- START TIMER -->
 
-            <div class="row">
-                <img class="img-responsive center-block" src="{%  static 'events_static/frosh/2016/landing_page/images/frosh/logo_3gradient_banner_small.jpg' %}">
+        <div class="row">
+            <img class="img-responsive center-block" src="{%  static 'events_static/frosh/2016/landing_page/images/frosh/logo_3gradient_banner_small.jpg' %}" alt="CSSS Frosh logo">
+        </div>
+        <!--
+        <div class="row">
+            <div id="timer"  data-animated="FadeIn">
+                <div id="days" class="timer_box"></div>
+                <div id="hours" class="timer_box"></div>
+                <div id="minutes" class="timer_box"></div>
+                <div id="seconds" class="timer_box"></div>
             </div>
-			<!--
-            <div class="row">
-                <div id="timer"  data-animated="FadeIn">
-                    <div id="days" class="timer_box"></div>
-                    <div id="hours" class="timer_box"></div>
-                    <div id="minutes" class="timer_box"></div>
-                    <div id="seconds" class="timer_box"></div>
-                </div>
+        </div>
+    -->
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-4 mt centered">
+                <button type="button" class="btn btn-warning" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfbo5o_AFKfJ8tA26HFx3xESzkc9_F5-ljXW1_sbnlV-YPmzg/viewform";'>Sign Up Now!</button>
+                <button type="button" class="btn btn-default" onclick='window.location.href = "{{ URL_ROOT }}events/frosh/2016/frosh";'>Enter Website!</button>
             </div>
-		-->
-            <div class="row">
-                <div class="col-lg-4 col-lg-offset-4 mt centered">
-                    <button type="button" class="btn btn-warning" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfbo5o_AFKfJ8tA26HFx3xESzkc9_F5-ljXW1_sbnlV-YPmzg/viewform";'>Sign Up Now!</button>
-                    <button type="button" class="btn btn-default" onclick='window.location.href = "../../../../csssfroshweek.github.io/archive/frosh2016/mainsite/frosh.html";'><a href="{{ URL_ROOT }}events/frosh/2016/frosh">Enter Website!</a></button>
-                </div>
-	    </div>
-            <!-- END TIMER -->
+        </div>
+        <!-- END TIMER -->
 
-            <!--<div class="row">
-                <h1>Sponsored by: </h1>
-                <div>
-                    <img class="img-responsive center-block" src="assets/images/Simba Logo white on transparent triangle with transparent S.png">
-                </div>
+        <!--<div class="row">
+            <h1>Sponsored by: </h1>
+            <div>
+                <img class="img-responsive center-block" src="assets/images/Simba Logo white on transparent triangle with transparent S.png">
             </div>
-        </div><! End Container
-    </section> -->
-    <!-- END HEADER -->
+        </div>
+    </div><! End Container
+</section> -->
+        <!-- END HEADER -->
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script>
-    function registerRedirect() {
-        window.location.href = "https://docs.google.com/forms/d/1KcNNdA1Iy11nPLnjwRf1H5aIw_VuB8cx5CHDvjtShYI/viewform?usp=send_form";
-    }
-    function mainsiteRedirect() {
-        window.location.href = "../../../../csssfroshweek.github.io/archive/frosh2016/mainsite/frosh.html";
-    }
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script>
+            function registerRedirect() {
+                window.location.href = "https://docs.google.com/forms/d/1KcNNdA1Iy11nPLnjwRf1H5aIw_VuB8cx5CHDvjtShYI/viewform?usp=send_form";
+            }
+            function mainsiteRedirect() {
+                window.location.href = "../../../../csssfroshweek.github.io/archive/frosh2016/mainsite/frosh.html";
+            }
 
-    </script>
-    <script src="{%  static 'events_static/frosh/2016/js/jquery-2.2.4.min.js' %}"></script>
-    <script type="text/javascript" src="{%  static 'events_static/frosh/2016/landing_page/js/modernizr.custom.js' %}"></script>
-    <script src="{%  static 'events_static/frosh/2016/landing_page/js/bootstrap.js' %}"></script>
-    <script src="{%  static 'events_static/frosh/2016/landing_page/js/soon/plugins.js' %}"></script>
-    <script src="{%  static 'events_static/frosh/2016/landing_page/js/soon/jquery.themepunch.revolution.min.js' %}"></script>
-    <script src="{%  static 'events_static/frosh/2016/landing_page/js/soon/custom.js' %}"></script>
-  </body>
-  <!-- END BODY -->
+        </script>
+        <script src="{%  static 'events_static/frosh/2016/js/jquery-2.2.4.min.js' %}"></script>
+        <script src="{%  static 'events_static/frosh/2016/landing_page/js/modernizr.custom.js' %}"></script>
+        <script src="{%  static 'events_static/frosh/2016/landing_page/js/bootstrap.js' %}"></script>
+        <script src="{%  static 'events_static/frosh/2016/landing_page/js/soon/plugins.js' %}"></script>
+        <script src="{%  static 'events_static/frosh/2016/landing_page/js/soon/jquery.themepunch.revolution.min.js' %}"></script>
+        <script src="{%  static 'events_static/frosh/2016/landing_page/js/soon/custom.js' %}"></script>
+    </div>
+</section>
+</body>
+<!-- END BODY -->
 </html>
