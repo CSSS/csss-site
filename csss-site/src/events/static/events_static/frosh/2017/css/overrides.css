@@ -1,0 +1,206 @@
+/* Overrides for the various template, bootstrap, and soon.css elements */
+
+body {
+    background-color: white;
+}
+
+hr {
+    border-color: grey;
+}
+
+#events p:before {
+    display: block;
+    content: " ";
+    margin-top: -50px;
+    height: 50px;
+    visibility: hidden;
+}
+
+.contactList {
+    list-style-type: none;
+    text-align: left;
+}
+
+
+/* soon.css overrides */
+
+#slider {
+    background-color: black;
+    z-index: 0;
+    padding: 0px;
+    position: static;
+    margin: 10px 10px;
+}
+
+#slider li {
+    height: 50%;
+}
+
+.calendar-container {
+    position: relative;
+    padding-bottom: 75%;
+    overflow: hidden;
+}
+
+.calendar-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.timer_box,
+.timer_box h1 {
+    text-shadow: none;
+    color: #1E8EAF;
+}
+
+.teamMember img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.teamMember {
+    text-align: center;
+}
+
+.houseInfo {
+    display: inline-block;
+    text-align: center;
+    verticle-align: middle;
+    height: auto;
+}
+
+.houseInfo img {
+    width: 125px;
+    height: 128px;
+}
+
+.logo {
+    display: inline-block;
+    height: auto;
+}
+
+.gold {
+    width: 300px;
+}
+
+.copper {
+    width: 200px;
+}
+
+.silver {
+    width: 100px;
+}
+
+.silicon {
+    width: 200px;
+    margin-bottom: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+
+/* bootstrap.css overrides */
+
+.img-square {
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+}
+
+.discord-img-square {
+    border-radius: 5px;
+    width: 67px;
+    height: 67px;
+}
+
+h1 {
+    color: #23235C;
+}
+
+.navbar-inverse {
+    background-color: #2c95b0;
+    border-color: #2c95b0;
+}
+
+.navbar-inverse .navbar-nav>.active>a,
+.navbar-inverse .navbar-nav>.active>a:hover,
+.navbar-inverse .navbar-nav>.active>a:focus {
+    background-color: #4E4E7C;
+}
+
+.navbar-header a img {
+    background-color: #2c95b0;
+    padding: 4px 10px 4px 0px;
+}
+
+.carousel-inner>.item>img {
+    margin: 0 auto;
+}
+
+.carousel-indicators {
+    bottom: -50px;
+}
+
+.carousel-indicators li {
+    border: 2px solid #23235C;
+}
+
+.carousel-indicators .active {
+    background-color: #914220;
+    border: 2px solid #914220;
+}
+
+#carousel {
+    margin-top: 75px;
+}
+
+.popover,
+.popover-title,
+.popover-content {
+    background-color: white;
+    border: thin solid #e88530;
+    border-shadow: none;
+}
+
+.houseInfo>button.btn.btn-default:hover,
+.houseInfo>button.btn.btn-default:active,
+.houseInfo>button.btn.btn-default:focus {
+    background-color: initial;
+    border: none;
+}
+
+.popover-title {
+    color: #e88530;
+}
+
+.popover.right .arrow:after {
+    border-right-color: #e88530;
+}
+
+.houseInfo button {
+    border: none;
+}
+
+.table>thead>tr>th,
+.table>tbody>tr>th,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>tbody>tr>td,
+.table>tfoot>tr>td {
+    border-top: none;
+}
+
+
+/* main.css overrides */
+
+#footerwrap,
+#footerwrap a {
+    background-color: #2c95b0;
+    color: white;
+    margin-top: 10px;
+    padding-bottom: 5px;
+}
