@@ -1,0 +1,126 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Frosh Week 2019" />
+    <meta name="author" content="Jace Manshadi" />
+    <meta name="creator" content="Jace Manshadi" />
+    <meta name="attribution_parties" content="SHIELD free bootstrap theme - blacktie.co licensed under CC3">
+    <link rel="shortcut icon" href="{% static 'events_static/frosh/2019/images/favicon19.png' %}">
+
+    <title>Computing Science Student Society Frosh 2019</title> <!-- Bootstrap core CSS -->
+    <link href="{% static 'events_static/frosh/2019/landing_page/css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static 'events_static/frosh/2019/landing_page/css/soon.css' %}" rel="stylesheet">
+
+    <!-- Overrides for everything -->
+    <link href="{% static 'events_static/frosh/2019/css/overrides.css' %}" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="assets/js/html5shiv.js"></script>
+      <script src="assets/js/respond.min.js"></script>
+    <![endif]-->
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+</head>
+<!-- START BODY -->
+
+<body class="nomobile">
+
+    <!-- START HEADER -->
+    <section id="header">
+        <div class="container">
+            <header class="row">
+                <div class="col-xs-10 col-xs-offset-1">
+                    <!-- HEADLINE -->
+                    <h1 data-animated="GoIn">Computing Science Student Society Frosh 2019</h1>
+                </div>
+            </header>
+
+
+
+            <!-- LAYER OVER THE SLIDER TO MAKE THE WHITE TEXT READABLE -->
+            <!--<div id="layer"></div>-->
+            <!-- END LAYER -->
+            <!-- START SLIDER -->
+            <!-- Slider Commented Out
+        <div class="row">
+            <div id="slider" class="col-lg-4 col-lg-offset-4 rev_slider">
+                <ul>
+                    <li data-transition="slideleft" data-slotamount="1" data-thumb="assets/frosh/new_header.png">
+                        <img src="assets/img/frosh/new/blueDisk.jpg">
+                    </li>
+                    <li data-transition="slideleft" data-slotamount="1" data-thumb="assets/img/frosh/bedrace.png">
+                        <img src="assets/img/frosh/frosh-slide-4.jpg">
+                    </li>
+                    <li data-transition="slideleft" data-slotamount="1" data-thumb="assets/img/frosh/Club_Night.JPG">
+                        <img src="assets/img/frosh/frosh-slide-3.jpg">
+                    </li>
+                </ul>
+            </div>
+        </div> -->
+            <!-- END SLIDER -->
+
+            <!-- START TIMER -->
+
+            <div class="row">
+                <img class="img-responsive center-block" src="{% static 'events_static/frosh/2019/images/FROSH_THEME_2019.png' %}">
+            </div>
+
+            <div class="row">
+                <div id="timer" data-animated="FadeIn">
+                    <div id="days" class="timer_box"></div>
+                    <div id="hours" class="timer_box"></div>
+                    <div id="minutes" class="timer_box"></div>
+                    <div id="seconds" class="timer_box"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 mt centered">
+                    <button type="button" class="btn btn-warning" onclick='window.open("https://docs.google.com/forms/d/e/1FAIpQLScO07pW3Tt8J9RewBelOuvzWzbNBtkvvDt3cAupJntcHyCWIA/viewform?usp=sf_link");'>Sign Up Now!</button>
+                    <button type="button" class="btn btn-default" onclick='window.location.href = "{{URL_ROOT}}events/frosh/2019/frosh";'>Enter Website!</button>
+                </div>
+            </div>
+            <!-- END TIMER -->
+
+            <!--<div class="row">
+                <h1>Sponsored by: </h1>
+                <div>
+                    <img class="img-responsive center-block" src="assets/img/Simba Logo white on transparent triangle with transparent S.png">
+                </div>
+            </div>
+        </div><! End Container
+    </section> -->
+            <!-- END HEADER -->
+
+            <!-- Bootstrap core JavaScript
+    ================================================== -->
+            <!-- Placed at the end of the document so the pages load faster -->
+            <script>
+                function registerRedirect() {
+                    window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLScO07pW3Tt8J9RewBelOuvzWzbNBtkvvDt3cAupJntcHyCWIA/viewform?usp=sf_link";
+                }
+
+                function mainsiteRedirect() {
+                    window.location.href = "frosh2019";
+                }
+            </script>
+            <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
+            </script>
+            <script type="text/javascript" src="{% static 'events_static/frosh/2019/landing_page/js/modernizr.custom.js' %}"></script>
+            <script src="{% static 'events_static/frosh/2019/landing_page/js/bootstrap.js' %}"></script>
+            <script src="{% static 'events_static/frosh/2019/landing_page/js/soon/plugins.js' %}"></script>
+            <script src="{% static 'events_static/frosh/2019/landing_page/js/soon/jquery.themepunch.revolution.min.js' %}"></script>
+            <script src="{% static 'events_static/frosh/2019/landing_page/js/soon/custom.js' %}"></script>
+</body>
+<!-- END BODY -->
+
+</html>
