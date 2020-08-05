@@ -1,5 +1,12 @@
 # csss-site
 
+
+ - [Setup Python Environment](#setup-python-environment)
+ - [Setting the Necessary Environment Variables](#setting-the-necessary-environment-variables)
+ - [Before opening a PR](#before-opening-a-pr)
+ - [Various tasks to accomplish](#various-tasks-to-accomplish)
+
+
 ## Setup Python Environment
 ```shell
 sudo apt-get install -y python3.7
@@ -50,9 +57,12 @@ python3.7 manage.py createsuperuser # if you need to log into the admin
 python3.7 manage.py runserver 0.0.0.0:8000
 ```
 
-
 ## Before opening a PR
 ```shell
 cd /absolute/path/to/parent/folder/of/repo
 ./CI/validate_and_deploy/test_site.sh
 ```
+
+## Various tasks to accomplish
+
+ * [Add frosh page for a new year](documentation/add_frosh.md)
