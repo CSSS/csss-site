@@ -50,9 +50,12 @@ python3.7 manage.py createsuperuser # if you need to log into the admin
 python3.7 manage.py runserver 0.0.0.0:8000
 ```
 
-
 ## Before opening a PR
 ```shell
 cd /absolute/path/to/parent/folder/of/repo
 ./CI/validate_and_deploy/test_site.sh
 ```
+
+# Various Tasks to accomplish
+
+ * Add frosh page for a new year
