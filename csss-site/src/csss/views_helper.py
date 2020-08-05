@@ -16,7 +16,7 @@ def create_main_context(request, tab, groups=None):
     nom_pages = NominationPage.objects.all().order_by('-date')
     if len(nom_pages) == 0:
         nom_pages = None
-    context = create_context()
+    context = _create_base_context()
     context.update({
         'authenticated': request.user.is_authenticated,
         'authenticated_officer': ('officer' in groups),
@@ -29,7 +29,11 @@ def create_main_context(request, tab, groups=None):
     return context
 
 
-def create_context():
+def create_frosh_context():
+    return _create_base_context()
+
+
+def _create_base_context():
     context = {
         'URL_ROOT': settings.URL_ROOT,
     }
