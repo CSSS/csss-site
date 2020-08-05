@@ -9,7 +9,7 @@ from django.conf import settings
 
 from elections.models import NominationPage, Nominee
 from csss.views_helper import verify_access_logged_user_and_create_context, \
-    there_are_multiple_entries, ERROR_MESSAGE_KEY, create_context
+    there_are_multiple_entries, ERROR_MESSAGE_KEY, create_main_context
 
 NOM_NAME_POST_KEY = NOM_NAME_KEY = 'name'
 NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'officer_position'
@@ -51,7 +51,7 @@ logger = logging.getLogger('csss_site')
 
 
 def get_nominees(request, slug):
-    context = create_context(request, TAB_STRING)
+    context = create_main_context(request, TAB_STRING)
     retrieved_obj = NominationPage.objects.get(slug=slug)
     if retrieved_obj.date <= datetime.datetime.now():
         logger.info("[elections/election_management.py get_nominees()] time to vote")
@@ -459,5 +459,5 @@ def delete_selected_election(request):
 
 def list_of_elections(request):
     logger.info("[administration/election_management.py list_of_elections()]")
-    context = create_context(request, TAB_STRING)
+    context = create_main_context(request, TAB_STRING)
     return render(request, 'elections/list_elections.html', context)

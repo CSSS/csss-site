@@ -1,0 +1,165 @@
+/* Overrides for the various template, bootstrap, and soon.css elements */
+
+body {
+  background-color: black;  
+}
+
+hr {
+    border-color: grey;
+}
+
+#events p:before {
+    display: block;
+    content: " ";
+    margin-top: -50px;
+    height: 50px;
+    visibility: hidden;
+}
+
+.contactList {
+    list-style-type: none;
+    text-align: left;
+}
+/* soon.css overrides */
+#slider {
+    background-color: black;
+    z-index: 0;
+    padding: 0px;
+    position: static;
+    margin: 10px 10px;
+}
+
+#slider li {
+    height: 50%;
+}
+
+.timer_box, .timer_box h1 {
+    text-shadow: none;
+    color: #1E8EAF;
+}
+
+.teamMember img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.teamMember {
+    text-align: center;
+}
+
+.houseInfo {
+    display: inline-block;
+    text-align: center;
+    verticle-align: middle;
+    height: auto;
+}
+
+.houseInfo img {
+    width: 125px;
+    height: 128px;
+}
+
+.logo {
+    display: inline-block;
+    height: auto;
+}
+
+.gold {
+    width: 300px;
+}
+
+.copper {
+    width: 200px;
+}
+
+.silicon {
+    width: 200px;
+    margin-bottom: 20px;
+}
+
+/* bootstrap.css overrides */
+
+.img-square {
+    border-radius: 5px;
+    width: 150px;
+    height: 150px;
+}
+
+h1 {
+    color:   #1E8EAF;
+}
+
+.navbar-inverse {
+    background-color: #1E8EAF;
+    border-color: #1E8EAF;
+}
+
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus{
+    background-color: #1E8EAF;
+}
+
+.navbar-header  a img {
+    background-color: #1E8EAF;
+}
+
+
+.carousel-inner>.item>img{
+	margin:0 auto;
+}
+
+.carousel-indicators{
+	bottom:-50px;
+}
+
+.carousel-indicators li{
+	border:2px solid #1e8eaf;
+}
+
+.carousel-indicators .active{
+	background-color:#e88530;
+	border:2px solid #e88530;
+}
+
+#carousel {
+    margin-top: 75px;
+}
+
+
+
+.popover, .popover-title, .popover-content {
+    background-color: black;
+    border: thin solid #e88530;
+    border-shadow: none;
+}
+
+.houseInfo > button.btn.btn-default:hover, .houseInfo  > button.btn.btn-default:active, .houseInfo > button.btn.btn-default:focus {
+    background-color: initial;
+    border: none;
+}
+.popover-title {
+    color: #e88530;
+}
+
+.popover.right .arrow:after {
+  border-right-color: #e88530;
+}
+
+
+.houseInfo button {
+    border: none;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+        border-top: none;
+}
+
+/* main.css overrides */
+
+#footerwrap, #footerwrap a {
+    background-color: #1E8EAF;
+    color: white;
+    margin-top: 10px;
+    padding-bottom: 5px;
+}
+

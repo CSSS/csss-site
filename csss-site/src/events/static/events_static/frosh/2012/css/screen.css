@@ -1,0 +1,82 @@
+body {
+	background-color: #F7EBD5;
+	color: #333;
+	font: 13px/1.231 Arial, Helvetica, Sans-Serif;
+	width: 850px;
+	margin-left: 1em;
+}
+
+div.navigation {
+	float:center;
+	font-size:1.3em;
+}
+
+div.logo {
+	float:left;
+	width:225px;
+	margin-right:2em;
+}
+
+div.content {
+	float:left;
+	clear:left;
+}
+
+div.footer {
+	clear:left;
+	margin-top:2em;
+	text-align:center;
+}
+
+p.question {
+	font-weight:bold;
+}
+
+img.photo {
+	float: right;
+	margin-left: 1em;
+	margin-bottom: 1em;
+}
+
+img.sponsors {
+	margin-right: 2em;
+	clear:left;
+}
+
+img.sfuwhitespace {
+	/*float:left;*/
+	margin-right: 2em;
+	border: 1px solid black;
+	clear:left;
+}
+
+div.sponsor {
+	margin-top:2em;
+	margin-bottom:2em;
+	padding-bottom:2em;
+}
+
+
+/*For the Schedule Table*/
+
+
+table {
+    width: 750px;
+    margin-left: 16px;
+    border-collapse:collapse;
+}
+
+
+td {
+    width: 20%;
+    text-align: center;
+}
+
+table, td, th {
+    border: 1px solid #000;
+}
+
+.schedule-event {
+    color: #FFF;    
+    background-color: #c27a01;
+}

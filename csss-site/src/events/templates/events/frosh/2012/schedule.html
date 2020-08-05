@@ -1,0 +1,151 @@
+{% extends "events/frosh/2012/header.html" %}
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+    {{ block.super }}
+    <h1>Schedule</h1>
+    <table id="schedule">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Tuesday (Sept. 4)</th>
+            <th>Wednesday (Sept. 5)</th>
+            <th>Thursday (Sept. 6)</th>
+            <th>Friday (Sept. 7)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>8:30 - 9:30</td>
+            <td></td>
+            <td>MATH 150/151</td>
+            <td></td>
+            <td>MATH 150/151</td>
+        </tr>
+        <tr>
+            <td>9:30 - 10:30</td>
+            <td></td>
+            <td>CMPT 125/126</td>
+            <td></td>
+            <td>CMPT 125/126</td>
+        </tr>
+        <tr>
+            <td>10:30 - 11:30</td>
+            <td></td>
+            <td>CMPT 120</td>
+            <td></td>
+            <td>CMPT 120</td>
+        </tr>
+        <tr>
+            <td>11:30 - 12:30</td>
+            <td class="schedule-event">Registration BBQ</td>
+            <td>MACM 101</td>
+            <td class="schedule-event" rowspan="2">Co-op Luncheon</td>
+            <td>MACM 101</td>
+        </tr>
+        <tr>
+            <td>12:30 - 1:30</td>
+            <td class="schedule-event">RAMing Ceremony</td>
+            <td class="schedule-event" rowspan="2">WICS Luncheon</td>
+            <!-- <td></td> -->
+            <td></td>
+        </tr>
+        <tr>
+            <td>1:30 - 2:30</td>
+            <td class="schedule-event" rowspan="4">CS Amazing Race</td>
+            <!-- <td></td> -->
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>2:30 - 3:30</td>
+            <!-- <td></td> -->
+            <td>CMPT 120</td>
+            <td class="schedule-event">Transit to Harbour Centre</td>
+            <td>CMPT 120</td>
+        </tr>
+        <tr>
+            <td>3:30 - 4:30</td>
+            <!-- <td></td> -->
+            <td>CMPT 150</td>
+            <td class="schedule-event" rowspan="3">PacMacro</td>
+            <td>CMPT 150</td>
+        </tr>
+        <tr>
+            <td>4:30 - 5:30</td>
+            <!-- <td></td> -->
+            <td class="schedule-event" rowspan="2">Survival Training</td>
+            <!-- <td></td> -->
+            <td class="schedule-event" rowspan="5">Photo Hunt</td>
+        </tr>
+        <tr>
+            <td>5:30 - 6:30</td>
+            <td></td>
+            <!-- <td></td> -->
+            <!-- <td></td> -->
+            <!-- <td></td> -->
+        </tr>
+        <tr>
+            <td>6:30 - 7:30</td>
+            <td></td>
+            <td></td>
+            <td class="schedule-event" rowspan="2">Dinner Downtown</td>
+            <!-- <td></td> -->
+        </tr>
+        <tr>
+            <td>7:30 - 8:30</td>
+            <td></td>
+            <td></td>
+            <!-- <td></td> -->
+            <!-- <td></td> -->
+        </tr>
+        <tr>
+            <td>8:30 - 9:30</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <!-- <td></td> -->
+        </tr>
+        <tr>
+            <td>9:30 - 10:30</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td class="schedule-event">Late Night Lunacy</td>
+        </tr>
+        </tbody>
+    </table>
+    <h2>Updates</h2>
+    <p> Survival Training has been moved an hour later to the 4:30 - 6:30PM timeslot in order to accomodate more first year schedules. Feel free to stop by at the common room earlier to chat with other students before we start.</p>
+    <h2>Events</h2>
+    <h3><a id="Raming"></a>Registration and BBQ:</h3>
+    <p>Location: SFU Burnaby, ASB 9802</p>
+    <p>Whether you have registered online or are planning to register in person on this day, come out for a free BBQ and to meet some of your professors and other CS students for the first time.</p>
+    <h3><a id="Ceremony"></a>RAM'ing Invocation Ceremony:</h3>
+    <p>Location: SFU Burnaby, IRMACS Theatre</p>
+    <p>You, the few, the proud, the chosen shall be anointed with our token of fellowship as CS students. This ancient and mystical ceremony must be faced with awe and reverence!</p>
+    <h3><a id="AmazingRace"></a>CS Amazing Race:</h3>
+    <p>Location: SFU Burnaby, starts at IRMACS Theatre. Goes around Burnaby campus.</p>
+    <p>Meet your team for the week as these are the people you will be working with to earn points and gain rewards. Then battle it out for prizes in a race through SFU.</p>
+    <h3><a id="WICS"></a>WICS Luncheon:</h3>
+    <p>Location: SFU Burnaby, TASC 9204</p>
+    <p>Learn more about the Women in Computing Science group.</p>
+    <h3><a id="Training"></a>Survival Training:</h3>
+    <p>Location: SFU Burnaby, starts at ASB 9802. Takes place in the AQ Gardens<p>
+    <p>University can be a daunting place to be, but not anymore! With your very own survival training imparted to you by your fellow computing scientists, university will fear YOU. But this will not be an easy task; there will be races to test your co-operation with your peers, tests of endurance to see how long you can last, strategizing to out-play other teams, and mental games to keep your mind sharp for those ever elusive exams we love so much.</p>
+    <h3><a id="Coop"></a>Co-op Luncheon:</h3>
+    <p>Location: SFU Burnaby, ASB 9896</p>
+    <p>Learn about what Co-op is, why you should apply, and the requirements for entering the program.</p>
+    <h3><a id="PacMacro"></a>PacMacro:</h3>
+    <p>Location: SFU Vancouver, Harbour Centre, Meet in the ASB Atrium (right outside ASB 9802), we'll commute downtown together</p>
+    <p>Ah, the good old days playing PacMan on your Atari 2600... wish you could relive those days? Well, now you can! With SFU CSSS' famous PacMacro, not only can you relive it, you can be a part of it by being PacMacro or the three ghosts.</p>
+    <h3><a id="TeamDinner"></a>Team Strategy Dinner:</h3>
+    <P>Location: Downtown</p>
+    <p>As you lick your wounds from the field of battle, know that it was but a small rehearsal in a larger campaign. As you sit amongst your brethren, fill your stomach with food so that it may prepare you for the events that lay ahead of you. Discuss strategy and seek wisdom from your leaders. Above all, prepare yourself for a long night of hunting, cheering and celebration as you match wits with yourself, your peers and most dastardly of all: the filthy engineers.</p>
+    <h3><a id="PhotoHunt"></a>Photo Hunt:</h3>
+    <p>Location: Starts at SFU Burnaby, ASB 9802. Goes downtown, returns to SFU Burnaby.</p>
+    <p>There are so many strange things in our beautiful city, and now with our help we can show you even more and take pictures of it too! And perhaps there will also be a secret mission for you froshees that may put you into the SFU history books. Want to know more? Well, you'll just have to wait, won't you.</p>
+    <h3><a id="Lunacy"></a>Late Night Lunacy:</h3>
+    <p>Location: SFU Burnaby, TASC 9204.</p>
+    <p>Learn the joy of all-nighters with all of the fun and none of the work! First, help us to once again crush the Engineers in our Frosh Slurpee drink-off and dodgeball game. We'll then proceed to keep you up all night with an adrenaline filled race around campus containing copious quantities of games (both video and non), more random prize opportunities and other such mischief. Make sure to tell your parents not to wait up. You'll be... studying... This event goes all night so prepare to be at SFU till the early hours of the morning on Saturday. Prizes will be given out in the middle of the night for the points you earned during the week, so make sure to stay in order to guarantee yourself something nice.</p>
+{% endblock %}

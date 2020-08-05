@@ -1,0 +1,596 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta  name="viewport"  content="width=device-width, initial-scale=1.0">
+    <meta   name="description" content="CSSS Frosh Week 2016">
+    <link rel="shortcut icon" href="{%  static 'events_static/frosh/2016/mainsite/images/logos/cssslogowhiteshadowed.png' %}">
+
+    <title>CSSS Frosh 2016</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{%  static 'events_static/frosh/2016/mainsite/css/bootstrap.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{%  static 'events_static/frosh/2016/mainsite/css/main.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'events_static/frosh/2016/mainsite/css/icomoon.css' %}">
+    <link href="{%  static 'events_static/frosh/2016/mainsite/css/animate-custom.css' %}" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,700' rel='stylesheet' type='text/css'>
+
+    <script src="{%  static 'events_static/frosh/2016/js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{%  static 'events_static/frosh/2016/mainsite/js/modernizr.custom.js' %}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js"></script>
+
+    <!-- CSS Overrides -->
+    <link href="{%  static 'events_static/frosh/2016/css/overrides.css' %}" rel="stylesheet">
+
+    <style>
+        #map_canvas {
+            height: 400px;
+            background-color: #CCC;
+        }
+    </style>
+</head>
+
+<body data-spy="scroll" data-offset="0" data-target="#navbar-main">
+
+<div id="navbar-main">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <a href="http://sfucsss.org"><img src="{%  static 'events_static/frosh/2016/mainsite/images/logos/cssslogowhiteshadowed.png' %}" alt="csss logo" style="height:36px;width:36px;margin-top:6px;"></a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="#home" class="smoothScroll">Home</a></li>
+                    <li> <a href="#services" class="smoothScroll">What's the CSSS?</a></li>
+                    <li> <a href="#schedule" class="smoothScroll">Schedule &amp; FAQ</a></li>
+                    <li> <a href="#team" class="smoothScroll"> Team</a></li>
+                    <li> <a href="#sponsors" class="smoothScroll">Sponsors</a></li>
+                    <li> <a href="#blog" class="smoothScroll">Contacts</a></li>
+                    <li> <button style="margin-top:9px;" type="button" class="btn btn-warning" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfbo5o_AFKfJ8tA26HFx3xESzkc9_F5-ljXW1_sbnlV-YPmzg/viewform";' >Sign Up Now!</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ==== HEADERWRAP ==== -->
+<div class="container-fluid" id="home" >
+    <div class="row-fluid">
+        <div class="col-xs-12 col-md-8 col-md-offset-2">
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                    <li data-target="#carousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#carousel" data-slide-to="1"></li>
+                    <li data-target="#carousel" data-slide-to="2"></li>
+                    <li data-target="#carousel" data-slide-to="3"></li>
+                    <li data-target="#carousel" data-slide-to="4"></li>
+                </ol>
+
+                <div class="carousel-inner" role="listbox">
+                    <div class="item active">
+                        <img class="img-responsive center-block" src="{%  static 'events_static/frosh/2016/mainsite/images/logo_3gradient_banner.png' %}" alt="frosh 2016 logo" >
+                    </div>
+                    <div class="item">
+                        <img src="{%  static 'events_static/frosh/2016/mainsite/images/gallery/coop_info_2015.jpg' %}" alt="Frosh 2012 Info Session">
+                    </div>
+                    <div class="item">
+                        <img src="{%  static 'events_static/frosh/2016/mainsite/images/gallery/signin_2015.jpg' %}" alt="Frosh 2011">
+                    </div>
+                    <div class="item">
+                        <img src="{%  static 'events_static/frosh/2016/mainsite/images/gallery/photohunt_2015.jpg' %}" alt="Frosh 2012 Dinner">
+                    </div>
+                    <div class="item">
+                        <img src="{%  static 'events_static/frosh/2016/mainsite/images/gallery/midnight_madness_2015.jpg' %}" alt="Frosh 2011 Dodgeball">
+                    </div>
+                </div>
+            </div>
+
+            <a class="left carousel-control" href="#carousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+
+            <a class="right carousel-control" href="#carousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+
+        </div>
+    </div>
+</div>
+<!-- ==== GREYWRAP ==== -->
+
+
+<!-- ==== SECTION DIVIDER1 -->
+
+
+<section class="divider1">
+    <!-- ==== SERVICES ==== -->
+    <div class="container" id="services" >
+        <div class="row">
+            <br>
+            <br>
+            <hr>
+            <h1 class="centered">What's the CSSS?</h1>
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <p>The <span class="emphasis">Computing Science Student Society</span> is a departmental student society based out of Simon Fraser University. Operating under the Simon Fraser Student Society, we act to recognize the academic and recreational demands of Computing Science students, providing them with a better experience at SFU. We have seats on the School of Computing Science Undergraduate Program Committee and the Faculty of Applied Science Undergraduate Curriculum Committee. The society also facilitates recreational activities, such as LAN parties, board game nights and movie nights, as well as joining the Simon Fraser Student Society and other departmental student societies for events. On a day-to-day level, the society provides services for Computing Science students such as a common area and inexpensive beverages.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <hr>
+            <h1 class="centered">What's Frosh?</h1>
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <p ><span class="emphasis">FroshWeek</span> is the ultimate introductory experience for Computing Science students at Simon Fraser University.<br><br> Organized by the <span class="emphasis">Computing Science Student Society</span>, in partnership with the School of Computing Science, it is a week of fun-filled activities designed to orient, entertain and educate new university students with a Computing Science twist<br><br>Held during the <span class="emphasis">first week of the Fall semester at SFU (Sept. 6-10)</span>, FroshWeek is organized by students, for students. Incoming students receive: an in-depth introduction to the facilities available to them as Computing Science students; many entertaining on- and off-campus challenges and diversions to motivate, amuse, and connect them with other students; valuable advice from their elders with respect to courses and the university experience in general; and some free food and tools to make the transition to university much smoother.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ==== SECTION DIVIDER6 ==== -->
+<section class="divider6">
+    <div class="row mt">
+
+
+        <div class="container" id="schedule" >
+            <br>
+            <br>
+
+            <hr>
+            <h1 class="centered">Schedule</h1>
+            <hr>
+
+            <div class="row text-center">
+                <div class="calendar-container">
+                    <iframe src="https://docs.google.com/spreadsheets/d/1AZwG0GGQeTtxER5t4uQwD0rOa9ZxiOQ0PlGudFt-Oho/pubhtml?gid=2&amp;single=true&amp;widget=true&amp;headers=false"></iframe>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--=================================================================================================-->
+<section class="divider7">
+    <div class="container" id="events" >
+        <hr>
+        <h1 class="centered">Events</h1>
+        <hr>
+
+        <div class="row">
+            <div class="col-lg-6">
+                <p id="Registration"><b>Registration and Ice Breaker:</b> Whether you have registered online or are planning to register in person on this day, come out and meet some of your professors and other CS students for the first time. Look for the registration booth to get your t-shirt and swag before heading out to meet the people you will be stuck with for the next four years..<br><span><i>Location: SFU Burnaby, ASB Atrium</i></span></p>
+
+                <p id="Coop"><b>Information Session and Barbeque:</b> Learn about Co-op, Computing Science, Women in Computing Science, and the Computing Science Student Society.  Learn about all the opportunities open to you and what to look forward to in your four (or more) years at SFU. Stick around until the end if you don't want to miss the free BBQ!<br><span><i>Location: SFU Burnaby, ASB 9896</i></span></p>
+
+                <p id="PacMacro"><b>Pac Macro: </b>Have you ever felt your life was missing something?  Sure, you've got friends, school, and homework, but have you ever just felt need to wakka wakka?  Well now you can at Pac Macro!  Don the Pacman costume, that was totally made by a CS student (sorry!), and evade your undead nemeses Inky, Blinky, Pinky, and Clyde who are your fellow students also in costumes made by a CS student (again, really sorry!).<br><span><i>Location: SFU Vancouver</i></span></p>
+
+                <p id="PhotoHunt"><b>Photo Hunt:</b>There are so many strange things in our beautiful city, and in this event you'll get the chance to see them! Perhaps there will also be a secret mission in order to defend your honour. Want to know more? Well, you'll just have to wait, won't you... <br><span><i>Location: Starts at SFU Burnaby, ASB Atrium. Goes downtown, returns to SFU Burnaby.</i></span></p>
+            </div>
+
+            <div class="col-lg-6">
+
+                <p id="TeamDinner"><b>Dinner Downtown:</b>As you lick your wounds from the field of battle, know that it was but a small rehearsal in a larger campaign. As you sit amongst your brethren, fill your stomach with food so that it may prepare you for the events that lay ahead of you. Discuss strategy and seek wisdom from your leaders. Above all, prepare yourself for a long night of hunting, cheering and celebration as you will match wits with yourself, your peers and most dastardly of all: the filthy engineers.
+                    <!--<br><span><i>Location:<a href="https://www.google.ca/maps/place/Steamworks/@49.2846466,-123.1110153,17.07z/data=!4m2!3m1!1s0x0000000000000000:0xfc90d09e28b50ffa" target="_blank">Steam Works</a> &amp; <a href="https://www.google.ca/maps/place/Cactus+Club+Cafe/@49.285489,-123.118775,17z/data=!4m2!3m1!1s0x0000000000000000:0x3d498a04746b8d37" target="_blank">Cactus Club</a></i></span></p> -->
+
+                <p id="Madness"><b>Midnight Madness:</b> Learn the joy of all-nighters with all of the fun and none of the work! First, help us to once again crush the Engineers in our Frosh Slurpee drink-off, dodgeball game, and tug-of-war. We'll then proceed to keep you up all night with an adrenaline filled race around campus containing copious quantities of games (both video and non), more random prize opportunities and other such mischief. <br><br>Make sure to tell your parents not to wait up. You'll be... studying... This event goes all night so prepare to be at SFU till the early hours of the morning on Saturday. Prizes will be given out in the middle of the night for the points you earned during the week, so make sure to stay in order to guarantee yourself something nice.<br><span><i>Location: SFU Burnaby, ASB Atrium + TASC 9204</i></span></p>
+
+                <p><b>RAM'ing Invocation Ceremony:</b> You, the few, the proud, and the chosen shall be anointed with a token of fellowship as CS students. This ancient and mystical ceremony must be faced with awe and reverence!<br><span><i>Location: SFU Burnaby, TBA</i></span></p>
+
+                <p><b>WiCS Welcome Tea:</b> SFU Women in Computing Science (WiCS) invites you to drop in for drinks and snacks. This is a great opportunity to talk to current WiCS members about what we do and about getting involved, to meet other new students, and to re-caffeinate after that 8:30 math class. Like most WiCS events, this coffee break is open to students of any gender! <a href='https://websurvey.sfu.ca/cgi-bin/WebObjects/WebSurvey.woa/wa/survey?249213363'><b>Click Here</b></a> to sign up for the Welcome Tea! <br><span><i>Location: TASC1 9204 </i></span></p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ & GLOSSARY -->
+    <div class="container" id="faq" >
+        <br>
+        <br>
+        <hr>
+        <h1 class="centered">FAQ</h1>
+        <hr>
+        <div class="row">
+            <div class="col-lg-6">
+                <p><b>What's the difference between FroshWeek and <a href="https://www.sfu.ca/students/orientation/new-students.html">SFU Welcome Day</a>?</b></p>
+                <p><p>SFU Welcome Day is a very informative event held in August that teaches you where stuff on campus is, how to be successful, and prepares you for a solid start at university. You will meet one upper-year student, called your Orientation Leader (OL) who may or may not be in Computing Science, and ~15 other students in Applied Science. It's useful, especially for those who don't know the campus very well. FroshWeek is just pure, unadulterated FUN, and is for all CS students, regardless of how well you know the campus. You will meet dozens of wise upper-year students and other first years in CS. You will learn things the Orientation Leaders aren't allowed to tell you. You'll compete for awesome prizes, and receive tons of food. You'll make memories that you'll look back on 20 years down the road. Awesome! FroshWeek is the easiest way to meet  people, and is completely different from the 2 days of information you'll receive during SFU Orientation.</p>
+
+                <p><b>Will there be alcohol?</b></p>
+                <p>No! We will not be providing you with alcohol.</p>
+
+                <p><b>Is Frosh Week worth it?</b></p>
+                <p>Definitely! This is going to be the best week of your undergraduate life. Also, it’s a great way to instantly make friends and know the ins and outs of campus and school life!</p>
+
+                <p><b>Do I need to attend all the events in the schedule as I have classes that conflicts with them?</b></p>
+                <p>We know that we have lots going on during the first week and although it would be great to attend all of them we know it is not realistically possible. So we have marked the events that are essential to go to, i.e. Registration BBQ and Midnight Madness.. If you have any classes that conflicts with those events contact us using <a href="mailto:csss@sfu.ca">csss@sfu.ca</a> as early as possible and we'll let you know what to do.</p>
+
+                <p><b>What is the best way to get more information about FroshWeek?</b></p>
+                <p>The best way to get information is checking the website periodically since we add more content to it as we get closer to FroshWeek. However if you have a question that hasn't been answered, send our <a href="mailto:csss@sfu.ca">team</a> an email and we will get back to you as soon as possible. If it is a general question we will post it on the website for everybody else as well.</p>
+
+                <p><b>I am unable to make an event. Can events be missed, entered late, or left early?</b></p>
+                <p>Yes. We understand that students may not be able to make every event. Although, we would prefer it if all participants were able to make these events: Registration BBQ, RAMing Ceremony, PacMacro and Late Night Lunacy as they are essential to the FroshWeek experience. If you need to leave an event early, just let a Frosh leader know what's going on. If you need to join an event late, please find out before hand where we will be, as some of our events will move around to different areas.</p>
+            </div>
+            <div class="col-lg-6">
+
+                <p><b>I have a lab/tutorial during one of the events.</b></p>
+                <p>It isn't mentioned in your schedule, but generally during the first week of classes there are no tutorials or labs. Make sure you still attend your lecture and be attentive, ensuring this is the case for your class. However, you will likely be able to attend the event.</p>
+
+                <p><b>I am located at the Surrey campus, can I still attend FroshWeek?</b></p>
+                <p>Although some of the events are held at the Burnaby campus, FroshWeek is open to any and all Computing Science Students. Feel free to come join us for any of the events that you are able to make. Unfortunately some events will be during your classes at Surrey, other events are held later in the day or in downtown Vancouver.  Additionally, Software Systems and Mechatronics have their own FroshWeek events at the Surrey campus.</p>
+
+                <p><b>How much does FroshWeek cost?</b></p>
+                <p>It's free!</p>
+
+                <p><b>Do I have to go to every event?</b></p>
+                <p>While we do recommend you go to every event, of course you don’t have to. But going to all the events gives you the full experience of Frosh Week, as well as SFU and the rest of campus. Plus, let’s be honest, free food AND free stuff is a combination you don’t want to miss. Especially when there’s the possibility that you meet someone awesome just 5 minutes later.</p>
+
+                <p><b>I am a mature student or am already very familiar with campus and services offered. Do I still need to go?</b></p>
+                <p>Yes! Of course! Don't think of FroshWeek as an orientation, but a chance to meet a lot of the people you will be studying and working with for the next few years and party it up a little. The point of it all, aside from meeting people, is to have fun!</p>
+
+                <p><b>What if I don't know anyone?</b></p>
+                <p>Don’t worry! Everyone is in the same boat! Start with a simple “Hey, my name is” and you should be fine. If you’re super concerned about not knowing anyone, we’re going to put you in small groups first so that you can be more comfortable.</p>
+
+                <p><b>Where should I go on the first day?</b></p>
+                <p>Atrium of Applied Science Building</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ==== TEAM MEMBERS ==== -->
+<section class="divider2">
+    <div class="container" id="team" >
+        <div class="row-fluid">
+            <br>
+            <hr>
+            <h1 class="centered">The Team</h1>
+            <hr>
+            <br>
+            <div class="row-fluid">
+                <p>Organizing and running Frosh is a team effort.  Everyone has a say in the look, theme, events, and other aspects of Frosh Week. </p>
+                <div class="teamMember col-xs-12 col-md-3">
+                    <img class="img img-square" src="{%  static 'events_static/frosh/2016/mainsite/images/team/farzin.jpg' %}" alt="">
+                    <h4><b>Farzin Ahmed</b></h4>
+                    <h5><b>Co-Chair</b></h5>
+                </div>
+                <div class="teamMember col-xs-12 col-md-3">
+                    <img class="img img-square" src="{%  static 'events_static/frosh/2016/mainsite/images/team/paul.jpg' %}" alt="">
+                    <h4><b>Paul Allan</b></h4>
+                    <h5><b>Co-Chair</b></h5>
+                </div>
+                <div class="teamMember col-xs-12 col-md-3">
+                    <img class="img img-square" src="{%  static 'events_static/frosh/2016/mainsite/images/team/corbett.jpg' %}" alt="">
+                    <h4><b>Corbett Gildersleve</b></h4>
+                    <h5><b>Mentor</b></h5>
+                </div>
+                <div class="teamMember col-xs-12 col-md-3">
+                    <img class="img img-square" src="{%  static 'events_static/frosh/2016/mainsite/images/team/david.jpg' %}" alt="">
+                    <h4><b>David Miiller</b></h4>
+                    <h5><b>Organizer</b></h5>
+                    <p></p>
+                </div>
+                <div class="teamMember col-xs-12 col-md-3">
+                    <img class="img img-square" src="{%  static 'events_static/frosh/2016/mainsite/images/team/steven.jpg' %}" alt="">
+                    <h4><b>Steven Yang</b></h4>
+                    <h5><b>Organizer</b></h5>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="divider9">
+    <div class="container" id="sponsors" >
+        <div class="row">
+            <br>
+            <br>
+            <hr>
+            <h1 class="centered">Sponsors</h1>
+            <hr>
+            <div class="col-xs-12 col-md-12">
+                <h2>CSSS Frosh Week 2016 Sponsors</h2>
+                <div class="col-md-12">
+                    <h3>Gold</h3>
+                    <img src="{%  static 'events_static/frosh/2016/mainsite/images/logos/Simba_black.png' %}" class="gold logo img-responsive center-block" alt="Simba logo">
+                </div>
+                <br>
+                <br>
+                <div class="col-md-12">
+                    <h3>Swag Provider</h3>
+                    <img src="{%  static 'events_static/frosh/2016/mainsite/images/logos/googlelogo.png' %}" class="copper logo img-responsive" alt="Google Logo">
+                </div>
+
+                <!--    <div class="col-md-12">
+                        <h3><center>Silicon</center></h3>
+                        <img class="silicon logo img-responsive">
+                    </div> -->
+                <!--</div>-->
+            </div>
+
+            <div class="col-xs-12 col-md-12">
+                <h2>Financial Sponsorship</h2>
+                <table class="table">
+                    <thead>
+                    <tr class="table-title">
+                        <th id="blank"></th>
+                        <th id="silicon">Silicon<br/>$250</th>
+                        <th id="copper">Copper<br/>$500</th>
+                        <th id="gold">Gold<br/>$1000</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <td>Website</td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Social Media</td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Survival Guide</td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>T-Shirt</td>
+                        <td></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                        <td><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></td>
+                    </tr>
+
+                    <tr>
+                        <td>Main Sponsor</td>
+                        <td></td>
+                        <td></td>
+                        <td><span class="glyphicon glyphicon-star" aria-hidden="true"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <p class="cutout col-xs-8 col-xs-offset-4 col-md-4 col-md-offset-8"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> A Main sponsor's branding is displayed more promeniently than other sponsor levels in all media (print, online, and social).</p>
+
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="col-xs-12 col-md-12">
+                <h2>Product Sponsorship</h2>
+                <div class="col-xs-12 col-md-6 package">
+                    <h3 class="packHeader">Prizes</h3>
+                    <p>At the end of Frosh Week we award prizes to students who win various individual  and group competitions. If you wish to contribute prizes, we would be happy to accept them.  Past items have included:</p>
+
+                    <ul class="emphasis">
+                        <li>Games</li>
+                        <li>Raspberry Pis</li>
+                        <li>Software</li>
+                        <li>Laptop Bags</li>
+                        <li>Blankets</li>
+                        <li>Tablets</li>
+                        <li>Laptops</li>
+                    </ul>
+
+                    <p>If your contribution is of a similar financial (retail) value to the Silicon, Copper, or Gold sponsorship packages, you will receive the same sponsorship rewards of that package.</p>
+                </div>
+
+
+                <div class="col-xs-12 col-md-6 package">
+                    <h3>Frosh Kits</h3>
+                    <p>Every year, the CSSS assembles Frosh Kits for new students made up of small toys, branded merchandise, and gadgets that are provided by companies like you. If you wish to contribute we just ask that you provide at least 100 items due to the large number of students who participate every year in Frosh Week. Past items have included:</p>
+
+                    <ul class="emphasis">
+                        <li>Buttons</li>
+                        <li>Stickers</li>
+                        <li>Lanyards</li>
+                        <li>Fridge Magnets</li>
+                        <li>Bottle Openers</li>
+                    </ul>
+
+                    <p>By contributing to the Frosh Kit, you will receive $50 off any other financial sponsorship package.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row-fluid">
+            <div class="col-xs-12 col-md-12">
+                <h2>Sponsoring Us!</h2>
+                <p>Please email our sponsorship coordinator <span class="emphasis">Farzin Ahmed</span> at <span class="emphasis">csss@sfu.ca</span> with the following information:</p>
+
+                <ul class="emphasis">
+                    <li>Sponsorship type and level</li>
+                    <li>Name of your organization, to be used for all sponsor recognition</li>
+                    <li>Name, email, and phone of the contact person regarding the sponsorship</li>
+                </ul>
+
+                <p>Additionally, we also require the following from our Copper and Gold sponsors:</p>
+
+                <ul class="emphasis">
+                    <li>A high-resolution one-colour EPS image of your organization’s logo to be used for the t-shirt</li>
+                    <li>A good quality colour image to be displayed on our website (EPS, PNG)</li>
+                    <li>A good quality color image to be used on printed materials (EPS, PNG)</li>
+                    <li>Invoicing information for the sponsorship fee (if applicable)</li>
+                </ul>
+
+                <p>For prizes or contributions to the FroshKits, pickup arrangements can be made if you are located in the Metro Vancouver area. If you are shipping the items, please provide us with a tracking number and estimated time of arrival. Also, please note that the deadline for the sponsorship submission is <span class="emphasis">July 31, 2016</span> . This is so that we may have adequate time to add your information to our t-shirts and other printed materials.</p>
+
+                <p>Again, we thank you for your interest in FroshWeek.</p>
+
+                <p class="emphasis">Farzin Ahmed, Co-Chair, FroshWeek 2016 <br />
+                    Paul Allan, Co-Chair, Froshweek 2016</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==== BLOG ==== -->
+<section class="divider10">
+    <div class="container" id="blog" >
+        <div class="row">
+            <br>
+            <hr>
+            <h1 class="centered">Connect With Us on Social Media!</h1>
+            <hr>
+        </div><!-- /row -->
+
+        <div class="row" style="text-align:center;">
+            <script>
+                /* function tumblrRedirect() {
+                     window.location.href = "http://ncfrosh.tumblr.com/";
+                 }*/
+                function facebookRedirect() {
+                    window.location.href = "https://www.facebook.com/sfucsss/";
+                }
+                function instagramRedirect() {
+                    window.location.href = "https://instagram.com/sfuappliedsciences/";
+                }
+                function twitterRedirect() {
+                    window.location.href = "https://twitter.com/sfucsss";
+                }
+            </script>
+
+            <button type="button" class="btn btn-default" onclick="facebookRedirect()">
+                <span class="icon icon-facebook" style="font-size:64px; color:#3b5998;"></span>
+            </button>
+
+            <button type="button" class="btn btn-default" onclick="twitterRedirect()">
+                <span class="i-->con icon-twitter" style="font-size:64px; color:#00aced"></span>
+            </button>
+        </div><!-- /row -->
+
+        <div class="row">
+            <br>
+            <hr>
+            <h1 class="centered">Contact Us</h1>
+            <hr>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-4 col-xs-6 col-md-4 col-md-offset-2">
+                <ul class="contactList">
+                    <li>Farzin Ahmed</li>
+                    <li>Frosh Co-Chair</li>
+                    <li>CSSS</li>
+                    <li>ASB 9802</li>
+                    <li>8888 University Dr</li>
+                    <li>Burnaby, British Colombia</li>
+                    <li>V5A 1S6</li>
+                    <li class="icon icon-envelop"><a href="mailto:#"> csss@sfu.ca</a></li>
+                </ul>
+            </div><!-- col-lg-6 -->
+
+            <div class="col-lg-4 col-xs-6 col-md-4 col-md-offset-2">
+                <ul class="contactList">
+                    <li>Paul Allan</li>
+                    <li>Frosh Co-Chair</li>
+                    <li>CSSS</li>
+                    <li>ASB 9802</li>
+                    <li>8888 University Dr</li>
+                    <li>Burnaby, British Colombia</li>
+                    <li>V5A 1S6</li>
+                    <li class="icon icon-envelop"><a href="mailto:#"> pwallan@sfu.ca</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div id="footerwrap">
+    <p>&copy; Copyright 2016 - <a href="http://csss.cs.sfu.ca/">Computing Science Student Society</a></p>
+</div>
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+
+
+<script src="{%  static 'events_static/frosh/2016/mainsite/js/bootstrap.min.js' %}"></script>
+<script src="{%  static 'events_static/frosh/2016/mainsite/js/retina.js' %}"></script>
+<script src="{%  static 'events_static/frosh/2016/mainsite/js/jquery.easing.1.3.js' %}"></script>
+<script src="{%  static 'events_static/frosh/2016/mainsite/js/smoothscroll.js' %}"></script>
+<script src="{%  static 'events_static/frosh/2016/mainsite/js/jquery-func.js' %}"></script>
+<script>
+    function initialize() {
+        var bounds = new google.maps.LatLngBounds();
+        var map_canvas = document.getElementById('map_canvas');
+        var map_options = {
+            center: new google.maps.LatLng(49.277528, -122.914189),
+            zoom: 16,
+            scrollwheel: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(map_canvas, map_options);
+
+        var markers = [
+            ['Frosh Week Registration', 49.277601,-122.914379],
+            ['Midnight Madness Base of Operations', 49.276801, -122.914158],
+            ['Welcome BBQ', 49.277416, -122.913667],
+            ['Info Session in IRMACS Theatre', 49.277184, -122.914465],
+            ['Frosh Week Registration', 49.277601,-122.914379]
+        ];
+
+
+
+        //place markers on the map
+        for( i = 0; i < markers.length; i++ ) {
+            var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
+            bounds.extend(position);
+            marker = new google.maps.Marker({
+                position: position,
+                map: map,
+                title: markers[i][0]
+            });
+        };
+
+        // Automatically center the map fitting all markers on the screen
+        map.fitBounds(bounds);
+
+    };
+
+
+
+    google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+
+</body>
+</html>

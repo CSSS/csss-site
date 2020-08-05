@@ -1,0 +1,183 @@
+{% extends "events/frosh/2014/header.html" %}
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+{{ block.super }}
+
+			<h1>Schedule</h1>
+
+			<table>
+				<thead>
+					<tr class="table-title">
+						<th>Time</th>
+						<th id="tue">Tuesday (Sept. 2)</th>
+						<th id="wed">Wednesday (Sept. 3)</th>
+						<th id="thu">Thursday (Sept. 4)</th>
+						<th id="fri">Friday (Sept. 5)</th>
+					</tr>
+				</thead>
+
+				<tbody class="table-schedule">
+					<tr>
+						<td>8:30 - 9:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-class">MATH 150/151</td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-class">MATH 150/151</td>
+					</tr>
+
+					<tr>
+						<td>9:30 - 10:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-class">CMPT 125</td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-class">CMPT 125</td>
+					</tr>
+
+					<tr>
+						<td>10:30 - 11:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-class">MACM 101</td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-class">MACM 101</td>
+					</tr>
+
+					<tr>
+						<td>11:30 - 12:00</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-class" rowspan="2">CMPT 120</td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-class" rowspan="2">CMPT 120</td>
+					</tr>
+
+					<tr>
+						<td>12:00 - 12:30</td>
+						<td headers="tue" class="schedule-event" rowspan="4">BBQ & RAMing Ceremony</td>
+
+						<td headers="thu" class="schedule-nothing"></td>
+
+					</tr>
+
+					<tr>
+						<td>12:30 - 1:00</td>
+
+						<td headers="wed" class="schedule-event" rowspan="3">Co-op Luncheon</td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-nothing"></td>
+					</tr>
+
+					<tr>
+						<td>1:00 - 1:30</td>
+
+
+						<td headers="thu" class="schedule-event" rowspan="4">Laser Tag</td>
+						<td headers="fri" class="schedule-nothing"></td>
+					</tr>
+
+					<tr>
+						<td>1:30 - 2:30</td>
+
+
+
+						<td headers="fri" class="schedule-nothing"></td>
+					</tr>
+
+					<tr>
+						<td>2:30 - 3:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-class">CMPT 120</td>
+
+						<td headers="fri" class="schedule-class">CMPT 120</td>
+					</tr>
+
+					<tr>
+						<td>3:30 - 4:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-class">CMPT 150</td>
+
+						<td headers="fri" class="schedule-class">CMPT 150</td>
+					</tr>
+
+					<tr>
+						<td>4:30 - 5:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-nothing"></td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-event" rowspan="4">Photohunt</td>
+					</tr>
+
+					<tr>
+						<td>5:30 - 6:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-nothing"></td>
+						<td headers="thu" class="schedule-nothing"></td>
+
+						
+					</tr>
+
+					<tr>
+						<td>6:30 - 7:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-nothing"></td>
+						<td headers="thu" class="schedule-nothing"></td>
+
+					</tr>
+
+					<tr>
+						<td>7:30 - 8:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-nothing"></td>
+						<td headers="thu" class="schedule-nothing"></td>
+
+					</tr>
+
+					<tr>
+						<td>8:30 - 9:30</td>
+						<td headers="tue" class="schedule-nothing"></td>
+						<td headers="wed" class="schedule-nothing"></td>
+						<td headers="thu" class="schedule-nothing"></td>
+						<td headers="fri" class="schedule-event">Dinner Downtown</td>
+					</tr>
+
+					<tr>
+						<td>9:30 - Onwards</td>
+						<td class="schedule-nothing"></td>
+						<td class="schedule-nothing"></td>
+						<td class="schedule-nothing"></td>
+						<td class="schedule-event">Late Night Lunacy</td>
+					</tr>
+
+				</tbody>
+			</table>
+		
+			<h1>Events</h1>
+
+			<h2><a id="Registration"></a>Registration and BBQ:</h2>
+			<p>Location: SFU Burnaby, ASB Atrium</p>
+			<p>Whether you have registered online or are planning to register in person on this day, come out for a free BBQ and to meet some of your professors and other CS students for the first time. Look for the registration booth to get your t-shirt and swag before heading out onto the patio for the feast.</p>
+
+			<h2><a id="Ceremony"></a>RAM'ing Invocation Ceremony:</h2>
+			<p>Location: SFU Burnaby, TBA</p>
+			<p>You, the few, the proud, the chosen shall be anointed with our token of fellowship as CS students. This ancient and mystical ceremony must be faced with awe and reverence!</p>
+
+			<h2><a id="Coop"></a>Co-op Luncheon:</h2>
+			<p>Location: SFU Burnaby, IRMACS Theatre</p>
+			<p>Learn about what Co-op is, why you should apply, and the requirements for entering the program. Food and refreshments will be provided as you have a chance to talk with the computing science co-op advisors.</p>
+
+			<h2><a id="AmazingRace"></a>Laser Tag:</h2>
+			<p>Location: Planet Laser.</p>
+			<p> Nothing like (unintentionally) blinding perfect strangers to help build a sense of community.</p>
+
+			<h2><a id="PhotoHunt"></a>Photo Hunt:</h2>
+			<p>Location: Starts at SFU Burnaby, ASB Atrium. Goes downtown, returns to SFU Burnaby.</p>
+			<p>There are so many strange things in our beautiful city, and now with our help we can show you even more and take pictures of it too! Perhaps there will also be a secret mission for you froshees that may put you into the SFU history books. Want to know more? Well, you'll just have to wait, won't you.</p>
+
+			<h2><a id="TeamDinner"></a>Team Strategy Dinner:</h2>
+			<P>Location: SFU Burnaby, Club Ilia</p>
+			<p>As you lick your wounds from the field of battle, know that it was but a small rehearsal in a larger campaign. As you sit amongst your brethren, fill your stomach with food so that it may prepare you for the events that lay ahead of you. Discuss strategy and seek wisdom from your leaders. Above all, prepare yourself for a long night of hunting, cheering and celebration as you will match wits with yourself, your peers and most dastardly of all: the filthy engineers.</p>
+
+			<h2><a id="Lunacy"></a>Late Night Lunacy:</h2>
+			<p>Location: SFU Burnaby, TASC 9204.</p>
+			<p>Learn the joy of all-nighters with all of the fun and none of the work! First, help us to once again crush the Engineers in our Frosh Slurpee drink-off, dodgeball game, and tug-of-war. We'll then proceed to keep you up all night with an adrenaline filled race around campus containing copious quantities of games (both video and non), more random prize opportunities and other such mischief. Make sure to tell your parents not to wait up. You'll be... studying... This event goes all night so prepare to be at SFU till the early hours of the morning on Saturday. Prizes will be given out in the middle of the night for the points you earned during the week, so make sure to stay in order to guarantee yourself something nice.</p>			
+
+{% endblock %}

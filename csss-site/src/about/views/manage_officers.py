@@ -19,7 +19,7 @@ from resource_management.models import ProcessNewOfficer, NaughtyOfficer, \
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
-from csss.views_helper import verify_access_logged_user_and_create_context, create_context, ERROR_MESSAGE_KEY
+from csss.views_helper import verify_access_logged_user_and_create_context, create_main_context, ERROR_MESSAGE_KEY
 
 # used on show_create_link_for_officer_page
 HTML_TERM_KEY = 'term'
@@ -133,7 +133,7 @@ def verify_passphrase_access_and_create_context(request, tab):
     else:
         return HttpResponseRedirect('/error'), None, "You did not supply a passphrase", None
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_context(request, tab, groups)
+    context = create_main_context(request, tab, groups)
     return None, context, None, passphrase[0]
 
 

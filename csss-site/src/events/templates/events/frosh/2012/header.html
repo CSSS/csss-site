@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+<head>
+<title>CSSS FroshWeek 2012</title>
+<link rel="stylesheet" href="{% static 'events_static/frosh/2012/css/screen.css' %}" />
+</head>
+
+<body>
+
+<div class="logo">
+    <img src="{%  static 'events_static/frosh/2012/images/logo2012small.jpg' %}" alt="csss_logo"/>
+</div>
+
+<div class="navigation">
+    <p>
+        {%  if frosh_2011_tab == 'index' %}
+            Home |
+        {%  else %}
+            <a href="{{ URL_ROOT }}events/frosh/2012">Home</a> |
+        {%  endif %}
+        {%  if frosh_2011_tab == 'schedule' %}
+            Schedule |
+        {%  else %}
+            <a href="{{ URL_ROOT }}events/frosh/2012/schedule">Schedule</a> |
+        {%  endif %}
+        {%  if frosh_2011_tab == 'registration' %}
+            Registration |
+        {%  else %}
+            <a href="{{ URL_ROOT }}events/frosh/2012/registration">Registration</a> |
+        {%  endif %}
+        {%  if frosh_2011_tab == 'faq' %}
+            F.A.Q. |
+        {%  else %}
+            <a href="{{ URL_ROOT }}events/frosh/2012/faq">F.A.Q.</a> |
+        {%  endif %}
+        {%  if frosh_2011_tab == 'contact' %}
+            Contact |
+        {%  else %}
+            <a href="{{ URL_ROOT }}events/frosh/2012/contact">Contact</a> |
+        {%  endif %}
+    `   {%  if frosh_2011_tab == 'sponsors' %}
+            Sponsors |
+        {%  else %}
+            <a href="{{ URL_ROOT }}events/frosh/2012/sponsors">Sponsors</a> |
+        {%  endif %}
+    <a href="{%  static 'events_static/frosh/2012/Frosh Week 2012 Survival Guide.pdf' %}">Frosh Guide PDF</a> |
+    <a href="http://csss.cs.sfu.ca/gallery.php">Photo Gallery</a>
+    </p>
+</div>
+<div class="content">
+
+  {% block content %}
+  {% endblock %}
+
+<div class="footer">
+	<p>&copy; Copyright 2012 - <a href="{{ URL_ROOT }}">Computing Science Student Society</a></p>
+</div>
+
+</div>
+
+</body>
+</html>

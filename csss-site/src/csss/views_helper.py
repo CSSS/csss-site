@@ -10,28 +10,39 @@ ERROR_MESSAGE_KEY = 'error_message'
 logger = logging.getLogger('csss_site')
 
 
-def create_context(request, tab, groups=None):
+def create_main_context(request, tab, groups=None):
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
     nom_pages = NominationPage.objects.all().order_by('-date')
     if len(nom_pages) == 0:
         nom_pages = None
-    context = {
+    context = _create_base_context()
+    context.update({
         'authenticated': request.user.is_authenticated,
         'authenticated_officer': ('officer' in groups),
         'election_officer': ('election_officer' in groups),
         'staff': request.user.is_staff,
         'username': request.user.username,
         'tab': tab,
-        'URL_ROOT': settings.URL_ROOT,
         'nom_pages': nom_pages
+    })
+    return context
+
+
+def create_frosh_context():
+    return _create_base_context()
+
+
+def _create_base_context():
+    context = {
+        'URL_ROOT': settings.URL_ROOT,
     }
     return context
 
 
 def verify_access_logged_user_and_create_context_for_elections(request, tab):
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_context(request, tab, groups)
+    context = create_main_context(request, tab, groups)
     if not ('election_officer' in groups or request.user.is_staff):
         return HttpResponseRedirect(
             '/error'), "You are not authorized to access this page", None
@@ -40,7 +51,7 @@ def verify_access_logged_user_and_create_context_for_elections(request, tab):
 
 def verify_access_logged_user_and_create_context(request, tab):
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_context(request, tab, groups)
+    context = create_main_context(request, tab, groups)
     if not (request.user.is_staff or 'officer' in groups):
         return HttpResponseRedirect(
             '/error'), "You are not authorized to access this page", None

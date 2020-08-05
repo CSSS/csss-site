@@ -1,0 +1,292 @@
+@media screen, projection
+{
+
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   js_v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+ form, label, 
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* For modern browsers */
+.container:before,
+.container:after {
+    content:"";
+    display:table;
+}
+
+.container:after {
+    clear:both;
+}
+
+/* For IE 6/7 (trigger hasLayout) */
+.container {
+    zoom:1;
+}
+
+
+/* General HTML */
+
+body {
+	background-color: #840101;
+	color: #333;
+	font: 13px/1.231 Arial, Helvetica, Sans-Serif;
+}
+
+.container
+{
+	width: 768px;
+	margin: 0 auto;
+}
+
+.header
+{
+	margin-top: 1em;
+}
+
+.header .container
+{
+	position: relative;
+	height: 164px;
+}
+
+.header .logo
+{
+	background: url(../images/header_logo_bg.png) no-repeat;
+	position: absolute;
+	left: -110px;
+	z-index: 1;
+	height: 225px;
+	width: 254px;
+}
+
+.header .sponsorlabel
+{
+	position: absolute;
+	right: 0;
+	width: 499px;
+	text-align: center;
+}
+
+.header .sponsors
+{
+	float: right;
+	color: #FFF;
+	font-size: 108%;	
+	text-align: center;
+}
+
+.header ul
+{
+	overflow: hidden;
+	float: right;
+	margin-right: 1em;
+}
+
+.header li
+{
+	float: left;
+	margin: 10px 0 10px 15px;
+	font-size: 138.5%;	
+}
+
+.header li:first-child
+{
+	margin-left: 0;
+}
+
+.header a 
+{
+	color: #FFF;
+	text-decoration: none;
+	text-shadow: 2px 2px 2px #530000; 
+}
+
+.header a:hover
+{
+	text-decoration: underline;
+}
+
+.content
+{
+	position: relative;
+	z-index: 10;
+}
+
+.content .container
+{
+	background-color: #FFF;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    -khtml-border-radius: 20px;
+    border-radius: 20px;
+}
+
+.content img
+{
+	float: right;
+	border: 1px solid #530000;
+	margin: 16px;
+}
+
+.content .floatLeft
+{
+	float: left;
+	border: 1px solid #530000;
+	margin: 0 16px 16px 0;
+}
+
+.content h1,
+.content h2,
+.content h3
+{
+	margin: 16px;
+}
+
+.content h1
+{
+	font-size: 246%;
+}
+
+.content h2
+{
+	font-size: 184%;
+}
+
+.content h3
+{
+	font-size: 146%;
+}
+
+.content p
+{
+	margin: 16px;
+}
+
+.content form,
+.content ol
+{
+	padding: 16px;
+}
+
+.content p.question
+{
+	margin-top: 32px;
+	font-weight: bold;
+}
+a,
+a:visited,
+a:hover
+{
+	color: #fff;
+}
+
+.content a,
+.content a:visited,
+.content a:hover
+{
+	color: #333;
+}
+
+.content a:hover
+{
+	text-decoration: underline;
+}
+
+
+table {
+    width: 736px;
+    border: 1px solid #000;
+	margin-left: 16px;
+}
+
+tbody {
+    background: url("/images/gradient.gif");
+}
+
+td {
+    width: 20%;
+    text-align: center;
+    border-top: 1px solid #000;
+    border-right: 1px solid #000;
+}
+
+.schedule-time {
+
+}
+
+.schedule-class {
+    color: #333;    
+
+}
+
+.schedule-required {
+    color: #FFF;    
+    background-color: #701D1C;
+}
+
+.schedule-event {
+    color: #FFF;    
+    background-color: #701D1C;
+}
+
+.content legend
+{
+	margin: 16px;
+	font-weight: bold;
+}
+
+.footer .container
+{
+	color: #FFF;
+	text-align: center;
+}
+
+.footer p
+{
+	margin-top: 16px;
+}
+
+}

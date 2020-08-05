@@ -4,14 +4,14 @@ import math
 
 from django.shortcuts import render
 from documents.models import Media, Event, Album
-from csss.views_helper import create_context
+from csss.views_helper import create_main_context
 
 logger = logging.getLogger('csss_site')
 TAB_STRING = 'documents'
 
 
 def events(request):
-    context = create_context(request, TAB_STRING)
+    context = create_main_context(request, TAB_STRING)
     context.update({
         'events': Event.objects.all().filter(),
         'albums': Album.objects.all().filter(),
@@ -56,7 +56,7 @@ def album(request):
         else:
             previous_page = current_page - 1
             next_page = current_page + 1
-    context = create_context(request, TAB_STRING)
+    context = create_main_context(request, TAB_STRING)
     context.update({
         'album': album,
         'nextButtonLink': request_path + '?p=' + str(next_page),
