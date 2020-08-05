@@ -1,6 +1,6 @@
 # Add a Frosh Page for New Year
 
-1. fix link on [`csss-site/src/events/templates/events/frosh/frosh_week.html`](csss-site/src/events/templates/events/frosh/frosh_week.html) to point to new frosh page instead of under contruction page
+1. fix link on [`csss-site/src/events/templates/events/frosh/frosh_week.html`](../csss-site/src/events/templates/events/frosh/frosh_week.html) to point to new frosh page instead of under contruction page
 2. Follow the example of the previous years and add the necessary URL patterns under `csss-site/src/events/urls.py`. You will need to add a url pattern for each new webpage you intend to make
 3. Create a new views file for the frosh year under `csss-site/src/events/views/frosh`. You can take a look at the views from previous years to see how to populate it.
 4. You will also need to actually put the static files on the repo, they will need to go under a new folder in `csss-site/src/events/static/events_static/frosh`
