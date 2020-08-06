@@ -124,7 +124,7 @@ INSTALLED_APPS = [
     'events',
     'administration',
     'resource_management',
-    'static_pages',
+    'static_csss_pages',
     'django_mailbox',
     'django.contrib.admin',
     'django.contrib.auth',
