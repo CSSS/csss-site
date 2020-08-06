@@ -202,7 +202,7 @@ def create_pictures_from_repo(repo_dir):
             path_to_file.pop()
 
 
-def clone_repos(mailbox_admin, request, queryset):
+def clone_repos(repo_admin, request, queryset):
     for repo in queryset.all():
         logger.info(f"[documents/admin.py clone_repos()] doing a git pull inside of {repo.url}")
         commands = f'cd {repo.absolute_path}; git pull'
