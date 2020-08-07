@@ -77,7 +77,7 @@ function update_static_files_location {
   python3.8 manage.py collectstatic --noinput
 
   # removing the static files that are under the source directory
-  find "${BASE_DIR}/csss-site/csss-site/src" -mindepth 1 -regex '.*static.*' -delete
+  find "${BASE_DIR}/csss-site/csss-site/src" -mindepth 1 -regex 'static' -delete
 }
 
 function update_media_files {

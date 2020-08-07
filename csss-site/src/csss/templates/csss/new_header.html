@@ -148,30 +148,16 @@
         <!--More-->
 
         <div class="navbar-item has-dropdown is-hoverable">
+        {%  if tab == 'more' %}
+          <div class="navbar-link is-active">
+        {% else %}
           <div class="navbar-link">
+        {%  endif %}
             More
           </div>   
           <div class="navbar-dropdown">
-            {% if tab == 'comp_sci_guide' %}
-            <a class="navbar-item is-active" href="{{URL_ROOT}}comp_sci_guide">
-              Software Guide
-            </a>   
-            {% else %}
-            <a class="navbar-item" href="{{URL_ROOT}}comp_sci_guide">
-              Software Guide
-            </a>        
-            {% endif %}
-
-            {% if tab == 'bursaries_and_awards' %}
-            <a class="navbar-item is-active" href="{{URL_ROOT}}bursaries_and_awards">
-              Bursaries and Awards
-            </a>   
-            {% else %}
-            <a class="navbar-item" href="{{URL_ROOT}}bursaries_and_awards">
-              Bursaries and Awards
-            </a>        
-
-            {% endif %}
+            <a class="navbar-item" href="{{URL_ROOT}}statics/guide">Software Guide</a>
+            <a class="navbar-item" href="{{URL_ROOT}}statics/bursaries">Bursaries and Awards</a>
 
             <hr class="dropdown-divider">
 
