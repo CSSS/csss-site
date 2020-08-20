@@ -1,4 +1,3 @@
-import datetime
 import logging
 import time
 
@@ -12,7 +11,7 @@ from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePub
 from resource_management.models import NaughtyOfficer
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+    ERROR_MESSAGE_KEY, get_current_term
 
 logger = logging.getLogger('csss_site')
 
@@ -335,14 +334,7 @@ def create_google_drive_perms():
         ],
     }
     """
-    current_date = datetime.datetime.now()
-    term_active = (current_date.year * 10)
-    if int(current_date.month) <= 4:
-        term_active += 1
-    elif int(current_date.month) <= 8:
-        term_active += 2
-    else:
-        term_active += 3
+    term_active = get_current_term()
     officer_list = []
     google_drive_perms = {}
     for index in range(0, 5):

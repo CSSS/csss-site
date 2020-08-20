@@ -1,5 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django_mailbox.models import Message
+
 from announcements import utils
 from django.utils import timezone
 import six
@@ -7,9 +9,9 @@ import six
 
 class Post(models.Model):
     subject = models.CharField(
-         _(u'Subject'),
-         max_length=255,
-         default='NA',
+        _(u'Subject'),
+        max_length=255,
+        default='NA',
     )
 
     from_header = models.CharField(
@@ -87,3 +89,26 @@ class AnnouncementAttachment(models.Model):
     class Meta:
         verbose_name = _('Message attachment')
         verbose_name_plural = _('Message attachments')
+
+
+class Announcement(models.Model):
+    email = models.ForeignKey(
+        Message,
+        related_name='email',
+        on_delete=models.CASCADE
+    )
+    post = models.ForeignKey(
+        Post,
+        related_name='post',
+        on_delete=models.CASCADE
+    )
+    page_number = models.IntegerField(
+        default=0
+    )
+    show = models.BooleanField()
+
+
+class LatestAnnouncementPage(models.Model):
+    page_number = models.IntegerField(
+        default=0
+    )

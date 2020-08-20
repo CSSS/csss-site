@@ -2,6 +2,7 @@ import datetime
 import logging
 
 from about.models import Term, Officer
+from csss.views_helper import get_current_term
 from resource_management.models import NaughtyOfficer
 
 logger = logging.getLogger('csss_site')
@@ -14,14 +15,7 @@ def create_gitlab_perms():
 
     officer -- Example < sfuid1, sfuid2, sfuid3, sfuid3 >
     """
-    current_date = datetime.datetime.now()
-    term_active = (current_date.year * 10)
-    if int(current_date.month) <= 4:
-        term_active += 1
-    elif int(current_date.month) <= 8:
-        term_active += 2
-    else:
-        term_active += 3
+    term_active = get_current_term()
     officers = []
 
     for index in range(0, 5):

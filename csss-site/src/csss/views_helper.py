@@ -1,4 +1,5 @@
 import logging
+import datetime
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -60,3 +61,15 @@ def verify_access_logged_user_and_create_context(request, tab):
 
 def there_are_multiple_entries(post_dict, key_to_read):
     return len(post_dict[key_to_read][0]) > 1
+
+
+def get_current_term():
+    current_date = datetime.datetime.now()
+    term_active = (current_date.year * 10)
+    if int(current_date.month) <= 4:
+        term_active += 1
+    elif int(current_date.month) <= 8:
+        term_active += 2
+    else:
+        term_active += 3
+    return term_active
