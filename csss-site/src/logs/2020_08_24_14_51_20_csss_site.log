@@ -1,0 +1,236 @@
+2020-08-24 14:51:20 = INFO - [settings.py] BASE_DIR set to </home/wujohnw/Desktop/jacepls2>
+2020-08-24 14:51:20 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:51:20 = INFO - [settings.py] PORT set to None
+2020-08-24 14:51:20 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:51:20 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:51:20 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:51:20 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:51:20 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:51:20 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:51:20 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:51:20 = INFO - [settings.py] STATIC_ROOT set to </home/wujohnw/Desktop/jacepls2>/static_root/
+2020-08-24 14:51:20 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:51:20 = INFO - [settings.py] MEDIA_ROOT set to </home/wujohnw/Desktop/jacepls2>/media_root/
+2020-08-24 14:51:20 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:51:20 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:51:20 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:51:20 = WARNING - Traceback (most recent call last):
+
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.connect()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 195, in connect
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.connection = self.get_new_connection(conn_params)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py", line 194, in get_new_connection
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - conn = Database.connect(**conn_params)
+2020-08-24 14:51:20 = WARNING - sqlite3
+2020-08-24 14:51:20 = WARNING - .
+2020-08-24 14:51:20 = WARNING - OperationalError
+2020-08-24 14:51:20 = WARNING - : 
+2020-08-24 14:51:20 = WARNING - unable to open database file
+2020-08-24 14:51:20 = WARNING - 
+The above exception was the direct cause of the following exception:
+
+
+2020-08-24 14:51:20 = WARNING - Traceback (most recent call last):
+
+2020-08-24 14:51:20 = WARNING -   File "manage.py", line 22, in <module>
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - execute_from_command_line(sys.argv)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - utility.execute()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/__init__.py", line 375, in execute
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.fetch_command(subcommand).run_from_argv(self.argv)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 323, in run_from_argv
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.execute(*args, **cmd_options)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 364, in execute
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - output = self.handle(*args, **options)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 83, in wrapped
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - res = handle_func(*args, **kwargs)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/commands/migrate.py", line 87, in handle
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - executor = MigrationExecutor(connection, self.migration_progress_callback)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/executor.py", line 18, in __init__
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.loader = MigrationLoader(self.connection)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/loader.py", line 49, in __init__
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.build_graph()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/loader.py", line 212, in build_graph
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.applied_migrations = recorder.applied_migrations()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/recorder.py", line 73, in applied_migrations
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - if self.has_table():
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/recorder.py", line 56, in has_table
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - return self.Migration._meta.db_table in self.connection.introspection.table_names(self.connection.cursor())
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 256, in cursor
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - return self._cursor()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 233, in _cursor
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.ensure_connection()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.connect()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/utils.py", line 89, in __exit__
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - raise dj_exc_value.with_traceback(traceback) from exc_value
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.connect()
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 195, in connect
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - self.connection = self.get_new_connection(conn_params)
+2020-08-24 14:51:20 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py", line 194, in get_new_connection
+
+2020-08-24 14:51:20 = WARNING -     
+2020-08-24 14:51:20 = WARNING - conn = Database.connect(**conn_params)
+2020-08-24 14:51:20 = WARNING - django.db.utils
+2020-08-24 14:51:20 = WARNING - .
+2020-08-24 14:51:20 = WARNING - OperationalError
+2020-08-24 14:51:20 = WARNING - : 
+2020-08-24 14:51:20 = WARNING - unable to open database file
+2020-08-24 14:51:20 = INFO - [settings.py] BASE_DIR set to </home/wujohnw/Desktop/jacepls2>
+2020-08-24 14:51:20 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:51:20 = INFO - [settings.py] PORT set to None
+2020-08-24 14:51:20 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:51:20 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:51:20 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:51:20 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:51:20 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:51:20 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:51:20 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:51:20 = INFO - [settings.py] STATIC_ROOT set to </home/wujohnw/Desktop/jacepls2>/static_root/
+2020-08-24 14:51:20 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:51:20 = INFO - [settings.py] MEDIA_ROOT set to </home/wujohnw/Desktop/jacepls2>/media_root/
+2020-08-24 14:51:20 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:51:20 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:51:20 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:51:21 = WARNING - Traceback (most recent call last):
+
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.connect()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 195, in connect
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.connection = self.get_new_connection(conn_params)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py", line 194, in get_new_connection
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - conn = Database.connect(**conn_params)
+2020-08-24 14:51:21 = WARNING - sqlite3
+2020-08-24 14:51:21 = WARNING - .
+2020-08-24 14:51:21 = WARNING - OperationalError
+2020-08-24 14:51:21 = WARNING - : 
+2020-08-24 14:51:21 = WARNING - unable to open database file
+2020-08-24 14:51:21 = WARNING - 
+The above exception was the direct cause of the following exception:
+
+
+2020-08-24 14:51:21 = WARNING - Traceback (most recent call last):
+
+2020-08-24 14:51:21 = WARNING -   File "manage.py", line 22, in <module>
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - execute_from_command_line(sys.argv)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - utility.execute()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/__init__.py", line 375, in execute
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.fetch_command(subcommand).run_from_argv(self.argv)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 323, in run_from_argv
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.execute(*args, **cmd_options)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 364, in execute
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - output = self.handle(*args, **options)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 83, in wrapped
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - res = handle_func(*args, **kwargs)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/commands/makemigrations.py", line 101, in handle
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - loader.check_consistent_history(connection)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/loader.py", line 283, in check_consistent_history
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - applied = recorder.applied_migrations()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/recorder.py", line 73, in applied_migrations
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - if self.has_table():
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/recorder.py", line 56, in has_table
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - return self.Migration._meta.db_table in self.connection.introspection.table_names(self.connection.cursor())
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 256, in cursor
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - return self._cursor()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 233, in _cursor
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.ensure_connection()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.connect()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/utils.py", line 89, in __exit__
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - raise dj_exc_value.with_traceback(traceback) from exc_value
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.connect()
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 195, in connect
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - self.connection = self.get_new_connection(conn_params)
+2020-08-24 14:51:21 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py", line 194, in get_new_connection
+
+2020-08-24 14:51:21 = WARNING -     
+2020-08-24 14:51:21 = WARNING - conn = Database.connect(**conn_params)
+2020-08-24 14:51:21 = WARNING - django.db.utils
+2020-08-24 14:51:21 = WARNING - .
+2020-08-24 14:51:21 = WARNING - OperationalError
+2020-08-24 14:51:21 = WARNING - : 
+2020-08-24 14:51:21 = WARNING - unable to open database file

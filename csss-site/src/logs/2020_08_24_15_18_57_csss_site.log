@@ -1,0 +1,42 @@
+2020-08-24 15:18:57 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 15:18:57 = INFO - [settings.py] DEBUG set to True
+2020-08-24 15:18:57 = INFO - [settings.py] PORT set to None
+2020-08-24 15:18:57 = INFO - [settings.py] HOST_ADDRESS set to 0.0.0.0
+2020-08-24 15:18:57 = INFO - [settings.py] ALLOWED_HOSTS set to ['0.0.0.0']
+2020-08-24 15:18:57 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 15:18:57 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 15:18:57 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 15:18:57 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 15:18:57 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 15:18:57 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 15:18:57 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 15:18:57 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 15:18:57 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 15:18:57 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 15:18:57 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 15:18:57 = INFO - Operations to perform:
+
+2020-08-24 15:18:57 = INFO -   Apply all migrations: about, admin, announcements, auth, contenttypes, django_file_form, django_mailbox, documents, elections, file_uploads, resource_management, sessions, sites
+
+2020-08-24 15:18:57 = INFO - Running migrations:
+
+2020-08-24 15:18:57 = INFO -   No migrations to apply.
+
+2020-08-24 15:18:57 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 15:18:57 = INFO - [settings.py] DEBUG set to True
+2020-08-24 15:18:57 = INFO - [settings.py] PORT set to None
+2020-08-24 15:18:57 = INFO - [settings.py] HOST_ADDRESS set to 0.0.0.0
+2020-08-24 15:18:57 = INFO - [settings.py] ALLOWED_HOSTS set to ['0.0.0.0']
+2020-08-24 15:18:57 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 15:18:57 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 15:18:57 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 15:18:57 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 15:18:57 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 15:18:57 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 15:18:57 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 15:18:57 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 15:18:57 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 15:18:57 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 15:18:57 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 15:18:58 = INFO - No changes detected in app 'file_uploads'
+

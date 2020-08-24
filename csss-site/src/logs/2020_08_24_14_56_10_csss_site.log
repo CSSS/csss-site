@@ -1,0 +1,109 @@
+2020-08-24 14:56:10 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 14:56:10 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:56:10 = INFO - [settings.py] PORT set to None
+2020-08-24 14:56:10 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:56:10 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:56:10 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:56:10 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:56:10 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:56:10 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:56:10 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:56:10 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 14:56:10 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:56:10 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 14:56:10 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:56:10 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:56:10 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:56:10 = INFO - Operations to perform:
+
+2020-08-24 14:56:10 = INFO -   Apply all migrations: admin, auth, contenttypes, django_file_form, django_mailbox, sessions, sites
+
+2020-08-24 14:56:10 = INFO - Running migrations:
+
+2020-08-24 14:56:10 = INFO -   Applying contenttypes.0001_initial...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying auth.0001_initial...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying admin.0001_initial...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying admin.0002_logentry_remove_auto_add...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying admin.0003_logentry_add_action_flag_choices...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying contenttypes.0002_remove_content_type_name...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying auth.0002_alter_permission_name_max_length...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying auth.0003_alter_user_email_max_length...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying auth.0004_alter_user_username_opts...
+2020-08-24 14:56:10 = INFO -  OK
+
+2020-08-24 14:56:10 = INFO -   Applying auth.0005_alter_user_last_login_null...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying auth.0006_require_contenttypes_0002...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying auth.0007_alter_validators_add_error_messages...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying auth.0008_alter_user_username_max_length...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying auth.0009_alter_user_last_name_max_length...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying auth.0010_alter_group_name_max_length...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying auth.0011_update_proxy_permissions...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_file_form.0001_initial...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_file_form.0002_auto_20170316_0901...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_file_form.0003_auto_20170317_1230...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_file_form.0004_auto_20170423_0329...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_mailbox.0001_initial...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_mailbox.0002_add_eml_to_message...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_mailbox.0003_auto_20150409_0316...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_mailbox.0004_bytestring_to_unicode...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_mailbox.0005_auto_20160523_2240...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying django_mailbox.0006_mailbox_last_polling...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying sessions.0001_initial...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying sites.0001_initial...
+2020-08-24 14:56:11 = INFO -  OK
+
+2020-08-24 14:56:11 = INFO -   Applying sites.0002_alter_domain_unique...
+2020-08-24 14:56:11 = INFO -  OK
+

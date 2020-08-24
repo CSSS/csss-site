@@ -1,0 +1,81 @@
+2020-08-24 14:58:58 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 14:58:58 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:58:58 = INFO - [settings.py] PORT set to None
+2020-08-24 14:58:58 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:58:58 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:58:58 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:58:58 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:58:58 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:58:58 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:58:58 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:58:58 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 14:58:58 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:58:58 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 14:58:58 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:58:58 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:58:58 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:58:58 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 14:58:58 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:58:58 = INFO - [settings.py] PORT set to None
+2020-08-24 14:58:58 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:58:58 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:58:58 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:58:58 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:58:58 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:58:58 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:58:58 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:58:58 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 14:58:58 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:58:58 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 14:58:58 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:58:58 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:58:58 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:58:58 = WARNING - Watching for file changes with StatReloader
+
+2020-08-24 14:58:58 = INFO - Performing system checks...
+
+
+2020-08-24 14:58:58 = INFO - System check identified no issues (0 silenced).
+
+2020-08-24 14:58:58 = INFO - August 24, 2020 - 14:58:58
+
+2020-08-24 14:58:58 = INFO - Django version 2.2.13, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-08-24 14:59:05 = WARNING - Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
+
+2020-08-24 14:59:05 = WARNING - Bad Request: /
+
+2020-08-24 14:59:05 = WARNING - [24/Aug/2020 14:59:05] "GET / HTTP/1.1" 400 69123
+
+2020-08-24 14:59:05 = WARNING - Invalid HTTP_HOST header: 'localhost:8000'. You may need to add 'localhost' to ALLOWED_HOSTS.
+
+2020-08-24 14:59:05 = WARNING - Bad Request: /favicon.ico
+
+2020-08-24 14:59:05 = WARNING - [24/Aug/2020 14:59:05] "GET /favicon.ico HTTP/1.1" 400 69045
+
+2020-08-24 14:59:46 = WARNING - Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+
+2020-08-24 14:59:46 = WARNING - Bad Request: /
+
+2020-08-24 14:59:46 = WARNING - [24/Aug/2020 14:59:46] "GET / HTTP/1.1" 400 69093
+
+2020-08-24 14:59:46 = WARNING - Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+
+2020-08-24 14:59:46 = WARNING - Bad Request: /favicon.ico
+
+2020-08-24 14:59:46 = WARNING - [24/Aug/2020 14:59:46] "GET /favicon.ico HTTP/1.1" 400 69015
+
+2020-08-24 15:00:05 = WARNING - Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+
+2020-08-24 15:00:05 = WARNING - Bad Request: /
+
+2020-08-24 15:00:05 = WARNING - [24/Aug/2020 15:00:05] "GET / HTTP/1.1" 400 69093
+
+2020-08-24 15:04:28 = WARNING - Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+
+2020-08-24 15:04:28 = WARNING - Bad Request: /
+
+2020-08-24 15:04:28 = WARNING - [24/Aug/2020 15:04:28] "GET / HTTP/1.1" 400 69228
+

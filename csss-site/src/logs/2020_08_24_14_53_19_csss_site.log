@@ -1,0 +1,88 @@
+2020-08-24 14:53:19 = INFO - [settings.py] BASE_DIR set to </home/wujohnw/Desktop/jacepls2>
+2020-08-24 14:53:19 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:53:19 = INFO - [settings.py] PORT set to None
+2020-08-24 14:53:19 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:53:19 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:53:19 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:53:19 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:53:19 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:53:19 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:53:19 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:53:19 = INFO - [settings.py] STATIC_ROOT set to </home/wujohnw/Desktop/jacepls2>/static_root/
+2020-08-24 14:53:19 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:53:19 = INFO - [settings.py] MEDIA_ROOT set to </home/wujohnw/Desktop/jacepls2>/media_root/
+2020-08-24 14:53:19 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:53:19 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:53:19 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:53:19 = INFO - [settings.py] BASE_DIR set to </home/wujohnw/Desktop/jacepls2>
+2020-08-24 14:53:19 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:53:19 = INFO - [settings.py] PORT set to None
+2020-08-24 14:53:19 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:53:19 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:53:19 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:53:19 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:53:19 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:53:19 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:53:19 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:53:19 = INFO - [settings.py] STATIC_ROOT set to </home/wujohnw/Desktop/jacepls2>/static_root/
+2020-08-24 14:53:19 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:53:19 = INFO - [settings.py] MEDIA_ROOT set to </home/wujohnw/Desktop/jacepls2>/media_root/
+2020-08-24 14:53:19 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:53:19 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:53:19 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:53:20 = WARNING - Watching for file changes with StatReloader
+
+2020-08-24 14:53:20 = INFO - Performing system checks...
+
+
+2020-08-24 14:53:20 = INFO - System check identified no issues (0 silenced).
+
+2020-08-24 14:53:20 = WARNING - Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+    self.connect()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 195, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py", line 194, in get_new_connection
+    conn = Database.connect(**conn_params)
+sqlite3.OperationalError: unable to open database file
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/lib/python3.7/threading.py", line 926, in _bootstrap_inner
+    self.run()
+  File "/usr/lib/python3.7/threading.py", line 870, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/utils/autoreload.py", line 54, in wrapper
+    fn(*args, **kwargs)
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/commands/runserver.py", line 120, in inner_run
+    self.check_migrations()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 453, in check_migrations
+    executor = MigrationExecutor(connections[DEFAULT_DB_ALIAS])
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/executor.py", line 18, in __init__
+    self.loader = MigrationLoader(self.connection)
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/loader.py", line 49, in __init__
+    self.build_graph()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/loader.py", line 212, in build_graph
+    self.applied_migrations = recorder.applied_migrations()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/recorder.py", line 73, in applied_migrations
+    if self.has_table():
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/migrations/recorder.py", line 56, in has_table
+    return self.Migration._meta.db_table in self.connection.introspection.table_names(self.connection.cursor())
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 256, in cursor
+    return self._cursor()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 233, in _cursor
+    self.ensure_connection()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+    self.connect()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/utils.py", line 89, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 217, in ensure_connection
+    self.connect()
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/base/base.py", line 195, in connect
+    self.connection = self.get_new_connection(conn_params)
+  File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/db/backends/sqlite3/base.py", line 194, in get_new_connection
+    conn = Database.connect(**conn_params)
+django.db.utils.OperationalError: unable to open database file
+

@@ -1,0 +1,89 @@
+2020-08-24 16:14:00 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 16:14:00 = INFO - [settings.py] DEBUG set to True
+2020-08-24 16:14:00 = INFO - [settings.py] PORT set to None
+2020-08-24 16:14:00 = INFO - [settings.py] HOST_ADDRESS set to 0.0.0.0
+2020-08-24 16:14:00 = INFO - [settings.py] ALLOWED_HOSTS set to ['0.0.0.0']
+2020-08-24 16:14:00 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 16:14:00 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 16:14:00 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 16:14:00 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 16:14:00 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 16:14:00 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 16:14:00 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 16:14:00 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 16:14:00 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 16:14:00 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 16:14:00 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 16:14:00 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 16:14:00 = INFO - [settings.py] DEBUG set to True
+2020-08-24 16:14:00 = INFO - [settings.py] PORT set to None
+2020-08-24 16:14:00 = INFO - [settings.py] HOST_ADDRESS set to 0.0.0.0
+2020-08-24 16:14:00 = INFO - [settings.py] ALLOWED_HOSTS set to ['0.0.0.0']
+2020-08-24 16:14:00 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 16:14:00 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 16:14:00 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 16:14:00 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 16:14:00 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 16:14:00 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 16:14:00 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 16:14:00 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 16:14:00 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 16:14:00 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 16:14:00 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 16:14:01 = WARNING - Watching for file changes with StatReloader
+
+2020-08-24 16:14:01 = INFO - Performing system checks...
+
+
+2020-08-24 16:14:01 = INFO - System check identified no issues (0 silenced).
+
+2020-08-24 16:14:01 = INFO - August 24, 2020 - 16:14:01
+
+2020-08-24 16:14:01 = INFO - Django version 2.2.13, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21518
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo.png HTTP/1.1" 200 243120
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo.png HTTP/1.1" 200 430887
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo.png HTTP/1.1" 200 347158
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 200 79848
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 304 0
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 200 23136
+
+2020-08-24 16:14:05 = WARNING - [24/Aug/2020 16:14:05] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 16:14:05 = WARNING - Not Found: /favicon.ico
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21518
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 200 79848
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo.png HTTP/1.1" 200 235569
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 200 23136
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo.png HTTP/1.1" 200 419426
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo.png HTTP/1.1" 200 341991
+
+2020-08-24 16:19:26 = WARNING - [24/Aug/2020 16:19:26] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 200 61909
+
+2020-08-24 16:19:26 = WARNING - Not Found: /favicon.ico
+

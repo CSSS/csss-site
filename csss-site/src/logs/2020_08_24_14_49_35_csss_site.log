@@ -1,0 +1,125 @@
+2020-08-24 14:49:35 = INFO - [settings.py] BASE_DIR set to </home/wujohnw/Desktop/jacepls2>
+2020-08-24 14:49:35 = INFO - [settings.py] DEBUG set to True
+2020-08-24 14:49:35 = INFO - [settings.py] PORT set to None
+2020-08-24 14:49:35 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 14:49:35 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 14:49:35 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 14:49:35 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 14:49:35 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 14:49:35 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 14:49:35 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 14:49:35 = INFO - [settings.py] STATIC_ROOT set to </home/wujohnw/Desktop/jacepls2>/static_root/
+2020-08-24 14:49:35 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 14:49:35 = INFO - [settings.py] MEDIA_ROOT set to </home/wujohnw/Desktop/jacepls2>/media_root/
+2020-08-24 14:49:35 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 14:49:35 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 14:49:35 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 14:49:35 = WARNING - Traceback (most recent call last):
+
+2020-08-24 14:49:35 = WARNING -   File "manage.py", line 22, in <module>
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - execute_from_command_line(sys.argv)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/__init__.py", line 381, in execute_from_command_line
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - utility.execute()
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/__init__.py", line 375, in execute
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - self.fetch_command(subcommand).run_from_argv(self.argv)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 323, in run_from_argv
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - self.execute(*args, **cmd_options)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 361, in execute
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - self.check()
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 390, in check
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - include_deployment_checks=include_deployment_checks,
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/management/base.py", line 377, in _run_checks
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - return checks.run_checks(**kwargs)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/checks/registry.py", line 72, in run_checks
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - new_errors = check(app_configs=app_configs)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/checks/urls.py", line 13, in check_url_config
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - return check_resolver(resolver)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/core/checks/urls.py", line 23, in check_resolver
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - return check_method()
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/urls/resolvers.py", line 399, in check
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - for pattern in self.url_patterns:
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/utils/functional.py", line 80, in __get__
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - res = instance.__dict__[self.name] = self.func(instance)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/urls/resolvers.py", line 584, in url_patterns
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - patterns = getattr(self.urlconf_module, "urlpatterns", self.urlconf_module)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/utils/functional.py", line 80, in __get__
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - res = instance.__dict__[self.name] = self.func(instance)
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/urls/resolvers.py", line 577, in urlconf_module
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - return import_module(self.urlconf_name)
+2020-08-24 14:49:35 = WARNING -   File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - return _bootstrap._gcd_import(name[level:], package, level)
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/csss-site/csss-site/src/csss/urls.py", line 13, in <module>
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - url(r'^'+settings.URL_PATTERN+'events/', include('events.urls')),
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/urls/conf.py", line 34, in include
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - urlconf_module = import_module(urlconf_module)
+2020-08-24 14:49:35 = WARNING -   File "/usr/lib/python3.7/importlib/__init__.py", line 127, in import_module
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - return _bootstrap._gcd_import(name[level:], package, level)
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 1006, in _gcd_import
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 983, in _find_and_load
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 967, in _find_and_load_unlocked
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 677, in _load_unlocked
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap_external>", line 728, in exec_module
+
+2020-08-24 14:49:35 = WARNING -   File "<frozen importlib._bootstrap>", line 219, in _call_with_frames_removed
+
+2020-08-24 14:49:35 = WARNING -   File "/home/wujohnw/Desktop/jacepls2/csss-site/csss-site/src/events/urls.py", line 44, in <module>
+
+2020-08-24 14:49:35 = WARNING -     
+2020-08-24 14:49:35 = WARNING - url(r'^frosh/2020$', frosh2020.index, name="Frosh Week 2020"),
+2020-08-24 14:49:35 = WARNING - NameError
+2020-08-24 14:49:35 = WARNING - : 
+2020-08-24 14:49:35 = WARNING - name 'frosh2020' is not defined

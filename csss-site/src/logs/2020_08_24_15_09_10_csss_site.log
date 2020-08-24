@@ -1,0 +1,63 @@
+2020-08-24 15:09:10 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 15:09:10 = INFO - [settings.py] DEBUG set to True
+2020-08-24 15:09:10 = INFO - [settings.py] PORT set to None
+2020-08-24 15:09:10 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 15:09:10 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 15:09:10 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 15:09:10 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 15:09:10 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 15:09:10 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 15:09:10 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 15:09:10 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 15:09:10 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 15:09:10 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 15:09:10 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 15:09:10 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 15:09:10 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 15:09:10 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 15:09:10 = INFO - [settings.py] DEBUG set to True
+2020-08-24 15:09:10 = INFO - [settings.py] PORT set to None
+2020-08-24 15:09:10 = INFO - [settings.py] HOST_ADDRESS set to <0.0.0.8000>>
+2020-08-24 15:09:10 = INFO - [settings.py] ALLOWED_HOSTS set to ['<0.0.0.8000>>']
+2020-08-24 15:09:10 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 15:09:10 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 15:09:10 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 15:09:10 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 15:09:10 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 15:09:10 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 15:09:10 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 15:09:10 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 15:09:10 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 15:09:10 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 15:09:10 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 15:09:10 = WARNING - Watching for file changes with StatReloader
+
+2020-08-24 15:09:10 = INFO - Performing system checks...
+
+
+2020-08-24 15:09:11 = INFO - System check identified no issues (0 silenced).
+
+2020-08-24 15:09:11 = INFO - August 24, 2020 - 15:09:11
+
+2020-08-24 15:09:11 = INFO - Django version 2.2.13, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-08-24 15:09:20 = WARNING - [24/Aug/2020 15:09:20] code 400, message Bad request version ('©Íµês\x8fÝ\xad\x17ô\x9e\x9f(ºU\x87FY\x8f\x00$\x13\x01\x13\x03\x13\x02À+À/Ì©Ì¨À,À0À')
+
+2020-08-24 15:09:20 = WARNING - [24/Aug/2020 15:09:20] You're accessing the development server over HTTPS, but it only supports HTTP.
+
+
+2020-08-24 15:09:20 = WARNING - [24/Aug/2020 15:09:20] code 400, message Bad request version ('oÁÂFÜ\x11Z0\x9cd¨\x92Ã´}.\x87I¬\x01\x06È¹h\x00$\x13\x01\x13\x03\x13\x02À+À/Ì©Ì¨À,À0À')
+
+2020-08-24 15:09:20 = WARNING - [24/Aug/2020 15:09:20] You're accessing the development server over HTTPS, but it only supports HTTP.
+
+
+2020-08-24 15:09:28 = WARNING - Invalid HTTP_HOST header: '0.0.0.0:8000'. You may need to add '0.0.0.0' to ALLOWED_HOSTS.
+
+2020-08-24 15:09:28 = WARNING - Bad Request: /
+
+2020-08-24 15:09:28 = WARNING - [24/Aug/2020 15:09:28] "GET / HTTP/1.1" 400 69093
+
+2020-08-24 15:09:34 = WARNING - /home/wujohnw/Desktop/jacepls2/envCSSS/lib/python3.7/site-packages/django/conf/global_settings.py changed, reloading.
+

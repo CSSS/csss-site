@@ -1,0 +1,228 @@
+2020-08-24 15:19:06 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 15:19:06 = INFO - [settings.py] DEBUG set to True
+2020-08-24 15:19:06 = INFO - [settings.py] PORT set to None
+2020-08-24 15:19:06 = INFO - [settings.py] HOST_ADDRESS set to 0.0.0.0
+2020-08-24 15:19:06 = INFO - [settings.py] ALLOWED_HOSTS set to ['0.0.0.0']
+2020-08-24 15:19:06 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 15:19:06 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 15:19:06 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 15:19:06 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 15:19:06 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 15:19:06 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 15:19:06 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 15:19:06 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 15:19:06 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 15:19:06 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 15:19:06 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 15:19:06 = INFO - [settings.py] BASE_DIR set to /home/wujohnw/Desktop/jacepls2
+2020-08-24 15:19:06 = INFO - [settings.py] DEBUG set to True
+2020-08-24 15:19:06 = INFO - [settings.py] PORT set to None
+2020-08-24 15:19:06 = INFO - [settings.py] HOST_ADDRESS set to 0.0.0.0
+2020-08-24 15:19:06 = INFO - [settings.py] ALLOWED_HOSTS set to ['0.0.0.0']
+2020-08-24 15:19:06 = INFO - [settings.py] DB_TYPE set to sqlite3
+2020-08-24 15:19:06 = INFO - [settings.py] BASE_DIR set to /
+2020-08-24 15:19:06 = INFO - [settings.py] BASE_DIR set to 
+2020-08-24 15:19:06 = INFO - [settings.py] ROOT_DIR set to /home/wujohnw/Desktop/jacepls2/csss-site
+2020-08-24 15:19:06 = INFO - [settings.py] STATIC_URL set to /STATIC_URL/
+2020-08-24 15:19:06 = INFO - [settings.py] STATIC_ROOT set to /home/wujohnw/Desktop/jacepls2/static_root/
+2020-08-24 15:19:06 = INFO - [settings.py] MEDIA_URL set to /MEDIA_URL/
+2020-08-24 15:19:06 = INFO - [settings.py] MEDIA_ROOT set to /home/wujohnw/Desktop/jacepls2/media_root/
+2020-08-24 15:19:06 = INFO - [settings.py] FILE_FORM_MASTER_DIR set to form_uploads/form_uploads/
+2020-08-24 15:19:06 = INFO - [settings.py] FILE_FORM_UPLOAD_DIR set to form_uploads/form_uploads/temporary_files/
+2020-08-24 15:19:06 = INFO - [settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to mailbox_attachments/%Y/%m/%d/
+2020-08-24 15:19:07 = WARNING - Watching for file changes with StatReloader
+
+2020-08-24 15:19:07 = INFO - Performing system checks...
+
+
+2020-08-24 15:19:07 = INFO - System check identified no issues (0 silenced).
+
+2020-08-24 15:19:07 = INFO - August 24, 2020 - 15:19:07
+
+2020-08-24 15:19:07 = INFO - Django version 2.2.13, using settings 'csss.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+2020-08-24 15:19:12 = INFO - [csss/views.py index()] sfu_emails []
+2020-08-24 15:19:12 = WARNING - [24/Aug/2020 15:19:12] "GET / HTTP/1.1" 200 11054
+
+2020-08-24 15:19:12 = WARNING - [24/Aug/2020 15:19:12] "GET /STATIC_URL/csss_static/bulma.css HTTP/1.1" 200 262701
+
+2020-08-24 15:19:14 = WARNING - [24/Aug/2020 15:19:14] "GET /STATIC_URL/csss_static/logo.png HTTP/1.1" 200 20211
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /events/frosh/2020 HTTP/1.1" 200 5651
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/css/bootstrap.css HTTP/1.1" 200 133159
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/css/soon.css HTTP/1.1" 200 17175
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/css/overrides.css HTTP/1.1" 200 3162
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/bootstrap.js HTTP/1.1" 200 57209
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/soon/custom.js HTTP/1.1" 200 4972
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/soon/jquery.themepunch.revolution.min.js HTTP/1.1" 200 83950
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/modernizr.custom.js HTTP/1.1" 200 8508
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/soon/plugins.js HTTP/1.1" 200 27340
+
+2020-08-24 15:19:47 = WARNING - [24/Aug/2020 15:19:47] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green.png HTTP/1.1" 200 704645
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21516
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 200 924888
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo_ProtoType.png HTTP/1.1" 200 136175
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo_ProtoType.png HTTP/1.1" 404 1795
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 200 61909
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 200 474065
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 200 23136
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 200 79848
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo_ProtoType.png HTTP/1.1" 404 1801
+
+2020-08-24 15:20:03 = WARNING - [24/Aug/2020 15:20:03] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 200 793450
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21516
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo_ProtoType.png HTTP/1.1" 200 157456
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 200 79848
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo_ProtoType.png HTTP/1.1" 200 290121
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo_ProtoType.png HTTP/1.1" 200 136175
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 304 0
+
+2020-08-24 15:22:31 = WARNING - [24/Aug/2020 15:22:31] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 200 23136
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21544
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 304 0
+
+2020-08-24 15:23:50 = WARNING - [24/Aug/2020 15:23:50] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21545
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 304 0
+
+2020-08-24 15:24:40 = WARNING - [24/Aug/2020 15:24:40] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21557
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 304 0
+
+2020-08-24 15:26:57 = WARNING - [24/Aug/2020 15:26:57] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:33 = WARNING - [24/Aug/2020 15:27:33] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21558
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/background.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/Java_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/Python_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/C_Logo_ProtoType.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/signup.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/schedule.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/CSSS_Logo_inverted.png HTTP/1.1" 304 0
+
+2020-08-24 15:27:34 = WARNING - [24/Aug/2020 15:27:34] "GET /STATIC_URL/events_static/frosh/2020/images/content-background2.png HTTP/1.1" 304 0
+
+2020-08-24 15:33:12 = WARNING - Not Found: /events/frosh/2020/index
+
+2020-08-24 15:33:12 = WARNING - [24/Aug/2020 15:33:12] "GET /events/frosh/2020/index HTTP/1.1" 404 11229
+
+2020-08-24 15:33:15 = WARNING - Not Found: /events/frosh/2020/
+
+2020-08-24 15:33:15 = WARNING - [24/Aug/2020 15:33:15] "GET /events/frosh/2020/ HTTP/1.1" 404 11214
+
+2020-08-24 15:33:16 = WARNING - [24/Aug/2020 15:33:16] "GET /events/frosh/2020 HTTP/1.1" 200 5651
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /events/frosh/2020 HTTP/1.1" 200 5651
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/css/bootstrap.css HTTP/1.1" 200 133159
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/css/overrides.css HTTP/1.1" 200 3162
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/css/soon.css HTTP/1.1" 200 17175
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/modernizr.custom.js HTTP/1.1" 200 8508
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/bootstrap.js HTTP/1.1" 200 57209
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/soon/plugins.js HTTP/1.1" 200 27340
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/soon/jquery.themepunch.revolution.min.js HTTP/1.1" 200 83950
+
+2020-08-24 15:34:53 = WARNING - [24/Aug/2020 15:34:53] "GET /STATIC_URL/events_static/frosh/2020/landing_page/js/soon/custom.js HTTP/1.1" 200 4972
+
+2020-08-24 15:34:54 = WARNING - [24/Aug/2020 15:34:54] "GET /STATIC_URL/events_static/frosh/2020/images/TitleLogo_Green.png HTTP/1.1" 200 704645
+
+2020-08-24 15:34:55 = WARNING - Not Found: /favicon.ico
+
+2020-08-24 15:34:55 = WARNING - [24/Aug/2020 15:34:55] "GET /favicon.ico HTTP/1.1" 404 3239
+
+2020-08-24 15:35:01 = WARNING - [24/Aug/2020 15:35:01] "GET /events/frosh/2020/frosh HTTP/1.1" 200 21558
+
