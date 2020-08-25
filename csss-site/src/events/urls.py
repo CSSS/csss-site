@@ -3,7 +3,6 @@ from django.conf.urls import url
 from .views import views
 from .views.frosh import (frosh2012, frosh2013, frosh2014, frosh2015,
                           frosh2016, frosh2017, frosh2018, frosh2019, frosh2020)
-# Seperated into two lines because the testing program doesnt like lines of code that are too long.
 urlpatterns = [
     url(r'^general_meetings$', views.gm, name='gm'),
     url(r'^board_games$', views.board_games, name='board_games'),
