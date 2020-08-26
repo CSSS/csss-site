@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from .views import views
-from .views.frosh import frosh2012, frosh2013, frosh2014, frosh2015, frosh2016, frosh2017, frosh2018, frosh2019
+from .views.frosh import (frosh2012, frosh2013, frosh2014, frosh2015, frosh2016, frosh2017, frosh2018, frosh2019)
 
 urlpatterns = [
     url(r'^general_meetings$', views.gm, name='gm'),
