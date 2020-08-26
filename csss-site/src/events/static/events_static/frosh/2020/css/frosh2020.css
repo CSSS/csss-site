@@ -1,10 +1,10 @@
+
+
 body{
     /*width: 100%;*/
-    
-    background-image: url("{% static 'events_static/frosh/2020/images/background.png' %}");
+    background-image: url('../images/background.png');
     background-size: cover;
-
-    color:#FFFFFF;
+    color:#FFFFFE;
 }
 img{
     object-fit: contain;
@@ -24,10 +24,7 @@ img{
     
 }
 .content{
-
-    background-image: url("{% static 'events_static/frosh/2020/images/content-background2.png' %}");
-    
-    
+    background-image: url('../images/content-background2.png');
     background-size: 100% 100%;
     padding-top: 5%;
     overflow: auto;
