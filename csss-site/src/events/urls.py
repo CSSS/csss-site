@@ -42,5 +42,7 @@ urlpatterns = [
     url(r'^frosh/2018/conditions$', frosh2018.conditions, name="Frosh Week 2018 Conditions"),
     url(r'^frosh/2019$', frosh2019.index, name="Frosh Week 2019"),
     url(r'^frosh/2019/frosh$', frosh2019.frosh, name="Frosh Week 2019 Frosh"),
+    url(r'^frosh/2020$', frosh2020.index, name="Frosh Week 2020"),
+    url(r'^frosh/2020/frosh$', frosh2020.frosh, name="Frosh Week 2020 Frosh"),
     url(r'^$', views.index, name='index'),
 ]
