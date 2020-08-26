@@ -5,157 +5,14 @@
 <!-- Go look at Frosh 2019 if you want an example of what the Frosh sites typically look like.. -->
 <!-- Contact John Wu, CSSS Frosh Chair 2020 for additional info.-->
 
-<!-- Any comments using DEBUG were for my own personal testing while designing the site. Sorry Jace. I ain't doing all that python shit to run the site the normal way. -->
-
-<!-- ex. -->
-<!-- IMAGE LINKED USING STANDARD LINKING -->
-<!-- DEBUG -->
-<!-- IMAGE LINKED USING THE JACE's PYTHON METHOD THAT I DONT WANT TO USE -->
-
 <head>
     <meta charset="utf-8">
 
     <title>CSSS Frosh 2020</title>
 
 
-    <style>
+    <link rel="stylesheet" type="text/css" href="{% static 'events_static/frosh/2020/css/frosh2020.css' %}">
 
-        body{
-            /*width: 100%;*/
-            
-            
-            /*background-image: url(../../../../static/events_static/frosh/2020/images/background.png);*/
-            /*DEBUG:*/
-            background-image: url("{% static 'events_static/frosh/2020/images/background.png' %}");
-            background-size: cover;
-
-            color:#FFFFFF;
-        }
-        img{
-            object-fit: contain;
-        }
-        .wrapper{
-            width:100%;
-            max-width: 100%;
-
-        }
-        .center{
-            width:70%;
-            max-width: 70%;
-            object-fit: contain;
-            display:block;
-            margin-left: auto; 
-            margin-right: auto; 
-            
-        }
-        .content{
-
-            /*background-image: url(../../../../static/events_static/frosh/2020/images/content-background2.png);*/
-            /*DEBUG*/
-            background-image: url("{% static 'events_static/frosh/2020/images/content-background2.png' %}");
-            
-            
-            background-size: 100% 100%;
-            padding-top: 5%;
-            overflow: auto;
-            color:#ffffff;
-        }
-        .text{
-            width:70%;
-            max-width: 70%;
-            margin-left: auto; 
-            margin-right: auto; 
-            
-        }
-        .text p{
-            font-size:15px;
-        }
-        .text h3{
-            text-align: center;
-            font-size:45px;
-            color:#00ff00;
-        }
-        .factioncontent{
-            font-family: "Lucida Console";
-        }
-        table{
-            border-collapse: collapse;
-            width:100%;
-        }
-        td{
-
-            padding: 5%;
-            width:45%;
-            vertical-align: top;
-            color:#ffffff;
-            border-top: 3px double #ffffff;
-            border-bottom: 3px double #ffffff;
-        }
-        td p{
-            /*padding:5%;*/
-        }
-        td img{
-            max-width: 60%;
-            margin-left: 20%;
-            margin-right: auto;
-            margin-top: auto;
-            margin-bottom: auto;
-        }
-
-        .teams{
-            margin-left: auto; 
-            margin-right: auto; 
-            width:90%;
-            max-width: 90%;
-        }
-        .signup{
-            background-color:#00ff00;
-            width:100%;
-            height:10%;
-        }
-        .moreContent{
-            margin-left: auto; 
-            margin-right: auto; 
-            width:90%;
-            overflow: auto;
-        }
-
-        .heading{
-            border-top: 3px double #ffffff;
-            border-bottom: 3px double #ffffff;
-            color: #00ff00;
-            text-align: center;
-            margin-top: 5%;
-            margin-bottom: 5%;
-        }
-        .CSSScontent{
-            font-family: Calibri;
-        }
-        a:link {
-            color:lightblue;
-        }
-        a:visited {
-            color:lightblue;
-        }
-
-        .halfdiv{
-            width:40%;
-            float:left;
-            display:inline;
-            margin-right: 5%;
-            margin-left: 5%;
-        }
-        .halfdiv h2{
-            color:#d26060;
-        }
-        .footer{
-            padding-top: 1%;
-            text-align: center;
-            background-color:#000000;
-            width: 100%;
-            height: 10%;
-        }
-    </style>
 </head>
 
 <body>
@@ -164,8 +21,7 @@
         
             <div class = content>
                 <div class =factioncontent>
-                    <!-- <img src = "../../../../static/events_static/frosh/2020/images/TitleLogo_Green_Transparent.png" style = "width:90%;max-width:90%;display:block; margin-left: auto; margin-right: auto; object-fit: contain;"> -->
-                    <!-- DEBUG -->
+
                     <img src = "{% static 'events_static/frosh/2020/images/TitleLogo_Green_Transparent.png' %}" style = "width:90%;max-width:90%;display:block; margin-left: auto; margin-right: auto; object-fit: contain;">
                     
                     <div class = text>
@@ -178,8 +34,7 @@
                     <div class = teams>
                         <table>
                             <tr>
-                                <!-- <td> <img src = "../../../../static/events_static/frosh/2020/images/C_Logo.png" style = "object-fit: contain;"></td> -->
-                                <!-- DEBUG -->
+
                                 <td> <img src = "{% static 'events_static/frosh/2020/images/C_Logo.png' %}" style = "object-fit: contain;"></td>
                                 
                                 
@@ -193,8 +48,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <!-- <td> <img src = "../../../../static/events_static/frosh/2020/images/Java_Logo_ProtoType.png" style = "object-fit: contain;"></td> -->
-                                <!-- DEBUG -->
+
                                 <td> <img src = "{% static 'events_static/frosh/2020/images/Java_Logo.png' %}" style = "object-fit: contain;"></td>
                                 
                                 <td>
@@ -208,8 +62,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <!-- <td> <img src = "../../../../static/events_static/frosh/2020/images/Python_Logo_ProtoType.png" style = "object-fit: contain;"></td> -->
-                                <!-- DEBUG -->
+
                                 <td> <img src = "{% static 'events_static/frosh/2020/images/Python_Logo.png' %}" style = "object-fit: contain;"></td>
                                 
                                 
@@ -228,16 +81,14 @@
                     <div style = "width:100%;">
                         
                     <a href = "https://forms.gle/8PpBx5PsvedHeeUy6">
-                        <!-- <img src = "../../../../static/events_static/frosh/2020/images/signup.png" style = "display:block;width:90%;margin-top: 2%; margin-left:auto; margin-right: auto; margin-bottom: 2%"></a> -->
-                        <!-- DEBUG -->
+
                         <img src = "{% static 'events_static/frosh/2020/images/signup.png' %}" style = "display:block;width:90%;margin-top: 2%; margin-left:auto; margin-right: auto; margin-bottom: 2%"></a>
                         
                       
                    
                 </div>
                 <div class = CSSScontent>
-                    <!-- <img src = "../../../../static/events_static/frosh/2020/images/CSSS_Logo_inverted.png" style = "width:20%; display: block;margin-left: auto;margin-right: auto; margin-top: 10%;"> -->
-                    <!-- DEBUG -->
+
                     <img src = "{% static 'events_static/frosh/2020/images/CSSS_Logo_inverted.png' %}"style = "width:20%; display: block;margin-left: auto;margin-right: auto; margin-top: 10%;">
                     
                     
@@ -256,8 +107,7 @@
                         <div class = text>
                             <p>Frosh Week will take place from August 31st, to September 4th. The week-long range of events will mainly take place on our <a href = "https://discord.gg/sfucsss">Discord Server</a> as well as our own <a href = "https://canvas.sfu.ca/enroll/9GB9R4">CSSS - run canvas course.</a></p>
                         </div>
-                        <!-- <img src = "../../../../static/events_static/frosh/2020/images/schedule.png" style = "width:100%; display: block;margin-left: auto;margin-right: auto;"> -->
-                        <!-- DEBUG -->
+
                         <img src = "{% static 'events_static/frosh/2020/images/schedule.png' %}" style = "width:100%; display: block;margin-left: auto;margin-right: auto;">
                         
                         
