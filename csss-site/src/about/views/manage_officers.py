@@ -2,10 +2,7 @@ import csv
 import datetime
 import logging
 import random
-import smtplib
 import string
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 from io import StringIO
 
 from django.conf import settings
@@ -13,19 +10,25 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from about.models import Term, Officer, AnnouncementEmailAddress
-from resource_management.models import ProcessNewOfficer, NaughtyOfficer, \
-    OfficerGithubTeamMapping, OfficerGithubTeam, GoogleMailAccountCredentials
+from about.models import Term, Officer, AnnouncementEmailAddress, OfficerPositionMapping
+from about.views.save_officer_and_terms import save_new_term, TERM_SEASONS, OFFICER_WITH_NO_GITHUB_ACCESS, \
+    ELECTION_OFFICER_POSITIONS, OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, save_officer_and_grant_digital_resources, \
+    get_term_number
+from csss.views_helper import verify_access_logged_user_and_create_context, create_main_context, ERROR_MESSAGE_KEY, \
+    there_are_multiple_entries
+from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
-from csss.views_helper import verify_access_logged_user_and_create_context, create_main_context, ERROR_MESSAGE_KEY
 
 # used on show_create_link_for_officer_page
 HTML_TERM_KEY = 'term'
 HTML_YEAR_KEY = 'year'
+HTML_DATE_KEY = 'date'
+HTML_TIME_KEY = 'time'
 HTML_POSITION_KEY = 'positions'
 HTML_OVERWRITE_KEY = 'overwrite'
+HTML_NEW_START_DATE_KEY = 'new_start_date'
 
 # the key used to indicate passphrase in link given to the new officers
 HTML_PASSPHRASE_GET_KEY = 'passphrase'
@@ -51,6 +54,10 @@ HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER = 'term_position_number_value'
 HTML_TERM_POSITION_NUMBER_KEY = 'term_position_number'
 HTML_VALUE_ATTRIBUTE_FOR_NAME = 'name_value'
 HTML_NAME_KEY = 'name'
+HTML_VALUE_ATTRIBUTE_FOR_DATE = 'date_value'
+HTML_DATE_KEY
+HTML_VALUE_ATTRIBUTE_FOR_TIME = "time_value"
+HTML_TIME_KEY
 HTML_VALUE_ATTRIBUTE_FOR_SFUID = 'sfuid_value'
 HTML_SFUID_KEY = 'sfuid'
 HTML_VALUE_ATTRIBUTE_FOR_EMAIL = 'email_value'
@@ -72,23 +79,15 @@ HTML_LANGUAGE2_KEY = 'language2'
 HTML_VALUE_ATTRIBUTE_FOR_BIO = 'bio_value'
 HTML_BIO_KEY = 'bio'
 
-GITHUB_OFFICER_TEAM = "officers"
-
-ELECTION_OFFICER_POSITIONS = [
-    "By-Election Officer", "General Election Officer",
-]
-
-OFFICER_WITH_NO_GITHUB_ACCESS = [
-    "SFSS Council-Representative"
-]
-TERM_SEASONS = ['Spring', 'Summer', "Fall"]
-OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE = []
-OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE.extend(OFFICER_WITH_NO_GITHUB_ACCESS)
-OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE.extend(ELECTION_OFFICER_POSITIONS)
 TAB_STRING = 'about'
 
 logger = logging.getLogger('csss_site')
 
+POSITION_MAPPING_INPUT_KEY = "unsuccessful_position_mappings"
+
+OFFICER_POSITION_MAPPING_ID_KEY = "officer_position_mapping_db_id"
+OFFICER_POSITION_MAPPING_POSITION_KEY = "officer_position_mapping_position"
+OFFICER_POSITION_MAPPING_POSITION_INDEX_KEY = "officer_position_mapping_position_index"
 
 def verify_passphrase_access_and_create_context(request, tab):
     """Verifies that the user is allowed to access the request page depending on their passphrase
@@ -108,33 +107,33 @@ def verify_passphrase_access_and_create_context(request, tab):
     if HTML_PASSPHRASE_GET_KEY in request.GET or HTML_PASSPHRASE_POST_KEY in request.POST \
             or HTML_PASSPHRASE_SESSION_KEY in request.session:
         if HTML_PASSPHRASE_GET_KEY in request.GET:
-            passphrase = request.GET[HTML_PASSPHRASE_GET_KEY]
+            new_officer_details = request.GET[HTML_PASSPHRASE_GET_KEY]
         elif HTML_PASSPHRASE_POST_KEY in request.POST:
-            passphrase = request.POST[HTML_PASSPHRASE_POST_KEY]
+            new_officer_details = request.POST[HTML_PASSPHRASE_POST_KEY]
         elif HTML_PASSPHRASE_SESSION_KEY in request.session:
-            passphrase = request.session[HTML_PASSPHRASE_SESSION_KEY]
+            new_officer_details = request.session[HTML_PASSPHRASE_SESSION_KEY]
             del request.session[HTML_PASSPHRASE_SESSION_KEY]
 
-        passphrase = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
+        new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=new_officer_details)
         logger.info(
             "[administration/manage_officers.py verify_passphrase_access_and_create_context()] len(passphrase) "
-            f"= '{len(passphrase)}'"
+            f"= '{len(new_officer_details)}'"
         )
-        if len(passphrase) == 0:
+        if len(new_officer_details) == 0:
             return HttpResponseRedirect(
                 '/error'), None, "You did not supply a passphrase that matched any" \
                                  " in the records", None
         logger.info(
             f"[administration/manage_officers.py verify_passphrase_access_and_create_context()] passphrase["
-            f"0].used = '{passphrase[0].used}'")
-        if passphrase[0].used:
+            f"0].used = '{new_officer_details[0].used}'")
+        if new_officer_details[0].used:
             return HttpResponseRedirect(
                 '/error'), None, "the passphrase supplied has already been used", None
     else:
         return HttpResponseRedirect('/error'), None, "You did not supply a passphrase", None
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
-    return None, context, None, passphrase[0]
+    return None, context, None, new_officer_details[0]
 
 
 def show_create_link_page(request):
@@ -147,9 +146,18 @@ def show_create_link_page(request):
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     logger.info(f"[administration/manage_officers.py show_create_link_page()] request.POST={request.POST}")
-    context['terms'] = TERM_SEASONS
-    context['years'] = [year for year in list(range(1970, datetime.datetime.now().year + 1))]
+    context.update(create_term_context_variable())
+    context['positions'] = "\n".join([position.officer_position for position in
+                                      OfficerPositionMapping.objects.all().filter(marked_for_deletion=False).order_by(
+                                          'term_position_number')])
+    return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
 
+
+def create_term_context_variable():
+    context = {
+        'terms': TERM_SEASONS,
+        'years': [year for year in reversed(list(range(1970, datetime.datetime.now().year + 1)))]
+    }
     current_date = datetime.datetime.now()
     if int(current_date.month) <= 4:
         context['current_term'] = context['terms'][0]
@@ -157,7 +165,21 @@ def show_create_link_page(request):
         context['current_term'] = context['terms'][1]
     else:
         context['current_term'] = context['terms'][2]
-    return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
+    context['current_year'] = current_date.year
+    current_date = datetime.datetime.now()
+    context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = current_date.strftime("%Y-%m-%d")
+    context[HTML_VALUE_ATTRIBUTE_FOR_TIME] = current_date.strftime("%H:%M")
+    return context
+
+
+def delete_current_term(year, term):
+    term_number = get_term_number(year, term)
+    term_obj = Term.objects.filter(term=term, term_number=term_number, year=int(year))
+    if len(term_obj) == 1:
+        term_obj[0].delete()
+    new_officer_details = ProcessNewOfficer.objects.filter(term=term, year=year)
+    for new_officer in new_officer_details:
+        new_officer.delete()
 
 
 def show_page_with_creation_links(request):
@@ -170,7 +192,7 @@ def show_page_with_creation_links(request):
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
-    post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY]
+    post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY, HTML_NEW_START_DATE_KEY, HTML_DATE_KEY, HTML_TIME_KEY]
     if len(set(post_keys).intersection(request.POST.keys())) == len(post_keys):
         # ensuring that all the necessary keys are in the POST call
         logger.info("[administration/manage_officers.py show_page_with_creation_links()] correct numbers of "
@@ -183,76 +205,75 @@ def show_page_with_creation_links(request):
         else:
             base_url = f"{settings.HOST_ADDRESS}:{settings.PORT}/about/allow_officer_to_choose_name?"
         officer_creation_links = []
-        positions = request.POST[HTML_POSITION_KEY].splitlines()
-        # determines if the users that are created need to overwrite the officers for the specified term or append to
-        # the list of current officers for that term
+        user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
         if request.POST[HTML_OVERWRITE_KEY] == "true":
-            position_number = 0
-        elif request.POST[HTML_OVERWRITE_KEY] == "false":
-            position_number = get_next_position_number_for_term_that_already_has_officers(request.POST[HTML_YEAR_KEY],
-                                                                                          request.POST[HTML_TERM_KEY])
-        for position in positions:
-            # creating links for officer inputs
-            passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-            link_to_create = (
-                f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}"
-            )
-            ProcessNewOfficer(
-                passphrase=passphrase,
-                term=request.POST[HTML_TERM_KEY],
-                year=request.POST[HTML_YEAR_KEY],
-                position=position,
-                term_position_number=position_number,
-                link=link_to_create
-            ).save()
-            logger.info(
-                "[administration/manage_officers.py show_page_with_creation_links()] "
-                f"interpreting position {position}"
-            )
-
-            link_to_create = link_to_create.replace(" ", "%20")
-            officer_creation_links.append(link_to_create)
-            position_number += 1
-        context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
-        return render(request,
-                      'about/process_new_officer/show_generated_officer_links.html',
-                      context)
+            delete_current_term(request.POST[HTML_YEAR_KEY], request.POST[HTML_TERM_KEY])
+        new_officers_to_process = []
+        error_messages = []
+        validations_passed = True
+        for position in user_specified_positions:
+            success, position_number, error_message = get_next_position_number_for_term(position)
+            if not success:
+                validations_passed = False
+                error_messages.append(error_message)
+            else:
+                # creating links for officer inputs
+                passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
+                new_officers_to_process.append(
+                    ProcessNewOfficer(
+                        passphrase=passphrase,
+                        term=request.POST[HTML_TERM_KEY],
+                        year=request.POST[HTML_YEAR_KEY],
+                        position=position,
+                        term_position_number=position_number,
+                        link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
+                        new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
+                        start_date=datetime.datetime.strptime(
+                            f"{request.POST[HTML_DATE_KEY]} "
+                            f"{request.POST[HTML_TIME_KEY]}",
+                            '%Y-%m-%d %H:%M')
+                    )
+                )
+                logger.info(
+                    "[administration/manage_officers.py show_page_with_creation_links()] "
+                    f"interpreting position {position}"
+                )
+        if validations_passed:
+            for new_officer_to_process in new_officers_to_process:
+                new_officer_to_process.save()
+                officer_creation_links.append((new_officer_to_process.position, new_officer_to_process.link.replace(" ", "%20")))
+            context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
+            return render(request, 'about/process_new_officer/show_generated_officer_links.html', context)
+        else:
+            context.update(create_term_context_variable())
+            context['current_term'] = request.POST[HTML_TERM_KEY]
+            context['current_year'] = int(request.POST[HTML_YEAR_KEY])
+            context['positions'] = "\n".join(user_specified_positions)
+            context['error_messages'] = error_messages
+            context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = request.POST[HTML_DATE_KEY]
+            context[HTML_VALUE_ATTRIBUTE_FOR_TIME] = request.POST[HTML_TIME_KEY]
+            return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
 
     return HttpResponseRedirect('/')
 
 
-def get_next_position_number_for_term_that_already_has_officers(year, term):
-    """Get the next term position number that is available for a term
+def get_next_position_number_for_term(officer_position):
+    """Get the next term position number that is available for a term with the specified officer_position
 
     Keyword Arguments:
         year -- the year of the tem that is being looked for
         term -- the season for the term, e.g. "Spring", "Summer", "Fall"
+        officer_position -- the position of the officer that needs to be added to the term
 
         If the term does not exist, 0 will be returned. Otherwise, the next available position_number
-        is returned
+        is returned or if its a position that already exists in the current term, the position number that was already
+        assigned to that position number will be returned
     """
-    term_number = int(year) * 10
-    if term == "Spring":
-        term_number = term_number + 1
-    elif term == "Summer":
-        term_number = term_number + 2
-    elif term == "Fall":
-        term_number = term_number + 3
-    term_obj = Term.objects.filter(
-        year=year,
-        term=term,
-        term_number=term_number
-    )
-    if len(term_obj) < 1:
-        return 0
-    else:
-        officers = Officer.objects.all().filter(
-            elected_term=term_obj[0]
-        ).order_by('-term_position_number')
-        logger.info(
-            f"[administration/manage_officers.py get_next_position_number_for_term_that_already_has_officers()] "
-            f"last officer's position number is{officers[0].term_position_number}")
-        return officers[0].term_position_number + 1
+    position_mapping = OfficerPositionMapping.objects.all().filter(officer_position=officer_position,
+                                                                   marked_for_deletion=False)
+    if len(position_mapping) == 0:
+        return False, None, f"position '{officer_position} is not valid"
+    return True, position_mapping[0].term_position_number, None
 
 
 def allow_officer_to_choose_name(request):
@@ -267,7 +288,8 @@ def allow_officer_to_choose_name(request):
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
-    officers = Officer.objects.all()
+    officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'term_position_number',
+                                                       '-start_date')
 
     # if there are no past officer, the user just get sent directly to the page that asks for their info
     # otherwise, it will first ask them if one of the previous bios is theirs and they want to re-use it
@@ -276,6 +298,13 @@ def allow_officer_to_choose_name(request):
         return HttpResponseRedirect('/about/display_page_for_officer_to_input_info')
     context[HTML_PAST_OFFICERS_KEY] = officers
     return render(request, 'about/process_new_officer/allow_officer_to_choose_name.html', context)
+
+
+def determine_new_start_date_for_officer(start_date, previous_start_date, new_start_date=True):
+    if new_start_date or previous_start_date is None:
+        return start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    else:
+        return previous_start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def display_page_for_officers_to_input_their_info(request):
@@ -287,8 +316,8 @@ def display_page_for_officers_to_input_their_info(request):
         "[administration/manage_officers.py display_page_for_officers_to_input_their_info()] "
         f"request.GET={request.GET}"
     )
-    (render_value, context, error_message, passphrase) = verify_passphrase_access_and_create_context(request,
-                                                                                                     TAB_STRING)
+    (render_value, context, error_message, new_officer_details) = verify_passphrase_access_and_create_context(request,
+                                                                                                              TAB_STRING)
     if context is None:
         request.session['error_message'] = '{}<br>'.format(error_message)
         return render_value
@@ -298,11 +327,13 @@ def display_page_for_officers_to_input_their_info(request):
         officer = Officer.objects.get(id=request.POST['past_officer_bio_selected'])
     else:  # in the case where a direct re-direct was done on the previous page because no past officer exist
         officer = None
-    request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = passphrase.passphrase
-    context[HTML_VALUE_ATTRIBUTE_FOR_TERM] = passphrase.term
-    context[HTML_VALUE_ATTRIBUTE_FOR_YEAR] = passphrase.year
-    context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = passphrase.position
-    context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = passphrase.term_position_number
+    request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = new_officer_details.passphrase
+    context[HTML_VALUE_ATTRIBUTE_FOR_TERM] = new_officer_details.term
+    context[HTML_VALUE_ATTRIBUTE_FOR_YEAR] = new_officer_details.year
+    context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position
+    context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.term_position_number
+    context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = determine_new_start_date_for_officer(new_officer_details.start_date,
+                                                                                  officer.start_date, new_officer_details.new_start_date)
     context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
     context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
     context[HTML_VALUE_ATTRIBUTE_FOR_EMAIL] = ", ".join(
@@ -350,21 +381,22 @@ def process_information_entered_by_officer(request):
     if officer_position in ELECTION_OFFICER_POSITIONS:
         post_keys = [
             HTML_TERM_KEY, HTML_YEAR_KEY, HTML_TERM_POSITION_KEY, HTML_TERM_POSITION_NUMBER_KEY,
-            HTML_NAME_KEY, HTML_SFUID_KEY, HTML_EMAIL_KEY, HTML_PHONE_NUMBER_KEY,
+            HTML_NAME_KEY, HTML_DATE_KEY, HTML_SFUID_KEY, HTML_EMAIL_KEY, HTML_PHONE_NUMBER_KEY,
             HTML_GITHUB_USERNAME_KEY, HTML_COURSE1_KEY, HTML_COURSE2_KEY, HTML_LANGUAGE1_KEY, HTML_LANGUAGE2_KEY,
             HTML_BIO_KEY
         ]
     elif officer_position in OFFICER_WITH_NO_GITHUB_ACCESS:
         post_keys = [
             HTML_TERM_KEY, HTML_YEAR_KEY, HTML_TERM_POSITION_KEY, HTML_TERM_POSITION_NUMBER_KEY,
-            HTML_NAME_KEY, HTML_SFUID_KEY, HTML_EMAIL_KEY, HTML_PHONE_NUMBER_KEY,
+            HTML_NAME_KEY, HTML_DATE_KEY, HTML_SFUID_KEY, HTML_EMAIL_KEY, HTML_PHONE_NUMBER_KEY,
             HTML_COURSE1_KEY, HTML_COURSE2_KEY, HTML_LANGUAGE1_KEY, HTML_LANGUAGE2_KEY,
             HTML_BIO_KEY
         ]
     elif officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
         post_keys = [
             HTML_TERM_KEY, HTML_YEAR_KEY, HTML_TERM_POSITION_KEY, HTML_TERM_POSITION_NUMBER_KEY,
-            HTML_NAME_KEY, HTML_SFUID_KEY, HTML_EMAIL_KEY, HTML_GMAIL_KEY, HTML_PHONE_NUMBER_KEY,
+            HTML_NAME_KEY, HTML_DATE_KEY, HTML_SFUID_KEY, HTML_EMAIL_KEY, HTML_GMAIL_KEY,
+            HTML_PHONE_NUMBER_KEY,
             HTML_GITHUB_USERNAME_KEY, HTML_COURSE1_KEY, HTML_COURSE2_KEY, HTML_LANGUAGE1_KEY, HTML_LANGUAGE2_KEY,
             HTML_BIO_KEY
         ]
@@ -377,20 +409,17 @@ def process_information_entered_by_officer(request):
                     "keys detected")
         passphrase.used = True
         passphrase.save()
-        term_number = get_term_number(request.POST[HTML_YEAR_KEY], request.POST[HTML_TERM_KEY])
-        term, created = Term.objects.get_or_create(
-            term=request.POST[HTML_TERM_KEY],
-            term_number=term_number,
-            year=int(request.POST[HTML_YEAR_KEY])
-        )
+        term_obj = save_new_term(request.POST[HTML_YEAR_KEY], request.POST[HTML_TERM_KEY])
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = 0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' else int(
             request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         full_name_in_pic = request.POST[HTML_NAME_KEY].replace(" ", "_")
         sfuid = request.POST[HTML_SFUID_KEY].strip()
+        start_date = request.POST[HTML_DATE_KEY].strip()
         github_username = request.POST[
             HTML_GITHUB_USERNAME_KEY].strip() if officer_position not in OFFICER_WITH_NO_GITHUB_ACCESS else ""
+        github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
         gmail = request.POST[
             HTML_GMAIL_KEY].strip() if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE else ""
         course1 = request.POST[HTML_COURSE1_KEY].strip()
@@ -398,209 +427,139 @@ def process_information_entered_by_officer(request):
         language1 = request.POST[HTML_LANGUAGE1_KEY].strip()
         language2 = request.POST[HTML_LANGUAGE2_KEY].strip()
         bio = request.POST[HTML_BIO_KEY].strip()
-        (term_year, term_season_number, term_identifier) = get_term_info(term)
-        if settings.OFFICER_PHOTOS_PATH is None:
-            pic_path = (
-                f"OFFICER_PHOTOS_PATH/{term_year}_0{term_season_number}_"
-                f"{term_identifier}/{full_name_in_pic}.jpg"
-            )
-        else:
-            pic_path = (
-                f"{settings.OFFICER_PHOTOS_PATH}/{term_year}_0"
-                f"{term_season_number}_{term_identifier}/{full_name_in_pic}.jpg"
-            )
-
-        officer, created = Officer.objects.get_or_create(
-            position=officer_position,
-            term_position_number=position_index,
-            name=full_name,
-            sfuid=sfuid,
-            phone_number=phone_number,
-            github_username=github_username,
-            gmail=gmail,
-            course1=course1,
-            course2=course2,
-            language1=language1,
-            language2=language2,
-            bio=bio,
-            image=pic_path,
-            elected_term=term,
-        )
-        logger.info(
-            "[administration/manage_officers.py process_information_entered_by_officer()] "
-            f"saved user term={term} full_name={full_name} officer_position={officer_position}"
-        )
         post_dict = parser.parse(request.POST.urlencode())
         announcement_email = [
             email.strip()
             for row in csv.reader(StringIO(post_dict[HTML_EMAIL_KEY]), delimiter=',')
             for email in row
         ]
-        for email in announcement_email:
-            save_email_to_database(email, officer)
-        save_officer_github_membership(officer, officer_position)
-        if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
-            gdrive.add_users_gdrive([gmail])
-            gitlab.add_officer_to_csss_group([sfuid])
-        remove_officer_from_naughty_list(full_name)
-        subject = "Welcome to the CSSS"
-        body = None
-        if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
-            body = (
-                f"Hello {full_name},\n\n"
-                "Congrats on becoming a CSSS Officer,\n\n"
-                "Please make sure that you\n\n"
-                " 1. check the email associated with your github for an invitation to our SFU CSSS Github org on "
-                "Github\n "
-                " 2. check your sfu email for an invitation to join our SFU CSSS org on SFU Gitlab\n\n"
-                "Apart from that, take the following documentation, which is linked here, as it is a "
-                "nightmare trying to figure out "
-                "markdown for gmail from a python script: https://github.com/CSSS/documents/wiki"
-            )
-        elif officer_position in ELECTION_OFFICER_POSITIONS:
-            body = (
-                f"Hello {full_name},\n\n"
-                "Congrats on becoming a CSSS Election Officer,\n\n"
-                "Please read the following documentation, which is linked here, "
-                "as it is a nightmare trying to figure out "
-                "markdown for gmail from a python script: https://github.com/CSSS/elections-documentation"
-            )
-        if body is not None:
-            # only sending an email if the new officer got a body which only happens if the user was granted access
-            # to any csss digital resources
-            sfu_csss_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")[0]
-            send_instructional_email_to_new_officer(
-                subject,
-                body,
-                "SFU CSSS",
-                sfu_csss_credentials.username,
-                full_name,
-                f"{sfuid}@sfu.ca",
-                sfu_csss_credentials.password
-            )
+        save_officer_and_grant_digital_resources(term_obj, phone_number, officer_position, full_name, full_name_in_pic,
+                                                 sfuid, announcement_email, github_username, gmail, start_date, course1,
+                                                 course2, language1, language2, bio, position_index,
+                                                 grant_digital_resources=True, github=github,
+                                                 gdrive=gdrive, gitlab=gitlab)
     return HttpResponseRedirect('/')
 
 
-def get_term_number(year, term_season):
-    """gets the term number using the year and term
-
-    Keyword Arguments
-    year -- the current year in YYYY format
-    term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
-
-    returns the term_number, which is in the format YYYY<1/2/3>
-
-    """
-    term_number = int(year) * 10
-    if term_season == "Spring":
-        return term_number + 1
-    elif term_season == "Summer":
-        return term_number + 2
-    elif term_season == "Fall":
-        return term_number + 3
-
-
-def get_term_info(term):
-    """gets the term year, term number and term identifier using the term object
-
-    Keyword Arguments
-    term -- the term object that the function will return its year, number and identifier for
-
-    Returns
-    term_year -- the year for the term object
-    term_season_number -- the number of the tem, e.g. 1, 2, or 3. this can also be -1 if the
-        term does not have a valid season
-    term_season -- the season for the term, e.g. Spring, Summer or Fall
-    """
-    term_year = term.year
-    term_season = term.term
-    if term_season == "Spring":
-        term_season_number = 1
-    elif term_season == "Summer":
-        term_season_number = 2
-    elif term_season == "Fall":
-        term_season_number = 3
-    else:
-        term_season_number = -1
-    return term_year, term_season_number, term_season
-
-
-def save_email_to_database(email, officer_object):
-    """Saves the email that the officer may use for the announcements
-
-    Keyword Arguments
-    email -- the email the officer may use
-    officer_object -- the officer who may use the email
-
-    """
-    AnnouncementEmailAddress(
-        email=email,
-        officer=officer_object
-    ).save()
-
-
-def save_officer_github_membership(officer, position):
-    """Adds the officers to the necessary github teams.
-    they will get added both to the default GITHUB_OFFICER_TEAM
-    as well as any other position specific github teams
-
-    Keyword Arguments
-    officer -- the officer to add to the github teams
-    position -- the position of the officer
-    """
-    github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
-    if position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
-        github.add_non_officer_to_a_team([officer.github_username], GITHUB_OFFICER_TEAM)
-        OfficerGithubTeam(team_name=GITHUB_OFFICER_TEAM, officer=officer).save()
-    applicable_github_teams = OfficerGithubTeamMapping.objects.filter(position=position)
-    for github_team in applicable_github_teams:
-        github.add_non_officer_to_a_team([officer.github_username], github_team.team_name)
-        OfficerGithubTeam(team_name=github_team, officer=officer).save()
-
-
-def remove_officer_from_naughty_list(full_name):
-    """Removes the office form the naughty list so that their permissions remain
-    even after a validation
-
-    Keyword Argument
-    full_name -- the full name of the officer
-    """
-    naughty_officers = NaughtyOfficer.objects.all()
-    for naughty_officer in naughty_officers:
-        if naughty_officer.name in full_name:
-            naughty_officer.delete()
-            return
-
-
-def send_instructional_email_to_new_officer(subject, body, from_name, from_email, to_name, to_email, password):
-    """Sends instruction email to the new officer on what resources are what and where to look for documentation
-
-    subject -- the subject of the email
-    body -- the body of the email
-    from_name -- the name to use in the from section of email
-    from_email -- the email to send the email from
-    to_name -- the name of the person to send the email to
-    to_email -- the email address to send the email to
-    password -- the password for the from_email
-    """
-    logger.info("[administration/manage_officers.py send_instructional_email_to_new_officer()] setting up "
-                "MIMEMultipart object")
-    msg = MIMEMultipart()
-    msg['From'] = from_name + " <" + from_email + ">"
-    msg['To'] = to_name + " <" + to_email + ">"
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body))
-    logger.info("[administration/manage_officers.py send_instructional_email_to_new_officer()] Connecting to "
-                "smtp.gmail.com:587")
-    server = smtplib.SMTP('smtp.gmail.com:587')
-    server.connect("smtp.gmail.com:587")
-    server.ehlo()
-    server.starttls()
+def position_mapping(request):
     logger.info(
-        f"[administration/manage_officers.py send_instructional_email_to_new_officer()] "
-        f"Logging into your {from_email}"
-    )
-    server.login(from_email, password)
-    logger.info("[administration/manage_officers.py send_instructional_email_to_new_officer()] Sending email...")
-    server.send_message(from_addr=from_email, to_addrs=to_email, msg=msg)
-    server.close()
+        f"[administration/manage_officers.py position_mapping()] request.POST={request.POST}")
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
+                                                                                          TAB_STRING)
+    if context is None:
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+        return render_value
+    context['OFFICER_POSITION_MAPPING_ID_KEY'] = OFFICER_POSITION_MAPPING_ID_KEY
+    context['OFFICER_POSITION_MAPPING_POSITION_KEY'] = OFFICER_POSITION_MAPPING_POSITION_KEY
+    context['OFFICER_POSITION_MAPPING_POSITION_INDEX_KEY'] = OFFICER_POSITION_MAPPING_POSITION_INDEX_KEY
+
+    if request.method == "POST":
+        post_dict = parser.parse(request.POST.urlencode())
+        if 'action' in post_dict:
+            if post_dict['action'] == "update":
+                position_mapping = OfficerPositionMapping.objects.get(id=post_dict[OFFICER_POSITION_MAPPING_ID_KEY])
+
+                new_position_index_for_officer_position = int(post_dict[OFFICER_POSITION_MAPPING_POSITION_INDEX_KEY])
+                new_name_for_officer_position = post_dict[OFFICER_POSITION_MAPPING_POSITION_KEY]
+                if not (
+                        new_name_for_officer_position == position_mapping.officer_position and new_position_index_for_officer_position == position_mapping.term_position_number):
+                    if new_name_for_officer_position == position_mapping.officer_position:
+                        success, error_message = validate_position_index(new_position_index_for_officer_position)
+                    else:
+                        success, error_message = validate_position_mappings(new_name_for_officer_position,
+                                                                            new_position_index_for_officer_position)
+                    if success:
+                        current_date = datetime.datetime.now()
+                        term_active = (current_date.year * 10)
+                        if int(current_date.month) <= 4:
+                            term_active += 1
+                        elif int(current_date.month) <= 8:
+                            term_active += 2
+                        else:
+                            term_active += 3
+                        term = Term.objects.get(term_number=term_active)
+                        officer_in_current_term_that_need_update = Officer.objects.all().filter(elected_term=term,
+                                                                                                position=position_mapping.officer_position)
+                        for officer in officer_in_current_term_that_need_update:
+                            officer.term_position_number = new_position_index_for_officer_position
+                            officer.save()
+                        position_mapping.officer_position = new_name_for_officer_position
+                        position_mapping.term_position_number = new_position_index_for_officer_position
+                        position_mapping.save()
+                    else:
+                        context[ERROR_MESSAGE_KEY] = error_message
+            elif post_dict['action'] == "delete":
+                position_mapping = OfficerPositionMapping.objects.get(id=post_dict[OFFICER_POSITION_MAPPING_ID_KEY])
+                position_mapping.marked_for_deletion = True
+                position_mapping.save()
+            elif post_dict['action'] == "un_delete":
+                position_mapping = OfficerPositionMapping.objects.get(id=post_dict[OFFICER_POSITION_MAPPING_ID_KEY])
+                position_mapping.marked_for_deletion = False
+                position_mapping.save()
+        else:
+            if there_are_multiple_entries(post_dict, "position"):
+                number_of_entries = len(post_dict["position"])
+                error_detected = False
+                unsaved_position_mappings = []
+                submitted_positions = []
+                submitted_position_indexes = []
+                for index in range(number_of_entries):
+                    position_name = post_dict["position"][index]
+                    position_index = post_dict["position_index"][index]
+                    unsaved_position_mappings.append({
+                        "Position": post_dict["position"][index],
+                        "Position_Index": post_dict["position_index"][index]
+                    })
+                    success, error_message = validate_position_mappings(
+                        position_name, position_index,
+                        submitted_positions, submitted_position_indexes,
+                    )
+                    submitted_positions.append(position_name)
+                    submitted_position_indexes.append(position_index)
+                    if not success:
+                        context[ERROR_MESSAGE_KEY] = error_message
+                        error_detected = True
+                if error_detected:
+                    context["unsaved_position_mappings"] = unsaved_position_mappings
+                else:
+                    for index in range(number_of_entries):
+                        position_name = post_dict["position"][index]
+                        position_index = post_dict["position_index"][index]
+                        save_position_mapping(position_name, position_index)
+            else:
+                success, error_message = validate_position_mappings(post_dict["position"], post_dict["position_index"])
+                if success:
+                    save_position_mapping(post_dict["position"], post_dict["position_index"])
+                else:
+                    unsaved_position_mappings = [{
+                        "Position": post_dict["position"],
+                        "Position_Index": post_dict["position_index"]
+                    }]
+                    context["unsaved_position_mappings"] = unsaved_position_mappings
+                    context[ERROR_MESSAGE_KEY] = error_message
+    position_mapping = OfficerPositionMapping.objects.all().order_by(
+        'term_position_number')
+    if len(position_mapping) > 0:
+        context['position_mapping'] = position_mapping
+    return render(request, 'about/officer_list_management/position_mapping.html', context)
+
+
+def validate_position_index(position_index, submitted_position_indexes=[]):
+    if len(OfficerPositionMapping.objects.all().filter(
+            term_position_number=position_index)) > 0 or position_index in submitted_position_indexes:
+        return False, f"Another Position already has an index of {position_index}"
+    return True, None
+
+
+def validate_position_mappings(position_name, position_index, submitted_positions=[], submitted_position_indexes=[]):
+    success, error_message = validate_position_index(position_index)
+    if not success:
+        return success, error_message
+    if len(OfficerPositionMapping.objects.all().filter(
+            officer_position=position_name)) > 0 or position_name in submitted_positions:
+        return False, f"the position of {position_name} already exists"
+    return True, None
+
+
+def save_position_mapping(position_name, position_index):
+    OfficerPositionMapping(officer_position=position_name, term_position_number=position_index).save()

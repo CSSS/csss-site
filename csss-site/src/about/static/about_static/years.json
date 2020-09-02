@@ -1,0 +1,58 @@
+{
+    "2017": {
+        "Spring": [
+            {
+              "position_type": "President",
+              "name": "President's Name",
+              "sfuid": "President's SFUID",
+              "announcement_email": ["announcement_email_that_isnt_sfuid_email@sfu.ca"],
+              "phone_number": 0,
+              "github_username": "President's Github",
+              "gmail": "President's Gmail",
+              "start_date": "YYYY-MM-DD",
+              "fav_course_1": "President's First Fav Course 1",
+              "fav_course_2": "President's First Fav Course 2",
+              "fav_language_1": "President's First Fav Language 1",
+              "fav_language_2": "President's First Fav Language 2",
+              "bio": "President's Bio",
+              "github_teams": ["President's github teams that aren't necessarily relevant to the position of presidents" ]
+            }
+        ],
+        "Summer": [
+            {
+              "position_type": "President",
+              "name": "President's Name",
+              "sfuid": "President's SFUID",
+              "announcement_email": ["announcement_email_that_isnt_sfuid_email@sfu.ca"],
+              "phone_number": 0,
+              "github_username": "President's Github",
+              "gmail": "President's Gmail",
+              "start_date": "YYYY-MM-DD",
+              "fav_course_1": "President's First Fav Course 1",
+              "fav_course_2": "President's First Fav Course 2",
+              "fav_language_1": "President's First Fav Language 1",
+              "fav_language_2": "President's First Fav Language 2",
+              "bio": "President's Bio",
+              "github_teams": ["President's github teams that aren't necessarily relevant to the position of presidents" ]
+            }
+        ],
+        "Fall": [
+            {
+              "position_type": "President",
+              "name": "President's Name",
+              "sfuid": "President's SFUID",
+              "announcement_email": ["announcement_email_that_isnt_sfuid_email@sfu.ca"],
+              "phone_number": 0,
+              "github_username": "President's Github",
+              "gmail": "President's Gmail",
+              "start_date": "YYYY-MM-DD",
+              "fav_course_1": "President's First Fav Course 1",
+              "fav_course_2": "President's First Fav Course 2",
+              "fav_language_1": "President's First Fav Language 1",
+              "fav_language_2": "President's First Fav Language 2",
+              "bio": "President's Bio",
+              "github_teams": ["President's github teams that aren't necessarily relevant to the position of presidents" ]
+            }
+        ]
+    }
+}

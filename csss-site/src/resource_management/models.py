@@ -1,5 +1,7 @@
 from django.db import models
 import datetime
+
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from about.models import Officer
@@ -40,6 +42,14 @@ class ProcessNewOfficer(models.Model):
     )
     used = models.BooleanField(
         default=False,
+    )
+
+    start_date = models.DateTimeField(
+        default=timezone.now
+    )
+
+    new_start_date = models.BooleanField(
+        default=True
     )
 
 

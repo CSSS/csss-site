@@ -18,9 +18,15 @@ def index(request):
     )
 
 
+def remove_time_from_start_date(officer):
+    officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
+    return officer
+
+
 def list_of_officers(request):
     context = create_main_context(request, TAB_STRING)
-    officers = Officer.objects.all().filter().order_by('elected_term__term_number', 'term_position_number')
+    officers = Officer.objects.all().filter().order_by('elected_term__term_number', 'term_position_number',
+                                                       '-start_date')
     now = datetime.datetime.now()
     term_active = (now.year * 10)
     if int(now.month) <= 4:
@@ -31,7 +37,7 @@ def list_of_officers(request):
         term_active += 3
     terms = Term.objects.all().order_by('-term_number')
     context.update({
-        'officers': officers,
+        'officers': list(map(remove_time_from_start_date, officers)),
         'term_active': term_active,
         'terms': terms,
     })

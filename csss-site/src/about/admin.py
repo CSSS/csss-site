@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from about.models import Officer, Term, AnnouncementEmailAddress
+from about.models import Officer, Term, AnnouncementEmailAddress, OfficerPositionMapping
 
 
 class TermAdmin(admin.ModelAdmin):
@@ -26,3 +26,10 @@ class AnnouncementEmailAdmin(admin.ModelAdmin):
 
 
 admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
+
+
+class OfficerPositionMappingAdmin(admin.ModelAdmin):
+    list_display = ('officer_position', 'term_position_number', 'marked_for_deletion')
+
+
+admin.site.register(OfficerPositionMapping, OfficerPositionMappingAdmin)

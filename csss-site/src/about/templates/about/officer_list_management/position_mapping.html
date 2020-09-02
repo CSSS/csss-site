@@ -1,0 +1,80 @@
+{% extends "csss/new_header.html" %}
+
+{% load static %}
+{% load staticfiles %}
+
+{% block content %}
+    {{ block.super }}
+    {% if error_message %}
+        <p style="color: red">Experienced Following Error<br>
+            {{ error_message }}<br>
+        </p>
+    {%  endif %}
+    {%  if position_mapping is not None %}
+        <table>
+            <tr>
+                <th>Position Mapping ID</th>
+                <th>Officer Positions</th>
+                <th>Officer Position Index</th>
+            </tr>
+            {%  for position in position_mapping %}
+                <tr>
+                    <form method="post">
+                        {%  csrf_token %}
+                        <td><input type="number" name="{{ OFFICER_POSITION_MAPPING_ID_KEY }}" value="{{ position.id }}" readonly required></td>
+                        <td><input type="text" name="{{ OFFICER_POSITION_MAPPING_POSITION_KEY }}" value="{{ position.officer_position }}"  required></td>
+                        <td><input type="number" name="{{ OFFICER_POSITION_MAPPING_POSITION_INDEX_KEY }}" value="{{ position.term_position_number }}" required></td>
+                        <td>
+                            {%  if position.marked_for_deletion is True %}
+                                <button name="action" value="un_delete" type="submit">Un-Delete</button>
+                            {%  else %}
+                                <button name="action" value="update" type="submit">Update</button>
+                                <button name="action" value="delete" type="submit">Delete</button>
+                            {%  endif %}
+                        </td>
+                    </form>
+                </tr>
+            {%  endfor %}
+        </table>
+    {%  endif %}
+
+    <form method="post" >
+        {%  csrf_token %}
+        <div id="new_officer_positions">
+            {%  for unsaved_position_mapping in unsaved_position_mappings %}
+                <div style="border: 3px solid black; padding: 10px;">
+                    <label for="position">Officer Position</label>
+                    <input type="text" id="position" name="position" value="{{ unsaved_position_mapping.Position }}" required><br>
+                    <label for="position_index">Officer Position Index</label>
+                    <input type="number" id="position_index" name="position_index" value="{{ unsaved_position_mapping.Position_Index }}" required><br>
+                </div>
+            {%  endfor %}
+            {%  if unsaved_position_mappings is None %}
+                <div style="border: 3px solid black; padding: 10px;">
+                    <label for="position">Officer Position</label>
+                    <input type="text" id="position" name="position" required><br>
+                    <label for="position_index">Officer Position Index</label>
+                    <input type="number" id="position_index" name="position_index" required><br>
+                </div>
+            {%  endif %}
+        </div>
+        <input type="button" value="Add another Position" onClick="addNominee('new_officer_positions');">
+        <input type="button" value="Remove the last Position Slot" onClick="removeNominee('#new_officer_positions');">
+        <button type="submit">Submit</button>
+    </form>
+    <script type="text/javascript">
+        function addNominee(divName){
+            var newNominee = document.createElement('div');
+            newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
+            newNominee.innerHTML += "<label for=\"position\">Officer Position</label>";
+            newNominee.innerHTML += "<input type=\"text\" id=\"position\" name=\"position\" required><br>";
+            newNominee.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
+            newNominee.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
+            newNominee.innerHTML += "</div>";
+            document.getElementById(divName).appendChild(newNominee);
+        }
+        function removeNominee(divName){
+            $(divName).children().last().remove();
+        }
+    </script>
+{% endblock %}

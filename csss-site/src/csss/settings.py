@@ -50,6 +50,7 @@ if "DB_TYPE" not in os.environ:
 DB_TYPE = os.environ['DB_TYPE']
 logger.info(f'[settings.py] DB_TYPE set to {DB_TYPE}')
 
+LOCALHOST = 'LOCALHOST' in os.environ
 
 if "BRANCH_NAME" in os.environ:
     BRANCH_NAME = os.environ['BRANCH_NAME']
@@ -286,7 +287,10 @@ logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 # for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 # static files from your project and copy them into STATIC_ROOT dir
 
-MEDIA_URL = '/MEDIA_URL/'
+if LOCALHOST:
+    MEDIA_URL = os.path.join(BASE_DIR, 'media_root/')
+else:
+    MEDIA_URL = '/MEDIA_URL/'
 logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
 
 # URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
