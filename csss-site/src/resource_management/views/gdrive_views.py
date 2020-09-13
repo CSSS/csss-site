@@ -1,5 +1,4 @@
 import logging
-import logging
 import time
 
 from django.conf import settings
