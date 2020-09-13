@@ -1,4 +1,4 @@
-import datetime
+import logging
 import logging
 import time
 
@@ -8,11 +8,11 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import Officer, Term
-from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
-from resource_management.models import NaughtyOfficer
-from .resource_apis.gdrive.gdrive_api import GoogleDrive
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
     ERROR_MESSAGE_KEY, get_current_active_term
+from resource_management.models import NaughtyOfficer
+from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
+from .resource_apis.gdrive.gdrive_api import GoogleDrive
 
 logger = logging.getLogger('csss_site')
 

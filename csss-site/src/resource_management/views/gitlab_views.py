@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 from about.models import Term, Officer

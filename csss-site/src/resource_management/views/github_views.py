@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 from django.conf import settings
@@ -7,10 +6,10 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import Term, Officer
-from resource_management.models import NonOfficerGithubMember, NaughtyOfficer, OfficerGithubTeam
-from .resource_apis.github.github_api import GitHubAPI
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
     ERROR_MESSAGE_KEY, get_current_active_term
+from resource_management.models import NonOfficerGithubMember, NaughtyOfficer, OfficerGithubTeam
+from .resource_apis.github.github_api import GitHubAPI
 
 GITHUB_RECORD_KEY = 'record_id'
 GITHUB_USERNAME_KEY = 'user_name'
