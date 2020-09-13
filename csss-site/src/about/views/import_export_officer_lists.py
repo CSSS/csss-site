@@ -102,7 +102,7 @@ def save_officers_in_csv(request, overwrite):
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
-            if re.match(f"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):
+            if re.match(f"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):  # noqa: W605
                 year = (row[YEAR_AND_TERM_COLUMN].strip()[row[YEAR_AND_TERM_COLUMN].strip().find(" "):]).strip()
                 term = row[YEAR_AND_TERM_COLUMN].strip()[:row[YEAR_AND_TERM_COLUMN].strip().find(" ")].strip()
             logger.info(f"going through term {term} {year}")
@@ -155,7 +155,7 @@ def return_member_json(row):
         'fav_language_2': row[FAVORITE_LANGUAGES_COLUMN][language_divider + 2:],
         'bio': row[BIO_COLUMN].replace("[comma]", ",").replace("\\n", "<br/>")
     }
-    if not re.match("\d\d\d\d-\d\d-\d\d", member["start_date"]):
+    if not re.match("\d\d\d\d-\d\d-\d\d", member["start_date"]):  # noqa: W605
         error_message = f"invalid start date of '{member['start_date']}' for officer '{member['name']}' specified"
         logger.info(f"[about/import_export_officer_lists return_member_json()] {error_message}")
         return False, None, error_message
@@ -192,8 +192,8 @@ def extract_multiple_values_from_csv_column(column, default_value=None, delimite
                         f"returning values {[default_value]}")
             return [default_value]
         else:
-            logger.info(f"[about/import_export_officer_lists extract_multiple_values_from_csv_column()] "
-                        f"returning no values")
+            logger.info("[about/import_export_officer_lists extract_multiple_values_from_csv_column()] "
+                        "returning no values")
             return []
     else:
         if default_value is not None:
@@ -209,7 +209,8 @@ def save_yearly_document(officer_json, overwrite):
 
     Keyword Argument
     officer_json -- a json of officers that can support multiple years and term
-    overwrite -- indicates whether or not to delete the officer that already exist under any of the terms specified in the JSON
+    overwrite -- indicates whether or not to delete the officer that already exist under
+     any of the terms specified in the JSON
 
     Return
     error_message -- the error_message if there was one or just None otherwise
@@ -321,13 +322,15 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     bio = officer['bio']
     sfu_officer_mailing_list_email = "NONE"
     github_teams = officer['github_teams']
-    success, officer_obj, error_message = save_officer_and_grant_digital_resources(phone_number, officer_position,
-                                                                                   full_name, sfuid, sfu_email_alias,
-                                                                                   announcement_emails, github_username,
-                                                                                   gmail, start_date, fav_course_1,
-                                                                                   fav_course_2, fav_language_1,
-                                                                                   fav_language_2, bio, position_index,
-                                                                                   term_obj,
-                                                                                   sfu_officer_mailing_list_email,
-                                                                                   github_teams=github_teams)
+    success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+        phone_number, officer_position,
+        full_name, sfuid, sfu_email_alias,
+        announcement_emails, github_username,
+        gmail, start_date, fav_course_1,
+        fav_course_2, fav_language_1,
+        fav_language_2, bio, position_index,
+        term_obj,
+        sfu_officer_mailing_list_email,
+        github_teams=github_teams
+    )
     return success, error_message

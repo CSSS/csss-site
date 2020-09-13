@@ -76,8 +76,8 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                                              github_teams=None, github_api=None, gdrive_api=None, gitlab_api=None,
                                              send_email_notification=False):
     """
-    Saves the officer with all the necessary info and gives them access to digital resources if flags indicate that they
-    should be given access
+    Saves the officer with all the necessary info and gives them access to digital resources
+     if flags indicate that they should be given access
 
     Keyword Argument
     phone_number -- officer's phone number
@@ -96,10 +96,11 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
     position_index -- the index for the officer's position
     term_obj -- the term that the officer's info is being saved for
     sfu_officer_mailing_list_email -- the sfu email list that the officer will be contact-able at
-    remove_from_naughty_list -- indicates whether or not to remove the officer from the list that determines whether or not
-    to keep their name in the list that prevents them from gaining access to CSSS resources
-    github_teams -- the specific teams that the officer should be added to. This has higher priority than any other designation
-    if specified
+    remove_from_naughty_list -- indicates whether or not to remove the officer from the list
+     that determines whether or not to keep their name in the list that prevents them from
+     gaining access to CSSS resources
+    github_teams -- the specific teams that the officer should be added to. This has higher
+     priority than any other designation if specified
     github_api -- the github object that is used to communicate with github API
     gdrive_api -- the google drive object that is used to communicate with the google drive API
     gitlab_api -- the SFU gitlab object that is used to communicate with the SFU gitlab API
@@ -130,9 +131,10 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
         start_date = datetime.datetime.strptime(start_date, "%A, %d %b %Y %I:%m %S %p")
 
     officer_obj = Officer(position=officer_position, term_position_number=position_index, name=full_name,
-                          sfuid=sfuid, sfu_email_alias=sfu_email_alias, phone_number=phone_number, github_username=github_username,
-                          gmail=gmail, course1=fav_course_1, course2=fav_course_2, language1=fav_language_1,
-                          language2=fav_language_2, bio=bio, image=pic_path, elected_term=term_obj,
+                          sfuid=sfuid, sfu_email_alias=sfu_email_alias, phone_number=phone_number,
+                          github_username=github_username, gmail=gmail, course1=fav_course_1,
+                          course2=fav_course_2, language1=fav_language_1, language2=fav_language_2, bio=bio,
+                          image=pic_path, elected_term=term_obj,
                           sfu_officer_mailing_list_email=sfu_officer_mailing_list_email, start_date=start_date)
 
     officer_obj.save()
@@ -238,13 +240,14 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
     officer -- the officer to add to the github teams
     position -- the position of the officer
     github_api -- the github object that is used to communicate with github API
-    github_teams -- the specific teams that the officer should be added to. This has higher priority than any other designation
+    github_teams -- the specific teams that the officer should be added to. This has higher
+     priority than any other designation
     if specified
     """
     if github_teams is None:
         logger.info(
             "[about/officer_management_helper.py _save_officer_github_membership()] "
-            f"github_teams is None, will save the officer under regular designations"
+            "github_teams is None, will save the officer under regular designations"
         )
         if position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
             if github_api is not None:

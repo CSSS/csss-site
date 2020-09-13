@@ -515,7 +515,7 @@ def process_information_entered_by_officer(request):
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = \
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
-                else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
+            else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         sfuid = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
@@ -542,45 +542,51 @@ def process_information_entered_by_officer(request):
             gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
             github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
             gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
-            success, officer_obj, error_message = save_officer_and_grant_digital_resources(phone_number,
-                                                                                           officer_position, full_name,
-                                                                                           sfuid, sfu_email_alias,
-                                                                                           announcement_email,
-                                                                                           github_username, gmail,
-                                                                                           start_date, course1, course2,
-                                                                                           language1, language2, bio,
-                                                                                           position_index, term_obj,
-                                                                                           sfu_officer_mailing_list_email,
-                                                                                           remove_from_naughty_list=True,
-                                                                                           github_api=github,
-                                                                                           gdrive_api=gdrive,
-                                                                                           gitlab_api=gitlab,
-                                                                                           send_email_notification=True)
+            success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+                phone_number,
+                officer_position, full_name,
+                sfuid, sfu_email_alias,
+                announcement_email,
+                github_username, gmail,
+                start_date, course1, course2,
+                language1, language2, bio,
+                position_index, term_obj,
+                sfu_officer_mailing_list_email,
+                remove_from_naughty_list=True,
+                github_api=github,
+                gdrive_api=gdrive,
+                gitlab_api=gitlab,
+                send_email_notification=True
+            )
         elif officer_position in ELECTION_OFFICER_POSITIONS:
             github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
-            success, officer_obj, error_message = save_officer_and_grant_digital_resources(phone_number,
-                                                                                           officer_position, full_name,
-                                                                                           sfuid, sfu_email_alias,
-                                                                                           announcement_email,
-                                                                                           github_username, gmail,
-                                                                                           start_date, course1, course2,
-                                                                                           language1, language2, bio,
-                                                                                           position_index, term_obj,
-                                                                                           sfu_officer_mailing_list_email,
-                                                                                           remove_from_naughty_list=True,
-                                                                                           github_api=github,
-                                                                                           send_email_notification=True)
+            success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+                phone_number,
+                officer_position, full_name,
+                sfuid, sfu_email_alias,
+                announcement_email,
+                github_username, gmail,
+                start_date, course1, course2,
+                language1, language2, bio,
+                position_index, term_obj,
+                sfu_officer_mailing_list_email,
+                remove_from_naughty_list=True,
+                github_api=github,
+                send_email_notification=True
+            )
         elif officer_position in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
-            success, officer_obj, error_message = save_officer_and_grant_digital_resources(phone_number,
-                                                                                           officer_position, full_name,
-                                                                                           sfuid, sfu_email_alias,
-                                                                                           announcement_email,
-                                                                                           github_username, gmail,
-                                                                                           start_date, course1, course2,
-                                                                                           language1, language2, bio,
-                                                                                           position_index, term_obj,
-                                                                                           sfu_officer_mailing_list_email,
-                                                                                           send_email_notification=True)
+            success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+                phone_number,
+                officer_position, full_name,
+                sfuid, sfu_email_alias,
+                announcement_email,
+                github_username, gmail,
+                start_date, course1, course2,
+                language1, language2, bio,
+                position_index, term_obj,
+                sfu_officer_mailing_list_email,
+                send_email_notification=True
+            )
         if success is False:
             logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
                         f" unable to save the officer due to {error_message}")

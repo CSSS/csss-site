@@ -13,8 +13,9 @@ admin.site.register(Term, TermAdmin)
 
 class OfficerAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'elected_term', 'term_position_number', 'position', 'start_date', 'sfuid', 'sfu_email_alias', 'phone_number',
-        'github_username', 'gmail', 'course1', 'course2', 'language1', 'language2'
+        'name', 'elected_term', 'term_position_number', 'position', 'start_date',
+        'sfuid', 'sfu_email_alias', 'phone_number', 'github_username', 'gmail',
+        'course1', 'course2', 'language1', 'language2'
     )
 
 

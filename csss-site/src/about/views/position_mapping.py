@@ -1,4 +1,3 @@
-import datetime
 import logging
 
 from django.shortcuts import render
@@ -56,7 +55,8 @@ def position_mapping(request):
                 if not (new_name_for_officer_position == position_mapping_for_selected_officer.officer_position and
                         new_position_index_for_officer_position ==
                         position_mapping_for_selected_officer.term_position_number and
-                        new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email):
+                        new_sfu_email_list_address_for_officer_position ==
+                        position_mapping_for_selected_officer.email):
                     logger.info("[about/position_mapping.py position_mapping()] the user's change to the position "
                                 f"{position_mapping_for_selected_officer.officer_position} was detected")
                     # if anything has been changed for the selected position
@@ -82,7 +82,8 @@ def position_mapping(request):
                                         f"{position_mapping_for_selected_officer.officer_position}")
                             for officer in officer_in_current_term_that_need_update:
                                 officer.term_position_number = new_position_index_for_officer_position
-                                officer.sfu_officer_mailing_list_email = new_sfu_email_list_address_for_officer_position
+                                officer.sfu_officer_mailing_list_email = \
+                                    new_sfu_email_list_address_for_officer_position
                                 officer.position = new_name_for_officer_position
                                 officer.save()
                         position_mapping_for_selected_officer.officer_position = new_name_for_officer_position
@@ -113,8 +114,8 @@ def position_mapping(request):
                 # error which causes none of them to be saved
 
                 # saves the position and position indexes checked so far so that the validator can check the
-                # given position and its index against all in the database and the previous checked positions and their
-                # indices
+                # given position and its index against all in the database and the previous checked
+                # positions and their indices
                 submitted_positions = []
                 submitted_position_indexes = []
                 number_of_entries = len(post_dict["position_name"])
@@ -135,7 +136,8 @@ def position_mapping(request):
                     submitted_position_indexes.append(position_index)
                     if not success:
                         context[ERROR_MESSAGES_KEY].extend(f"{error_message}")
-                        logger.info("[about/position_mapping.py position_mapping()] unable to validate the new position"
+                        logger.info("[about/position_mapping.py position_mapping()] "
+                                    "unable to validate the new position"
                                     f" {position_name} due to {error_message}")
                         error_detected = True
                 if error_detected:
@@ -151,7 +153,8 @@ def position_mapping(request):
                 success, error_message = validate_position_mappings(post_dict["position_index"],
                                                                     post_dict["position_name"])
                 if success:
-                    logger.info(f"[about/position_mapping.py position_mapping()] new position {post_dict['position_name']} passed validation")
+                    logger.info("[about/position_mapping.py position_mapping()] new position"
+                                f" {post_dict['position_name']} passed validation")
 
                     OfficerEmailListAndPositionMapping(officer_position=post_dict["position_name"],
                                                        term_position_number=post_dict["position_index"],
@@ -177,7 +180,8 @@ def validate_position_index(position_index, submitted_position_indexes=None):
 
     Keyword Argument
     position_index -- the new position index
-    submitted_position_indexes -- other indexes specified by the user so far if they are submitting multiple positions at once
+    submitted_position_indexes -- other indexes specified by the user so far
+     if they are submitting multiple positions at once
 
     Return
     success -- True or False if the new position index is not already used
@@ -201,7 +205,8 @@ def validate_position_name(position_name, submitted_position_names=None):
 
     Keyword Argument
     position_name -- the new position name
-    submitted_position_names -- other names specified by the user so far if they are submitting multiple positions at once
+    submitted_position_names -- other names specified by the user so far if they
+     are submitting multiple positions at once
 
     Return
     success -- True or False if the new position name is not already used
@@ -227,8 +232,10 @@ def validate_position_mappings(position_index, position_name, submitted_position
     Keyword Argument
     position_name -- the new position name
     position_index -- the new position index
-    submitted_position_names -- other names specified by the user so far if they are submitting multiple positions at once
-    submitted_position_indexes -- other indexes specified by the user so far if they are submitting multiple positions at once
+    submitted_position_names -- other names specified by the user so far if they are
+     submitting multiple positions at once
+    submitted_position_indexes -- other indexes specified by the user so far if they are submitting
+     multiple positions at once
 
     Return
     success -- True or False if the new position name or index is not already used
