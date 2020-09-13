@@ -41,7 +41,7 @@
 
 
             <p>Start-Date <id style="color: #ff0000">*</id>
-                <input type="date" name="date"  value="{{date_value}}" required><input type="time" name="time" value="{{time_value}}" required>
+                <input type="date" name="date"  value="{{date_value}}" required>
 
             <p>Positions *<br>(enter them in a newline separated list)<br>
                 <textarea name="positions" cols=40" rows=10" required>{{ positions }}</textarea>
@@ -49,13 +49,29 @@
 
             Overwrite Current Officer for selected term <id style="color: #ff0000">*</id>
             <br>
-            <input type="radio" name="overwrite" value="true" required>Yes
-            <input type="radio" name="overwrite" value="false" required>No
+            {%  if overwrite_value == "true" %}
+                <input type="radio" name="overwrite" value="true" checked="checked" required>Yes
+                <input type="radio" name="overwrite" value="false" required>No
+            {% elif overwrite_value == "false" %}
+                <input type="radio" name="overwrite" value="true" required>Yes
+                <input type="radio" name="overwrite" value="false" checked="checked" required>No
+            {% else %}
+                <input type="radio" name="overwrite" value="true" required>Yes
+                <input type="radio" name="overwrite" value="false" required>No
+            {%  endif %}
 
             <br><br>Use new start date for above officers <id style="color: #ff0000">*</id>
             <br>
-            <input type="radio" name="new_start_date" value="true" required>Yes
-            <input type="radio" name="new_start_date" value="false" required>No
+            {%  if start_date_value == "true" %}
+                <input type="radio" name="new_start_date" value="true" checked="checked" required>Yes
+                <input type="radio" name="new_start_date" value="false" required>No
+            {% elif start_date_value == "false" %}
+                <input type="radio" name="new_start_date" value="true" required>Yes
+                <input type="radio" name="new_start_date" value="false" checked="checked" required>No
+            {% else %}
+                <input type="radio" name="new_start_date" value="true" required>Yes
+                <input type="radio" name="new_start_date" value="false" required>No
+            {%  endif %}
 
             <br><br><input type="submit" value="submit" />
             <br>

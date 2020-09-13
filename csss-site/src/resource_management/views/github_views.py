@@ -10,7 +10,7 @@ from about.models import Term, Officer
 from resource_management.models import NonOfficerGithubMember, NaughtyOfficer, OfficerGithubTeam
 from .resource_apis.github.github_api import GitHubAPI
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+    ERROR_MESSAGE_KEY, get_current_active_term
 
 GITHUB_RECORD_KEY = 'record_id'
 GITHUB_USERNAME_KEY = 'user_name'
@@ -184,14 +184,7 @@ def create_github_perms():
         ],
     }
     """
-    current_date = datetime.datetime.now()
-    term_active = (current_date.year * 10)
-    if int(current_date.month) <= 4:
-        term_active += 1
-    elif int(current_date.month) <= 8:
-        term_active += 2
-    else:
-        term_active += 3
+    term_active = get_current_active_term()
     officers = []
 
     for index in range(0, 5):

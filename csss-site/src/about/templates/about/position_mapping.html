@@ -5,25 +5,29 @@
 
 {% block content %}
     {{ block.super }}
-    {% if error_message %}
+    {% if error_messages %}
         <p style="color: red">Experienced Following Error<br>
-            {{ error_message }}<br>
+            {% for error_message in error_messages %}
+                {{ error_message }}<br>
+            {%  endfor %}
         </p>
     {%  endif %}
     {%  if position_mapping is not None %}
         <table>
             <tr>
-                <th>Position Mapping ID</th>
-                <th>Officer Positions</th>
-                <th>Officer Position Index</th>
+                <th>Position Mapping IDs</th>
+                <th>Officer Position Indices</th>
+                <th>Officer Position Names</th>
+                <th>Officer SFU Email-List Addresses</th>
             </tr>
             {%  for position in position_mapping %}
                 <tr>
                     <form method="post">
                         {%  csrf_token %}
-                        <td><input type="number" name="{{ OFFICER_POSITION_MAPPING_ID_KEY }}" value="{{ position.id }}" readonly required></td>
-                        <td><input type="text" name="{{ OFFICER_POSITION_MAPPING_POSITION_KEY }}" value="{{ position.officer_position }}"  required></td>
-                        <td><input type="number" name="{{ OFFICER_POSITION_MAPPING_POSITION_INDEX_KEY }}" value="{{ position.term_position_number }}" required></td>
+                        <td><input type="number" name="{{ OFFICER_POSITION_MAPPING__ID_KEY }}" value="{{ position.id }}" readonly required></td>
+                        <td><input type="number" name="{{ OFFICER_POSITION_MAPPING__POSITION_INDEX_KEY }}" value="{{ position.term_position_number }}" required></td>
+                        <td><input type="text" name="{{ OFFICER_POSITION_MAPPING__POSITION_NAME_KEY }}" value="{{ position.officer_position }}"  required></td>
+                        <td><input type="text" name="{{ OFFICER_POSITION_MAPPING__POSITION_EMAIL_KEY }}" value="{{ position.email }}" required></td>
                         <td>
                             {%  if position.marked_for_deletion is True %}
                                 <button name="action" value="un_delete" type="submit">Un-Delete</button>
@@ -43,18 +47,22 @@
         <div id="new_officer_positions">
             {%  for unsaved_position_mapping in unsaved_position_mappings %}
                 <div style="border: 3px solid black; padding: 10px;">
-                    <label for="position">Officer Position</label>
-                    <input type="text" id="position" name="position" value="{{ unsaved_position_mapping.Position }}" required><br>
                     <label for="position_index">Officer Position Index</label>
-                    <input type="number" id="position_index" name="position_index" value="{{ unsaved_position_mapping.Position_Index }}" required><br>
+                    <input type="number" id="position_index" name="position_index" value="{{ unsaved_position_mapping.position_index }}" required><br>
+                    <label for="position_name">Officer Position Name</label>
+                    <input type="text" id="position_name" name="position_name" value="{{ unsaved_position_mapping.position_name }}" required><br>
+                    <label for="position_email">Officer Position Email</label>
+                    <input type="text" id="position_email" name="position_email" value="{{ unsaved_position_mapping.position_email }}" required><br>
                 </div>
             {%  endfor %}
             {%  if unsaved_position_mappings is None %}
                 <div style="border: 3px solid black; padding: 10px;">
-                    <label for="position">Officer Position</label>
-                    <input type="text" id="position" name="position" required><br>
                     <label for="position_index">Officer Position Index</label>
                     <input type="number" id="position_index" name="position_index" required><br>
+                    <label for="position_name">Officer Position Name</label>
+                    <input type="text" id="position_name" name="position_name" required><br>
+                    <label for="position_email">Officer Position Email</label>
+                    <input type="text" id="position_email" name="position_email" required><br>
                 </div>
             {%  endif %}
         </div>
@@ -66,10 +74,12 @@
         function addNominee(divName){
             var newNominee = document.createElement('div');
             newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
-            newNominee.innerHTML += "<label for=\"position\">Officer Position</label>";
-            newNominee.innerHTML += "<input type=\"text\" id=\"position\" name=\"position\" required><br>";
             newNominee.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
             newNominee.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
+            newNominee.innerHTML += "<label for=\"position_name\">Officer Position Name</label>";
+            newNominee.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
+            newNominee.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
+            newNominee.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
             newNominee.innerHTML += "</div>";
             document.getElementById(divName).appendChild(newNominee);
         }

@@ -52,6 +52,11 @@ class ProcessNewOfficer(models.Model):
         default=True
     )
 
+    sfu_officer_mailing_list_email = models.CharField(
+        max_length=140,
+        default="NA"
+    )
+
 
 class GoogleMailAccountCredentials(models.Model):
     username = models.CharField(

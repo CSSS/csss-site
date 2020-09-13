@@ -53,6 +53,11 @@ class Officer(models.Model):
         default="NA"
     )
 
+    sfu_email_alias = models.CharField(
+        max_length=140,
+        default="NA"
+    )
+
     phone_number = models.BigIntegerField(
         default=0
     )
@@ -106,6 +111,10 @@ class Officer(models.Model):
         Term,
         on_delete=models.CASCADE,
     )
+    sfu_officer_mailing_list_email = models.CharField(
+        max_length=140,
+        default="NA"
+    )
 
     def __str__(self):
         return f" {self.elected_term} {self.name}"
@@ -125,14 +134,19 @@ class AnnouncementEmailAddress(models.Model):
         return f"{self.officer.name} {self.email} {self.officer.elected_term}"
 
 
-class OfficerPositionMapping(models.Model):
+class OfficerEmailListAndPositionMapping(models.Model):
+    term_position_number = models.IntegerField(
+        default=0,
+    )
     officer_position = models.CharField(
         max_length=300,
         default="President"
     )
-    term_position_number = models.IntegerField(
-        default=0,
+    email = models.CharField(
+        max_length=140,
+        default="NA"
     )
+
     marked_for_deletion = models.BooleanField(
         default=False
     )

@@ -4,6 +4,11 @@
     {{ block.super }}
     {% load static %}
     {% load staticfiles %}
+        {% if error_message %}
+        <p style="color: red">Experienced Following Error<br>
+            {{ error_message }}<br>
+        </p>
+    {%  endif %}
         <form action="{{URL_ROOT}}about/input_officer_info" method="post">
             {% csrf_token %}
             <p>
@@ -13,19 +18,23 @@
                 <b>Start Date</b>: <input type="text" name="date" value="{{date_value}}" readonly size="25" >
             </p>
             <input hidden type="text" name="term_position_number" value="{{term_position_number_value}}" >
+            <input hidden type="text" name="sfu_email_list_address" value="{{sfu_email_list_address_value}}" >
             <p><b>Name</b>: <input type="text" name="name" value="{{name_value}}" required ></p>
             <p><b>SFUID</b>: <input type="text" name="sfuid" value="{{sfuid_value}}" required >@sfu.ca</p>
+            <p><b>SFUID Email alias</b>: <input type="text" name="sfuid_email_alias" value="{{sfuid_email_alias_value}}" required >@sfu.ca</p>
             <p>
-                <b>Emails</b> <br>
-                <i>Follow these instructions to determine your SFU emails:</i>
-            <ol style="margin-left: 2em;">
-                <li>go to <a href="https://www.sfu.ca/sfuds" target="_blank">SFU Directory Entry</a></li>
-                <li>Login</li>
-                <li>click on <code>[Edit My Entry]</code></li>
-                <li>list all the emails that appear in the list for <code>Email Address ("From" address in SFU Mail):</code> that is not <code>sfuid@sfu.ca</code></li>
-            </ol>
-            use commas to separate multiple emails):<br>
-            <textarea name="email" cols="80" rows="2" required>{{email_value}}</textarea>
+                <i>Follow these instructions to determine your SFUID Email alias:</i>
+                <ol style="margin-left: 2em;">
+                    <li>Login to <a href="https://www.sfu.ca/sfuds" target="_blank">SFU Directory Entry</a></li>
+                    <li>click on <code>[Edit My Entry]</code></li>
+                    <li>Enter the email that appear in the list for <code>Email Address ("From" address in SFU Mail):</code> that is not <code>sfuid@sfu.ca</code></li>
+                </ol>
+            </p>
+
+            <p>
+                <b>Additional email addresses you may use to send emails to the CSSS student body</b> <br>
+                (use commas to separate multiple emails):<br>
+                <textarea name="email" cols="80" rows="2">{{email_value}}</textarea>
             </p>
             {%  if term_position_value != "By-Election Officer" and term_position_value != "General Election Officer" and term_position_value != "SFSS Council-Representative"%}
                 <p><b>Gmail</b>: <input type="text" name="gmail" value="{{ gmail_value }}" required></p>
