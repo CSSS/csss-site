@@ -516,7 +516,7 @@ def process_information_entered_by_officer(request):
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = \
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
-            else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
+                else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         sfuid = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
@@ -541,8 +541,35 @@ def process_information_entered_by_officer(request):
         success = False
         if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
             gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
+            if gdrive.connection_successful is False:
+                error_message = "unable to authenticate against sfucsss@gmail.com"
+                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
+                            f" {error_message}")
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_message
+                )
             github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+            if github.connection_successful is False:
+                error_message = "unable to authenticate against CSSS Github"
+                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
+                            f" {error_message}")
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_message
+                )
             gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
+            if gitlab.connection_successful is False:
+                error_message = "unable to authenticate against CSSS SFU Gitlab"
+                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
+                            f" {error_message}")
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_message
+                )
             success, officer_obj, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
@@ -561,6 +588,15 @@ def process_information_entered_by_officer(request):
             )
         elif officer_position in ELECTION_OFFICER_POSITIONS:
             github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+            if github.connection_successful is False:
+                error_message = "unable to authenticate against CSSS Github"
+                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
+                            f" {error_message}")
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_message
+                )
             success, officer_obj, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
