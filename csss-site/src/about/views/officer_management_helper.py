@@ -108,7 +108,6 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
 
     Returns
     success - true or False
-    officer_obj -- the officer that was created
     error_message -- error message if success is False
     """
 
@@ -137,7 +136,6 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                           image=pic_path, elected_term=term_obj,
                           sfu_officer_mailing_list_email=sfu_officer_mailing_list_email, start_date=start_date)
 
-    officer_obj.save()
     logger.info(
         "[about/officer_management_helper.py save_officer_and_grant_digital_resources()] "
         f"saved user term={term_obj} full_name={full_name} officer_position={officer_position}"
@@ -145,22 +143,33 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
 
     for email in announcement_emails:
         AnnouncementEmailAddress(email=email, officer=officer_obj).save()
-    _save_officer_github_membership(officer_obj, officer_position, github_api=github_api, github_teams=github_teams)
+
     if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
         if gdrive_api is not None:
             logger.info(
                 "[about/officer_management_helper.py save_officer_and_grant_digital_resources()] "
                 f"giving user {officer_obj} access to CSSS google drive"
             )
-            gdrive_api.add_users_gdrive([gmail])
+            success, file_name, error_message = gdrive_api.add_users_gdrive([gmail])
+            if not success:
+                return success, error_message
         if gitlab_api is not None:
             logger.info(
                 "[about/officer_management_helper.py save_officer_and_grant_digital_resources()] "
                 f"giving user {officer_obj} access to SFU CSSS Gitlab"
             )
-            gitlab_api.add_officer_to_csss_group([sfuid])
+            success, error_message = gitlab_api.add_officer_to_csss_group([sfuid])
+            if not success:
+                return success, error_message
     if remove_from_naughty_list:
         _remove_officer_from_naughty_list(full_name)
+
+    officer_obj.save()
+    success, error_message = _save_officer_github_membership(officer_obj, officer_position,
+                                                             github_api=github_api,
+                                                             github_teams=github_teams)
+    if not success:
+        return success, error_message
     subject = "Welcome to the CSSS"
     body = None
     if send_email_notification:
@@ -205,8 +214,8 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                 f"{sfuid}@sfu.ca",
                 sfu_csss_credentials.password
             )
-            return success, officer_obj, error_message
-    return True, officer_obj, None
+            return success, error_message
+    return True, None
 
 
 def _get_term_season_number(term):
@@ -243,6 +252,10 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
     github_teams -- the specific teams that the officer should be added to. This has higher
      priority than any other designation
     if specified
+
+    return
+    success -- true or false Bool
+    error_message -- the error_message if success is False or None otherwise
     """
     if github_teams is None:
         logger.info(
@@ -251,7 +264,17 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
         )
         if position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
             if github_api is not None:
-                github_api.add_non_officer_to_a_team([officer.github_username], GITHUB_OFFICER_TEAM)
+                success, error_message = github_api.add_non_officer_to_a_team(
+                    [officer.github_username],
+                    GITHUB_OFFICER_TEAM
+                )
+                if not success:
+                    logger.info(
+                        "[about/officer_management_helper.py _save_officer_github_membership()] "
+                        f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
+                        f"{error_message}"
+                    )
+                    return False, error_message
             OfficerGithubTeam(team_name=GITHUB_OFFICER_TEAM, officer=officer).save()
             logger.info(
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
@@ -260,7 +283,17 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
         applicable_github_teams = OfficerGithubTeamMapping.objects.filter(position=position)
         for github_team in applicable_github_teams:
             if github_api is not None:
-                github_api.add_non_officer_to_a_team([officer.github_username], github_team.team_name)
+                success, error_message = github_api.add_non_officer_to_a_team(
+                    [officer.github_username],
+                    github_team.team_name
+                )
+                if not success:
+                    logger.info(
+                        "[about/officer_management_helper.py _save_officer_github_membership()] "
+                        f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
+                        f"{error_message}"
+                    )
+                    return False, error_message
             OfficerGithubTeam(team_name=github_team, officer=officer).save()
             logger.info(
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
@@ -273,7 +306,17 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
         )
         for team in github_teams:
             if github_api is not None:
-                github_api.add_non_officer_to_a_team([officer.github_username], team)
+                success, error_message = github_api.add_non_officer_to_a_team(
+                    [officer.github_username],
+                    team
+                )
+                if not success:
+                    logger.info(
+                        "[about/officer_management_helper.py _save_officer_github_membership()] "
+                        f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
+                        f"{error_message}"
+                    )
+                    return False, error_message
             OfficerGithubTeam(team_name=team, officer=officer).save()
             logger.info(
                 "[about/officer_management_helper.py _save_officer_github_membership()] "

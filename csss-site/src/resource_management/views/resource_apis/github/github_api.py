@@ -9,8 +9,10 @@ class GitHubAPI:
 
     def __init__(self, access_token):
         self.connection_successful = False
+        self.error_message = None
         if access_token is None:
-            logger.info("access_token is not valid")
+            self.error_message = "access_token is not valid"
+            logger.info(self.error_message)
             return
         try:
             self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
@@ -20,16 +22,21 @@ class GitHubAPI:
             # #github.Organization.Organization
             self.connection_successful = True
         except Exception as e:
-            logger.error(
-                f"[Github __init__()] experienced following error when trying to connect to Github and get Org "
-                f"\"CSSS\":\n{e}")
+            self.error_message = f"experienced following error when trying to" \
+                                 f" connect to Github and get Org \"CSSS\":\n{e}"
+            logger.error(f"[Github __init__()] {self.error_message}")
 
     def add_non_officer_to_a_team(self, users, team_name):
-        """Add listed users to a specific team
+        """
+        Add listed users to a specific team
 
         Keyword Arguments:
         users -- a list of all the users who need to be added to the team
         team_name -- the name of the team to add them to
+
+        return
+        success -- true or false Bool
+        error_message -- the error_message if success is False or None otherwise
         """
         if self.connection_successful:
             try:

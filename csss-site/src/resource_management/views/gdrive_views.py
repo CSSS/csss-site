@@ -113,20 +113,20 @@ def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inpu
         if user_inputted_file_id == "" \
         else user_inputted_file_id
     if user_does_not_have_access_to_file(user_inputted_gmail, file_id):
-        successful, name, error_message = gdrive.add_users_gdrive([user_inputted_gmail], file_id)
+        successful, file_name, error_message = gdrive.add_users_gdrive([user_inputted_gmail], file_id)
         if successful:
             NonOfficerGoogleDriveUser(
                 name=user_legal_name,
                 gmail=user_inputted_gmail,
                 file_id=file_id,
-                file_name=name
+                file_name=file_name
             ).save()
-            return True, name, error_message
+            return True, file_name, error_message
         else:
             # display the error in `file_name_or_error_message` on front-end
             logger.error("[resource_management/gdrive_views.py add_user_to_gdrive()] experienced following "
                          f"error when adding user to file\n{error_message}")
-            return False, name, error_message
+            return False, file_name, error_message
     else:
         logger.info(
             f"[resource_management/gdrive_views.py add_user_to_gdrive()] {user_inputted_gmail}'s access "

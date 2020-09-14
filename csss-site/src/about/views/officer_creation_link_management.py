@@ -542,33 +542,30 @@ def process_information_entered_by_officer(request):
         if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
             gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
             if gdrive.connection_successful is False:
-                error_message = "unable to authenticate against sfucsss@gmail.com"
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {error_message}")
+                            f" {gdrive.error_message}")
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    error_message
+                    gdrive.error_message
                 )
             github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
             if github.connection_successful is False:
-                error_message = "unable to authenticate against CSSS Github"
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {error_message}")
+                            f" {github.error_message}")
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    error_message
+                    github.error_message
                 )
             gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
             if gitlab.connection_successful is False:
-                error_message = "unable to authenticate against CSSS SFU Gitlab"
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {error_message}")
+                            f" {gitlab.error_message}")
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    error_message
+                    gitlab.error_message
                 )
             success, officer_obj, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
