@@ -137,7 +137,7 @@ logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={GITLAB_PRIVATE_TOKEN}")
 logger.info(f"[settings.py] OFFICER_PHOTOS_PATH={OFFICER_PHOTOS_PATH}")
 
 if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
-    logger.error(f"[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
+    logger.error("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
     exit(1)
 
 if GDRIVE_TOKEN_LOCATION is not None and not os.path.isfile(GDRIVE_TOKEN_LOCATION):
@@ -325,7 +325,7 @@ logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 # for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 # static files from your project and copy them into STATIC_ROOT dir
 
-if LOCALHOST:
+if ENVIRONMENT == "LOCALHOST":
     MEDIA_URL = os.path.join(BASE_DIR, 'media_root/')
 else:
     MEDIA_URL = '/MEDIA_URL/'
