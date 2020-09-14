@@ -28,7 +28,7 @@ def list_of_officers(request):
     context.update({
         'officers': list(
             map(
-                remove_time_from_start_date,
+                fix_time_and_image_for_officer,
                 Officer.objects.all().filter().order_by('elected_term__term_number', 'term_position_number',
                                                         '-start_date')
             )
@@ -39,20 +39,22 @@ def list_of_officers(request):
     return render(request, 'about/list_of_officers.html', context)
 
 
-def remove_time_from_start_date(officer):
+def fix_time_and_image_for_officer(officer):
     """
-    removes the time from the start date for officer before showing it to front-end user
+    Fix the start date and officer's photo before showing to user
+    The start date needs its time component removed
+    the photo needs to be check to see if the officer's pic is valid and then if the stock photo is existent
 
     Keyword Argument
-    officer -- officer whose start date needs needs its time removed
+    officer -- officer whose start date and image needs to be changed
 
     Return
-    officer -- the officer whose start date's time was removed
+    officer -- the officer whose start date's time was removed and image was checked
     """
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
+    existent_stock_photo = os.path.isfile(f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg")
+    stock_photo_path = f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg" \
+        if existent_stock_photo else "No_valid_path_detected"
     if not os.path.isfile(officer.image):
-        if os.path.isfile(f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg"):
-            officer.image = os.path.isfile(f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg")
-        else:
-            officer.image = "No valid path detected"
+        officer.image = stock_photo_path
     return officer
