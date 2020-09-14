@@ -567,7 +567,7 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     gitlab.error_message
                 )
-            success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+            success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
                 sfuid, sfu_email_alias,
@@ -594,7 +594,7 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     error_message
                 )
-            success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+            success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
                 sfuid, sfu_email_alias,
@@ -609,7 +609,7 @@ def process_information_entered_by_officer(request):
                 send_email_notification=True
             )
         elif officer_position in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
-            success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+            success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
                 sfuid, sfu_email_alias,
