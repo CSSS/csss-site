@@ -66,13 +66,13 @@ class GoogleDrive:
                     creds = pickle.load(token)
         except EOFError as e:
             self.error_message = "encountered following error when trying to read" \
-                                 f" from {token_location}\n{e}"
+                                 f" from {token_location} for google drive\n{e}"
             logger.error(
                 f"[GoogleDrive __init__()] {self.error_message}")
             return
         except pickle.UnpicklingError as e:
             self.error_message = "encountered following error when trying to " \
-                                 f"validate the token {token_location}\n{e}"
+                                 f"validate the token {token_location} for google drive\n{e}"
             logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
             return
         else:
@@ -82,7 +82,7 @@ class GoogleDrive:
                     creds.refresh(Request())
                 else:
                     self.error_message = "no token detected at location" \
-                                         f" \"{token_location}\", please create locally " \
+                                         f" \"{token_location}\" for google drive, please create locally " \
                                          "and then upload to that location. "
                     logger.info(f"[GoogleDrive __init__()] {self.error_message} ")
                     return
