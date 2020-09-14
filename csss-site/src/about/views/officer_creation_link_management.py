@@ -275,7 +275,7 @@ def delete_current_term(year, term):
                 f"{year} {term}, for which there are {len(term_obj)} existent term[S] ")
     if len(term_obj) > 0:
         term_obj = term_obj[0]
-        officer_in_selected_term = Officer.objects.all().filter(term=term_obj)
+        officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
         for officer in officer_in_selected_term:
             officer.delete()
     new_officer_details = ProcessNewOfficer.objects.filter(term=term, year=year)
