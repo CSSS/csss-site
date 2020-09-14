@@ -322,7 +322,7 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
                 f"mapped officer {officer} to team {team}"
             )
-        return  True, None
+        return True, None
 
 
 def _remove_officer_from_naughty_list(full_name):
