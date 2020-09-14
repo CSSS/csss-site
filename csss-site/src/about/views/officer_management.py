@@ -1,6 +1,8 @@
 import datetime
 import logging
+import os
 
+from django.conf import settings
 from django.shortcuts import render
 
 from about.models import Officer, Term
@@ -48,4 +50,9 @@ def remove_time_from_start_date(officer):
     officer -- the officer whose start date's time was removed
     """
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
+    if not os.path.isfile(officer.image):
+        if os.path.isfile(f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg"):
+            officer.image = os.path.isfile(f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg")
+        else:
+            officer.image = "No valid path detected"
     return officer
