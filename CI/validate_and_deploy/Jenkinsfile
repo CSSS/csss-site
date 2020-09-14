@@ -47,6 +47,7 @@ pipeline {
                         export ENVIRONMENT=STAGING;
                         export HOST_ADDRESS=dev.sfucsss.org;
 
+                        export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
                         export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
                         export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
@@ -81,7 +82,7 @@ pipeline {
 
                         export GDRIVE_TOKEN_LOCATION="/home/csss/resource_management_tools_creds/token.pickle";
                         export OFFICER_PHOTOS_PATH="/mnt/csss_website_media/exec-photos";
-                        export GDRIVE_ROOT_FOLDER_ID="0B5w0O-VrxOd3UDg4Y3cyd3NFWEE";
+                        export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                         export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
 
