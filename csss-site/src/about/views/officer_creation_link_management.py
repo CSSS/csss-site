@@ -169,9 +169,9 @@ def show_page_with_creation_links(request):
         # this is necessary if the user is testing the site locally and therefore is using the port to access the
         # browser
         if settings.PORT is None:
-            base_url = f"{settings.HOST_ADDRESS}/about/allow_officer_to_choose_name?"
+            base_url = f"{settings.HOST_ADDRESS}{settings.URL_ROOT}about/allow_officer_to_choose_name?"
         else:
-            base_url = f"{settings.HOST_ADDRESS}:{settings.PORT}/about/allow_officer_to_choose_name?"
+            base_url = f"{settings.HOST_ADDRESS}:{settings.PORT}{settings.URL_ROOT}about/allow_officer_to_choose_name?"
         user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
         if request.POST[HTML_OVERWRITE_KEY] == "true":
             delete_current_term(request.POST[HTML_YEAR_KEY], request.POST[HTML_TERM_KEY])
