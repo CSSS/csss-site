@@ -144,12 +144,12 @@ if GDRIVE_TOKEN_LOCATION is not None and not os.path.isfile(GDRIVE_TOKEN_LOCATIO
     logger.error(f"[settings.py] file {GDRIVE_TOKEN_LOCATION} does not exist for GDRIVE_TOKEN_LOCATION")
     exit(1)
 
-if GITHUB_ACCESS_TOKEN is not None and not os.path.isfile(GITHUB_ACCESS_TOKEN):
-    logger.error(f"[settings.py] file {GITHUB_ACCESS_TOKEN} does not exist for GITHUB_ACCESS_TOKEN")
+if GITHUB_ACCESS_TOKEN is not None and not GITHUB_ACCESS_TOKEN != "":
+    logger.error("[settings.py] empty value for GITHUB_ACCESS_TOKEN")
     exit(1)
 
-if GITLAB_PRIVATE_TOKEN is not None and not os.path.isfile(GITLAB_PRIVATE_TOKEN):
-    logger.error(f"[settings.py] file {GITLAB_PRIVATE_TOKEN} does not exist for GITLAB_PRIVATE_TOKEN")
+if GITLAB_PRIVATE_TOKEN is not None and not GITLAB_PRIVATE_TOKEN != "":
+    logger.error("[settings.py] empty value for GITLAB_PRIVATE_TOKEN")
     exit(1)
 
 if OFFICER_PHOTOS_PATH is not None and not os.path.isdir(OFFICER_PHOTOS_PATH):
