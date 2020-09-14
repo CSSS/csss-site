@@ -44,6 +44,7 @@ pipeline {
 
                         export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
                         export DEBUG=true;
+                        export ENVIRONMENT=STAGING;
                         export HOST_ADDRESS=dev.sfucsss.org;
 
                         export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
@@ -75,6 +76,7 @@ pipeline {
                         export BASE_DIR=/home/csss;
                         export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
                         export DEBUG=false;
+                        export ENVIRONMENT=PRODUCTION;
                         export HOST_ADDRESS=sfucsss.org;
 
                         export GDRIVE_TOKEN_LOCATION="/home/csss/resource_management_tools_creds/token.pickle";

@@ -28,6 +28,20 @@ if "DEBUG" not in os.environ:
 DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
+if 'ENVIRONMENT' not in os.environ:
+    logger.error("[settings.py] ENVIRONMENT was not detected")
+    exit(1)
+ENVIRONMENT = os.environ['ENVIRONMENT']
+logger.info(f"[settings.py] ENVIRONMENT set to {ENVIRONMENT}")
+
+if ENVIRONMENT != "LOCALHOST" and ENVIRONMENT != "STAGING" and ENVIRONMENT != "PRODUCTION":
+    logger.info('[settings.py] ENVIRONMENT is not a valid value')
+    exit(1)
+
+if ENVIRONMENT == "LOCALHOST" and "PORT" not in os.environ:
+    logger.error("[settings.py] PORT is not set but the environment is LOCALHOST")
+    exit(1)
+
 if "PORT" in os.environ:
     PORT = os.environ['PORT']
 else:
@@ -43,77 +57,104 @@ ALLOWED_HOSTS = [HOST_ADDRESS]
 logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
 logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
-
 if "DB_TYPE" not in os.environ:
     logger.error("[settings.py] DB_TYPE is not detected")
     exit(1)
 DB_TYPE = os.environ['DB_TYPE']
 logger.info(f'[settings.py] DB_TYPE set to {DB_TYPE}')
 
-LOCALHOST = 'LOCALHOST' in os.environ
+if "BRANCH_NAME" not in os.environ and ENVIRONMENT == "STAGING":
+    logger.error("[settings.py] there is no branch name detected in staging environment")
+    exit(1)
 
+URL_ROOT = "/"
+URL_PATTERN = ""
+
+BRANCH_NAME = None
 if "BRANCH_NAME" in os.environ:
-    BRANCH_NAME = os.environ['BRANCH_NAME']
+    BRANCH_NAME = os.environ["BRANCH_NAME"]
     if BRANCH_NAME != "master":
-        URL_ROOT = f"/{os.environ['BRANCH_NAME']}/"
-        URL_PATTERN = f"{os.environ['BRANCH_NAME']}/"
-    else:
-        URL_ROOT = "/"
-        URL_PATTERN = ""
-    logger.info(f'[settings.py] BASE_DIR set to {BRANCH_NAME}')
-    logger.info(f'[settings.py] BASE_DIR set to {URL_ROOT}')
-    logger.info(f'[settings.py] BASE_DIR set to {URL_PATTERN}')
-else:
-    URL_ROOT = "/"
-    URL_PATTERN = ""
-    logger.info(f'[settings.py] BASE_DIR set to {URL_ROOT}')
-    logger.info(f'[settings.py] BASE_DIR set to {URL_PATTERN}')
+        URL_ROOT = f"/{BRANCH_NAME}/"
+        URL_PATTERN = f"{BRANCH_NAME}/"
+
+logger.info(f'[settings.py] BRANCH_NAME set to {BRANCH_NAME}')
+logger.info(f'[settings.py] URL_ROOT set to {URL_ROOT}')
+logger.info(f'[settings.py] URL_PATTERN set to {URL_PATTERN}')
 
 # SETTINGS FOR GOOGLE_DRIVE
 GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 
-if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
-    GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
-else:
-    GDRIVE_ROOT_FOLDER_ID = None
-if 'GDRIVE_TOKEN_LOCATION' in os.environ:
-    GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
-else:
-    GDRIVE_TOKEN_LOCATION = None
-if 'GITHUB_ACCESS_TOKEN' in os.environ:
-    GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
-else:
-    GITHUB_ACCESS_TOKEN = None
-if 'GITLAB_PRIVATE_TOKEN' in os.environ:
-    GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
-else:
-    GITLAB_PRIVATE_TOKEN = None
-if 'OFFICER_PHOTOS_PATH' in os.environ:
-    OFFICER_PHOTOS_PATH = os.environ['OFFICER_PHOTOS_PATH']
-else:
-    OFFICER_PHOTOS_PATH = None
+GDRIVE_ROOT_FOLDER_ID = None
+GDRIVE_TOKEN_LOCATION = None
+GITHUB_ACCESS_TOKEN = None
+GITLAB_PRIVATE_TOKEN = None
+OFFICER_PHOTOS_PATH = None
 
-if not DEBUG:
-    if GDRIVE_ROOT_FOLDER_ID is None:
-        logger.error("[settings.py] GDRIVE_ROOT_FOLDER_ID was not detected")
+if ENVIRONMENT == "LOCALHOST":
+    if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
+        GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
+    if 'GDRIVE_TOKEN_LOCATION' in os.environ:
+        GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
+    if 'GITHUB_ACCESS_TOKEN' in os.environ:
+        GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
+    if 'GITLAB_PRIVATE_TOKEN' in os.environ:
+        GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
+    if 'OFFICER_PHOTOS_PATH' in os.environ:
+        OFFICER_PHOTOS_PATH = os.environ['OFFICER_PHOTOS_PATH']
+
+elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
+    if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
         exit(1)
-
-    if GDRIVE_TOKEN_LOCATION is None:
-        logger.error("[settings.py] GDRIVE_TOKEN_LOCATION was not detected")
+        logger.error(f"[settings.py] GDRIVE_ROOT_FOLDER_ID it not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
+    if "GDRIVE_TOKEN_LOCATION" not in os.environ:
         exit(1)
-
-    if GITHUB_ACCESS_TOKEN is None:
-        logger.error("[settings.py] GITHUB_ACCESS_TOKEN was not detected")
+        logger.error(f"[settings.py] GDRIVE_TOKEN_LOCATION it not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
+    if "GITHUB_ACCESS_TOKEN" not in os.environ:
         exit(1)
-
-    if OFFICER_PHOTOS_PATH is None:
-        logger.error("[settings.py] OFFICER_PHOTOS_PATH was not detected")
+        logger.error(f"[settings.py] GITHUB_ACCESS_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
+    if "GITLAB_PRIVATE_TOKEN" not in os.environ:
         exit(1)
-
-    if GITLAB_PRIVATE_TOKEN is None:
-        logger.error("[settings.py] GITLAB_PRIVATE_TOKEN was not detected")
+        logger.error(f"[settings.py] GITLAB_PRIVATE_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
+    if "OFFICER_PHOTOS_PATH" not in os.environ:
         exit(1)
+        logger.error(f"[settings.py] OFFICER_PHOTOS_PATH it not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        OFFICER_PHOTOS_PATH = os.environ['OFFICER_PHOTOS_PATH']
 
+
+logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
+logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
+logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
+logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={GITLAB_PRIVATE_TOKEN}")
+logger.info(f"[settings.py] OFFICER_PHOTOS_PATH={OFFICER_PHOTOS_PATH}")
+
+if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
+    logger.error(f"[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
+    exit(1)
+
+if GDRIVE_TOKEN_LOCATION is not None and not os.path.isfile(GDRIVE_TOKEN_LOCATION):
+    logger.error(f"[settings.py] file {GDRIVE_TOKEN_LOCATION} does not exist for GDRIVE_TOKEN_LOCATION")
+    exit(1)
+
+if GITHUB_ACCESS_TOKEN is not None and not os.path.isfile(GITHUB_ACCESS_TOKEN):
+    logger.error(f"[settings.py] file {GITHUB_ACCESS_TOKEN} does not exist for GITHUB_ACCESS_TOKEN")
+    exit(1)
+
+if GITLAB_PRIVATE_TOKEN is not None and not os.path.isfile(GITLAB_PRIVATE_TOKEN):
+    logger.error(f"[settings.py] file {GITLAB_PRIVATE_TOKEN} does not exist for GITLAB_PRIVATE_TOKEN")
+    exit(1)
+
+if OFFICER_PHOTOS_PATH is not None and not os.path.isdir(OFFICER_PHOTOS_PATH):
+    logger.error(f"[settings.py] folder {OFFICER_PHOTOS_PATH} does not exist for OFFICER_PHOTOS_PATH")
+    exit(1)
 
 # Application definition
 
@@ -171,9 +212,7 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'csss.wsgi.application'
-
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/done/'
@@ -251,7 +290,6 @@ USE_L10N = True
 
 USE_TZ = False
 
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
@@ -305,7 +343,7 @@ logger.info(f'[settings.py] MEDIA_ROOT set to {MEDIA_ROOT}')
 
 
 FILE_FORM_MASTER_DIR = 'form_uploads/form_uploads/'
-FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR+'temporary_files/'  # temporary files from form upload go here
+FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR + 'temporary_files/'  # temporary files from form upload go here
 DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/'  # will be placed under the MEDIA_ROOT folder
 logger.info(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
 logger.info(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
