@@ -2,6 +2,7 @@ import datetime
 import logging
 import os
 
+from django.conf.global_settings import STATIC_ROOT
 from django.contrib.staticfiles import finders
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.shortcuts import render
@@ -87,21 +88,20 @@ def fix_time_and_image_for_officer(officer):
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
         officer.image = f"{path_prefix}{officer.image}"
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
-        absolute_path = finders.find(officer.image)
-        if absolute_path is None:
+        absolute_path = STATIC_ROOT + officer.image
+        if not os.path.isfile(absolute_path):
             officer.image = f"{path_prefix}stockPhoto.jpg"
             logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                         f"officer.image = {officer.image}")
         else:
+            officer.image = f"{path_prefix}stockPhoto.jpg"
+            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                        f"officer.image = {officer.image}")
             logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                         f"absolute_path = {absolute_path}")
             file_exists = staticfiles_storage.exists(absolute_path)
             logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                         f"file_exists = {file_exists}")
-            if not file_exists:
-                officer.image = f"{path_prefix}stockPhoto.jpg"
-            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                        f"officer.image = {officer.image}")
 
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
     return officer
