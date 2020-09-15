@@ -3,6 +3,7 @@ import logging
 import os
 
 from django.contrib.staticfiles import finders
+from django.contrib.staticfiles.storage import staticfiles_storage
 from django.shortcuts import render
 from django.templatetags.static import static
 
@@ -53,22 +54,47 @@ def fix_time_and_image_for_officer(officer):
     Return
     officer -- the officer whose start date's time was removed and image was checked
     """
-    path_prefix = "about_static/exec-photos/" \
-        if ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING" else ""
-    logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
-    logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
-    officer.image = f"{path_prefix}{officer.image}"
+    # path_prefix = "about_static/exec-photos/" \
+    #     if ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING" else ""
+    # logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
+    # logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
+    # officer.image = f"{path_prefix}{officer.image}"
+
+    # if ENVIRONMENT == "LOCALHOST":
+    #     officer.image = finders.find(officer.image)
+    # else:
+    #     absolute_path = finders.find(officer.image)
+    #     file_exists = staticfiles_storage.exists(absolute_path)
+    #     if file_exists
+    #     # officer.image = static(officer.image)
+    logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                f"officer_image_path = {officer.image}")
+    # if officer.image is None:
+    #     officer.image = f"{path_prefix}stockPhoto.jpg"
+    # else:
+    #     if not os.path.isfile(officer.image) and ENVIRONMENT == "LOCALHOST":
+    #         officer.image = f"{path_prefix}stockPhoto.jpg"
 
     if ENVIRONMENT == "LOCALHOST":
-        officer_image_path = finders.find(officer.image)
+        officer.image = f"{officer.image}"
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
+        officer.image = finders.find(officer.image)
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
+        if not os.path.isfile(officer.image):
+            officer.image = "stockPhoto.jpg"
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
     else:
-        officer_image_path = static(officer.image)
-    logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                f"officer_image_path = {officer_image_path}")
-    if officer_image_path is None:
-        officer.image = f"{path_prefix}stockPhoto.jpg"
-    else:
-        if not os.path.isfile(officer_image_path) and ENVIRONMENT == "LOCALHOST":
+        path_prefix = "about_static/exec-photos/"
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
+        officer.image = f"{path_prefix}{officer.image}"
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
+        absolute_path = finders.find(officer.image)
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] absolute_path = {absolute_path}")
+        file_exists = staticfiles_storage.exists(absolute_path)
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] file_exists = {file_exists}")
+        if not file_exists:
             officer.image = f"{path_prefix}stockPhoto.jpg"
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
+
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
     return officer
