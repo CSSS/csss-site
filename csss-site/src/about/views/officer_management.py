@@ -1,9 +1,8 @@
 import datetime
 import logging
 import os
-from django.contrib.staticfiles import finders
 
-from django.conf import settings
+from django.contrib.staticfiles import finders
 from django.shortcuts import render
 
 from about.models import Officer, Term
