@@ -88,12 +88,20 @@ def fix_time_and_image_for_officer(officer):
         officer.image = f"{path_prefix}{officer.image}"
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
         absolute_path = finders.find(officer.image)
-        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] absolute_path = {absolute_path}")
-        file_exists = staticfiles_storage.exists(absolute_path)
-        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] file_exists = {file_exists}")
-        if not file_exists:
+        if absolute_path is None:
             officer.image = f"{path_prefix}stockPhoto.jpg"
-        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
+            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                        f"officer.image = {officer.image}")
+        else:
+            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                        f"absolute_path = {absolute_path}")
+            file_exists = staticfiles_storage.exists(absolute_path)
+            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                        f"file_exists = {file_exists}")
+            if not file_exists:
+                officer.image = f"{path_prefix}stockPhoto.jpg"
+            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                        f"officer.image = {officer.image}")
 
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
     return officer
