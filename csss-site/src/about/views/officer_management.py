@@ -7,6 +7,7 @@ from django.shortcuts import render
 
 from about.models import Officer, Term
 from about.views.officer_management_helper import TAB_STRING
+from csss.settings import ENVIRONMENT
 from csss.views_helper import create_main_context, get_current_active_term
 
 logger = logging.getLogger('csss_site')
@@ -51,11 +52,14 @@ def fix_time_and_image_for_officer(officer):
     Return
     officer -- the officer whose start date's time was removed and image was checked
     """
+    path_prefix = "about_static/exec-photos/" \
+        if ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING" else ""
+    officer.image = f"{path_prefix}{officer.image}"
     officer_image_path = finders.find(officer.image)
     if officer_image_path is not None:
         if not os.path.isfile(officer_image_path):
-            officer.image = "stockPhoto.jpg"
+            officer.image = f"{path_prefix}stockPhoto.jpg"
     else:
-        officer.image = "stockPhoto.jpg"
+        officer.image = f"{path_prefix}stockPhoto.jpg"
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
     return officer
