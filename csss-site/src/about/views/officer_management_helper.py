@@ -3,7 +3,6 @@ import logging
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from django.conf import settings
 
 from about.models import Term, Officer, AnnouncementEmailAddress
 from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerGithubTeamMapping, \
@@ -111,17 +110,8 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
     error_message -- error message if success is False
     """
 
-    full_name_in_pic = full_name.replace(" ", "_")
-    if settings.OFFICER_PHOTOS_PATH is None:
-        pic_path = (
-            f"OFFICER_PHOTOS_PATH/{term_obj.year}_0{_get_term_season_number(term_obj)}_"
-            f"{term_obj.term}/{full_name_in_pic}.jpg"
-        )
-    else:
-        pic_path = (
-            f"{settings.OFFICER_PHOTOS_PATH}/{term_obj.year}_0"
-            f"{_get_term_season_number(term_obj)}_{term_obj.term}/{full_name_in_pic}.jpg"
-        )
+    pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
+                f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
     logger.info(
         f"[about/officer_management_helper.py save_officer_and_grant_digital_resources()] pic_path set to {pic_path}")
 
@@ -141,6 +131,8 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
         f"saved user term={term_obj} full_name={full_name} officer_position={officer_position}"
     )
 
+    officer_obj.save()
+
     for email in announcement_emails:
         AnnouncementEmailAddress(email=email, officer=officer_obj).save()
 
@@ -152,6 +144,7 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
             )
             success, file_name, error_message = gdrive_api.add_users_gdrive([gmail])
             if not success:
+                officer_obj.delete()
                 return success, error_message
         if gitlab_api is not None:
             logger.info(
@@ -160,15 +153,16 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
             )
             success, error_message = gitlab_api.add_officer_to_csss_group([sfuid])
             if not success:
+                officer_obj.delete()
                 return success, error_message
     if remove_from_naughty_list:
         _remove_officer_from_naughty_list(full_name)
 
-    officer_obj.save()
     success, error_message = _save_officer_github_membership(officer_obj, officer_position,
                                                              github_api=github_api,
                                                              github_teams=github_teams)
     if not success:
+        officer_obj.delete()
         return success, error_message
     subject = "Welcome to the CSSS"
     body = None
@@ -214,6 +208,8 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                 f"{sfuid}@sfu.ca",
                 sfu_csss_credentials.password
             )
+            if not success:
+                officer_obj.delete()
             return success, error_message
     return True, None
 
