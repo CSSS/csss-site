@@ -65,10 +65,10 @@ def fix_time_and_image_for_officer(officer):
         officer_image_path = static(officer.image)
     logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                 f"officer_image_path = {officer_image_path}")
-    if officer_image_path is not None:
-        if not os.path.isfile(officer_image_path):
-            officer.image = f"{path_prefix}stockPhoto.jpg"
-    else:
+    if officer_image_path is None:
         officer.image = f"{path_prefix}stockPhoto.jpg"
+    else:
+        if not os.path.isfile(officer_image_path) and ENVIRONMENT == "LOCALHOST":
+            officer.image = f"{path_prefix}stockPhoto.jpg"
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
     return officer
