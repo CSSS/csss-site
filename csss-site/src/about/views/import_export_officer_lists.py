@@ -322,7 +322,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     bio = officer['bio']
     sfu_officer_mailing_list_email = "NONE"
     github_teams = officer['github_teams']
-    success, officer_obj, error_message = save_officer_and_grant_digital_resources(
+    success, error_message = save_officer_and_grant_digital_resources(
         phone_number, officer_position,
         full_name, sfuid, sfu_email_alias,
         announcement_emails, github_username,
