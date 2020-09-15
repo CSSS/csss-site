@@ -4,6 +4,7 @@ import os
 
 from django.contrib.staticfiles import finders
 from django.shortcuts import render
+from django.templatetags.static import static
 
 from about.models import Officer, Term
 from about.views.officer_management_helper import TAB_STRING
@@ -57,7 +58,11 @@ def fix_time_and_image_for_officer(officer):
     logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
     logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
     officer.image = f"{path_prefix}{officer.image}"
-    officer_image_path = finders.find(officer.image)
+
+    if ENVIRONMENT == "LOCALHOST":
+        officer_image_path = finders.find(officer.image)
+    else:
+        officer_image_path = static(officer.image)
     logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                 f"officer_image_path = {officer_image_path}")
     if officer_image_path is not None:
