@@ -58,7 +58,8 @@ def fix_time_and_image_for_officer(officer):
     logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
     officer.image = f"{path_prefix}{officer.image}"
     officer_image_path = finders.find(officer.image)
-    logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer_image_path = {officer_image_path}")
+    logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                f"officer_image_path = {officer_image_path}")
     if officer_image_path is not None:
         if not os.path.isfile(officer_image_path):
             officer.image = f"{path_prefix}stockPhoto.jpg"
