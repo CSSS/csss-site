@@ -1,6 +1,7 @@
 import datetime
 import logging
 import os
+from django.contrib.staticfiles import finders
 
 from django.conf import settings
 from django.shortcuts import render
@@ -51,10 +52,11 @@ def fix_time_and_image_for_officer(officer):
     Return
     officer -- the officer whose start date's time was removed and image was checked
     """
+    officer_image_path = finders.find(officer.image)
+    if officer_image_path is not None:
+        if not os.path.isfile(officer_image_path):
+            officer.image = "stockPhoto.jpg"
+    else:
+        officer.image = "stockPhoto.jpg"
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
-    existent_stock_photo = os.path.isfile(f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg")
-    stock_photo_path = f"{settings.OFFICER_PHOTOS_PATH}/stockPhoto.jpg" \
-        if existent_stock_photo else "No_valid_path_detected"
-    if not os.path.isfile(officer.image):
-        officer.image = stock_photo_path
     return officer
