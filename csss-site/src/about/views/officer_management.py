@@ -54,8 +54,11 @@ def fix_time_and_image_for_officer(officer):
     """
     path_prefix = "about_static/exec-photos/" \
         if ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING" else ""
+    logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
+    logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
     officer.image = f"{path_prefix}{officer.image}"
     officer_image_path = finders.find(officer.image)
+    logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer_image_path = {officer_image_path}")
     if officer_image_path is not None:
         if not os.path.isfile(officer_image_path):
             officer.image = f"{path_prefix}stockPhoto.jpg"
