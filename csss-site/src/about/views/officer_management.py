@@ -5,7 +5,6 @@ import os
 from django.contrib.staticfiles import finders
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.shortcuts import render
-from django.templatetags.static import static
 
 from about.models import Officer, Term
 from about.views.officer_management_helper import TAB_STRING
