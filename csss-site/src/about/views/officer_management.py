@@ -2,14 +2,13 @@ import datetime
 import logging
 import os
 
-from django.conf.global_settings import STATIC_ROOT
 from django.contrib.staticfiles import finders
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.shortcuts import render
 
 from about.models import Officer, Term
 from about.views.officer_management_helper import TAB_STRING
-from csss.settings import ENVIRONMENT
+from csss.settings import ENVIRONMENT, STATIC_ROOT
 from csss.views_helper import create_main_context, get_current_active_term
 
 logger = logging.getLogger('csss_site')
@@ -88,7 +87,8 @@ def fix_time_and_image_for_officer(officer):
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] path_prefix = {path_prefix}")
         officer.image = f"{path_prefix}{officer.image}"
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
-        absolute_path = STATIC_ROOT + officer.image
+        absolute_path = f"{STATIC_ROOT}{officer.image}"
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] absolute_path = {absolute_path}")
         if not os.path.isfile(absolute_path):
             officer.image = f"{path_prefix}stockPhoto.jpg"
             logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
