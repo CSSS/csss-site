@@ -3,7 +3,6 @@ import logging
 import os
 
 from django.contrib.staticfiles import finders
-from django.contrib.staticfiles.storage import staticfiles_storage
 from django.shortcuts import render
 
 from about.models import Officer, Term
