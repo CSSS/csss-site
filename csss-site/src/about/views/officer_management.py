@@ -89,19 +89,21 @@ def fix_time_and_image_for_officer(officer):
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] officer.image = {officer.image}")
         absolute_path = f"{STATIC_ROOT}{officer.image}"
         logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] absolute_path = {absolute_path}")
-        if not os.path.isfile(absolute_path):
+        file_exists = os.path.isfile(absolute_path)
+        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] file_exists = {file_exists}")
+        if not file_exists:
             officer.image = f"{path_prefix}stockPhoto.jpg"
-            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                        f"officer.image = {officer.image}")
-        else:
-            officer.image = f"{path_prefix}stockPhoto.jpg"
-            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                        f"officer.image = {officer.image}")
-            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                        f"absolute_path = {absolute_path}")
-            file_exists = staticfiles_storage.exists(absolute_path)
-            logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                        f"file_exists = {file_exists}")
+        logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+                    f"officer.image = {officer.image}")
+        # else:
+        # officer.image = f"{path_prefix}stockPhoto.jpg"
+        # logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+        #             f"officer.image = {officer.image}")
+        # logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+        #             f"absolute_path = {absolute_path}")
+        # file_exists = staticfiles_storage.exists(absolute_path)
+        # logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+        #             f"file_exists = {file_exists}")
 
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
     return officer
