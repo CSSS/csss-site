@@ -88,7 +88,6 @@ GDRIVE_ROOT_FOLDER_ID = None
 GDRIVE_TOKEN_LOCATION = None
 GITHUB_ACCESS_TOKEN = None
 GITLAB_PRIVATE_TOKEN = None
-OFFICER_PHOTOS_PATH = None
 
 if ENVIRONMENT == "LOCALHOST":
     if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
@@ -99,8 +98,6 @@ if ENVIRONMENT == "LOCALHOST":
         GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
     if 'GITLAB_PRIVATE_TOKEN' in os.environ:
         GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
-    if 'OFFICER_PHOTOS_PATH' in os.environ:
-        OFFICER_PHOTOS_PATH = os.environ['OFFICER_PHOTOS_PATH']
 
 elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
@@ -123,18 +120,12 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
         logger.error(f"[settings.py] GITLAB_PRIVATE_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
     else:
         GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
-    if "OFFICER_PHOTOS_PATH" not in os.environ:
-        exit(1)
-        logger.error(f"[settings.py] OFFICER_PHOTOS_PATH it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        OFFICER_PHOTOS_PATH = os.environ['OFFICER_PHOTOS_PATH']
 
 
 logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
 logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
 logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
 logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={GITLAB_PRIVATE_TOKEN}")
-logger.info(f"[settings.py] OFFICER_PHOTOS_PATH={OFFICER_PHOTOS_PATH}")
 
 if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
     logger.error("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
@@ -150,10 +141,6 @@ if GITHUB_ACCESS_TOKEN is not None and not GITHUB_ACCESS_TOKEN != "":
 
 if GITLAB_PRIVATE_TOKEN is not None and not GITLAB_PRIVATE_TOKEN != "":
     logger.error("[settings.py] empty value for GITLAB_PRIVATE_TOKEN")
-    exit(1)
-
-if OFFICER_PHOTOS_PATH is not None and not os.path.isdir(OFFICER_PHOTOS_PATH):
-    logger.error(f"[settings.py] folder {OFFICER_PHOTOS_PATH} does not exist for OFFICER_PHOTOS_PATH")
     exit(1)
 
 # Application definition
@@ -297,6 +284,12 @@ AUTHENTICATION_BACKENDS = (
 
 SITE_ID = 1
 LOGIN_REDIRECT_URL = '/products'
+
+STATICFILES_DIRS = []
+if 'STATICFILES_DIRS' in os.environ:
+    STATICFILES_DIRS = os.environ['STATICFILES_DIRS'].split(":")
+logger.info(f"[settings.py] STATICFILES_DIRS={STATICFILES_DIRS}")
+
 
 # STATICFILES_DIRS = [
 #    'static_files/',
