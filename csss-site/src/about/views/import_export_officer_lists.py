@@ -98,7 +98,6 @@ def save_officers_in_csv(request, overwrite):
     fs = FileSystemStorage()
     context = create_main_context(request, TAB_STRING)
     file_name = fs.save(uploaded_file.name, uploaded_file)
-    # with open(fs.url(file_name)) as csv_file:
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
