@@ -110,6 +110,8 @@ def save_officers_in_csv(request, overwrite):
                     output[year] = {}
                 if term not in output[year]:
                     output[year][term] = []
+                if year == "2017" and term == "Spring":
+                    print("hello")
                 success, member, error_message = return_member_json(row)
                 if not success:
                     context[ERROR_MESSAGE_KEY] = error_message
@@ -148,10 +150,10 @@ def return_member_json(row):
         'github_username': row[GITHUB_USER_NAME_COLUMN],
         'gmail': row[GMAIL_COLUMN],
         "start_date": row[START_DATE_COLUMN],
-        'fav_course_1': row[FAVORITE_COURSES_COLUMN][:course_divider - 1],
-        'fav_course_2': row[FAVORITE_COURSES_COLUMN][course_divider + 2:],
-        'fav_language_1': row[FAVORITE_LANGUAGES_COLUMN][:language_divider - 1],
-        'fav_language_2': row[FAVORITE_LANGUAGES_COLUMN][language_divider + 2:],
+        'fav_course_1': row[FAVORITE_COURSES_COLUMN][:course_divider - 1] if course_divider != -1 else row[FAVORITE_COURSES_COLUMN],
+        'fav_course_2': row[FAVORITE_COURSES_COLUMN][course_divider + 2:] if course_divider != -1 else "",
+        'fav_language_1': row[FAVORITE_LANGUAGES_COLUMN][:language_divider - 1] if language_divider != -1 else row[FAVORITE_LANGUAGES_COLUMN],
+        'fav_language_2': row[FAVORITE_LANGUAGES_COLUMN][language_divider + 2:] if language_divider != -1 else "",
         'bio': row[BIO_COLUMN].replace("[comma]", ",").replace("\\n", "<br/>")
     }
     if not re.match("\d\d\d\d-\d\d-\d\d", member["start_date"]):  # noqa: W605
