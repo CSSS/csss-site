@@ -196,8 +196,9 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
             # to any csss digital resources
             gmail_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")
             if len(gmail_credentials) == 0:
-                return False, officer_obj, ("Could not find any credentials for the gmail sfucsss@gmail.com account "
-                                            "in order to send notification email")
+                officer_obj.delete()
+                return False, ("Could not find any credentials for the gmail sfucsss@gmail.com account "
+                               "in order to send notification email")
             sfu_csss_credentials = gmail_credentials[0]
             success, error_message = _send_instructional_email_to_new_officer(
                 subject,
