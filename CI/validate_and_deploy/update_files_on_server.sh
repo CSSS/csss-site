@@ -39,7 +39,7 @@ function transfer_env_variables_to_server {
   echo 'DB_PORT='"'"'5432'"'" >> site_envs
   echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
   echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-
+  echo 'ENVIRONMENT='"'"${ENVIRONMENT}"'" >> site_envs
   echo 'GDRIVE_ROOT_FOLDER_ID='"'"${GDRIVE_ROOT_FOLDER_ID}"'" >> site_envs
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs

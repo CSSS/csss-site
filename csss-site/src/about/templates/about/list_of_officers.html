@@ -2,24 +2,24 @@
 
 {% load static %}
 {% load staticfiles %}
-
+{% load declare_prev_officer_position %}
 {% block content %}
-	{{ block.super }}
-	<!-- used to style the officer photos -->
-	<style>
-		.officer-photos {
-			border-radius: 50%;
-			border: 1px solid #ddd;
-			padding: 5px;
-			width: 150px;
-			max-width: 100%;
-			height: auto;
-		}
-	</style>
+    {{ block.super }}
+    <!-- used to style the officer photos -->
+    <style>
+        .officer-photos {
+            border-radius: 50%;
+            border: 1px solid #ddd;
+            padding: 5px;
+            width: 150px;
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
     <body>
     <section class="section">
         <div class="container">
-            <div class="content" >
+            <div class="content">
                 <p>Please feel free to contact us anytime.</p>
                 <ul>
                     <li>General Inquires for</li>
@@ -32,7 +32,7 @@
                 </ul>
                 <p>Note: If you wish to contact an Officer directly, see their addresses as listed below.</p>
                 <p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
-					<!--Tab buttons-->
+                <!--Tab buttons-->
                 <div class="tabs" id="tabs">
                     <ul>
                         {% for term in terms %}
@@ -46,6 +46,11 @@
                 </div>
                 <!-- Tab panes -->
                 <div id="tab-content">
+                    <!-- the prev_position is used to ensure that when a user who is not logged in is viewing the list
+                    they only see the last person to occupy a position -->
+                    {% if authenticated is True %}
+                        {% define "None" as prev_position %}
+                    {%  endif %}
                     {% for term in terms %}
                         {% if term_active == term.term_number %}
                             <div data-content="{{term.term}}_{{term.year}}">
@@ -55,22 +60,24 @@
                             <h1 class="title">Officers for {{term.term}} {{term.year}} Term</h1>
                             <hr>
                             <div class="row">
-                                {% for officer in officers %}
+                            {% for officer in officers %}
+                                {%  if prev_position != officer.position or prev_position == officer.position and authenticated is True %}
+                                    <!-- the above if statement is technically (prev_position != officer.position) or (prev_position == officer.position and authenticated is True)
+                                    but django templates do not allow for parenthesis -->
                                     {% if officer.elected_term == term %}
-                                        <div class="col-md-4">
-                                            <center><img class="officer-photos" src="{% static officer.image %}"></center>
-                                        </div>
+                                        <div class="col-md-4"><center><img class="officer-photos" src="{% static officer.image %}"></center></div>
                                         <div class="col-md-6">
                                             <p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
+                                            <p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
                                             {% if election_officer or authenticated_officer or staff %}
                                                 <p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
                                                 <p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
                                             {%  endif %}
                                             <p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
                                             <p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
-                                            {% for email in officer.email.all %}
-                                                <p class="lead">Contact - <a href="{{email.email}}">{{email.email}}</a><br></p>
-                                            {% endfor %}
+                                            {% if term_active == term.term_number %}
+                                                <p class="lead">Contact - <a href="{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
+                                            {% endif %}
                                             <div class="lead"><p>Bio -</p>
                                                 {% if officer.bio|safe|length > 0 %}
                                                     {{officer.bio|safe}}
@@ -79,40 +86,41 @@
                                                 {% endif %}
                                             </div>
                                             <hr>
-                                        </div>
-                                    {% endif %}
-                                {% endfor %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
+                                        </div> <!-- closes col-md-6 div -->
+                                    {%  endif %} <!-- closes the if officer.elected_term == term -->
+                                {% endif %}<!-- closes the if prev_position != officer.position or prev_position == officer.position and authenticated is True -->
+                                {% define officer.position as prev_position %}
+                            {% endfor %}<!-- closes the for officer in officers -->
+                            </div><!-- closes the row div -->
+                        </div><!-- closes the div data-content div-->
+                    {% endfor %}<!-- closes the form term in terms -->
+                </div> <!-- closes the tab-content div -->
+            </div><!-- closes the content div -->
+        </div><!-- closes container div -->
     </section>
     <br>
     <br>
     <br>
     <br>
-	</body>
+    </body>
 
-	<script type="text/javascript">
-		//changes semester tab
+    <script type="text/javascript">
+        //changes semester tab
 
-		$(document).ready(function() {
-		$('#tabs li').on('click', function() {
-			var tab = $(this).data('tab');
+        $(document).ready(function() {
+            $('#tabs li').on('click', function() {
+                var tab = $(this).data('tab');
 
-			$('#tabs li').removeClass('is-active');
-			$(this).addClass('is-active');
+                $('#tabs li').removeClass('is-active');
+                $(this).addClass('is-active');
 
-			console.log(tab);
+                console.log(tab);
 
-			$('#tab-content div[data-content]').addClass('is-hidden');
-			$('div[data-content="' + tab + '"]').removeClass('is-hidden');
-		});
-		});
-	</script>
+                $('#tab-content div[data-content]').addClass('is-hidden');
+                $('div[data-content="' + tab + '"]').removeClass('is-hidden');
+            });
+        });
+    </script>
 {% endblock %}
 
 

@@ -5,61 +5,83 @@
 {% bootstrap_messages %}
 
 {% block content %}
-	<h1 class="title">Create Links for New Term of Officers</h1>
-	<form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
-		{% csrf_token %}
+
+    {% if error_messages %}
+        <p style="color: red">Experienced Following Error<br>
+            {%  for error_message in error_messages %}
+                {{ error_message }}<br>
+            {%  endfor %}
+        </p>
+    {%  endif %}
+    <h1 class="title">Create Links for New Term of Officers</h1>
+    <form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
+        {% csrf_token %}
         <id>Term <id style="color: #ff0000">*</id>
-			<select name="term">
-				{% for term in terms %}
+            <select name="term">
+                {% for term in terms %}
                     {%  if term == current_term  %}
                         <option selected value="{{term}}">{{term}}</option>
                     {%  else %}
                         <option value="{{term}}">{{term}}</option>
                     {%  endif %}
 
-				{% endfor %}
-			</select>
+                {% endfor %}
+            </select>
 
-		<p>Year <id style="color: #ff0000">*</id>
-			<select name="year">
-				{% for year in years %}
-					<option selected value="{{year}}">{{year}}</option>
-				{% endfor %}
-			</select>
+            <p>Year <id style="color: #ff0000">*</id>
+                <select name="year">
+                    {% for year in years %}
+                        {%  if year == current_year %}
+                            <option selected value="{{year}}">{{year}}</option>
+                        {%  else %}
+                            <option value="{{ year }}">{{ year }}</option>
+                        {%  endif %}
+                    {% endfor %}
+                </select>
 
-		<p>Positions *<br>(enter them in a newline separated list)<br>
-			<textarea name="positions" cols=40" rows=10" required>
-President
-Vice-President
-Treasurer
-Director of Resources
-Director of Events
-Assistant Director of Events
-Director of Communications
-Director of Archives
-Exec-at-Large
-Exec-at-Large
-First Year Rep
-First Year Rep
-By-Election Officer
-General Election Officer
-SFSS Council-Representative
-Frosh Chair</textarea>
-		</p>
 
-		Overwrite Current Officer for selected term <id style="color: #ff0000">*</id>
+            <p>Start-Date <id style="color: #ff0000">*</id>
+                <input type="date" name="date"  value="{{date_value}}" required>
+
+            <p>Positions *<br>(enter them in a newline separated list)<br>
+                <textarea name="positions" cols=40" rows=10" required>{{ positions }}</textarea>
+            </p>
+
+            Overwrite Current Officer for selected term <id style="color: #ff0000">*</id>
             <br>
-            <input type="radio" name="overwrite" value="true" required>Yes
-            <input type="radio" name="overwrite" value="false" required>No
+            {%  if overwrite_value == "true" %}
+                <input type="radio" name="overwrite" value="true" checked="checked" required>Yes
+                <input type="radio" name="overwrite" value="false" required>No
+            {% elif overwrite_value == "false" %}
+                <input type="radio" name="overwrite" value="true" required>Yes
+                <input type="radio" name="overwrite" value="false" checked="checked" required>No
+            {% else %}
+                <input type="radio" name="overwrite" value="true" required>Yes
+                <input type="radio" name="overwrite" value="false" required>No
+            {%  endif %}
+
+            <br><br>Use new start date for above officers <id style="color: #ff0000">*</id>
+            <br>
+            {%  if start_date_value == "true" %}
+                <input type="radio" name="new_start_date" value="true" checked="checked" required>Yes
+                <input type="radio" name="new_start_date" value="false" required>No
+            {% elif start_date_value == "false" %}
+                <input type="radio" name="new_start_date" value="true" required>Yes
+                <input type="radio" name="new_start_date" value="false" checked="checked" required>No
+            {% else %}
+                <input type="radio" name="new_start_date" value="true" required>Yes
+                <input type="radio" name="new_start_date" value="false" required>No
+            {%  endif %}
+
             <br><br><input type="submit" value="submit" />
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-	</form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+    </form>
 {% endblock %}

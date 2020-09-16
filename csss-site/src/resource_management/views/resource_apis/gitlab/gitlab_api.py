@@ -7,23 +7,27 @@ logger = logging.getLogger('csss_site')
 class GitLabAPI:
     def __init__(self, private_token):
         self.connection_successful = False
+        self.error_message = None
         if private_token is None:
-            logger.error("[GitLabAPI __init__()] private_token is not valid")
+            self.error_message = "private_token is not valid"
+            logger.error(f"[GitLabAPI __init__()] {self.error_message}")
             return
         try:
             self.sfu_gitlab = gitlab.Gitlab(url="https://csil-git1.cs.surrey.sfu.ca", private_token=private_token)
             self.connection_successful = True
         except Exception as e:
-            logger.error(
-                f"[GitLabAPI __init__()] experienced following error when trying to connect to SFU Gitlab "
-                f":\n{e}"
-            )
+            self.error_message = f"experienced following error when trying to connect to SFU Gitlab :\n{e}"
+            logger.error(f"[GitLabAPI __init__()] {self.error_message}")
 
     def add_officer_to_csss_group(self, users):
         """Add listed users to the CSSS group
 
         Keyword Arguments:
         users -- a list of all the users who need to be added to the group
+
+        return
+        success -- true or false Bool
+        error_message -- error message if success is False, None otherwise
         """
         if self.connection_successful:
             try:
@@ -62,10 +66,10 @@ class GitLabAPI:
                             f"to SFU Gitlab CSSS group"
                         )
                 except Exception as e:
-                    logger.error(
-                        "[GitLabAPI add_officer_to_csss_group()] experienced the following error when"
-                        f" adding user {user_name} to the SFU CSSS Gitlab Group\n{e}"
-                    )
+                    error_message = f"experienced the following error when adding user {user_name} " \
+                                    f"to the SFU CSSS Gitlab Group\n{e}"
+                    logger.error(f"[GitLabAPI add_officer_to_csss_group()] {error_message}")
+                    return False, error_message
             return True, None
 
     def remove_user_from_group(self, users):
@@ -120,7 +124,9 @@ class GitLabAPI:
         Keyword Arguments
         users -- a list of sfuids that lists all the memberships that need to be set
         """
-        self.add_officer_to_csss_group(users)
+        success, error_message = self.add_officer_to_csss_group(users)
+        if not success:
+            return success, error_message
         if self.connection_successful:
             try:
                 csss_group = [group for group in self.sfu_gitlab.groups.list() if group.name == "CSSS"][0]

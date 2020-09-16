@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -26,7 +27,7 @@ class Term(models.Model):
     )
 
     def __str__(self):
-        return f"{self.year} {self.term}"
+        return f"{self.term} {self.year}"
 
 
 class Officer(models.Model):
@@ -43,7 +44,16 @@ class Officer(models.Model):
         default="NA"
     )
 
+    start_date = models.DateTimeField(
+        default=timezone.now
+    )
+
     sfuid = models.CharField(
+        max_length=140,
+        default="NA"
+    )
+
+    sfu_email_alias = models.CharField(
         max_length=140,
         default="NA"
     )
@@ -101,9 +111,13 @@ class Officer(models.Model):
         Term,
         on_delete=models.CASCADE,
     )
+    sfu_officer_mailing_list_email = models.CharField(
+        max_length=140,
+        default="NA"
+    )
 
     def __str__(self):
-        return f"{self.name} {self.elected_term}"
+        return f" {self.elected_term} {self.name}"
 
 
 class AnnouncementEmailAddress(models.Model):
@@ -118,3 +132,21 @@ class AnnouncementEmailAddress(models.Model):
 
     def __str__(self):
         return f"{self.officer.name} {self.email} {self.officer.elected_term}"
+
+
+class OfficerEmailListAndPositionMapping(models.Model):
+    term_position_number = models.IntegerField(
+        default=0,
+    )
+    officer_position = models.CharField(
+        max_length=300,
+        default="President"
+    )
+    email = models.CharField(
+        max_length=140,
+        default="NA"
+    )
+
+    marked_for_deletion = models.BooleanField(
+        default=False
+    )

@@ -1,0 +1,23 @@
+{
+    "year": "2003",
+    "term": "Fall",
+    "officers": [
+        {
+            "position_type": "President",
+            "name": "President's Name",
+            "sfuid": "President's SFUID",
+            "sfu_email_alias" : "President's SFU email alias",
+            "announcement_email": ["announcement_email_that_isnt_sfuid_email"],
+            "phone_number": 0,
+            "github_username": "President's Github",
+            "gmail": "President's Gmail",
+            "start_date": "YYYY-MM-DD",
+            "fav_course_1": "President's First Fav Course 1",
+            "fav_course_2": "President's First Fav Course 2",
+            "fav_language_1": "President's First Fav Language 1",
+            "fav_language_2": "President's First Fav Language 2",
+            "bio": "President's Bio",
+            "github_teams": ["President's github teams that aren't necessarily relevant to the position of presidents" ]
+        }
+    ]
+}
