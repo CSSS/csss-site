@@ -110,8 +110,6 @@ def save_officers_in_csv(request, overwrite):
                     output[year] = {}
                 if term not in output[year]:
                     output[year][term] = []
-                if year == "2017" and term == "Spring":
-                    print("hello")
                 success, member, error_message = return_member_json(row)
                 if not success:
                     context[ERROR_MESSAGE_KEY] = error_message
