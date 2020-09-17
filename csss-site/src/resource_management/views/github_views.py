@@ -5,10 +5,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from about.models import Term, Officer
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY, get_current_active_term
-from resource_management.models import NonOfficerGithubMember, NaughtyOfficer, OfficerGithubTeam
+    ERROR_MESSAGE_KEY
+from resource_management.models import NonOfficerGithubMember, OfficerGithubTeam
+from .current_officer_list import create_current_officer_list
 from .resource_apis.github.github_api import GitHubAPI
 
 GITHUB_RECORD_KEY = 'record_id'
@@ -20,8 +20,8 @@ TAB_STRING = 'administration'
 
 
 def index(request):
-    """shows the main page for google drive permission management
-
+    """
+    shows the main page for google drive permission management
     """
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:  # if the user accessing the page is not authorized to access it
@@ -40,9 +40,9 @@ def index(request):
 
 
 def add_non_officer_to_github_team(request):
-    """takes in the specified user and team from the user and attempts to give them the request github team
+    """
+    takes in the specified user and team from the user and attempts to give them the request github team
     membership
-
     """
     logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
@@ -105,9 +105,9 @@ def add_non_officer_to_github_team(request):
 
 
 def update_github_non_officer(request):
-    """updates the specified github team membership, either changes the username or the team name that is associated
+    """
+    updates the specified github team membership, either changes the username or the team name that is associated
     with the membership
-
     """
     logger.info(f"[resource_management/github_views.py update_github_non_officer()] request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
@@ -118,6 +118,8 @@ def update_github_non_officer(request):
     if github.connection_successful:
         if 'action' in request.POST:
             if request.POST['action'] == 'update':
+                success = False
+                error_message = None
                 logger.info("[resource_management/github_views.py update_github_non_officer()] processing an update")
                 github_user = NonOfficerGithubMember.objects.get(id=request.POST[GITHUB_RECORD_KEY])
                 if github_user.username != request.POST[GITHUB_USERNAME_KEY] \
@@ -127,8 +129,8 @@ def update_github_non_officer(request):
                         f" {github_user.username} with access to team {github_user.team_name} are different."
                     )
                     github.remove_users_from_a_team([github_user.username], github_user.team_name)
-                    success, message = github.add_non_officer_to_a_team([request.POST[GITHUB_USERNAME_KEY]],
-                                                                        request.POST[GITHUB_TEAM_KEY])
+                    success, error_message = github.add_non_officer_to_a_team([request.POST[GITHUB_USERNAME_KEY]],
+                                                                              request.POST[GITHUB_TEAM_KEY])
                 if github_user.team_name != request.POST[GITHUB_TEAM_KEY]:
                     logger.info(
                         f"[resource_management/github_views.py update_github_non_officer()] team for user"
@@ -136,8 +138,8 @@ def update_github_non_officer(request):
                         f"{request.POST[GITHUB_TEAM_KEY]}."
                     )
                     github.remove_users_from_a_team([github_user.username], github_user.team_name)
-                    success, message = github.add_non_officer_to_a_team([github_user.username],
-                                                                        request.POST[GITHUB_TEAM_KEY])
+                    success, error_message = github.add_non_officer_to_a_team([github_user.username],
+                                                                              request.POST[GITHUB_TEAM_KEY])
                 if github_user.username != request.POST[GITHUB_USERNAME_KEY]:
                     logger.info(
                         "[resource_management/github_views.py update_github_non_officer()] team for user"
@@ -145,8 +147,8 @@ def update_github_non_officer(request):
                         f"changed to {request.POST[GITHUB_USERNAME_KEY]}."
                     )
                     github.remove_users_from_a_team([github_user.username], github_user.team_name)
-                    success, message = github.add_non_officer_to_a_team([request.POST[GITHUB_USERNAME_KEY]],
-                                                                        github_user.team_name)
+                    success, error_message = github.add_non_officer_to_a_team([request.POST[GITHUB_USERNAME_KEY]],
+                                                                              github_user.team_name)
                 if success:
                     github_user.team_name = request.POST[GITHUB_TEAM_KEY]
                     github_user.username = request.POST[GITHUB_USERNAME_KEY]
@@ -154,9 +156,9 @@ def update_github_non_officer(request):
                     github_user.save()
                 else:
                     if ERROR_MESSAGE_KEY in request.session:
-                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
+                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
             elif request.POST['action'] == 'delete':
                 github_user = NonOfficerGithubMember.objects.get(id=request.POST[GITHUB_RECORD_KEY])
                 logger.info(
@@ -183,31 +185,7 @@ def create_github_perms():
         ],
     }
     """
-    term_active = get_current_active_term()
-    officers = []
-
-    for index in range(0, 5):
-        term = Term.objects.get(term_number=term_active)
-        logger.info(
-            "[resource_management/github_views.py create_github_perms()] collecting the list of officers"
-            f" for the term with term_number {term_active}"
-        )
-        naughty_officers = NaughtyOfficer.objects.all()
-        current_officers = [
-            officer for officer in Officer.objects.all().filter(elected_term=term)
-            if officer.name not in [name.strip() for name in naughty_officers.name]
-        ]
-
-        logger.info(
-            f"[resource_management/github_views.py create_github_perms()] officers retrieved = {current_officers}"
-        )
-        officers.extend(current_officers)
-        if (term_active % 10) == 3:
-            term_active -= 1
-        elif (term_active % 10) == 2:
-            term_active -= 1
-        elif (term_active % 10) == 1:
-            term_active -= 8
+    officers = create_current_officer_list()
     list_of_already_existing_github_team_membership_for_current_officers = []
     for github_membership_for_officer in officers:
         list_of_already_existing_github_team_membership_for_current_officers.extend(
@@ -219,14 +197,21 @@ def create_github_perms():
 
     for github_membership_for_officer in list_of_already_existing_github_team_membership_for_current_officers:
         if github_membership_for_officer.officer.github_username != "":
-            if github_membership_for_officer.officer.github_username not in \
+            if github_membership_for_officer.officer.github_username.lower() not in \
                     users_to_grant_permission_to_github_officers_team.keys():
+                # if this officer's github username is not in the dict
+                # users_to_grant_permission_to_github_officers_team yet
                 users_to_grant_permission_to_github_officers_team[
-                    github_membership_for_officer.officer.github_username] = [github_membership_for_officer.team_name]
-            else:
+                    github_membership_for_officer.officer.github_username.lower()] \
+                    = [github_membership_for_officer.team_name]
+            elif github_membership_for_officer.team_name not in \
+                    users_to_grant_permission_to_github_officers_team[
+                        github_membership_for_officer.officer.github_username.lower()
+                    ]:
+                # if the specified team name is not yet mapped to this officer's github username
                 users_to_grant_permission_to_github_officers_team[
-                    github_membership_for_officer.officer.github_username].append(
-                    github_membership_for_officer.team_name)
+                    github_membership_for_officer.officer.github_username.lower()
+                ].append(github_membership_for_officer.team_name)
 
     non_officer_users_with_access = NonOfficerGithubMember.objects.all()
     logger.info(
@@ -237,9 +222,13 @@ def create_github_perms():
         if github_membership_for_non_officer.username != "":
             if github_membership_for_non_officer.username not in \
                     users_to_grant_permission_to_github_officers_team.keys():
+                # if this person's github username is not in the dict
+                # users_to_grant_permission_to_github_officers_team yet
                 users_to_grant_permission_to_github_officers_team[github_membership_for_non_officer.username] = [
                     github_membership_for_non_officer.team_name]
             else:
+                # if this person's github username is in the dict
+                # users_to_grant_permission_to_github_officers_team but another team needs to be added
                 users_to_grant_permission_to_github_officers_team[github_membership_for_non_officer.username].append(
                     github_membership_for_non_officer.team_name)
     return users_to_grant_permission_to_github_officers_team

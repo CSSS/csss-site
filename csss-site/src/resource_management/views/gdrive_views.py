@@ -6,11 +6,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from about.models import Officer, Term
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY, get_current_active_term
-from resource_management.models import NaughtyOfficer
+    ERROR_MESSAGE_KEY
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
+from .current_officer_list import create_current_officer_list
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 
 logger = logging.getLogger('csss_site')
@@ -25,6 +24,16 @@ TAB_STRING = 'administration'
 
 
 def user_does_not_have_access_to_file(gmail, file_id):
+    """
+    indicates if a user has access to a file in SFU CSSS Google Drive
+
+    Keyword Arguments
+    gmail -- the gmail belonging to the user whose access has to be determined
+    file_id -- the file_id that belongs to the file that needs to be checked
+
+    return
+    Bool - true if the user has access to the file
+    """
     return len(NonOfficerGoogleDriveUser.objects.filter(
         gmail=gmail,
         file_id=file_id
@@ -32,13 +41,23 @@ def user_does_not_have_access_to_file(gmail, file_id):
 
 
 def google_drive_file_is_publicly_available(file_id):
+    """
+    determines if a file is publicly available
+
+    Keyword Arguments
+    file_id -- the file_id that belongs to the file that need to be checked
+
+    return
+    Bool -- true if the file is publicly available
+    """
     return len(GoogleDrivePublicFile.objects.filter(
         file_id=file_id
     )) > 0
 
 
 def gdrive_index(request):
-    """Shows the main page for google drive permission management
+    """
+    Shows the main page for google drive permission management
     """
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:  # if the user accessing the page is not authorized to access it
@@ -59,8 +78,8 @@ def gdrive_index(request):
 
 
 def add_users_to_gdrive(request):
-    """Takes in the users who need to be given access to the SFU CSSS Google Drive
-
+    """
+    Takes in the users who need to be given access to the SFU CSSS Google Drive
     """
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
@@ -106,9 +125,21 @@ def add_users_to_gdrive(request):
 
 
 def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inputted_gmail):
-    """Takes in a single user and give them access to the SFU CSSS Google Drive and save them in the database
-
     """
+    Takes in a single user and give them access to the SFU CSSS Google Drive and save them in the database
+
+    Keyword Argument
+    gdrive -- the gdrive API object
+    user_legal_name -- the user's full name
+    user_inputted_file_id -- the file that the user needs to be given permission to
+    user_inputted_gmail -- the gmail belonging to the user
+
+    return
+    Bool -- true or false depending on if the user now had access to the file
+    file_name -- the name of the file that the user has to be given access to or None if unable to give the user
+        access to the file
+    error_message -- error if unable to give the user access to the file or None otherwise
+   """
     file_id = settings.GDRIVE_ROOT_FOLDER_ID \
         if user_inputted_file_id == "" \
         else user_inputted_file_id
@@ -135,8 +166,8 @@ def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inpu
 
 
 def update_permissions_for_existing_gdrive_user(request):
-    """updates the permission for an existing google drive user
-
+    """
+    updates the permission for an existing google drive user
     """
     logger.info(
         "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
@@ -154,6 +185,8 @@ def update_permissions_for_existing_gdrive_user(request):
                     "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
                     "processing an update"
                 )
+                success = False
+                file_name = None
                 gdrive_user = NonOfficerGoogleDriveUser.objects.get(id=request.POST[GOOGLE_DRIVE_USERS_DB_RECORD_KEY])
                 file_id = settings.GDRIVE_ROOT_FOLDER_ID \
                     if request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY] == "" \
@@ -212,8 +245,8 @@ def update_permissions_for_existing_gdrive_user(request):
 
 
 def make_folders_public_gdrive(request):
-    """makes a list of requested google drive folders publicly available
-
+    """
+    makes a list of requested google drive folders publicly available
     """
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
@@ -248,8 +281,16 @@ def make_folders_public_gdrive(request):
 
 
 def make_folder_public_gdrive(gdrive, user_inputted_file_id):
-    """Makes a google drive folder publicly available
+    """
+    Makes a google drive folder publicly available
 
+    Keyword Argument
+    gdrive -- the google drive API object
+    user_inputted_file_id -- the file id for the file that needs to be made publicly available
+
+    return
+    Bool -- true or false
+    error_message -- None if successful and error_message if not successful
     """
     if not google_drive_file_is_publicly_available(user_inputted_file_id):
         success, file_name, file_link, error_message = gdrive.make_public_link_gdrive(user_inputted_file_id)
@@ -274,7 +315,8 @@ def make_folder_public_gdrive(gdrive, user_inputted_file_id):
 
 
 def update_gdrive_public_links(request):
-    """updates an existing google drive public file
+    """
+    updates an existing google drive public file
     """
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
@@ -334,36 +376,12 @@ def create_google_drive_perms():
         ],
     }
     """
-    term_active = get_current_active_term()
-    officer_list = []
-    google_drive_perms = {}
-    for index in range(0, 5):
-        term = Term.objects.get(term_number=term_active)
-        logger.info(
-            f"[resource_management/gdrive_views.py create_google_drive_perms()] collecting the "
-            f"list of officers for the term with term_number {term_active}"
-        )
-        naughty_officers = NaughtyOfficer.objects.all()
-        current_officers = [
-            officer for officer in Officer.objects.all().filter(elected_term=term)
-            if officer.name not in [name.strip() for name in naughty_officers.name]
-        ]
-        logger.info(
-            "[resource_management/gdrive_views.py create_google_drive_perms()] current_officers retrieved"
-            f" = {current_officers}"
-        )
-        officer_list.extend(current_officers)
-        if (term_active % 10) == 3:
-            term_active -= 1
-        elif (term_active % 10) == 2:
-            term_active -= 1
-        elif (term_active % 10) == 1:
-            term_active -= 8
+    officer_list = create_current_officer_list()
     logger.info(
         "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "
         f"to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"
     )
-    google_drive_perms["sfucsss@gmail.com"] = settings.GDRIVE_ROOT_FOLDER_ID
+    google_drive_perms = {"sfucsss@gmail.com": [settings.GDRIVE_ROOT_FOLDER_ID]}
     for officer in officer_list:
         if officer.gmail not in google_drive_perms.keys() and officer.gmail != "":
             google_drive_perms[officer.gmail.lower()] = [settings.GDRIVE_ROOT_FOLDER_ID]
