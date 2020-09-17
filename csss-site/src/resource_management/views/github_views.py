@@ -130,7 +130,7 @@ def update_github_non_officer(request):
                     )
                     github.remove_users_from_a_team([github_user.username], github_user.team_name)
                     success, error_message = github.add_non_officer_to_a_team([request.POST[GITHUB_USERNAME_KEY]],
-                                                                        request.POST[GITHUB_TEAM_KEY])
+                                                                              request.POST[GITHUB_TEAM_KEY])
                 if github_user.team_name != request.POST[GITHUB_TEAM_KEY]:
                     logger.info(
                         f"[resource_management/github_views.py update_github_non_officer()] team for user"
@@ -139,7 +139,7 @@ def update_github_non_officer(request):
                     )
                     github.remove_users_from_a_team([github_user.username], github_user.team_name)
                     success, error_message = github.add_non_officer_to_a_team([github_user.username],
-                                                                        request.POST[GITHUB_TEAM_KEY])
+                                                                              request.POST[GITHUB_TEAM_KEY])
                 if github_user.username != request.POST[GITHUB_USERNAME_KEY]:
                     logger.info(
                         "[resource_management/github_views.py update_github_non_officer()] team for user"
@@ -148,7 +148,7 @@ def update_github_non_officer(request):
                     )
                     github.remove_users_from_a_team([github_user.username], github_user.team_name)
                     success, error_message = github.add_non_officer_to_a_team([request.POST[GITHUB_USERNAME_KEY]],
-                                                                        github_user.team_name)
+                                                                              github_user.team_name)
                 if success:
                     github_user.team_name = request.POST[GITHUB_TEAM_KEY]
                     github_user.username = request.POST[GITHUB_USERNAME_KEY]
