@@ -6,7 +6,7 @@ from email.utils import parseaddr
 from django.shortcuts import render
 from django_mailbox.models import Message
 
-from about.models import AnnouncementEmailAddress
+from about.models import AnnouncementEmailAddress, Officer
 from announcements.models import Post
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 
@@ -22,12 +22,22 @@ def index(request):
 
     request_path = request.path
 
-    sfu_emails = [email.email for email in AnnouncementEmailAddress.objects.all()]
-    logger.info(f"[csss/views.py index()] sfu_emails {sfu_emails}")
+    officers = Officer.objects.all()
+    sfuid_emails = []
+    for officer in officers:
+        if f"{officer.sfuid}@sfu.ca" not in sfuid_emails:
+            sfuid_emails.append(f"{officer.sfuid}@sfu.ca")
+        if f"{officer.sfu_email_alias}@sfu.ca" not in sfuid_emails:
+            sfuid_emails.append(f"{officer.sfuid}@sfu.ca")
+
+    for officer in AnnouncementEmailAddress.objects.all():
+        if f"{officer.email}" not in sfuid_emails:
+            sfuid_emails.append(f"{officer.email}")
+    logger.info(f"[csss/views.py index()] sfu_emails {sfuid_emails}")
 
     messages = Message.objects.all().order_by('-id')
 
-    valid_messages = [message for message in messages if message.from_address[0] in sfu_emails]
+    valid_messages = [message for message in messages if message.from_address[0] in sfuid_emails]
 
     sorted_messages = []
     for message in valid_messages:
