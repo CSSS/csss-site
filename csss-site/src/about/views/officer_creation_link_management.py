@@ -450,23 +450,23 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     return render(request, 'about/process_new_officer/add_officer.html', context)
 
 
-def determine_new_start_date_for_officer(start_date, officer_previous_info, new_start_date=True):
+def determine_new_start_date_for_officer(start_date, previous_officer, new_start_date=True):
     """
     determine whether or not the officer's start date should be in the current term or previous term
 
     Keyword Argument
     start_date -- the new start-date
-    previous_start_date -- the start date that may exist if the current officer occupied the same position
-    in the previous term
+    previous_start_date -- the previous officer's info that the user wants to reuse, or a None
+     object if the user did not select one
     new_start_date -- indicates whether or not the officer's start-date should use a previous date
 
     Return
     start_date -- the start date that needs to be used as indicated by "new_start_date"
     """
-    if new_start_date or officer_previous_info is None or officer_previous_info.start_date is None:
+    if new_start_date or previous_officer is None or previous_officer.start_date is None:
         return start_date.strftime("%A, %d %b %Y %I:%m %S %p")
     else:
-        return officer_previous_info.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+        return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def process_information_entered_by_officer(request):
