@@ -353,7 +353,7 @@ def display_page_for_officers_to_input_their_info(request):
                                                                                       new_officer_details.passphrase,
                                                                                       context)
     else:
-        if 'past_officer_bio_selected' in request.POST.keys():
+        if 'reuse_bio' in request.POST:
             officer = Officer.objects.get(id=request.POST['past_officer_bio_selected'])
         else:
             # this also covers "create_new_bio" in request.POST.keys() and when there was a re-direct
