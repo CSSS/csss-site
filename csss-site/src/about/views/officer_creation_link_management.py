@@ -367,7 +367,7 @@ def display_page_for_officers_to_input_their_info(request):
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
         context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = \
             determine_new_start_date_for_officer(
-                new_officer_details.start_date, officer.start_date, new_officer_details.new_start_date
+                new_officer_details.start_date, officer, new_officer_details.new_start_date
             )
         context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
@@ -450,7 +450,7 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     return render(request, 'about/process_new_officer/add_officer.html', context)
 
 
-def determine_new_start_date_for_officer(start_date, previous_start_date, new_start_date=True):
+def determine_new_start_date_for_officer(start_date, officer_previous_info, new_start_date=True):
     """
     determine whether or not the officer's start date should be in the current term or previous term
 
@@ -463,10 +463,10 @@ def determine_new_start_date_for_officer(start_date, previous_start_date, new_st
     Return
     start_date -- the start date that needs to be used as indicated by "new_start_date"
     """
-    if new_start_date or previous_start_date is None:
+    if new_start_date or officer_previous_info is None or officer_previous_info.start_date is None:
         return start_date.strftime("%A, %d %b %Y %I:%m %S %p")
     else:
-        return previous_start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+        return officer_previous_info.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def process_information_entered_by_officer(request):
