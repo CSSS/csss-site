@@ -456,7 +456,7 @@ def determine_new_start_date_for_officer(start_date, previous_officer, new_start
 
     Keyword Argument
     start_date -- the new start-date
-    previous_start_date -- the previous officer's info that the user wants to reuse, or a None
+    previous_officer -- the previous officer's info that the user wants to reuse, or a None
      object if the user did not select one
     new_start_date -- indicates whether or not the officer's start-date should use a previous date
 
