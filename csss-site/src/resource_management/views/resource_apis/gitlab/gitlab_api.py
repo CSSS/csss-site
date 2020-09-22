@@ -147,7 +147,7 @@ class GitLabAPI:
                 )
                 return False, "Unable to get the CSSS SFU Gitlab group"
             for membership in csss_group.members.list(all=True):
-                if len([
+                if membership.username != "csss1" and len([
                     user for user in users if user == membership.username
                 ]) == 0:
                     self.remove_user_from_group([membership.username])
