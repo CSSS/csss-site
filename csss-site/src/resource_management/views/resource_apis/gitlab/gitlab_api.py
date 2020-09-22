@@ -108,7 +108,8 @@ class GitLabAPI:
                     else:
                         user = user[0]
                         if len(
-                                [member for member in csss_group.members.list() if member.username == user.username]
+                                [member for member in csss_group.members.list(all=True)
+                                 if member.username == user.username]
                         ) > 0:
                             csss_group.members.delete(id=user.id)
                             logger.info(
@@ -145,7 +146,7 @@ class GitLabAPI:
                     f" getting the \"CSSS\" group\n{e}"
                 )
                 return False, "Unable to get the CSSS SFU Gitlab group"
-            for membership in csss_group.members.list():
+            for membership in csss_group.members.list(all=True):
                 if len([
                     user for user in users if user.username == membership.username
                 ]) == 0:
