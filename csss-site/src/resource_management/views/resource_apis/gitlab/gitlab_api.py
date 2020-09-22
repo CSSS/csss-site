@@ -41,30 +41,39 @@ class GitLabAPI:
 
             for user_name in users:
                 try:
-                    user = self.sfu_gitlab.users.list(username=f'{user_name}')[0]
-                    user_membership = [
-                        membership for membership in csss_group.members.list() if membership.username == user.username
-                    ]
-                    if len(user_membership) > 0:
-                        if user_membership[0].access_level != gitlab.DEVELOPER_ACCESS:
-                            user_membership[0].access_level = gitlab.DEVELOPER_ACCESS
-                            user_membership[0].save()
-                            logger.info(
-                                f"[GitLabAPI add_officer_to_csss_group()] updating the permission"
-                                f" for user {user.username} to developer level"
-                            )
-                        else:
-                            logger.info(
-                                f"[GitLabAPI add_officer_to_csss_group()] user {user.username} already"
-                                f" had access to the CSSS group at developer level"
-                            )
-                            continue
-                    else:
-                        csss_group.members.create({'user_id': user.id, 'access_level': gitlab.DEVELOPER_ACCESS})
-                        logger.info(
-                            f"[GitLabAPI add_officer_to_csss_group()] added user {user.username} "
-                            f"to SFU Gitlab CSSS group"
+                    user = None
+                    try:
+                        user = self.sfu_gitlab.users.list(username=f'{user_name}')[0]
+                    except Exception as e:
+                        logger.error(
+                            f"[GitLabAPI add_officer_to_csss_group()] unable to get the user {user} "
+                            f"due to {e}"
                         )
+                    if user is not None:
+                        user_membership = [
+                            membership for membership in csss_group.members.list()
+                            if membership.username == user.username
+                        ]
+                        if len(user_membership) > 0:
+                            if user_membership[0].access_level != gitlab.DEVELOPER_ACCESS:
+                                user_membership[0].access_level = gitlab.DEVELOPER_ACCESS
+                                user_membership[0].save()
+                                logger.info(
+                                    f"[GitLabAPI add_officer_to_csss_group()] updating the permission"
+                                    f" for user {user.username} to developer level"
+                                )
+                            else:
+                                logger.info(
+                                    f"[GitLabAPI add_officer_to_csss_group()] user {user.username} already"
+                                    f" had access to the CSSS group at developer level"
+                                )
+                                continue
+                        else:
+                            csss_group.members.create({'user_id': user.id, 'access_level': gitlab.DEVELOPER_ACCESS})
+                            logger.info(
+                                f"[GitLabAPI add_officer_to_csss_group()] added user {user.username} "
+                                f"to SFU Gitlab CSSS group"
+                            )
                 except Exception as e:
                     error_message = f"experienced the following error when adding user {user_name} " \
                                     f"to the SFU CSSS Gitlab Group\n{e}"
