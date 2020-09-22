@@ -1,10 +1,6 @@
 from django.contrib import admin
-from announcements.models import Post, AnnouncementAttachment, Announcement, LatestAnnouncementPage
+from announcements.models import Post, PostsAndEmails
 
 admin.site.register(Post)
 
-admin.site.register(AnnouncementAttachment)
-
-admin.site.register(Announcement)
-
-admin.site.register(LatestAnnouncementPage)
+admin.site.register(PostsAndEmails)

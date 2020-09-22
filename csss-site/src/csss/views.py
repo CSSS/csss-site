@@ -1,8 +1,9 @@
 import logging
 
+from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from announcements.models import Announcement, LatestAnnouncementPage
+from announcements.models import PostsAndEmails, Post
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')
@@ -17,34 +18,17 @@ def index(request):
 
     request_path = request.path
 
-    latest_page_number = LatestAnnouncementPage.objects.get()
+    paginated_object = Paginator(PostsAndEmails.objects.all().filter(show=True), per_page=5)
+    paginated_object = Paginator(Post.objects.all().order_by('-id'), per_page=5)
 
-    announcements = Announcement.objects.all().filter(page_number=latest_page_number.page_number).order_by('-id')
-    messages_to_display = []
-    for announcement in announcements:
-        if announcement.post is None:
-            messages_to_display.extend(announcement.email)
-        else:
-            messages_to_display.extend(announcement.post)
-
-    messages_to_display.sort(key=lambda x: x.processed, reverse=True)
-
-    if current_page is latest_page_number:
-        previous_page = latest_page_number-1
-        next_page = 0
-    elif current_page == 0:
-        previous_page = latest_page_number
-        next_page = 1
-    else:
-        previous_page = current_page-1
-        next_page = current_page+1
-
-    previous_button_link = request_path + '?p=' + str(previous_page)
-    next_button_link = request_path + '?p=' + str(next_page)
+    previous_button_link = request_path + '?p=' + str(
+        current_page - 1 if current_page >= 0 else paginated_object.num_pages)
+    next_button_link = request_path + '?p=' + str(
+        current_page + 1 if current_page + 1 <= paginated_object.num_pages else 0)
 
     context = create_main_context(request, 'index')
     context.update({
-        'posts': messages_to_display,
+        'posts': paginated_object.page(current_page),
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
     })

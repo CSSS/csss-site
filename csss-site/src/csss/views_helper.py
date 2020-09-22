@@ -65,10 +65,14 @@ def there_are_multiple_entries(post_dict, key_to_read):
 
 def get_current_term():
     current_date = datetime.datetime.now()
-    term_active = (current_date.year * 10)
-    if int(current_date.month) <= 4:
+    return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+
+
+def get_term_number_for_specified_year_and_month(month, year):
+    term_active = (year * 10)
+    if int(month) <= 4:
         term_active += 1
-    elif int(current_date.month) <= 8:
+    elif int(month) <= 8:
         term_active += 2
     else:
         term_active += 3

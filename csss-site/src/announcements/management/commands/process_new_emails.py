@@ -7,7 +7,7 @@ from django.core.management import BaseCommand
 from django_mailbox.models import Message
 
 from about.models import AnnouncementEmailAddress, Term
-from announcements.models import Announcement, LatestAnnouncementPage
+from announcements.models import PostsAndEmails
 from csss.views_helper import get_current_term
 
 logger = logging.getLogger('csss_site')
@@ -27,10 +27,10 @@ class Command(BaseCommand):
         else:
             for un_processed_email in un_processed_emails:
                 logger.info(f"processing email {un_processed_email}")
-                announcement = Announcement(email=un_processed_email)
+                announcement = PostsAndEmails(email=un_processed_email)
                 announcement.show = un_processed_email.from_address[0] in email_list_for_current_term
                 logger.info(f"email from {un_processed_email.from_address[0]}'s shown attribute is set to {announcement.show}")
-                announcement.page_number = get_page_number()
+                announcement.page_number = 0
                 logger.info(f"page number for email from {un_processed_email} set to {announcement.page_number}")
                 announcement.save()
                 if announcement.show:
@@ -56,11 +56,3 @@ def get_sfu_email_for_current_term():
         return None
     sfu_emails = [email.email for email in AnnouncementEmailAddress.objects.all().filter(officer__elected_term=current_term)]
     return sfu_emails
-
-
-def get_page_number():
-    latest_page_number = LatestAnnouncementPage.objects.get()
-    if (len(Announcement.objects.all().filter(show=True)) % NUMBER_OF_POSTS_PER_PAGE) == 0:
-        latest_page_number.page_number += 1
-        latest_page_number.save()
-    return latest_page_number.page_number
