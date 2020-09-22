@@ -107,18 +107,31 @@ class GitHubAPI:
         }
         """
         if self.connection_successful:
-            logger.info("reading from org CSSS")
+            logger.info("[GitHubAPI ensure_proper_membership()] reading from org CSSS")
 
             for user in users_team_membership.keys():
-                github_user = self.git.search_users(query=f"user:{user}")
-                for team in users_team_membership[user]:
-                    git_team = self.org.get_team_by_slug(team)
-                    if not git_team.has_in_members(github_user):
-                        logger.info(f"[Github add_user_to_team()] adding {github_user} to the {team} team.")
-                        team.add_membership(github_user)
+                logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
+                github_users = self.git.search_users(query=f"user:{user}")
+                if github_users.totalCount == 1:
+                    github_user = github_users[0]
+                    logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
+                                f"{github_user} for user {user}")
+                    for team in users_team_membership[user]:
+                        git_team = self.org.get_team_by_slug(team)
+                        if not git_team.has_in_members(github_user):
+                            logger.info("[Github ensure_proper_membership()] adding "
+                                        f"{github_user} to the {team} team.")
+                            team.add_membership(github_user)
+                else:
+                    logger.info("[GitHubAPI ensure_proper_membership()] could not find the "
+                                f"github profile for user {user}")
 
             for team in self.org.get_teams():
+                logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
                 for user in team.get_members():
+                    logger.info("[GitHubAPI ensure_proper_membership()] validating "
+                                f"{user}'s memberships in team {team}")
                     if team.name not in users_team_membership[user]:
-                        logger.info(f"remove the user {user} from team {team}")
+                        logger.info("[Github ensure_proper_membership()] remove the user "
+                                    f"{user} from team {team}")
                         team.remove_membership(user)
