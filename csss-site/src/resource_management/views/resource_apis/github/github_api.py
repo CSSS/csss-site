@@ -1,6 +1,9 @@
 import logging
+from time import sleep
+
 import github
 from github import Github
+from github.GithubException import RateLimitExceededException, GithubException
 
 logger = logging.getLogger('csss_site')
 
@@ -112,8 +115,22 @@ class GitHubAPI:
             for user in users_team_membership.keys():
                 logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
                 github_users = self.git.search_users(query=f"user:{user}")
-                if github_users.totalCount == 1:
-                    github_user = github_users[0]
+                github_user = None
+                total_count_obtained = False
+                error_experienced = False
+                while not (total_count_obtained or error_experienced):
+                    try:
+                        github_user = github_users[0]
+                        total_count_obtained = True
+                    except RateLimitExceededException:
+                        logger.info(f"[GitHubAPI ensure_proper_membership()] "
+                                    f"sleeping for 60 seconds since rate limit was encountered")
+                        sleep(60)
+                    except GithubException as e:
+                        logger.info(f"[GitHubAPI ensure_proper_membership()] "
+                                    f"encountered error {e} when looking for user {user}")
+                        error_experienced = True
+                if not error_experienced:
                     logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
                                 f"{github_user} for user {user}")
                     for team in users_team_membership[user]:
