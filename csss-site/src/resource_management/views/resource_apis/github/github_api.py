@@ -123,11 +123,11 @@ class GitHubAPI:
                         github_user = github_users[0]
                         total_count_obtained = True
                     except RateLimitExceededException:
-                        logger.info(f"[GitHubAPI ensure_proper_membership()] "
+                        logger.info("[GitHubAPI ensure_proper_membership()] "
                                     f"sleeping for 60 seconds since rate limit was encountered")
                         sleep(60)
                     except GithubException as e:
-                        logger.info(f"[GitHubAPI ensure_proper_membership()] "
+                        logger.info("[GitHubAPI ensure_proper_membership()] "
                                     f"encountered error {e} when looking for user {user}")
                         error_experienced = True
                 if not error_experienced:
