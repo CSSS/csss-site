@@ -148,7 +148,8 @@ class GitHubAPI:
                 for user in team.get_members():
                     logger.info("[GitHubAPI ensure_proper_membership()] validating "
                                 f"{user.login}'s memberships in team {team}")
-                    if team.name not in users_team_membership[user.login.lower()]:
+                    if user.login.lower() not in users_team_membership or \
+                            team.name not in users_team_membership[user.login.lower()]:
                         logger.info("[Github ensure_proper_membership()] remove the user "
                                     f"{user.login} from team {team}")
                         team.remove_membership(user)
