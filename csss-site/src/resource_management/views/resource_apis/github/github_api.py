@@ -124,7 +124,7 @@ class GitHubAPI:
                         total_count_obtained = True
                     except RateLimitExceededException:
                         logger.info("[GitHubAPI ensure_proper_membership()] "
-                                    f"sleeping for 60 seconds since rate limit was encountered")
+                                    "sleeping for 60 seconds since rate limit was encountered")
                         sleep(60)
                     except GithubException as e:
                         logger.info("[GitHubAPI ensure_proper_membership()] "
