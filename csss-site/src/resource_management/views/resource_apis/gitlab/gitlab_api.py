@@ -51,7 +51,7 @@ class GitLabAPI:
                         )
                     if user is not None:
                         user_membership = [
-                            membership for membership in csss_group.members.list()
+                            membership for membership in csss_group.members.list(all=True)
                             if membership.username == user.username
                         ]
                         if len(user_membership) > 0:
