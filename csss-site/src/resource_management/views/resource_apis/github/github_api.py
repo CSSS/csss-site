@@ -121,7 +121,7 @@ class GitHubAPI:
                         if not git_team.has_in_members(github_user):
                             logger.info("[Github ensure_proper_membership()] adding "
                                         f"{github_user} to the {team} team.")
-                            team.add_membership(github_user)
+                            git_team.add_membership(github_user)
                 else:
                     logger.info("[GitHubAPI ensure_proper_membership()] could not find the "
                                 f"github profile for user {user}")
