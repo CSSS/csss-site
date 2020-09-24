@@ -50,9 +50,13 @@ class Command(BaseCommand):
 
         for message in messages:
             announcement_datetime = message.processed
-            term_number = get_term_number_for_specified_year_and_month(announcement_datetime.month, announcement_datetime.year)
+            term_number = get_term_number_for_specified_year_and_month(
+                announcement_datetime.month,
+                announcement_datetime.year
+            )
             if f"{term_number}" not in officer_mapping:
-                logger.info(f"[process_announcements handle()] announcement with date {announcement_datetime} does not map to a term")
+                logger.info("[process_announcements handle()] announcement with date "
+                            f"{announcement_datetime} does not map to a term")
                 continue
             term = Term.objects.all().filter(term_number=term_number)
             if len(term) == 0:
@@ -62,7 +66,8 @@ class Command(BaseCommand):
             term = term[0]
             if hasattr(message, 'mailbox'):
                 officer_emails = officer_mapping[f"{term_number}"]
-                logger.info(f"[process_announcements handle()] acquired {len(officer_emails)} officers for date {announcement_datetime}")
+                logger.info(f"[process_announcements handle()] acquired {len(officer_emails)} "
+                            f"officers for date {announcement_datetime}")
 
                 if len(parseaddr(message.from_header)) > 0:
                     author_name = parseaddr(message.from_header)[0]
@@ -70,7 +75,7 @@ class Command(BaseCommand):
                     valid_email = (author_email in officer_emails)
                     Announcement(term=term, email=message, date=announcement_datetime,
                                  display=valid_email, author=author_name).save()
-                    logger.info(f"[process_announcements handle()] saved email from"
+                    logger.info("[process_announcements handle()] saved email from"
                                 f" {author_name} with email {author_email} with date {announcement_datetime} "
                                 f"for term {term}. Will {'not' if valid_email is False else ''} email")
                 else:
@@ -82,7 +87,7 @@ class Command(BaseCommand):
             else:
                 Announcement(term=term, post=message, date=announcement_datetime,
                              display=True, author=message.author).save()
-                logger.info(f"[process_announcements handle()] saved post from"
+                logger.info("[process_announcements handle()] saved post from"
                             f" {message.author} with date {announcement_datetime} "
                             f"for term {term}")
 
@@ -97,26 +102,31 @@ def get_date_from_email(email_date):
         announcement_datetime = datetime.datetime.strptime(email_date, date_format)
         successful = True
     except ValueError:
-        logger.info(f"[process_announcements get_date_from_email()] date {email_date}  does not match format '{date_format}'")
+        logger.info(f"[process_announcements get_date_from_email()] date '{email_date}' "
+                    f"does not match format '{date_format}'")
     if not successful:
         date_format = '%a, %d %b %Y %H:%M:%S %z'
         try:
             announcement_datetime = datetime.datetime.strptime(email_date[:-6], date_format)
             successful = True
         except ValueError:
-            logger.info(f"[process_announcements get_date_from_email()] date {email_date[:-6]}  does not match format '{date_format}'")
+            logger.info(f"[process_announcements get_date_from_email()] date '{email_date[:-6]}' "
+                        f"does not match format '{date_format}'")
     if not successful:
         date_format = '%a, %d %b %Y %H:%M:%S %Z'
         try:
             announcement_datetime = datetime.datetime.strptime(email_date, date_format)
             successful = True
         except ValueError:
-            logger.info(f"[process_announcements get_date_from_email()] date {email_date} does not match format '{date_format}'")
+            logger.info(f"[process_announcements get_date_from_email()] date '{email_date}' "
+                        f"does not match format '{date_format}'")
             announcement_datetime = datetime.date.today()
     if not successful:
-        logger.info(f"[process_announcements get_date_from_email()] ultimately unable to determine the format for date {email_date}. Reverting to current date")
+        logger.info("[process_announcements get_date_from_email()] ultimately unable to "
+                    f"determine the format for date {email_date}. Reverting to current date")
     else:
-        logger.info(f"[process_announcements get_date_from_email()] date {email_date} from email transformed to datetime object {announcement_datetime}")
+        logger.info(f"[process_announcements get_date_from_email()] date '{email_date}' "
+                    f"from email transformed to datetime object {announcement_datetime}")
     return announcement_datetime
 
 

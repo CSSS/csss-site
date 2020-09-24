@@ -3,7 +3,6 @@ import logging
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from announcements.models import ManualAnnouncement
 from announcements.models import Announcement
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 
