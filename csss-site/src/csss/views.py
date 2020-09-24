@@ -19,7 +19,7 @@ def index(request):
     request_path = request.path
 
     paginated_object = Paginator(PostsAndEmails.objects.all().filter(show=True), per_page=5)
-    paginated_object = Paginator(Post.objects.all().order_by('-id'), per_page=5)
+    paginated_object = Paginator(Post.objects.all().order_by('id'), per_page=5)
 
     previous_button_link = request_path + '?p=' + str(
         current_page - 1 if current_page >= 0 else paginated_object.num_pages)
