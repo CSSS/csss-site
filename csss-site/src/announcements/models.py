@@ -1,8 +1,11 @@
 from django.db import models
 from django_mailbox.models import Message
+from django_markdown.models import MarkdownField
+
+from about.models import Term
 
 
-class Post(models.Model):
+class ManualAnnouncement(models.Model):
     title = models.CharField(
         max_length=32,
         default=None,
@@ -17,8 +20,7 @@ class Post(models.Model):
         default=None,
         unique=True
     )
-    content = models.CharField(
-        max_length=5000,
+    content = MarkdownField(
         default=None
     )
     processed = models.DateTimeField()
@@ -27,18 +29,38 @@ class Post(models.Model):
         return self.title
 
 
-class PostsAndEmails(models.Model):
+class Announcement(models.Model):
+    term = models.ForeignKey(
+        Term,
+        on_delete=models.CASCADE,
+        related_name='relevant_announcements',
+        default=None
+    )
     email = models.ForeignKey(
         Message,
         related_name='visibility_indicator',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        default=None,
+        blank=True,
+        null=True
     )
     post = models.ForeignKey(
-        Post,
+        ManualAnnouncement,
         related_name='visibility_indicator',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        default=None,
+        blank=True,
+        null=True
     )
-    page_number = models.IntegerField(
-        default=0
+    date = models.DateTimeField()
+
+    author = models.CharField(
+        max_length=200,
+        default=None,
+        blank=True
     )
-    show = models.BooleanField()
+
+    display = models.BooleanField(
+        default=None,
+        blank=True
+    )

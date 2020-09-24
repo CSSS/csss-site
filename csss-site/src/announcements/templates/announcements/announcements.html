@@ -9,41 +9,35 @@
 <div class="columns">
     <div class="column is-three-quarters ">
 
-        {% for post in posts %}
+        {% for announcement in announcements %}
         <section class="section">
             <div class="container">
                 <article class="box is-light" >
                     <h3 class="title is-size-3">
-                        {%  if post.subect is None %}
-                            {{post.title}}
+                        {%  if announcement.email is None %}
+                            {{ announcement.post.title }}
                         {%  else %}
-                            {{post.subject}}
+                            {{announcement.email.subject}}
                         {%  endif %}
                     </h3>
                     <p class="is-size-6 has-text-grey has-text-right">
-                        posted by
-                        {%  if post.from_header is None %}
-                            {{post.author}}
-                        {%  else %}
-                            {{post.from_header}}
-                        {%  endif %}
-                         on {{post.processed}}
+                        posted by {{announcement.author}} on {{announcement.date}}
                     </p>
                     <hr style=
                     "border:solid 1px grey;
                     height: 0px;">
                     <div class="is-size-6">
-                    {% if post.html is None %}
-                        {{post.content|safe|linebreaks }}
+                    {% if announcement.email is None %}
+                        {{announcement.post.content|safe|linebreaks }}
                     {%  else %}
-                        {% if post.html|safe|length > 0 %}
-                            {{post.html|safe}}
+                        {% if announcement.email.html|safe|length > 0 %}
+                            {{announcement.email.html|safe}}
                         {% else %}
-                            {{post.body|safe|linebreaks}}
+                            {{announcement.email.body|safe|linebreaks}}
                         {% endif %}
                     {%  endif %}
                     </div>
-                    {% for attachment in post.attachments.all %}
+                    {% for attachment in announcement.attachments.all %}
                         <p> attachment: </p> <a href="{{URL_ROOT}}{% get_media_prefix %}{{ attachment.document|cut:'documents/staticfiles/' }}">{{ attachment.document|cut:'documents/staticfiles/' }}</a><br>
                     {% endfor %}
                 </article>

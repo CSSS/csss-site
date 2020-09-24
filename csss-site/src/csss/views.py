@@ -3,8 +3,8 @@ import logging
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from announcements.models import Post
-from announcements.models import PostsAndEmails
+from announcements.models import ManualAnnouncement
+from announcements.models import Announcement
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')
@@ -19,8 +19,7 @@ def index(request):
 
     request_path = request.path
 
-    paginated_object = Paginator(PostsAndEmails.objects.all().filter(show=True), per_page=5)
-    paginated_object = Paginator(Post.objects.all().order_by('id'), per_page=5)
+    paginated_object = Paginator(Announcement.objects.all().filter(display=True).order_by('id'), per_page=5)
 
     previous_button_link = request_path + '?p=' + str(
         current_page - 1 if current_page >= 0 else paginated_object.num_pages)
@@ -29,7 +28,7 @@ def index(request):
 
     context = create_main_context(request, 'index')
     context.update({
-        'posts': paginated_object.page(current_page),
+        'announcements': paginated_object.page(current_page),
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
     })

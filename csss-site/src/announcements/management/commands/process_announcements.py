@@ -8,7 +8,7 @@ from django_mailbox.models import Message
 from django_mailbox.models import Mailbox
 
 from about.models import Officer, Term, AnnouncementEmailAddress
-from announcements.models import PostsAndEmails, Post
+from announcements.models import Announcement, ManualAnnouncement
 from csss.views_helper import get_term_number_for_specified_year_and_month
 
 logger = logging.getLogger('csss_site')
@@ -40,92 +40,84 @@ class Command(BaseCommand):
 
         messages = []
         for message in Message.objects.all().filter(visibility_indicator__isnull=True):
-
-            # will modify the processed date to be change
-            # from the day the mailbox was polled to the date the email was sent
-            successful = False
-            announcement_datetime = None
-            try:
-                announcement_datetime = datetime.datetime.strptime(
-                    message.get_email_object().get('date'), '%a, %d %b %Y %H:%M:%S %z'
-                )
-                successful = True
-            except ValueError:
-                logger.info("[process_announcements handle()] "
-                            f"date {message.get_email_object().get('date')} "
-                            f" does not match format '%a, %d %b %Y %H:%M:%S %z'")
-            if not successful:
-                try:
-                    announcement_datetime = datetime.datetime.strptime(
-                        message.get_email_object().get('date')[:-6], '%a, %d %b %Y %H:%M:%S %z'
-                    )
-                    successful = True
-                except ValueError:
-                    logger.info("[process_announcements handle()] "
-                                f"date {message.get_email_object().get('date')[:-6]} "
-                                f" does not match format '%a, %d %b %Y %H:%M:%S %z'")
-            if not successful:
-                try:
-                    announcement_datetime = datetime.datetime.strptime(
-                        message.get_email_object().get('date'), '%a, %d %b %Y %H:%M:%S %Z'
-                    )
-                    successful = True
-                except ValueError:
-                    logger.info("[process_announcements handle()] "
-                                f"date {message.get_email_object().get('date')} "
-                                f" does not match format '%a, %d %b %Y %H:%M:%S %Z'")
-            if not successful:
-                logger.info("[process_announcements handle()] "
-                            "ultimately unable to determine the format"
-                            f" for date {message.get_email_object().get('date')} reverting to current date")
-                announcement_datetime = datetime.date.today()
-            else:
-                logger.info("[process_announcements handle()] "
-                            f"date {message.get_email_object().get('date')} "
-                            f" from email transformed to datetime object {announcement_datetime}")
-            message.processed = announcement_datetime.replace(tzinfo=pytz.utc)
-            message.save()
+            message.processed = get_date_from_email(message.get_email_object().get('date')).replace(tzinfo=pytz.utc)
             messages.append(message)
-        for post in Post.objects.all().filter(visibility_indicator__isnull=True):
+        for post in ManualAnnouncement.objects.all().filter(visibility_indicator__isnull=True):
             post.processed = post.processed.replace(tzinfo=pytz.utc)
-            post.save()
             messages.append(post)
         messages.sort(key=lambda x: x.processed, reverse=True)
         officer_mapping = get_officer_term_mapping()
 
         for message in messages:
             announcement_datetime = message.processed
-            term_number = get_term_number_for_specified_year_and_month(
-                announcement_datetime.month, announcement_datetime.year
-            )
+            term_number = get_term_number_for_specified_year_and_month(announcement_datetime.month, announcement_datetime.year)
             if f"{term_number}" not in officer_mapping:
-                logger.info("[process_announcements handle()] announcement with date "
-                            f"{announcement_datetime} does not map to a term")
-            else:
-                term = Term.objects.all().filter(term_number=term_number)
-                if len(term) == 0:
-                    logger.info("[process_announcements handle()] could not find a valid term "
-                                f"for term_number {term_number}")
-                else:
-                    term = term[0]
-                    if hasattr(message, 'mailbox'):
-                        officer_emails = officer_mapping[f"{term_number}"]
-                        logger.info(f"[process_announcements handle()] acquired {len(officer_emails)} "
-                                    f"officers for date {announcement_datetime}")
+                logger.info(f"[process_announcements handle()] announcement with date {announcement_datetime} does not map to a term")
+                continue
+            term = Term.objects.all().filter(term_number=term_number)
+            if len(term) == 0:
+                logger.info("[process_announcements handle()] could not find a valid term "
+                            f"for term_number {term_number}")
+                continue
+            term = term[0]
+            if hasattr(message, 'mailbox'):
+                officer_emails = officer_mapping[f"{term_number}"]
+                logger.info(f"[process_announcements handle()] acquired {len(officer_emails)} officers for date {announcement_datetime}")
 
-                        message.processed = announcement_datetime
-                        message.from_header = parseaddr(message.from_header)[0]
-                        message.save()
-                        valid_email = (message.from_address[0] in officer_emails)
-                        PostsAndEmails(email=message, term=term, valid=valid_email).save()
-                        logger.info(f"[process_announcements handle()] saved email from"
-                                    f" {message.from_address[0]} from email with date {announcement_datetime} "
-                                    f"for term {term} as {valid_email}")
-                    else:
-                        PostsAndEmails(post=message, term=term, valid=True).save()
-                        logger.info(f"[process_announcements handle()] saved post from"
-                                    f" {message.author} with date {announcement_datetime} "
-                                    f"for term {term}")
+                if len(parseaddr(message.from_header)) > 0:
+                    author_name = parseaddr(message.from_header)[0]
+                    author_email = parseaddr(message.from_header)[1]
+                    valid_email = (author_email in officer_emails)
+                    Announcement(term=term, email=message, date=announcement_datetime,
+                                 display=valid_email, author=author_name).save()
+                    logger.info(f"[process_announcements handle()] saved email from"
+                                f" {author_name} with email {author_email} with date {announcement_datetime} "
+                                f"for term {term}. Will {'not' if valid_email is False else ''} email")
+                else:
+                    Announcement(term=term, email=message, date=announcement_datetime,
+                                 display=False).save()
+                    logger.info("[process_announcements handle()] unable to determine sender of email "
+                                f"with date {announcement_datetime} "
+                                f"for term {term}. Will not display email")
+            else:
+                Announcement(term=term, post=message, date=announcement_datetime,
+                             display=True, author=message.author).save()
+                logger.info(f"[process_announcements handle()] saved post from"
+                            f" {message.author} with date {announcement_datetime} "
+                            f"for term {term}")
+
+
+def get_date_from_email(email_date):
+    # will modify the processed date to be change
+    # from the day the mailbox was polled to the date the email was sent
+    successful = False
+    announcement_datetime = None
+    date_format = '%a, %d %b %Y %H:%M:%S %z'
+    try:
+        announcement_datetime = datetime.datetime.strptime(email_date, date_format)
+        successful = True
+    except ValueError:
+        logger.info(f"[process_announcements get_date_from_email()] date {email_date}  does not match format '{date_format}'")
+    if not successful:
+        date_format = '%a, %d %b %Y %H:%M:%S %z'
+        try:
+            announcement_datetime = datetime.datetime.strptime(email_date[:-6], date_format)
+            successful = True
+        except ValueError:
+            logger.info(f"[process_announcements get_date_from_email()] date {email_date[:-6]}  does not match format '{date_format}'")
+    if not successful:
+        date_format = '%a, %d %b %Y %H:%M:%S %Z'
+        try:
+            announcement_datetime = datetime.datetime.strptime(email_date, date_format)
+            successful = True
+        except ValueError:
+            logger.info(f"[process_announcements get_date_from_email()] date {email_date} does not match format '{date_format}'")
+            announcement_datetime = datetime.date.today()
+    if not successful:
+        logger.info(f"[process_announcements get_date_from_email()] ultimately unable to determine the format for date {email_date}. Reverting to current date")
+    else:
+        logger.info(f"[process_announcements get_date_from_email()] date {email_date} from email transformed to datetime object {announcement_datetime}")
+    return announcement_datetime
 
 
 def get_officer_term_mapping():

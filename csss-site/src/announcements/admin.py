@@ -1,6 +1,18 @@
 from django.contrib import admin
-from announcements.models import Post, PostsAndEmails
+from django_markdown.admin import MarkdownModelAdmin
 
-admin.site.register(Post)
+from announcements.models import ManualAnnouncement, Announcement
 
-admin.site.register(PostsAndEmails)
+
+class ManualAnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'author', 'content', 'processed')
+
+
+admin.site.register(ManualAnnouncement, MarkdownModelAdmin)
+
+
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('id', 'term', 'email', 'post', 'date', 'author', 'display')
+
+
+admin.site.register(Announcement, AnnouncementAdmin)
