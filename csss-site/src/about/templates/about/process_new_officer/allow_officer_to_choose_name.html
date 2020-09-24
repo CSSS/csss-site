@@ -11,10 +11,10 @@
     <label for="past_officer_bio_selected">Past Bio To Select: </label>
         <select name="past_officer_bio_selected" id="past_officer_bio_selected">
             {%  for officer in past_officers %}
-            <option value="{{officer.id}}">{{officer.name}} - {{ officer.position }} - {{ officer.elected_term }}</option>
+            <option value="{{officer.id}}">{{officer}}</option>
             {%  endfor %}
         </select>
-        <input type="submit" name="reuse-bio" value="Proceed with Selected Bio">
+        <input type="submit" name="reuse_bio" value="Proceed with Selected Bio">
         <br><br><br>
         <p>or
     {%  endif %}

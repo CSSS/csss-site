@@ -23,8 +23,10 @@ COPY csss-site/test/pytest.ini ./
 
 COPY csss-site/test/setup.cfg ./
 
+RUN pip install --no-cache --upgrade pip setuptools
+
 RUN pip install --no-cache-dir -r test-requirements.txt
 
 RUN mkdir -p $UNIT_TEST_RESULTS
 
-CMD ["sh" , "-c", "py.test --junitxml=${UNIT_TEST_RESULTS}/${TEST_RESULT_FILE_NAME}" ]
+CMD ["sh" , "-c", "py.test --junitxml=${UNIT_TEST_RESULTS}/${TEST_RESULT_FILE_NAME} --show-capture=no" ]

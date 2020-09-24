@@ -1,6 +1,9 @@
 import logging
+from time import sleep
+
 import github
 from github import Github
+from github.GithubException import RateLimitExceededException, GithubException
 
 logger = logging.getLogger('csss_site')
 
@@ -9,8 +12,10 @@ class GitHubAPI:
 
     def __init__(self, access_token):
         self.connection_successful = False
+        self.error_message = None
         if access_token is None:
-            logger.info("access_token is not valid")
+            self.error_message = "access_token is not valid"
+            logger.info(self.error_message)
             return
         try:
             self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
@@ -20,16 +25,21 @@ class GitHubAPI:
             # #github.Organization.Organization
             self.connection_successful = True
         except Exception as e:
-            logger.error(
-                f"[Github __init__()] experienced following error when trying to connect to Github and get Org "
-                f"\"CSSS\":\n{e}")
+            self.error_message = f"experienced following error when trying to" \
+                                 f" connect to Github and get Org \"CSSS\":\n{e}"
+            logger.error(f"[Github __init__()] {self.error_message}")
 
     def add_non_officer_to_a_team(self, users, team_name):
-        """Add listed users to a specific team
+        """
+        Add listed users to a specific team
 
         Keyword Arguments:
         users -- a list of all the users who need to be added to the team
         team_name -- the name of the team to add them to
+
+        return
+        success -- true or false Bool
+        error_message -- the error_message if success is False or None otherwise
         """
         if self.connection_successful:
             try:
@@ -100,18 +110,46 @@ class GitHubAPI:
         }
         """
         if self.connection_successful:
-            logger.info("reading from org CSSS")
+            logger.info("[GitHubAPI ensure_proper_membership()] reading from org CSSS")
 
             for user in users_team_membership.keys():
-                github_user = self.git.search_users(query=f"user:{user}")
-                for team in users_team_membership[user]:
-                    git_team = self.org.get_team_by_slug(team)
-                    if not git_team.has_in_members(github_user):
-                        logger.info(f"[Github add_user_to_team()] adding {github_user} to the {team} team.")
-                        team.add_membership(github_user)
+                logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
+                github_users = self.git.search_users(query=f"user:{user}")
+                github_user = None
+                total_count_obtained = False
+                error_experienced = False
+                while not (total_count_obtained or error_experienced):
+                    try:
+                        github_user = github_users[0]
+                        total_count_obtained = True
+                    except RateLimitExceededException:
+                        logger.info("[GitHubAPI ensure_proper_membership()] "
+                                    "sleeping for 60 seconds since rate limit was encountered")
+                        sleep(60)
+                    except GithubException as e:
+                        logger.info("[GitHubAPI ensure_proper_membership()] "
+                                    f"encountered error {e} when looking for user {user}")
+                        error_experienced = True
+                if not error_experienced:
+                    logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
+                                f"{github_user} for user {user}")
+                    for team in users_team_membership[user]:
+                        git_team = self.org.get_team_by_slug(team)
+                        if not git_team.has_in_members(github_user):
+                            logger.info("[Github ensure_proper_membership()] adding "
+                                        f"{github_user} to the {team} team.")
+                            git_team.add_membership(github_user)
+                else:
+                    logger.info("[GitHubAPI ensure_proper_membership()] could not find the "
+                                f"github profile for user {user}")
 
             for team in self.org.get_teams():
+                logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
                 for user in team.get_members():
-                    if team.name not in users_team_membership[user]:
-                        logger.info(f"remove the user {user} from team {team}")
+                    logger.info("[GitHubAPI ensure_proper_membership()] validating "
+                                f"{user.login}'s memberships in team {team}")
+                    if user.login.lower() not in users_team_membership or \
+                            team.name not in users_team_membership[user.login.lower()]:
+                        logger.info("[Github ensure_proper_membership()] remove the user "
+                                    f"{user.login} from team {team}")
                         team.remove_membership(user)

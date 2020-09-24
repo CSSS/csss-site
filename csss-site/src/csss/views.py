@@ -3,7 +3,8 @@ import logging
 from django.core.paginator import Paginator
 from django.shortcuts import render
 
-from announcements.models import PostsAndEmails, Post
+from announcements.models import Post
+from announcements.models import PostsAndEmails
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')

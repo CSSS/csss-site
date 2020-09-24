@@ -6,7 +6,7 @@
 
 {% block content %}
 	{% for position in officer_creation_links %}
-		<p>{{position}}<p>
+		<p>{{position.0}} = {{ position.1 }}<p>
 	{% endfor %}
 	<br>
 	<br>

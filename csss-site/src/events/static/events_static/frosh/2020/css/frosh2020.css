@@ -1,0 +1,127 @@
+
+
+body{
+    /*width: 100%;*/
+    background-image: url('../images/background.png');
+    background-size: cover;
+    color:#FFFFFE;
+}
+img{
+    object-fit: contain;
+}
+.wrapper{
+    width:100%;
+    max-width: 100%;
+
+}
+.center{
+    width:70%;
+    max-width: 70%;
+    object-fit: contain;
+    display:block;
+    margin-left: auto; 
+    margin-right: auto; 
+    
+}
+.content{
+    background-image: url('../images/content-background2.png');
+    background-size: 100% 100%;
+    padding-top: 5%;
+    overflow: auto;
+    color:#ffffff;
+}
+.text{
+    width:70%;
+    max-width: 70%;
+    margin-left: auto; 
+    margin-right: auto; 
+    
+}
+.text p{
+    font-size:15px;
+}
+.text h3{
+    text-align: center;
+    font-size:45px;
+    color:#00ff00;
+}
+.factioncontent{
+    font-family: "Lucida Console";
+}
+table{
+    border-collapse: collapse;
+    width:100%;
+}
+td{
+
+    padding: 5%;
+    width:45%;
+    vertical-align: top;
+    color:#ffffff;
+    border-top: 3px double #ffffff;
+    border-bottom: 3px double #ffffff;
+}
+td p{
+    /*padding:5%;*/
+}
+td img{
+    max-width: 60%;
+    margin-left: 20%;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.teams{
+    margin-left: auto; 
+    margin-right: auto; 
+    width:90%;
+    max-width: 90%;
+}
+.signup{
+    background-color:#00ff00;
+    width:100%;
+    height:10%;
+}
+.moreContent{
+    margin-left: auto; 
+    margin-right: auto; 
+    width:90%;
+    overflow: auto;
+}
+
+.heading{
+    border-top: 3px double #ffffff;
+    border-bottom: 3px double #ffffff;
+    color: #00ff00;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.CSSScontent{
+    font-family: Calibri;
+}
+a:link {
+    color:lightblue;
+}
+a:visited {
+    color:lightblue;
+}
+
+.halfdiv{
+    width:40%;
+    float:left;
+    display:inline;
+    margin-right: 5%;
+    margin-left: 5%;
+}
+.halfdiv h2{
+    color:#d26060;
+}
+.footer{
+    padding-top: 1%;
+    text-align: center;
+    background-color:#000000;
+    width: 100%;
+    height: 10%;
+}

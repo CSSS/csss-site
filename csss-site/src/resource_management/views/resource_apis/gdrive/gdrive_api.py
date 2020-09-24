@@ -55,6 +55,7 @@ class GoogleDrive:
 
     def __init__(self, token_location, root_file_id):
         creds = None
+        self.error_message = None
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
@@ -64,18 +65,15 @@ class GoogleDrive:
                 with open(token_location, 'rb') as token:
                     creds = pickle.load(token)
         except EOFError as e:
+            self.error_message = "encountered following error when trying to read" \
+                                 f" from {token_location} for google drive\n{e}"
             logger.error(
-                "[GoogleDrive __init__()] encountered following error "
-                "when trying to read from {}\n{}".format(token_location, e)
-            )
+                f"[GoogleDrive __init__()] {self.error_message}")
             return
         except pickle.UnpicklingError as e:
-            logger.error(
-                "[GoogleDrive __init__()] encountered following error "
-                "when trying to validate the token {}\n{}".format(
-                    token_location, e
-                )
-            )
+            self.error_message = "encountered following error when trying to " \
+                                 f"validate the token {token_location} for google drive\n{e}"
+            logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
             return
         else:
             # If there are no (valid) credentials available, let the user log in.
@@ -83,11 +81,10 @@ class GoogleDrive:
                 if creds and creds.expired and creds.refresh_token:
                     creds.refresh(Request())
                 else:
-                    logger.info(
-                        "[GoogleDrive __init__()] no token detected at "
-                        f"location \"{token_location}\", please create locally"
-                        " and then upload to that location."
-                    )
+                    self.error_message = "no token detected at location" \
+                                         f" \"{token_location}\" for google drive, please create locally " \
+                                         "and then upload to that location. "
+                    logger.info(f"[GoogleDrive __init__()] {self.error_message} ")
                     return
                 with open(token_location, 'wb') as token:
                     pickle.dump(creds, token)
@@ -102,6 +99,11 @@ class GoogleDrive:
         Keyword Arguments:
         users -- the list of emails who need access given to a specific file/folder
         file_id -- if specified, indicates what file/folder the users need to be given access to
+
+        return
+        success -- true or false bool
+        file_name -- the name of the file/folder that the users were given access to
+        e -- error that occurred if success is false
         """
         if self.connection_successful:
             if file_id is None:
@@ -111,7 +113,7 @@ class GoogleDrive:
             except googleapiclient.errors.HttpError as e:
                 return False, None, e
 
-            name = response['name']
+            file_name = response['name']
             for user in users:
                 email_message = (
                     f"Hello {user},"
@@ -143,7 +145,6 @@ class GoogleDrive:
                         f"[GoogleDrive add_users_gdrive()] email sent to {user.lower()} "
                         "regarding their access to the sfu google drive"
                     )
-                    return True, name, None
                 except Exception as e:
                     logger.info(
                         "[GoogleDrive add_users_gdrive()] was not able to given write permission "
@@ -151,6 +152,7 @@ class GoogleDrive:
                         f"instead. \n {e}"
                     )
                     return False, None, e
+            return True, file_name, None
 
     def remove_users_gdrive(self, users, file_id=None):
         """will remove the specified users' access to the a csss google drive folder/file
