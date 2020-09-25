@@ -23,7 +23,7 @@ def index(request):
     previous_button_link = request_path + '?p=' + str(
         current_page - 1 if current_page >= 0 else paginated_object.num_pages)
     next_button_link = request_path + '?p=' + str(
-        current_page + 1 if current_page + 1 <= paginated_object.num_pages else 0)
+        current_page + 1 if current_page + 1 <= paginated_object.num_pages else 1)
 
     context = create_main_context(request, 'index')
     context.update({
