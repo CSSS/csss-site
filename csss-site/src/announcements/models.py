@@ -23,7 +23,7 @@ class ManualAnnouncement(models.Model):
     content = MarkdownField(
         default=None
     )
-    processed = models.DateTimeField()
+    date = models.DateTimeField()
 
     def __str__(self):
         return self.title

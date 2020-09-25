@@ -1,5 +1,9 @@
-import environ
+import datetime
 import os
+
+import environ
+import tzlocal
+
 from csss.logger_setup import initialize_logger
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -120,7 +124,6 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
         logger.error(f"[settings.py] GITLAB_PRIVATE_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
     else:
         GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
-
 
 logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
 logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
@@ -270,8 +273,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Vancouver'
+WEBSITE_TIME_ZONE = 'America/Vancouver'
+TIME_ZONE = WEBSITE_TIME_ZONE
+SERVER_ZONE = f"{tzlocal.get_localzone()}"
 
+# needed for importing manual announcements from previous website
+TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
@@ -290,7 +297,6 @@ STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:
     STATICFILES_DIRS = os.environ['STATICFILES_DIRS'].split(":")
 logger.info(f"[settings.py] STATICFILES_DIRS={STATICFILES_DIRS}")
-
 
 # STATICFILES_DIRS = [
 #    'static_files/',
