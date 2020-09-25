@@ -105,11 +105,26 @@ def there_are_multiple_entries(post_dict, key_to_read):
 
 
 def get_current_term():
+    """
+    Get the term number for the current term
+
+    Return
+    the term_number that fits the convention YYY<1/2/3>
+    """
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
 def get_term_number_for_specified_year_and_month(month, year):
+    """
+    get the term_number for the term that maps to the specified month and year
+
+    keyword argument
+    month -- the month's number (1-12)
+    year -- the year's number
+
+    return: the term_number that fits the convention YYY<1/2/3>
+    """
     term_active = (year * 10)
     if int(month) <= 4:
         term_active += 1
@@ -118,18 +133,3 @@ def get_term_number_for_specified_year_and_month(month, year):
     else:
         term_active += 3
     return term_active
-
-
-def get_current_active_term():
-    """
-    get the term_number for the current term
-
-    return: the term_number that fits the convention YYY<1/2/3>
-    """
-    now = datetime.datetime.now()
-    if int(now.month) <= 4:
-        return (now.year * 10) + 1
-    elif int(now.month) <= 8:
-        return (now.year * 10) + 2
-    else:
-        return (now.year * 10) + 3

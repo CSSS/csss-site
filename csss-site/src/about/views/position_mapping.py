@@ -6,7 +6,7 @@ from querystring_parser import parser
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
 from about.views.officer_management_helper import TAB_STRING
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, \
-    there_are_multiple_entries, get_current_active_term, ERROR_MESSAGES_KEY
+    there_are_multiple_entries, get_current_term, ERROR_MESSAGES_KEY
 
 logger = logging.getLogger('csss_site')
 
@@ -69,7 +69,7 @@ def position_mapping(request):
                         success, error_message = validate_position_name(new_name_for_officer_position)
 
                     if success:
-                        terms = Term.objects.all().filter(term_number=get_current_active_term())
+                        terms = Term.objects.all().filter(term_number=get_current_term())
                         if len(terms) > 0:
                             term = terms[0]
                             officer_in_current_term_that_need_update = Officer.objects.all().filter(

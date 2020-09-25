@@ -1,7 +1,7 @@
 import logging
 
 from about.models import Term, Officer
-from csss.views_helper import get_current_active_term
+from csss.views_helper import get_current_term
 from resource_management.models import NaughtyOfficer
 
 logger = logging.getLogger('csss_site')
@@ -11,7 +11,7 @@ def create_current_officer_list():
     """
     Returns the list of users who currently need to have access to the SFU CSSS Digital Resources
     """
-    term_active = get_current_active_term()
+    term_active = get_current_term()
     officer_list = []
     for index in range(0, 5):
         term = Term.objects.get(term_number=term_active)
