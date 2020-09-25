@@ -115,14 +115,10 @@ def add_sortable_date_to_email(email):
     Return
     email_datetime -- the email with a new "sortable_date" field
     """
-    # will modify the processed date to be change
-    # from the day the mailbox was polled to the date the email was sent
     email_date = email.get_email_object().get('date')
     successful = False
     email_datetime = None
     date_format = '%a, %d %b %Y %H:%M:%S %z'
-    if email.subject == "The CSSS is seeking Mentors for SFU CSSS Frosh Week 2020":
-        print(1)
     try:
         email_datetime = datetime.datetime.strptime(email_date, date_format).astimezone(
             pytz.timezone(settings.WEBSITE_TIME_ZONE)
