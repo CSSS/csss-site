@@ -324,11 +324,7 @@ logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 # This is destination directory for your static files. This should be absolute path in yor file system,
 # for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 # static files from your project and copy them into STATIC_ROOT dir
-
-if ENVIRONMENT == "LOCALHOST":
-    MEDIA_URL = os.path.join(BASE_DIR, 'media_root/')
-else:
-    MEDIA_URL = '/MEDIA_URL/'
+MEDIA_URL = '/MEDIA_URL/'
 logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
 
 # URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
