@@ -5,7 +5,7 @@ from announcements.models import ManualAnnouncement, Announcement
 
 
 class ManualAnnouncementAdmin(admin.ModelAdmin):
-    list_display = ('id', 'title', 'author', 'content', 'processed')
+    list_display = ('id', 'title', 'author', 'date')
 
 
 admin.site.register(ManualAnnouncement, MarkdownModelAdmin)
