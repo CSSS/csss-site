@@ -36,9 +36,18 @@ def django_mailbox_handle():
 class Command(BaseCommand):
     help = "process the latest new emails and manual announcements and determines which to display"
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--poll_email',
+            action='store_true',
+            default=False,
+            help="pull the latest emails from gmail"
+        )
+
     def handle(self, *args, **options):
         logger.info(options)
-        django_mailbox_handle()
+        if options['poll_email']:
+            django_mailbox_handle()
 
         time_difference = get_timezone_difference(
             datetime.datetime.now().strftime('%Y-%m-%d'),
@@ -55,7 +64,7 @@ class Command(BaseCommand):
             [add_sortable_date_to_manual_announcement(time_difference, manual_announcement)
              for manual_announcement in ManualAnnouncement.objects.all().filter(visibility_indicator__isnull=True)]
         )
-        messages.sort(key=lambda x: x.sortable_date, reverse=True)
+        messages.sort(key=lambda x: x.sortable_date, reverse=False)
         officer_mapping = get_officer_term_mapping()
 
         for message in messages:
@@ -97,7 +106,7 @@ class Command(BaseCommand):
                                 f"with date {announcement_datetime} "
                                 f"for term {term}. Will not display email")
             else:
-                Announcement(term=term, post=message, date=announcement_datetime,
+                Announcement(term=term, manual_announcement=message, date=announcement_datetime,
                              display=True, author=message.author).save()
                 logger.info("[process_announcements handle()] saved post from"
                             f" {message.author} with date {announcement_datetime} "

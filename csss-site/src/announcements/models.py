@@ -44,7 +44,7 @@ class Announcement(models.Model):
         blank=True,
         null=True
     )
-    post = models.ForeignKey(
+    manual_announcement = models.ForeignKey(
         ManualAnnouncement,
         related_name='visibility_indicator',
         on_delete=models.CASCADE,
@@ -64,3 +64,9 @@ class Announcement(models.Model):
         default=None,
         blank=True
     )
+
+    def __str__(self):
+        if self.email is None:
+            return f"{self.manual_announcement}"
+        else:
+            return f"{self.email}"

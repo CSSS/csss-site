@@ -24,6 +24,8 @@ querystring_parser
 psycopg2-binary
 django_markdown
 pytz
+pandas
+tzlocal
 
 # google_drive requirements
 google-api-python-client==1.7.8

@@ -1,6 +1,8 @@
 import logging
 
+from django.conf import settings
 from django.core.paginator import Paginator
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from announcements.models import Announcement
@@ -18,16 +20,23 @@ def index(request):
 
     request_path = request.path
 
-    paginated_object = Paginator(Announcement.objects.all().filter(display=True).order_by('id'), per_page=5)
+    paginated_object = Paginator(Announcement.objects.all().filter(display=True).order_by('-date'), per_page=5)
+
+    if paginated_object.num_pages < current_page:
+        return HttpResponseRedirect(f'{settings.URL_ROOT}')
+
+    announcements = paginated_object.page(current_page)
 
     previous_button_link = request_path + '?p=' + str(
-        current_page - 1 if current_page >= 0 else paginated_object.num_pages)
+        current_page - 1 if current_page > 1 else paginated_object.num_pages
+    )
     next_button_link = request_path + '?p=' + str(
-        current_page + 1 if current_page + 1 <= paginated_object.num_pages else 1)
+        current_page + 1 if current_page + 1 <= paginated_object.num_pages else 1
+    )
 
     context = create_main_context(request, 'index')
     context.update({
-        'announcements': paginated_object.page(current_page),
+        'announcements': announcements,
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
     })

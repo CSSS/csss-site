@@ -15,7 +15,7 @@
                 <article class="box is-light" >
                     <h3 class="title is-size-3">
                         {%  if announcement.email is None %}
-                            {{ announcement.post.title }}
+                            {{ announcement.manual_announcement.title }}
                         {%  else %}
                             {{announcement.email.subject}}
                         {%  endif %}
@@ -28,7 +28,7 @@
                     height: 0px;">
                     <div class="is-size-6">
                     {% if announcement.email is None %}
-                        {{announcement.post.content|safe|linebreaks }}
+                        {{announcement.manual_announcement.content|safe|linebreaks }}
                     {%  else %}
                         {% if announcement.email.html|safe|length > 0 %}
                             {{announcement.email.html|safe}}
