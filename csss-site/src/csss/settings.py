@@ -1,5 +1,7 @@
 import environ
 import os
+import tzlocal
+
 from csss.logger_setup import initialize_logger
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -121,7 +123,6 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     else:
         GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
 
-
 logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
 logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
 logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
@@ -155,6 +156,7 @@ INSTALLED_APPS = [
     'resource_management',
     'static_pages',
     'django_mailbox',
+    'django_markdown',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -269,8 +271,12 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'America/Vancouver'
+WEBSITE_TIME_ZONE = 'America/Vancouver'
+TIME_ZONE = WEBSITE_TIME_ZONE
+SERVER_ZONE = f"{tzlocal.get_localzone()}"
 
+# needed for importing manual announcements from previous website
+TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
@@ -289,7 +295,6 @@ STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:
     STATICFILES_DIRS = os.environ['STATICFILES_DIRS'].split(":")
 logger.info(f"[settings.py] STATICFILES_DIRS={STATICFILES_DIRS}")
-
 
 # STATICFILES_DIRS = [
 #    'static_files/',
@@ -317,11 +322,7 @@ logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 # This is destination directory for your static files. This should be absolute path in yor file system,
 # for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 # static files from your project and copy them into STATIC_ROOT dir
-
-if ENVIRONMENT == "LOCALHOST":
-    MEDIA_URL = os.path.join(BASE_DIR, 'media_root/')
-else:
-    MEDIA_URL = '/MEDIA_URL/'
+MEDIA_URL = '/MEDIA_URL/'
 logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
 
 # URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash

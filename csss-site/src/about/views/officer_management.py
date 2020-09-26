@@ -8,7 +8,7 @@ from django.shortcuts import render
 from about.models import Officer, Term
 from about.views.officer_management_helper import TAB_STRING
 from csss.settings import ENVIRONMENT, STATIC_ROOT
-from csss.views_helper import create_main_context, get_current_active_term
+from csss.views_helper import create_main_context, get_current_term
 
 logger = logging.getLogger('csss_site')
 
@@ -34,7 +34,7 @@ def list_of_officers(request):
                                                         '-start_date')
             )
         ),
-        'term_active': get_current_active_term(),
+        'term_active': get_current_term(),
         'terms': Term.objects.all().order_by('-term_number'),
     })
     return render(request, 'about/list_of_officers.html', context)

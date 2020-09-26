@@ -1,6 +1,17 @@
 from django.contrib import admin
-from announcements.models import Post, AnnouncementAttachment
 
-admin.site.register(Post)
+from announcements.models import ManualAnnouncement, Announcement
 
-admin.site.register(AnnouncementAttachment)
+
+class ManualAnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('id', 'title', 'author', 'date')
+
+
+admin.site.register(ManualAnnouncement, ManualAnnouncementAdmin)
+
+
+class AnnouncementAdmin(admin.ModelAdmin):
+    list_display = ('id', 'term', 'email', 'manual_announcement', 'date', 'author', 'display')
+
+
+admin.site.register(Announcement, AnnouncementAdmin)

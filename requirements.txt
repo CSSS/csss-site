@@ -22,7 +22,9 @@ stripe==2.33.0
 django-allauth==0.39.1
 querystring_parser
 psycopg2-binary
-
+django-markdown-app
+pandas
+tzlocal
 
 # google_drive requirements
 google-api-python-client==1.7.8
