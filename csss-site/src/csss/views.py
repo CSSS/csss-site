@@ -39,7 +39,8 @@ def index(request):
         'announcements': announcements,
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
-        'URL_ROOT': settings.URL_ROOT[:-1],
+        'URL_ROOT_FOR_EMAIL_ATTACHMENTS': settings.URL_ROOT[:-1],
+        'URL_ROOT': settings.URL_ROOT,
     })
     return render(request, 'announcements/announcements.html', context)
 
