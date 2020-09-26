@@ -39,6 +39,8 @@ def index(request):
         'announcements': announcements,
         'nextButtonLink': next_button_link,
         'previousButtonLink': previous_button_link,
+        'URL_PATTERN': settings.URL_PATTERN,
+        'URL_ROOT': settings.URL_ROOT,
     })
     return render(request, 'announcements/announcements.html', context)
 
