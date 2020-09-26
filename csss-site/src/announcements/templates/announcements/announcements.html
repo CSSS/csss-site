@@ -38,7 +38,7 @@
                     {%  endif %}
                     </div>
                     {% for attachment in announcement.email.attachments.all %}
-                        <a href="{{ URL_ROOT_FOR_EMAIL_ATTACHMENTS }}{%  get_media_prefix %}{{ attachment.document }}">attachment: {{ forloop.counter }}</a><br>
+                        <a href="{{ URL_ROOT_FOR_EMAIL_ATTACHMENTS }}{%  get_media_prefix %}{{ attachment.document }}">attachment {{ forloop.counter }}</a><br>
                     {% endfor %}
                 </article>
             </div>
