@@ -1,11 +1,11 @@
 import logging
 import os
 
-from django.conf.global_settings import STATIC_ROOT
 from django.contrib.staticfiles import finders
 from django.core.management import BaseCommand
 
 from about.models import Officer
+from about.views.officer_management_helper import get_officer_image_path
 from csss.settings import ENVIRONMENT
 
 logger = logging.getLogger('csss_site')
@@ -41,17 +41,7 @@ def fix_image_for_officer(officer):
         if full_path is None or not os.path.isfile(full_path):
             officer.image = "stockPhoto.jpg"
     else:
-        path_prefix = "about_static/exec-photos/"
-        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] "
-                    f"path_prefix = {path_prefix}")
-        officer.image = f"{path_prefix}{officer.image}"
-        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] "
-                    f"officer.image = {officer.image}")
-        absolute_path = f"{STATIC_ROOT}{officer.image}"
-        logger.info(f"[about/officer_management.py fix_time_and_image_for_officer()] "
-                    f"absolute_path = {absolute_path}")
-        if not os.path.isfile(absolute_path):
-            officer.image = f"{path_prefix}stockPhoto.jpg"
+        officer.image = get_officer_image_path(officer.elected_term, officer.name)
     logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                 f"officer.image = {officer.image}")
     officer.save()
