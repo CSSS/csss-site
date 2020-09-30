@@ -234,7 +234,7 @@ def get_officer_image_path(term_obj, full_name):
         pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
                     f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
         full_path = finders.find(pic_path)
-        logger.info("[about/officer_management.py get_officer_image_path()] "
+        logger.info("[about/officer_management_helper.py get_officer_image_path()] "
                     f"full_path = {full_path}")
         if full_path is None or not os.path.isfile(full_path):
             pic_path = "stockPhoto.jpg"
@@ -252,7 +252,7 @@ def get_officer_image_path(term_obj, full_name):
                     f"absolute_path = {absolute_path}")
         if not os.path.isfile(absolute_path):
             pic_path = f"{path_prefix}stockPhoto.jpg"
-    logger.info("[about/officer_management.py get_officer_image_path()] "
+    logger.info("[about/officer_management_helper.py get_officer_image_path()] "
                 f"image set to = '{pic_path}'")
     return pic_path
 

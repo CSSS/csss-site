@@ -26,6 +26,6 @@ def fix_image_for_officer(officer):
     officer -- officer whose image needs to be changed
     """
     officer.image = get_officer_image_path(officer.elected_term, officer.name)
-    logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
+    logger.info("[about/update_officer_images.py fix_image_for_officer()] "
                 f"officer_image_path = {officer.image}")
     officer.save()
