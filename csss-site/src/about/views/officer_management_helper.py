@@ -5,11 +5,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-from django.conf.global_settings import STATIC_ROOT
 from django.contrib.staticfiles import finders
 
 from about.models import Term, Officer, AnnouncementEmailAddress
-from csss.settings import ENVIRONMENT
+from csss.settings import ENVIRONMENT, STATIC_ROOT
 from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerGithubTeamMapping, \
     OfficerGithubTeam
 
