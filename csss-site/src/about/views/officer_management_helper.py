@@ -6,8 +6,10 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from django.conf.global_settings import STATIC_ROOT
+from django.contrib.staticfiles import finders
 
 from about.models import Term, Officer, AnnouncementEmailAddress
+from csss.settings import ENVIRONMENT
 from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerGithubTeamMapping, \
     OfficerGithubTeam
 
@@ -113,7 +115,7 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
     error_message -- error message if success is False
     """
 
-    pic_path = get_officer_image_path(term_obj, f'{full_name.replace(" ", "_")}.jpg')
+    pic_path = get_officer_image_path(term_obj, full_name)
     logger.info(
         f"[about/officer_management_helper.py save_officer_and_grant_digital_resources()] pic_path set to {pic_path}")
 
@@ -228,19 +230,30 @@ def get_officer_image_path(term_obj, full_name):
     Return
     pic_path -- the path for the officer's image
     """
-    pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
-                f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
-    path_prefix = "about_static/exec-photos/"
-    logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
-                f"path_prefix = {path_prefix}")
-    pic_path = f"{path_prefix}{pic_path}"
-    logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
-                f"officer.image = {pic_path}")
-    absolute_path = f"{STATIC_ROOT}{pic_path}"
-    logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
-                f"absolute_path = {absolute_path}")
-    if not os.path.isfile(absolute_path):
-        pic_path = f"{path_prefix}stockPhoto.jpg"
+    if ENVIRONMENT == "LOCALHOST":
+        pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
+                    f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
+        full_path = finders.find(pic_path)
+        logger.info("[about/officer_management.py get_officer_image_path()] "
+                    f"full_path = {full_path}")
+        if full_path is None or not os.path.isfile(full_path):
+            pic_path = "stockPhoto.jpg"
+    else:
+        pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
+                    f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
+        path_prefix = "about_static/exec-photos/"
+        logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
+                    f"path_prefix = {path_prefix}")
+        pic_path = f"{path_prefix}{pic_path}"
+        logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
+                    f"officer.image = {pic_path}")
+        absolute_path = f"{STATIC_ROOT}{pic_path}"
+        logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
+                    f"absolute_path = {absolute_path}")
+        if not os.path.isfile(absolute_path):
+            pic_path = f"{path_prefix}stockPhoto.jpg"
+    logger.info("[about/officer_management.py get_officer_image_path()] "
+                f"image set to = '{pic_path}'")
     return pic_path
 
 

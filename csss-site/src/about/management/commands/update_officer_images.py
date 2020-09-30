@@ -22,26 +22,16 @@ class Command(BaseCommand):
 
 def fix_image_for_officer(officer):
     """
-    Fix the officer's photo before showing to user
-    the photo needs to be check to see if the officer's pic is valid and then if the stock photo is existent
+    checks to see if the officer's picture has been uploaded. if it has been, it will set the officer image
+    to the uploaded photo
 
     Keyword Argument
     officer -- officer whose image needs to be changed
 
     Return
-    officer -- the officer whose image was checked
+    officer -- the officer whose image was checked and maybe set
     """
+    officer.image = get_officer_image_path(officer.elected_term, officer.name)
     logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
                 f"officer_image_path = {officer.image}")
-
-    if ENVIRONMENT == "LOCALHOST":
-        full_path = finders.find(officer.image)
-        logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                    f"full_path = {full_path}")
-        if full_path is None or not os.path.isfile(full_path):
-            officer.image = "stockPhoto.jpg"
-    else:
-        officer.image = get_officer_image_path(officer.elected_term, officer.name)
-    logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
-                f"officer.image = {officer.image}")
     officer.save()
