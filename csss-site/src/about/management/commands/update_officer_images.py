@@ -1,12 +1,9 @@
 import logging
-import os
 
-from django.contrib.staticfiles import finders
 from django.core.management import BaseCommand
 
 from about.models import Officer
 from about.views.officer_management_helper import get_officer_image_path
-from csss.settings import ENVIRONMENT
 
 logger = logging.getLogger('csss_site')
 
@@ -27,9 +24,6 @@ def fix_image_for_officer(officer):
 
     Keyword Argument
     officer -- officer whose image needs to be changed
-
-    Return
-    officer -- the officer whose image was checked and maybe set
     """
     officer.image = get_officer_image_path(officer.elected_term, officer.name)
     logger.info("[about/officer_management.py fix_time_and_image_for_officer()] "
