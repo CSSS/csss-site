@@ -41,6 +41,7 @@ def index(request):
         'previousButtonLink': previous_button_link,
         'URL_ROOT_FOR_EMAIL_ATTACHMENTS': settings.URL_ROOT[:-1],
         'URL_ROOT': settings.URL_ROOT,
+        'ENVIRONMENT': settings.ENVIRONMENT
     })
     return render(request, 'announcements/announcements.html', context)
 

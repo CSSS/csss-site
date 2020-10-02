@@ -6,24 +6,24 @@ function remove_existing_files {
   # remove all old and replace with newer code. will make sure that the migrations are not deleted as they need to be
   # persistent through the changes
   ssh csss@"${HOST_ADDRESS}" \
-      "find ${BASE_DIR}/csss-site/csss-site/src -mindepth 1 ! -regex '.*migrations.*' -delete" \
+      "rm -fr ${BASE_DIR}/csss-site" \
       || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/csss-site/requirements.txt" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/migrate_apps.sh" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 
 }
 
 function transfer_source_code_and_reqs {
   # create the folder that the source code for the website will go under
   # and copy the source code to that folder
-  ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}/csss-site/csss-site/src"
-  scp -r "csss-site/src"/* csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss-site/csss-site/src/"
+  ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}/csss-site"
+  scp -r "csss-site/src"/* csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss-site/"
 
   # transfer requirements file for the website
-  scp "requirements.txt" csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss-site/requirements.txt"
+  scp "requirements.txt" csss@"${HOST_ADDRESS}":"${BASE_DIR}/requirements.txt"
 }
 
 function transfer_env_variables_to_server {
@@ -58,16 +58,11 @@ function transfer_env_variables_to_server {
   scp "CI/validate_and_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
-function transfer_file_for_automating_app_migration {
-  scp CI/validate_and_deploy/migrate_apps.sh csss@"${HOST_ADDRESS}":"${BASE_DIR}/migrate_apps.sh"
-}
-
 function transfer_file_to_deploy_all_above_changes {
-  scp "CI/validate_and_deploy/deploy_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
+  scp "CI/validate_and_deploy/2_deploy/2_deploy_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
 }
 
 remove_existing_files
 transfer_source_code_and_reqs
 transfer_env_variables_to_server
-transfer_file_for_automating_app_migration
 transfer_file_to_deploy_all_above_changes
