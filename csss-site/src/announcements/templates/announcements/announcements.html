@@ -9,7 +9,7 @@
 <div class="columns">
     <div class="column is-three-quarters ">
         {% for announcement in announcements %}
-            {%  if ENVIRONMENT == "STAGING" or ENVIRONMENT == "PRODUCTION" %}
+            {%  if ENVIRONMENT == "PRODUCTION" %}
                 <section class="section">
                     <div class="container">
                         <article class="box is-light" >
@@ -43,7 +43,7 @@
                         </article>
                     </div>
                 </section>
-            {%  elif announcement.email.attachments.all|length == 0 and ENVIRONMENT == "LOCALHOST"  %}
+            {%  elif ENVIRONMENT == "STAGING" or announcement.email.attachments.all|length == 0 and ENVIRONMENT == "LOCALHOST"  %}
                 <section class="section">
                     <div class="container">
                         <article class="box is-light" >
