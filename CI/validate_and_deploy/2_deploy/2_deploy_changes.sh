@@ -121,7 +121,6 @@ ExecStart=${BASE_DIR}/envCSSS/bin/gunicorn \\
   --error-logfile ${BASE_DIR}/website_logs/gunicorn_logs/error.log \\
   --disable-redirect-access-to-syslog \\
   --capture-output \\
-
 	--timeout 120 \\
 	--workers 3 \\
 	--bind unix:${BASE_DIR}/gunicorn.sock \\
