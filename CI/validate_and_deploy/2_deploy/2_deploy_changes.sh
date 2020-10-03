@@ -65,7 +65,8 @@ function applying_latest_db_migrations {
   python3 manage.py migrate
    if [ "${BRANCH_NAME}" != "master" ]; then
      python3 manage.py loaddata about
-     python3 manage.py loaddata announcements
+     python3 manage.py loaddata announcements/fixtures/django_mailbox.json
+     python3 manage.py loaddata announcements/fixtures/announcements.json
      python3 manage.py loaddata elections
      python3 manage.py loaddata resource_management
   fi
