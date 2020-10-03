@@ -8,7 +8,7 @@ function go_to_root_directory {
 }
 
 function install_latest_python_requirements {
-  python3.8 -m pip install virtualenv
+  python3 -m pip install virtualenv
   if [ -f envCSSS/bin/python ]; then
     virtualenv_python_version=$(./envCSSS/bin/python --version)
     if [ "${virtualenv_python_version}" != "Python 3.8.0" ]; then
@@ -19,11 +19,11 @@ function install_latest_python_requirements {
     fi
     . "${BASE_DIR}/envCSSS/bin/activate"
   else
-    python3.8 -m virtualenv envCSSS
+    python3 -m virtualenv envCSSS
     . "${BASE_DIR}/envCSSS/bin/activate"
   fi
 
-  python3.8 -m pip install -r "${BASE_DIR}/requirements.txt"
+  python3 -m pip install -r "${BASE_DIR}/requirements.txt"
 }
 
 function create_directory_for_website_logs {
@@ -43,14 +43,13 @@ function wait_for_postgres_db {
 
 function setup_website_db {
   if [ "${BRANCH_NAME}" == "master" ]; then
-    docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    wait_for_postgres_db
-    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
+    export DB_CONTAINER_NAME="csss_site_db"
   else
-    docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    wait_for_postgres_db
-    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
+    export DB_CONTAINER_NAME="csss_site_db_dev"
   fi
+  docker run --name "${DB_CONTAINER_NAME}" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
+  wait_for_postgres_db
+  docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
 }
 
 function applying_latest_db_migrations {
@@ -62,19 +61,19 @@ function applying_latest_db_migrations {
   cd "${BASE_DIR}/csss-site"
   python3 manage.py migrate
    if [ "${BRANCH_NAME}" != "master" ]; then
-     python3.7 manage.py loaddata
+     python3 manage.py loaddata
   fi
 }
 
 function create_super_user {
     if [ "${BRANCH_NAME}" != "master" ]; then
-        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell || true
+        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3 manage.py shell || true
     fi
 }
 
 function update_static_files_location {
   # copying static files under their root directory
-  python3.8 manage.py collectstatic --noinput
+  python3 manage.py collectstatic --noinput
 
   # removing the static files that are under the source directory
   find "${BASE_DIR}/csss-site" -mindepth 1 -regex 'static' -delete
