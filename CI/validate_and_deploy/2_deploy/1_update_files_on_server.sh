@@ -44,10 +44,6 @@ function transfer_env_variables_to_server {
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
-  echo 'OFFICER_PHOTOS_PATH='"'"${OFFICER_PHOTOS_PATH}"'" >> site_envs
-
-
-
 
   if [[ "${BRANCH_NAME}" != "master" ]]; then
     echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
@@ -55,7 +51,7 @@ function transfer_env_variables_to_server {
     echo 'DB_NAME='"'postgres'" >> site_envs
   fi
   scp site_envs csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs"
-  scp "CI/validate_and_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
+  scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
 function transfer_file_to_deploy_all_above_changes {
