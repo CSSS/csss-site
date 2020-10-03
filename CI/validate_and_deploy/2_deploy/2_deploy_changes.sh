@@ -49,6 +49,9 @@ function setup_website_db {
   fi
   docker run --name "${DB_CONTAINER_NAME}" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
   wait_for_postgres_db
+  if [ "${BRANCH_NAME}" != "master" ]; then
+    docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "DROP DATABASE \"${DB_NAME}\";" || true
+  fi
   docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
 }
 
