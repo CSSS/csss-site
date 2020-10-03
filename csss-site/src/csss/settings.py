@@ -4,13 +4,15 @@ import tzlocal
 
 from csss.logger_setup import initialize_logger
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-logger = initialize_logger()
-
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+
+# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+log_location = f"{BASE_DIR}/website_logs/python_logs"
+logger = initialize_logger(log_location)
+
 logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 
 # Quick-start development settings - unsuitable for production
