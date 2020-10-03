@@ -61,7 +61,10 @@ function applying_latest_db_migrations {
   cd "${BASE_DIR}/csss-site"
   python3 manage.py migrate
    if [ "${BRANCH_NAME}" != "master" ]; then
-     python3 manage.py loaddata
+     python3 manage.py loaddata about
+     python3 manage.py loaddata announcements
+     python3 manage.py loaddata elections
+     python3 manage.py loaddata resource_management
   fi
 }
 
