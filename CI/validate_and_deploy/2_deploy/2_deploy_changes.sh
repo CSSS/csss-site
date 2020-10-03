@@ -185,10 +185,8 @@ function update_nginx_configuration {
 function clean_up_after_deployment {
   if [ "${BRANCH_NAME}" != "master" ]; then
     rm "${BASE_DIR}/deploy_changes.sh"
-    rm "${BASE_DIR}/migrate_apps.sh"
   else
     rm "/home/csss/deploy_changes.sh"
-    rm "/home/csss/migrate_apps.sh"
   fi
 }
 
