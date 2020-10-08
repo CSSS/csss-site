@@ -7,7 +7,7 @@
  - [Various tasks to accomplish](#various-tasks-to-accomplish)
 
 
-## Setup Python Environment
+## 1. Setup Python Environment
 ```shell
 sudo apt-get install -y python3.7
 sudo apt-get install python3-distutils --reinstall
@@ -22,7 +22,7 @@ python3.7 -m pip install -r requirements.txt
 ```
 
 
-## Setting the Necessary Environment Variables  
+## 2. Setting the Necessary Environment Variables  
 > want to know why the weird way of quotes are used? -> https://stackoverflow.com/a/1250279/7734535  
 ```shell
 echo 'BASE_DIR='"'"'<folder that contains csss-site repo>'"'"'' > CI/validate_and_deploy/site_envs
@@ -57,11 +57,20 @@ python3.7 manage.py createsuperuser # if you need to log into the admin
 python3.7 manage.py runserver 0.0.0.0:8000
 ```
 
-## Before opening a PR
+## 3. Before opening a PR
+
+## 3.1. Validating the code
 ```shell
 cd /absolute/path/to/parent/folder/of/repo
 ./CI/validate_and_deploy/test_site.sh
 ```
+
+### 3.2. Adding migrations
+If you had to make a change to any of the `models.py`, you will also need to make a migration.
+ 1. First ensure that you are able to run `python3 manage.py makemigrations` without the need for **any** user inputs.
+ 2. commit your changes and push **BUT DO NOT** save the migrations you made [the new file you created under a `about/migrations/` folder]
+ 3. Verify that the staging website gets launched at `https://dev.sfucsss.org/PR-<pr_number>/`. it may take up to 5 minutes for the staging website to get launched
+ 4. If it does, then you can save your migration to the repo
 
 ## Various tasks to accomplish
 
