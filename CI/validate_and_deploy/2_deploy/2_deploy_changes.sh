@@ -70,6 +70,8 @@ function applying_latest_db_migrations {
      python3 manage.py loaddata elections
      python3 manage.py loaddata resource_management
   fi
+  python3 manage.py makemigrations
+  python3 manage.py migrate
 }
 
 function create_super_user {
