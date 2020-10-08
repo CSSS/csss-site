@@ -1,9 +1,9 @@
 # csss-site
 
 
- - [Setup Python Environment](#setup-python-environment)
- - [Setting the Necessary Environment Variables](#setting-the-necessary-environment-variables)
- - [Before opening a PR](#before-opening-a-pr)
+ - [Setup Python Environment](#1-setup-python-environment)
+ - [Setting the Necessary Environment Variables](#2-setting-the-necessary-environment-variables)
+ - [Before opening a PR](#3-before-opening-a-pr)
  - [Various tasks to accomplish](#various-tasks-to-accomplish)
 
 
@@ -68,7 +68,7 @@ cd /absolute/path/to/parent/folder/of/repo
 ### 3.2. Adding migrations
 If you had to make a change to any of the `models.py`, you will also need to make a migration.
  1. First ensure that you are able to run `python3 manage.py makemigrations` without the need for **any** user inputs.
- 2. commit your changes and push **BUT DO NOT** save the migrations you made [the new file you created under a `about/migrations/` folder]
+ 2. commit your changes and push **BUT DO NOT** save the migrations you made [the new file you created under a `*/migrations/` folder]
  3. Verify that the staging website gets launched at `https://dev.sfucsss.org/PR-<pr_number>/`. it may take up to 5 minutes for the staging website to get launched
  4. If it does, then you can save your migration to the repo
 
