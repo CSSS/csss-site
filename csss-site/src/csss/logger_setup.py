@@ -17,7 +17,9 @@ class LoggerWriter:
         pass
 
 
-def initialize_logger():
+def initialize_logger(log_location=None):
+    if log_location is None:
+        log_location = 'home/csss/'
     # setting up log requirements
     logger = logging.getLogger('csss_site')
     # logging.basicConfig(level=logging.DEBUG)
@@ -29,13 +31,13 @@ def initialize_logger():
     logger.addHandler(stream_handler)
     sys.stdout = LoggerWriter(logger, logging.INFO)
     sys.stderr = LoggerWriter(logger, logging.WARNING)
-    create_log_file(formatter, logger)
+    create_log_file(log_location, formatter, logger)
     return logger
 
 
-def create_log_file(formatter, logger):
+def create_log_file(log_location, formatter, logger):
     date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")
-    filename = "logs/{}_csss_site".format(date)
+    filename = "{}/{}_csss_site".format(log_location, date)
     filehandler = logging.FileHandler("{}.log".format(filename))
     filehandler.setLevel(logging.INFO)
     filehandler.setFormatter(formatter)

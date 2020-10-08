@@ -8,7 +8,7 @@ function go_to_root_directory {
 }
 
 function install_latest_python_requirements {
-  python3.8 -m pip install virtualenv
+  python3 -m pip install virtualenv
   if [ -f envCSSS/bin/python ]; then
     virtualenv_python_version=$(./envCSSS/bin/python --version)
     if [ "${virtualenv_python_version}" != "Python 3.8.0" ]; then
@@ -19,15 +19,16 @@ function install_latest_python_requirements {
     fi
     . "${BASE_DIR}/envCSSS/bin/activate"
   else
-    python3.8 -m virtualenv envCSSS
+    python3 -m virtualenv envCSSS
     . "${BASE_DIR}/envCSSS/bin/activate"
   fi
 
-  python3.8 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt"
+  python3 -m pip install -r "${BASE_DIR}/requirements.txt"
 }
 
 function create_directory_for_website_logs {
-  mkdir -p "${BASE_DIR}/csss-site/csss-site/src/logs"
+  mkdir -p "${BASE_DIR}/website_logs/python_logs"
+  mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
 }
 
 function wait_for_postgres_db {
@@ -41,18 +42,17 @@ function wait_for_postgres_db {
 }
 
 function setup_website_db {
-  if [ "${BRANCH_NAME}" == "dev" ]; then
-    docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    wait_for_postgres_db
-    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
-  elif [ "${BRANCH_NAME}" != "master" ]; then
-    docker run --name "csss_site_db_dev" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    wait_for_postgres_db
-    docker exec csss_site_db_dev psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" WITH TEMPLATE dev OWNER postgres;" || true
+  if [ "${BRANCH_NAME}" == "master" ]; then
+    export DB_CONTAINER_NAME="csss_site_db"
   else
-    docker run --name "csss_site_db" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
-    wait_for_postgres_db
+    export DB_CONTAINER_NAME="csss_site_db_dev"
   fi
+  docker run --name "${DB_CONTAINER_NAME}" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
+  wait_for_postgres_db
+  if [ "${BRANCH_NAME}" != "master" ]; then
+    docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "DROP DATABASE \"${DB_NAME}\";" || true
+  fi
+  docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
 }
 
 function applying_latest_db_migrations {
@@ -61,34 +61,37 @@ function applying_latest_db_migrations {
 
   setup_website_db
 
-  cd "${BASE_DIR}/csss-site/csss-site/src"
-  chmod +x "${BASE_DIR}/migrate_apps.sh"
-  . "${BASE_DIR}/migrate_apps.sh" || true
+  cd "${BASE_DIR}/csss-site"
+  python3 manage.py migrate
+   if [ "${BRANCH_NAME}" != "master" ]; then
+     python3 manage.py loaddata about
+     python3 manage.py loaddata announcements/fixtures/django_mailbox.json
+     python3 manage.py loaddata announcements/fixtures/announcements.json
+     python3 manage.py loaddata elections
+     python3 manage.py loaddata resource_management
+     python3 manage.py makemigrations
+     python3 manage.py migrate
+  fi
 }
 
 function create_super_user {
-    if [ "${BRANCH_NAME}" = "dev" ]; then
-        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3.8 manage.py shell || true
+    if [ "${BRANCH_NAME}" != "master" ]; then
+        echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3 manage.py shell || true
     fi
 }
 
 function update_static_files_location {
   # copying static files under their root directory
-  python3.8 manage.py collectstatic --noinput
+  python3 manage.py collectstatic --noinput
 
   # removing the static files that are under the source directory
-  find "${BASE_DIR}/csss-site/csss-site/src" -mindepth 1 -regex 'static' -delete
+  find "${BASE_DIR}/csss-site" -mindepth 1 -name 'static' -exec rm -rv {} +
 }
 
 function update_media_files {
   if [ "${BRANCH_NAME}" != "master" ]; then
-    mkdir -p "${BASE_DIR}/media_root"
-    if [ "${BRANCH_NAME}" != "dev" ]; then
-        cp -r /home/csss/dev/media_root/mailbox_attachments "${BASE_DIR}/media_root/."
-    fi
     mkdir -p "${BASE_DIR}/static_root/documents_static"
     ln -s /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
-
     mkdir -p "${BASE_DIR}/static_root/about_static"
     ln -s /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
   fi
@@ -100,7 +103,7 @@ function set_gunicorn_files {
 Description=gunicorn socket
 
 [Socket]
-ListenStream=/home/csss/${BRANCH_NAME}/gunicorn.sock
+ListenStream=${BASE_DIR}/gunicorn.sock
 
 [Install]
 WantedBy=sockets.target " | sudo tee /etc/systemd/system/gunicorn_${BRANCH_NAME}.socket
@@ -111,15 +114,18 @@ Requires=gunicorn_${BRANCH_NAME}.socket
 After=network.target
 
 [Service]
-EnvironmentFile=/home/csss/${BRANCH_NAME}/site_envs
+EnvironmentFile=${BASE_DIR}/site_envs
 User=csss
 Group=www-data
-WorkingDirectory=/home/csss/${BRANCH_NAME}/csss-site/csss-site/src
-ExecStart=/home/csss/${BRANCH_NAME}/envCSSS/bin/gunicorn \\
-	--access-logfile - \\
+WorkingDirectory=${BASE_DIR}/csss-site
+ExecStart=${BASE_DIR}/envCSSS/bin/gunicorn \\
+  --access-logfile ${BASE_DIR}/website_logs/gunicorn_logs/access.log \\
+  --error-logfile ${BASE_DIR}/website_logs/gunicorn_logs/error.log \\
+  --disable-redirect-access-to-syslog \\
+  --capture-output \\
 	--timeout 120 \\
 	--workers 3 \\
-	--bind unix:/home/csss/${BRANCH_NAME}/gunicorn.sock \\
+	--bind unix:${BASE_DIR}/gunicorn.sock \\
 	csss.wsgi:application
 
 [Install]
@@ -132,7 +138,7 @@ function updating_gunincorn {
   if [ "${BRANCH_NAME}" != "master" ]; then
     gunicorn_socket="gunicorn_${BRANCH_NAME}.socket"
     gunicorn="gunicorn_${BRANCH_NAME}.service"
-    socket_file_location="/home/csss/${BRANCH_NAME}/gunicorn.sock"
+    socket_file_location="${BASE_DIR}/gunicorn.sock"
   else
     gunicorn_socket="gunicorn.socket"
     gunicorn="gunicorn.service"
@@ -156,17 +162,17 @@ function update_nginx_configuration {
     	location /${BRANCH_NAME}/STATIC_URL/ {
 		proxy_read_timeout 3600;
 		autoindex on;
-		alias /home/csss/${BRANCH_NAME}/static_root/;
+		alias ${BASE_DIR}/static_root/;
 	}
 	location /${BRANCH_NAME}/MEDIA_URL/ {
 		proxy_read_timeout 3600;
 		autoindex on;
-		alias /home/csss/${BRANCH_NAME}/media_root/;
+		alias ${BASE_DIR}/media_root/;
 	}
 	location /${BRANCH_NAME}/ {
 		proxy_read_timeout 3600;
 		include proxy_params;
-		proxy_pass http://unix:/home/csss/${BRANCH_NAME}/gunicorn.sock;
+		proxy_pass http://unix:${BASE_DIR}/gunicorn.sock;
 
 	}" > "branch_${BRANCH_NAME}"
     cat /home/csss/nginx_site_config branch_* | sudo tee /etc/nginx/sites-available/PR_sites
@@ -180,11 +186,9 @@ function update_nginx_configuration {
 
 function clean_up_after_deployment {
   if [ "${BRANCH_NAME}" != "master" ]; then
-    rm "/home/csss/${BRANCH_NAME}/deploy_changes.sh"
-    rm "/home/csss/${BRANCH_NAME}/migrate_apps.sh"
+    rm "${BASE_DIR}/deploy_changes.sh"
   else
     rm "/home/csss/deploy_changes.sh"
-    rm "/home/csss/migrate_apps.sh"
   fi
 }
 

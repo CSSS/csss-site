@@ -3,4 +3,3 @@
 *pyc
 /@eaDir/
 *.DS_Store*
-**/migrations/
