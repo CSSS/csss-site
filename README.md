@@ -50,7 +50,12 @@ mkdir -p /path/to/csss-site/csss-site/src/logs
 
 cd csss-site/src
 
-../../CI/validate_and_deploy/migrate_apps.sh
+python3 manage.py migrate
+python3 manage.py loaddata about
+python3 manage.py loaddata announcements/fixtures/django_mailbox.json
+python3 manage.py loaddata announcements/fixtures/announcements.json
+python3 manage.py loaddata elections
+python3 manage.py loaddata resource_management
 
 python3.7 manage.py createsuperuser # if you need to log into the admin
 
