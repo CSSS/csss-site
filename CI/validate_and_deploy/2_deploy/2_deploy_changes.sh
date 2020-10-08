@@ -85,7 +85,7 @@ function update_static_files_location {
   python3 manage.py collectstatic --noinput
 
   # removing the static files that are under the source directory
-  find "${BASE_DIR}/csss-site" -mindepth 1 -name 'static' -delete
+  find "${BASE_DIR}/csss-site" -mindepth 1 -name 'static' -exec rm -rv {} +
 }
 
 function update_media_files {
