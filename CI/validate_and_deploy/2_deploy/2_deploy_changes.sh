@@ -69,9 +69,9 @@ function applying_latest_db_migrations {
      python3 manage.py loaddata announcements/fixtures/announcements.json
      python3 manage.py loaddata elections
      python3 manage.py loaddata resource_management
+     python3 manage.py makemigrations
+     python3 manage.py migrate
   fi
-  python3 manage.py makemigrations
-  python3 manage.py migrate
 }
 
 function create_super_user {
@@ -85,7 +85,7 @@ function update_static_files_location {
   python3 manage.py collectstatic --noinput
 
   # removing the static files that are under the source directory
-  find "${BASE_DIR}/csss-site" -mindepth 1 -regex 'static' -delete
+  find "${BASE_DIR}/csss-site" -mindepth 1 -name 'static' -delete
 }
 
 function update_media_files {
