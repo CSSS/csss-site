@@ -43,37 +43,39 @@
                         </article>
                     </div>
                 </section>
-            {%  elif ENVIRONMENT == "STAGING" or announcement.email.attachments.all|length == 0 and ENVIRONMENT == "LOCALHOST"  %}
-                <section class="section">
-                    <div class="container">
-                        <article class="box is-light" >
-                            <h3 class="title is-size-3">
-                                {%  if announcement.email is None %}
-                                    {{ announcement.manual_announcement.title }}
+            {%  elif announcement.email.attachments.all|length == 0 %}
+                {% if ENVIRONMENT == "STAGING" or ENVIRONMENT == "LOCALHOST" %}
+                    <section class="section">
+                        <div class="container">
+                            <article class="box is-light" >
+                                <h3 class="title is-size-3">
+                                    {%  if announcement.email is None %}
+                                        {{ announcement.manual_announcement.title }}
+                                    {%  else %}
+                                        {{announcement.email.subject}}
+                                    {%  endif %}
+                                </h3>
+                                <p class="is-size-6 has-text-grey has-text-right">
+                                    posted by {{announcement.author}} on {{announcement.date}}
+                                </p>
+                                <hr style=
+                                "border:solid 1px grey;
+                                height: 0px;">
+                                <div class="is-size-6">
+                                {% if announcement.email is None %}
+                                    {{announcement.manual_announcement.content|safe|linebreaks }}
                                 {%  else %}
-                                    {{announcement.email.subject}}
+                                    {% if announcement.email.html|safe|length > 0 %}
+                                        {{announcement.email.html|safe}}
+                                    {% else %}
+                                        {{announcement.email.body|safe|linebreaks}}
+                                    {% endif %}
                                 {%  endif %}
-                            </h3>
-                            <p class="is-size-6 has-text-grey has-text-right">
-                                posted by {{announcement.author}} on {{announcement.date}}
-                            </p>
-                            <hr style=
-                            "border:solid 1px grey;
-                            height: 0px;">
-                            <div class="is-size-6">
-                            {% if announcement.email is None %}
-                                {{announcement.manual_announcement.content|safe|linebreaks }}
-                            {%  else %}
-                                {% if announcement.email.html|safe|length > 0 %}
-                                    {{announcement.email.html|safe}}
-                                {% else %}
-                                    {{announcement.email.body|safe|linebreaks}}
-                                {% endif %}
-                            {%  endif %}
-                            </div>
-                        </article>
-                    </div>
-                </section>
+                                </div>
+                            </article>
+                        </div>
+                    </section>
+                {% endif %}
             {%  endif %}
         {% endfor %}
         <section class="section">
