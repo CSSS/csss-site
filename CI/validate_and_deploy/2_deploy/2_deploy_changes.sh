@@ -7,11 +7,6 @@ function go_to_root_directory {
   cd "${BASE_DIR}"
 }
 
-function setup_site_envs {
-  cat site_envs >> site_envs_django_admin
-  cat site_envs >> site_envs_gunicorn
-  rm site_envs
-}
 function install_latest_python_requirements {
   python3 -m pip install virtualenv
   if [ -f envCSSS/bin/python ]; then
@@ -199,7 +194,6 @@ function clean_up_after_deployment {
 
 
 go_to_root_directory
-setup_site_envs
 install_latest_python_requirements
 create_directory_for_website_logs
 applying_latest_db_migrations
