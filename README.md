@@ -25,28 +25,31 @@ python3.7 -m pip install -r requirements.txt
 ## 2. Setting the Necessary Environment Variables  
 > want to know why the weird way of quotes are used? -> https://stackoverflow.com/a/1250279/7734535  
 ```shell
-echo 'BASE_DIR='"'"'<folder that contains csss-site repo>'"'"'' > CI/validate_and_deploy/site_envs
-echo 'WEBSITE_SECRET_KEY='"'"'https://miniwebtool.com/django-secret-key-generator/'"'"'' >> CI/validate_and_deploy/site_envs
-echo 'DEBUG='"'"'true'"'"'' >> CI/validate_and_deploy/site_envs
-echo 'HOST_ADDRESS='"'"'<serverIP>>'"'"'' >> CI/validate_and_deploy/site_envs
+echo 'BASE_DIR='"'"'<folder that contains csss-site repo>'"'"'' > CI/validate_and_deploy/2_deploy/site_envs
+echo 'WEBSITE_SECRET_KEY='"'"'https://miniwebtool.com/django-secret-key-generator/'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+echo 'DEBUG='"'"'true'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+echo 'HOST_ADDRESS='"'"'<serverIP>'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+echo 'ENVIRONMENT='"'"'LOCALHOST'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+echo 'PORT='"'"'8000'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 
 # database configuration
 if (you do not want to spin up a docker database){
-    echo 'DB_TYPE='"'"'sqlite3'"'"'' >> CI/validate_and_deploy/site_envs
+    echo 'DB_TYPE='"'"'sqlite3'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 }else{
-    echo 'DB_TYPE='"'"'postgres'"'"'' >> CI/validate_and_deploy/site_envs
-    echo 'DB_PASSWORD='"'"'test_password'"'"'' >> CI/validate_and_deploy/site_envs
-    echo 'DB_NAME='"'"'csss_website_db'"'"'' >> CI/validate_and_deploy/site_envs
-    echo 'DB_PORT='"'"'5432'"'"'' >> CI/validate_and_deploy/site_envs
+    echo 'DB_TYPE='"'"'postgres'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+    echo 'DB_PASSWORD='"'"'test_password'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+    echo 'DB_NAME='"'"'csss_website_db'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+    echo 'DB_PORT='"'"'5432'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 }
 
-. CI/validate_and_deploy/set_env.sh site_envs
+. CI/validate_and_deploy/2_deploy/set_env.sh site_envs
 
 if (you choose to use a dockerized database){
     docker run --name ${DB_NAME} -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${DB_PASSWORD} postgres:alpine
+    docker exec "${DB_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
 }
 
-mkdir -p /path/to/csss-site/csss-site/src/logs
+mkdir -p /path/to/csss-site/website_logs/python_logs
 
 cd csss-site/src
 
