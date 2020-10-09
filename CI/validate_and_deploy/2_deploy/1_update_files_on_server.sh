@@ -46,8 +46,8 @@ function transfer_env_variables_to_server {
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
-  echo 'LOG_LOCATION='"'"/home/csss/website_logs/python_logs"'" >> site_envs_django_admin
-  echo 'GITLAB_PRIVATE_TOKEN='"'"/home/csss/website_logs/gunicorn_logs"'" >> site_envs_gunicorn
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs"'" >> site_envs_django_admin
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" >> site_envs_gunicorn
 
   if [[ "${BRANCH_NAME}" != "master" ]]; then
     echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
