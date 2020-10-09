@@ -15,7 +15,7 @@ class GitHubAPI:
         self.error_message = None
         if access_token is None:
             self.error_message = "access_token is not valid"
-            logger.info(self.error_message)
+            logger.error(self.error_message)
             return
         try:
             self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
@@ -127,8 +127,8 @@ class GitHubAPI:
                                     "sleeping for 60 seconds since rate limit was encountered")
                         sleep(60)
                     except GithubException as e:
-                        logger.info("[GitHubAPI ensure_proper_membership()] "
-                                    f"encountered error {e} when looking for user {user}")
+                        logger.error("[GitHubAPI ensure_proper_membership()] "
+                                     f"encountered error {e} when looking for user {user}")
                         error_experienced = True
                 if not error_experienced:
                     logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
@@ -140,8 +140,8 @@ class GitHubAPI:
                                         f"{github_user} to the {team} team.")
                             git_team.add_membership(github_user)
                 else:
-                    logger.info("[GitHubAPI ensure_proper_membership()] could not find the "
-                                f"github profile for user {user}")
+                    logger.error("[GitHubAPI ensure_proper_membership()] could not find the "
+                                 f"github profile for user {user}")
 
             for team in self.org.get_teams():
                 logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
