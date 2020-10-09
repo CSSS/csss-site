@@ -119,7 +119,7 @@ Requires=gunicorn_${BRANCH_NAME}.socket
 After=network.target
 
 [Service]
-EnvironmentFile=${BASE_DIR}/site_envs
+EnvironmentFile=${BASE_DIR}/site_envs_gunicorn
 User=csss
 Group=www-data
 WorkingDirectory=${BASE_DIR}/csss-site
