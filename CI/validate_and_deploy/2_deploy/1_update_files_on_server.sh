@@ -13,7 +13,6 @@ function remove_existing_files {
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_django_admin" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_gunicorn" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/migrate_apps.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 
 }
