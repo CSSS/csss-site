@@ -201,7 +201,7 @@ class GoogleDrive:
         """
         if self.connection_successful:
             if file_id is None:
-                logger.error("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
+                logger.warning("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
                 return False, None, None
             body = {}
             body['role'] = 'writer'
