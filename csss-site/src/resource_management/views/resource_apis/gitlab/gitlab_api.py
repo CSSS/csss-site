@@ -101,7 +101,7 @@ class GitLabAPI:
                 try:
                     user = self.sfu_gitlab.users.list(username=f'{user_name}')
                     if len(user) == 0:
-                        logger.info(
+                        logger.error(
                             f"[GitLabAPI remove_user_from_group()] user {user_name} "
                             f"does not exist"
                         )
@@ -117,7 +117,7 @@ class GitLabAPI:
                                 f"from SFU Gitlab CSSS group"
                             )
                         else:
-                            logger.info(
+                            logger.error(
                                 f"[GitLabAPI remove_user_from_group()] user {user.username} "
                                 f"is not in SFU Gitlab CSSS group"
                             )

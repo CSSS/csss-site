@@ -10,8 +10,9 @@ function remove_existing_files {
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_django_admin" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_gunicorn" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/migrate_apps.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 
 }
@@ -44,6 +45,8 @@ function transfer_env_variables_to_server {
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs"'" > site_envs_django_admin
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
 
   if [[ "${BRANCH_NAME}" != "master" ]]; then
     echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
@@ -51,6 +54,8 @@ function transfer_env_variables_to_server {
     echo 'DB_NAME='"'postgres'" >> site_envs
   fi
   scp site_envs csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs"
+  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_django_admin"
+  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_gunicorn"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
