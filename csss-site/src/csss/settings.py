@@ -9,11 +9,16 @@ if 'BASE_DIR' in os.environ:
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-log_location = f"{BASE_DIR}/website_logs/python_logs"
-logger = initialize_logger(log_location)
+if 'LOG_LOCATION' in os.environ:
+    LOG_LOCATION = os.environ['LOG_LOCATION']
+else:
+    LOG_LOCATION = f"{BASE_DIR}/website_logs/python_logs"
+logger = initialize_logger(LOG_LOCATION)
 
 logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
+logger.info(f'[settings.py] LOG_LOCATION set to {LOG_LOCATION}')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
