@@ -62,7 +62,7 @@ function setup_website_db {
 
 function applying_latest_db_migrations {
   chmod +x set_env.sh
-  . ./set_env.sh site_envs
+  . ./set_env.sh site_envs_django_admin
 
   setup_website_db
 
