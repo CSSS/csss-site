@@ -128,7 +128,7 @@ class GitHubAPI:
                         sleep(60)
                     except GithubException as e:
                         logger.error("[GitHubAPI ensure_proper_membership()] "
-                                    f"encountered error {e} when looking for user {user}")
+                                     f"encountered error {e} when looking for user {user}")
                         error_experienced = True
                 if not error_experienced:
                     logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
@@ -141,7 +141,7 @@ class GitHubAPI:
                             git_team.add_membership(github_user)
                 else:
                     logger.error("[GitHubAPI ensure_proper_membership()] could not find the "
-                                f"github profile for user {user}")
+                                 f"github profile for user {user}")
 
             for team in self.org.get_teams():
                 logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
