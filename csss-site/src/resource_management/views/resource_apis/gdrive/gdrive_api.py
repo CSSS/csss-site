@@ -84,7 +84,7 @@ class GoogleDrive:
                     self.error_message = "no token detected at location" \
                                          f" \"{token_location}\" for google drive, please create locally " \
                                          "and then upload to that location. "
-                    logger.info(f"[GoogleDrive __init__()] {self.error_message} ")
+                    logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
                     return
                 with open(token_location, 'wb') as token:
                     pickle.dump(creds, token)
@@ -146,7 +146,7 @@ class GoogleDrive:
                         "regarding their access to the sfu google drive"
                     )
                 except Exception as e:
-                    logger.info(
+                    logger.error(
                         "[GoogleDrive add_users_gdrive()] was not able to given write permission "
                         f"to {user.lower()} for the SFU CSSS Google Drive. following error occured"
                         f"instead. \n {e}"
@@ -183,12 +183,12 @@ class GoogleDrive:
                                                                  permissionId=permission['id']).execute()
                                 logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
-                                logger.info(
+                                logger.error(
                                     "[GoogleDrive remove_users_gdrive()] encountered following error "
                                     f"with permission removed. \n {e}"
                                 )
             except Exception as e:
-                logger.info(
+                logger.error(
                     "[GoogleDrive remove_users_gdrive()] encountred the following error when trying "
                     f"to get the list of permissions. \n{e}"
                 )
@@ -201,7 +201,7 @@ class GoogleDrive:
         """
         if self.connection_successful:
             if file_id is None:
-                logger.info("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
+                logger.error("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
                 return False, None, None
             body = {}
             body['role'] = 'writer'
@@ -216,7 +216,7 @@ class GoogleDrive:
                 response = self.gdrive.files().get(fileId=file_id, fields='name, webViewLink').execute()
                 return True, response['name'], response['webViewLink'], None
             except Exception as e:
-                logger.info(f"[GoogleDrive make_public_link_gdrive()] encountered the following error. \n {e}")
+                logger.error(f"[GoogleDrive make_public_link_gdrive()] encountered the following error. \n {e}")
                 return False, None, None, e
 
     def remove_public_link_gdrive(self, file_id):
@@ -236,7 +236,7 @@ class GoogleDrive:
                     f"[GoogleDrive remove_public_link_gdrive()] removed public link for file with id {file_id}"
                 )
             except Exception as e:
-                logger.info(
+                logger.error(
                     "[GoogleDrive remove_public_link_gdrive()] experienced the following error when "
                     f"attempting to removing public link for file with id {file_id}.\n {e}"
                 )
@@ -282,7 +282,7 @@ class GoogleDrive:
             try:
                 response = self.gdrive.files().get(fileId=self.root_file_id, fields='*').execute()
             except Exception as e:
-                logger.info(
+                logger.error(
                     "[GoogleDrive ensure_root_permissions_are_correct()] unable to get all the files "
                     f"under root due to following error.\n {e}")
                 return False
@@ -329,7 +329,7 @@ class GoogleDrive:
                     q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
                 ).execute()
             except Exception as e:
-                logger.info(
+                logger.error(
                     "[GoogleDrive ensure_permissions_are_correct()] unable to get the list of files "
                     f"under folder with id {parent_id[len(parent_id) - 1]} due to following error\n.{e}"
                 )
@@ -423,7 +423,7 @@ class GoogleDrive:
             try:
                 self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
             except Exception as e:
-                logger.info(
+                logger.error(
                     f"[GoogleDrive duplicate_file()] counldnt update {file_info['name']} to "
                     f"\"duplicated_and_removed\" due to following error.\n{e}"
                 )
@@ -452,7 +452,7 @@ class GoogleDrive:
                                 f"access to {file_info['name']}"
                             )
                         except Exception as e:
-                            logger.info(
+                            logger.error(
                                 "[GoogleDrive duplicate_file()] couldnt remove "
                                 f"{permission['emailAddress'].lower()}'s access to {file_info['name']} "
                                 f"due to following error.\n{e}"
@@ -463,7 +463,7 @@ class GoogleDrive:
                 permissionId=sfucsss_permission_id
             ).execute()
         except Exception as e:
-            logger.info(
+            logger.error(
                 f"[GoogleDrive duplicate_file()] unable to duplicate and remove file "
                 f"from drive due to following error.\n{e}"
             )
@@ -478,7 +478,7 @@ class GoogleDrive:
             self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
             logger.info(f"[GoogleDrive alert_user_to_change_owner()] comment added to file {file_info['name']}")
         except Exception as e:
-            logger.info(
+            logger.error(
                 f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
                 f"due to following error.\n{e}"
             )
