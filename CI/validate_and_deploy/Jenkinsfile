@@ -88,7 +88,7 @@ pipeline {
                         export ENVIRONMENT=PRODUCTION;
                         export HOST_ADDRESS=sfucsss.org;
 
-                        export GDRIVE_TOKEN_LOCATION="/home/csss/resource_management_tools_creds/token.pickle";
+                        export GDRIVE_TOKEN_LOCATION="/home/csss/google_drive_api_token/token.pickle";
                         export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                         export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
