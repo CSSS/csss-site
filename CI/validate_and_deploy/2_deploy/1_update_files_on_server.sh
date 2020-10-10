@@ -53,7 +53,8 @@ function transfer_env_variables_to_server {
   else
     echo 'DB_NAME='"'postgres'" >> site_envs
   fi
-  scp site_envs csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs"
+  cat site_envs >> site_envs_django_admin
+  cat site_envs >>  site_envs_gunicorn
   scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_django_admin"
   scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_gunicorn"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
