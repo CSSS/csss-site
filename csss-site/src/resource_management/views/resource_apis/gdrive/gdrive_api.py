@@ -420,7 +420,8 @@ class GoogleDrive:
 
             body = {'name': 'duplicated_and_removed'}
             try:
-                logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body for file {file_info['id']} to {body}")
+                logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body "
+                            f"for file {file_info['id']} to {body}")
                 self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
             except Exception as e:
                 logger.error(
@@ -445,7 +446,7 @@ class GoogleDrive:
                     else:
                         try:
                             logger.info(
-                                f"[GoogleDrive duplicate_file()]  attempting to delete the permission "
+                                f"[GoogleDrive duplicate_file()] attempting to delete the permission "
                                 f"{permission['id']} for file {file_info['id']}")
                             self.gdrive.permissions().delete(
                                 fileId=file_info['id'],
@@ -464,8 +465,8 @@ class GoogleDrive:
                             return
             if sfucsss_permission_id is not None:
                 logger.info(
-                    f"[GoogleDrive duplicate_file()]  attempting to delete the permission "
-                    f"{sfucsss_permission_id} for file {file_info['id']}")
+                    f"[GoogleDrive duplicate_file()] attempting to delete the sfucsss@gmail.com's permission"
+                    f"file {file_info['id']}")
                 self.gdrive.permissions().delete(
                     fileId=file_info['id'],
                     permissionId=sfucsss_permission_id
