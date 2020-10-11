@@ -416,6 +416,7 @@ class GoogleDrive:
         file_info -- the file_info for the file that needs to have its permissions checked
         """
         try:
+            logger.info(f"[GoogleDrive duplicate_file()] attempting to duplicate file {file_info['id']}")
             self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
 
             body = {'name': 'duplicated_and_removed'}
