@@ -416,14 +416,15 @@ class GoogleDrive:
         file_info -- the file_info for the file that needs to have its permissions checked
         """
         try:
-            logger.info(f"[GoogleDrive duplicate_file()] attempting to duplicate file {file_info['id']}")
-            self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
-            logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']} successfully duplicated")
-            body = {'name': 'duplicated__do_not_use'}
-            logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body "
-                        f"for file {file_info['id']} to {body}")
-            self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
-            logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']}'s body successfully updated")
+            if file_info['name'] != 'duplicated__do_not_use':
+                logger.info(f"[GoogleDrive duplicate_file()] attempting to duplicate file {file_info['id']}")
+                self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
+                logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']} successfully duplicated")
+                body = {'name': 'duplicated__do_not_use'}
+                logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body "
+                            f"for file {file_info['id']} to {body}")
+                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']}'s body successfully updated")
             self.alert_user_to_delete_file(file_info)
 
             # google drive api doesnt allow a function that "removes" a file from the sfucsss@gmail.com's
