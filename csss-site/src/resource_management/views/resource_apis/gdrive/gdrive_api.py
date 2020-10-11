@@ -416,64 +416,61 @@ class GoogleDrive:
         file_info -- the file_info for the file that needs to have its permissions checked
         """
         try:
-            self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
-
-            body = {'name': 'duplicated_and_removed'}
-            try:
+            if file_info['name'] != 'duplicated__do_not_use':
+                logger.info(f"[GoogleDrive duplicate_file()] attempting to duplicate file {file_info['id']}")
+                self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
+                logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']} successfully duplicated")
+                body = {'name': 'duplicated__do_not_use'}
                 logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body "
                             f"for file {file_info['id']} to {body}")
                 self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
-            except Exception as e:
-                logger.error(
-                    f"[GoogleDrive duplicate_file()] couldn't update {file_info['name']} to "
-                    f"\"duplicated_and_removed\" due to following error.\n{e}"
-                )
-                return
+                logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']}'s body successfully updated")
+            self.alert_user_to_delete_file(file_info)
 
             # google drive api doesnt allow a function that "removes" a file from the sfucsss@gmail.com's
             # google drive.
             # it only allows a file that deletes it and deleting a file can only be done by the owner.
             # the only alternative seems to be to just remove all permissions from the file so that only the
             # original owner can see it.
-            sfucsss_permission_id = None
-            for permission in file_info['permissions']:
-                if "emailAddress" in permission:
-                    if permission['emailAddress'].lower() == "sfucsss@gmail.com":
-                        # sfucsss@gmail.com's permissions is being saved to be removed later on as it needs to
-                        # keep its access to the file in order to remove any remaining non-owner permissions
-                        # that may exist.
-                        sfucsss_permission_id = permission['id']
-                    else:
-                        try:
-                            logger.info(
-                                f"[GoogleDrive duplicate_file()] attempting to delete the permission "
-                                f"{permission['id']} for file {file_info['id']}")
-                            self.gdrive.permissions().delete(
-                                fileId=file_info['id'],
-                                permissionId=permission['id']
-                            ).execute()
-                            logger.info(
-                                f"[GoogleDrive duplicate_file()] removed {permission['emailAddress'].lower()}'s "
-                                f"access to {file_info['name']}"
-                            )
-                        except Exception as e:
-                            logger.error(
-                                "[GoogleDrive duplicate_file()] couldnt remove "
-                                f"{permission['emailAddress'].lower()}'s access to {file_info['name']} "
-                                f"due to following error.\n{e}"
-                            )
-                            return
-            if sfucsss_permission_id is not None:
-                logger.info(
-                    f"[GoogleDrive duplicate_file()] attempting to delete the sfucsss@gmail.com's permission"
-                    f"file {file_info['id']}")
-                self.gdrive.permissions().delete(
-                    fileId=file_info['id'],
-                    permissionId=sfucsss_permission_id
-                ).execute()
+            # sfucsss_permission_id = None
+            # for permission in file_info['permissions']:
+            #     if "emailAddress" in permission:
+            #         if permission['emailAddress'].lower() == "sfucsss@gmail.com":
+            #             # sfucsss@gmail.com's permissions is being saved to be removed later on as it needs to
+            #             # keep its access to the file in order to remove any remaining non-owner permissions
+            #             # that may exist.
+            #             sfucsss_permission_id = permission['id']
+            #         else:
+            #             try:
+            #                 logger.info(
+            #                     f"[GoogleDrive duplicate_file()] attempting to delete the permission "
+            #                     f"{permission['id']} for file {file_info['id']}")
+            #                 self.gdrive.permissions().delete(
+            #                     fileId=file_info['id'],
+            #                     permissionId=permission['id']
+            #                 ).execute()
+            #                 logger.info(
+            #                     f"[GoogleDrive duplicate_file()] removed {permission['emailAddress'].lower()}'s "
+            #                     f"access to {file_info['name']}"
+            #                 )
+            #             except Exception as e:
+            #                 logger.error(
+            #                     "[GoogleDrive duplicate_file()] couldnt remove "
+            #                     f"{permission['emailAddress'].lower()}'s access to {file_info['name']} "
+            #                     f"due to following error.\n{e}"
+            #                 )
+            #                 return
+            # if sfucsss_permission_id is not None:
+            #     logger.info(
+            #         f"[GoogleDrive duplicate_file()] attempting to delete the sfucsss@gmail.com's permission"
+            #         f"file {file_info['id']}")
+            #     self.gdrive.permissions().delete(
+            #         fileId=file_info['id'],
+            #         permissionId=sfucsss_permission_id
+            #     ).execute()
         except Exception as e:
             logger.error(
-                f"[GoogleDrive duplicate_file()] unable to duplicate and remove file "
+                f"[GoogleDrive duplicate_file()] unable to duplicate and comment on file "
                 f"from drive due to following error.\n{e}"
             )
 
@@ -489,5 +486,18 @@ class GoogleDrive:
         except Exception as e:
             logger.error(
                 f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
+                f"of type {file_info['mimeType']} due to following error.\n{e}"
+            )
+
+    def alert_user_to_delete_file(self, file_info):
+        try:
+            body = {'content': (
+                "Please delete this file as it has been duplicated and is no longer the latest version of this file"
+            )}
+            self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+            logger.info(f"[GoogleDrive alert_user_to_delete_file()] comment added to file {file_info['name']}")
+        except Exception as e:
+            logger.error(
+                f"[GoogleDrive alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
