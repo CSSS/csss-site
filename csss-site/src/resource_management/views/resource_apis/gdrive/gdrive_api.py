@@ -418,13 +418,13 @@ class GoogleDrive:
         try:
             self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
 
-            body = {}
-            body['name'] = 'duplicated_and_removed'
+            body = {'name': 'duplicated_and_removed'}
             try:
+                logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body for file {file_info['id']} to {body}")
                 self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
             except Exception as e:
                 logger.error(
-                    f"[GoogleDrive duplicate_file()] counldnt update {file_info['name']} to "
+                    f"[GoogleDrive duplicate_file()] couldn't update {file_info['name']} to "
                     f"\"duplicated_and_removed\" due to following error.\n{e}"
                 )
                 return
@@ -434,6 +434,7 @@ class GoogleDrive:
             # it only allows a file that deletes it and deleting a file can only be done by the owner.
             # the only alternative seems to be to just remove all permissions from the file so that only the
             # original owner can see it.
+            sfucsss_permission_id = None
             for permission in file_info['permissions']:
                 if "emailAddress" in permission:
                     if permission['emailAddress'].lower() == "sfucsss@gmail.com":
@@ -443,6 +444,9 @@ class GoogleDrive:
                         sfucsss_permission_id = permission['id']
                     else:
                         try:
+                            logger.info(
+                                f"[GoogleDrive duplicate_file()]  attempting to delete the permission "
+                                f"{permission['id']} for file {file_info['id']}")
                             self.gdrive.permissions().delete(
                                 fileId=file_info['id'],
                                 permissionId=permission['id']
@@ -458,10 +462,14 @@ class GoogleDrive:
                                 f"due to following error.\n{e}"
                             )
                             return
-            self.gdrive.permissions().delete(
-                fileId=file_info['id'],
-                permissionId=sfucsss_permission_id
-            ).execute()
+            if sfucsss_permission_id is not None:
+                logger.info(
+                    f"[GoogleDrive duplicate_file()]  attempting to delete the permission "
+                    f"{sfucsss_permission_id} for file {file_info['id']}")
+                self.gdrive.permissions().delete(
+                    fileId=file_info['id'],
+                    permissionId=sfucsss_permission_id
+                ).execute()
         except Exception as e:
             logger.error(
                 f"[GoogleDrive duplicate_file()] unable to duplicate and remove file "
@@ -480,5 +488,5 @@ class GoogleDrive:
         except Exception as e:
             logger.error(
                 f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
-                f"due to following error.\n{e}"
+                f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
