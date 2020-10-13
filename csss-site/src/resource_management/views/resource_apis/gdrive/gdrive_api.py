@@ -10,6 +10,9 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+from csss.Gmail import Gmail
+from resource_management.models import GoogleMailAccountCredentials
+
 logger = logging.getLogger('csss_site')
 
 mime_type = [
@@ -114,10 +117,14 @@ class GoogleDrive:
                 return False, None, e
 
             file_name = response['name']
+            if file_id is self.root_file_id:
+                message = 'the root SFU CSSS Google Drive folder'
+            else:
+                message = 'a subfolder in the SFU CSSS Google Drive'
             for user in users:
                 email_message = (
                     f"Hello {user},"
-                    "You have been granted acces to a subfolder in the CSSS Google Drive. "
+                    f"You have been granted access to {message}"
                     "Please be careful when deleting as you have \"master\" access, as do all the officers."
                     "Furthermore, when creating a file on the CSSS Google Drive, please "
                     "try to transfer ownerships of any files you create to \"sfucsss@gmail.com\" account "
@@ -126,10 +133,7 @@ class GoogleDrive:
                     "https://github.com/CSSS/managingCSSSResources/tree/master/google_drive"
                     "-Your Sys Admin"
                 )
-                body = {}
-                body['role'] = 'writer'
-                body['type'] = 'user'
-                body['emailAddress'] = user.lower()
+                body = {'role': 'writer', 'type': 'user', 'emailAddress': user.lower()}
                 try:
                     logger.info(
                         f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
@@ -181,6 +185,8 @@ class GoogleDrive:
                                 )
                                 self.gdrive.permissions().delete(fileId=file_id,
                                                                  permissionId=permission['id']).execute()
+                                if self._determine_if_file_id_belongs_to_gdrive_folder(file_id):
+                                    time.sleep(5)
                                 logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
                                 logger.error(
@@ -203,9 +209,7 @@ class GoogleDrive:
             if file_id is None:
                 logger.warning("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
                 return False, None, None
-            body = {}
-            body['role'] = 'writer'
-            body['type'] = 'anyone'
+            body = {'role': 'writer', 'type': 'anyone'}
             try:
                 logger.info(
                     f"[GoogleDrive make_public_link_gdrive()] will attempt to make the file with id {file_id} "
@@ -241,25 +245,21 @@ class GoogleDrive:
                     f"attempting to removing public link for file with id {file_id}.\n {e}"
                 )
 
-    def check_parent_folder(self, file_id, parent_folder):
+    def validate_ownerships_and_permissions(self, google_drive_perms):
         """
-        Purpose: recursively gets the parent info of the parent until it is at the top
-        this is being done in order to determine if subfile or subfolder exists in a file
-        that has been shared with someone
-        NOT BEING USED ANYMORE
-        """
-        if self.connection_successful:
-            while True:
-                response = self.gdrive.files().get(fileId=file_id, fields='*').execute()
-                # logger.info(json.dumps(daResponse, indent=4, sort_keys=True))
-                if response['id'] == parent_folder:
-                    return True
-                if 'parents' not in response:
-                    return False
-                file_id = response['parents'][0]
-                # id, name and parent id
+        calls methods that are responsible for ensuring that the permissions to root folder are accurate
+        as well as  the ownership and permissions of its subfiles and folders are accurate as well
 
-    def ensure_root_permissions_are_correct(self, google_drive_perms):
+        Keyword Argument
+         google_drive_perms -- a dict that list all the permissions that currently need to be set
+        """
+        self._ensure_root_permissions_are_correct(google_drive_perms)
+        folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(
+            google_drive_perms
+        )
+        self._send_email_notifications_for_folder_with_incorrect_ownership(folders_to_change)
+
+    def _ensure_root_permissions_are_correct(self, google_drive_perms):
         """Attempts to make sure that only officers [and other necessary individuals] have access to the CSSS root folder
 
         Keyword Arguments:
@@ -283,42 +283,58 @@ class GoogleDrive:
                 response = self.gdrive.files().get(fileId=self.root_file_id, fields='*').execute()
             except Exception as e:
                 logger.error(
-                    "[GoogleDrive ensure_root_permissions_are_correct()] unable to get all the files "
+                    "[GoogleDrive _ensure_root_permissions_are_correct()] unable to get all the files "
                     f"under root due to following error.\n {e}")
                 return False
             # first doing a check for the permissions to the root folder "CSSS"
             # once the new permissions have gone through, will check each individual file to make sure
             # there is nothing else that has access that should not have it.
-            for permission in response['permissions']:
-                if permission['emailAddress'].lower() in google_drive_perms:
-                    if self.root_file_id not in google_drive_perms[permission['emailAddress'].lower()]:
-                        # it has found an individual who has access to the root folder even though their key/value
-                        # indicates that they should actually have access to another folder/file
+            gdrive_users_with_access_to_root_folder = [
+                permission['emailAddress'].lower() for permission in response['permissions']
+            ]
+            for gdrive_user in gdrive_users_with_access_to_root_folder:
+                if gdrive_user in google_drive_perms:
+                    if self.root_file_id not in google_drive_perms[gdrive_user]:
                         logger.info(
-                            "[GoogleDrive ensure_root_permissions_are_correct()] will attempt to remove "
-                            f" {permission['emailAddress'].lower()}'s permission to the root folder"
+                            f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} has access to"
+                            " root file id but their level of access indicates it they need access to something "
+                            "lower down, attempting to remove their access to the root file"
                         )
-                        self.remove_users_gdrive([permission['emailAddress'].lower()], self.root_file_id)
+                        self.remove_users_gdrive([gdrive_user])
                 else:
-                    # have found an individual who should not have access to anything at all.
-                    self.remove_users_gdrive([permission['emailAddress'].lower()], self.root_file_id)
+                    logger.info(
+                        f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} apparently should"
+                        " not have access at all to any sfu csss google drive folder. attempting to remove it. "
+                    )
+                    self.remove_users_gdrive([gdrive_user])
+            for gdrive_user in google_drive_perms:
+                if self.root_file_id in gdrive_user and gdrive_user not in gdrive_users_with_access_to_root_folder:
+                    logger.info(
+                        f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} should "
+                        "have access to the root google drive folder but does not, attempting to grant "
+                        "them access now."
+                    )
+                    self.add_users_gdrive([gdrive_user])
 
-            # once the function tries to set the permissions correctly at the top-level, it will then wait 10 second
-            # to give time for the above changes to propagate through before it does a call to
-            # ensure_permissions_are_correct to deal with cases where subfiles/folders are now owned
-            # by sfucsss@gmail.com which prevents removing the owner of that file from the drive
-            time.sleep(10)
-            self.ensure_permissions_are_correct(google_drive_perms, [self.root_file_id])
-
-    def ensure_permissions_are_correct(self, google_drive_perms, parent_id):
+    def _validate_individual_file_and_folder_ownership_and_permissions(self, google_drive_perms, parent_id=None,
+                                                                       folders_to_change=None):
         """Goes through each single file and folder under "CSSS" root folder and checking each file/folder to make sure
          that either it has the proper permission sets or is duplicated or its owner notified that
          they need to correct who the owner of the file is so that its permissions can be corrected
 
-         Keyword Arguments:
+         Keyword Arguments
          google_drive_perms -- a dict that list all the permissions that currently need to be set
-         parent_id -- the folder folder that needs to have its contents searched
+         parent_id -- the folder that needs to have its contents searched
+         folder_to_change -- a dictionary of the folders whose owners need to be informed
+          that their permission needs to be updated
+
+        Return
+        folder_to_change -- the current dictionary of the folders whose ownership needs to be changed
         """
+        if parent_id is None:
+            parent_id = [self.root_file_id]
+        if folders_to_change is None:
+            folders_to_change = {}
         next_page_token = None
         while True:
             try:
@@ -330,174 +346,343 @@ class GoogleDrive:
                 ).execute()
             except Exception as e:
                 logger.error(
-                    "[GoogleDrive ensure_permissions_are_correct()] unable to get the list of files "
-                    f"under folder with id {parent_id[len(parent_id) - 1]} due to following error\n.{e}"
+                    "[GoogleDrive _validate_individual_file_and_folder_ownership_and_permissions()] "
+                    f"unable to get the list of files under folder with id {parent_id[len(parent_id) - 1]}"
+                    f" due to following error\n.{e}"
                 )
                 return
             for file in response['files']:
-                logger.info(
-                    "[GoogleDrive ensure_permissions_are_correct()] attempting to "
-                    f"fix file permissions for file {file['name']}"
+                self._validate_permissions_for_file(google_drive_perms, parent_id, file)
+                folders_to_change = self._validate_owner_for_file(
+                    google_drive_perms, parent_id, folders_to_change, file
                 )
-                self.ensure_correct_owner_for_file(file)
-                for permission in file['permissions']:
-                    if permission['id'] == 'anyoneWithLink':
-                        # check files that are link-share enabled
-                        if 'anyoneWithLink' not in google_drive_perms.keys():
-                            # there are no link-shares enabled at this time
-                            logger.info(
-                                "[GoogleDrive ensure_permissions_are_correct()] removing public "
-                                f"link for file with id {file['id']} and name {file['name']}"
-                            )
-                            self.remove_public_link_gdrive(file['id'])
-                        else:
-                            if set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']]) == 0:
-                                # check to see if this particular file has not been link-share enabled or
-                                # one of this particular file's parent folders have also not been link-share enabled
-                                logger.info(
-                                    "[GoogleDrive ensure_permissions_are_correct()] removing public "
-                                    f"link for file with id {file['id']} and name {file['name']}"
-                                )
-                                self.remove_public_link_gdrive(file['id'])
-                    elif 'emailAddress' in permission:
-                        # checking permissions that are email-shared
-                        email_address = permission['emailAddress'].lower()
-                        if email_address not in google_drive_perms.keys():
-                            # this email is not supposed to have access to any of the CSSS Google Drive Resources
-                            logger.info(
-                                "[GoogleDrive ensure_permissions_are_correct()] remove "
-                                f"{email_address}'s access to file {file['name']}"
-                            )
-                            self.remove_users_gdrive(email_address, file['id'])
-                        else:
-                            if set(google_drive_perms[email_address]).intersection(parent_id + [file['id']]) == 0:
-                                # checks to see if this email is supposed to have access to either this file or
-                                # one of its parent folders
-                                logger.info(
-                                    "[GoogleDrive ensure_permissions_are_correct()] remove "
-                                    f"{email_address}'s access to file {file['name']}"
-                                )
-                                self.remove_users_gdrive(email_address, file['id'])
-                if file['mimeType'] == "application/vnd.google-apps.folder":
-                    # this is a folder so we have to check to see if any of its files have a bad permission set
-                    self.ensure_permissions_are_correct(google_drive_perms, parent_id + [file['id']])
             if 'nextPageToken' not in response:
                 # no more files to look at under this folder so need to go back up the recursive stack
-                return
+                return folders_to_change
             next_page_token = response['nextPageToken']
 
-    def ensure_correct_owner_for_file(self, file_info):
-        """Checks what kind of a file has been passed and what needs to happen to ensure its owner is sfucsss@gmail.com
-
-        Keyword Arguments:
-        file_info -- the file_info for the file that needs to have its permissions checked
+    def _validate_permissions_for_file(self, google_drive_perms, parent_id, file):
         """
-        if 'google-apps' not in file_info['mimeType']:
-            # any file that is not a google native document cannot have its owner changes,
-            # it needs to be duplicated instead.
-            if file_info['ownedByMe']:
-                return True
+        Ensure that there are not permissions for files that should not exist
+
+        Keyword Argument
+         google_drive_perms -- a dict that list all the permissions that currently need to be set
+         parent_id -- the folder that needs to have its contents searched
+         file -- the info for the file that needs to have its permissions validated
+
+        """
+        # first going through all the permissions for the file to ensure
+        # that they are correct according to the
+        # google drive perms dictionary
+        logger.info(
+            "[GoogleDrive _validate_permissions_for_file()] ensuring that the permissions for file "
+            f"{file['name']} are correct"
+        )
+        for permission in file['permissions']:
+            if permission['id'] == 'anyoneWithLink':
+                # check files that are link-share enabled
+                if 'anyoneWithLink' not in google_drive_perms.keys():
+                    # there are no link-shares enabled at this time
+                    logger.info(
+                        "[GoogleDrive _validate_permissions_for_file()] removing public "
+                        f"link for file with id {file['id']} and name {file['name']}"
+                    )
+                    self.remove_public_link_gdrive(file['id'])
+                else:
+                    if set(google_drive_perms['anyoneWithLink']).intersection(
+                            parent_id + [file['id']]) == 0:
+                        # check to see if this particular file has not been link-share enabled or
+                        # one of this particular file's parent folders have also not been link-share enabled
+                        logger.info(
+                            "[GoogleDrive _validate_permissions_for_file()] removing public "
+                            f"link for file with id {file['id']} and name {file['name']}"
+                        )
+                        self.remove_public_link_gdrive(file['id'])
+            elif 'emailAddress' in permission:
+                # checking permissions that are email-shared
+                email_address = permission['emailAddress'].lower()
+                if email_address not in google_drive_perms.keys():
+                    # this email is not supposed to have access to any of the CSSS Google Drive Resources
+                    logger.info(
+                        "[GoogleDrive _validate_permissions_for_file()] remove "
+                        f"{email_address}'s access to file {file['name']}"
+                    )
+                    self.remove_users_gdrive(email_address, file['id'])
+                else:
+                    if set(google_drive_perms[email_address]).intersection(
+                            parent_id + [file['id']]) == 0:
+                        # checks to see if this email is supposed to have access to either this file or
+                        # one of its parent folders
+                        logger.info(
+                            "[GoogleDrive _validate_permissions_for_file()] remove "
+                            f"{email_address}'s access to file {file['name']}"
+                        )
+                        self.remove_users_gdrive(email_address, file['id'])
+
+    def _validate_owner_for_file(self, google_drive_perms, parent_id, folders_to_change, file):
+        """
+        Ensure that the permissions for the given file is sfucsss@gmail.com
+
+        Keyword Argument
+        google_drive_perms -- a dict that list all the permissions that currently need to be set
+        parent_id -- the folder that needs to have its contents searched
+        folder_to_change -- a dictionary of the folders whose owners need to be informed
+            that their permission needs to be updated
+        file -- the info for the file that needs to have its permissions validated
+
+        Return
+        folder_to_change -- the current dictionary of the folders whose ownership needs to be changed
+        """
+        valid_ownership_for_file = self._owner_of_folder_is_correct(file)
+        logger.info(
+            "[GoogleDrive _validate_owner_for_file()] file/folder "
+            f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
+            f"will {'not' if valid_ownership_for_file else ''} have its owner be alerted."
+        )
+        if not valid_ownership_for_file:
+            if self._determine_if_file_info_belongs_to_gdrive_folder(file):
+                folder_name = file['name']
+                logger.info(
+                    f"[GoogleDrive _validate_owner_for_file()] google drive file {folder_name} "
+                    "determined to be a folder"
+                )
+                for owner in file['owners']:
+                    owner_email = owner['emailAddress'].lower()
+                    link = file['webViewLink']
+                    logger.info(
+                        f"[GoogleDrive _validate_owner_for_file()] adding {owner_email} "
+                        f"to the list of people who need to be alerted about changing "
+                        f"ownership for folder {folder_name}"
+                    )
+                    if owner_email in folders_to_change:
+                        folders_to_change[owner_email]['folder_infos'].append(
+                            {
+                                'folder_name': folder_name,
+                                'folder_link': link
+                            }
+                        )
+                    else:
+                        folders_to_change[owner_email] = {
+                            'full_name': owner['displayName'],
+                            'folder_infos': [{
+                                'folder_name': folder_name,
+                                'folder_link': link
+                            }]
+                        }
+                # this is a folder so we have to check to see if any of its files have a bad permission set
+                folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(
+                    google_drive_perms, parent_id=parent_id + [file['id']], folders_to_change=folders_to_change
+                )
+            elif self._file_is_gdrive_file(file):
+                logger.info(
+                    "[GoogleDrive _validate_owner_for_file()] file "
+                    f"{file['name']} determined to be a regular google drive file"
+                )
+                self._alert_user_to_change_owner(file)
             else:
-                self.duplicate_file(file_info)
-                return True
+                logger.info(
+                    "[GoogleDrive _validate_owner_for_file()] file "
+                    f"{file['name']} determined to probably be an uploaded file"
+                )
+                if self._duplicate_file(file):
+                    self._alert_user_to_delete_file(file)
+        return folders_to_change
+
+    def _determine_if_file_id_belongs_to_gdrive_folder(self, file_id):
+        """
+        determines if the google drive file type is a folder
+
+        Keyword Argument
+        file_info -- the id for the file whose type needs to be checked
+
+        Return
+        Bool -- true or false to indicate if the file is a folder
+        """
+        file_info = self.gdrive.files().get(
+            fields='*',
+            fileId=file_id
+        ).execute()
+        return self._determine_if_file_info_belongs_to_gdrive_folder(file_info)
+
+    def _determine_if_file_info_belongs_to_gdrive_folder(self, file_info):
+        """
+        determines if the google drive file type is a folder
+
+        Keyword Argument
+        file_info -- the info for the file whose type needs to be checked
+
+        Return
+        Bool -- true or false to indicate if the file is a folder
+        """
+        if 'mimeType' in file_info:
+            logger.info(f"[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
+                        f"parsing a file_info with a type of {file_info['mimeType']} ")
         else:
-            # only the owner of a google native document can change its owner
-            if not file_info['ownedByMe']:
-                self.alert_user_to_change_owner(file_info)
-                return False
-            else:
-                return True
+            logger.error("[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
+                         f"unable to find a file type for file {file_info['name']}")
+        return 'mimeType' in file_info and file_info['mimeType'] == 'application/vnd.google-apps.folder'
 
-    def duplicate_file(self, file_info):
-        """Duplicates a non-google native document and removes the duplicate so that the version on the drive is owned
-        by sfucsss@gmail.com
+    def _owner_of_folder_is_correct(self, file_info):
+        """
+        determines if the owner of the google drive folder is correct
 
-        Keyword Arguments:
-        file_info -- the file_info for the file that needs to have its permissions checked
+        Keyword Argument
+        file_info -- the info for the file whose type needs to be checked
+
+        Return
+        Bool -- true or false to indicate if the folder is owned by sfucsss or not
+        """
+        file_ownership = 'ownedByMe' in file_info and file_info['ownedByMe']
+        if 'ownedByMe' in file_info:
+            logger.info(f"[GoogleDrive _owner_of_folder_is_correct()] "
+                        f"file is {'' if file_ownership else 'not '}owned by sfucsss@gmail.com")
+        else:
+            logger.error("[GoogleDrive _owner_of_folder_is_correct()] "
+                         f"unable to find key 'ownedByMe' for file {file_info['name']}")
+        return file_ownership
+
+    def _file_is_gdrive_file(self, file_info):
+        """
+        determine if the file is a goggle-app type
+
+        Keyword Argument
+        file_info -- the info for the file whose type needs to be checked
+
+        Return
+        Bool -- true or false to indicate if the file is of google-app type
+        """
+        file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType']
+        if 'mimeType' in file_info:
+            logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+                        f"is {file_info['mimeType']}")
+        else:
+            logger.error("[GoogleDrive _file_is_gdrive_file()] "
+                         f"unable to find key 'mimeType' for file {file_info['name']}")
+        return file_type
+
+    def _alert_user_to_change_owner(self, file_info):
+        """
+        adds a comment to the file to alert the owner that they need to change the owner of the google drive file
+
+        Keyword Argument
+        file_info -- the file that needs to have the comment added to it
         """
         try:
-            if file_info['name'] != 'duplicated__do_not_use':
-                logger.info(f"[GoogleDrive duplicate_file()] attempting to duplicate file {file_info['id']}")
-                self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
-                logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']} successfully duplicated")
-                body = {'name': 'duplicated__do_not_use'}
-                logger.info(f"[GoogleDrive duplicate_file()]  attempting to set the body "
-                            f"for file {file_info['id']} to {body}")
-                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
-                logger.info(f"[GoogleDrive duplicate_file()] file {file_info['id']}'s body successfully updated")
-            self.alert_user_to_delete_file(file_info)
-
-            # google drive api doesnt allow a function that "removes" a file from the sfucsss@gmail.com's
-            # google drive.
-            # it only allows a file that deletes it and deleting a file can only be done by the owner.
-            # the only alternative seems to be to just remove all permissions from the file so that only the
-            # original owner can see it.
-            # sfucsss_permission_id = None
-            # for permission in file_info['permissions']:
-            #     if "emailAddress" in permission:
-            #         if permission['emailAddress'].lower() == "sfucsss@gmail.com":
-            #             # sfucsss@gmail.com's permissions is being saved to be removed later on as it needs to
-            #             # keep its access to the file in order to remove any remaining non-owner permissions
-            #             # that may exist.
-            #             sfucsss_permission_id = permission['id']
-            #         else:
-            #             try:
-            #                 logger.info(
-            #                     f"[GoogleDrive duplicate_file()] attempting to delete the permission "
-            #                     f"{permission['id']} for file {file_info['id']}")
-            #                 self.gdrive.permissions().delete(
-            #                     fileId=file_info['id'],
-            #                     permissionId=permission['id']
-            #                 ).execute()
-            #                 logger.info(
-            #                     f"[GoogleDrive duplicate_file()] removed {permission['emailAddress'].lower()}'s "
-            #                     f"access to {file_info['name']}"
-            #                 )
-            #             except Exception as e:
-            #                 logger.error(
-            #                     "[GoogleDrive duplicate_file()] couldnt remove "
-            #                     f"{permission['emailAddress'].lower()}'s access to {file_info['name']} "
-            #                     f"due to following error.\n{e}"
-            #                 )
-            #                 return
-            # if sfucsss_permission_id is not None:
-            #     logger.info(
-            #         f"[GoogleDrive duplicate_file()] attempting to delete the sfucsss@gmail.com's permission"
-            #         f"file {file_info['id']}")
-            #     self.gdrive.permissions().delete(
-            #         fileId=file_info['id'],
-            #         permissionId=sfucsss_permission_id
-            #     ).execute()
-        except Exception as e:
-            logger.error(
-                f"[GoogleDrive duplicate_file()] unable to duplicate and comment on file "
-                f"from drive due to following error.\n{e}"
-            )
-
-    def alert_user_to_change_owner(self, file_info):
-        try:
-            body = {}
-            body['content'] = (
+            body = {'content': (
                 "Please change owner of this file to sfucsss@gmail.com.\nInstructions for doing so can be found"
                 " here: https://github.com/CSSS/managingCSSSResources"
-            )
-            self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
-            logger.info(f"[GoogleDrive alert_user_to_change_owner()] comment added to file {file_info['name']}")
+            )}
+            logger.info(f"[GoogleDrive _alert_user_to_change_owner()] attempting to add a comment added "
+                        f"to file {file_info['name']}")
+            response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+            if response['content'] == body['content']:
+                logger.info(f"[GoogleDrive _alert_user_to_change_owner()] comment added to file {file_info['name']}")
+            else:
+                logger.error(f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
+                             f" to file {file_info['name']}")
         except Exception as e:
             logger.error(
-                f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
+                f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
 
-    def alert_user_to_delete_file(self, file_info):
+    def _duplicate_file(self, file_info):
+        """
+        Duplicates a non-google native document and renames the original to indicate it should no longer
+        be used
+
+        Keyword Arguments:
+        file_info -- the file_info for the file that needs to be duplicated
+
+        Return
+        Bool -- true or false to indicate if the file was successfully duplicated
+        """
+        try:
+            if file_info['name'] != 'duplicated__do_not_use':
+                logger.info(
+                    f"[GoogleDrive _duplicate_file()] "
+                    f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
+                self.gdrive.files().copy(
+                    fileId=file_info['id'],
+                    fields='*',
+                    body={'name': file_info['name']}
+                ).execute()
+                logger.info(
+                    f"[GoogleDrive _duplicate_file()] "
+                    f"file {file_info['name']} with id {file_info['id']} successfully duplicated")
+                body = {'name': 'duplicated__do_not_use'}
+                logger.info(
+                    f"[GoogleDrive _duplicate_file()]  attempting to set the body "
+                    f"for file {file_info['name']} with id {file_info['id']} to {body}")
+                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                logger.info(
+                    f"[GoogleDrive _duplicate_file()] "
+                    f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
+            return True
+        except Exception as e:
+            logger.error(
+                f"[GoogleDrive _duplicate_file()] "
+                f"unable to duplicate the file due to following error.\n{e}"
+            )
+            return False
+
+    def _alert_user_to_delete_file(self, file_info):
+        """
+        alert the owner of a file via a comment that its needs to be deleted
+
+        Keyword Argument
+        file_info -- the info for the file that needs to be deleted
+        """
         try:
             body = {'content': (
                 "Please delete this file as it has been duplicated and is no longer the latest version of this file"
             )}
-            self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
-            logger.info(f"[GoogleDrive alert_user_to_delete_file()] comment added to file {file_info['name']}")
+            response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+            if response['content'] == body['content']:
+                logger.info(f"[GoogleDrive _alert_user_to_delete_file()] comment added to file {file_info['name']}")
+            else:
+                logger.error(
+                    f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']}")
         except Exception as e:
             logger.error(
-                f"[GoogleDrive alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
+                f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
+
+    def _send_email_notifications_for_folder_with_incorrect_ownership(self, folders_to_change):
+        """
+        will email all the relevant owners of the folders that they are owners of that need to have
+        their ownership changed
+
+        Keyword Argument
+        folders_to_change -- a dictionary that contains a list of all the emails and their corresponding
+            folders that they need to be made aware of that have to have their ownership changed
+        """
+        gmail_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")
+        if len(gmail_credentials) == 0:
+            logger.error("[GoogleDrive _send_email_notifications_for_folder_with_incorrect_ownership()] "
+                         "Could not find any credentials for the gmail "
+                         "sfucsss@gmail.com account in order to send notification email")
+        sfu_csss_credentials = gmail_credentials[0]
+        logger.info("[GoogleDrive _send_email_notifications_for_folder_with_incorrect_ownership()] attempting"
+                    " to setup connection to gmail server")
+        gmail = Gmail(sfu_csss_credentials.username, sfu_csss_credentials.password)
+        subject = "SFU CSSS Google Drive Folder ownership change"
+        body_template = (
+            "Please change owner of the following folders to sfucsss@gmail.com.\n"
+            "Instructions for doing so can be "
+            "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
+            "to be changed:\n"
+        )
+        for to_email in folders_to_change:
+            body = body_template + "".join(
+                [
+                    f"{folder['folder_name']} : {folder['folder_link']}\n" for folder in
+                    folders_to_change[to_email]['folder_infos']
+                ]
+            )
+            to_name = folders_to_change[to_email]['full_name']
+            logger.info("[GoogleDrive _send_email_notifications_for_folder_with_incorrect_ownership()] attempting to "
+                        f"send email to {to_email}")
+            gmail.send_email(subject, body, to_email, to_name)
+        gmail.close_connection()

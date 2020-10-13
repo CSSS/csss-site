@@ -86,7 +86,7 @@ def validate_google_drive():
     """
     GoogleDrive(
         settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID
-    ).ensure_root_permissions_are_correct(create_google_drive_perms())
+    ).validate_ownerships_and_permissions(create_google_drive_perms())
 
 
 def validate_github():
