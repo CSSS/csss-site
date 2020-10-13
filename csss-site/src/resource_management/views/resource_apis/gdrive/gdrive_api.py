@@ -185,6 +185,8 @@ class GoogleDrive:
                                 )
                                 self.gdrive.permissions().delete(fileId=file_id,
                                                                  permissionId=permission['id']).execute()
+                                if self._determine_if_file_id_is_gdrive_folder(file_id):
+                                    time.sleep(5)
                                 logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
                                 logger.error(
@@ -252,12 +254,6 @@ class GoogleDrive:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
         self._ensure_root_permissions_are_correct(google_drive_perms)
-        # once the function tries to set the permissions correctly at the top-level, it will then wait 10 second
-        # to give time for the above changes to propagate through before it does a call to
-        # _validate_individual_file_and_folder_ownership_and_permissions to deal with cases
-        # where subfiles/folders are now owned
-        # by sfucsss@gmail.com which prevents removing the owner of that file from the drive
-        time.sleep(10)
         folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(google_drive_perms,
                                                                                                 [self.root_file_id])
         self._send_email_notifications_for_folder_with_incorrect_ownership(folders_to_change)
@@ -441,7 +437,7 @@ class GoogleDrive:
             f"will {'not' if valid_ownership_for_file else ''} have its owner be alerted."
         )
         if not valid_ownership_for_file:
-            if self._file_is_gdrive_folder(file):
+            if self._determine_if_file_info_is_gdrive_folder(file):
                 folder_name = file['name']
                 logger.info(
                     f"[GoogleDrive _validate_owner_for_file()] google drive file {folder_name} "
@@ -489,7 +485,30 @@ class GoogleDrive:
                     self._alert_user_to_delete_file(file)
         return folders_to_change
 
-    def _file_is_gdrive_folder(self, file_info):
+    def _determine_if_file_id_is_gdrive_folder(self, file_id):
+        """
+        determines if the google drive file type is a folder
+
+        Keyword Argument
+        file_info -- the id for the file whose type needs to be checked
+
+        Return
+        Bool -- true or false to indicate if the file is a folder
+        """
+        file_info = self.gdrive.files().get(
+            fields='*',
+            fileId=file_id
+        ).execute()
+        if 'mimeType' is file_info:
+            logger.info("[GoogleDrive _determine_if_file_id_is_gdrive_folder()] got back a file type of "
+                        f"{file_info['mimeType']} for file {file_info['name']}")
+            return self._determine_if_file_info_is_gdrive_folder(file_info)
+        else:
+            logger.error("[GoogleDrive _determine_if_file_id_is_gdrive_folder()] unable to find a file type for file "
+                         f"{file_info['name']}")
+            return False
+
+    def _determine_if_file_info_is_gdrive_folder(self, file_info):
         """
         determines if the google drive file type is a folder
 
@@ -499,7 +518,13 @@ class GoogleDrive:
         Return
         Bool -- true or false to indicate if the file is a folder
         """
-        return file_info['mimeType'] == 'application/vnd.google-apps.folder'
+        if 'mimeType' in file_info:
+            logger.info(f"[GoogleDrive _determine_if_file_info_is_gdrive_folder()] "
+                        f"parsing a file_info with a type of {file_info['mimeType']} ")
+        else:
+            logger.error("[GoogleDrive _determine_if_file_info_is_gdrive_folder()] unable to find a file type for file "
+                         f"{file_info['name']}")
+        return 'mimeType' in file_info and file_info['mimeType'] == 'application/vnd.google-apps.folder'
 
     def _owner_of_folder_is_correct(self, file_info):
         """
