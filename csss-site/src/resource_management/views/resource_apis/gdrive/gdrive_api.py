@@ -117,10 +117,14 @@ class GoogleDrive:
                 return False, None, e
 
             file_name = response['name']
+            if file_id is self.root_file_id:
+                message = 'the root SFU CSSS Google Drive folder'
+            else:
+                message = 'a subfolder in the SFU CSSS Google Drive'
             for user in users:
                 email_message = (
                     f"Hello {user},"
-                    "You have been granted acces to a subfolder in the CSSS Google Drive. "
+                    f"You have been granted access to {message}"
                     "Please be careful when deleting as you have \"master\" access, as do all the officers."
                     "Furthermore, when creating a file on the CSSS Google Drive, please "
                     "try to transfer ownerships of any files you create to \"sfucsss@gmail.com\" account "
@@ -129,10 +133,7 @@ class GoogleDrive:
                     "https://github.com/CSSS/managingCSSSResources/tree/master/google_drive"
                     "-Your Sys Admin"
                 )
-                body = {}
-                body['role'] = 'writer'
-                body['type'] = 'user'
-                body['emailAddress'] = user.lower()
+                body = {'role': 'writer', 'type': 'user', 'emailAddress': user.lower()}
                 try:
                     logger.info(
                         f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
