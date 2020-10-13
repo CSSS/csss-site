@@ -1,13 +1,11 @@
 import datetime
 import logging
 import os
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
 
 from django.contrib.staticfiles import finders
 
 from about.models import Term, Officer, AnnouncementEmailAddress
+from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
 from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerGithubTeamMapping, \
     OfficerGithubTeam
@@ -203,15 +201,15 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                 return False, ("Could not find any credentials for the gmail sfucsss@gmail.com account "
                                "in order to send notification email")
             sfu_csss_credentials = gmail_credentials[0]
-            success, error_message = _send_instructional_email_to_new_officer(
-                subject,
-                body,
-                "SFU CSSS",
-                sfu_csss_credentials.username,
-                full_name,
-                f"{sfuid}@sfu.ca",
-                sfu_csss_credentials.password
+            gmail = Gmail(sfu_csss_credentials.username, sfu_csss_credentials.password)
+            if not gmail.connection_successful:
+                return False, gmail.error_message
+            success, error_message = gmail.send_email(
+                subject, body, f"{sfuid}@sfu.ca", full_name, "SFU CSSS Website"
             )
+            if not success:
+                return False, error_message
+            success, error_message = gmail.close_connection()
             if not success:
                 officer_obj.delete()
             return success, error_message
@@ -376,56 +374,3 @@ def _remove_officer_from_naughty_list(full_name):
         if naughty_officer.name in full_name:
             naughty_officer.delete()
             return
-
-
-def _send_instructional_email_to_new_officer(subject, body, from_name, from_email, to_name, to_email, password):
-    """
-    Sends instruction email to the new officer on what resources are what and where to look for documentation
-
-    subject -- the subject of the email
-    body -- the body of the email
-    from_name -- the name to use in the from section of email
-    from_email -- the email to send the email from
-    to_name -- the name of the person to send the email to
-    to_email -- the email address to send the email to
-    password -- the password for the from_email
-
-    Return
-    success - true or False
-    error_message -- error message if success if False
-    """
-    logger.info("[about/officer_management_helper.py _send_instructional_email_to_new_officer()] setting up "
-                "MIMEMultipart object")
-    msg = MIMEMultipart()
-    msg['From'] = from_name + " <" + from_email + ">"
-    msg['To'] = to_name + " <" + to_email + ">"
-    msg['Subject'] = subject
-    msg.attach(MIMEText(body))
-    logger.info("[about/officer_management_helper.py _send_instructional_email_to_new_officer()] Connecting to "
-                "smtp.gmail.com:587")
-    success = False
-    max_number_of_retries = 5
-    number_of_retries = 0
-    while not success:
-        try:
-            server = smtplib.SMTP('smtp.gmail.com:587')
-            server.connect("smtp.gmail.com:587")
-            server.ehlo()
-            server.starttls()
-            logger.info(
-                f"[about/officer_management_helper.py _send_instructional_email_to_new_officer()] "
-                f"Logging into your {from_email}"
-            )
-            server.login(from_email, password)
-            logger.info(
-                "[about/officer_management_helper.py _send_instructional_email_to_new_officer()] Sending email...")
-            server.send_message(from_addr=from_email, to_addrs=to_email, msg=msg)
-            success = True
-            server.close()
-        except Exception as e:
-            number_of_retries += 1
-            if number_of_retries == max_number_of_retries:
-                return False, f"Experienced Error {e}"
-            success = False
-    logger.info("[about/officer_management_helper.py _send_instructional_email_to_new_officer()] email sent")
-    return True, None
