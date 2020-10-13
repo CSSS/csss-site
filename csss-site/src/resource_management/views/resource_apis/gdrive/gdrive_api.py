@@ -314,7 +314,8 @@ class GoogleDrive:
                 if self.root_file_id in gdrive_user and gdrive_user not in gdrive_users_with_access_to_root_folder:
                     logger.info(
                         f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} should "
-                        "have access to the root google drive folder but does not, attempting to grant them access now."
+                        "have access to the root google drive folder but does not, attempting to grant "
+                        "them access now."
                     )
                     self.add_users_gdrive([gdrive_user])
 
@@ -568,7 +569,7 @@ class GoogleDrive:
                 duplicate_file_name = {
                     'name': file_info['name']
                 }
-                # self.gdrive.files().copy(fileId=file_info['id'], fields='*', body=duplicate_file_name).execute()
+                self.gdrive.files().copy(fileId=file_info['id'], fields='*', body=duplicate_file_name).execute()
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['id']} successfully duplicated")
@@ -576,7 +577,7 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive _duplicate_file()]  attempting to set the body "
                     f"for file {file_info['id']} to {body}")
-                # self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['id']}'s body successfully updated")
