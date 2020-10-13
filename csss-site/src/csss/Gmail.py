@@ -8,7 +8,7 @@ logger = logging.getLogger('csss_site')
 
 class Gmail:
 
-    def __int__(self, from_email, password, smtp='smtp.gmail.com', port=587, max_number_of_retries=5):
+    def __init__(self, from_email, password, smtp='smtp.gmail.com', port=587, max_number_of_retries=5):
         """
         initialized the gmail object for a gmail account
 
