@@ -444,7 +444,8 @@ class GoogleDrive:
             if self._file_is_gdrive_folder(file):
                 folder_name = file['name']
                 logger.info(
-                    f"[GoogleDrive _validate_owner_for_file()] google drive file {folder_name} determined to be a folder"
+                    f"[GoogleDrive _validate_owner_for_file()] google drive file {folder_name} "
+                    "determined to be a folder"
                 )
                 for owner in file['owners']:
                     owner_email = owner['emailAddress'].lower()
