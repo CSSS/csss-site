@@ -368,17 +368,17 @@ class GoogleDrive:
                                     f"{email_address}'s access to file {file['name']}"
                                 )
                                 self.remove_users_gdrive(email_address, file['id'])
+                valid_ownership_for_file, file_or_folder_name = self.owner_of_folder_is_correct(file)
+                logger.info(
+                    "[GoogleDrive ensure_permissions_are_correct()] owner for file/folder "
+                    f"{file['name']} is {'not' if not valid_ownership_for_file else ''} sfucsss"
+                )
                 if self.file_is_gdrive_folder(file):
                     logger.info(
                         "[GoogleDrive ensure_permissions_are_correct()] file "
                         f"{file['name']} determined to be a folder"
                     )
-                    success, folder_name = self.owner_of_folder_is_correct(file)
-                    if not success:
-                        logger.info(
-                            "[GoogleDrive ensure_permissions_are_correct()] owner for folder "
-                            f"{file['name']} is not sfucsss"
-                        )
+                    if not valid_ownership_for_file:
                         for owner in file['owners']:
                             owner_email = owner['emailAddress'].lower()
                             link = file['webViewLink']
@@ -390,7 +390,7 @@ class GoogleDrive:
                             if owner_email in folders_to_change:
                                 folders_to_change[owner_email]['folder_infos'].append(
                                     {
-                                        'folder_name': folder_name,
+                                        'folder_name': file_or_folder_name,
                                         'folder_link': link
                                     }
                                 )
@@ -398,7 +398,7 @@ class GoogleDrive:
                                 folders_to_change[owner_email] = {
                                     'full_name': owner['displayName'],
                                     'folder_infos': [{
-                                        'folder_name': folder_name,
+                                        'folder_name': file_or_folder_name,
                                         'folder_link': link
                                     }]
                                 }
@@ -411,17 +411,14 @@ class GoogleDrive:
                         "[GoogleDrive ensure_permissions_are_correct()] file "
                         f"{file['name']} determined to be a regular google drive file"
                     )
-                    self.alert_user_to_change_owner(file)
+                    if not valid_ownership_for_file:
+                        self.alert_user_to_change_owner(file)
                 else:
                     logger.info(
                         "[GoogleDrive ensure_permissions_are_correct()] file "
                         f"{file['name']} determined to probably be an uploaded file"
                     )
-                    if not self.file_is_owned_by_sfucsss(file):
-                        logger.info(
-                            "[GoogleDrive ensure_permissions_are_correct()] file "
-                            f"{file['name']} does not appear to be owned by sfucsss@gmail.com"
-                        )
+                    if not valid_ownership_for_file:
                         if self.duplicate_file(file):
                             self.alert_user_to_delete_file(file)
             if 'nextPageToken' not in response:
@@ -483,25 +480,17 @@ class GoogleDrive:
             )}
             logger.info(f"[GoogleDrive alert_user_to_change_owner()] attempting to add a comment added "
                         f"to file {file_info['name']}")
-            self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
-            logger.info(f"[GoogleDrive alert_user_to_change_owner()] comment added to file {file_info['name']}")
+            response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+            if response['content'] == body['content']:
+                logger.info(f"[GoogleDrive alert_user_to_change_owner()] comment added to file {file_info['name']}")
+            else:
+                logger.error(f"[GoogleDrive alert_user_to_change_owner()] unable to add comment"
+                             f" to file {file_info['name']}")
         except Exception as e:
             logger.error(
                 f"[GoogleDrive alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
-
-    def file_is_owned_by_sfucsss(self, file_info):
-        """
-        indicate if the file is owned by the sfucsss account
-
-        Keyword Argument
-        file_info -- the info for the file that needs to have its ownership checked
-
-        Return
-        Bool -- true or false to indicate if it is owned by sfucsss gmail account
-        """
-        return file_info['ownedByMe']
 
     def duplicate_file(self, file_info):
         """
@@ -522,7 +511,7 @@ class GoogleDrive:
                 duplicate_file_name = {
                     'name': file_info['name']
                 }
-                self.gdrive.files().copy(fileId=file_info['id'], fields='*', body=duplicate_file_name).execute()
+                # self.gdrive.files().copy(fileId=file_info['id'], fields='*', body=duplicate_file_name).execute()
                 logger.info(
                     f"[GoogleDrive duplicate_file()] "
                     f"file {file_info['id']} successfully duplicated")
@@ -530,7 +519,7 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive duplicate_file()]  attempting to set the body "
                     f"for file {file_info['id']} to {body}")
-                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                # self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
                 logger.info(
                     f"[GoogleDrive duplicate_file()] "
                     f"file {file_info['id']}'s body successfully updated")
@@ -553,8 +542,11 @@ class GoogleDrive:
             body = {'content': (
                 "Please delete this file as it has been duplicated and is no longer the latest version of this file"
             )}
-            self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
-            logger.info(f"[GoogleDrive alert_user_to_delete_file()] comment added to file {file_info['name']}")
+            response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+            if response['content'] == body['content']:
+                logger.info(f"[GoogleDrive alert_user_to_delete_file()] comment added to file {file_info['name']}")
+            else:
+                logger.error(f"[GoogleDrive alert_user_to_delete_file()] unable to add comment to file {file_info['name']}")
         except Exception as e:
             logger.error(
                 f"[GoogleDrive alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
