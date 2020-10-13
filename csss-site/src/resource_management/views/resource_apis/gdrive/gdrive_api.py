@@ -422,8 +422,8 @@ class GoogleDrive:
                             "[GoogleDrive ensure_permissions_are_correct()] file "
                             f"{file['name']} does not appear to be owned by sfucsss@gmail.com"
                         )
-                        self.duplicate_file(file)
-                        self.alert_user_to_delete_file(file)
+                        if self.duplicate_file(file):
+                            self.alert_user_to_delete_file(file)
             if 'nextPageToken' not in response:
                 # no more files to look at under this folder so need to go back up the recursive stack
                 return folders_to_change
@@ -510,6 +510,9 @@ class GoogleDrive:
 
         Keyword Arguments:
         file_info -- the file_info for the file that needs to be duplicated
+
+        Return
+        Bool -- true or false to indicate if the file was successfully duplicated
         """
         try:
             if file_info['name'] != 'duplicated__do_not_use':
@@ -531,11 +534,13 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive duplicate_file()] "
                     f"file {file_info['id']}'s body successfully updated")
+            return True
         except Exception as e:
             logger.error(
                 f"[GoogleDrive duplicate_file()] "
                 f"unable to duplicate the file due to following error.\n{e}"
             )
+            return False
 
     def alert_user_to_delete_file(self, file_info):
         """
