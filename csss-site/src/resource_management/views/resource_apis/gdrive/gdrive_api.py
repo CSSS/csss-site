@@ -516,7 +516,10 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive duplicate_file()] "
                     f"attempting to duplicate file {file_info['id']}")
-                self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
+                duplicate_file_name = {
+                    'name': file_info['name']
+                }
+                self.gdrive.files().copy(fileId=file_info['id'], fields='*', body=duplicate_file_name).execute()
                 logger.info(
                     f"[GoogleDrive duplicate_file()] "
                     f"file {file_info['id']} successfully duplicated")
