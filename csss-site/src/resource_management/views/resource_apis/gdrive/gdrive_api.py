@@ -381,17 +381,26 @@ class GoogleDrive:
                         )
                         for owner in file['owners']:
                             owner_email = owner['emailAddress'].lower()
+                            link = file['webViewLink']
                             logger.info(
                                 f"[GoogleDrive ensure_permissions_are_correct()] adding {owner_email} "
                                 f"to the list of people who need to be alerted about changing "
                                 f"ownership for folder {file['name']}"
                             )
                             if owner_email in folders_to_change:
-                                folders_to_change[owner_email]['folder_names'].append(folder_name)
+                                folders_to_change[owner_email]['folder_infos'].append(
+                                    {
+                                        'folder_name': folder_name,
+                                        'folder_link': link
+                                    }
+                                )
                             else:
                                 folders_to_change[owner_email] = {
                                     'full_name': owner['displayName'],
-                                    'folder_names': [folder_name]
+                                    'folder_infos': [{
+                                        'folder_name': folder_name,
+                                        'folder_link': link
+                                    }]
                                 }
                     # this is a folder so we have to check to see if any of its files have a bad permission set
                     folders_to_change = self.ensure_permissions_are_correct(
@@ -570,7 +579,12 @@ class GoogleDrive:
             "to be changed:\n"
         )
         for to_email in folders_to_change:
-            body = body_template + "\n".join(folders_to_change[to_email]['folder_names'])
+            body = body_template + "".join(
+                [
+                    f"{folder['folder_name']} : {folder['folder_link']}\n" for folder in
+                    folders_to_change[to_email]['folder_infos']
+                ]
+            )
             to_name = folders_to_change[to_email]['full_name']
             logger.info("[GoogleDrive send_email_notifications_for_folder_with_incorrect_ownership()] attempting to "
                         f"send email to {to_email}")
