@@ -515,7 +515,7 @@ class GoogleDrive:
             if file_info['name'] != 'duplicated__do_not_use':
                 logger.info(
                     f"[GoogleDrive duplicate_file()] "
-                    f"attempting to duplicate file {file_info['id']}")
+                    f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
                 duplicate_file_name = {
                     'name': file_info['name']
                 }
