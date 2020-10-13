@@ -483,40 +483,55 @@ class GoogleDrive:
             )
 
     def file_is_owned_by_sfucsss(self, file_info):
+        """
+        indicate if the file is owned by the sfucsss account
+
+        Keyword Argument
+        file_info -- the info for the file that needs to have its ownership checked
+
+        Return
+        Bool -- true or false to indicate if it is owned by sfucsss gmail account
+        """
         return file_info['ownedByMe']
 
     def duplicate_file(self, file_info):
-        """Duplicates a non-google native document and removes the duplicate so that the version on the drive is owned
-        by sfucsss@gmail.com
+        """
+        Duplicates a non-google native document and renames the original to indicate it should no longer
+        be used
 
         Keyword Arguments:
-        file_info -- the file_info for the file that needs to have its permissions checked
+        file_info -- the file_info for the file that needs to be duplicated
         """
         try:
             if file_info['name'] != 'duplicated__do_not_use':
                 logger.info(
-                    f"[GoogleDrive duplicate_file_and_alert_owner_to_delete_original()] "
+                    f"[GoogleDrive duplicate_file()] "
                     f"attempting to duplicate file {file_info['id']}")
                 self.gdrive.files().copy(fileId=file_info['id'], fields='*').execute()
                 logger.info(
-                    f"[GoogleDrive duplicate_file_and_alert_owner_to_delete_original()] "
+                    f"[GoogleDrive duplicate_file()] "
                     f"file {file_info['id']} successfully duplicated")
                 body = {'name': 'duplicated__do_not_use'}
                 logger.info(
-                    f"[GoogleDrive duplicate_file_and_alert_owner_to_delete_original()]  attempting to set the body "
+                    f"[GoogleDrive duplicate_file()]  attempting to set the body "
                     f"for file {file_info['id']} to {body}")
                 self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
                 logger.info(
-                    f"[GoogleDrive duplicate_file_and_alert_owner_to_delete_original()] "
+                    f"[GoogleDrive duplicate_file()] "
                     f"file {file_info['id']}'s body successfully updated")
         except Exception as e:
             logger.error(
-                f"[GoogleDrive duplicate_file_and_alert_owner_to_delete_original()] "
-                f"unable to duplicate and comment on file "
-                f"from drive due to following error.\n{e}"
+                f"[GoogleDrive duplicate_file()] "
+                f"unable to duplicate the file due to following error.\n{e}"
             )
 
     def alert_user_to_delete_file(self, file_info):
+        """
+        alert the owner of a file via a comment that its needs to be deleted
+
+        Keyword Argument
+        file_info -- the info for the file that needs to be deleted
+        """
         try:
             body = {'content': (
                 "Please delete this file as it has been duplicated and is no longer the latest version of this file"
@@ -530,6 +545,14 @@ class GoogleDrive:
             )
 
     def send_email_notifications_for_folder_with_incorrect_ownership(self, folders_to_change):
+        """
+        will email all the relevant owners of the folders that they are owners of that need to have
+        their ownership changed
+
+        Keyword Argument
+        folders_to_change -- a dictionary that contains a list of all the emails and their corresponding
+            folders that they need to be made aware of that have to have their ownership changed
+        """
         gmail_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")
         if len(gmail_credentials) == 0:
             logger.error("[GoogleDrive send_email_notifications_for_folder_with_incorrect_ownership()] "
@@ -539,16 +562,17 @@ class GoogleDrive:
         logger.info("[GoogleDrive send_email_notifications_for_folder_with_incorrect_ownership()] attempting"
                     " to setup connection to gmail server")
         gmail = Gmail(sfu_csss_credentials.username, sfu_csss_credentials.password)
-        for email in folders_to_change:
-            message = (
-                "Please change owner of the following folders to sfucsss@gmail.com.\n"
-                "Instructions for doing so can be "
-                "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
-                "to be changed:\n"
-            )
-            message += "\n".join(folders_to_change[email])
+        subject = "SFU CSSS Google Drive Folder ownership change"
+        body_template = (
+            "Please change owner of the following folders to sfucsss@gmail.com.\n"
+            "Instructions for doing so can be "
+            "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
+            "to be changed:\n"
+        )
+        for to_email in folders_to_change:
+            body = body_template + "\n".join(folders_to_change[to_email]['folder_names'])
+            to_name = folders_to_change[to_email]['full_name']
             logger.info("[GoogleDrive send_email_notifications_for_folder_with_incorrect_ownership()] attempting to "
-                        f"send email to {email}")
-            gmail.send_email("SFU CSSS Google Drive Folder ownership change", message, "sfucsss@gmail.com", email,
-                             email)
+                        f"send email to {to_email}")
+            gmail.send_email(subject, body, to_email, to_name)
         gmail.close_connection()
