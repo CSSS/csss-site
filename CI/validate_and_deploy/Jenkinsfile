@@ -8,7 +8,7 @@ pipeline {
         stage('Validate Formatting') {
             steps {
                 sh label: '', script: """bash -c \'
-                    ./csss-site/test/line_endings.sh
+                    ./csss-site/test/line_endings.sh;
                     export ENVIRONMENT=TEST;
                     export COMPOSE_PROJECT_NAME=TEST_WEBSITE_"${BRANCH_NAME}";
 
@@ -23,7 +23,7 @@ pipeline {
 
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
-                    ./CI/validate_and_deploy/1_validate/run_dockerized_formatting_test.sh;
+                    ./CI/validate_and_deploy/1_validate/run_jenkins_dockerized_formatting_test.sh;
                 \'"""
             }
         }
