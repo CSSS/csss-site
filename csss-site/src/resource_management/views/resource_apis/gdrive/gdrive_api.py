@@ -185,7 +185,7 @@ class GoogleDrive:
                                 )
                                 self.gdrive.permissions().delete(fileId=file_id,
                                                                  permissionId=permission['id']).execute()
-                                if self._determine_if_file_id_is_gdrive_folder(file_id):
+                                if self._determine_if_file_id_belongs_to_gdrive_folder(file_id):
                                     time.sleep(5)
                                 logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
@@ -254,8 +254,9 @@ class GoogleDrive:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
         self._ensure_root_permissions_are_correct(google_drive_perms)
-        folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(google_drive_perms,
-                                                                                                [self.root_file_id])
+        folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(
+            google_drive_perms
+        )
         self._send_email_notifications_for_folder_with_incorrect_ownership(folders_to_change)
 
     def _ensure_root_permissions_are_correct(self, google_drive_perms):
@@ -315,7 +316,7 @@ class GoogleDrive:
                     )
                     self.add_users_gdrive([gdrive_user])
 
-    def _validate_individual_file_and_folder_ownership_and_permissions(self, google_drive_perms, parent_id,
+    def _validate_individual_file_and_folder_ownership_and_permissions(self, google_drive_perms, parent_id=None,
                                                                        folders_to_change=None):
         """Goes through each single file and folder under "CSSS" root folder and checking each file/folder to make sure
          that either it has the proper permission sets or is duplicated or its owner notified that
@@ -330,6 +331,8 @@ class GoogleDrive:
         Return
         folder_to_change -- the current dictionary of the folders whose ownership needs to be changed
         """
+        if parent_id is None:
+            parent_id = [self.root_file_id]
         if folders_to_change is None:
             folders_to_change = {}
         next_page_token = None
@@ -437,7 +440,7 @@ class GoogleDrive:
             f"will {'not' if valid_ownership_for_file else ''} have its owner be alerted."
         )
         if not valid_ownership_for_file:
-            if self._determine_if_file_info_is_gdrive_folder(file):
+            if self._determine_if_file_info_belongs_to_gdrive_folder(file):
                 folder_name = file['name']
                 logger.info(
                     f"[GoogleDrive _validate_owner_for_file()] google drive file {folder_name} "
@@ -468,7 +471,7 @@ class GoogleDrive:
                         }
                 # this is a folder so we have to check to see if any of its files have a bad permission set
                 folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(
-                    google_drive_perms, parent_id + [file['id']], folders_to_change
+                    google_drive_perms, parent_id=parent_id + [file['id']], folders_to_change=folders_to_change
                 )
             elif self._file_is_gdrive_file(file):
                 logger.info(
@@ -485,7 +488,7 @@ class GoogleDrive:
                     self._alert_user_to_delete_file(file)
         return folders_to_change
 
-    def _determine_if_file_id_is_gdrive_folder(self, file_id):
+    def _determine_if_file_id_belongs_to_gdrive_folder(self, file_id):
         """
         determines if the google drive file type is a folder
 
@@ -499,16 +502,9 @@ class GoogleDrive:
             fields='*',
             fileId=file_id
         ).execute()
-        if 'mimeType' is file_info:
-            logger.info("[GoogleDrive _determine_if_file_id_is_gdrive_folder()] got back a file type of "
-                        f"{file_info['mimeType']} for file {file_info['name']}")
-            return self._determine_if_file_info_is_gdrive_folder(file_info)
-        else:
-            logger.error("[GoogleDrive _determine_if_file_id_is_gdrive_folder()] unable to find a file type for file "
-                         f"{file_info['name']}")
-            return False
+        return self._determine_if_file_info_belongs_to_gdrive_folder(file_info)
 
-    def _determine_if_file_info_is_gdrive_folder(self, file_info):
+    def _determine_if_file_info_belongs_to_gdrive_folder(self, file_info):
         """
         determines if the google drive file type is a folder
 
@@ -519,11 +515,11 @@ class GoogleDrive:
         Bool -- true or false to indicate if the file is a folder
         """
         if 'mimeType' in file_info:
-            logger.info(f"[GoogleDrive _determine_if_file_info_is_gdrive_folder()] "
+            logger.info(f"[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
                         f"parsing a file_info with a type of {file_info['mimeType']} ")
         else:
-            logger.error("[GoogleDrive _determine_if_file_info_is_gdrive_folder()] unable to find a file type for file "
-                         f"{file_info['name']}")
+            logger.error("[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
+                         f"unable to find a file type for file {file_info['name']}")
         return 'mimeType' in file_info and file_info['mimeType'] == 'application/vnd.google-apps.folder'
 
     def _owner_of_folder_is_correct(self, file_info):
@@ -536,7 +532,14 @@ class GoogleDrive:
         Return
         Bool -- true or false to indicate if the folder is owned by sfucsss or not
         """
-        return file_info['ownedByMe']
+        file_ownership = 'ownedByMe' in file_info and file_info['ownedByMe']
+        if 'ownedByMe' in file_info:
+            logger.info(f"[GoogleDrive _owner_of_folder_is_correct()] "
+                        f"file is {'' if file_ownership else 'not '}owned by sfucsss@gmail.com")
+        else:
+            logger.error("[GoogleDrive _owner_of_folder_is_correct()] "
+                         f"unable to find key 'ownedByMe' for file {file_info['name']}")
+        return file_ownership
 
     def _file_is_gdrive_file(self, file_info):
         """
@@ -548,7 +551,14 @@ class GoogleDrive:
         Return
         Bool -- true or false to indicate if the file is of google-app type
         """
-        return 'google-apps' in file_info['mimeType']
+        file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType']
+        if 'mimeType' in file_info:
+            logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+                        f"is {file_info['mimeType']}")
+        else:
+            logger.error("[GoogleDrive _file_is_gdrive_file()] "
+                         f"unable to find key 'mimeType' for file {file_info['name']}")
+        return file_type
 
     def _alert_user_to_change_owner(self, file_info):
         """
@@ -592,21 +602,22 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
-                duplicate_file_name = {
-                    'name': file_info['name']
-                }
-                self.gdrive.files().copy(fileId=file_info['id'], fields='*', body=duplicate_file_name).execute()
+                self.gdrive.files().copy(
+                    fileId=file_info['id'],
+                    fields='*',
+                    body={'name': file_info['name']}
+                ).execute()
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
-                    f"file {file_info['id']} successfully duplicated")
+                    f"file {file_info['name']} with id {file_info['id']} successfully duplicated")
                 body = {'name': 'duplicated__do_not_use'}
                 logger.info(
                     f"[GoogleDrive _duplicate_file()]  attempting to set the body "
-                    f"for file {file_info['id']} to {body}")
+                    f"for file {file_info['name']} with id {file_info['id']} to {body}")
                 self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
-                    f"file {file_info['id']}'s body successfully updated")
+                    f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
             return True
         except Exception as e:
             logger.error(
