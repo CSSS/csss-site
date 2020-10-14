@@ -70,7 +70,7 @@ python3.7 manage.py runserver 0.0.0.0:8000
 ## 3.1. Validating the code
 ```shell
 cd /absolute/path/to/parent/folder/of/repo
-./CI/validate_and_deploy/test_site.sh
+./CI/validate_and_deploy/1_validate/run_local_formatting_test.sh
 ```
 
 ### 3.2. Adding migrations
