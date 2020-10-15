@@ -70,6 +70,36 @@
         <input type="button" value="Remove the last Position Slot" onClick="removeNominee('#new_officer_positions');">
         <button type="submit">Submit</button>
     </form>
+
+    {%  if github_teams is not None %}
+        <table>
+        <tr>
+            <th>Github Mapping ID</th>
+            <th>Officer</th>
+            <th>Github Team</th>
+        </tr>
+        {% for github_team in github_teams %}
+            <tr>
+                <form method="post">
+                    {% csrf_token %}
+                    <td><input type="number" name="{{ GITHUB_TEAM__ID_KEY }}" value="{{ github_team.id }}" readonly required></td>
+                    <td>
+                        <select name="{{ GITHUB_TEAM__OFFICER_KEY }}" id="{{ GITHUB_TEAM__OFFICER_KEY }}">
+                            {%  for position in position_mapping %}
+                                {% if github_team.officer.id == position.id %}
+                                    <option selected value="{{ position.id }}">{{ position.officer_position }}</option>
+                                {%  else %}
+                                    <option value="{{ position.id }}">{{ position.officer_position }}</option>
+                                {%  endif %}
+                            {%  endfor %}
+                        </select>
+                    </td>
+                    <td><input type="text" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ github_team.team_name }}"></td>
+                </form>
+            </tr>
+        {%  endfor %}
+        </table>
+    {%  endif %}
     <script type="text/javascript">
         function addNominee(divName){
             var newNominee = document.createElement('div');

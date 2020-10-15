@@ -7,6 +7,7 @@ from about.models import OfficerEmailListAndPositionMapping, Term, Officer
 from about.views.officer_management_helper import TAB_STRING
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, \
     there_are_multiple_entries, get_current_term, ERROR_MESSAGES_KEY
+from resource_management.models import OfficerPositionGithubTeamMapping
 
 logger = logging.getLogger('csss_site')
 
@@ -171,6 +172,8 @@ def position_mapping(request):
         'term_position_number')
     if len(position_mapping_for_selected_officer) > 0:
         context['position_mapping'] = position_mapping_for_selected_officer
+
+    context['github_teams'] = OfficerPositionGithubTeamMapping.objects.all()
     return render(request, 'about/position_mapping.html', context)
 
 
