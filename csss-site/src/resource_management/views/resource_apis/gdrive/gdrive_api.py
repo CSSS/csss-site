@@ -434,12 +434,17 @@ class GoogleDrive:
         folder_to_change -- the current dictionary of the folders whose ownership needs to be changed
         """
         valid_ownership_for_file = self._owner_of_folder_is_correct(file)
-        logger.info(
+        logger.debug(
             "[GoogleDrive _validate_owner_for_file()] file/folder "
             f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
-            f"will {'not' if valid_ownership_for_file else ''} have its owner be alerted."
+            f"will {'not ' if valid_ownership_for_file else ''}have its owner be alerted."
         )
         if not valid_ownership_for_file:
+            logger.info(
+                "[GoogleDrive _validate_owner_for_file()] file/folder "
+                f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
+                f"will have its owner be alerted."
+            )
             if self._determine_if_file_info_belongs_to_gdrive_folder(file):
                 folder_name = file['name']
                 logger.info(
@@ -469,10 +474,6 @@ class GoogleDrive:
                                 'folder_link': link
                             }]
                         }
-                # this is a folder so we have to check to see if any of its files have a bad permission set
-                folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(
-                    google_drive_perms, parent_id=parent_id + [file['id']], folders_to_change=folders_to_change
-                )
             elif self._file_is_gdrive_file(file):
                 logger.info(
                     "[GoogleDrive _validate_owner_for_file()] file "
@@ -486,6 +487,11 @@ class GoogleDrive:
                 )
                 if self._duplicate_file(file):
                     self._alert_user_to_delete_file(file)
+        if self._determine_if_file_info_belongs_to_gdrive_folder(file):
+            # this is a folder so we have to check to see if any of its files have a bad permission set
+            return self._validate_individual_file_and_folder_ownership_and_permissions(
+                google_drive_perms, parent_id=parent_id + [file['id']], folders_to_change=folders_to_change
+            )
         return folders_to_change
 
     def _determine_if_file_id_belongs_to_gdrive_folder(self, file_id):
