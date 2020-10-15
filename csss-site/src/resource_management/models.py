@@ -4,7 +4,7 @@ import datetime
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from about.models import Officer
+from about.models import Officer, OfficerEmailListAndPositionMapping
 
 
 class ProcessNewOfficer(models.Model):
@@ -58,6 +58,50 @@ class ProcessNewOfficer(models.Model):
     )
 
 
+class ProcessNewOfficerGithubTeam(models.Model):
+    officer = models.ForeignKey(
+        ProcessNewOfficer,
+        on_delete=models.CASCADE
+    )
+
+    team_name = models.CharField(
+        max_length=300,
+        default='officers'
+    )
+
+    def __str__(self):
+        return f"{self.officer} mapping to github team {self.team_name}"
+
+
+class OfficerPositionGithubTeamMapping(models.Model):
+    officer = models.ForeignKey(
+        OfficerEmailListAndPositionMapping,
+        on_delete=models.CASCADE
+    )
+
+    team_name = models.CharField(
+        max_length=300,
+        default='officers',
+    )
+
+    def __str__(self):
+        return f"{self.officer} mapping to github team {self.team_name}"
+
+
+class OfficerGithubTeam(models.Model):
+    officer = models.ForeignKey(
+        Officer,
+        on_delete=models.CASCADE,
+    )
+
+    team_name = models.CharField(
+        max_length=5000
+    )
+
+    def __str__(self):
+        return f"{self.officer.name} {self.team_name}"
+
+
 class GoogleMailAccountCredentials(models.Model):
     username = models.CharField(
         max_length=300
@@ -95,30 +139,6 @@ class GoogleDrivePublicFile(models.Model):
     )
 
 
-class OfficerGithubTeamMapping(models.Model):
-    position = models.CharField(
-        max_length=300,
-        default='President',
-    )
-    team_name = models.CharField(
-        max_length=300,
-        default='officers',
-    )
-
-
-class OfficerGithubTeam(models.Model):
-    team_name = models.CharField(
-        max_length=5000
-    )
-    officer = models.ForeignKey(
-        Officer,
-        on_delete=models.CASCADE,
-    )
-
-    def __str__(self):
-        return f"{self.officer.name} {self.team_name}"
-
-
 class NonOfficerGithubMember(models.Model):
     team_name = models.CharField(
         max_length=5000
@@ -135,13 +155,4 @@ class NonOfficerGithubMember(models.Model):
 class NaughtyOfficer(models.Model):
     name = models.CharField(
         max_length=300
-    )
-
-
-class NonOfficerMaillistMember(models.Model):
-    maillist_name = models.CharField(
-        max_length=5000,
-    )
-    sfuid = models.CharField(
-        max_length=5000
     )

@@ -7,7 +7,7 @@ from django.contrib.staticfiles import finders
 from about.models import Term, Officer, AnnouncementEmailAddress
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
-from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerGithubTeamMapping, \
+from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerPositionGithubTeamMapping, \
     OfficerGithubTeam
 
 TAB_STRING = 'about'
@@ -316,7 +316,7 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
                 f"mapped officer {officer} to team {GITHUB_OFFICER_TEAM}"
             )
-        applicable_github_teams = OfficerGithubTeamMapping.objects.filter(position=position)
+        applicable_github_teams = OfficerPositionGithubTeamMapping.objects.filter(position=position)
         for github_team in applicable_github_teams:
             if github_api is not None:
                 success, error_message = github_api.add_non_officer_to_a_team(
