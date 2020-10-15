@@ -46,8 +46,8 @@ class GitLabAPI:
                         user = self.sfu_gitlab.users.list(username=f'{user_name}')[0]
                     except Exception as e:
                         logger.error(
-                            f"[GitLabAPI add_officer_to_csss_group()] unable to get the user {user} with username {user_name}"
-                            f"due to {e}"
+                            f"[GitLabAPI add_officer_to_csss_group()] unable to get the user {user} "
+                            f"with username {user_name} due to {e}"
                         )
                     if user is not None:
                         user_membership = [
