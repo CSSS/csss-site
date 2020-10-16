@@ -227,31 +227,41 @@ def get_officer_image_path(term_obj, full_name):
     Return
     pic_path -- the path for the officer's image
     """
+    valid_picture_extensions = ['jpg', 'jpeg']
+    valid_picture_path = None
     if ENVIRONMENT == "LOCALHOST":
-        pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
-                    f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
-        full_path = finders.find(pic_path)
-        logger.info("[about/officer_management_helper.py get_officer_image_path()] "
-                    f"full_path = {full_path}")
-        if full_path is None or not os.path.isfile(full_path):
-            pic_path = "stockPhoto.jpg"
+        for valid_picture_extension in valid_picture_extensions:
+            if valid_picture_path is None or valid_picture_path == "stockPhoto.jpg":
+                pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
+                            f'{term_obj.term}/{full_name.replace(" ", "_")}.{valid_picture_extension}')
+                full_path = finders.find(pic_path)
+                logger.info("[about/officer_management_helper.py get_officer_image_path()] "
+                            f"full_path = {full_path}")
+                if full_path is None or not os.path.isfile(full_path):
+                    valid_picture_path = "stockPhoto.jpg"
+                else:
+                    valid_picture_path = pic_path
     else:
-        pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
-                    f'{term_obj.term}/{full_name.replace(" ", "_")}.jpg')
         path_prefix = "about_static/exec-photos/"
         logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
                     f"path_prefix = {path_prefix}")
-        pic_path = f"{path_prefix}{pic_path}"
-        logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
-                    f"officer.image = {pic_path}")
-        absolute_path = f"{STATIC_ROOT}{pic_path}"
-        logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
-                    f"absolute_path = {absolute_path}")
-        if not os.path.isfile(absolute_path):
-            pic_path = f"{path_prefix}stockPhoto.jpg"
+        for valid_picture_extension in valid_picture_extensions:
+            if valid_picture_path is None or valid_picture_path == f"{path_prefix}stockPhoto.jpg":
+                pic_path = (f'{term_obj.year}_0{_get_term_season_number(term_obj)}_'
+                            f'{term_obj.term}/{full_name.replace(" ", "_")}.{valid_picture_extension}')
+                pic_path = f"{path_prefix}{pic_path}"
+                logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
+                            f"officer.image = {pic_path}")
+                absolute_path = f"{STATIC_ROOT}{pic_path}"
+                logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
+                            f"absolute_path = {absolute_path}")
+                if not os.path.isfile(absolute_path):
+                    valid_picture_path = f"{path_prefix}stockPhoto.jpg"
+                else:
+                    valid_picture_path = pic_path
     logger.info("[about/officer_management_helper.py get_officer_image_path()] "
-                f"image set to = '{pic_path}'")
-    return pic_path
+                f"image set to = '{valid_picture_path}'")
+    return valid_picture_path
 
 
 def _get_term_season_number(term):
