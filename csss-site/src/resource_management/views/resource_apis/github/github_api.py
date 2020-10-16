@@ -76,6 +76,15 @@ class GitHubAPI:
                     return False, f" Unable to find user \"{user}\""
         return True, None
 
+    def verify_team_name_is_valid(self, team_name):
+        if self.connection_successful:
+            try:
+                self.org.get_team_by_slug(team_name)
+                return True
+            except Exception:
+                return False
+        return True
+
     def remove_users_from_a_team(self, users, team_name):
         """Remove listed users from a specific team
 

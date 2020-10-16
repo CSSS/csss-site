@@ -68,8 +68,25 @@
         </div>
         <input type="button" value="Add another Position" onClick="addNominee('new_officer_positions');">
         <input type="button" value="Remove the last Position Slot" onClick="removeNominee('#new_officer_positions');">
-        <button type="submit">Submit</button>
+        <input type="submit" name="position" value="Submit">
     </form>
+        <script type="text/javascript">
+        function addNominee(divName){
+            var newNominee = document.createElement('div');
+            newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
+            newNominee.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
+            newNominee.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
+            newNominee.innerHTML += "<label for=\"position_name\">Officer Position Name</label>";
+            newNominee.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
+            newNominee.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
+            newNominee.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
+            newNominee.innerHTML += "</div>";
+            document.getElementById(divName).appendChild(newNominee);
+        }
+        function removeNominee(divName){
+            $(divName).children().last().remove();
+        }
+    </script>
 
     {%  if github_teams is not None %}
         <table>
@@ -86,34 +103,94 @@
                     <td>
                         <select name="{{ GITHUB_TEAM__OFFICER_KEY }}" id="{{ GITHUB_TEAM__OFFICER_KEY }}">
                             {%  for position in position_mapping %}
-                                {% if github_team.officer.id == position.id %}
-                                    <option selected value="{{ position.id }}">{{ position.officer_position }}</option>
+                                {% if github_team.officer.term_position_number == position.term_position_number %}
+                                    <option selected value="{{ position.term_position_number }}">{{ position.officer_position }}</option>
                                 {%  else %}
-                                    <option value="{{ position.id }}">{{ position.officer_position }}</option>
+                                    <option value="{{ position.term_position_number }}">{{ position.officer_position }}</option>
                                 {%  endif %}
                             {%  endfor %}
                         </select>
                     </td>
-                    <td><input type="text" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ github_team.team_name }}"></td>
+                    <td><input type="text" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ github_team.team_name }}"></td>3
+                    <td>
+                            {%  if github_team.officer.marked_for_deletion is True %}
+                                <input type="submit" name="un_delete_github_mapping" value="Un-Delete">
+                            {%  else %}
+                                <input type="submit" name="update_github_mapping" value="Update">
+                                <input type="submit" name="delete_github_mapping" value="Delete">
+                            {%  endif %}
+                    </td>
                 </form>
             </tr>
         {%  endfor %}
         </table>
     {%  endif %}
+
+        <form method="post" >
+        {%  csrf_token %}
+        <div id="new_github_officer_team_name_mapping">
+            {%  for unsaved_github_officer_team_name_mapping in unsaved_github_officer_team_name_mappings %}
+                <div style="border: 3px solid black; padding: 10px;">
+                    <label for="github_officer">Officer</label>
+                    <select name="{{ GITHUB_TEAM__OFFICER_KEY }}" id="{{ GITHUB_TEAM__OFFICER_KEY }}">
+                        {%  for position in position_mapping %}
+                            {% if unsaved_github_officer_team_name_mapping.officer_id == position.term_position_number %}
+                                <option selected value="{{ position.term_position_number }}">{{ position.officer_position }}</option>
+                            {%  else %}
+                                <option value="{{ position.term_position_number }}">{{ position.officer_position }}</option>
+                            {%  endif %}
+                        {%  endfor %}
+                    </select>
+                    <label for="github_team_name">Github Team Name</label>
+                    <input type="text" id="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ unsaved_github_officer_team_name_mapping.team_name }}" required><br>
+                </div>
+            {%  endfor %}
+            {%  if unsaved_github_officer_team_name_mappings is None %}
+                <div style="border: 3px solid black; padding: 10px;">
+                    <label for="github_officer">Officer</label>
+                    <select name="{{ GITHUB_TEAM__OFFICER_KEY }}" id="{{ GITHUB_TEAM__OFFICER_KEY }}">
+                        {%  for position in position_mapping %}
+                            {% if github_team.officer.term_position_number == position.term_position_number %}
+                                <option selected value="{{ position.term_position_number }}">{{ position.officer_position }}</option>
+                            {%  else %}
+                                <option value="{{ position.term_position_number }}">{{ position.officer_position }}</option>
+                            {%  endif %}
+                        {%  endfor %}
+                    </select>
+                    <label for="github_team_name">Github Team Name</label>
+                    <input type="text" id="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" required><br>
+                </div>
+            {%  endif %}
+        </div>
+        <input type="button" value="Add another Position" onClick="addGithubOfficerMapping('new_github_officer_team_name_mapping');">
+        <input type="button" value="Remove the last Position Slot" onClick="removeGithubOfficerMapping('#new_github_officer_team_name_mapping');">
+        <input type="submit" name="create_new_github_mapping" value="Submit">
+    </form>
+
     <script type="text/javascript">
-        function addNominee(divName){
+        function addGithubOfficerMapping(divName){
             var newNominee = document.createElement('div');
-            newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
-            newNominee.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
-            newNominee.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
-            newNominee.innerHTML += "<label for=\"position_name\">Officer Position Name</label>";
-            newNominee.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
-            newNominee.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
-            newNominee.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
-            newNominee.innerHTML += "</div>";
+
+            var sel = document.createElement('select');
+            sel.setAttribute("name", "{{ GITHUB_TEAM__OFFICER_KEY }}")
+            sel.setAttribute("id", "{{ GITHUB_TEAM__OFFICER_KEY }}")
+            {% for position in position_mapping %}
+                var opt = document.createElement('option');
+                opt.value = {{position.term_position_number}};
+                opt.innerHTML = "{{position.officer_position}}";
+                sel.appendChild(opt);
+            {%  endfor %}
             document.getElementById(divName).appendChild(newNominee);
+            newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
+            newNominee.innerHTML += "<label for=\"github_officer\">Officer</label>";
+            newNominee.appendChild(sel)
+            newNominee.innerHTML += "<label for=\"github_team_name\">Github Team Name</label>\n";
+            newNominee.innerHTML += "<input type=\"text\" id=\"{{ GITHUB_TEAM__TEAM_NAME_KEY }}\" name=\"{{ GITHUB_TEAM__TEAM_NAME_KEY }}\" required><br>\n";
+            newNominee.innerHTML += "</div>";
+
+
         }
-        function removeNominee(divName){
+        function removeGithubOfficerMapping(divName){
             $(divName).children().last().remove();
         }
     </script>

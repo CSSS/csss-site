@@ -1,5 +1,6 @@
 import logging
 
+from django.conf import settings
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -8,6 +9,7 @@ from about.views.officer_management_helper import TAB_STRING
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, \
     there_are_multiple_entries, get_current_term, ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeamMapping
+from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 logger = logging.getLogger('csss_site')
 
@@ -16,6 +18,10 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_an
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_TYPE = "officer_email_list_and_position_mapping__position_name"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address "
+
+GITHUB_TEAM__OFFICER_KEY = "this"
+GITHUB_TEAM__TEAM_NAME_KEY = "that"
+GITHUB_TEAM__TEAM_NAME_VALUE = "the_other_thing"
 
 
 def position_mapping(request):
@@ -35,9 +41,70 @@ def position_mapping(request):
     context['OFFICER_POSITION_MAPPING__POSITION_EMAIL_KEY'] = \
         OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
 
+    context['GITHUB_TEAM__OFFICER_KEY'] = GITHUB_TEAM__OFFICER_KEY
+    context['GITHUB_TEAM__TEAM_NAME_KEY'] = GITHUB_TEAM__TEAM_NAME_KEY
+    context['GITHUB_TEAM__TEAM_NAME_VALUE'] = GITHUB_TEAM__TEAM_NAME_VALUE
+
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
-        if 'action' in post_dict:  # modifying an existing position mapping
+        if 'create_new_github_mapping' in post_dict:
+            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+            if there_are_multiple_entries(post_dict, GITHUB_TEAM__TEAM_NAME_KEY):
+                number_of_entries = len(post_dict[GITHUB_TEAM__OFFICER_KEY])
+                error_detected = False
+                unsaved_github_team_mappings = []
+                context[ERROR_MESSAGES_KEY] = []
+                for index in range(number_of_entries):
+                    officer_id = post_dict[GITHUB_TEAM__OFFICER_KEY][index]
+                    team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY][index]
+                    success, error_message = validate_github_officer_mapping(officer_id, team_name, github,
+                                                                             unsaved_github_team_mappings)
+                    if not success:
+                        error_detected = True
+                        context[ERROR_MESSAGES_KEY].extend([error_message])
+                    unsaved_github_team_mappings.append({
+                        'officer_id': int(officer_id),
+                        'team_name': team_name
+                    })
+                if error_detected:
+                    context['unsaved_github_officer_team_name_mappings'] = unsaved_github_team_mappings
+                else:
+                    del context[ERROR_MESSAGES_KEY]
+                    logger.info("[about/position_mapping.py position_mapping()] all specified officer github team "
+                                "mappings passed validation")
+                    for index in range(number_of_entries):
+                        officer_id = post_dict[GITHUB_TEAM__OFFICER_KEY][index]
+                        team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY][index]
+                        OfficerPositionGithubTeamMapping(
+                            officer=OfficerEmailListAndPositionMapping.objects.get(term_position_number=officer_id),
+                            team_name=team_name
+                        ).save()
+
+            else:
+                officer_id = post_dict[GITHUB_TEAM__OFFICER_KEY]
+                team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
+                context[ERROR_MESSAGES_KEY] = []
+                unsaved_github_team_mappings = []
+                success, error_message = validate_github_officer_mapping(officer_id, team_name, github)
+                if success:
+                    del context[ERROR_MESSAGES_KEY]
+                    logger.info("[about/position_mapping.py position_mapping()] all specified officer github team "
+                                "mappings passed validation")
+                    OfficerPositionGithubTeamMapping(
+                        officer=OfficerEmailListAndPositionMapping.objects.get(term_position_number=officer_id),
+                        team_name=team_name
+                    ).save()
+                else:
+                    context[ERROR_MESSAGES_KEY] = [error_message]
+                    unsaved_github_team_mappings.append({
+                        'officer_id': officer_id,
+                        'team_name': team_name
+                    })
+                    context['unsaved_github_officer_team_name_mappings'] = unsaved_github_team_mappings
+        elif 'update_github_mapping' in post_dict:
+            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+
+        elif 'action' in post_dict:  # modifying an existing position mapping
             if post_dict['action'] == "update":
                 position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
                     id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
@@ -173,8 +240,41 @@ def position_mapping(request):
     if len(position_mapping_for_selected_officer) > 0:
         context['position_mapping'] = position_mapping_for_selected_officer
 
-    context['github_teams'] = OfficerPositionGithubTeamMapping.objects.all()
+    github_position_mapping = OfficerPositionGithubTeamMapping.objects.all()
+    if len(github_position_mapping) > 0:
+        context['github_teams'] = github_position_mapping
     return render(request, 'about/position_mapping.html', context)
+
+
+def validate_github_officer_mapping(officer_id, team_name, github, submitted_officer_github_mappings=None):
+    if submitted_officer_github_mappings is None:
+        submitted_officer_github_mappings = []
+
+    if len(OfficerEmailListAndPositionMapping.objects.all().filter(term_position_number=officer_id)) == 0:
+        logger.info("[about/position_mapping.py validate_github_officer_mapping()] validation for position index "
+                    f"{officer_id} was unsuccessful")
+        return False, f"There is no position mapped to the position index of {officer_id}"
+    existing_github_mappings = OfficerPositionGithubTeamMapping.objects.all()
+    for existing_github_mapping in existing_github_mappings:
+        if f"{existing_github_mapping.officer.term_position_number}" == officer_id and \
+                existing_github_mapping.team_name == team_name:
+            logger.info(f"[about/position_mapping.py validate_github_officer_mapping()] the team name {team_name} "
+                        f"is already mapped to the position_index of {officer_id}")
+            return False, f"The github team {team_name} is already mapped to" \
+                          f" {existing_github_mapping.officer.officer_position}"
+    for submitted_officer_github_mapping in submitted_officer_github_mappings:
+        if submitted_officer_github_mapping['officer_id'] == officer_id and \
+                submitted_officer_github_mapping['team_name'] == team_name:
+            logger.info(f"[about/position_mapping.py validate_github_officer_mapping()] the team name {team_name} "
+                        f"is already mapped to the position_index of {officer_id}")
+            return False, f"The github team {team_name} is already mapped to officer position {officer_id}"
+    if not github.verify_team_name_is_valid(team_name):
+        logger.info(
+            "[about/position_mapping.py validate_github_officer_mapping()] the github team name of "
+            f"{team_name} could not be found"
+        )
+        return False, f"No github team by name {team_name} not found"
+    return True, None
 
 
 def validate_position_index(position_index, submitted_position_indexes=None):
