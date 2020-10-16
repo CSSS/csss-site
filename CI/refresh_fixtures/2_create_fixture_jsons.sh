@@ -2,9 +2,9 @@
 
 set -e -o xtrace
 
-. ~/set_env.sh site_envs
+. ~/set_env.sh site_envs_django_admin
 . ~/envCSSS/bin/activate
-cd ~/csss-site/csss-site/src/
+cd ~/csss-site/
 
 python3.8 manage.py dumpdata about --indent 4 --output about.json
 python3.8 manage.py dumpdata announcements --indent 4 --output announcements.json

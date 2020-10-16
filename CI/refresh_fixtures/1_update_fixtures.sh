@@ -10,8 +10,8 @@ rm csss-site/src/resource_management/fixtures/* || true
 
 scp "CI/refresh_fixtures/2_create_fixture_jsons.sh" csss@sfucsss.org:"/home/csss/create_jsons.sh"
 ssh csss@sfucsss.org "/home/csss/create_jsons.sh"
-scp -r csss@sfucsss.org:"/home/csss/csss-site/csss-site/src/*.json" .
-ssh csss@sfucsss.org "rm -fr /home/csss/csss-site/csss-site/src/*.json"
+scp -r csss@sfucsss.org:"/home/csss/csss-site/*.json" .
+ssh csss@sfucsss.org "rm -fr /home/csss/csss-site/*.json"
 ssh csss@sfucsss.org "rm /home/csss/create_jsons.sh"
 
 mv about.json csss-site/src/about/fixtures/.

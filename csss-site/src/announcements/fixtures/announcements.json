@@ -17,7 +17,7 @@
         "title": "Frosh Begins Tomorrow",
         "author": "Colin Woodbury",
         "slug": "frosh-begins-tomorrow",
-        "content": "<p class=\"lead\">\r\n<b>Froshies!</b> Have you been to <a href=\"https://csssfroshweek.ca\">https://csssfroshweek.ca</a> yet? Tomorrow begins our annual Frosh Week, starting with a free BBQ at 1:30 pm in front of the ASB. Make sure to sign in beforehand, so you can grab your Frosh gear and we can know that you're alive. \r\n</p>\r\n\r\n<p class=\"lead\">\r\nSee everyone tomorrow!\r\n</p>\r\n\r\n<p>\r\n<center><img src=\"/static/cms/images/frosh-logo-2015.jpg\"></center>\r\n</p>",
+        "content": "<p class=\"lead\">\r\n<b>Froshies!</b> Have you been to <a href=\"https://csssfroshweek.ca\">https://csssfroshweek.ca</a> yet? Tomorrow begins our annual Frosh Week, starting with a free BBQ at 1:30 pm in front of the ASB. Make sure to sign in beforehand, so you can grab your Frosh gear and we can know that you're alive. \r\n</p>\r\n\r\n<p class=\"lead\">\r\nSee everyone tomorrow!\r\n</p>\r\n\r\n<p>\r\n<center><img src=\"STATIC_URL/announcements_static/frosh-logo-2015.jpg\"></center>\r\n</p>",
         "date": "2015-09-07T13:34:49"
     }
 },
@@ -5695,7 +5695,7 @@
         "manual_announcement": null,
         "date": "2020-09-11T13:47:45",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5707,7 +5707,7 @@
         "manual_announcement": null,
         "date": "2020-09-11T14:25:45",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5743,7 +5743,7 @@
         "manual_announcement": null,
         "date": "2020-09-17T16:30:13",
         "author": "Sarbjot Mann",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5767,7 +5767,7 @@
         "manual_announcement": null,
         "date": "2020-09-24T10:37:21",
         "author": "Shiva Sanei",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5804,6 +5804,90 @@
         "date": "2020-09-29T02:10:49",
         "author": "Google",
         "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 429,
+    "fields": {
+        "term": 20203,
+        "email": 368,
+        "manual_announcement": null,
+        "date": "2020-10-01T15:04:15",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 430,
+    "fields": {
+        "term": 20203,
+        "email": 369,
+        "manual_announcement": null,
+        "date": "2020-10-01T22:46:04",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 431,
+    "fields": {
+        "term": 20203,
+        "email": 370,
+        "manual_announcement": null,
+        "date": "2020-10-01T23:02:56",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 432,
+    "fields": {
+        "term": 20203,
+        "email": 371,
+        "manual_announcement": null,
+        "date": "2020-10-07T01:14:41",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 433,
+    "fields": {
+        "term": 20203,
+        "email": 372,
+        "manual_announcement": null,
+        "date": "2020-10-07T20:21:21",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 434,
+    "fields": {
+        "term": 20203,
+        "email": 373,
+        "manual_announcement": null,
+        "date": "2020-10-08T07:39:58",
+        "author": "Chun Kei Li",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 435,
+    "fields": {
+        "term": 20203,
+        "email": 374,
+        "manual_announcement": null,
+        "date": "2020-10-08T11:29:07",
+        "author": "Shiva Sanei",
+        "display": true
     }
 }
 ]
