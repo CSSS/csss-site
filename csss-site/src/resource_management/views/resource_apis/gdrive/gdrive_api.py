@@ -254,10 +254,10 @@ class GoogleDrive:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
         self._ensure_root_permissions_are_correct(google_drive_perms)
-        folders_to_change = self._validate_individual_file_and_folder_ownership_and_permissions(
+        files_to_email_owner_about = self._validate_individual_file_and_folder_ownership_and_permissions(
             google_drive_perms
         )
-        self._send_email_notifications_for_folder_with_incorrect_ownership(folders_to_change)
+        self._send_email_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
 
     def _ensure_root_permissions_are_correct(self, google_drive_perms):
         """Attempts to make sure that only officers [and other necessary individuals] have access to the CSSS root folder
@@ -317,7 +317,7 @@ class GoogleDrive:
                     self.add_users_gdrive([gdrive_user])
 
     def _validate_individual_file_and_folder_ownership_and_permissions(self, google_drive_perms, parent_id=None,
-                                                                       folders_to_change=None):
+                                                                       files_to_email_owner_about=None):
         """Goes through each single file and folder under "CSSS" root folder and checking each file/folder to make sure
          that either it has the proper permission sets or is duplicated or its owner notified that
          they need to correct who the owner of the file is so that its permissions can be corrected
@@ -325,7 +325,7 @@ class GoogleDrive:
          Keyword Arguments
          google_drive_perms -- a dict that list all the permissions that currently need to be set
          parent_id -- the folder that needs to have its contents searched
-         folder_to_change -- a dictionary of the folders whose owners need to be informed
+         files_to_email_owner_about -- a dictionary of the files whose owners need to be informed
           that their permission needs to be updated
 
         Return
@@ -333,8 +333,8 @@ class GoogleDrive:
         """
         if parent_id is None:
             parent_id = [self.root_file_id]
-        if folders_to_change is None:
-            folders_to_change = {}
+        if files_to_email_owner_about is None:
+            files_to_email_owner_about = {}
         next_page_token = None
         while True:
             try:
@@ -353,12 +353,12 @@ class GoogleDrive:
                 return
             for file in response['files']:
                 self._validate_permissions_for_file(google_drive_perms, parent_id, file)
-                folders_to_change = self._validate_owner_for_file(
-                    google_drive_perms, parent_id, folders_to_change, file
+                files_to_email_owner_about = self._validate_owner_for_file(
+                    google_drive_perms, parent_id, files_to_email_owner_about, file
                 )
             if 'nextPageToken' not in response:
                 # no more files to look at under this folder so need to go back up the recursive stack
-                return folders_to_change
+                return files_to_email_owner_about
             next_page_token = response['nextPageToken']
 
     def _validate_permissions_for_file(self, google_drive_perms, parent_id, file):
@@ -419,14 +419,14 @@ class GoogleDrive:
                         )
                         self.remove_users_gdrive(email_address, file['id'])
 
-    def _validate_owner_for_file(self, google_drive_perms, parent_id, folders_to_change, file):
+    def _validate_owner_for_file(self, google_drive_perms, parent_id, files_to_email_owner_about, file):
         """
         Ensure that the permissions for the given file is sfucsss@gmail.com
 
         Keyword Argument
         google_drive_perms -- a dict that list all the permissions that currently need to be set
         parent_id -- the folder that needs to have its contents searched
-        folder_to_change -- a dictionary of the folders whose owners need to be informed
+        files_to_email_owner_about -- a dictionary of the files whose owners need to be informed
             that their permission needs to be updated
         file -- the info for the file that needs to have its permissions validated
 
@@ -445,11 +445,11 @@ class GoogleDrive:
                 f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
                 f"will have its owner be alerted."
             )
-            if self._determine_if_file_info_belongs_to_gdrive_folder(file):
-                folder_name = file['name']
+            if self._determine_if_file_info_belongs_to_gdrive_folder(file) or self._file_is_gdrive_form(file):
+                file_name = file['name']
                 logger.info(
-                    f"[GoogleDrive _validate_owner_for_file()] google drive file {folder_name} "
-                    "determined to be a folder"
+                    f"[GoogleDrive _validate_owner_for_file()] google drive file {file_name} "
+                    "determined to be a folder or form"
                 )
                 for owner in file['owners']:
                     owner_email = owner['emailAddress'].lower()
@@ -457,21 +457,21 @@ class GoogleDrive:
                     logger.info(
                         f"[GoogleDrive _validate_owner_for_file()] adding {owner_email} "
                         f"to the list of people who need to be alerted about changing "
-                        f"ownership for folder {folder_name}"
+                        f"ownership for folder or form {file_name}"
                     )
-                    if owner_email in folders_to_change:
-                        folders_to_change[owner_email]['folder_infos'].append(
+                    if owner_email in files_to_email_owner_about:
+                        files_to_email_owner_about[owner_email]['file_infos'].append(
                             {
-                                'folder_name': folder_name,
-                                'folder_link': link
+                                'file_name': file_name,
+                                'file_link': link
                             }
                         )
                     else:
-                        folders_to_change[owner_email] = {
+                        files_to_email_owner_about[owner_email] = {
                             'full_name': owner['displayName'],
-                            'folder_infos': [{
-                                'folder_name': folder_name,
-                                'folder_link': link
+                            'file_infos': [{
+                                'file_name': file_name,
+                                'file_link': link
                             }]
                         }
             elif self._file_is_gdrive_file(file):
@@ -490,9 +490,10 @@ class GoogleDrive:
         if self._determine_if_file_info_belongs_to_gdrive_folder(file):
             # this is a folder so we have to check to see if any of its files have a bad permission set
             return self._validate_individual_file_and_folder_ownership_and_permissions(
-                google_drive_perms, parent_id=parent_id + [file['id']], folders_to_change=folders_to_change
+                google_drive_perms, parent_id=parent_id + [file['id']],
+                files_to_email_owner_about=files_to_email_owner_about
             )
-        return folders_to_change
+        return files_to_email_owner_about
 
     def _determine_if_file_id_belongs_to_gdrive_folder(self, file_id):
         """
@@ -549,15 +550,35 @@ class GoogleDrive:
 
     def _file_is_gdrive_file(self, file_info):
         """
-        determine if the file is a goggle-app type
+        determine if the file is a goggle-app type that can be commented on
 
         Keyword Argument
         file_info -- the info for the file whose type needs to be checked
 
         Return
-        Bool -- true or false to indicate if the file is of google-app type
+        Bool -- true or false to indicate if the file is of google-app type that can be commented on
         """
-        file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType']
+        file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType'] and \
+                    file_info['mimeType'] != "application/vnd.google-apps.form"
+        if 'mimeType' in file_info:
+            logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+                        f"is {file_info['mimeType']}")
+        else:
+            logger.error("[GoogleDrive _file_is_gdrive_file()] "
+                         f"unable to find key 'mimeType' for file {file_info['name']}")
+        return file_type
+
+    def _file_is_gdrive_form(self, file_info):
+        """
+        determine if the file is a goggle form
+
+        Keyword Argument
+        file_info -- the info for the file whose type needs to be checked
+
+        Return
+        Bool -- true or false to indicate if the file is a google form
+        """
+        file_type = 'mimeType' in file_info and file_info['mimeType'] == "application/vnd.google-apps.form"
         if 'mimeType' in file_info:
             logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
                         f"is {file_info['mimeType']}")
@@ -655,40 +676,41 @@ class GoogleDrive:
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
 
-    def _send_email_notifications_for_folder_with_incorrect_ownership(self, folders_to_change):
+    def _send_email_notifications_for_files_with_incorrect_ownership(self, files_to_email_owner_about):
         """
         will email all the relevant owners of the folders that they are owners of that need to have
         their ownership changed
 
         Keyword Argument
-        folders_to_change -- a dictionary that contains a list of all the emails and their corresponding
-            folders that they need to be made aware of that have to have their ownership changed
+        files_to_email_owner_about -- a dictionary that contains a list of all the emails and their corresponding
+            files that they need to be made aware of that have to have their ownership changed
         """
         gmail_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")
         if len(gmail_credentials) == 0:
-            logger.error("[GoogleDrive _send_email_notifications_for_folder_with_incorrect_ownership()] "
+            logger.error("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
                          "Could not find any credentials for the gmail "
                          "sfucsss@gmail.com account in order to send notification email")
         sfu_csss_credentials = gmail_credentials[0]
-        logger.info("[GoogleDrive _send_email_notifications_for_folder_with_incorrect_ownership()] attempting"
+        logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
                     " to setup connection to gmail server")
         gmail = Gmail(sfu_csss_credentials.username, sfu_csss_credentials.password)
         subject = "SFU CSSS Google Drive Folder ownership change"
         body_template = (
-            "Please change owner of the following folders to sfucsss@gmail.com.\n"
+            "Please change owner of the following folders and forms to sfucsss@gmail.com.\n"
             "Instructions for doing so can be "
             "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
             "to be changed:\n"
         )
-        for to_email in folders_to_change:
+        for to_email in files_to_email_owner_about:
             body = body_template + "".join(
                 [
-                    f"{folder['folder_name']} : {folder['folder_link']}\n" for folder in
-                    folders_to_change[to_email]['folder_infos']
+                    f"{file['file_name']} : {file['file_link']}\n" for file in
+                    files_to_email_owner_about[to_email]['file_infos']
                 ]
             )
-            to_name = folders_to_change[to_email]['full_name']
-            logger.info("[GoogleDrive _send_email_notifications_for_folder_with_incorrect_ownership()] attempting to "
-                        f"send email to {to_email}")
+            files_names = [file['file_name'] for file in files_to_email_owner_about[to_email]['file_infos']]
+            to_name = files_to_email_owner_about[to_email]['full_name']
+            logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
+                        f"send email to {to_email} about files {files_names}")
             gmail.send_email(subject, body, to_email, to_name)
         gmail.close_connection()
