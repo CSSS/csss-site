@@ -578,7 +578,7 @@ class GoogleDrive:
         Return
         Bool -- true or false to indicate if the file is a google form
         """
-        file_type = 'mimeType' in file_info and file_info['mimeType'] != "application/vnd.google-apps.form"
+        file_type = 'mimeType' in file_info and file_info['mimeType'] == "application/vnd.google-apps.form"
         if 'mimeType' in file_info:
             logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
                         f"is {file_info['mimeType']}")
