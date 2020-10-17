@@ -2,13 +2,15 @@ import datetime
 import logging
 import os
 
+from django.conf import settings
 from django.contrib.staticfiles import finders
 
-from about.models import Term, Officer, AnnouncementEmailAddress
+from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
 from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerPositionGithubTeamMapping, \
     OfficerGithubTeam
+from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 TAB_STRING = 'about'
 
@@ -74,7 +76,7 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                                              announcement_emails, github_username, gmail, start_date, fav_course_1,
                                              fav_course_2, fav_language_1, fav_language_2, bio, position_index,
                                              term_obj, sfu_officer_mailing_list_email, remove_from_naughty_list=False,
-                                             github_teams=None, github_api=None, gdrive_api=None, gitlab_api=None,
+                                             gdrive_api=None, gitlab_api=None,
                                              send_email_notification=False):
     """
     Saves the officer with all the necessary info and gives them access to digital resources
@@ -100,9 +102,6 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
     remove_from_naughty_list -- indicates whether or not to remove the officer from the list
      that determines whether or not to keep their name in the list that prevents them from
      gaining access to CSSS resources
-    github_teams -- the specific teams that the officer should be added to. This has higher
-     priority than any other designation if specified
-    github_api -- the github object that is used to communicate with github API
     gdrive_api -- the google drive object that is used to communicate with the google drive API
     gitlab_api -- the SFU gitlab object that is used to communicate with the SFU gitlab API
     send_email_notifications -- indicates whether or not to send an email to the officer's SFU email with instruction
@@ -159,9 +158,7 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
     if remove_from_naughty_list:
         _remove_officer_from_naughty_list(full_name)
 
-    success, error_message = _save_officer_github_membership(officer_obj, officer_position,
-                                                             github_api=github_api,
-                                                             github_teams=github_teams)
+    success, error_message = _save_officer_github_membership(officer_obj)
     if not success:
         officer_obj.delete()
         return success, error_message
@@ -274,90 +271,45 @@ def _get_term_season_number(term):
     return -1
 
 
-def _save_officer_github_membership(officer, position, github_api=None, github_teams=None):
+def _save_officer_github_membership(officer):
     """
     Adds the officers to the necessary github teams.
-    they will get added both to the default GITHUB_OFFICER_TEAM
-    as well as any other position specific github teams. If however, github_teams is specified, they will only
-    get added to the teams specified in that array
 
     Keyword Arguments
     officer -- the officer to add to the github teams
-    position -- the position of the officer
-    github_api -- the github object that is used to communicate with github API
-    github_teams -- the specific teams that the officer should be added to. This has higher
-     priority than any other designation
-    if specified
 
     return
     success -- true or false Bool
     error_message -- the error_message if success is False or None otherwise
     """
-    if github_teams is None:
+    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer.position)
+    if len(position_mapping) == 0:
+        logger.info(f"[about/officer_management_helper.py _save_officer_github_membership()] "
+                    f"could not find any position mappings for position {officer.position}")
+        return False, f"Could not find any position mappings for position {officer.position}"
+
+    github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+    if github_api.connection_successful is False:
+        logger.info("[about/officer_management_helper.py _save_officer_github_membership()]"
+                    f" {github_api.error_message}")
+        return False, f"{github_api.error_message}"
+    github_teams = OfficerPositionGithubTeamMapping.objects.all().filter(officer=position_mapping[0])
+    for github_team in github_teams:
+        success, error_message = github_api.add_non_officer_to_a_team(
+            [officer.github_username],
+            github_team
+        )
+        if not success:
+            logger.info(
+                "[about/officer_management_helper.py _save_officer_github_membership()] "
+                f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
+                f"{error_message}"
+            )
+            return False, error_message
         logger.info(
             "[about/officer_management_helper.py _save_officer_github_membership()] "
-            "github_teams is None, will save the officer under regular designations"
+            f"mapped officer {officer} to team {github_team}"
         )
-        if position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
-            if github_api is not None:
-                success, error_message = github_api.add_non_officer_to_a_team(
-                    [officer.github_username],
-                    GITHUB_OFFICER_TEAM
-                )
-                if not success:
-                    logger.info(
-                        "[about/officer_management_helper.py _save_officer_github_membership()] "
-                        f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
-                        f"{error_message}"
-                    )
-                    return False, error_message
-            OfficerGithubTeam(team_name=GITHUB_OFFICER_TEAM, officer=officer).save()
-            logger.info(
-                "[about/officer_management_helper.py _save_officer_github_membership()] "
-                f"mapped officer {officer} to team {GITHUB_OFFICER_TEAM}"
-            )
-        applicable_github_teams = OfficerPositionGithubTeamMapping.objects.filter(position=position)
-        for github_team in applicable_github_teams:
-            if github_api is not None:
-                success, error_message = github_api.add_non_officer_to_a_team(
-                    [officer.github_username],
-                    github_team.team_name
-                )
-                if not success:
-                    logger.info(
-                        "[about/officer_management_helper.py _save_officer_github_membership()] "
-                        f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
-                        f"{error_message}"
-                    )
-                    return False, error_message
-            OfficerGithubTeam(team_name=github_team, officer=officer).save()
-            logger.info(
-                "[about/officer_management_helper.py _save_officer_github_membership()] "
-                f"mapped officer {officer} to team {github_team}"
-            )
-    else:
-        logger.info(
-            "[about/officer_management_helper.py _save_officer_github_membership()] "
-            f"github_teams is set to {github_teams}, will save the officer under those teams"
-        )
-        for team in github_teams:
-            if github_api is not None:
-                success, error_message = github_api.add_non_officer_to_a_team(
-                    [officer.github_username],
-                    team
-                )
-                if not success:
-                    logger.info(
-                        "[about/officer_management_helper.py _save_officer_github_membership()] "
-                        f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
-                        f"{error_message}"
-                    )
-                    return False, error_message
-            OfficerGithubTeam(team_name=team, officer=officer).save()
-            logger.info(
-                "[about/officer_management_helper.py _save_officer_github_membership()] "
-                f"mapped officer {officer} to team {team}"
-            )
     return True, None
 
 

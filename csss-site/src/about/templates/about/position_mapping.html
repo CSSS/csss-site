@@ -30,10 +30,10 @@
                         <td><input type="text" name="{{ OFFICER_POSITION_MAPPING__POSITION_EMAIL_KEY }}" value="{{ position.email }}" required></td>
                         <td>
                             {%  if position.marked_for_deletion is True %}
-                                <button name="action" value="un_delete" type="submit">Un-Delete</button>
+                                <input type="submit" name="un_delete_position_mapping" value="Un-Delete">
                             {%  else %}
-                                <button name="action" value="update" type="submit">Update</button>
-                                <button name="action" value="delete" type="submit">Delete</button>
+                                <input type="submit" name="update_position_mapping" value="Update">
+                                <input type="submit" name="delete_position_mapping" value="Delete">
                             {%  endif %}
                         </td>
                     </form>
@@ -68,7 +68,7 @@
         </div>
         <input type="button" value="Add another Position" onClick="addNominee('new_officer_positions');">
         <input type="button" value="Remove the last Position Slot" onClick="removeNominee('#new_officer_positions');">
-        <input type="submit" name="position" value="Submit">
+        <input type="submit" name="add_new_position_mapping" value="Submit">
     </form>
         <script type="text/javascript">
         function addNominee(divName){
@@ -114,10 +114,13 @@
                     <td><input type="text" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ github_team.team_name }}"></td>3
                     <td>
                             {%  if github_team.officer.marked_for_deletion is True %}
+                                position marked for deletion
+                            {%  elif github_team.marked_for_deletion is True %}
                                 <input type="submit" name="un_delete_github_mapping" value="Un-Delete">
                             {%  else %}
                                 <input type="submit" name="update_github_mapping" value="Update">
                                 <input type="submit" name="delete_github_mapping" value="Delete">
+                                <input type="submit" name="mark_for_deletion_github_mapping" value="Mark for Deletion">
                             {%  endif %}
                     </td>
                 </form>
@@ -131,7 +134,7 @@
         <div id="new_github_officer_team_name_mapping">
             {%  for unsaved_github_officer_team_name_mapping in unsaved_github_officer_team_name_mappings %}
                 <div style="border: 3px solid black; padding: 10px;">
-                    <label for="github_officer">Officer</label>
+                    <label for="{{ GITHUB_TEAM__OFFICER_KEY }}">Officer</label>
                     <select name="{{ GITHUB_TEAM__OFFICER_KEY }}" id="{{ GITHUB_TEAM__OFFICER_KEY }}">
                         {%  for position in position_mapping %}
                             {% if unsaved_github_officer_team_name_mapping.officer_id == position.term_position_number %}
@@ -141,13 +144,13 @@
                             {%  endif %}
                         {%  endfor %}
                     </select>
-                    <label for="github_team_name">Github Team Name</label>
+                    <label for="{{ GITHUB_TEAM__TEAM_NAME_KEY }}">Github Team Name</label>
                     <input type="text" id="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ unsaved_github_officer_team_name_mapping.team_name }}" required><br>
                 </div>
             {%  endfor %}
             {%  if unsaved_github_officer_team_name_mappings is None %}
                 <div style="border: 3px solid black; padding: 10px;">
-                    <label for="github_officer">Officer</label>
+                    <label for="{{ GITHUB_TEAM__OFFICER_KEY }}">Officer</label>
                     <select name="{{ GITHUB_TEAM__OFFICER_KEY }}" id="{{ GITHUB_TEAM__OFFICER_KEY }}">
                         {%  for position in position_mapping %}
                             {% if github_team.officer.term_position_number == position.term_position_number %}
@@ -157,7 +160,7 @@
                             {%  endif %}
                         {%  endfor %}
                     </select>
-                    <label for="github_team_name">Github Team Name</label>
+                    <label for="{{ GITHUB_TEAM__TEAM_NAME_KEY }}">Github Team Name</label>
                     <input type="text" id="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" required><br>
                 </div>
             {%  endif %}

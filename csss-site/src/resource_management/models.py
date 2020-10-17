@@ -84,23 +84,12 @@ class OfficerPositionGithubTeamMapping(models.Model):
         default='officers',
     )
 
+    marked_for_deletion = models.BooleanField(
+        default=False
+    )
+
     def __str__(self):
         return f"{self.officer} mapping to github team {self.team_name}"
-
-
-class OfficerGithubTeam(models.Model):
-    officer = models.ForeignKey(
-        Officer,
-        on_delete=models.CASCADE,
-    )
-
-    team_name = models.CharField(
-        max_length=5000
-    )
-
-    def __str__(self):
-        return f"{self.officer.name} {self.team_name}"
-
 
 class GoogleMailAccountCredentials(models.Model):
     username = models.CharField(

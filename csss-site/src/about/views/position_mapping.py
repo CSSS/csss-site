@@ -19,9 +19,9 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_TYPE = "officer_email_list_and
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address "
 
-GITHUB_TEAM__OFFICER_KEY = "this"
-GITHUB_TEAM__TEAM_NAME_KEY = "that"
-GITHUB_TEAM__TEAM_NAME_VALUE = "the_other_thing"
+GITHUB_TEAM__OFFICER_KEY = "officer_id"
+GITHUB_TEAM__TEAM_NAME_KEY = "github_team_name"
+GITHUB_TEAM__ID_KEY = "github_mapping_id"
 
 
 def position_mapping(request):
@@ -43,7 +43,7 @@ def position_mapping(request):
 
     context['GITHUB_TEAM__OFFICER_KEY'] = GITHUB_TEAM__OFFICER_KEY
     context['GITHUB_TEAM__TEAM_NAME_KEY'] = GITHUB_TEAM__TEAM_NAME_KEY
-    context['GITHUB_TEAM__TEAM_NAME_VALUE'] = GITHUB_TEAM__TEAM_NAME_VALUE
+    context['GITHUB_TEAM__ID_KEY'] = GITHUB_TEAM__ID_KEY
 
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
@@ -102,78 +102,107 @@ def position_mapping(request):
                     })
                     context['unsaved_github_officer_team_name_mappings'] = unsaved_github_team_mappings
         elif 'update_github_mapping' in post_dict:
-            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+            github_mapping_id = int(post_dict[GITHUB_TEAM__ID_KEY])
+            officer_id = post_dict[GITHUB_TEAM__OFFICER_KEY]
+            github_team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
+            if validate_update_to_github_mapping(github_mapping_id, officer_id, github_team_name):
+                github_mapping = OfficerPositionGithubTeamMapping.objects.get(id=github_mapping_id)
+                github_mapping.officer_id = officer_id
+                github_mapping.team_name = github_team_name
+                github_mapping.save()
+            else:
+                print("woop, woop")
+        elif 'mark_for_deletion_github_mapping' in post_dict:
+            github_mapping_id = int(post_dict[GITHUB_TEAM__ID_KEY])
+            if validate_github_mapping_to_delete(github_mapping_id):
+                github_mapping = OfficerPositionGithubTeamMapping.objects.get(id=github_mapping_id)
+                github_mapping.marked_for_deletion = True
+                github_mapping.save()
+            else:
+                print("womp, womp")
+        elif 'un_delete_github_mapping' in post_dict:
+            github_mapping_id = int(post_dict[GITHUB_TEAM__ID_KEY])
+            if validate_github_mapping_to_delete(github_mapping_id):
+                github_mapping = OfficerPositionGithubTeamMapping.objects.get(id=github_mapping_id)
+                github_mapping.marked_for_deletion = False
+                github_mapping.save()
+            else:
+                print("womp, womp")
+        elif 'delete_github_mapping' in post_dict:
+            github_mapping_id = int(post_dict[GITHUB_TEAM__ID_KEY])
+            if validate_github_mapping_to_delete(github_mapping_id):
+                OfficerPositionGithubTeamMapping.objects.get(id=github_mapping_id).delete()
+            else:
+                print("womp, womp")
+        elif 'update_position_mapping' in post_dict:
+            position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
+                id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
+            )
 
-        elif 'action' in post_dict:  # modifying an existing position mapping
-            if post_dict['action'] == "update":
-                position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
-                    id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
-                )
+            new_position_index_for_officer_position = int(
+                post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]
+            )
+            new_name_for_officer_position = post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_TYPE]
+            new_sfu_email_list_address_for_officer_position = post_dict[
+                OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
+            ]
+            logger.info("[about/position_mapping.py position_mapping()] user has selected to update the "
+                        f"position {position_mapping_for_selected_officer.officer_position} ")
 
-                new_position_index_for_officer_position = int(
-                    post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]
-                )
-                new_name_for_officer_position = post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_TYPE]
-                new_sfu_email_list_address_for_officer_position = post_dict[
-                    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
-                ]
-                logger.info("[about/position_mapping.py position_mapping()] user has selected to update the "
-                            f"position {position_mapping_for_selected_officer.officer_position} ")
+            if not (new_name_for_officer_position == position_mapping_for_selected_officer.officer_position and
+                    new_position_index_for_officer_position ==
+                    position_mapping_for_selected_officer.term_position_number and
+                    new_sfu_email_list_address_for_officer_position ==
+                    position_mapping_for_selected_officer.email):
+                logger.info("[about/position_mapping.py position_mapping()] the user's change to the position "
+                            f"{position_mapping_for_selected_officer.officer_position} was detected")
+                # if anything has been changed for the selected position
+                success = True
+                previpus_position_index = position_mapping_for_selected_officer.term_position_number
+                previous_position_name = position_mapping_for_selected_officer.officer_position
+                if new_position_index_for_officer_position != previpus_position_index:
+                    success, error_message = validate_position_index(new_position_index_for_officer_position)
+                if success and new_name_for_officer_position != previous_position_name:
+                    success, error_message = validate_position_name(new_name_for_officer_position)
 
-                if not (new_name_for_officer_position == position_mapping_for_selected_officer.officer_position and
-                        new_position_index_for_officer_position ==
-                        position_mapping_for_selected_officer.term_position_number and
-                        new_sfu_email_list_address_for_officer_position ==
-                        position_mapping_for_selected_officer.email):
-                    logger.info("[about/position_mapping.py position_mapping()] the user's change to the position "
-                                f"{position_mapping_for_selected_officer.officer_position} was detected")
-                    # if anything has been changed for the selected position
-                    success = True
-                    previpus_position_index = position_mapping_for_selected_officer.term_position_number
-                    previous_position_name = position_mapping_for_selected_officer.officer_position
-                    if new_position_index_for_officer_position != previpus_position_index:
-                        success, error_message = validate_position_index(new_position_index_for_officer_position)
-                    if success and new_name_for_officer_position != previous_position_name:
-                        success, error_message = validate_position_name(new_name_for_officer_position)
-
-                    if success:
-                        terms = Term.objects.all().filter(term_number=get_current_term())
-                        if len(terms) > 0:
-                            term = terms[0]
-                            officer_in_current_term_that_need_update = Officer.objects.all().filter(
-                                elected_term=term,
-                                position=position_mapping_for_selected_officer.officer_position
-                            )
-                            logger.info("[about/position_mapping.py position_mapping()] updating "
-                                        f"{len(officer_in_current_term_that_need_update)} officers "
-                                        f"due to change in position "
-                                        f"{position_mapping_for_selected_officer.officer_position}")
-                            for officer in officer_in_current_term_that_need_update:
-                                officer.term_position_number = new_position_index_for_officer_position
-                                officer.sfu_officer_mailing_list_email = \
-                                    new_sfu_email_list_address_for_officer_position
-                                officer.position = new_name_for_officer_position
-                                officer.save()
-                        position_mapping_for_selected_officer.officer_position = new_name_for_officer_position
-                        position_mapping_for_selected_officer.term_position_number = \
-                            new_position_index_for_officer_position
-                        position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
-                        position_mapping_for_selected_officer.save()
-                    else:
-                        logger.info("[about/position_mapping.py position_mapping()] encountered error "
-                                    f"{error_message} when trying to update "
-                                    f"position {position_mapping_for_selected_officer.officer_position}")
-                        context[ERROR_MESSAGES_KEY] = [error_message]
-            elif post_dict['action'] == "delete" or post_dict['action'] == "un_delete":
-                position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
-                    id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
-                )
-                position_mapping_for_selected_officer.marked_for_deletion = post_dict['action'] == "delete"
-                logger.info("[about/position_mapping.py position_mapping()] deletion for position "
-                            f"{position_mapping_for_selected_officer.officer_position} set to  "
-                            f"{position_mapping_for_selected_officer.marked_for_deletion}")
-                position_mapping_for_selected_officer.save()
-        else:  # adding new position mapping[s]
+                if success:
+                    terms = Term.objects.all().filter(term_number=get_current_term())
+                    if len(terms) > 0:
+                        term = terms[0]
+                        officer_in_current_term_that_need_update = Officer.objects.all().filter(
+                            elected_term=term,
+                            position=position_mapping_for_selected_officer.officer_position
+                        )
+                        logger.info("[about/position_mapping.py position_mapping()] updating "
+                                    f"{len(officer_in_current_term_that_need_update)} officers "
+                                    f"due to change in position "
+                                    f"{position_mapping_for_selected_officer.officer_position}")
+                        for officer in officer_in_current_term_that_need_update:
+                            officer.term_position_number = new_position_index_for_officer_position
+                            officer.sfu_officer_mailing_list_email = \
+                                new_sfu_email_list_address_for_officer_position
+                            officer.position = new_name_for_officer_position
+                            officer.save()
+                    position_mapping_for_selected_officer.officer_position = new_name_for_officer_position
+                    position_mapping_for_selected_officer.term_position_number = \
+                        new_position_index_for_officer_position
+                    position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
+                    position_mapping_for_selected_officer.save()
+                else:
+                    logger.info("[about/position_mapping.py position_mapping()] encountered error "
+                                f"{error_message} when trying to update "
+                                f"position {position_mapping_for_selected_officer.officer_position}")
+                    context[ERROR_MESSAGES_KEY] = [error_message]
+        elif 'delete_position_mapping' in post_dict or 'un_delete_position_mapping' in post_dict:
+            position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
+                id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
+            )
+            position_mapping_for_selected_officer.marked_for_deletion = 'delete_position_mapping' in post_dict
+            logger.info("[about/position_mapping.py position_mapping()] deletion for position "
+                        f"{position_mapping_for_selected_officer.officer_position} set to  "
+                        f"{position_mapping_for_selected_officer.marked_for_deletion}")
+            position_mapping_for_selected_officer.save()
+        elif 'add_new_position_mapping' in post_dict:
             if there_are_multiple_entries(post_dict, "position_name"):
                 logger.info("[about/position_mapping.py position_mapping()] it appears that the"
                             " user wants to create multiple new officers")
@@ -240,10 +269,26 @@ def position_mapping(request):
     if len(position_mapping_for_selected_officer) > 0:
         context['position_mapping'] = position_mapping_for_selected_officer
 
-    github_position_mapping = OfficerPositionGithubTeamMapping.objects.all()
+    github_position_mapping = OfficerPositionGithubTeamMapping.objects.all().order_by('id')
     if len(github_position_mapping) > 0:
         context['github_teams'] = github_position_mapping
     return render(request, 'about/position_mapping.html', context)
+
+
+def validate_update_to_github_mapping(github_mapping_id, officer_id, github_team_name):
+    if len(OfficerPositionGithubTeamMapping.objects.filter(id=github_mapping_id) == 0):
+        return False, "no such mapping exists"
+    if len(OfficerPositionGithubTeamMapping.objects.filter(officer_id=officer_id, team_name=github_team_name).exclude(
+            id=github_mapping_id)) > 0:
+        return False, "Such a mapping already exists"
+    github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+    if not github.verify_team_name_is_valid(github_team_name):
+        return False, "Invalid team name specified"
+    return True, None
+
+
+def validate_github_mapping_to_delete(github_mapping_id):
+    return len(OfficerPositionGithubTeamMapping.objects.filter(id=github_mapping_id)) == 1
 
 
 def validate_github_officer_mapping(officer_id, team_name, github, submitted_officer_github_mappings=None):
