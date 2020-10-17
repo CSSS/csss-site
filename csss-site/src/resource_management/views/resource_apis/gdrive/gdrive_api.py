@@ -490,7 +490,8 @@ class GoogleDrive:
         if self._determine_if_file_info_belongs_to_gdrive_folder(file):
             # this is a folder so we have to check to see if any of its files have a bad permission set
             return self._validate_individual_file_and_folder_ownership_and_permissions(
-                google_drive_perms, parent_id=parent_id + [file['id']], files_to_email_owner_about=files_to_email_owner_about
+                google_drive_perms, parent_id=parent_id + [file['id']],
+                files_to_email_owner_about=files_to_email_owner_about
             )
         return files_to_email_owner_about
 
