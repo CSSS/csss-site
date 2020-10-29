@@ -403,4 +403,7 @@ def create_google_drive_perms():
                 f"[resource_management/gdrive_views.py create_google_drive_perms()] "
                 f"adding gmail {user.gmail.lower()} to root folder {user.file_id}"
             )
+
+    google_drive_perms['anyoneWithLink'] = [file.file_id for file in GoogleDrivePublicFile.objects.all()]
+
     return google_drive_perms
