@@ -103,13 +103,13 @@ pipeline {
             }
         }
     }
-    post {
-      always {
-          script {
-              if (fileExists('test_results/all-unit-tests.xml')){
-                  junit 'test_results/all-unit-tests.xml'
-              }
-          }
-      }
-  }
+//     post {
+//       always {
+//           script {
+//               if (fileExists('test_results/all-unit-tests.xml')){
+//                   junit 'test_results/all-unit-tests.xml'
+//               }
+//           }
+//       }
+//   }
 }
