@@ -261,7 +261,7 @@ def _get_information_for_election_user_wants_to_modify(election_id):
     """
     election = NominationPage.objects.get(id=election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
-    nominees.sort(key=lambda x: x.position, reverse=True)
+    nominees.sort(key=lambda x: x.position_index, reverse=True)
     election_dictionary = {ELECTION_TYPE_KEY: election.election_type,
                            ELECTION_DATE_KEY: election.date.strftime("%Y-%m-%d %H:%M"),
                            ELECTION_WEBSURVEY_LINK_KEY: election.websurvey, ELECTION_NOMINEES_KEY: []}
@@ -269,7 +269,7 @@ def _get_information_for_election_user_wants_to_modify(election_id):
         election_dictionary[ELECTION_NOMINEES_KEY].append(
             {NOM_NAME_KEY: nominee.name, NOM_EMAIL_KEY: nominee.email, NOM_LINKEDIN_KEY: nominee.linked_in,
              NOM_FACEBOOK_KEY: nominee.facebook, NOM_DISCORD_USERNAME_KEY: nominee.discord,
-             NOM_SPEECH_KEY: nominee.speech, NOM_POSITION_KEY: nominee.officer_position})
+             NOM_SPEECH_KEY: nominee.speech, NOM_POSITION_KEY: nominee.position_index})
 
     return election_dictionary
 
@@ -464,7 +464,7 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
             )
             return False, None, f"The nominee {full_name} for position {officer_position} could not be found"
 
-        nominee.officer_position = officer_position
+        nominee.position_index = officer_position
         nominee.nomination_page = nomination_page
         nominee.name = full_name
         nominee.speech = speech
@@ -472,7 +472,7 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
         nominee.linked_in = linkedin_link
         nominee.email = email_address
         nominee.discord = discord_username
-        nominee.position = nominee_index
+        nominee.position_index = nominee_index
         return True, nominee, None
     else:
         return True, None, None

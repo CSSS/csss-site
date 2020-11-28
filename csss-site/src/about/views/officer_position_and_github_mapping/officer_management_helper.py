@@ -8,13 +8,10 @@ from django.contrib.staticfiles import finders
 from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
-from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerPositionGithubTeamMapping, \
-    OfficerGithubTeam
+from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerPositionGithubTeamMappingNew
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 TAB_STRING = 'about'
-
-GITHUB_OFFICER_TEAM = "officers"
 
 ELECTION_OFFICER_POSITIONS = ["By-Election Officer", "General Election Officer"]
 OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES = ["SFSS Council-Representative"]
@@ -282,33 +279,33 @@ def _save_officer_github_membership(officer):
     success -- true or false Bool
     error_message -- the error_message if success is False or None otherwise
     """
-    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer.position)
+    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer.position_index)
     if len(position_mapping) == 0:
         logger.info(f"[about/officer_management_helper.py _save_officer_github_membership()] "
-                    f"could not find any position mappings for position {officer.position}")
-        return False, f"Could not find any position mappings for position {officer.position}"
+                    f"could not find any position mappings for position {officer.position_index}")
+        return False, f"Could not find any position mappings for position {officer.position_index}"
 
     github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
     if github_api.connection_successful is False:
         logger.info("[about/officer_management_helper.py _save_officer_github_membership()]"
                     f" {github_api.error_message}")
         return False, f"{github_api.error_message}"
-    github_teams = OfficerPositionGithubTeamMapping.objects.all().filter(officer=position_mapping[0])
+    github_teams = OfficerPositionGithubTeamMappingNew.objects.all().filter(officer=position_mapping[0])
     for github_team in github_teams:
-        success, error_message = github_api.add_non_officer_to_a_team(
+        success, error_message = github_api.add_users_to_a_team(
             [officer.github_username],
-            github_team
+            github_team.team_name
         )
         if not success:
             logger.info(
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
-                f"unable to add officer {officer.github_username} to team {GITHUB_OFFICER_TEAM} due to error "
+                f"unable to add officer {officer.github_username} to team {github_team.team_name} due to error "
                 f"{error_message}"
             )
             return False, error_message
         logger.info(
             "[about/officer_management_helper.py _save_officer_github_membership()] "
-            f"mapped officer {officer} to team {github_team}"
+            f"mapped officer {officer} to team {github_team.team_name}"
         )
     return True, None
 

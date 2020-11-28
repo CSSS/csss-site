@@ -11,7 +11,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer, AnnouncementEmailAddress
-from about.views.officer_management_helper import get_term_number, save_new_term, \
+from about.views.officer_position_and_github_mapping.officer_management_helper import get_term_number, save_new_term, \
     save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
     ELECTION_OFFICER_POSITIONS, OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES, \
     OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS, \
@@ -20,7 +20,6 @@ from csss.views_helper import verify_access_logged_user_and_create_context, ERRO
     ERROR_MESSAGES_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
-from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
 
 logger = logging.getLogger('csss_site')
@@ -138,10 +137,10 @@ def show_create_link_page(request):
                 f"request.POST={request.POST}")
     context.update(create_term_context_variable())
     context['positions'] = "\n".join(
-        [position.officer_position
+        [position.position_name
          for position in OfficerEmailListAndPositionMapping.objects.all().filter(
             marked_for_deletion=False).order_by(
-            'term_position_number')
+            'position_index')
          ]
     )
     return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
@@ -197,7 +196,7 @@ def show_page_with_creation_links(request):
                         term=request.POST[HTML_TERM_KEY],
                         year=request.POST[HTML_YEAR_KEY],
                         position=position,
-                        term_position_number=officer_details.term_position_number,
+                        term_position_number=officer_details.position_index,
                         sfu_officer_mailing_list_email=officer_details.email,
                         link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
                         new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
@@ -217,7 +216,7 @@ def show_page_with_creation_links(request):
             for new_officer_to_process in new_officers_to_process:
                 new_officer_to_process.save()
                 officer_creation_links.append(
-                    (new_officer_to_process.position, new_officer_to_process.link.replace(" ", "%20"))
+                    (new_officer_to_process.position_name, new_officer_to_process.link.replace(" ", "%20"))
                 )
             context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
             return render(request, 'about/process_new_officer/show_generated_officer_links.html', context)
@@ -292,7 +291,7 @@ def get_next_position_number_for_term(officer_position):
 
     Return
     success - True or False
-    position_mapping -- the information to assign to user
+    officer_position_and_github_mapping -- the information to assign to user
     error_message -- error message if position does not exist
     """
     position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer_position,
@@ -315,7 +314,7 @@ def allow_officer_to_choose_name(request):
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
-    officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'term_position_number',
+    officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'position_index',
                                                        '-start_date')
 
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = f"{new_officer_details.passphrase}"
@@ -362,8 +361,8 @@ def display_page_for_officers_to_input_their_info(request):
         request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = new_officer_details.passphrase
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM] = new_officer_details.term
         context[HTML_VALUE_ATTRIBUTE_FOR_YEAR] = new_officer_details.year
-        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position
-        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.term_position_number
+        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_index
+        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
         context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = \
             determine_new_start_date_for_officer(
@@ -549,15 +548,6 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     gdrive.error_message
                 )
-            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
-            if github.connection_successful is False:
-                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {github.error_message}")
-                return redirect_back_to_input_page_with_error_message(
-                    request,
-                    new_officer_details.passphrase,
-                    github.error_message
-                )
             gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
             if gitlab.connection_successful is False:
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
@@ -578,22 +568,11 @@ def process_information_entered_by_officer(request):
                 position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
-                github_api=github,
                 gdrive_api=gdrive,
                 gitlab_api=gitlab,
                 send_email_notification=True
             )
         elif officer_position in ELECTION_OFFICER_POSITIONS:
-            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
-            if github.connection_successful is False:
-                error_message = "unable to authenticate against CSSS Github"
-                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {error_message}")
-                return redirect_back_to_input_page_with_error_message(
-                    request,
-                    new_officer_details.passphrase,
-                    error_message
-                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
@@ -605,7 +584,6 @@ def process_information_entered_by_officer(request):
                 position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
-                github_api=github,
                 send_email_notification=True
             )
         elif officer_position in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:

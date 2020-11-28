@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from about.models import Term, Officer
-from about.views.officer_management_helper import TAB_STRING, get_term_number, save_new_term, \
+from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING, get_term_number, save_new_term, \
     save_officer_and_grant_digital_resources, TERM_SEASONS
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context
 

@@ -2,7 +2,7 @@
 
 {% load static %}
 {% load staticfiles %}
-{% load declare_prev_officer_position %}
+{% load set_variable %}
 {% block content %}
     {{ block.super }}
     <!-- used to style the officer photos -->
@@ -67,7 +67,7 @@
                                     {% if officer.elected_term == term %}
                                         <div class="col-md-4"><center><img class="officer-photos" src="{% static officer.image %}"></center></div>
                                         <div class="col-md-6">
-                                            <p class="lead">{{officer.position}} - <b>{{officer.name}}</b></p>
+                                            <p class="lead">{{officer.position_name}} - <b>{{officer.name}}</b></p>
                                             <p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
                                             {% if election_officer or authenticated_officer or staff %}
                                                 <p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>

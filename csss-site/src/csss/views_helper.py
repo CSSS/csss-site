@@ -101,7 +101,7 @@ def there_are_multiple_entries(post_dict, key_to_read):
     return:
     True if the key contains an erray of elements rather than just 1 element
     """
-    return len(post_dict[key_to_read][0]) > 1
+    return isinstance(post_dict[key_to_read], list)
 
 
 def get_current_term():

@@ -27,16 +27,16 @@ class Term(models.Model):
     )
 
     def __str__(self):
-        return f"{self.term} {self.year}"
+        return f"Term {self.term} {self.year}"
 
 
 class Officer(models.Model):
-    position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default='President',
     )
 
-    term_position_number = models.IntegerField(
+    position_index = models.IntegerField(
         default=0,
     )
     name = models.CharField(
@@ -117,7 +117,7 @@ class Officer(models.Model):
     )
 
     def __str__(self):
-        return f" {self.elected_term} {self.name}"
+        return f"Officer {self.elected_term} {self.position_name} {self.name}"
 
 
 class AnnouncementEmailAddress(models.Model):
@@ -131,14 +131,14 @@ class AnnouncementEmailAddress(models.Model):
     )
 
     def __str__(self):
-        return f"{self.officer.name} {self.email} {self.officer.elected_term}"
+        return f"email address for {self.officer.name} {self.email} {self.officer.elected_term}"
 
 
 class OfficerEmailListAndPositionMapping(models.Model):
-    term_position_number = models.IntegerField(
+    position_index = models.IntegerField(
         default=0,
     )
-    officer_position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default="President"
     )
@@ -146,7 +146,9 @@ class OfficerEmailListAndPositionMapping(models.Model):
         max_length=140,
         default="NA"
     )
-
     marked_for_deletion = models.BooleanField(
         default=False
     )
+
+    def __str__(self):
+        return f"position mapping for {self.position_name}"

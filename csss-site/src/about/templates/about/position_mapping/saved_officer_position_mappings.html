@@ -1,0 +1,29 @@
+{%  if saved_officer_positions is not None %}
+    <table>
+        <tr>
+            <th>Position Mapping IDs</th>
+            <th>Officer Position Indices</th>
+            <th>Officer Position Names</th>
+            <th>Officer SFU Email-List Addresses</th>
+        </tr>
+        {%  for position in saved_officer_positions %}
+            <tr>
+                <form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/update_saved_position_mappings">
+                    {%  csrf_token %}
+                    <td><input type="number" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID }}" value="{{ position.id }}" readonly required></td>
+                    <td><input type="number" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX }}" value="{{ position.position_index }}" required></td>
+                    <td><input type="text" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME }}" value="{{ position.position_name }}"  required></td>
+                    <td><input type="text" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS }}" value="{{ position.email }}" required></td>
+                    <td>
+                        {%  if position.marked_for_deletion is True %}
+                            <input type="submit" name="un_delete_position_mapping" value="Un-Delete">
+                        {%  else %}
+                            <input type="submit" name="update_position_mapping" value="Update">
+                            <input type="submit" name="delete_position_mapping" value="Delete">
+                        {%  endif %}
+                    </td>
+                </form>
+            </tr>
+        {%  endfor %}
+    </table>
+{%  endif %}

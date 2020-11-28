@@ -29,11 +29,11 @@ class ProcessNewOfficer(models.Model):
         default='2018',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
-    position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default='President',
     )
-    term_position_number = models.IntegerField(
+    position_index = models.IntegerField(
         default=0,
     )
 
@@ -57,39 +57,37 @@ class ProcessNewOfficer(models.Model):
         default="NA"
     )
 
-
-class ProcessNewOfficerGithubTeam(models.Model):
-    officer = models.ForeignKey(
-        ProcessNewOfficer,
-        on_delete=models.CASCADE
-    )
-
-    team_name = models.CharField(
-        max_length=300,
-        default='officers'
-    )
-
     def __str__(self):
-        return f"{self.officer} mapping to github team {self.team_name}"
+        return f"Processing object for new officer {self.position_name} for term {self.year} {self.term}"
 
 
-class OfficerPositionGithubTeamMapping(models.Model):
-    officer = models.ForeignKey(
-        OfficerEmailListAndPositionMapping,
-        on_delete=models.CASCADE
-    )
-
+class OfficerPositionGithubTeam(models.Model):
     team_name = models.CharField(
         max_length=300,
         default='officers',
     )
-
     marked_for_deletion = models.BooleanField(
         default=False
     )
 
     def __str__(self):
-        return f"{self.officer} mapping to github team {self.team_name}"
+        return f"officer github team {self.team_name}"
+
+
+class OfficerPositionGithubTeamMappingNew(models.Model):
+    github_team = models.ForeignKey(
+        OfficerPositionGithubTeam,
+        on_delete=models.CASCADE,
+        default=None
+    )
+    officer_position_mapping = models.ForeignKey(
+        OfficerEmailListAndPositionMapping,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return f"officer position mapping for {self.officer_position_mapping} to team {self.github_team}"
+
 
 class GoogleMailAccountCredentials(models.Model):
     username = models.CharField(
@@ -98,6 +96,9 @@ class GoogleMailAccountCredentials(models.Model):
     password = models.CharField(
         max_length=300
     )
+
+    def __str__(self):
+        return f"credentials for gmail {self.username}"
 
 
 class NonOfficerGoogleDriveUser(models.Model):
@@ -115,6 +116,9 @@ class NonOfficerGoogleDriveUser(models.Model):
         max_length=5000
     )
 
+    def __str__(self):
+        return f"{self.name} access to google drive file {self.file_name}"
+
 
 class GoogleDrivePublicFile(models.Model):
     file_id = models.CharField(
@@ -126,6 +130,9 @@ class GoogleDrivePublicFile(models.Model):
     file_name = models.CharField(
         max_length=5000
     )
+
+    def __str__(self):
+        return f"Public Google Drive File {self.file_name}"
 
 
 class NonOfficerGithubMember(models.Model):
@@ -140,8 +147,14 @@ class NonOfficerGithubMember(models.Model):
         default="NA"
     )
 
+    def __str__(self):
+        return f"Non Officer {self.legal_name} access to github team {self.team_name}"
+
 
 class NaughtyOfficer(models.Model):
     name = models.CharField(
         max_length=300
     )
+
+    def __str__(self):
+        return f"Naughty Officer {self.name}"

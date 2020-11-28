@@ -150,7 +150,7 @@ def process_new_election_information_from_webform(request):
                 nominee.save()
                 logger.info(
                     "[elections/election_management.py save_new_nominee()] saved user "
-                    f"full_name={nominee.name} officer_position={nominee.officer_position}"
+                    f"full_name={nominee.name} officer_position={nominee.position_index}"
                     f" facebook_link={nominee.facebook} linkedin_link={nominee.linked_in} "
                     f"email_address={nominee.email} discord_username={nominee.discord}"
                 )
@@ -214,7 +214,7 @@ def process_new_election_information_from_json(request):
                 nominee.save()
                 logger.info(
                     "[elections/election_management.py save_new_nominee()] saved user "
-                    f"full_name={nominee.name} officer_position={nominee.officer_position}"
+                    f"full_name={nominee.name} officer_position={nominee.position_index}"
                     f" facebook_link={nominee.facebook} linkedin_link={nominee.linked_in} "
                     f"email_address={nominee.email} discord_username={nominee.discord}"
                 )
@@ -276,7 +276,7 @@ def show_page_for_user_to_modify_election_information_from_webform(request):
         election_id = request.session[ELECTION_ID_SESSION_KEY]
         election = NominationPage.objects.get(id=election_id)
         nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
-        nominees.sort(key=lambda x: x.position, reverse=True)
+        nominees.sort(key=lambda x: x.position_index, reverse=True)
         context.update({
             'election_id': election.id,
             'nominees': nominees,
