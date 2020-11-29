@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+    }
+    stages {
+        stage('Backup PROD Server') {
+        when {branch 'master'}
+            steps {
+                timeout(5) {
+                    sh label: '', script: """bash -c \'
+                        export BASE_DIR=/home/csss;
+                        export HOST_ADDRESS=sfucsss.org;
+                        ./CI/backup_db/jenkins_backup_script.sh;
+                    \'"""
+                }
+            }
+        }
+    }
+}
