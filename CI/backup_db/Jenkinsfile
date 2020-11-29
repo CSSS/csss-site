@@ -6,6 +6,7 @@ pipeline {
     }
     stages {
         stage('Backup PROD Server') {
+        when {branch 'master'}
             steps {
                 timeout(5) {
                     sh label: '', script: """bash -c \'
