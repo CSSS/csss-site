@@ -38,6 +38,7 @@ class Gmail:
                 self.server.login(from_email, password)
                 logger.info(f"[Gmail __init__()] login to email {from_email} successful")
                 self.connection_successful = True
+                self.error_message = None
             except Exception as e:
                 number_of_retries += 1
                 logger.error(f"[Gmail __init__()] experienced following error when initializing.\n{e}")
