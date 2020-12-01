@@ -18504,7 +18504,7 @@
       "position": "President",
       "term_position_number": 0,
       "name": "Vijender [VJ] Bakhshi",
-      "start_date": "2020-09-28T00:00:00",
+      "start_date": "2020-05-01T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18527,7 +18527,7 @@
       "position": "Director of Events",
       "term_position_number": 4,
       "name": "John Wu",
-      "start_date": "2020-09-28T00:00:00",
+      "start_date": "2020-05-01T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18537,7 +18537,7 @@
       "course2": "CMPT295",
       "language1": "Java",
       "language2": "C++",
-      "bio": "> John was in his 5th year at SFU </br>\r\n> He loved the CSSS so much. He had went to all their board game nights. </br>\r\n> He would pray to the CSSS every night before bed, thanking them for the life he has been given. </br>\r\n> \"CSSS is love\", he would say; \"CSSS is life\".</br>",
+      "bio": "> John was in his 5th year at SFU </br>> He loved the CSSS so much. He had went to all their board game nights. </br>> He would pray to the CSSS every night before bed, thanking them for the life he has been given. </br>> \"CSSS is love\", he would say; \"CSSS is life\".</br>",
       "image": "about_static/exec-photos/2020_03_Fall/John_Wu.jpg",
       "elected_term": 20203,
       "sfu_officer_mailing_list_email": "csss-doe@sfu.ca"
@@ -18573,7 +18573,7 @@
       "position": "Director of Resources",
       "term_position_number": 3,
       "name": "Truman Bui",
-      "start_date": "2019-05-01T00:00:00",
+      "start_date": "2020-05-01T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18619,7 +18619,7 @@
       "position": "SFSS Council Representative",
       "term_position_number": 14,
       "name": "Ryan Vansickle",
-      "start_date": "2020-09-28T00:00:00",
+      "start_date": "2020-05-01T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18642,7 +18642,7 @@
       "position": "Vice-President",
       "term_position_number": 1,
       "name": "Sarbjot Mann",
-      "start_date": "2020-09-28T00:00:00",
+      "start_date": "2020-05-01T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18665,7 +18665,7 @@
       "position": "Executive at Large 1",
       "term_position_number": 8,
       "name": "Adrienne Kwan",
-      "start_date": "2020-09-29T00:00:00",
+      "start_date": "2020-09-17T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18688,7 +18688,7 @@
       "position": "Executive at Large 2",
       "term_position_number": 9,
       "name": "Liam Wilson",
-      "start_date": "2020-09-29T00:00:00",
+      "start_date": "2020-09-17T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18698,7 +18698,7 @@
       "course2": "CMPT 295",
       "language1": "C#",
       "language2": "C#",
-      "bio": "<p>Legend has it that Liam first appeared in the unholy halls of SFU in the distant year of 2015. Now, against all odds, he has somehow managed to battle his way through the endless bureaucracy and anxiety of university life to reach his final semester.&nbsp;</p>\r\n<p>After surviving past terms with the CSSS as First Year Rep and Exec At Large, he now inexplicably finds himself serving as a CSSS Exec once again, only proving that he is a glutton for punishment.</p>\r\n<p>He is often found in his natural habitat, the Discord, where he is always willing to help answer your questions, argue with you about politics, or talk endlessly about pop-punk music. However, do not approach if you see him in real life, for he fears human contact and will endlessly fight you on why C# is objectively the best programming language.</p>",
+      "bio": "<p>Legend has it that Liam first appeared in the unholy halls of SFU in the distant year of 2015. Now, against all odds, he has somehow managed to battle his way through the endless bureaucracy and anxiety of university life to reach his final semester.&nbsp;</p><p>After surviving past terms with the CSSS as First Year Rep and Exec At Large, he now inexplicably finds himself serving as a CSSS Exec once again, only proving that he is a glutton for punishment.</p><p>He is often found in his natural habitat, the Discord, where he is always willing to help answer your questions, argue with you about politics, or talk endlessly about pop-punk music. However, do not approach if you see him in real life, for he fears human contact and will endlessly fight you on why C# is objectively the best programming language.</p>",
       "image": "about_static/exec-photos/2020_03_Fall/Liam_Wilson.jpg",
       "elected_term": 20203,
       "sfu_officer_mailing_list_email": "csss-eal@sfu.ca"
@@ -18711,7 +18711,7 @@
       "position": "Treasurer",
       "term_position_number": 2,
       "name": "Mitchell Gale",
-      "start_date": "2020-09-28T00:00:00",
+      "start_date": "2020-05-01T00:00:00",
       "sfuid": "sfuid",
       "sfu_email_alias": "sfu_email_alias",
       "phone_number": 0,
@@ -18725,6 +18725,75 @@
       "image": "about_static/exec-photos/2020_03_Fall/Mitchell_Gale.jpg",
       "elected_term": 20203,
       "sfu_officer_mailing_list_email": "csss-treasurer@sfu.ca"
+    }
+  },
+  {
+    "model": "about.officer",
+    "pk": 788,
+    "fields": {
+      "position": "Director of Archives",
+      "term_position_number": 7,
+      "name": "Dusan Kovacevic",
+      "start_date": "2020-05-01T00:00:00",
+      "sfuid": "sfuid",
+      "sfu_email_alias": "sfu_email_alias",
+      "phone_number": 0,
+      "github_username": "github_username",
+      "gmail": "gmail",
+      "course1": "MATH 461",
+      "course2": "CMPT 464",
+      "language1": "C++",
+      "language2": "Matlab",
+      "bio": "Langley local, Dusan is a fourth-year computer science major. Always friendly and welcoming, don’t be afraid to come say hello or ask any questions!",
+      "image": "about_static/exec-photos/2020_03_Fall/Dusan_Kovacevic.jpg",
+      "elected_term": 20203,
+      "sfu_officer_mailing_list_email": "csss-doa@sfu.ca"
+    }
+  },
+  {
+    "model": "about.officer",
+    "pk": 789,
+    "fields": {
+      "position": "First Year Representative 2",
+      "term_position_number": 11,
+      "name": "Johnson Luong",
+      "start_date": "2020-10-08T00:00:00",
+      "sfuid": "sfuid",
+      "sfu_email_alias": "sfu_email_alias",
+      "phone_number": 0,
+      "github_username": "github_username",
+      "gmail": "gmail",
+      "course1": "CMPT 120",
+      "course2": "MACM 101",
+      "language1": "Python",
+      "language2": "C++",
+      "bio": "<p>Your friendly neighborhood smol boi reporting for duty! Hailing from the depths of East Vancouver (abandon hope all ye who enter here), Johnson is always out and about (in his room that is). When not overdosing on coffee or weebing out, you can find Johnson waging a total war against the onslaught of ants that have invaded his home. That being said, he is always willing to lend a helping hand or will gladly be confused with you &mdash; mostly the latter.&nbsp;</p>",
+      "image": "about_static/exec-photos/stockPhoto.jpg",
+      "elected_term": 20203,
+      "sfu_officer_mailing_list_email": "csss-fyr@sfu.ca"
+    }
+  },
+  {
+    "model": "about.officer",
+    "pk": 790,
+    "fields": {
+      "position": "First Year Representative 1",
+      "term_position_number": 10,
+      "name": "Brianna Espena",
+      "start_date": "2020-10-08T00:00:00",
+      "sfuid": "sfuid",
+      "sfu_email_alias": "sfu_email_alias",
+      "phone_number": 0,
+      "github_username": "github_username",
+      "gmail": "gmail",
+      "course1": "CMPT 120",
+      "course2": "MACM 101",
+      "language1": "HTML",
+      "language2": "Python",
+      "bio": "<p>Brianna is a computing science major that has failed at every single video game she has tried except for Mario Party 8. She enjoys baking cookies, and watching emotional nature docs. You can often find her driving a bright blue car blasting Flo Milli, and going 50 in an 80 zone.</p>",
+      "image": "about_static/exec-photos/stockPhoto.jpg",
+      "elected_term": 20203,
+      "sfu_officer_mailing_list_email": "csss-fyr@sfu.ca"
     }
   },
   {
@@ -18749,6 +18818,14 @@
     "fields": {
       "email": "shiva.26622e@gmail.com",
       "officer": 780
+    }
+  },
+  {
+    "model": "about.announcementemailaddress",
+    "pk": 4,
+    "fields": {
+      "email": "jluong777@gmail.com",
+      "officer": 789
     }
   },
   {

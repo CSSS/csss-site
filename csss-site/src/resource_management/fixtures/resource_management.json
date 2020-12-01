@@ -2294,5 +2294,29 @@
         "team_name": "officers",
         "officer": 787
     }
+},
+{
+    "model": "resource_management.officergithubteam",
+    "pk": 291,
+    "fields": {
+        "team_name": "officers",
+        "officer": 788
+    }
+},
+{
+    "model": "resource_management.officergithubteam",
+    "pk": 292,
+    "fields": {
+        "team_name": "officers",
+        "officer": 789
+    }
+},
+{
+    "model": "resource_management.officergithubteam",
+    "pk": 293,
+    "fields": {
+        "team_name": "officers",
+        "officer": 790
+    }
 }
 ]

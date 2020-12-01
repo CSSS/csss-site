@@ -47,7 +47,7 @@ class GitLabAPI:
                     except Exception as e:
                         logger.error(
                             f"[GitLabAPI add_officer_to_csss_group()] unable to get the user {user} "
-                            f"due to {e}"
+                            f"with username {user_name} due to {e}"
                         )
                     if user is not None:
                         user_membership = [
@@ -142,7 +142,7 @@ class GitLabAPI:
                 csss_group = [group for group in self.sfu_gitlab.groups.list() if group.name == "CSSS"][0]
             except Exception as e:
                 logger.error(
-                    "[GitLabAPI add_officer_to_csss_group()] experienced following error when"
+                    "[GitLabAPI ensure_proper_membership()] experienced following error when"
                     f" getting the \"CSSS\" group\n{e}"
                 )
                 return False, "Unable to get the CSSS SFU Gitlab group"

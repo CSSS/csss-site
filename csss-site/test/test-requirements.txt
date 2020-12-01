@@ -3,3 +3,6 @@ pytest
 pytest-flake8
 pep8-naming
 Django==2.2.13
+
+# for .file_uploads.test_utils
+six==1.12.0
