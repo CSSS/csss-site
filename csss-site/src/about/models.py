@@ -31,12 +31,12 @@ class Term(models.Model):
 
 
 class Officer(models.Model):
-    position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default='President',
     )
 
-    term_position_number = models.IntegerField(
+    position_index = models.IntegerField(
         default=0,
     )
     name = models.CharField(
@@ -135,7 +135,7 @@ class AnnouncementEmailAddress(models.Model):
 
 
 class OfficerEmailListAndPositionMapping(models.Model):
-    term_position_number = models.IntegerField(
+    position_index = models.IntegerField(
         default=0,
     )
     officer_position = models.CharField(

@@ -13,7 +13,7 @@ admin.site.register(Term, TermAdmin)
 
 class OfficerAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'elected_term', 'term_position_number', 'position', 'start_date',
+        'name', 'elected_term', 'position_index', 'position_name', 'start_date',
         'sfuid', 'sfu_email_alias', 'phone_number', 'github_username', 'gmail',
         'course1', 'course2', 'language1', 'language2'
     )
@@ -30,7 +30,7 @@ admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
 
 
 class OfficerPositionMappingAdmin(admin.ModelAdmin):
-    list_display = ('officer_position', 'email', 'term_position_number', 'marked_for_deletion')
+    list_display = ('officer_position', 'email', 'position_index', 'marked_for_deletion')
 
 
 admin.site.register(OfficerEmailListAndPositionMapping, OfficerPositionMappingAdmin)

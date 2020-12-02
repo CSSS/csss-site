@@ -46,7 +46,7 @@ HTML_VALUE_ATTRIBUTE_FOR_YEAR = 'year_value'
 HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION = 'term_position_value'
 HTML_TERM_POSITION_KEY = 'term_position'
 HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER = 'term_position_number_value'
-HTML_TERM_POSITION_NUMBER_KEY = 'term_position_number'
+HTML_TERM_POSITION_NUMBER_KEY = 'position_index'
 HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT = 'sfu_email_list_address_value'
 HTML_OFFICER_EMAIL_CONTACT_KEY = 'sfu_email_list_address'
 HTML_VALUE_ATTRIBUTE_FOR_NAME = 'name_value'
@@ -138,10 +138,10 @@ def show_create_link_page(request):
                 f"request.POST={request.POST}")
     context.update(create_term_context_variable())
     context['positions'] = "\n".join(
-        [position.officer_position
+        [position.position_name
          for position in OfficerEmailListAndPositionMapping.objects.all().filter(
             marked_for_deletion=False).order_by(
-            'term_position_number')
+            'position_index')
          ]
     )
     return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
@@ -196,8 +196,8 @@ def show_page_with_creation_links(request):
                         passphrase=passphrase,
                         term=request.POST[HTML_TERM_KEY],
                         year=request.POST[HTML_YEAR_KEY],
-                        position=position,
-                        term_position_number=officer_details.term_position_number,
+                        position_name=position,
+                        position_index=officer_details.position_index,
                         sfu_officer_mailing_list_email=officer_details.email,
                         link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
                         new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
@@ -217,7 +217,7 @@ def show_page_with_creation_links(request):
             for new_officer_to_process in new_officers_to_process:
                 new_officer_to_process.save()
                 officer_creation_links.append(
-                    (new_officer_to_process.position, new_officer_to_process.link.replace(" ", "%20"))
+                    (new_officer_to_process.position_name, new_officer_to_process.link.replace(" ", "%20"))
                 )
             context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
             return render(request, 'about/process_new_officer/show_generated_officer_links.html', context)
@@ -295,7 +295,7 @@ def get_next_position_number_for_term(officer_position):
     position_mapping -- the information to assign to user
     error_message -- error message if position does not exist
     """
-    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer_position,
+    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position,
                                                                                marked_for_deletion=False)
     if len(position_mapping) == 0:
         return False, None, f"position '{officer_position} is not valid"
@@ -315,7 +315,7 @@ def allow_officer_to_choose_name(request):
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
-    officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'term_position_number',
+    officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'position_index',
                                                        '-start_date')
 
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = f"{new_officer_details.passphrase}"
@@ -362,8 +362,8 @@ def display_page_for_officers_to_input_their_info(request):
         request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = new_officer_details.passphrase
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM] = new_officer_details.term
         context[HTML_VALUE_ATTRIBUTE_FOR_YEAR] = new_officer_details.year
-        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position
-        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.term_position_number
+        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_name
+        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
         context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = \
             determine_new_start_date_for_officer(

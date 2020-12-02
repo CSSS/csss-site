@@ -54,7 +54,7 @@ class Nominee(models.Model):
         default='NA',
     )
 
-    position = models.IntegerField(
+    position_name = models.IntegerField(
         default=0
     )
 

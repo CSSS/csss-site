@@ -54,14 +54,14 @@ def position_mapping(request):
 
                 if not (new_name_for_officer_position == position_mapping_for_selected_officer.officer_position and
                         new_position_index_for_officer_position ==
-                        position_mapping_for_selected_officer.term_position_number and
+                        position_mapping_for_selected_officer.position_index and
                         new_sfu_email_list_address_for_officer_position ==
                         position_mapping_for_selected_officer.email):
                     logger.info("[about/position_mapping.py position_mapping()] the user's change to the position "
                                 f"{position_mapping_for_selected_officer.officer_position} was detected")
                     # if anything has been changed for the selected position
                     success = True
-                    previpus_position_index = position_mapping_for_selected_officer.term_position_number
+                    previpus_position_index = position_mapping_for_selected_officer.position_index
                     previous_position_name = position_mapping_for_selected_officer.officer_position
                     if new_position_index_for_officer_position != previpus_position_index:
                         success, error_message = validate_position_index(new_position_index_for_officer_position)
@@ -74,20 +74,20 @@ def position_mapping(request):
                             term = terms[0]
                             officer_in_current_term_that_need_update = Officer.objects.all().filter(
                                 elected_term=term,
-                                position=position_mapping_for_selected_officer.officer_position
+                                position_name=position_mapping_for_selected_officer.officer_position
                             )
                             logger.info("[about/position_mapping.py position_mapping()] updating "
                                         f"{len(officer_in_current_term_that_need_update)} officers "
                                         f"due to change in position "
                                         f"{position_mapping_for_selected_officer.officer_position}")
                             for officer in officer_in_current_term_that_need_update:
-                                officer.term_position_number = new_position_index_for_officer_position
+                                officer.position_index = new_position_index_for_officer_position
                                 officer.sfu_officer_mailing_list_email = \
                                     new_sfu_email_list_address_for_officer_position
-                                officer.position = new_name_for_officer_position
+                                officer.position_name = new_name_for_officer_position
                                 officer.save()
                         position_mapping_for_selected_officer.officer_position = new_name_for_officer_position
-                        position_mapping_for_selected_officer.term_position_number = \
+                        position_mapping_for_selected_officer.position_index = \
                             new_position_index_for_officer_position
                         position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
                         position_mapping_for_selected_officer.save()
@@ -147,7 +147,7 @@ def position_mapping(request):
                     logger.info("[about/position_mapping.py position_mapping()] all new positions passed validation")
                     for index in range(number_of_entries):
                         OfficerEmailListAndPositionMapping(officer_position=post_dict["position_name"][index],
-                                                           term_position_number=post_dict["position_index"][index],
+                                                           position_index=post_dict["position_index"][index],
                                                            email=post_dict["position_email"][index]).save()
             else:
                 success, error_message = validate_position_mappings(post_dict["position_index"],
@@ -157,7 +157,7 @@ def position_mapping(request):
                                 f" {post_dict['position_name']} passed validation")
 
                     OfficerEmailListAndPositionMapping(officer_position=post_dict["position_name"],
-                                                       term_position_number=post_dict["position_index"],
+                                                       position_index=post_dict["position_index"],
                                                        email=post_dict["position_email"]).save()
                 else:
                     logger.info(f"[about/position_mapping.py position_mapping()] unable to save new position "
@@ -168,7 +168,7 @@ def position_mapping(request):
                     context["unsaved_position_mappings"] = unsaved_position_mappings
                     context[ERROR_MESSAGES_KEY] = [error_message]
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
-        'term_position_number')
+        'position_index')
     if len(position_mapping_for_selected_officer) > 0:
         context['position_mapping'] = position_mapping_for_selected_officer
     return render(request, 'about/position_mapping.html', context)
@@ -190,7 +190,7 @@ def validate_position_index(position_index, submitted_position_indexes=None):
     if submitted_position_indexes is None:
         submitted_position_indexes = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
-            term_position_number=position_index)) > 0 or position_index in submitted_position_indexes:
+            position_index=position_index)) > 0 or position_index in submitted_position_indexes:
         logger.info(f"[about/position_mapping.py validate_position_index()] validate for position index "
                     f"{position_index} was unsuccessful")
         return False, f"Another Position already has an index of {position_index}"
