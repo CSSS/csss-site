@@ -41,7 +41,7 @@ admin.site.register(GoogleDrivePublicFile, GoogleDrivePublicFileAdmin)
 
 
 class OfficerGithubTeamMappingAdmin(admin.ModelAdmin):
-    list_display = ('position', 'team_name')
+    list_display = ('position_name', 'team_name')
 
 
 admin.site.register(OfficerGithubTeamMapping, OfficerGithubTeamMappingAdmin)
