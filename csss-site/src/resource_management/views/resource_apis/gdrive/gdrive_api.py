@@ -114,7 +114,7 @@ class GoogleDrive:
             try:
                 response = self.gdrive.files().get(fileId=file_id).execute()
             except googleapiclient.errors.HttpError as e:
-                return False, None, e
+                return False, None, f"{e}"
 
             file_name = response['name']
             if file_id is self.root_file_id:
@@ -155,7 +155,7 @@ class GoogleDrive:
                         f"to {user.lower()} for the SFU CSSS Google Drive. following error occured"
                         f"instead. \n {e}"
                     )
-                    return False, None, e
+                    return False, None, f"{e}"
             return True, file_name, None
 
     def remove_users_gdrive(self, users, file_id=None):
