@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 import pickle
@@ -150,12 +151,19 @@ class GoogleDrive:
                         "regarding their access to the sfu google drive"
                     )
                 except Exception as e:
+                    error_message = "Error when granting google drive access : "
+                    try:
+                        error_message += json.loads(e.content.decode('utf8').replace("'", '"'))['error']['message']
+                    except Exception as decoding_error:
+                        logger.error(f"[GoogleDrive add_users_gdrive()] unable to parse error "
+                                     f"due to error {decoding_error}")
+                        error_message += f"{e}"
                     logger.error(
                         "[GoogleDrive add_users_gdrive()] was not able to given write permission "
                         f"to {user.lower()} for the SFU CSSS Google Drive. following error occured"
-                        f"instead. \n {e}"
+                        f"instead. \n {error_message}"
                     )
-                    return False, None, f"{e}"
+                    return False, None, f"{error_message}"
             return True, file_name, None
 
     def remove_users_gdrive(self, users, file_id=None):
