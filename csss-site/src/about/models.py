@@ -138,7 +138,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
     position_index = models.IntegerField(
         default=0,
     )
-    officer_position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default="President"
     )

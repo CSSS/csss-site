@@ -30,7 +30,7 @@ admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
 
 
 class OfficerPositionMappingAdmin(admin.ModelAdmin):
-    list_display = ('officer_position', 'email', 'position_index', 'marked_for_deletion')
+    list_display = ('position_name', 'email', 'position_index', 'marked_for_deletion')
 
 
 admin.site.register(OfficerEmailListAndPositionMapping, OfficerPositionMappingAdmin)
