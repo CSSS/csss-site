@@ -278,7 +278,7 @@ def delete_current_term(year, term):
         officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
         for officer in officer_in_selected_term:
             officer.delete()
-    new_officer_details = ProcessNewOfficer.objects.filter(term=term, year=year)
+    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term, year=year)
     for new_officer in new_officer_details:
         new_officer.delete()
 
