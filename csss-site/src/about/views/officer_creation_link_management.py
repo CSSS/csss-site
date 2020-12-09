@@ -138,7 +138,7 @@ def show_create_link_page(request):
                 f"request.POST={request.POST}")
     context.update(create_term_context_variable())
     context['positions'] = "\n".join(
-        [position.officer_position
+        [position.position_name
          for position in OfficerEmailListAndPositionMapping.objects.all().filter(
             marked_for_deletion=False).order_by(
             'position_index')
