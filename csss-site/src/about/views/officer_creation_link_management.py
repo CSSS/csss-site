@@ -236,7 +236,6 @@ def show_page_with_creation_links(request):
         return redirect_user_to_create_link_page(request, context, error_messages)
 
 
-
 def redirect_user_to_create_link_page(request, context, error_messages):
     """
     directs the user back to the page where they get asked what officers need to be created for the specified term
@@ -522,7 +521,7 @@ def process_information_entered_by_officer(request):
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = \
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
-            else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
+                else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         sfuid = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
