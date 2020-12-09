@@ -38,9 +38,11 @@ def get_term_number(year, term_season):
     year -- the current year in YYYY format
     term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
 
-    returns the term_number, which is in the format YYYY<1/2/3>
+    returns the term_number, which is in the format YYYY<1/2/3>, or None if year is not a number
 
     """
+    if not f"{year}".isdigit():
+        return None
     if term_season == FIRST_TERM_SEASON:
         return int(year) * 10 + 1
     elif term_season == SECOND_TERM_SEASON:
