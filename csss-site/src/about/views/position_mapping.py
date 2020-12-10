@@ -18,6 +18,14 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address "
 
 
+def display_position_mapping_html(request, context):
+    position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
+        'position_index')
+    if len(position_mapping_for_selected_officer) > 0:
+        context['position_mapping'] = position_mapping_for_selected_officer
+    return render(request, 'about/position_mapping.html', context)
+
+
 def position_mapping(request):
     """
     Handles any modifications done to position mappings
@@ -48,7 +56,7 @@ def position_mapping(request):
                 context[ERROR_MESSAGES_KEY] = [error_message]
                 return display_position_mapping_html(request, context)
             new_position_index_for_officer_position, new_name_for_officer_position, \
-                new_sfu_email_list_address_for_officer_position, error_message \
+            new_sfu_email_list_address_for_officer_position, error_message \
                 = retrieve_new_position_info_for_officer_position(post_dict)
             if new_position_index_for_officer_position is None or new_name_for_officer_position is None \
                     or new_sfu_email_list_address_for_officer_position is None:
@@ -138,72 +146,6 @@ def position_mapping(request):
             return display_position_mapping_html(request, context)
         save_new_positon_mappings(new_mapping_entries)
         return display_position_mapping_html(request, context)
-        # if there_are_multiple_entries(post_dict, Constants.position_name):
-        #     logger.info("[about/position_mapping.py position_mapping()] it appears that the"
-        #                 " user wants to create multiple new officers")
-        #     error_detected = False
-        #     unsaved_position_mappings = []  # used to display all the submitted position if one of them had an
-        #     # error which causes none of them to be saved
-        #
-        #     # saves the position and position indexes checked so far so that the validator can check the
-        #     # given position and its index against all in the database and the previous checked
-        #     # positions and their indices
-        #     submitted_positions = []
-        #     submitted_position_indexes = []
-        #     number_of_entries = len(post_dict[Constants.position_name])
-        #     context[ERROR_MESSAGES_KEY] = []
-        #     for index in range(number_of_entries):
-        #         position_name = post_dict[Constants.position_name][index]
-        #         position_index = post_dict[Constants.position_index][index]
-        #         position_email = post_dict[Constants.position_email][index]
-        #         unsaved_position_mappings.append(
-        #             {Constants.position_name: position_name, Constants.position_index: position_index,
-        #              Constants.position_email: position_email}
-        #         )
-        #         success, error_message = validate_position_mappings(
-        #             position_index, position_name,
-        #             submitted_positions=submitted_positions, submitted_position_indexes=
-        #             submitted_position_indexes
-        #         )
-        #         submitted_positions.append(position_name)
-        #         submitted_position_indexes.append(position_index)
-        #         if not success:
-        #             context[ERROR_MESSAGES_KEY].extend(f"{error_message}")
-        #             logger.info("[about/position_mapping.py position_mapping()] "
-        #                         "unable to validate the new position"
-        #                         f" {position_name} due to {error_message}")
-        #             error_detected = True
-        #     if error_detected:
-        #         context["unsaved_position_mappings"] = unsaved_position_mappings
-        #     else:
-        #         del context[ERROR_MESSAGES_KEY]
-        #         logger.info("[about/position_mapping.py position_mapping()] all new positions passed validation"
-        #         )
-        #         for index in range(number_of_entries):
-        #             OfficerEmailListAndPositionMapping(position_name=post_dict[Constants.position_name][index],
-        #                                                position_index=post_dict[Constants.position_index][index],
-        #                                                email=post_dict[Constants.position_email][index]).save()
-        #     return display_position_mapping_html(request, context)
-        # else:
-        #     success, error_message = validate_position_mappings(post_dict[Constants.position_index],
-        #                                                         post_dict[Constants.position_name])
-        #     if success:
-        #         logger.info("[about/position_mapping.py position_mapping()] new position"
-        #                     f" {post_dict[Constants.position_name]} passed validation")
-        #
-        #         OfficerEmailListAndPositionMapping(position_name=post_dict[Constants.position_name],
-        #                                            position_index=post_dict[Constants.position_index],
-        #                                            email=post_dict[Constants.position_email]).save()
-        #     else:
-        #         logger.info(f"[about/position_mapping.py position_mapping()] unable to save new position "
-        #                     f"{post_dict[Constants.position_name]} due to error {error_message}")
-        #         unsaved_position_mappings = [
-        #             {Constants.position_name: post_dict[Constants.position_name],
-        #              Constants.position_index: post_dict[Constants.position_index],
-        #              Constants.position_email: post_dict[Constants.position_email]}]
-        #         context["unsaved_position_mappings"] = unsaved_position_mappings
-        #         context[ERROR_MESSAGES_KEY] = [error_message]
-        #     return display_position_mapping_html(request, context)
 
 
 def get_new_position_mapping_entries(post_dict):
@@ -277,14 +219,6 @@ def save_new_positon_mappings(new_mapping_entries):
         OfficerEmailListAndPositionMapping(position_name=position_name,
                                            position_index=position_index,
                                            email=position_email).save()
-
-
-def display_position_mapping_html(request, context):
-    position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
-        'position_index')
-    if len(position_mapping_for_selected_officer) > 0:
-        context['position_mapping'] = position_mapping_for_selected_officer
-    return render(request, 'about/position_mapping.html', context)
 
 
 def retrieve_officer_email_list_and_position_mapping_by_id(post_dict):
