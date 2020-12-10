@@ -259,7 +259,7 @@ def validate_new_position_mapping_entries(new_mapping_entries):
         submitted_position_indexes.append(new_mapping[Constants.position_index])
         if not success:
             overall_success = False
-            error_messages.extend(f"{error_message}")
+            error_messages.append(f"{error_message}")
             logger.info("[about/position_mapping.py position_mapping()] "
                         "unable to validate the new position"
                         f" {new_mapping[Constants.position_name]} due to {error_message}")
