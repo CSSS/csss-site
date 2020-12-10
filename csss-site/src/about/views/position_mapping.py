@@ -37,8 +37,8 @@ def position_mapping(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if Constants.user_select_to_a_position_mapping_option in post_dict:  # modifying an existing position mapping
-            if post_dict[
-                Constants.user_select_to_a_position_mapping_option] == Constants.user_select_to_update_position_mapping:
+            if post_dict[Constants.user_select_to_a_position_mapping_option] \
+                    == Constants.user_select_to_update_position_mapping:
                 position_mapping_for_selected_officer = retrieve_officer_email_list_and_position_mapping_by_id(
                     post_dict)
                 if position_mapping_for_selected_officer is None:
@@ -47,7 +47,7 @@ def position_mapping(request):
                     context[ERROR_MESSAGES_KEY] = [error_message]
                     return display_position_mapping_html(request, context)
                 new_position_index_for_officer_position, new_name_for_officer_position, \
-                new_sfu_email_list_address_for_officer_position, error_message \
+                    new_sfu_email_list_address_for_officer_position, error_message \
                     = retrieve_new_position_info_for_officer_position(post_dict)
                 if new_position_index_for_officer_position is None or new_name_for_officer_position is None \
                         or new_sfu_email_list_address_for_officer_position is None:
@@ -115,8 +115,9 @@ def position_mapping(request):
                     logger.info(f"[about/position_mapping.py position_mapping()] {error_message}")
                     context[ERROR_MESSAGES_KEY] = [error_message]
                     return display_position_mapping_html(request, context)
-                position_mapping_for_selected_officer.marked_for_deletion = post_dict[
-                                                                                Constants.user_select_to_a_position_mapping_option] == Constants.user_select_to_delete_position_mapping
+                position_mapping_for_selected_officer.marked_for_deletion = \
+                    post_dict[Constants.user_select_to_a_position_mapping_option] == \
+                    Constants.user_select_to_delete_position_mapping
                 logger.info("[about/position_mapping.py position_mapping()] deletion for position "
                             f"{position_mapping_for_selected_officer.position_name} set to  "
                             f"{position_mapping_for_selected_officer.marked_for_deletion}")
@@ -158,7 +159,8 @@ def position_mapping(request):
             #         )
             #         success, error_message = validate_position_mappings(
             #             position_index, position_name,
-            #             submitted_positions=submitted_positions, submitted_position_indexes=submitted_position_indexes
+            #             submitted_positions=submitted_positions, submitted_position_indexes=
+            #             submitted_position_indexes
             #         )
             #         submitted_positions.append(position_name)
             #         submitted_position_indexes.append(position_index)
@@ -172,7 +174,8 @@ def position_mapping(request):
             #         context["unsaved_position_mappings"] = unsaved_position_mappings
             #     else:
             #         del context[ERROR_MESSAGES_KEY]
-            #         logger.info("[about/position_mapping.py position_mapping()] all new positions passed validation")
+            #         logger.info("[about/position_mapping.py position_mapping()] all new positions passed validation"
+            #         )
             #         for index in range(number_of_entries):
             #             OfficerEmailListAndPositionMapping(position_name=post_dict[Constants.position_name][index],
             #                                                position_index=post_dict[Constants.position_index][index],
@@ -329,7 +332,8 @@ def retrieve_new_position_info_for_officer_position(post_dict):
     if not f"{new_position_index}".isdigit():
         logger.error(
             "[about/position_mapping.py retrieve_new_position_info_for_officer_position()] the id"
-            f" of {post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]} is not a valid digit in request.POST")
+            f" of {post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]} "
+            f"is not a valid digit in request.POST")
         return None, None, None, "could not find a new valid position index in input"
     if OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_TYPE not in post_dict:
         logger.error(
