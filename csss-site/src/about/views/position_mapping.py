@@ -105,8 +105,8 @@ def position_mapping(request):
 
             elif post_dict[Constants.user_select_to_a_position_mapping_option] == \
                     Constants.user_select_to_delete_position_mapping or \
-                    post_dict[
-                        Constants.user_select_to_a_position_mapping_option] == Constants.user_select_to_un_delete_position_mapping:
+                    post_dict[Constants.user_select_to_a_position_mapping_option] \
+                    == Constants.user_select_to_un_delete_position_mapping:
 
                 position_mapping_for_selected_officer = retrieve_officer_email_list_and_position_mapping_by_id(
                     post_dict)
