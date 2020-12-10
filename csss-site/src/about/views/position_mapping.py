@@ -61,9 +61,9 @@ def position_mapping(request):
                                 f"{position_mapping_for_selected_officer.officer_position} was detected")
                     # if anything has been changed for the selected position
                     success = True
-                    previpus_position_index = position_mapping_for_selected_officer.position_index
+                    previous_position_index = position_mapping_for_selected_officer.position_index
                     previous_position_name = position_mapping_for_selected_officer.officer_position
-                    if new_position_index_for_officer_position != previpus_position_index:
+                    if new_position_index_for_officer_position != previous_position_index:
                         success, error_message = validate_position_index(new_position_index_for_officer_position)
                     if success and new_name_for_officer_position != previous_position_name:
                         success, error_message = validate_position_name(new_name_for_officer_position)

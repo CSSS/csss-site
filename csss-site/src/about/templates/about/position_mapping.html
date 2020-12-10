@@ -26,7 +26,7 @@
                         {%  csrf_token %}
                         <td><input type="number" name="{{ OFFICER_POSITION_MAPPING__ID_KEY }}" value="{{ position.id }}" readonly required></td>
                         <td><input type="number" name="{{ OFFICER_POSITION_MAPPING__POSITION_INDEX_KEY }}" value="{{ position.position_index }}" required></td>
-                        <td><input type="text" name="{{ OFFICER_POSITION_MAPPING__POSITION_NAME_KEY }}" value="{{ position.officer_position }}"  required></td>
+                        <td><input type="text" name="{{ OFFICER_POSITION_MAPPING__POSITION_NAME_KEY }}" value="{{ position.position_name }}"  required></td>
                         <td><input type="text" name="{{ OFFICER_POSITION_MAPPING__POSITION_EMAIL_KEY }}" value="{{ position.email }}" required></td>
                         <td>
                             {%  if position.marked_for_deletion is True %}
