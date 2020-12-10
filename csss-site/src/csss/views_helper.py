@@ -102,7 +102,7 @@ def there_are_multiple_entries(post_dict, key_to_read):
     True if the key contains an erray of elements rather than just 1 element. or None if that
      key is not in the dictionary
     """
-    if key_to_read in post_dict:
+    if key_to_read not in post_dict:
         return None
     return isinstance(post_dict[key_to_read], list)
 
