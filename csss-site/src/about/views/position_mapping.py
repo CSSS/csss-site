@@ -50,19 +50,19 @@ def position_mapping(request):
                     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
                 ]
                 logger.info("[about/position_mapping.py position_mapping()] user has selected to update the "
-                            f"position {position_mapping_for_selected_officer.officer_position} ")
+                            f"position {position_mapping_for_selected_officer.position_name} ")
 
-                if not (new_name_for_officer_position == position_mapping_for_selected_officer.officer_position and
+                if not (new_name_for_officer_position == position_mapping_for_selected_officer.position_name and
                         new_position_index_for_officer_position ==
                         position_mapping_for_selected_officer.position_index and
                         new_sfu_email_list_address_for_officer_position ==
                         position_mapping_for_selected_officer.email):
                     logger.info("[about/position_mapping.py position_mapping()] the user's change to the position "
-                                f"{position_mapping_for_selected_officer.officer_position} was detected")
+                                f"{position_mapping_for_selected_officer.position_name} was detected")
                     # if anything has been changed for the selected position
                     success = True
                     previous_position_index = position_mapping_for_selected_officer.position_index
-                    previous_position_name = position_mapping_for_selected_officer.officer_position
+                    previous_position_name = position_mapping_for_selected_officer.position_name
                     if new_position_index_for_officer_position != previous_position_index:
                         success, error_message = validate_position_index(new_position_index_for_officer_position)
                     if success and new_name_for_officer_position != previous_position_name:
@@ -74,19 +74,19 @@ def position_mapping(request):
                             term = terms[0]
                             officer_in_current_term_that_need_update = Officer.objects.all().filter(
                                 elected_term=term,
-                                position_name=position_mapping_for_selected_officer.officer_position
+                                position_name=position_mapping_for_selected_officer.position_name
                             )
                             logger.info("[about/position_mapping.py position_mapping()] updating "
                                         f"{len(officer_in_current_term_that_need_update)} officers "
                                         f"due to change in position "
-                                        f"{position_mapping_for_selected_officer.officer_position}")
+                                        f"{position_mapping_for_selected_officer.position_name}")
                             for officer in officer_in_current_term_that_need_update:
                                 officer.position_index = new_position_index_for_officer_position
                                 officer.sfu_officer_mailing_list_email = \
                                     new_sfu_email_list_address_for_officer_position
                                 officer.position_name = new_name_for_officer_position
                                 officer.save()
-                        position_mapping_for_selected_officer.officer_position = new_name_for_officer_position
+                        position_mapping_for_selected_officer.position_name = new_name_for_officer_position
                         position_mapping_for_selected_officer.position_index = \
                             new_position_index_for_officer_position
                         position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
@@ -94,7 +94,7 @@ def position_mapping(request):
                     else:
                         logger.info("[about/position_mapping.py position_mapping()] encountered error "
                                     f"{error_message} when trying to update "
-                                    f"position {position_mapping_for_selected_officer.officer_position}")
+                                    f"position {position_mapping_for_selected_officer.position_name}")
                         context[ERROR_MESSAGES_KEY] = [error_message]
             elif post_dict['action'] == "delete" or post_dict['action'] == "un_delete":
                 position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
@@ -102,7 +102,7 @@ def position_mapping(request):
                 )
                 position_mapping_for_selected_officer.marked_for_deletion = post_dict['action'] == "delete"
                 logger.info("[about/position_mapping.py position_mapping()] deletion for position "
-                            f"{position_mapping_for_selected_officer.officer_position} set to  "
+                            f"{position_mapping_for_selected_officer.position_name} set to  "
                             f"{position_mapping_for_selected_officer.marked_for_deletion}")
                 position_mapping_for_selected_officer.save()
         else:  # adding new position mapping[s]
@@ -146,7 +146,7 @@ def position_mapping(request):
                     del context[ERROR_MESSAGES_KEY]
                     logger.info("[about/position_mapping.py position_mapping()] all new positions passed validation")
                     for index in range(number_of_entries):
-                        OfficerEmailListAndPositionMapping(officer_position=post_dict["position_name"][index],
+                        OfficerEmailListAndPositionMapping(position_name=post_dict["position_name"][index],
                                                            position_index=post_dict["position_index"][index],
                                                            email=post_dict["position_email"][index]).save()
             else:
@@ -156,7 +156,7 @@ def position_mapping(request):
                     logger.info("[about/position_mapping.py position_mapping()] new position"
                                 f" {post_dict['position_name']} passed validation")
 
-                    OfficerEmailListAndPositionMapping(officer_position=post_dict["position_name"],
+                    OfficerEmailListAndPositionMapping(position_name=post_dict["position_name"],
                                                        position_index=post_dict["position_index"],
                                                        email=post_dict["position_email"]).save()
                 else:
@@ -215,7 +215,7 @@ def validate_position_name(position_name, submitted_position_names=None):
     if submitted_position_names is None:
         submitted_position_names = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
-            officer_position=position_name)) > 0 or position_name in submitted_position_names:
+            position_name=position_name)) > 0 or position_name in submitted_position_names:
         logger.info(f"[about/position_mapping.py validate_position_name()] validate for position name "
                     f"{position_name} was unsuccessful")
         return False, f"the position of {position_name} already exists"
