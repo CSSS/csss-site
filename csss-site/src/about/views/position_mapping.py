@@ -81,6 +81,7 @@ def position_mapping(request):
                             f"{error_message} when trying to update "
                             f"position {position_mapping_for_selected_officer.position_name}")
                 context[ERROR_MESSAGES_KEY] = [error_message]
+                display_position_mapping_html(request, context)
             terms = Term.objects.all().filter(term_number=get_current_term())
             if len(terms) > 0:
                 term = terms[0]
@@ -103,6 +104,7 @@ def position_mapping(request):
                 new_position_index_for_officer_position
             position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
             position_mapping_for_selected_officer.save()
+            display_position_mapping_html(request, context)
 
         elif post_dict[Constants.user_select_to_a_position_mapping_option] == \
                 Constants.user_select_to_delete_position_mapping or \
