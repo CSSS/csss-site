@@ -48,7 +48,7 @@ def position_mapping(request):
                 context[ERROR_MESSAGES_KEY] = [error_message]
                 return display_position_mapping_html(request, context)
             new_position_index_for_officer_position, new_name_for_officer_position, \
-            new_sfu_email_list_address_for_officer_position, error_message \
+                new_sfu_email_list_address_for_officer_position, error_message \
                 = retrieve_new_position_info_for_officer_position(post_dict)
             if new_position_index_for_officer_position is None or new_name_for_officer_position is None \
                     or new_sfu_email_list_address_for_officer_position is None:
