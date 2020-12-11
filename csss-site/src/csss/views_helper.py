@@ -4,6 +4,7 @@ import datetime
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
+from about.models import Term
 from elections.models import NominationPage
 
 ERROR_MESSAGE_KEY = 'error_message'
@@ -116,6 +117,20 @@ def get_current_term():
     """
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+
+
+def get_current_term_obj():
+    """
+    Get the term object that corresponds to current term
+
+    Return
+    term -- either the term object if it exists or None
+    """
+    terms = Term.objects.all().filter(term_number=get_current_term())
+    if len(terms) == 0:
+        return None
+
+    return terms[0]
 
 
 def get_term_number_for_specified_year_and_month(month, year):
