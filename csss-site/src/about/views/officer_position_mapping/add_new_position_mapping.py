@@ -1,8 +1,9 @@
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
-from about.views.officer_position_mapping.position_mapping import display_position_mapping_html, \
-    validate_position_index, validate_position_name
+from about.views.officer_position_mapping.display_position_mapping_html import display_position_mapping_html
+from about.views.officer_position_mapping.position_attribute_validation import validate_position_index, \
+    validate_position_name
 from csss.Constants import Constants
 from csss.views_helper import ERROR_MESSAGES_KEY, there_are_multiple_entries
 
