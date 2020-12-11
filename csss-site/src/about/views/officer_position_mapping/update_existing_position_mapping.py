@@ -41,7 +41,7 @@ def update_existing_position_mapping(request, context, post_dict):
         return display_position_mapping_html(request, context)
 
     new_position_index_for_officer_position, new_name_for_officer_position, \
-    new_sfu_email_list_address_for_officer_position, error_message \
+        new_sfu_email_list_address_for_officer_position, error_message \
         = retrieve_new_position_info_for_officer_position(post_dict)
 
     if new_position_index_for_officer_position is None or new_name_for_officer_position is None \
@@ -203,7 +203,8 @@ def update_corresponding_position_mapping(
     position_mapping_for_selected_officer -- the position mapping to update
     new_name_for_officer_position -- the new name to be assigned to given position mapping
     new_position_index_for_officer_position --  the new index to be assigned to the given position mapping
-    new_sfu_email_list_address_for_officer_position -- the new sfu email list address to be assigned to the given position mapping
+    new_sfu_email_list_address_for_officer_position -- the new sfu email list address to be assigned to
+     the given position mapping
     """
     position_mapping_for_selected_officer.position_name = new_name_for_officer_position
     position_mapping_for_selected_officer.position_index = \
