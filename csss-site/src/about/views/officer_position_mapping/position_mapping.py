@@ -30,5 +30,3 @@ def position_mapping(request):
         return modify_existing_position_mapping(request, context, post_dict)
     else:  # adding new position mapping[s]
         return add_new_position_mapping(request, context, post_dict)
-
-
