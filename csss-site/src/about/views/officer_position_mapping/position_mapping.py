@@ -1,22 +1,16 @@
 import logging
 
-from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_management_helper import TAB_STRING
 from about.views.officer_position_mapping.add_new_position_mapping import add_new_position_mapping
+from about.views.officer_position_mapping.display_position_mapping_html import display_position_mapping_html
 from about.views.officer_position_mapping.update_existing_position_mapping import modify_existing_position_mapping
 from csss.Constants import Constants
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')
-
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID = "officer_email_list_and_position_mapping__id"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_and_position_mapping__position_index"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
-    "officer_email_list_and_position_mapping__email_list_address "
 
 
 def position_mapping(request):
@@ -37,19 +31,6 @@ def position_mapping(request):
         return modify_existing_position_mapping(request, context, post_dict)
     else:  # adding new position mapping[s]
         return add_new_position_mapping(request, context, post_dict)
-
-
-def display_position_mapping_html(request, context):
-    context['OFFICER_POSITION_MAPPING__ID_KEY'] = OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID
-    context['OFFICER_POSITION_MAPPING__POSITION_INDEX_KEY'] = OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX
-    context['OFFICER_POSITION_MAPPING__POSITION_NAME_KEY'] = OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME
-    context['OFFICER_POSITION_MAPPING__POSITION_EMAIL_KEY'] = \
-        OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
-    position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
-        'position_index')
-    if len(position_mapping_for_selected_officer) > 0:
-        context['position_mapping'] = position_mapping_for_selected_officer
-    return render(request, 'about/position_mapping.html', context)
 
 
 def validate_position_index(position_index, submitted_position_indexes=None):

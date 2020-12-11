@@ -1,10 +1,11 @@
 import logging
 
 from about.models import Officer, OfficerEmailListAndPositionMapping
+from about.views.officer_position_mapping.display_position_mapping_html import \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
 from about.views.officer_position_mapping.position_mapping import display_position_mapping_html, \
-    validate_position_index, validate_position_name, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
+    validate_position_index, validate_position_name
 from csss.Constants import Constants
 from csss.views_helper import ERROR_MESSAGES_KEY, get_current_term_obj
 
