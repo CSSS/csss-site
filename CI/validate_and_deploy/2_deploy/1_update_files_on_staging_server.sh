@@ -33,14 +33,9 @@ function transfer_env_variables_to_server {
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs"'" > site_envs_django_admin
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
+  echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
+  echo 'CHANGE_ID='"'"${CHANGE_ID}"'" >> site_envs
 
-  if [[ "${BRANCH_NAME}" != "master" ]]; then
-    echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-    echo 'CHANGE_ID='"'"${CHANGE_ID}"'" >> site_envs
-
-  else
-    echo 'DB_NAME='"'postgres'" >> site_envs
-  fi
   cat site_envs >> site_envs_django_admin
   cat site_envs >>  site_envs_gunicorn
   scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_django_admin"
@@ -48,12 +43,7 @@ function transfer_env_variables_to_server {
 }
 
 function transfer_file_to_deploy_all_above_changes {
-  if [[ "${BRANCH_NAME}" != "master" ]]; then
-    scp "CI/validate_and_deploy/2_deploy/2_deploy_staging_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
-  else
-    scp "CI/validate_and_deploy/2_deploy/2_deploy_master_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
-  fi
-
+  scp "CI/validate_and_deploy/2_deploy/2_deploy_staging_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
 }
 
 create_staging_branch_home_dir
