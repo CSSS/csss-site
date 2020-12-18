@@ -75,16 +75,6 @@ function switch_to_pr_branch(){
   python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt"
 }
 
-function apply_pr_migrations(){
-  cd "${BASE_DIR}/csss-site/csss-site/src"
-  python3 manage.py migrate
-  python3 manage.py loaddata about
-  python3 manage.py loaddata announcements/fixtures/django_mailbox.json
-  python3 manage.py loaddata announcements/fixtures/announcements.json
-  python3 manage.py loaddata elections
-  python3 manage.py loaddata resource_management
-}
-
 function organize_file_structure {
   cd "${BASE_DIR}"
   mv "${BASE_DIR}/csss-site" "${BASE_DIR}/csss-site-repo"
@@ -92,6 +82,11 @@ function organize_file_structure {
   mv "${BASE_DIR}/csss-site-repo/requirements.txt" requirements.txt
   rm -fr "${BASE_DIR}/csss-site-repo"
   cd "${BASE_DIR}/csss-site"
+}
+
+function apply_pr_migrations(){
+  cd "${BASE_DIR}/csss-site"
+  python3 manage.py migrate
 }
 
 function create_super_user {
@@ -204,8 +199,8 @@ setup_master_virtual_env
 setup_website_db
 applying_master_db_migrations
 switch_to_pr_branch
-apply_pr_migrations
 organize_file_structure
+apply_pr_migrations
 create_super_user
 update_static_files_location
 update_media_files
