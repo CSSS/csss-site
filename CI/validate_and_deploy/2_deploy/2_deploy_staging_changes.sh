@@ -15,7 +15,7 @@ function create_directory_for_website_logs {
 }
 
 function clone_website {
-  rm -fr csss-site || true
+  rm -fr csss-site csss-site-repo || true
   git clone https://github.com/CSSS/csss-site.git
 }
 
@@ -89,7 +89,7 @@ function organize_file_structure {
   cd "${BASE_DIR}"
   mv "${BASE_DIR}/csss-site" "${BASE_DIR}/csss-site-repo"
   mv "${BASE_DIR}/csss-site-repo/csss-site/src" csss-site
-  mv "${BASE_DIR}/csss-site-repo/csss-site-pr/requirements.txt" requirements.txt
+  mv "${BASE_DIR}/csss-site-repo/requirements.txt" requirements.txt
   rm -fr "${BASE_DIR}/csss-site-repo"
   cd "${BASE_DIR}/csss-site"
 }
