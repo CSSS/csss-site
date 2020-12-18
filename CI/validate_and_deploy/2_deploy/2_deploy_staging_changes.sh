@@ -2,14 +2,16 @@
 
 set -e -o xtrace
 
-function create_directory_for_website_logs {
-  mkdir -p "${BASE_DIR}/website_logs/python_logs"
-  mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
-}
+
 
 function go_to_root_directory {
   BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
   cd "${BASE_DIR}"
+}
+
+function create_directory_for_website_logs {
+  mkdir -p "${BASE_DIR}/website_logs/python_logs"
+  mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
 }
 
 function clone_website {
@@ -194,8 +196,9 @@ function clean_up_after_deployment {
   rm "${BASE_DIR}/deploy_changes.sh"
 }
 
-create_directory_for_website_logs
+
 go_to_root_directory
+create_directory_for_website_logs
 clone_website
 setup_master_virtual_env
 setup_website_db
