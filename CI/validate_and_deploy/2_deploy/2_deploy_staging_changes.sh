@@ -53,8 +53,10 @@ function wait_for_postgres_db {
 
 
 function applying_master_db_migrations {
-  cd "${BASE_DIR}/csss-site/csss-site/src"
+  cd "${BASE_DIR}/csss-site"
   git checkout master
+  ./CI/refresh_fixtures/1_update_fixtures.sh
+  cd "${BASE_DIR}/csss-site/csss-site/src"
   python3 manage.py migrate
   python3 manage.py loaddata about
   python3 manage.py loaddata announcements/fixtures/django_mailbox.json
