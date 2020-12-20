@@ -43,6 +43,7 @@ pipeline {
                       timeout(5) {
                           sh label: '', script: """bash -c \'
                             export BRANCH_NAME=${BRANCH_NAME};
+                            export CHANGE_ID=${CHANGE_ID};
                             export BASE_DIR=/home/csss/\${BRANCH_NAME};
                             export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
                             export DEBUG=true;
@@ -58,7 +59,7 @@ pipeline {
 
                             export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
                             export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
-                            ./CI/validate_and_deploy/2_deploy/1_update_files_on_server.sh;
+                            ./CI/validate_and_deploy/2_deploy/1_update_files_on_staging_server.sh;
                             ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
                           \'"""
                       }
@@ -96,7 +97,7 @@ pipeline {
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
                         export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
-                        ./CI/validate_and_deploy/2_deploy/1_update_files_on_server.sh;
+                        ./CI/validate_and_deploy/2_deploy/1_update_files_on_master_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
                     \'"""
                 }
