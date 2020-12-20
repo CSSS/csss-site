@@ -24,7 +24,7 @@ function setup_master_virtual_env(){
   rm -fr "${BASE_DIR}/envCSSS_master"
   python3 -m virtualenv envCSSS_master
   . "${BASE_DIR}/envCSSS_master/bin/activate"
-  python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt"
+  python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt" --no-cache-dir
 
 
   chmod +x "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh"
@@ -73,7 +73,7 @@ function switch_to_pr_branch(){
   cd "${BASE_DIR}"
   python3 -m virtualenv envCSSS
   . "${BASE_DIR}/envCSSS/bin/activate"
-  python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt"
+  python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt" --no-cache-dir
 }
 
 function organize_file_structure {
