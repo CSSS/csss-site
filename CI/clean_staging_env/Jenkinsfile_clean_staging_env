@@ -1,4 +1,5 @@
 node {
+    properties([pipelineTriggers([githubPush()])])
     stage('Cleanup PR') {
         // Trigger: GitHub webhook whenever a Pull Request Event occurs
         // Actions:
