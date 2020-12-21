@@ -83,3 +83,4 @@ If you had to make a change to any of the `models.py`, you will also need to mak
 ## Various tasks to accomplish
 
  * [Add frosh page for a new year](documentation/add_frosh.md)
+
