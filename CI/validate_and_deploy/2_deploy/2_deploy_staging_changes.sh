@@ -68,6 +68,7 @@ function switch_to_pr_branch(){
   deactivate
   cd "${BASE_DIR}/csss-site"
   git fetch origin "pull/${CHANGE_ID}/head:pr-${CHANGE_ID}"
+  git reset --hard
   git checkout "pr-${CHANGE_ID}"
   rm -fr "${BASE_DIR}/envCSSS_master" "${BASE_DIR}/envCSSS"
   cd "${BASE_DIR}"
