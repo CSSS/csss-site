@@ -31,8 +31,6 @@ echo 'DEBUG='"'"'true'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 echo 'HOST_ADDRESS='"'"'<serverIP>'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 echo 'ENVIRONMENT='"'"'LOCALHOST'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 echo 'PORT='"'"'8000'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
-
-# database configuration
 if (you do not want to spin up a docker database){
     echo 'DB_TYPE='"'"'sqlite3'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 }else{
@@ -41,28 +39,50 @@ if (you do not want to spin up a docker database){
     echo 'DB_NAME='"'"'csss_website_db'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
     echo 'DB_PORT='"'"'5432'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 }
+```
 
+### Set Environment Variables
+```shell
 . CI/validate_and_deploy/2_deploy/set_env.sh site_envs
+```
 
+
+### Spin up Dockerized Database
+```shell
 if (you choose to use a dockerized database){
     docker run --name ${DB_NAME} -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${DB_PASSWORD} postgres:alpine
     docker exec "${DB_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
 }
+```
 
+### Create log folder
+```shell
 mkdir -p /path/to/csss-site/website_logs/python_logs
+```
 
+### Setup Database Entries
+```shell
+git checkout master
 cd csss-site/src
-
 python3 manage.py migrate
 python3 manage.py loaddata about
 python3 manage.py loaddata announcements/fixtures/django_mailbox.json
 python3 manage.py loaddata announcements/fixtures/announcements.json
 python3 manage.py loaddata elections
 python3 manage.py loaddata resource_management
+git checkout <branch_name>
+python3 manage.py makemigrations
+python3 manage.py migrate
+```
 
-python3.7 manage.py createsuperuser # if you need to log into the admin
+### Needed if you need to log into /admin
+```shell
+python3 manage.py createsuperuser
+```
 
-python3.7 manage.py runserver 0.0.0.0:8000
+### Run Site
+```shell
+python3 manage.py runserver 0.0.0.0:8000
 ```
 
 ## 3. Before opening a PR
@@ -72,13 +92,6 @@ python3.7 manage.py runserver 0.0.0.0:8000
 cd /absolute/path/to/parent/folder/of/repo
 ./CI/validate_and_deploy/1_validate/run_local_formatting_test.sh
 ```
-
-### 3.2. Adding migrations
-If you had to make a change to any of the `models.py`, you will also need to make a migration.
- 1. First ensure that you are able to run `python3 manage.py makemigrations` without the need for **any** user inputs.
- 2. commit your changes and push **BUT DO NOT** save the migrations you made [the new file you created under a `*/migrations/` folder]
- 3. Verify that the staging website gets launched at `https://dev.sfucsss.org/PR-<pr_number>/`. it may take up to 5 minutes for the staging website to get launched
- 4. If it does, then you can save your migration to the repo
 
 ## Various tasks to accomplish
 
