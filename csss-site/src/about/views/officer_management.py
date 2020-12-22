@@ -27,7 +27,7 @@ def list_of_officers(request):
         'officers': list(
             map(
                 fix_time_for_officer,
-                Officer.objects.all().filter().order_by('elected_term__term_number', 'term_position_number',
+                Officer.objects.all().filter().order_by('elected_term__term_number', 'position_index',
                                                         '-start_date')
             )
         ),

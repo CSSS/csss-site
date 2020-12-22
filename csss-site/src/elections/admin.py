@@ -34,7 +34,7 @@ class NomineeForm(forms.ModelForm):
 class NomineeAdmin(admin.ModelAdmin):
     form = NomineeForm
     list_display = (
-        'position',
+        'position_name',
         'id',
         'get_election',
         'name',

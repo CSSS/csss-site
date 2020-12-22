@@ -29,11 +29,11 @@ class ProcessNewOfficer(models.Model):
         default='2018',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
-    position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default='President',
     )
-    term_position_number = models.IntegerField(
+    position_index = models.IntegerField(
         default=0,
     )
 
@@ -56,6 +56,9 @@ class ProcessNewOfficer(models.Model):
         max_length=140,
         default="NA"
     )
+
+    def __str__(self):
+        return f"Processing object for new officer {self.position_name} for term {self.year} {self.term}"
 
 
 class GoogleMailAccountCredentials(models.Model):
@@ -96,7 +99,7 @@ class GoogleDrivePublicFile(models.Model):
 
 
 class OfficerGithubTeamMapping(models.Model):
-    position = models.CharField(
+    position_name = models.CharField(
         max_length=300,
         default='President',
     )

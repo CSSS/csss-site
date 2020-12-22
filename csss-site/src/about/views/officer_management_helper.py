@@ -38,9 +38,11 @@ def get_term_number(year, term_season):
     year -- the current year in YYYY format
     term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
 
-    returns the term_number, which is in the format YYYY<1/2/3>
+    returns the term_number, which is in the format YYYY<1/2/3>, or None if year is not a number
 
     """
+    if not f"{year}".isdigit():
+        return None
     if term_season == FIRST_TERM_SEASON:
         return int(year) * 10 + 1
     elif term_season == SECOND_TERM_SEASON:
@@ -120,7 +122,7 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
         # if taking in the start_date from the form that the new officers have to fill in
         start_date = datetime.datetime.strptime(start_date, "%A, %d %b %Y %I:%m %S %p")
 
-    officer_obj = Officer(position=officer_position, term_position_number=position_index, name=full_name,
+    officer_obj = Officer(position_name=officer_position, position_index=position_index, name=full_name,
                           sfuid=sfuid, sfu_email_alias=sfu_email_alias, phone_number=phone_number,
                           github_username=github_username, gmail=gmail, course1=fav_course_1,
                           course2=fav_course_2, language1=fav_language_1, language2=fav_language_2, bio=bio,
@@ -326,7 +328,7 @@ def _save_officer_github_membership(officer, position, github_api=None, github_t
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
                 f"mapped officer {officer} to team {GITHUB_OFFICER_TEAM}"
             )
-        applicable_github_teams = OfficerGithubTeamMapping.objects.filter(position=position)
+        applicable_github_teams = OfficerGithubTeamMapping.objects.filter(position_name=position)
         for github_team in applicable_github_teams:
             if github_api is not None:
                 success, error_message = github_api.add_non_officer_to_a_team(

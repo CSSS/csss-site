@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from .views import officer_management, import_export_officer_lists, position_mapping, \
-    officer_creation_link_management
+from .views import officer_management, import_export_officer_lists, officer_creation_link_management
+from .views.officer_position_mapping import position_mapping
 
 urlpatterns = [
 
