@@ -1,8 +1,9 @@
+from django.conf.urls import url
+
 from .views import officer_management, import_export_officer_lists
 from .views.generate_officer_creation_links import officer_creation_link_management
 from .views.officer_position_and_github_mapping import update_saved_position_mappings, input_new_officer_positions, \
     update_saved_github_mappings, save_new_github_officer_team_mapping, position_mapping_index
-from django.conf.urls import url
 
 urlpatterns = [
     url(

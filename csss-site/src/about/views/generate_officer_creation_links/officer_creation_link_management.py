@@ -45,7 +45,7 @@ HTML_VALUE_ATTRIBUTE_FOR_YEAR = 'year_value'
 HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION = 'term_position_value'
 HTML_TERM_POSITION_KEY = 'term_position'
 HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER = 'term_position_number_value'
-HTML_TERM_POSITION_NUMBER_KEY = 'term_position_number'
+HTML_TERM_POSITION_NUMBER_KEY = 'position_index'
 HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT = 'sfu_email_list_address_value'
 HTML_OFFICER_EMAIL_CONTACT_KEY = 'sfu_email_list_address'
 HTML_VALUE_ATTRIBUTE_FOR_NAME = 'name_value'
@@ -160,74 +160,79 @@ def show_page_with_creation_links(request):
         return render_value
     post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY, HTML_NEW_START_DATE_KEY,
                  HTML_DATE_KEY]
-    if len(set(post_keys).intersection(request.POST.keys())) == len(post_keys):
-        # ensuring that all the necessary keys are in the POST call
-        logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] correct numbers of "
-                    "request.POST keys detected")
-
-        # this is necessary if the user is testing the site locally and therefore is using the port to access the
-        # browser
-        if settings.PORT is None:
-            base_url = f"{settings.HOST_ADDRESS}{settings.URL_ROOT}about/allow_officer_to_choose_name?"
-        else:
-            base_url = f"{settings.HOST_ADDRESS}:{settings.PORT}{settings.URL_ROOT}" \
-                       "about/allow_officer_to_choose_name?"
-        user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
-        if request.POST[HTML_OVERWRITE_KEY] == "true":
-            delete_current_term(request.POST[HTML_YEAR_KEY], request.POST[HTML_TERM_KEY])
-        new_officers_to_process = []
-        error_messages = []
-        validation_for_user_inputted_positions_is_successful = True
-        for position in user_specified_positions:
-            success, officer_details, error_message = get_next_position_number_for_term(position)
-            if not success:
-                validation_for_user_inputted_positions_is_successful = False
-                error_messages.append(error_message)
-                logger.info(
-                    "[about/officer_creation_link_management.py show_page_with_creation_links()] "
-                    f"encountered error {error_messages} when processing position {position}"
-                )
-            else:
-                # creating the necessary passphrases and officer info for the user inputted position
-                passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-                new_officers_to_process.append(
-                    ProcessNewOfficer(
-                        passphrase=passphrase,
-                        term=request.POST[HTML_TERM_KEY],
-                        year=request.POST[HTML_YEAR_KEY],
-                        position=position,
-                        term_position_number=officer_details.position_index,
-                        sfu_officer_mailing_list_email=officer_details.email,
-                        link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
-                        new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
-                        start_date=datetime.datetime.strptime(
-                            f"{request.POST[HTML_DATE_KEY]}",
-                            '%Y-%m-%d')
-                    )
-                )
-                logger.info(
-                    "[about/officer_creation_link_management.py show_page_with_creation_links()] "
-                    f"processed position {position}"
-                )
-        if validation_for_user_inputted_positions_is_successful:
-            logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] all requested"
-                        " position were determined to be valid")
-            officer_creation_links = []
-            for new_officer_to_process in new_officers_to_process:
-                new_officer_to_process.save()
-                officer_creation_links.append(
-                    (new_officer_to_process.position_name, new_officer_to_process.link.replace(" ", "%20"))
-                )
-            context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
-            return render(request, 'about/process_new_officer/show_generated_officer_links.html', context)
-        else:
-            logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] at least one "
-                        "of the requested position were determined to be not valid")
-            return redirect_user_to_create_link_page(request, context, error_messages)
-    else:
+    if len(set(post_keys).intersection(request.POST.keys())) != len(post_keys):
         error_messages = "Invalid number of POST keys detected"
         logger.info(f"[about/officer_creation_link_management.py show_page_with_creation_links()] {error_messages}")
         return redirect_user_to_create_link_page(request, context, [error_messages])
+
+    if not f"{request.POST[HTML_YEAR_KEY]}".isdigit():
+        error_messages = "Specified year is not a number"
+        logger.info(f"[about/officer_creation_link_management.py show_page_with_creation_links()] {error_messages}")
+        return redirect_user_to_create_link_page(request, context, [error_messages])
+
+    # ensuring that all the necessary keys are in the POST call
+    logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] correct numbers of "
+                "request.POST keys detected")
+    year = int(request.POST[HTML_YEAR_KEY])
+    # this is necessary if the user is testing the site locally and therefore is using the port to access the
+    # browser
+    if settings.PORT is None:
+        base_url = f"{settings.HOST_ADDRESS}{settings.URL_ROOT}about/allow_officer_to_choose_name?"
+    else:
+        base_url = f"{settings.HOST_ADDRESS}:{settings.PORT}{settings.URL_ROOT}" \
+                   "about/allow_officer_to_choose_name?"
+    user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
+    if request.POST[HTML_OVERWRITE_KEY] == "true":
+        delete_current_term(year, request.POST[HTML_TERM_KEY])
+    new_officers_to_process = []
+    error_messages = []
+    validation_for_user_inputted_positions_is_successful = True
+    for position in user_specified_positions:
+        success, officer_details, error_message = get_next_position_number_for_term(position)
+        if not success:
+            validation_for_user_inputted_positions_is_successful = False
+            error_messages.append(error_message)
+            logger.info(
+                "[about/officer_creation_link_management.py show_page_with_creation_links()] "
+                f"encountered error {error_messages} when processing position {position}"
+            )
+        else:
+            # creating the necessary passphrases and officer info for the user inputted position
+            passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
+            new_officers_to_process.append(
+                ProcessNewOfficer(
+                    passphrase=passphrase,
+                    term=request.POST[HTML_TERM_KEY],
+                    year=year,
+                    position_name=position,
+                    position_index=officer_details.position_index,
+                    sfu_officer_mailing_list_email=officer_details.email,
+                    link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
+                    new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
+                    start_date=datetime.datetime.strptime(
+                        f"{request.POST[HTML_DATE_KEY]}",
+                        '%Y-%m-%d')
+                )
+            )
+            logger.info(
+                "[about/officer_creation_link_management.py show_page_with_creation_links()] "
+                f"processed position {position}"
+            )
+    if validation_for_user_inputted_positions_is_successful:
+        logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] all requested"
+                    " position were determined to be valid")
+        officer_creation_links = []
+        for new_officer_to_process in new_officers_to_process:
+            new_officer_to_process.save()
+            officer_creation_links.append(
+                (new_officer_to_process.position_name, new_officer_to_process.link.replace(" ", "%20"))
+            )
+        context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
+        return render(request, 'about/process_new_officer/show_generated_officer_links.html', context)
+    else:
+        logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] at least one "
+                    "of the requested position were determined to be not valid")
+        return redirect_user_to_create_link_page(request, context, error_messages)
 
 
 def redirect_user_to_create_link_page(request, context, error_messages):
@@ -269,7 +274,7 @@ def delete_current_term(year, term):
     term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
     """
     term_number = get_term_number(year, term)
-    term_obj = Term.objects.all().filter(term=term, term_number=term_number, year=int(year))
+    term_obj = Term.objects.all().filter(term=term, term_number=term_number, year=year)
     logger.info(f"[about/officer_creation_link_management.py delete_current_term()] deleting all officers under term"
                 f"{year} {term}, for which there are {len(term_obj)} existent term[S] ")
     if len(term_obj) > 0:
@@ -277,7 +282,7 @@ def delete_current_term(year, term):
         officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
         for officer in officer_in_selected_term:
             officer.delete()
-    new_officer_details = ProcessNewOfficer.objects.filter(term=term, year=year)
+    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term, year=year)
     for new_officer in new_officer_details:
         new_officer.delete()
 
@@ -294,7 +299,7 @@ def get_next_position_number_for_term(officer_position):
     officer_position_and_github_mapping -- the information to assign to user
     error_message -- error message if position does not exist
     """
-    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer_position,
+    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position,
                                                                                marked_for_deletion=False)
     if len(position_mapping) == 0:
         return False, None, f"position '{officer_position} is not valid"
@@ -361,7 +366,7 @@ def display_page_for_officers_to_input_their_info(request):
         request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = new_officer_details.passphrase
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM] = new_officer_details.term
         context[HTML_VALUE_ATTRIBUTE_FOR_YEAR] = new_officer_details.year
-        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_index
+        context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_name
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
         context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = \

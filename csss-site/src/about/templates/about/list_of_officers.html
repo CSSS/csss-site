@@ -61,8 +61,8 @@
                             <hr>
                             <div class="row">
                             {% for officer in officers %}
-                                {%  if prev_position != officer.position or prev_position == officer.position and authenticated is True %}
-                                    <!-- the above if statement is technically (prev_position != officer.position) or (prev_position == officer.position and authenticated is True)
+                                {%  if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True %}
+                                    <!-- the above if statement is technically (prev_position != officer.position_name) or (prev_position == officer.position_name and authenticated is True)
                                     but django templates do not allow for parenthesis -->
                                     {% if officer.elected_term == term %}
                                         <div class="col-md-4"><center><img class="officer-photos" src="{% static officer.image %}"></center></div>
@@ -88,8 +88,8 @@
                                             <hr>
                                         </div> <!-- closes col-md-6 div -->
                                     {%  endif %} <!-- closes the if officer.elected_term == term -->
-                                {% endif %}<!-- closes the if prev_position != officer.position or prev_position == officer.position and authenticated is True -->
-                                {% define officer.position as prev_position %}
+                                {% endif %}<!-- closes the if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True -->
+                                {% define officer.position_name as prev_position %}
                             {% endfor %}<!-- closes the for officer in officers -->
                             </div><!-- closes the row div -->
                         </div><!-- closes the div data-content div-->

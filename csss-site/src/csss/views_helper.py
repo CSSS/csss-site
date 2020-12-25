@@ -4,6 +4,7 @@ import datetime
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
+from about.models import Term
 from elections.models import NominationPage
 
 ERROR_MESSAGE_KEY = 'error_message'
@@ -99,9 +100,10 @@ def there_are_multiple_entries(post_dict, key_to_read):
     key_to_read -- the key in the dictionary to check
 
     return:
-    True if the key contains an erray of elements rather than just 1 element
+    True if the key contains an erray of elements rather than just 1 element. or None if that
+     key is not in the dictionary
     """
-    return isinstance(post_dict[key_to_read], list)
+    return None if key_to_read not in post_dict else isinstance(post_dict[key_to_read], list)
 
 
 def get_current_term():
@@ -113,6 +115,20 @@ def get_current_term():
     """
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+
+
+def get_current_term_obj():
+    """
+    Get the term object that corresponds to current term
+
+    Return
+    term -- either the term object if it exists or None
+    """
+    terms = Term.objects.all().filter(term_number=get_current_term())
+    if len(terms) == 0:
+        return None
+
+    return terms[0]
 
 
 def get_term_number_for_specified_year_and_month(month, year):

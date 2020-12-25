@@ -12,7 +12,7 @@ from csss.views_helper import verify_access_logged_user_and_create_context, \
     there_are_multiple_entries, ERROR_MESSAGE_KEY, create_main_context
 
 NOM_NAME_POST_KEY = NOM_NAME_KEY = 'name'
-NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'officer_position'
+NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'position_index'
 NOM_SPEECH_POST_KEY = NOM_SPEECH_KEY = 'speech'
 NOM_FACEBOOK_POST_KEY = NOM_FACEBOOK_KEY = 'facebook'
 NOM_LINKEDIN_POST_KEY = NOM_LINKEDIN_KEY = 'linked_in'
@@ -55,7 +55,7 @@ def get_nominees(request, slug):
     retrieved_obj = NominationPage.objects.get(slug=slug)
     if retrieved_obj.date <= datetime.datetime.now():
         logger.info("[elections/election_management.py get_nominees()] time to vote")
-        nominees = Nominee.objects.filter(nomination_page__slug=slug).all().order_by('position')
+        nominees = Nominee.objects.filter(nomination_page__slug=slug).all().order_by('position_name')
         context.update({
             'election': retrieved_obj,
             'election_date': retrieved_obj.date.strftime("%Y-%m-%d"),
@@ -150,7 +150,7 @@ def process_new_election_information_from_webform(request):
                 nominee.save()
                 logger.info(
                     "[elections/election_management.py save_new_nominee()] saved user "
-                    f"full_name={nominee.name} officer_position={nominee.position_index}"
+                    f"full_name={nominee.name} position_index={nominee.position_index}"
                     f" facebook_link={nominee.facebook} linkedin_link={nominee.linked_in} "
                     f"email_address={nominee.email} discord_username={nominee.discord}"
                 )
@@ -214,7 +214,7 @@ def process_new_election_information_from_json(request):
                 nominee.save()
                 logger.info(
                     "[elections/election_management.py save_new_nominee()] saved user "
-                    f"full_name={nominee.name} officer_position={nominee.position_index}"
+                    f"full_name={nominee.name} officer_position={nominee.officer_position} position_index={nominee.position_name}"
                     f" facebook_link={nominee.facebook} linkedin_link={nominee.linked_in} "
                     f"email_address={nominee.email} discord_username={nominee.discord}"
                 )

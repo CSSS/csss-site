@@ -29,8 +29,8 @@ class AnnouncementEmailAdmin(admin.ModelAdmin):
 admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
 
 
-class OfficerPositionMappingAdmin(admin.ModelAdmin):
+class OfficerEmailListAndPositionMappingAdmin(admin.ModelAdmin):
     list_display = ('position_name', 'email', 'position_index', 'marked_for_deletion')
 
 
-admin.site.register(OfficerEmailListAndPositionMapping, OfficerPositionMappingAdmin)
+admin.site.register(OfficerEmailListAndPositionMapping, OfficerEmailListAndPositionMappingAdmin)

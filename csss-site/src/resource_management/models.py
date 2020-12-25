@@ -60,7 +60,6 @@ class ProcessNewOfficer(models.Model):
     def __str__(self):
         return f"Processing object for new officer {self.position_name} for term {self.year} {self.term}"
 
-
 class OfficerPositionGithubTeam(models.Model):
     team_name = models.CharField(
         max_length=300,
@@ -87,7 +86,6 @@ class OfficerPositionGithubTeamMappingNew(models.Model):
 
     def __str__(self):
         return f"officer position mapping for {self.officer_position_mapping} to team {self.github_team}"
-
 
 class GoogleMailAccountCredentials(models.Model):
     username = models.CharField(

@@ -131,14 +131,14 @@ def _save_nominees_for_new_election_from_webform(election, updated_elections_inf
             nominee.save()
 
 
-def _validate_and_return_new_nominee(full_name, officer_position, speech, facebook_link, linkedin_link,
+def _validate_and_return_new_nominee(full_name, position_name, speech, facebook_link, linkedin_link,
                                      email_address, discord_username, nominee_index):
     """Takes in the info of a single nominee [except its election] and creates the nominee object
     that will need to be saved
 
     Keyword Arguments
     full_name -- the full name of the nominee
-    officer_position -- the officer position the nominee is running for
+    position_name -- the officer position the nominee is running for
     speech -- the nominee's speech for the position
     facebook_link -- the link to the nominee's facebook profile
     linkedin_link -- the link to the nominee's linkedin page
@@ -156,7 +156,7 @@ def _validate_and_return_new_nominee(full_name, officer_position, speech, facebo
 
     if len(full_name.strip()) == 0:
         return False, None, "No valid name detected for one of the nominees"
-    if len(officer_position.strip()) == 0:
+    if len(position_name.strip()) == 0:
         return False, None, f"No valid position detected for nominee {full_name}"
     if len(speech) == 0:
         return False, None, f"No valid speech detected for nominee" \
@@ -175,11 +175,11 @@ def _validate_and_return_new_nominee(full_name, officer_position, speech, facebo
                             f" {full_name}, please set to \"NONE\" if there is no discord " \
                             f"username "
     if full_name != 'NONE':  # if full_name is NONE, then it is a nominee that needs to be removed
-        return True, Nominee(name=full_name, officer_position=officer_position,
+        return True, Nominee(name=full_name, position_name=position_name,
                              speech=speech,
                              facebook=facebook_link, linked_in=linkedin_link, email=email_address,
                              discord=discord_username,
-                             position=nominee_index
+                             position_index=nominee_index
                              ), None
     return True, None, None
 
@@ -364,7 +364,7 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
     new_nominees_names = []
     for nominee_index in range(len(updated_elections_information[NOM_NAME_POST_KEY])):
         full_name = updated_elections_information[NOM_NAME_POST_KEY][nominee_index]
-        officer_position = updated_elections_information[NOM_POSITION_POST_KEY][nominee_index]
+        position_name = updated_elections_information[NOM_POSITION_POST_KEY][nominee_index]
         speech = updated_elections_information[NOM_SPEECH_POST_KEY][nominee_index]
         facebook_link = updated_elections_information[NOM_FACEBOOK_POST_KEY][nominee_index]
         linkedin_link = updated_elections_information[NOM_LINKEDIN_POST_KEY][nominee_index]
@@ -373,7 +373,7 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
         if full_name not in existing_nominees_names:
             success, nominee, error_message = \
                 _validate_and_return_new_nominee(
-                    full_name, officer_position, speech, facebook_link, linkedin_link,
+                    full_name, position_name, speech, facebook_link, linkedin_link,
                     email_address, discord_username, position_index
                 )
             if success and nominee is not None:
@@ -382,7 +382,7 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
                 logger.info(
                     "[elections/election_management.py _validate_nominees_information_for_existing_election_from"
                     f"_webform_and_return_them()] saved user full_name={full_name} "
-                    f"officer_position={officer_position}"
+                    f"position_name={position_name}"
                     f" facebook_link={facebook_link} linkedin_link={linkedin_link} "
                     f"email_address={email_address} discord_username={discord_username}"
                 )
@@ -391,7 +391,7 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
         else:
             success, nominee, error_message = \
                 _validate_new_information_for_existing_nominee_for_existing_election_and_return_it(
-                    nomination_page, full_name, officer_position, speech, facebook_link, linkedin_link, email_address,
+                    nomination_page, full_name, position_name, speech, facebook_link, linkedin_link, email_address,
                     discord_username, position_index
                 )
             if success and nominee is not None:
@@ -399,7 +399,7 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
                 logger.info(
                     "[elections/election_management.py _validate_nominees_information_for_existing_"
                     "election_from_webform_and_return_them()] updated user "
-                    f"full_name={full_name} officer_position={officer_position}"
+                    f"full_name={full_name} position_name={position_name}"
                     f" facebook_link={facebook_link} linkedin_link={linkedin_link} "
                     f"email_address={email_address} discord_username={discord_username}"
                 )
@@ -411,14 +411,14 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
 
 
 def _validate_new_information_for_existing_nominee_for_existing_election_and_return_it(
-        nomination_page, full_name, officer_position, speech, facebook_link, linkedin_link, email_address,
+        nomination_page, full_name, position_name, speech, facebook_link, linkedin_link, email_address,
         discord_username, nominee_index):
     """Takes in the info of a single nominee to save it under given nomination page
 
     Keyword Arguments
     nomination_page -- the nomination page to save the nominee under
     full_name -- the full name of the nominee
-    officer_position -- the officer position the nominee is running for
+    position_name -- the officer position the nominee is running for
     speech -- the nominee's speech for the position
     facebook_link -- the link to the nominee's facebook profile
     linkedin_link -- the link to the nominee's linkedin page
@@ -435,7 +435,7 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
     if full_name != 'NONE':
         if len(full_name.strip()) == 0:
             return False, None, "No valid name detected for one of the nominees"
-        if len(officer_position.strip()) == 0:
+        if len(position_name.strip()) == 0:
             return False, None, f"No valid position detected for nominee {full_name}"
         if len(speech) == 0:
             return False, None, f"No valid speech detected for nominee" \
@@ -455,16 +455,16 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
                                 f"username "
         try:
             nominee = Nominee.objects.get(nomination_page=nomination_page, name=full_name,
-                                          officer_position=officer_position)
+                                          position_name=position_name)
         except Nominee.DoesNotExist:
             logger.info(
                 "[elections/election_management.py _validate_new_information_for_existing_nominee_for_e"
                 "xisting_election_and_return_it()] unable to find "
-                f"nominee full_name={full_name} officer_position={officer_position} for election {nomination_page}"
+                f"nominee full_name={full_name} position_name={position_name} for election {nomination_page}"
             )
-            return False, None, f"The nominee {full_name} for position {officer_position} could not be found"
+            return False, None, f"The nominee {full_name} for position {position_name} could not be found"
 
-        nominee.position_index = officer_position
+        nominee.officer_position = position_name
         nominee.nomination_page = nomination_page
         nominee.name = full_name
         nominee.speech = speech
@@ -490,7 +490,7 @@ def _update_nominee_information_for_existing_election_from_webform(nomination_pa
     existing_nominees_names = [existing_nominee.name for existing_nominee in existing_nominees]
     new_nominees_names = []
     full_name = updated_elections_information[NOM_NAME_POST_KEY]
-    officer_position = updated_elections_information[NOM_POSITION_POST_KEY]
+    position_name = updated_elections_information[NOM_POSITION_POST_KEY]
     speech = updated_elections_information[NOM_SPEECH_POST_KEY]
     facebook_link = updated_elections_information[NOM_FACEBOOK_POST_KEY]
     linkedin_link = updated_elections_information[NOM_LINKEDIN_POST_KEY]
@@ -498,7 +498,7 @@ def _update_nominee_information_for_existing_election_from_webform(nomination_pa
     discord_username = updated_elections_information[NOM_DISCORD_USERNAME_POST_KEY]
     if full_name not in existing_nominees_names:
         success, nominee, error_message = _validate_and_return_new_nominee(
-            full_name, officer_position, speech, facebook_link, linkedin_link, email_address, discord_username, 0
+            full_name, position_name, speech, facebook_link, linkedin_link, email_address, discord_username, 0
         )
         if success and nominee is not None:
             nominee.nomination_page = nomination_page
@@ -507,7 +507,7 @@ def _update_nominee_information_for_existing_election_from_webform(nomination_pa
     else:
         success, nominee, error_message = \
             _validate_new_information_for_existing_nominee_for_existing_election_and_return_it(
-                nomination_page, full_name, officer_position, speech, facebook_link, linkedin_link, email_address,
+                nomination_page, full_name, position_name, speech, facebook_link, linkedin_link, email_address,
                 discord_username, 0
             )
         if success and nominee is not None:
@@ -575,7 +575,7 @@ def _validate_nominee_information_for_existing_elections_from_json_and_save_all_
                 NOM_FACEBOOK_POST_KEY in nominee and NOM_LINKEDIN_POST_KEY in nominee and \
                 NOM_EMAIL_POST_KEY in nominee and NOM_DISCORD_USERNAME_POST_KEY in nominee:
             full_name = nominee[NOM_NAME_POST_KEY]
-            officer_position = nominee[NOM_POSITION_POST_KEY]
+            position_name = nominee[NOM_POSITION_POST_KEY]
             speech = nominee[NOM_SPEECH_POST_KEY]
             facebook_link = nominee[NOM_FACEBOOK_POST_KEY]
             linkedin_link = nominee[NOM_LINKEDIN_POST_KEY]
@@ -583,7 +583,7 @@ def _validate_nominee_information_for_existing_elections_from_json_and_save_all_
             discord_username = nominee[NOM_DISCORD_USERNAME_POST_KEY]
             if full_name not in existing_nominees_names:
                 success, nominee, error_message = \
-                    _validate_and_return_new_nominee(full_name, officer_position, speech,
+                    _validate_and_return_new_nominee(full_name, position_name, speech,
                                                      facebook_link, linkedin_link,
                                                      email_address, discord_username,
                                                      position_index)
@@ -597,7 +597,7 @@ def _validate_nominee_information_for_existing_elections_from_json_and_save_all_
             else:
                 success, nominee, error_message = \
                     _validate_new_information_for_existing_nominee_for_existing_election_and_return_it(
-                        nomination_page, full_name, officer_position, speech, facebook_link, linkedin_link,
+                        nomination_page, full_name, position_name, speech, facebook_link, linkedin_link,
                         email_address, discord_username, position_index)
             if success:
                 if nominee is not None:
