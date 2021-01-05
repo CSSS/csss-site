@@ -101,7 +101,7 @@ def save_officers_in_csv(request, overwrite):
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
-            if re.match(f"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):  # noqa: W605
+            if re.match(r"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):
                 year = (row[YEAR_AND_TERM_COLUMN].strip()[row[YEAR_AND_TERM_COLUMN].strip().find(" "):]).strip()
                 term = row[YEAR_AND_TERM_COLUMN].strip()[:row[YEAR_AND_TERM_COLUMN].strip().find(" ")].strip()
             logger.info(f"going through term {term} {year}")
@@ -156,7 +156,7 @@ def return_member_json(row):
         'fav_language_2': row[FAVORITE_LANGUAGES_COLUMN][language_divider + 2:] if language_divider != -1 else "",
         'bio': row[BIO_COLUMN].replace("[comma]", ",").replace("\\n", "<br/>")
     }
-    if not re.match("\d\d\d\d-\d\d-\d\d", member["start_date"]):  # noqa: W605
+    if not re.match(r"\d\d\d\d-\d\d-\d\d", member["start_date"]):
         error_message = f"invalid start date of '{member['start_date']}' for officer '{member['name']}' specified"
         logger.info(f"[about/import_export_officer_lists return_member_json()] {error_message}")
         return False, None, error_message
