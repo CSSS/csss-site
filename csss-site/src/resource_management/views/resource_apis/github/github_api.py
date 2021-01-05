@@ -60,10 +60,15 @@ class GitHubAPI:
 
         # removing csss-admin from the team as it gets automatically added when it creates the team
         try:
-            logger.info(f"[GitHubAPI create_team()] attempting to remove {self.git.get_user().login} team {team_name}")
+            logger.info(
+                f"[GitHubAPI create_team()] attempting to remove {self.git.get_user().login} team {team_name}"
+            )
             team = self.org.get_team_by_slug(team_name)
             if team.members_count > 0:
-                logger.info(f"[GitHubAPI create_team()] the list of users who have membership under team {team_name}: {team.get_members()}")
+                logger.info(
+                    f"[GitHubAPI create_team()] the list of users who have membership under team"
+                    f" {team_name}: {team.get_members()}"
+                )
                 github_users = self.git.search_users(query=f"user:{self.git.get_user().login}")
                 team.remove_membership(github_users[0])
                 logger.info(f"[GitHubAPI create_team()] {self.git.get_user().login} removed from team {team_name}")
@@ -109,11 +114,17 @@ class GitHubAPI:
                             f"to {Constants.CSSS_GITHUB_ORG_NAME} org and inviting them to {team_name} team."
                         )
                         self.org.invite_user(user=github_user, teams=[team])
-                        logger.info(f"[GitHubAPI add_users_to_a_team()] send an invite to the user {user} to ORG {Constants.CSSS_GITHUB_ORG_NAME} and team {team_name}")
+                        logger.info(
+                            f"[GitHubAPI add_users_to_a_team()] send an invite to the user {user} to ORG"
+                            f" {Constants.CSSS_GITHUB_ORG_NAME} and team {team_name}"
+                        )
                     elif not team.has_in_members(github_user):
                         logger.info(f"[GitHubAPI add_users_to_a_team()] adding {user} to the {team_name} team.")
                         team.add_membership(github_user)
-                        logger.info(f"[GitHubAPI add_users_to_a_team()] sent an invite to the user {user} for team {team_name}")
+                        logger.info(
+                            "[GitHubAPI add_users_to_a_team()] sent an invite to the user"
+                            f" {user} for team {team_name}"
+                        )
                     else:
                         logger.info(
                             f"[GitHubAPI add_users_to_a_team()] it seems that {github_user} already is in "
@@ -164,7 +175,9 @@ class GitHubAPI:
             return False, error_message
 
         for user in users:
-            logger.info(f"[GitHubAPI remove_users_from_a_team()] attempting to remove user {user} from team {team_name}")
+            logger.info(
+                f"[GitHubAPI remove_users_from_a_team()] attempting to remove user {user} from team {team_name}"
+            )
             github_users = self.git.search_users(query=f"user:{user}")
             try:
                 if github_users.totalCount == 1:
@@ -271,8 +284,10 @@ class GitHubAPI:
                                         f"{github_user} to the {team} team.")
                             git_team.add_membership(github_user)
                     except Exception as e:
-                        logger.error(f"[GitHubAPI ensure_proper_membership()] encountered following error when trying "
-                                     f"to add the user {user} to team {team}\n{e}")
+                        logger.error(
+                            "[GitHubAPI ensure_proper_membership()] encountered following error when trying "
+                            f"to add the user {user} to team {team}\n{e}"
+                        )
             else:
                 logger.error("[GitHubAPI ensure_proper_membership()] could not find the "
                              f"github profile for user {user}")

@@ -8,7 +8,8 @@ from django.contrib.staticfiles import finders
 from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
-from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, OfficerPositionGithubTeamMappingNew
+from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, \
+    OfficerPositionGithubTeamMappingNew
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 TAB_STRING = 'about'
@@ -291,7 +292,9 @@ def _save_officer_github_membership(officer):
     success -- true or false Bool
     error_message -- the error_message if success is False or None otherwise
     """
-    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(officer_position=officer.position_index)
+    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
+        officer_position=officer.position_index
+    )
     if len(position_mapping) == 0:
         logger.info(f"[about/officer_management_helper.py _save_officer_github_membership()] "
                     f"could not find any position mappings for position {officer.position_index}")

@@ -6,7 +6,6 @@ from resource_management.models import OfficerPositionGithubTeam
 
 logger = logging.getLogger('csss_site')
 
-
 GITHUB_TEAM__ID_KEY = "github_mapping__id"
 SAVED_GITHUB_MAPPINGS = 'github_teams'
 
@@ -20,7 +19,8 @@ SAVED_OFFICER_POSITIONS = 'saved_officer_positions'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID = "officer_email_list_and_position_mapping__id"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_and_position_mapping__position_index"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = "officer_email_list_and_position_mapping__email_list_address"
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
+    "officer_email_list_and_position_mapping__email_list_address"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 
 TEAM_NAME_KEY = 'team_name'
@@ -29,16 +29,19 @@ TEAM_NAME_KEY = 'team_name'
 def update_context(context):
     context.update({
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID': OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID,
-        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX': OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX,
-        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME': OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
-        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS': OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX':
+            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME':
+            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
+            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
         'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
         'GITHUB_TEAM__OFFICER_KEY': GITHUB_TEAM__OFFICER_KEY,
         'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
     })
 
-
-    position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by('position_index')
+    position_mapping_for_selected_officer = \
+        OfficerEmailListAndPositionMapping.objects.all().order_by('position_index')
     if len(position_mapping_for_selected_officer) > 0:
         context[SAVED_OFFICER_POSITIONS] = position_mapping_for_selected_officer
 
@@ -133,6 +136,7 @@ def validate_position_name(position_name, submitted_position_names=None):
                 f"{position_name} was successful")
     return True, None
 
+
 GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY = 'github_mapping_selected_officer_position'
 
 
@@ -141,8 +145,8 @@ def extract_valid_officers_indices_selected_for_github_team(post_dict):
     extracts the officer position indices that have been selected to add to a github team
 
     Keyword Argument
-    post_dict -- the dictionary created from the POST object that has the selected position indices mapped to the value
-    "github_mapping_selected_officer_position"
+    post_dict -- the dictionary created from the POST object that has the selected position indices
+     mapped to the value "github_mapping_selected_officer_position"
 
     Return
     success - a bool, True if position indices were found
@@ -164,7 +168,10 @@ def extract_valid_officers_indices_selected_for_github_team(post_dict):
         officer_position_indices = [int(officer_position_index) for officer_position_index in
                                     post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]]
         logger.info(
-            f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found multiple officer position indices. Transformed {post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices} which has of {len(officer_position_indices)}"
+            f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found "
+            "multiple officer position indices. Transformed "
+            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices}"
+            f" which has of {len(officer_position_indices)}"
         )
         success = len(officer_position_indices) > 0
     else:
@@ -174,13 +181,18 @@ def extract_valid_officers_indices_selected_for_github_team(post_dict):
         else:
             success = False
         logger.info(
-            f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found a single officer position index. Transformed {post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices}, and has a success of {success}")
+            f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found a "
+            "single officer position index. Transformed "
+            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices},"
+            f" and has a success of {success}"
+        )
     if not success:
         error_message = "No valid officer position indices detected"
         logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
         return False, error_message, None
 
     return True, None, officer_position_indices
+
 
 def validate_select_officer_position_indices(officer_position_indices):
     """
@@ -198,6 +210,8 @@ def validate_select_officer_position_indices(officer_position_indices):
     for officer_position_index in officer_position_indices:
         if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_index=officer_position_index)) == 0:
             error_message = f"validation for position index {officer_position_index} was unsuccessful"
-            logger.info(f"[about/position_mapping_helper.py validate_update_to_github_team_mapping()] {error_message}")
+            logger.info(
+                f"[about/position_mapping_helper.py validate_update_to_github_team_mapping()] {error_message}"
+            )
             return False, error_message
     return True, None

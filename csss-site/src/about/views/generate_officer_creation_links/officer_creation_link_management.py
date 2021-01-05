@@ -11,8 +11,8 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer, AnnouncementEmailAddress
-from about.views.officer_position_and_github_mapping.officer_management_helper import get_term_number, save_new_term, \
-    save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
+from about.views.officer_position_and_github_mapping.officer_management_helper import get_term_number, \
+    save_new_term, save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
     ELECTION_OFFICER_POSITIONS, OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES, \
     OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS, \
     HTML_VALUE_ATTRIBUTE_FOR_START_DATE, TERM_SEASONS
