@@ -11,8 +11,8 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer, AnnouncementEmailAddress
-from about.views.officer_management_helper import get_term_number, save_new_term, \
-    save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
+from about.views.officer_position_and_github_mapping.officer_management_helper import get_term_number, \
+    save_new_term, save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
     ELECTION_OFFICER_POSITIONS, OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES, \
     OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS, \
     HTML_VALUE_ATTRIBUTE_FOR_START_DATE, TERM_SEASONS
@@ -20,7 +20,6 @@ from csss.views_helper import verify_access_logged_user_and_create_context, ERRO
     ERROR_MESSAGES_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
-from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
 
 logger = logging.getLogger('csss_site')
@@ -297,7 +296,7 @@ def get_next_position_number_for_term(officer_position):
 
     Return
     success - True or False
-    position_mapping -- the information to assign to user
+    officer_position_and_github_mapping -- the information to assign to user
     error_message -- error message if position does not exist
     """
     position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position,
@@ -554,15 +553,6 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     gdrive.error_message
                 )
-            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
-            if github.connection_successful is False:
-                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {github.error_message}")
-                return redirect_back_to_input_page_with_error_message(
-                    request,
-                    new_officer_details.passphrase,
-                    github.error_message
-                )
             gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
             if gitlab.connection_successful is False:
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
@@ -583,22 +573,11 @@ def process_information_entered_by_officer(request):
                 position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
-                github_api=github,
                 gdrive_api=gdrive,
                 gitlab_api=gitlab,
                 send_email_notification=True
             )
         elif officer_position in ELECTION_OFFICER_POSITIONS:
-            github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
-            if github.connection_successful is False:
-                error_message = "unable to authenticate against CSSS Github"
-                logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {error_message}")
-                return redirect_back_to_input_page_with_error_message(
-                    request,
-                    new_officer_details.passphrase,
-                    error_message
-                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 officer_position, full_name,
@@ -610,7 +589,6 @@ def process_information_entered_by_officer(request):
                 position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
-                github_api=github,
                 send_email_notification=True
             )
         elif officer_position in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:

@@ -4,7 +4,7 @@ import datetime
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
-from about.models import Officer
+from about.models import OfficerEmailListAndPositionMapping
 
 
 class ProcessNewOfficer(models.Model):
@@ -61,6 +61,34 @@ class ProcessNewOfficer(models.Model):
         return f"Processing object for new officer {self.position_name} for term {self.year} {self.term}"
 
 
+class OfficerPositionGithubTeam(models.Model):
+    team_name = models.CharField(
+        max_length=300,
+        default='officers',
+    )
+    marked_for_deletion = models.BooleanField(
+        default=False
+    )
+
+    def __str__(self):
+        return f"officer github team {self.team_name}"
+
+
+class OfficerPositionGithubTeamMappingNew(models.Model):
+    github_team = models.ForeignKey(
+        OfficerPositionGithubTeam,
+        on_delete=models.CASCADE,
+        default=None
+    )
+    officer_position_mapping = models.ForeignKey(
+        OfficerEmailListAndPositionMapping,
+        on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return f"officer position mapping for {self.officer_position_mapping} to team {self.github_team}"
+
+
 class GoogleMailAccountCredentials(models.Model):
     username = models.CharField(
         max_length=300
@@ -68,6 +96,9 @@ class GoogleMailAccountCredentials(models.Model):
     password = models.CharField(
         max_length=300
     )
+
+    def __str__(self):
+        return f"credentials for gmail {self.username}"
 
 
 class NonOfficerGoogleDriveUser(models.Model):
@@ -85,6 +116,9 @@ class NonOfficerGoogleDriveUser(models.Model):
         max_length=5000
     )
 
+    def __str__(self):
+        return f"{self.name} access to google drive file {self.file_name}"
+
 
 class GoogleDrivePublicFile(models.Model):
     file_id = models.CharField(
@@ -97,29 +131,8 @@ class GoogleDrivePublicFile(models.Model):
         max_length=5000
     )
 
-
-class OfficerGithubTeamMapping(models.Model):
-    position_name = models.CharField(
-        max_length=300,
-        default='President',
-    )
-    team_name = models.CharField(
-        max_length=300,
-        default='officers',
-    )
-
-
-class OfficerGithubTeam(models.Model):
-    team_name = models.CharField(
-        max_length=5000
-    )
-    officer = models.ForeignKey(
-        Officer,
-        on_delete=models.CASCADE,
-    )
-
     def __str__(self):
-        return f"{self.officer.name} {self.team_name}"
+        return f"Public Google Drive File {self.file_name}"
 
 
 class NonOfficerGithubMember(models.Model):
@@ -134,17 +147,14 @@ class NonOfficerGithubMember(models.Model):
         default="NA"
     )
 
+    def __str__(self):
+        return f"Non Officer {self.legal_name} access to github team {self.team_name}"
+
 
 class NaughtyOfficer(models.Model):
     name = models.CharField(
         max_length=300
     )
 
-
-class NonOfficerMaillistMember(models.Model):
-    maillist_name = models.CharField(
-        max_length=5000,
-    )
-    sfuid = models.CharField(
-        max_length=5000
-    )
+    def __str__(self):
+        return f"Naughty Officer {self.name}"
