@@ -9,7 +9,6 @@ logger = logging.getLogger('csss_site')
 GITHUB_TEAM__ID_KEY = "github_mapping__id"
 SAVED_GITHUB_MAPPINGS = 'github_teams'
 
-GITHUB_TEAM__OFFICER_KEY = "github_mapping__officer_id"
 OFFICER_POSITION_AVAILABLE_FOR_GITHUB_MAPPINGS = 'github_position_mapping'
 
 POSITION_INDEX_KEY = 'position_index'
@@ -35,9 +34,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
-        'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
-        'GITHUB_TEAM__OFFICER_KEY': GITHUB_TEAM__OFFICER_KEY,
-        'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
+        'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,  # checked
+        'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,  # checked
     })
 
     position_mapping_for_selected_officer = \
@@ -76,13 +74,14 @@ def update_context(context):
             github_team_mappings.append(github_team_mapping)
         context[SAVED_GITHUB_MAPPINGS] = github_team_mappings
 
-    error_experienced = False
-    for error in context[ERROR_MESSAGES_KEY]:
-        if error is not None:
-            error_experienced = True
+    if ERROR_MESSAGES_KEY in context:
+        error_experienced = False
+        for error in context[ERROR_MESSAGES_KEY]:
+            if error is not None and len(error) > 0:
+                error_experienced = True
 
-    if not error_experienced or len(context[ERROR_MESSAGES_KEY]) == 0:
-        del context[ERROR_MESSAGES_KEY]
+        if not error_experienced or len(context[ERROR_MESSAGES_KEY]) == 0:
+            del context[ERROR_MESSAGES_KEY]
 
     return context
 
