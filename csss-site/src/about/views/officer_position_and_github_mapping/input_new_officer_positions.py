@@ -30,7 +30,7 @@ def input_new_officer_positions(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'add_new_position_mapping' in post_dict:
-            context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = add_new_position_mapping(post_dict)
+            success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = add_new_position_mapping(post_dict)
 
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
@@ -117,7 +117,7 @@ def add_new_position_mapping(post_dict):
                  POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY]}]
             error_messages.append(error_message)
             return False, error_messages, unsaved_position_mappings
-    return True, None, None
+    return True, error_messages, None
 
 
 def validate_position_mappings(position_index, position_name, submitted_position_names=None,
