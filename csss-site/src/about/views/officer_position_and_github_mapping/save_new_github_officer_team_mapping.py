@@ -74,7 +74,7 @@ def create_new_github_mapping(post_dict):
         officer_position_indices, team_name)
     if not success:
         error_messages.append(error_message)
-        unsaved_github_officer_team_name_mappings = {`
+        unsaved_github_officer_team_name_mappings = {
             TEAM_NAME_KEY: team_name,
             OFFICER_POSITIONS: []
         }
