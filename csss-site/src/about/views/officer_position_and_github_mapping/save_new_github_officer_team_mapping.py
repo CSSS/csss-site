@@ -33,8 +33,8 @@ def save_new_github_officer_team_mapping(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'create_new_github_mapping' in post_dict:
-            context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], context[
-                ERROR_MESSAGES_KEY] = create_new_github_mapping(post_dict)
+            context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], \
+                context[ERROR_MESSAGES_KEY] = create_new_github_mapping(post_dict)
             if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
                 del context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY]
 
@@ -74,12 +74,12 @@ def create_new_github_mapping(post_dict):
         officer_position_indices, team_name)
     if not success:
         error_messages.append(error_message)
-        unsaved_github_officer_team_name_mappings = {
+        unsaved_github_officer_team_name_mappings = {`
             TEAM_NAME_KEY: team_name,
             OFFICER_POSITIONS: []
         }
         position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
-            'position_index')
+            'position_index').exclude(marked_for_deletion=True)
         for position in position_mapping_for_selected_officer:
             unsaved_github_officer_team_name_mappings[OFFICER_POSITIONS].append(
                 {
