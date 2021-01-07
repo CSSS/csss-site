@@ -156,7 +156,7 @@ def return_member_json(row):
         'fav_language_2': row[FAVORITE_LANGUAGES_COLUMN][language_divider + 2:] if language_divider != -1 else "",
         'bio': row[BIO_COLUMN].replace("[comma]", ",").replace("\\n", "<br/>")
     }
-    if not re.match(f"\d\d\d\d-\d\d-\d\d", member["start_date"]):  # noqa: W605
+    if not re.match(r"\d\d\d\d-\d\d-\d\d", member["start_date"]):  # noqa: W605
         error_message = f"invalid start date of '{member['start_date']}' for officer '{member['name']}' specified"
         logger.info(f"[about/import_export_officer_lists return_member_json()] {error_message}")
         return False, None, error_message
