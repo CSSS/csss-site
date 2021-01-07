@@ -83,7 +83,8 @@ def update_github_mapping(post_dict):
     Return
     ERROR_MESSAGES -- the list of possible error messages
     """
-    success, error_message, officer_position_indices = extract_valid_officers_indices_selected_for_github_team(post_dict)
+    success, error_message, officer_position_indices = \
+        extract_valid_officers_indices_selected_for_github_team(post_dict)
     if not success:
         logger.info(f"[about/position_mapping_helper.py update_github_mapping()] {error_message}")
         return [error_message]

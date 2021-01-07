@@ -305,7 +305,9 @@ def _save_officer_github_membership(officer):
         logger.info("[about/officer_management_helper.py _save_officer_github_membership()]"
                     f" {github_api.error_message}")
         return False, f"{github_api.error_message}"
-    github_team_mappings = OfficerPositionGithubTeamMappingNew.objects.all().filter(officer_position_mapping=position_mapping[0])
+    github_team_mappings = OfficerPositionGithubTeamMappingNew.objects.all().filter(
+        officer_position_mapping=position_mapping[0]
+    )
     for github_team_mapping in github_team_mappings:
         success, error_message = github_api.add_users_to_a_team(
             [officer.github_username],
@@ -314,8 +316,8 @@ def _save_officer_github_membership(officer):
         if not success:
             logger.info(
                 "[about/officer_management_helper.py _save_officer_github_membership()] "
-                f"unable to add officer {officer.github_username} to team {github_team_mapping.github_team.team_name} due to error "
-                f"{error_message}"
+                f"unable to add officer {officer.github_username} to team"
+                f" {github_team_mapping.github_team.team_name} due to error {error_message}"
             )
             return False, error_message
         logger.info(

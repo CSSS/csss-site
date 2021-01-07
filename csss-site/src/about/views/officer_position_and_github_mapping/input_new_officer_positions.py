@@ -30,7 +30,8 @@ def input_new_officer_positions(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'add_new_position_mapping' in post_dict:
-            success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = add_new_position_mapping(post_dict)
+            success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
+                add_new_position_mapping(post_dict)
 
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
