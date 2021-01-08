@@ -13,7 +13,7 @@ from csss.views_helper import verify_access_logged_user_and_create_context, ERRO
     get_current_term
 from querystring_parser import parser
 
-from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMappingNew
+from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 logger = logging.getLogger('csss_site')
@@ -158,7 +158,7 @@ def get_indices_for_officer_positions_that_need_access_revoked(github_team_db_ob
     """
     officer_position_indices_with_access_to_github_team = [
         officer for officer in
-        OfficerPositionGithubTeamMappingNew.objects.all().filter(github_team=github_team_db_obj)
+        OfficerPositionGithubTeamMapping.objects.all().filter(github_team=github_team_db_obj)
     ]
     logger.info(
         "[about/position_mapping_helper.py get_officers_that_need_to_have_their_github_access_updated()]"
@@ -200,7 +200,7 @@ def revoke_officer_with_specified_indices_access_to_specified_github_team(
     """
     error_messages = []
     for position_index in officer_position_indices_need_github_team_access_revoked:
-        for officer_github_mapping in OfficerPositionGithubTeamMappingNew.objects.all().filter(
+        for officer_github_mapping in OfficerPositionGithubTeamMapping.objects.all().filter(
                 github_team=github_team_db_obj, officer_position_mapping__position_index=position_index):
             officer_github_mapping.delete()
             logger.info(
@@ -238,7 +238,7 @@ def get_indices_for_officer_positions_that_need_access_granted(github_team_db_ob
     """
     position_indices_for_officers_who_currently_have_access_to_github_team = [
         officer.officer_position_mapping.position_index for officer in
-        OfficerPositionGithubTeamMappingNew.objects.all().filter(github_team=github_team_db_obj)]
+        OfficerPositionGithubTeamMapping.objects.all().filter(github_team=github_team_db_obj)]
     officer_position_indices_grant_github_team_access = []
     for officer_position_index in officer_position_indices:
         if officer_position_index not in position_indices_for_officers_who_currently_have_access_to_github_team:
@@ -278,8 +278,8 @@ def grant_officers_with_specified_indices_access_to_specified_github_team(
                 f"[about/position_mapping_helper.py update_existing_github_team_mappings()] "
                 f"saving a mapping of {position_mapping} under team {github_team}"
             )
-            OfficerPositionGithubTeamMappingNew(github_team=github_team,
-                                                officer_position_mapping=position_mapping).save()
+            OfficerPositionGithubTeamMapping(github_team=github_team,
+                                             officer_position_mapping=position_mapping).save()
         else:
             logger.info("[about/position_mapping_helper.py update_existing_github_team_mappings()] "
                         "unable to find a position mapping for position_index"

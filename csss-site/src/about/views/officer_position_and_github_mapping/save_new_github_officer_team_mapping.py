@@ -11,7 +11,7 @@ from about.views.position_mapping_helper import update_context, POSITION_INDEX_K
     GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     get_current_term
-from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMappingNew
+from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY = 'unsaved_github_officer_team_name_mapping'
@@ -166,7 +166,7 @@ def save_new_github_team_mapping(officer_position_indices, team_name):
         logger.info("[about/position_mapping_helper.py save_new_github_team_mapping()] "
                     f"OfficerPositionGithubTeam object saved for team {team_name}")
         for position_mapping_obj in position_mapping_objs:
-            OfficerPositionGithubTeamMappingNew(
+            OfficerPositionGithubTeamMapping(
                 github_team=github_team, officer_position_mapping=position_mapping_obj
             ).save()
             logger.info("[about/position_mapping_helper.py save_new_github_team_mapping()] "

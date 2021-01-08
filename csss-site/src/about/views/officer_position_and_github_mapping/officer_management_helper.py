@@ -9,7 +9,7 @@ from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailLi
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
 from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, \
-    OfficerPositionGithubTeamMappingNew
+    OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 TAB_STRING = 'about'
@@ -305,7 +305,7 @@ def _save_officer_github_membership(officer):
         logger.info("[about/officer_management_helper.py _save_officer_github_membership()]"
                     f" {github_api.error_message}")
         return False, f"{github_api.error_message}"
-    github_team_mappings = OfficerPositionGithubTeamMappingNew.objects.all().filter(
+    github_team_mappings = OfficerPositionGithubTeamMapping.objects.all().filter(
         officer_position_mapping=position_mapping[0]
     )
     for github_team_mapping in github_team_mappings:

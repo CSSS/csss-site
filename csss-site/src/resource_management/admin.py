@@ -4,7 +4,7 @@ from django.contrib import admin
 from resource_management.models import ProcessNewOfficer, NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
     NaughtyOfficer, OfficerPositionGithubTeam, GoogleMailAccountCredentials, \
-    OfficerPositionGithubTeamMappingNew
+    OfficerPositionGithubTeamMapping
 
 
 class ProcessNewOfficerAdmin(admin.ModelAdmin):
@@ -52,7 +52,7 @@ class OfficerPositionGithubTeamMappingAdmin(admin.ModelAdmin):
     list_display = ('github_team', 'officer_position_mapping')
 
 
-admin.site.register(OfficerPositionGithubTeamMappingNew, OfficerPositionGithubTeamMappingAdmin)
+admin.site.register(OfficerPositionGithubTeamMapping, OfficerPositionGithubTeamMappingAdmin)
 
 
 class NonOfficerGithubMemberAdmin(admin.ModelAdmin):

@@ -74,7 +74,7 @@ class OfficerPositionGithubTeam(models.Model):
         return f"officer github team {self.team_name}"
 
 
-class OfficerPositionGithubTeamMappingNew(models.Model):
+class OfficerPositionGithubTeamMapping(models.Model):
     github_team = models.ForeignKey(
         OfficerPositionGithubTeam,
         on_delete=models.CASCADE,
