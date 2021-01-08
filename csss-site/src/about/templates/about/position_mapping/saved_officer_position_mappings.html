@@ -16,10 +16,10 @@
                     <td><input type="text" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS }}" value="{{ position.email }}" required></td>
                     <td>
                         {%  if position.marked_for_deletion is True %}
-                            <input type="submit" name="un_delete_position_mapping" value="Un-Delete">
+                            <input type="submit" name="{{UN_DELETED_POSITION_MAPPING_KEY}}" value="Un-Delete">
                         {%  else %}
-                            <input type="submit" name="update_position_mapping" value="Update">
-                            <input type="submit" name="delete_position_mapping" value="Delete">
+                            <input type="submit" name="{{UPDATE_POSITION_MAPPING_KEY}}" value="Update">
+                            <input type="submit" name="{{DELETE_POSITION_MAPPING_KEY}}" value="Delete">
                         {%  endif %}
                     </td>
                 </form>

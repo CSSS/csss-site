@@ -5,7 +5,7 @@ import github
 from github import Github
 from github.GithubException import RateLimitExceededException, GithubException
 
-from csss.constants import Constants
+from csss.Constants import Constants
 
 logger = logging.getLogger('csss_site')
 

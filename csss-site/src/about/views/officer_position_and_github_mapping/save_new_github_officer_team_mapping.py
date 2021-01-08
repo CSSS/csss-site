@@ -6,9 +6,9 @@ from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from about.views.position_mapping_helper import update_context, POSITION_INDEX_KEY, \
-    extract_valid_officers_indices_selected_for_github_team, \
-    GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY
+from about.views.position_mapping_helper import update_context, \
+    extract_valid_officers_indices_selected_for_github_team
+from csss.Constants import Constants
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     get_current_term
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
@@ -32,7 +32,7 @@ def save_new_github_officer_team_mapping(request):
 
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
-        if 'create_new_github_mapping' in post_dict:
+        if Constants.user_selected_to_create_new_github_mapping in post_dict:
             context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], \
                 context[ERROR_MESSAGES_KEY] = create_new_github_mapping(post_dict)
             if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
@@ -55,12 +55,12 @@ def create_new_github_mapping(post_dict):
     """
     unsaved_github_officer_team_name_mappings = None
     error_messages = []
-    if not (GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
+    if not (Constants.GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
         error_message = "No team name detected"
         logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
         error_messages.append(error_message)
         return unsaved_github_officer_team_name_mappings, error_messages
-    team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
+    team_name = post_dict[Constants.GITHUB_TEAM__TEAM_NAME_KEY]
     logger.info(
         f"[about/position_mapping_helper.py create_new_github_mapping()] determined the team name to be {team_name}")
 
@@ -75,7 +75,7 @@ def create_new_github_mapping(post_dict):
     if not success:
         error_messages.append(error_message)
         unsaved_github_officer_team_name_mappings = {
-            TEAM_NAME_KEY: team_name,
+            Constants.TEAM_NAME_KEY: team_name,
             OFFICER_POSITIONS: []
         }
         position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
@@ -84,7 +84,7 @@ def create_new_github_mapping(post_dict):
             unsaved_github_officer_team_name_mappings[OFFICER_POSITIONS].append(
                 {
                     "position_name": position.position_name,
-                    POSITION_INDEX_KEY: position.position_index,
+                    Constants.POSITION_INDEX_KEY: position.position_index,
                     'checked': position.position_index in officer_position_indices
                 }
             )

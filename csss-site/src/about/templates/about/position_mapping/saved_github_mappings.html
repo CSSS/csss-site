@@ -13,9 +13,9 @@
                     <td>
                         {%  for positions_mapped_to_team in github_team.positions %}
                             {% if positions_mapped_to_team.checked %}
-                                <input name="github_mapping_selected_officer_position" checked  type="checkbox" id="{{ positions_mapped_to_team.position_index }}" value="{{ positions_mapped_to_team.position_index }}" />
+                                <input name="{GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY}}" checked  type="checkbox" id="{{ positions_mapped_to_team.position_index }}" value="{{ positions_mapped_to_team.position_index }}" />
                             {%  else %}
-                                <input name="github_mapping_selected_officer_position"  type="checkbox" id="{{ positions_mapped_to_team.position_index }}" value="{{ positions_mapped_to_team.position_index }}" />
+                                <input name="{GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY}}"  type="checkbox" id="{{ positions_mapped_to_team.position_index }}" value="{{ positions_mapped_to_team.position_index }}" />
                             {%  endif %}
                             <label>{{ positions_mapped_to_team.position_name }}</label><br>
                         {%  endfor %}
@@ -23,11 +23,11 @@
                     <td><input type="text" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ github_team.team_name }}"></td>
                     <td>
                         {%  if github_team.marked_for_deletion is True %}
-                            <input type="submit" name="un_delete_github_mapping" value="Un-Delete">
+                            <input type="submit" name="{{USER_SELECTED_TO_UNDELETE_GITHUB_MAPPING_KEY}}" value="Un-Delete">
                         {%  else %}
-                            <input type="submit" name="update_github_mapping" value="Update">
-                            <input type="submit" name="delete_github_mapping" value="Delete">
-                            <input type="submit" name="mark_for_deletion_github_mapping" value="Mark for Deletion">
+                            <input type="submit" name="{{USER_SELECTED_TO_UPDATE_GITHUB_MAPPING_KEY}}" value="Update">
+                            <input type="submit" name="{{USER_SELECTED_TO_DELETE_GITHUB_MAPPING_KEY}}" value="Delete">
+                            <input type="submit" name="{{USER_SELECTED_TO_MARK_GITHUB_MAPPING_FOR_DELETION_KEY}}" value="Mark for Deletion">
                         {%  endif %}
                     </td>
                 </form>

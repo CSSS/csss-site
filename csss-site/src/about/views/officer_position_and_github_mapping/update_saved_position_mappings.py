@@ -5,16 +5,11 @@ from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
+from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name
+from csss.Constants import Constants
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     get_current_term
 
-DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
-UN_DELETED_POSITION_MAPPING_KEY = 'un_delete_position_mapping'
-UPDATE_POSITION_MAPPING_KEY = 'update_position_mapping'
 
 logger = logging.getLogger('csss_site')
 
@@ -28,11 +23,11 @@ def update_saved_position_mappings(request):
 
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
-        if DELETE_POSITION_MAPPING_KEY in post_dict or UN_DELETED_POSITION_MAPPING_KEY in post_dict:
+        if Constants.DELETE_POSITION_MAPPING_KEY in post_dict or Constants.UN_DELETED_POSITION_MAPPING_KEY in post_dict:
             success, error_message = delete_or_undelete_position_mapping(post_dict)
             if not success:
                 context[ERROR_MESSAGES_KEY] = [f"{error_message}"]
-        elif UPDATE_POSITION_MAPPING_KEY in post_dict:
+        elif Constants.UPDATE_POSITION_MAPPING_KEY in post_dict:
             context[ERROR_MESSAGES_KEY] = update_position_mapping(post_dict)
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
@@ -49,19 +44,19 @@ def delete_or_undelete_position_mapping(post_dict):
     error_message -- an error_message if no valid position mapping ID is found, None otherwise
 
     """
-    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in post_dict
-            and f"{post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
+    if not (Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in post_dict
+            and f"{post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
             and len(
                 OfficerEmailListAndPositionMapping.objects.all().filter(
-                    id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
+                    id=int(post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
                 )
             ) > 0):
         return False, "No valid ID for a position mapping found"
 
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
-        id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
+        id=post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
     )
-    position_mapping_for_selected_officer.marked_for_deletion = DELETE_POSITION_MAPPING_KEY in post_dict
+    position_mapping_for_selected_officer.marked_for_deletion = Constants.DELETE_POSITION_MAPPING_KEY in post_dict
     position_mapping_for_selected_officer.save()
     logger.info(
         f"[about/position_mapping_helper.py officer_position_and_github_mapping()] deletion for position"
@@ -82,11 +77,11 @@ def update_position_mapping(post_dict):
     ERROR_MESSAGES -- a list of all the possible error messages
     """
     error_messages = []
-    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in post_dict
-            and f"{post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
+    if not (Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in post_dict
+            and f"{post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
             and len(
                 OfficerEmailListAndPositionMapping.objects.all().filter(
-                    id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
+                    id=int(post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
                 )
             ) > 0):
         error_message = "No valid position mapping id detected"
@@ -94,35 +89,35 @@ def update_position_mapping(post_dict):
         logger.info(f"[about/position_mapping_helper.py update_position_mapping()] {error_message}")
         return error_messages
 
-    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX in post_dict
-            and f"{post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]}".isdigit()):
+    if not (Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX in post_dict
+            and f"{post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]}".isdigit()):
         error_message = "No valid position index detected for position mapping"
         error_messages.append(error_message)
         logger.info(f"[about/position_mapping_helper.py update_position_mapping()] {error_message}")
         return error_messages
-    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME in post_dict):
+    if not (Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME in post_dict):
         error_message = "No valid position name detected for position mapping"
         error_messages.append(error_message)
         logger.info(f"[about/position_mapping_helper.py update_position_mapping()] {error_message}")
         return error_messages
-    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS in post_dict):
+    if not (Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS in post_dict):
         error_message = "No valid position email list detected for position mapping"
         error_messages.append(error_message)
         logger.info(f"[about/position_mapping_helper.py update_position_mapping()] {error_message}")
         return error_messages
 
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
-        id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
+        id=int(post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
     )
     logger.info(
         f"[about/position_mapping_helper.py officer_position_and_github_mapping()] "
         f"user has selected to update the position {position_mapping_for_selected_officer.position_name}"
     )
 
-    new_position_index_for_officer_position = int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX])
-    new_name_for_officer_position = post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME]
+    new_position_index_for_officer_position = int(post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX])
+    new_name_for_officer_position = post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME]
     new_sfu_email_list_address_for_officer_position = \
-        post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS]
+        post_dict[Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS]
 
     if new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
             and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \

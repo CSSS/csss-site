@@ -4,8 +4,8 @@ from django.shortcuts import render
 
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
-    POSITION_INDEX_KEY
+from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name
+from csss.Constants import Constants
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     there_are_multiple_entries
 from querystring_parser import parser
@@ -29,7 +29,7 @@ def input_new_officer_positions(request):
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
-        if 'add_new_position_mapping' in post_dict:
+        if Constants.user_selected_to_add_new_officer_position in post_dict:
             success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
                 add_new_position_mapping(post_dict)
 
@@ -67,10 +67,10 @@ def add_new_position_mapping(post_dict):
         number_of_entries = len(post_dict[POSITION_NAME_KEY])
         for index in range(number_of_entries):
             position_name = post_dict[POSITION_NAME_KEY][index]
-            position_index = post_dict[POSITION_INDEX_KEY][index]
+            position_index = post_dict[Constants.POSITION_INDEX_KEY][index]
             position_email = post_dict[POSITION_EMAIL_KEY][index]
             unsaved_position_mappings.append(
-                {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
+                {POSITION_NAME_KEY: position_name, Constants.POSITION_INDEX_KEY: position_index,
                  POSITION_EMAIL_KEY: position_email}
             )
             success, error_message = validate_position_mappings(position_index, position_name,
@@ -94,11 +94,11 @@ def add_new_position_mapping(post_dict):
             )
             for index in range(number_of_entries):
                 OfficerEmailListAndPositionMapping(position_name=post_dict[POSITION_NAME_KEY][index],
-                                                   position_index=post_dict[POSITION_INDEX_KEY][index],
+                                                   position_index=post_dict[Constants.POSITION_INDEX_KEY][index],
                                                    email=post_dict[POSITION_EMAIL_KEY][index]).save()
     else:
         success, error_message = \
-            validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
+            validate_position_mappings(post_dict[Constants.POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
         if success:
             logger.info(
                 f"[about/position_mapping_helper.py officer_position_and_github_mapping()] "
@@ -106,7 +106,7 @@ def add_new_position_mapping(post_dict):
             )
 
             OfficerEmailListAndPositionMapping(position_name=post_dict[POSITION_NAME_KEY],
-                                               position_index=post_dict[POSITION_INDEX_KEY],
+                                               position_index=post_dict[Constants.POSITION_INDEX_KEY],
                                                email=post_dict[POSITION_EMAIL_KEY]).save()
         else:
             logger.info(
@@ -114,7 +114,7 @@ def add_new_position_mapping(post_dict):
                 f"save new position {post_dict[POSITION_NAME_KEY]} due to error {error_message}"
             )
             unsaved_position_mappings = [
-                {POSITION_NAME_KEY: post_dict[POSITION_NAME_KEY], POSITION_INDEX_KEY: post_dict[POSITION_INDEX_KEY],
+                {POSITION_NAME_KEY: post_dict[POSITION_NAME_KEY], Constants.POSITION_INDEX_KEY: post_dict[Constants.POSITION_INDEX_KEY],
                  POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY]}]
             error_messages.append(error_message)
             return False, error_messages, unsaved_position_mappings

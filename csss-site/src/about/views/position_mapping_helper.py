@@ -1,52 +1,48 @@
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
+from csss.Constants import Constants
 from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam
 
 logger = logging.getLogger('csss_site')
 
-GITHUB_TEAM__ID_KEY = "github_mapping__id"
-SAVED_GITHUB_MAPPINGS = 'github_teams'
-
-OFFICER_POSITION_AVAILABLE_FOR_GITHUB_MAPPINGS = 'github_position_mapping'
-
-POSITION_INDEX_KEY = 'position_index'
-
-SAVED_OFFICER_POSITIONS = 'saved_officer_positions'
-
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID = "officer_email_list_and_position_mapping__id"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_and_position_mapping__position_index"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
-    "officer_email_list_and_position_mapping__email_list_address"
-GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
-
-TEAM_NAME_KEY = 'team_name'
-
 
 def update_context(context):
     context.update({
-        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID': OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID': Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX':
-            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX,
+            Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME':
-            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
+            Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
-            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
-        'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,  # checked
-        'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,  # checked
+            Constants.OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
+        'GITHUB_TEAM__ID_KEY': Constants.GITHUB_TEAM__ID_KEY,  # checked
+        'GITHUB_TEAM__TEAM_NAME_KEY': Constants.GITHUB_TEAM__TEAM_NAME_KEY,  # checked
+        'GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY': Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY,
+        'USER_SELECTED_CREATE_NEW_GITHUB_MAPPING': Constants.user_selected_to_create_new_github_mapping,
+        'POSITION_INDEX_KEY': Constants.POSITION_INDEX_KEY,
+        'POSITION_NAME_KEY': Constants.POSITION_NAME,
+        'POSITION_EMAIL_KEY': Constants.POSITION_EMAIL,
+        'USER_SELECTED_TO_UNDELETE_GITHUB_MAPPING_KEY': Constants.user_selected_to_un_delete_github_mapping,
+        'USER_SELECTED_TO_UPDATE_GITHUB_MAPPING_KEY': Constants.user_selected_to_update_github_mapping,
+        'USER_SELECTED_TO_DELETE_GITHUB_MAPPING_KEY': Constants.user_selected_to_delete_github_mapping,
+        "USER_SELECTED_TO_MARK_GITHUB_MAPPING_FOR_DELETION_KEY":
+            Constants.user_selected_to_mark_github_mapping_for_deletion,
+        "UN_DELETED_POSITION_MAPPING_KEY": Constants.UN_DELETED_POSITION_MAPPING_KEY,
+        "UPDATE_POSITION_MAPPING_KEY": Constants.UPDATE_POSITION_MAPPING_KEY,
+        "DELETE_POSITION_MAPPING_KEY": Constants.DELETE_POSITION_MAPPING_KEY
     })
 
     position_mapping_for_selected_officer = \
         OfficerEmailListAndPositionMapping.objects.all().order_by('position_index')
     if len(position_mapping_for_selected_officer) > 0:
-        context[SAVED_OFFICER_POSITIONS] = position_mapping_for_selected_officer
+        context[Constants.SAVED_OFFICER_POSITIONS] = position_mapping_for_selected_officer
 
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
         'position_index').exclude(marked_for_deletion=True)
     if len(position_mapping_for_selected_officer) > 0:
-        context[OFFICER_POSITION_AVAILABLE_FOR_GITHUB_MAPPINGS] = position_mapping_for_selected_officer
+        context[Constants.OFFICER_POSITION_AVAILABLE_FOR_GITHUB_MAPPINGS] = position_mapping_for_selected_officer
 
     github_position_mappings = OfficerPositionGithubTeam.objects.all().order_by('id')
     if len(github_position_mappings) > 0:
@@ -54,25 +50,25 @@ def update_context(context):
         for github_position_mapping in github_position_mappings:
             github_team_mapping = {
                 'team_id': github_position_mapping.id,
-                TEAM_NAME_KEY: github_position_mapping.team_name,
+                Constants.TEAM_NAME_KEY: github_position_mapping.team_name,
                 'marked_for_deletion': github_position_mapping.marked_for_deletion,
                 'positions': []
             }
             selected_positions_for_mapping = [
                 position_mapped_to_github_team.officer_position_mapping.position_index for
                 position_mapped_to_github_team in
-                github_position_mapping.officerpositiongithubteammappingnew_set.all()
+                github_position_mapping.officerpositiongithubteammapping_set.all()
             ]
             for position in position_mapping_for_selected_officer:
                 github_team_mapping['positions'].append(
                     {
                         "position_name": position.position_name,
-                        POSITION_INDEX_KEY: position.position_index,
+                        Constants.POSITION_INDEX_KEY: position.position_index,
                         "checked": position.position_index in selected_positions_for_mapping
                     }
                 )
             github_team_mappings.append(github_team_mapping)
-        context[SAVED_GITHUB_MAPPINGS] = github_team_mappings
+        context[Constants.SAVED_GITHUB_MAPPINGS] = github_team_mappings
 
     if ERROR_MESSAGES_KEY in context:
         error_experienced = False
@@ -136,9 +132,6 @@ def validate_position_name(position_name, submitted_position_names=None):
     return True, None
 
 
-GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY = 'github_mapping_selected_officer_position'
-
-
 def extract_valid_officers_indices_selected_for_github_team(post_dict):
     """
     extracts the officer position indices that have been selected to add to a github team
@@ -152,37 +145,37 @@ def extract_valid_officers_indices_selected_for_github_team(post_dict):
     error_message -- the error message if not successful, otherwise None
     officer_position_indices -- an int list of officer position indices that have been selected, if any were selected
     """
-    if not (GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY in post_dict):
+    if not (Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY in post_dict):
         error_message = "Did not find any positions that were selected"
         logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
         return False, error_message, None
-    for officer_position_index in post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]:
+    for officer_position_index in post_dict[Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]:
         if not f"{officer_position_index}".isdigit():
             error_message = "Invalid position ID detected"
             logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
             return False, error_message, None
 
     officer_position_indices = []
-    if there_are_multiple_entries(post_dict, GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY):
+    if there_are_multiple_entries(post_dict, Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY):
         officer_position_indices = [int(officer_position_index) for officer_position_index in
-                                    post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]]
+                                    post_dict[Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]]
         logger.info(
             f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found "
             "multiple officer position indices. Transformed "
-            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices}"
+            f"{post_dict[Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices}"
             f" which has of {len(officer_position_indices)}"
         )
         success = len(officer_position_indices) > 0
     else:
-        if f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]}".isdigit():
-            officer_position_indices = [int(post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY])]
+        if f"{post_dict[Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]}".isdigit():
+            officer_position_indices = [int(post_dict[Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY])]
             success = True
         else:
             success = False
         logger.info(
             f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found a "
             "single officer position index. Transformed "
-            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices},"
+            f"{post_dict[Constants.GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices},"
             f" and has a success of {success}"
         )
     if not success:
