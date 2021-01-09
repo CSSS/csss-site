@@ -30,7 +30,6 @@ def index(request):
     if ERROR_MESSAGE_KEY in request.session:
         context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]
-    context['github_team'] = "to be declared"
     context['non_officer_github_member'] = NonOfficerGithubMember.objects.all().filter().order_by('id')
     context['GITHUB_RECORD_KEY'] = GITHUB_RECORD_KEY
     context['GITHUB_USERNAME_KEY'] = GITHUB_USERNAME_KEY
