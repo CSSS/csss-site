@@ -5,9 +5,12 @@ import github
 from github import Github
 from github.GithubException import RateLimitExceededException, GithubException
 
-from csss.Constants import Constants
-
 logger = logging.getLogger('csss_site')
+
+CSSS_GITHUB_ORG_NAME = 'CSSS'
+CSS_GITHUB_ORG_PRIVACY = 'closed'
+github_exception_team_name_not_unique = 422
+time_to_wait_due_to_github_rate_limit = 60
 
 
 class GitHubAPI:
@@ -22,13 +25,13 @@ class GitHubAPI:
             try:
                 self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
                 self.org = self.git.get_organization(
-                    Constants.CSSS_GITHUB_ORG_NAME)
+                    CSSS_GITHUB_ORG_NAME)
                 # https://pygithub.readthedocs.io/en/latest/github_objects/Organization.html
                 # #github.Organization.Organization
                 self.connection_successful = True
             except Exception as e:
                 self.error_message = f"experienced following error when trying to" \
-                                     f" connect to Github and get Org \"{Constants.CSSS_GITHUB_ORG_NAME}\":\n{e}"
+                                     f" connect to Github and get Org \"{CSSS_GITHUB_ORG_NAME}\":\n{e}"
                 logger.error(f"[GitHubAPI __init__()] {self.error_message}")
 
     def create_team(self, team_name):
@@ -46,10 +49,10 @@ class GitHubAPI:
             return False, self.error_message
         try:
             logger.info(f"[GitHubAPI create_team()] attempting to create team {team_name}")
-            self.org.create_team(team_name, privacy=Constants.CSS_GITHUB_ORG_PRIVACY)
+            self.org.create_team(team_name, privacy=CSS_GITHUB_ORG_PRIVACY)
             logger.info(f"[GitHubAPI create_team()] created team {team_name}")
         except github.GithubException as e:
-            if e.status != Constants.github_exception_team_name_not_unique:  # do not bother with exception about
+            if e.status != github_exception_team_name_not_unique:  # do not bother with exception about
                 # the team name not being unique
                 error_message = f"Unable to create team {team_name}"
                 logger.error(
@@ -111,12 +114,12 @@ class GitHubAPI:
                     if github_user not in self.org.get_members():
                         logger.info(
                             f"[GitHubAPI add_users_to_a_team()] adding {user} "
-                            f"to {Constants.CSSS_GITHUB_ORG_NAME} org and inviting them to {team_name} team."
+                            f"to {CSSS_GITHUB_ORG_NAME} org and inviting them to {team_name} team."
                         )
                         self.org.invite_user(user=github_user, teams=[team])
                         logger.info(
                             f"[GitHubAPI add_users_to_a_team()] send an invite to the user {user} to ORG"
-                            f" {Constants.CSSS_GITHUB_ORG_NAME} and team {team_name}"
+                            f" {CSSS_GITHUB_ORG_NAME} and team {team_name}"
                         )
                     elif not team.has_in_members(github_user):
                         logger.info(f"[GitHubAPI add_users_to_a_team()] adding {user} to the {team_name} team.")
@@ -128,7 +131,7 @@ class GitHubAPI:
                     else:
                         logger.info(
                             f"[GitHubAPI add_users_to_a_team()] it seems that {github_user} already is in "
-                            f"the org {Constants.CSSS_GITHUB_ORG_NAME} and a member of the {team} team"
+                            f"the org {CSSS_GITHUB_ORG_NAME} and a member of the {team} team"
                         )
             except Exception as e:
                 error_message = f" Unable to add user \"{user}\" to the team {team_name}"
@@ -253,7 +256,7 @@ class GitHubAPI:
         """
         if not self.connection_successful:
             return False, self.error_message
-        logger.info(f"[GitHubAPI ensure_proper_membership()] reading from org {Constants.CSSS_GITHUB_ORG_NAME}")
+        logger.info(f"[GitHubAPI ensure_proper_membership()] reading from org {CSSS_GITHUB_ORG_NAME}")
 
         for user in users_team_membership.keys():
             logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
@@ -266,9 +269,9 @@ class GitHubAPI:
                     user_has_been_acquired = True
                 except RateLimitExceededException:
                     logger.info("[GitHubAPI ensure_proper_membership()] "
-                                f"sleeping for {Constants.time_to_wait_due_to_github_rate_limit} seconds since rate "
+                                f"sleeping for {time_to_wait_due_to_github_rate_limit} seconds since rate "
                                 f"limit was encountered")
-                    sleep(Constants.time_to_wait_due_to_github_rate_limit)
+                    sleep(time_to_wait_due_to_github_rate_limit)
                 except GithubException as e:
                     logger.error("[GitHubAPI ensure_proper_membership()] "
                                  f"encountered error {e} when looking for user {user}")

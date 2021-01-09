@@ -3,7 +3,6 @@ import logging
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_mapping.display_position_mapping_html import display_position_mapping_html
 from about.views.position_mapping_helper import validate_position_index, validate_position_name
-from csss.Constants import Constants
 from csss.views_helper import ERROR_MESSAGES_KEY, there_are_multiple_entries
 
 logger = logging.getLogger('csss_site')
@@ -45,39 +44,39 @@ def get_new_position_mapping_entries(post_dict):
     new_mapping_entries -- the array of position mapping dictionaries
     error_message -- either the error message or None
     """
-    if Constants.POSITION_NAME not in post_dict:
+    if POSITION_NAME not in post_dict:
         logger.error(
             "[about/position_mapping.py get_new_position_mapping_entries()] could not find"
-            f"any value for {Constants.POSITION_NAME} in request.POST")
+            f"any value for {POSITION_NAME} in request.POST")
         return None, "Unable to find any of the names for the new positions"
-    if Constants.POSITION_INDEX not in post_dict:
+    if POSITION_INDEX not in post_dict:
         logger.error(
             "[about/position_mapping.py get_new_position_mapping_entries()] could not find"
-            f"any value for {Constants.POSITION_INDEX} in request.POST")
+            f"any value for {POSITION_INDEX} in request.POST")
         return None, "Unable to find any of the indices for the new positions"
-    if Constants.POSITION_EMAIL not in post_dict:
+    if POSITION_EMAIL not in post_dict:
         logger.error(
             "[about/position_mapping.py get_new_position_mapping_entries()] could not find"
-            f"any value for {Constants.POSITION_EMAIL} in request.POST")
+            f"any value for {POSITION_EMAIL} in request.POST")
         return None, "Unable to find any of the emails for the new positions"
 
     new_mapping_entries = []
-    if there_are_multiple_entries(post_dict, Constants.POSITION_NAME):
-        for index in range(len(post_dict[Constants.POSITION_NAME])):
-            position_name = post_dict[Constants.POSITION_NAME][index]
-            position_index = post_dict[Constants.POSITION_INDEX][index]
-            position_email = post_dict[Constants.POSITION_EMAIL][index]
+    if there_are_multiple_entries(post_dict, POSITION_NAME):
+        for index in range(len(post_dict[POSITION_NAME])):
+            position_name = post_dict[POSITION_NAME][index]
+            position_index = post_dict[POSITION_INDEX][index]
+            position_email = post_dict[POSITION_EMAIL][index]
             new_mapping_entries.append({
-                Constants.POSITION_NAME: position_name,
-                Constants.POSITION_INDEX: position_index,
-                Constants.POSITION_EMAIL: position_email
+                POSITION_NAME: position_name,
+                POSITION_INDEX: position_index,
+                POSITION_EMAIL: position_email
             }
             )
     else:
         new_mapping_entries.append(
-            {Constants.POSITION_NAME: post_dict[Constants.POSITION_NAME],
-             Constants.POSITION_INDEX: post_dict[Constants.POSITION_INDEX],
-             Constants.POSITION_EMAIL: post_dict[Constants.POSITION_EMAIL]}
+            {POSITION_NAME: post_dict[POSITION_NAME],
+             POSITION_INDEX: post_dict[POSITION_INDEX],
+             POSITION_EMAIL: post_dict[POSITION_EMAIL]}
         )
     return new_mapping_entries, None
 
@@ -99,21 +98,21 @@ def validate_new_position_mapping_entries(new_mapping_entries):
     error_messages = []
     for new_mapping in new_mapping_entries:
         logger.info(f"[about/position_mapping.py validate_new_position_mapping_entries()] validating "
-                    f"new position index {new_mapping[Constants.POSITION_INDEX]}"
-                    f" with name {new_mapping[Constants.POSITION_NAME]}")
+                    f"new position index {new_mapping[POSITION_INDEX]}"
+                    f" with name {new_mapping[POSITION_NAME]}")
         success, error_message = validate_position_mappings(
-            new_mapping[Constants.POSITION_INDEX],
-            new_mapping[Constants.POSITION_NAME],
+            new_mapping[POSITION_INDEX],
+            new_mapping[POSITION_NAME],
             submitted_positions=submitted_positions, submitted_position_indexes=submitted_position_indexes
         )
-        submitted_positions.append(new_mapping[Constants.POSITION_NAME])
-        submitted_position_indexes.append(new_mapping[Constants.POSITION_INDEX])
+        submitted_positions.append(new_mapping[POSITION_NAME])
+        submitted_position_indexes.append(new_mapping[POSITION_INDEX])
         if not success:
             overall_success = False
             error_messages.append(f"{error_message}")
             logger.info("[about/position_mapping.py validate_new_position_mapping_entries()] "
                         "unable to validate the new position"
-                        f" {new_mapping[Constants.POSITION_NAME]} due to {error_message}")
+                        f" {new_mapping[POSITION_NAME]} due to {error_message}")
     return overall_success, error_messages
 
 
@@ -126,9 +125,9 @@ def save_new_position_mappings(new_mapping_entries):
 
     """
     for new_mapping in new_mapping_entries:
-        position_name = new_mapping[Constants.POSITION_NAME]
-        position_index = new_mapping[Constants.POSITION_INDEX]
-        position_email = new_mapping[Constants.POSITION_EMAIL]
+        position_name = new_mapping[POSITION_NAME]
+        position_index = new_mapping[POSITION_INDEX]
+        position_email = new_mapping[POSITION_EMAIL]
         OfficerEmailListAndPositionMapping(position_name=position_name,
                                            position_index=position_index,
                                            email=position_email).save()

@@ -4,14 +4,14 @@
         {% if unsaved_github_officer_team_name_mapping is not None %}
             <div style="border: 3px solid black; padding: 10px;">
                 <label>Github Team Name: </label>
-                <input type="text" id="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" value="{{ unsaved_github_officer_team_name_mapping.team_name }}" required><br>
+                <input type="text" id="github_mapping__team_name" name="github_mapping__team_name" value="{{ unsaved_github_officer_team_name_mapping.team_name }}" required><br>
                 <label>Applicable Officer: </label><br>
                     {%  for position in unsaved_github_officer_team_name_mapping.officer_positions %}
                         <div style="border: 1px transparent solid; display:inline-block;" >
                             {% if position.checked %}
-                                <input type="checkbox" checked name="{{GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY}}" id="{{ position.position_index }}" value="{{ position.position_index }}" />
+                                <input type="checkbox" checked name="github_mapping_selected_officer_position" id="{{ position.position_index }}" value="{{ position.position_index }}" />
                             {%  else %}
-                                <input type="checkbox" name="{{GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY}}" id="{{ position.position_index }}" value="{{ position.position_index }}" />
+                                <input type="checkbox" name="github_mapping_selected_officer_position" id="{{ position.position_index }}" value="{{ position.position_index }}" />
                             {%  endif %}
                             <label>{{ position.position_name }}</label><br>
                         </div>
@@ -23,11 +23,11 @@
         {%  if unsaved_github_officer_team_name_mapping is None %}
             <div style="border: 3px solid black; padding: 10px;">
                 <label>Github Team Name: </label>
-                <input type="text" id="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" name="{{ GITHUB_TEAM__TEAM_NAME_KEY }}" required><br>
+                <input type="text" id="github_mapping__team_name" name="github_mapping__team_name" required><br>
                 <label>Applicable Officer: </label><br>
                 {%  for position in github_position_mapping %}
                     <div style="border: 1px transparent solid; display:inline-block;" >
-                        <input type="checkbox" name="{{GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY}}" id="{{ position.position_index }}" value="{{ position.position_index }}" />
+                        <input type="checkbox" name="github_mapping_selected_officer_position" id="{{ position.position_index }}" value="{{ position.position_index }}" />
                         <label>{{ position.position_name }}</label><br>
                     </div>
                 {%  endfor %}
@@ -35,5 +35,5 @@
             </div>
         {%  endif %}
     </div>
-    <input type="submit" name="{{USER_SELECTED_CREATE_NEW_GITHUB_MAPPING}}" value="Submit">
+    <input type="submit" name="create_new_github_mapping" value="Submit">
 </form>
