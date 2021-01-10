@@ -4,7 +4,8 @@ from django.shortcuts import render
 
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, POSITION_INDEX_KEY
+from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
+    POSITION_INDEX_KEY
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     there_are_multiple_entries
 from querystring_parser import parser
