@@ -31,12 +31,12 @@ def input_new_officer_positions(request):
         post_dict = parser.parse(request.POST.urlencode())
         if 'add_new_position_mapping' in post_dict:
             success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
-                add_new_position_mapping(post_dict)
+                _add_new_position_mapping(post_dict)
 
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
 
-def add_new_position_mapping(post_dict):
+def _add_new_position_mapping(post_dict):
     """
     Adds a new officer position mapping
 
@@ -73,7 +73,7 @@ def add_new_position_mapping(post_dict):
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
                  POSITION_EMAIL_KEY: position_email}
             )
-            success, error_message = validate_position_mappings(position_index, position_name,
+            success, error_message = _validate_position_mappings(position_index, position_name,
                                                                 submitted_position_names=submitted_position_names,
                                                                 submitted_position_indices=submitted_position_indices)
             submitted_position_names.append(position_name)
@@ -98,7 +98,7 @@ def add_new_position_mapping(post_dict):
                                                    email=post_dict[POSITION_EMAIL_KEY][index]).save()
     else:
         success, error_message = \
-            validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
+            _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
         if success:
             logger.info(
                 f"[about/position_mapping_helper.py officer_position_and_github_mapping()] "
@@ -121,7 +121,7 @@ def add_new_position_mapping(post_dict):
     return True, error_messages, None
 
 
-def validate_position_mappings(position_index, position_name, submitted_position_names=None,
+def _validate_position_mappings(position_index, position_name, submitted_position_names=None,
                                submitted_position_indices=None):
     """
     Validates the new inputted position name and index

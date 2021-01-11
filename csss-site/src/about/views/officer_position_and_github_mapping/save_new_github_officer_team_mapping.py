@@ -34,14 +34,14 @@ def save_new_github_officer_team_mapping(request):
         post_dict = parser.parse(request.POST.urlencode())
         if 'create_new_github_mapping' in post_dict:
             context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], \
-                context[ERROR_MESSAGES_KEY] = create_new_github_mapping(post_dict)
+                context[ERROR_MESSAGES_KEY] = _create_new_github_mapping(post_dict)
             if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
                 del context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY]
 
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
 
-def create_new_github_mapping(post_dict):
+def _create_new_github_mapping(post_dict):
     """
     Saves a new github team and its assign officers
 
@@ -59,7 +59,7 @@ def create_new_github_mapping(post_dict):
         error_message = "No team name detected"
         logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
         error_messages.append(error_message)
-        return create_unsaved_github_officer_team_name_mappings(), error_messages
+        return _create_unsaved_github_officer_team_name_mappings(), error_messages
     team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
     logger.info(
         f"[about/position_mapping_helper.py create_new_github_mapping()] determined the team name to be {team_name}")
@@ -69,16 +69,16 @@ def create_new_github_mapping(post_dict):
     if not success:
         error_messages.append(error_message)
         return \
-            create_unsaved_github_officer_team_name_mappings(
+            _create_unsaved_github_officer_team_name_mappings(
                 team_name, officer_position_indices=officer_position_indices
             ), error_messages
 
-    success, error_message = validate_officer_indices_and_team_name_for_new_github_team(
+    success, error_message = _validate_officer_indices_and_team_name_for_new_github_team(
         officer_position_indices, team_name)
     if not success:
         error_messages.append(error_message)
         return \
-            create_unsaved_github_officer_team_name_mappings(
+            _create_unsaved_github_officer_team_name_mappings(
                 team_name,
                 officer_position_indices=officer_position_indices
             ), error_messages
@@ -92,11 +92,11 @@ def create_new_github_mapping(post_dict):
         f" to new github team are {officer_position_indices}"
     )
 
-    error_messages.extend(save_new_github_team_mapping(officer_position_indices, team_name))
+    error_messages.extend(_save_new_github_team_mapping(officer_position_indices, team_name))
     return unsaved_github_officer_team_name_mappings, error_messages
 
 
-def create_unsaved_github_officer_team_name_mappings(team_name="", officer_position_indices=None):
+def _create_unsaved_github_officer_team_name_mappings(team_name="", officer_position_indices=None):
     if officer_position_indices is None:
         officer_position_indices = []
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
@@ -120,7 +120,7 @@ def create_unsaved_github_officer_team_name_mappings(team_name="", officer_posit
     return unsaved_github_officer_team_name_mappings
 
 
-def validate_officer_indices_and_team_name_for_new_github_team(officer_position_indices, team_name):
+def _validate_officer_indices_and_team_name_for_new_github_team(officer_position_indices, team_name):
     """
     ensures that the specified officer_position_indices and team name can be used for a brand new mapping by ensuring
     that there is no mapping that already exists for the team_name and all the specified officer_position_indices
@@ -139,23 +139,23 @@ def validate_officer_indices_and_team_name_for_new_github_team(officer_position_
             error_message = f"There is no position mapped to the position index of {officer_position_index}"
             logger.info(
                 "[about/position_mapping_helper.py "
-                f"validate_officer_indices_and_team_name_for_new_github_team()] {error_message}"
+                f"_validate_officer_indices_and_team_name_for_new_github_team()] {error_message}"
             )
             return False, error_message
     if len(OfficerPositionGithubTeam.objects.all().filter(team_name=team_name)) == 0:
         logger.info(
-            "[about/position_mapping_helper.py validate_officer_indices_and_team_name_for_new_github_team()]"
+            "[about/position_mapping_helper.py _validate_officer_indices_and_team_name_for_new_github_team()]"
             " successful validation")
         return True, None
     else:
         error_message = f"There is already a github team mapping for {team_name}"
         logger.info(
-            "[about/position_mapping_helper.py validate_officer_indices_and_team_name_for_new_github_team()]"
+            "[about/position_mapping_helper.py _validate_officer_indices_and_team_name_for_new_github_team()]"
             f" {error_message}")
         return False, error_message
 
 
-def save_new_github_team_mapping(officer_position_indices, team_name):
+def _save_new_github_team_mapping(officer_position_indices, team_name):
     """
     save the specified github team mapping as well as try to save all the applicable officers under that team
 
@@ -168,7 +168,7 @@ def save_new_github_team_mapping(officer_position_indices, team_name):
     """
     error_messages = []
     success, error_message, officers, position_mapping_objs = \
-        get_officers_and_position_mappings_assigned_to_specified_positions_indices(
+        _get_officers_and_position_mappings_assigned_to_specified_positions_indices(
             officer_position_indices)
     if not success:
         error_messages.append(error_message)
@@ -176,13 +176,13 @@ def save_new_github_team_mapping(officer_position_indices, team_name):
     else:
         github_team = OfficerPositionGithubTeam(team_name=team_name)
         github_team.save()
-        logger.info("[about/position_mapping_helper.py save_new_github_team_mapping()] "
+        logger.info("[about/position_mapping_helper.py _save_new_github_team_mapping()] "
                     f"OfficerPositionGithubTeam object saved for team {team_name}")
         for position_mapping_obj in position_mapping_objs:
             OfficerPositionGithubTeamMapping(
                 github_team=github_team, officer_position_mapping=position_mapping_obj
             ).save()
-            logger.info("[about/position_mapping_helper.py save_new_github_team_mapping()] "
+            logger.info("[about/position_mapping_helper.py _save_new_github_team_mapping()] "
                         f"OfficerPositionGithubTeamMapping object saved for team {team_name} and officer "
                         f"{position_mapping_obj}")
         github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
@@ -198,7 +198,7 @@ def save_new_github_team_mapping(officer_position_indices, team_name):
             return error_messages
 
 
-def get_officers_and_position_mappings_assigned_to_specified_positions_indices(officer_position_indices):
+def _get_officers_and_position_mappings_assigned_to_specified_positions_indices(officer_position_indices):
     """
     Returns all officers and officer_mappings that map to the specified officer_position_indices
 
@@ -221,7 +221,7 @@ def get_officers_and_position_mappings_assigned_to_specified_positions_indices(o
         error_message = f"No terms exist for current term of {current_term_number}"
         logger.info(
             f"[about/position_mapping_helper.py "
-            f"get_officers_and_position_mappings_assigned_to_specified_positions_indices()] {error_message}"
+            f"_get_officers_and_position_mappings_assigned_to_specified_positions_indices()] {error_message}"
         )
         return False, error_message, None, None
     term_obj = terms_obj[0]
@@ -235,13 +235,13 @@ def get_officers_and_position_mappings_assigned_to_specified_positions_indices(o
             error_message = f"No officer found for position with position_index {officer_position_index}"
             logger.info(
                 "[about/position_mapping_helper.py "
-                f"get_officers_and_position_mappings_assigned_to_specified_positions_indices()] {error_message}"
+                f"_get_officers_and_position_mappings_assigned_to_specified_positions_indices()] {error_message}"
             )
             return False, f"{error_message}", None, None
         officer_position_mappings.append(officer_position_mapping[0])
     logger.info(
         "[about/position_mapping_helper.py "
-        "get_officers_and_position_mappings_assigned_to_specified_positions_indices()]"
+        "_get_officers_and_position_mappings_assigned_to_specified_positions_indices()]"
         f" officer_position_mappings = {officer_position_mappings}"
     )
 
@@ -255,6 +255,6 @@ def get_officers_and_position_mappings_assigned_to_specified_positions_indices(o
         ])
     logger.info(
         "[about/position_mapping_helper.py "
-        f"get_officers_and_position_mappings_assigned_to_specified_positions_indices()] officers = {officers}"
+        f"_get_officers_and_position_mappings_assigned_to_specified_positions_indices()] officers = {officers}"
     )
     return True, None, officers, officer_position_mappings

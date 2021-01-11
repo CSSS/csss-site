@@ -33,18 +33,18 @@ def update_saved_github_mappings(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if "un_delete_github_mapping" in post_dict:
-            context[ERROR_MESSAGES_KEY] = toggle_deletion_status_for_github_mapping(post_dict, False)
+            context[ERROR_MESSAGES_KEY] = _toggle_deletion_status_for_github_mapping(post_dict, False)
         elif "mark_for_deletion_github_mapping" in post_dict:
-            context[ERROR_MESSAGES_KEY] = toggle_deletion_status_for_github_mapping(post_dict, True)
+            context[ERROR_MESSAGES_KEY] = _toggle_deletion_status_for_github_mapping(post_dict, True)
         elif "update_github_mapping" in post_dict:
-            context[ERROR_MESSAGES_KEY] = update_github_mapping(post_dict)
+            context[ERROR_MESSAGES_KEY] = _update_github_mapping(post_dict)
         elif "delete_github_mapping" in post_dict:
-            context[ERROR_MESSAGES_KEY] = delete_github_mapping(post_dict)
+            context[ERROR_MESSAGES_KEY] = _delete_github_mapping(post_dict)
 
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
 
-def toggle_deletion_status_for_github_mapping(post_dict, delete):
+def _toggle_deletion_status_for_github_mapping(post_dict, delete):
     """
     Marking a github team for deletion
 
@@ -73,7 +73,7 @@ def toggle_deletion_status_for_github_mapping(post_dict, delete):
     return error_messages
 
 
-def update_github_mapping(post_dict):
+def _update_github_mapping(post_dict):
     """
     Updates a github mapping. This includes its name and the officer positions assigned to it
 
@@ -86,25 +86,25 @@ def update_github_mapping(post_dict):
     success, error_message, officer_position_indices = \
         extract_valid_officers_indices_selected_for_github_team(post_dict)
     if not success:
-        logger.info(f"[about/position_mapping_helper.py update_github_mapping()] {error_message}")
+        logger.info(f"[about/position_mapping_helper.py _update_github_mapping()] {error_message}")
         return [error_message]
     if not (GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
         error_message = "No valid team name detected"
-        logger.info(f"[about/position_mapping_helper.py update_github_mapping()] {error_message}")
+        logger.info(f"[about/position_mapping_helper.py _update_github_mapping()] {error_message}")
         return [error_message]
     if not (GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and len(
             OfficerPositionGithubTeam.objects.all().filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
         error_message = "No valid team id detected"
-        logger.info(f"[about/position_mapping_helper.py update_github_mapping()] {error_message}")
+        logger.info(f"[about/position_mapping_helper.py _update_github_mapping()] {error_message}")
         return [error_message]
 
     logger.info(
-        "[about/position_mapping_helper.py update_github_mapping()] officer_position_indices :"
+        "[about/position_mapping_helper.py _update_github_mapping()] officer_position_indices :"
         f" {officer_position_indices}"
     )
     new_github_team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
     logger.info(
-        f"[about/position_mapping_helper.py update_github_mapping()] new_github_team_name : {new_github_team_name}")
+        f"[about/position_mapping_helper.py _update_github_mapping()] new_github_team_name : {new_github_team_name}")
 
     github_team_db_obj = OfficerPositionGithubTeam.objects.get(id=int(post_dict[GITHUB_TEAM__ID_KEY]))
     github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
@@ -123,18 +123,18 @@ def update_github_mapping(post_dict):
         return [error_message]
     term_obj = terms_obj[0]
 
-    success, returned_error_messages = revoke_officer_with_specified_indices_access_to_specified_github_team(
+    success, returned_error_messages = _revoke_officer_with_specified_indices_access_to_specified_github_team(
         github_team_db_obj, github_api, term_obj,
-        get_indices_for_officer_positions_that_need_access_revoked(
+        _get_indices_for_officer_positions_that_need_access_revoked(
             github_team_db_obj,
             officer_position_indices)
     )
     error_messages = []
     if not success:
         error_messages.extend(returned_error_messages)
-    success, returned_error_messages = grant_officers_with_specified_indices_access_to_specified_github_team(
+    success, returned_error_messages = _grant_officers_with_specified_indices_access_to_specified_github_team(
         github_team_db_obj, github_api, term_obj,
-        get_indices_for_officer_positions_that_need_access_granted(
+        _get_indices_for_officer_positions_that_need_access_granted(
             github_team_db_obj,
             officer_position_indices)
     )
@@ -143,7 +143,7 @@ def update_github_mapping(post_dict):
     return error_messages
 
 
-def get_indices_for_officer_positions_that_need_access_revoked(github_team_db_obj, officer_position_indices):
+def _get_indices_for_officer_positions_that_need_access_revoked(github_team_db_obj, officer_position_indices):
     """
     Returns a list of all the position_indices that correspond to the
      officers who need to have their access to a github team revoked
@@ -181,7 +181,7 @@ def get_indices_for_officer_positions_that_need_access_revoked(github_team_db_ob
     return officer_position_indices_need_github_team_access_revoked
 
 
-def revoke_officer_with_specified_indices_access_to_specified_github_team(
+def _revoke_officer_with_specified_indices_access_to_specified_github_team(
         github_team_db_obj, github_api, term_obj,
         officer_position_indices_need_github_team_access_revoked):
     """
@@ -223,7 +223,7 @@ def revoke_officer_with_specified_indices_access_to_specified_github_team(
     return False, error_messages
 
 
-def get_indices_for_officer_positions_that_need_access_granted(github_team_db_obj, officer_position_indices):
+def _get_indices_for_officer_positions_that_need_access_granted(github_team_db_obj, officer_position_indices):
     """
     Returns a list of all the position_indices that correspond to the officers who need to have
      their access to a github team granted
@@ -251,7 +251,7 @@ def get_indices_for_officer_positions_that_need_access_granted(github_team_db_ob
     return officer_position_indices_grant_github_team_access
 
 
-def grant_officers_with_specified_indices_access_to_specified_github_team(
+def _grant_officers_with_specified_indices_access_to_specified_github_team(
         github_team, github_api, term_obj,
         officer_position_indices_grant_github_team_access):
     """
@@ -306,7 +306,7 @@ def grant_officers_with_specified_indices_access_to_specified_github_team(
     return False, error_messages
 
 
-def delete_github_mapping(post_dict):
+def _delete_github_mapping(post_dict):
     """
     Deletes the specific github team
 
@@ -320,13 +320,13 @@ def delete_github_mapping(post_dict):
     if not (GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and len(
             OfficerPositionGithubTeam.objects.filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
         error_message = "No valid team id detected"
-        logger.info("[about/position_mapping_helper.py delete_github_mapping()]"
+        logger.info("[about/position_mapping_helper.py _delete_github_mapping()]"
                     f" {error_message}")
         return [error_message]
     github_team_id = int(post_dict[GITHUB_TEAM__ID_KEY])
     github_mapping = OfficerPositionGithubTeam.objects.get(id=github_team_id)
     team_name = github_mapping.team_name
     github_mapping.delete()
-    logger.info(f"[about/position_mapping_helper.py delete_github_mapping()] deleted github team {team_name}")
+    logger.info(f"[about/position_mapping_helper.py _delete_github_mapping()] deleted github team {team_name}")
     GitHubAPI(settings.GITHUB_ACCESS_TOKEN).delete_team(team_name)
     return []
