@@ -73,9 +73,10 @@ def _add_new_position_mapping(post_dict):
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
                  POSITION_EMAIL_KEY: position_email}
             )
-            success, error_message = _validate_position_mappings(position_index, position_name,
-                                                                submitted_position_names=submitted_position_names,
-                                                                submitted_position_indices=submitted_position_indices)
+            success, error_message = _validate_position_mappings(
+                position_index, position_name,
+                submitted_position_names=submitted_position_names,
+                submitted_position_indices=submitted_position_indices)
             submitted_position_names.append(position_name)
             submitted_position_indices.append(position_index)
             if not success:
@@ -121,8 +122,9 @@ def _add_new_position_mapping(post_dict):
     return True, error_messages, None
 
 
-def _validate_position_mappings(position_index, position_name, submitted_position_names=None,
-                               submitted_position_indices=None):
+def _validate_position_mappings(
+        position_index, position_name, submitted_position_names=None,
+        submitted_position_indices=None):
     """
     Validates the new inputted position name and index
 
