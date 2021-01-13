@@ -69,6 +69,9 @@ class OfficerPositionGithubTeam(models.Model):
     marked_for_deletion = models.BooleanField(
         default=False
     )
+    relevant_previous_terms = models.IntegerField(
+        default=0
+    )
 
     def __str__(self):
         return f"officer github team {self.team_name}"
