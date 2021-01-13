@@ -1,6 +1,6 @@
 import logging
 
-from resource_management.views.current_officer_list import get_past_x_terms_officer_list
+from resource_management.views.get_past_x_terms_officer_list import get_past_x_terms_officer_list
 
 logger = logging.getLogger('csss_site')
 
