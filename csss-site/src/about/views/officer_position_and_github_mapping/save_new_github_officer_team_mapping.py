@@ -36,7 +36,7 @@ def save_new_github_officer_team_mapping(request):
         post_dict = parser.parse(request.POST.urlencode())
         if 'create_new_github_mapping' in post_dict:
             context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], \
-            context[ERROR_MESSAGES_KEY] = _create_new_github_mapping(post_dict)
+                context[ERROR_MESSAGES_KEY] = _create_new_github_mapping(post_dict)
             if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
                 del context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY]
 
