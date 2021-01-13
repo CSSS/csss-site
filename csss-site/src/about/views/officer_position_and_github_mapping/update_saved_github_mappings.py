@@ -234,7 +234,8 @@ def _revoke_officer_with_specified_names_access_to_specified_github_team(
                     github_team=github_team_db_obj, officer_position_mapping__position_name=position_name):
                 officer_github_mapping.delete()
                 logger.info(
-                    f"[about/position_mapping_helper.py update_existing_github_team_mappings()] {position_name} deleted"
+                    "[about/position_mapping_helper.py update_existing_github_team_mappings()] "
+                    f"{position_name} deleted"
                 )
             officers = Officer.objects.all().filter(position_name=position_name, elected_term=term)
 
