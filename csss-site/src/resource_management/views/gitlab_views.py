@@ -1,6 +1,6 @@
 import logging
 
-from resource_management.views.current_officer_list import create_current_officer_list
+from resource_management.views.current_officer_list import get_past_x_terms_officer_list
 
 logger = logging.getLogger('csss_site')
 
@@ -12,7 +12,7 @@ def create_gitlab_perms():
     Return
     officer -- Example < sfuid1, sfuid2, sfuid3, sfuid3 >
     """
-    sfuids = [officer.sfuid.lower() for officer in create_current_officer_list()]
+    sfuids = [officer.sfuid.lower() for officer in get_past_x_terms_officer_list()]
     gitlab_perms = []
     for item in sfuids:
         if item not in gitlab_perms:

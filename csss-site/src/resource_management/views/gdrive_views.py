@@ -9,7 +9,7 @@ from querystring_parser import parser
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
     ERROR_MESSAGE_KEY
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
-from .current_officer_list import create_current_officer_list
+from .current_officer_list import get_past_x_terms_officer_list
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 
 logger = logging.getLogger('csss_site')
@@ -376,7 +376,7 @@ def create_google_drive_perms():
         ],
     }
     """
-    officer_list = create_current_officer_list()
+    officer_list = get_past_x_terms_officer_list()
     logger.info(
         "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "
         f"to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"

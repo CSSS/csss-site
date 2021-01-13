@@ -8,7 +8,7 @@ from querystring_parser import parser
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
     ERROR_MESSAGE_KEY
 from resource_management.models import NonOfficerGithubMember
-from .current_officer_list import create_current_officer_list
+from .current_officer_list import get_past_x_terms_officer_list
 from .resource_apis.github.github_api import GitHubAPI
 
 GITHUB_RECORD_KEY = 'record_id'
@@ -184,7 +184,7 @@ def create_github_perms():
         ],
     }
     """
-    officers = create_current_officer_list()
+    officers = get_past_x_terms_officer_list()
     list_of_already_existing_github_team_membership_for_current_officers = []
     for github_membership_for_officer in officers:
         list_of_already_existing_github_team_membership_for_current_officers.extend(

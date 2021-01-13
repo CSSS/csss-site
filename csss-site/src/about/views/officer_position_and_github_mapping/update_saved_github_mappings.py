@@ -2,17 +2,17 @@ import logging
 
 from django.conf import settings
 from django.shortcuts import render
+from querystring_parser import parser
 
-from about.models import OfficerEmailListAndPositionMapping, Term, Officer
+from about.models import OfficerEmailListAndPositionMapping, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.officer_position_and_github_mapping.save_new_github_officer_team_mapping import \
     GITHUB_TEAM__TEAM_NAME_KEY
 from about.views.position_mapping_helper import update_context, \
-    extract_valid_officers_indices_selected_for_github_team, GITHUB_TEAM__ID_KEY
+    extract_valid_officers_positions_selected_for_github_team, GITHUB_TEAM__ID_KEY, \
+    GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
-    get_current_term
-from querystring_parser import parser
-
+    get_past_x_term_obj
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
@@ -83,24 +83,52 @@ def _update_github_mapping(post_dict):
     Return
     ERROR_MESSAGES -- the list of possible error messages
     """
-    success, error_message, officer_position_indices = \
-        extract_valid_officers_indices_selected_for_github_team(post_dict)
+    success, error_message, officer_position_names = \
+        extract_valid_officers_positions_selected_for_github_team(post_dict)
     if not success:
         logger.info(f"[about/position_mapping_helper.py _update_github_mapping()] {error_message}")
         return [error_message]
+
+    success, error_message = validate_position_names_for_github_team(officer_position_names)
+    if not success:
+        return [error_message]
+
     if not (GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
         error_message = "No valid team name detected"
         logger.info(f"[about/position_mapping_helper.py _update_github_mapping()] {error_message}")
         return [error_message]
+
     if not (GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and len(
             OfficerPositionGithubTeam.objects.all().filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
         error_message = "No valid team id detected"
         logger.info(f"[about/position_mapping_helper.py _update_github_mapping()] {error_message}")
         return [error_message]
 
+    if not (
+            GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY in post_dict and
+            f"{post_dict[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}".lstrip('-').isdigit()
+    ):
+        error_message = "No valid relevant previous terms detected"
+        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        return [error_message]
+
+    relevant_previous_terms = f"{post_dict[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}"
+    relevant_previous_terms = 0 - int(relevant_previous_terms.lstrip('-')) if relevant_previous_terms[0] == '-' \
+        else int(relevant_previous_terms)
+
+    if not (relevant_previous_terms >= 0):
+        error_message = "No valid relevant previous terms detected"
+        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        return [error_message]
+
     logger.info(
-        "[about/position_mapping_helper.py _update_github_mapping()] officer_position_indices :"
-        f" {officer_position_indices}"
+        "[about/position_mapping_helper.py _update_github_mapping()] officer_position_names :"
+        f" {officer_position_names}"
+    )
+
+    logger.info(
+        "[about/position_mapping_helper.py _update_github_mapping()] relevant_previous_terms :"
+        f" {relevant_previous_terms}"
     )
     new_github_team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
     logger.info(
@@ -113,37 +141,37 @@ def _update_github_mapping(post_dict):
         if not success:
             return [error_message]
         github_team_db_obj.team_name = new_github_team_name
+        github_team_db_obj.relevant_previous_terms = relevant_previous_terms
         github_team_db_obj.save()
 
-    current_term = get_current_term()
-    terms_obj = Term.objects.filter(term_number=current_term)
-    if len(terms_obj) == 0:
-        error_message = f"no terms exist for current term of {current_term}"
-        logger.info(f"[about/position_mapping_helper.py update_existing_github_team_mappings()] {error_message}")
-        return [error_message]
-    term_obj = terms_obj[0]
+    terms = get_past_x_term_obj(relevant_previous_terms=relevant_previous_terms)
 
-    success, returned_error_messages = _revoke_officer_with_specified_indices_access_to_specified_github_team(
-        github_team_db_obj, github_api, term_obj,
-        _get_indices_for_officer_positions_that_need_access_revoked(
+    officer_position_names_need_github_team_access_revoked = \
+        _get_names_for_officer_positions_that_need_access_revoked(
             github_team_db_obj,
-            officer_position_indices)
-    )
+            officer_position_names
+        )
+    officer_position_names_grant_github_team_access = \
+        _get_names_for_officer_positions_that_need_access_granted(github_team_db_obj, officer_position_names)
+
     error_messages = []
-    if not success:
-        error_messages.extend(returned_error_messages)
-    success, returned_error_messages = _grant_officers_with_specified_indices_access_to_specified_github_team(
-        github_team_db_obj, github_api, term_obj,
-        _get_indices_for_officer_positions_that_need_access_granted(
-            github_team_db_obj,
-            officer_position_indices)
+
+    success, returned_error_messages = _revoke_officer_with_specified_names_access_to_specified_github_team(
+        github_team_db_obj, github_api, terms, officer_position_names_need_github_team_access_revoked
     )
     if not success:
         error_messages.extend(returned_error_messages)
+
+    success, returned_error_messages = _grant_officers_with_specified_names_access_to_specified_github_team(
+        github_team_db_obj, github_api, terms, officer_position_names_grant_github_team_access
+    )
+    if not success:
+        error_messages.extend(returned_error_messages)
+
     return error_messages
 
 
-def _get_indices_for_officer_positions_that_need_access_revoked(github_team_db_obj, officer_position_indices):
+def _get_names_for_officer_positions_that_need_access_revoked(github_team_db_obj, officer_position_names):
     """
     Returns a list of all the position_indices that correspond to the
      officers who need to have their access to a github team revoked
@@ -156,34 +184,34 @@ def _get_indices_for_officer_positions_that_need_access_revoked(github_team_db_o
     officer_position_indices_need_github_team_access_revoked -- a list of all the position_indices
      that correspond to the officers who need to have their access to a github team revoked
     """
-    officer_position_indices_with_access_to_github_team = [
-        officer for officer in
+    officer_position_with_access_to_github_team = [
+        officer_position_github_mapping for officer_position_github_mapping in
         OfficerPositionGithubTeamMapping.objects.all().filter(github_team=github_team_db_obj)
     ]
     logger.info(
         "[about/position_mapping_helper.py get_officers_that_need_to_have_their_github_access_updated()]"
         " officer_github_team_mappings_who_currently_have_access_to_github_team ="
-        f" {officer_position_indices_with_access_to_github_team}"
+        f" {officer_position_with_access_to_github_team}"
     )
 
-    officer_position_indices_need_github_team_access_revoked = []
-    for officer_position_index_with_access_to_github_team in officer_position_indices_with_access_to_github_team:
-        if officer_position_index_with_access_to_github_team.officer_position_mapping.position_index not in \
-                officer_position_indices:
-            officer_position_indices_need_github_team_access_revoked.append(
-                officer_position_index_with_access_to_github_team.officer_position_mapping.position_index)
+    officer_position_names_need_github_team_access_revoked = []
+    for officer_position_index_with_access_to_github_team in officer_position_with_access_to_github_team:
+        if officer_position_index_with_access_to_github_team.officer_position_mapping.position_name not in \
+                officer_position_names:
+            officer_position_names_need_github_team_access_revoked.append(
+                officer_position_index_with_access_to_github_team.officer_position_mapping.position_name)
     logger.info(
         "[about/position_mapping_helper.py get_officers_that_need_to_have_their_github_access_updated()]"
         " position_indices_for_officers_who_need_to_have_access_to_github_team_revoked ="
-        f" {officer_position_indices_need_github_team_access_revoked}"
+        f" {officer_position_names_need_github_team_access_revoked}"
     )
 
-    return officer_position_indices_need_github_team_access_revoked
+    return officer_position_names_need_github_team_access_revoked
 
 
-def _revoke_officer_with_specified_indices_access_to_specified_github_team(
-        github_team_db_obj, github_api, term_obj,
-        officer_position_indices_need_github_team_access_revoked):
+def _revoke_officer_with_specified_names_access_to_specified_github_team(
+        github_team_db_obj, github_api, terms,
+        officer_position_names_need_github_team_access_revoked, ):
     """
     Revokes the officers with the specific position indices from the specified github team
 
@@ -191,7 +219,7 @@ def _revoke_officer_with_specified_indices_access_to_specified_github_team(
     github_team -- the github team object
     github_api -- the API object for github
     term_obj -- the term object for the current term
-    officer_position_indices_need_github_team_access_revoked -- list of all the position_indices that correspond
+    officer_position_names_need_github_team_access_revoked -- list of all the position_indices that correspond
      to the officers who need to have their access to a github team revoked
 
     Return
@@ -199,31 +227,30 @@ def _revoke_officer_with_specified_indices_access_to_specified_github_team(
     error_messages -- a list of possible error messages
     """
     error_messages = []
-    for position_index in officer_position_indices_need_github_team_access_revoked:
-        for officer_github_mapping in OfficerPositionGithubTeamMapping.objects.all().filter(
-                github_team=github_team_db_obj, officer_position_mapping__position_index=position_index):
-            officer_github_mapping.delete()
-            logger.info(
-                f"[about/position_mapping_helper.py update_existing_github_team_mappings()] {position_index} deleted")
-        officers = Officer.objects.all().filter(position_index=position_index, elected_term=term_obj)
+    github_usernames_that_have_been_revoked = []
+    for term in terms:
+        for position_name in officer_position_names_need_github_team_access_revoked:
+            for officer_github_mapping in OfficerPositionGithubTeamMapping.objects.all().filter(
+                    github_team=github_team_db_obj, officer_position_mapping__position_name=position_name):
+                officer_github_mapping.delete()
+                logger.info(
+                    f"[about/position_mapping_helper.py update_existing_github_team_mappings()] {position_name} deleted")
+            officers = Officer.objects.all().filter(position_name=position_name, elected_term=term)
 
-        if len(officers) > 0:
-            success, error_message = github_api.remove_users_from_a_team([officers[0].github_username],
-                                                                         github_team_db_obj.team_name)
-            if not success:
-                error_messages.append(error_message)
-        else:
-            logger.info(
-                "[about/position_mapping_helper.py update_existing_github_team_mappings()]"
-                f" unable to find officer under term {term_obj} for position_index {position_index}"
-            )
+            for officer in officers:
+                if officer.github_username not in github_usernames_that_have_been_revoked:
+                    github_usernames_that_have_been_revoked.append(officer.github_username)
+                    success, error_message = github_api.remove_users_from_a_team([officer.github_username],
+                                                                                 github_team_db_obj.team_name)
+                    if not success:
+                        error_messages.append(error_message)
 
     if len(error_messages) == 0:
         return True, None
     return False, error_messages
 
 
-def _get_indices_for_officer_positions_that_need_access_granted(github_team_db_obj, officer_position_indices):
+def _get_names_for_officer_positions_that_need_access_granted(github_team_db_obj, officer_position_names):
     """
     Returns a list of all the position_indices that correspond to the officers who need to have
      their access to a github team granted
@@ -236,24 +263,25 @@ def _get_indices_for_officer_positions_that_need_access_granted(github_team_db_o
     officer_position_indices_grant_github_team_access -- a list of all the position_indices that
      correspond to the officers who need to have their access to a github team granted
     """
-    position_indices_for_officers_who_currently_have_access_to_github_team = [
-        officer.officer_position_mapping.position_index for officer in
+    position_names_for_officers_who_currently_have_access_to_github_team = [
+        officer_position_github_mapping.officer_position_mapping.position_name
+        for officer_position_github_mapping in
         OfficerPositionGithubTeamMapping.objects.all().filter(github_team=github_team_db_obj)]
-    officer_position_indices_grant_github_team_access = []
-    for officer_position_index in officer_position_indices:
-        if officer_position_index not in position_indices_for_officers_who_currently_have_access_to_github_team:
-            officer_position_indices_grant_github_team_access.append(officer_position_index)
+    officer_position_names_grant_github_team_access = []
+    for officer_position_name in officer_position_names:
+        if officer_position_name not in position_names_for_officers_who_currently_have_access_to_github_team:
+            officer_position_names_grant_github_team_access.append(officer_position_name)
     logger.info(
         "[about/position_mapping_helper.py get_officers_that_need_to_have_their_github_access_updated()] "
         "position_indices_for_officers_who_need_to_have_access_to_github_team_granted = "
-        f"{officer_position_indices_grant_github_team_access}")
+        f"{officer_position_names_grant_github_team_access}")
 
-    return officer_position_indices_grant_github_team_access
+    return officer_position_names_grant_github_team_access
 
 
-def _grant_officers_with_specified_indices_access_to_specified_github_team(
-        github_team, github_api, term_obj,
-        officer_position_indices_grant_github_team_access):
+def _grant_officers_with_specified_names_access_to_specified_github_team(
+        github_team, github_api, terms,
+        officer_position_names_grant_github_team_access):
     """
     Grants access to the officers with the specific position indices from the specified github team
 
@@ -268,10 +296,10 @@ def _grant_officers_with_specified_indices_access_to_specified_github_team(
     success -- Bool that is true or false
     error_messages -- a list of possible error messages
     """
-    for position_index_for_officer_who_need_to_have_access_to_github_team_granted in \
-            officer_position_indices_grant_github_team_access:
+    for position_name_for_officer_who_need_to_have_access_to_github_team_granted in \
+            officer_position_names_grant_github_team_access:
         position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
-            position_index=position_index_for_officer_who_need_to_have_access_to_github_team_granted)
+            position_name=position_name_for_officer_who_need_to_have_access_to_github_team_granted)
         if len(position_mapping) > 0:
             position_mapping = position_mapping[0]
             logger.info(
@@ -283,24 +311,23 @@ def _grant_officers_with_specified_indices_access_to_specified_github_team(
         else:
             logger.info("[about/position_mapping_helper.py update_existing_github_team_mappings()] "
                         "unable to find a position mapping for position_index"
-                        f" {position_index_for_officer_who_need_to_have_access_to_github_team_granted}")
+                        f" {position_name_for_officer_who_need_to_have_access_to_github_team_granted}")
 
     error_messages = []
-    for position_index_for_officer_who_need_to_have_access_to_github_team_granted in \
-            officer_position_indices_grant_github_team_access:
-        officer = Officer.objects.all().filter(
-            position_index=position_index_for_officer_who_need_to_have_access_to_github_team_granted,
-            elected_term=term_obj)
-        if len(officer) > 0:
-            officer = officer[0]
-            success, error_message = github_api.add_users_to_a_team([officer.github_username], github_team.team_name)
-            if not success:
-                error_messages.append(error_message)
-        else:
-            logger.info(
-                "[about/position_mapping_helper.py update_existing_github_team_mappings()] "
-                f"unable to find any officers for term {term_obj} and position_index "
-                f"{position_index_for_officer_who_need_to_have_access_to_github_team_granted}")
+    github_usernames_that_have_been_added = []
+    for term in terms:
+        for position_name_for_officer_who_need_to_have_access_to_github_team_granted in \
+                officer_position_names_grant_github_team_access:
+            officers = Officer.objects.all().filter(
+                position_name=position_name_for_officer_who_need_to_have_access_to_github_team_granted,
+                elected_term=term)
+            for officer in officers:
+                if officer.github_username not in github_usernames_that_have_been_added:
+                    github_usernames_that_have_been_added.append(officer.github_username)
+                    success, error_message = github_api.add_users_to_a_team([officer.github_username],
+                                                                            github_team.team_name)
+                    if not success:
+                        error_messages.append(error_message)
     if len(error_messages) == 0:
         return True, None
     return False, error_messages

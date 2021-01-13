@@ -21,7 +21,7 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
-
+GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'
 
 
@@ -56,6 +56,7 @@ def update_context(context):
                 'team_id': github_position_mapping.id,
                 TEAM_NAME_KEY: github_position_mapping.team_name,
                 'marked_for_deletion': github_position_mapping.marked_for_deletion,
+                'relevant_previous_terms': github_position_mapping.relevant_previous_terms,
                 'positions': []
             }
             selected_positions_for_mapping = [
@@ -139,7 +140,7 @@ def validate_position_name(position_name, submitted_position_names=None):
 GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY = 'github_mapping_selected_officer_position'
 
 
-def extract_valid_officers_indices_selected_for_github_team(post_dict):
+def extract_valid_officers_positions_selected_for_github_team(post_dict):
     """
     extracts the officer position indices that have been selected to add to a github team
 
@@ -156,33 +157,28 @@ def extract_valid_officers_indices_selected_for_github_team(post_dict):
         error_message = "Did not find any positions that were selected"
         logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
         return False, error_message, None
-    for officer_position_index in post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]:
-        if not f"{officer_position_index}".isdigit():
-            error_message = "Invalid position ID detected"
-            logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
-            return False, error_message, None
 
-    officer_position_indices = []
     if there_are_multiple_entries(post_dict, GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY):
-        officer_position_indices = [int(officer_position_index) for officer_position_index in
-                                    post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]]
+        officer_positions = [
+            f"{officer_position_index}".strip()
+            for officer_position_index in post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]
+            if len(f"{officer_position_index}".strip()) > 0
+        ]
+        success = len(officer_positions) > 0
         logger.info(
             f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found "
-            "multiple officer position indices. Transformed "
-            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices}"
-            f" which has of {len(officer_position_indices)}"
+            "multiple officer positions. Transformed "
+            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_positions}"
+            f" which has of {len(officer_positions)}"
         )
-        success = len(officer_position_indices) > 0
     else:
-        if f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]}".isdigit():
-            officer_position_indices = [int(post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY])]
-            success = True
-        else:
-            success = False
+        officer_positions = f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]}".strip()
+        success = len(officer_positions) > 0
+        officer_positions = [officer_positions]
         logger.info(
             f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found a "
             "single officer position index. Transformed "
-            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_position_indices},"
+            f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_positions},"
             f" and has a success of {success}"
         )
     if not success:
@@ -190,7 +186,7 @@ def extract_valid_officers_indices_selected_for_github_team(post_dict):
         logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
         return False, error_message, None
 
-    return True, None, officer_position_indices
+    return True, None, officer_positions
 
 
 def validate_select_officer_position_indices(officer_position_indices):
@@ -211,6 +207,18 @@ def validate_select_officer_position_indices(officer_position_indices):
             error_message = f"validation for position index {officer_position_index} was unsuccessful"
             logger.info(
                 f"[about/position_mapping_helper.py validate_update_to_github_team_mapping()] {error_message}"
+            )
+            return False, error_message
+    return True, None
+
+
+def validate_position_names_for_github_team(officer_position_names):
+    for officer_position_name in officer_position_names:
+        if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position_name)) == 0:
+            error_message = f"There is no position mapped to the position name of {officer_position_name}"
+            logger.info(
+                "[about/position_mapping_helper.py "
+                f"_validate_position_names_and_team_name_for_new_github_team()] {error_message}"
             )
             return False, error_message
     return True, None

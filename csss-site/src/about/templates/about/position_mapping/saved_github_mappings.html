@@ -4,6 +4,7 @@
             <th>Github Mapping ID</th>
             <th>Officer</th>
             <th>Github Team</th>
+            <th>Past Terms that are Relevant</th>
         </tr>
         {% for github_team in github_teams %}
             <tr>
@@ -13,14 +14,17 @@
                     <td>
                         {%  for positions_mapped_to_team in github_team.positions %}
                             {% if positions_mapped_to_team.checked %}
-                                <input name="github_mapping_selected_officer_position" checked  type="checkbox" id="{{ positions_mapped_to_team.position_index }}" value="{{ positions_mapped_to_team.position_index }}" />
+                                <input name="github_mapping_selected_officer_position" checked  type="checkbox" id="{{ positions_mapped_to_team.position_name }}" value="{{ positions_mapped_to_team.position_name }}" />
                             {%  else %}
-                                <input name="github_mapping_selected_officer_position"  type="checkbox" id="{{ positions_mapped_to_team.position_index }}" value="{{ positions_mapped_to_team.position_index }}" />
+                                <input name="github_mapping_selected_officer_position"  type="checkbox" id="{{ positions_mapped_to_team.position_name }}" value="{{ positions_mapped_to_team.position_name }}" />
                             {%  endif %}
                             <label>{{ positions_mapped_to_team.position_name }}</label><br>
                         {%  endfor %}
                     </td>
                     <td><input type="text" name="github_mapping__team_name" value="{{ github_team.team_name }}"></td>
+                    <td>
+                        <input type="number" name="github_mapping__relevant_previous_terms" value="{{ github_team.relevant_previous_terms }}">
+                    </td>
                     <td>
                         {%  if github_team.marked_for_deletion is True %}
                             <input type="submit" name="un_delete_github_mapping" value="Un-Delete">
