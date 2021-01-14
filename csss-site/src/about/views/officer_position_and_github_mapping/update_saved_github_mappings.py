@@ -141,6 +141,9 @@ def _update_github_mapping(post_dict):
         if not success:
             return [error_message]
         github_team_db_obj.team_name = new_github_team_name
+        github_team_db_obj.save()
+
+    if github_team_db_obj.relevant_previous_terms != relevant_previous_terms:
         github_team_db_obj.relevant_previous_terms = relevant_previous_terms
         github_team_db_obj.save()
 
