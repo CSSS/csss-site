@@ -147,17 +147,11 @@ def _update_github_mapping(post_dict):
         github_team_db_obj.team_name = new_github_team_name
         github_team_db_obj.save()
 
-    if github_team_db_obj.relevant_previous_terms != relevant_previous_terms:
-        github_team_db_obj.relevant_previous_terms = relevant_previous_terms
-        github_team_db_obj.save()
-
     terms = get_past_x_term_obj(relevant_previous_terms=relevant_previous_terms)
 
     officer_position_names_need_github_team_access_revoked = \
-        _get_names_for_officer_positions_that_need_access_revoked(
-            github_team_db_obj,
-            officer_position_names
-        )
+        _get_names_for_officer_positions_that_need_access_revoked(github_team_db_obj, officer_position_names)
+
     officer_position_names_grant_github_team_access = \
         _get_names_for_officer_positions_that_need_access_granted(github_team_db_obj, officer_position_names)
 
@@ -169,9 +163,19 @@ def _update_github_mapping(post_dict):
     if not success:
         error_messages.extend(returned_error_messages)
 
-    success, returned_error_messages = _grant_officers_with_specified_names_access_to_specified_github_team(
-        github_team_db_obj, github_api, terms, officer_position_names_grant_github_team_access
-    )
+    if github_team_db_obj.relevant_previous_terms != relevant_previous_terms:
+        # if the relevant previous terms are different, then all the officer names have to be selected
+        # in case the user only upped how many previous terms are indicate and did not make a change to the number
+        # of officer positions that are relevant to the github team
+        github_team_db_obj.relevant_previous_terms = relevant_previous_terms
+        github_team_db_obj.save()
+        success, returned_error_messages = _grant_officers_with_specified_names_access_to_specified_github_team(
+            github_team_db_obj, github_api, terms, officer_position_names
+        )
+    else:
+        success, returned_error_messages = _grant_officers_with_specified_names_access_to_specified_github_team(
+            github_team_db_obj, github_api, terms, officer_position_names_grant_github_team_access
+        )
     if not success:
         error_messages.extend(returned_error_messages)
 
@@ -317,8 +321,14 @@ def _grant_officers_with_specified_names_access_to_specified_github_team(
                 f"_grant_officers_with_specified_names_access_to_specified_github_team()] "
                 f"saving a mapping of {position_mapping} under team {github_team}"
             )
-            OfficerPositionGithubTeamMapping(github_team=github_team,
-                                             officer_position_mapping=position_mapping).save()
+            if len(
+                    OfficerPositionGithubTeamMapping.objects.all().filter(
+                        github_team=github_team,
+                        officer_position_mapping=position_mapping
+                    )
+            ) == 0:
+                OfficerPositionGithubTeamMapping(github_team=github_team,
+                                                 officer_position_mapping=position_mapping).save()
         else:
             logger.info("[about/update_saved_github_mappings.py "
                         "_grant_officers_with_specified_names_access_to_specified_github_team()] "
