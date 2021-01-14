@@ -104,7 +104,9 @@ def save_officers_in_csv(request, overwrite):
             if re.match(r"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):  # noqa: W605
                 year = (row[YEAR_AND_TERM_COLUMN].strip()[row[YEAR_AND_TERM_COLUMN].strip().find(" "):]).strip()
                 term = row[YEAR_AND_TERM_COLUMN].strip()[:row[YEAR_AND_TERM_COLUMN].strip().find(" ")].strip()
-            logger.info(f"going through term {term} {year}")
+            logger.info(
+                f"[about/import_export_officer_lists save_officers_in_csv()] going through term {term} {year}"
+            )
             if row[NAME_COLUMN] != "" and row[NAME_COLUMN] != "Name":
                 if year not in output:
                     output[year] = {}

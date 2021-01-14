@@ -23,7 +23,7 @@ logger = logging.getLogger('csss_site')
 
 
 def save_new_github_officer_team_mapping(request):
-    logger.info(f"[about/position_mapping_helper.py officer_position_and_github_mapping()] "
+    logger.info(f"[about/save_new_github_officer_team_mapping.py save_new_github_officer_team_mapping()] "
                 f"request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
                                                                                           TAB_STRING)
@@ -59,19 +59,21 @@ def _create_new_github_mapping(post_dict):
     error_messages = []
     if not (GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
         error_message = "No team name detected"
-        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
         error_messages.append(error_message)
         return _create_unsaved_github_officer_team_name_mappings(), error_messages
     team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
     logger.info(
-        f"[about/position_mapping_helper.py create_new_github_mapping()] determined the team name to be {team_name}")
+        "[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] "
+        f"determined the team name to be {team_name}"
+    )
 
     if not (
             GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY in post_dict and
             f"{post_dict[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}".lstrip('-').isdigit()
     ):
         error_message = "No valid relevant previous terms detected"
-        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
         error_messages.append(error_message)
         return _create_unsaved_github_officer_team_name_mappings(team_name), error_messages
 
@@ -81,7 +83,7 @@ def _create_new_github_mapping(post_dict):
 
     if not (relevant_previous_terms >= 0):
         error_message = "No valid relevant previous terms detected"
-        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
         error_messages.append(error_message)
         return _create_unsaved_github_officer_team_name_mappings(
             team_name, relevant_previous_terms=relevant_previous_terms), error_messages
@@ -104,11 +106,11 @@ def _create_new_github_mapping(post_dict):
                 team_name, relevant_previous_terms=relevant_previous_terms,
                 officer_position_names=officer_position_names), error_messages
     logger.info(
-        "[about/position_mapping_helper.py create_new_github_mapping()] "
+        "[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] "
         f"all specified officer and team name for github team {team_name} passed validation"
     )
     logger.info(
-        "[about/position_mapping_helper.py create_new_github_mapping()] "
+        "[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] "
         "determined the officer position names that need to be assigned"
         f" to new github team are {officer_position_names}"
     )
@@ -139,7 +141,7 @@ def _create_unsaved_github_officer_team_name_mappings(
             }
         )
     logger.info(
-        f"[about/position_mapping_helper.py create_new_github_mapping()] "
+        f"[about/save_new_github_officer_team_mapping.py _create_unsaved_github_officer_team_name_mappings()] "
         f"UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS : {unsaved_github_officer_team_name_mappings}"
     )
     return unsaved_github_officer_team_name_mappings
@@ -164,13 +166,15 @@ def _validate_position_names_and_team_name_for_new_github_team(officer_position_
         return success, error_message
     if len(OfficerPositionGithubTeam.objects.all().filter(team_name=team_name)) == 0:
         logger.info(
-            "[about/position_mapping_helper.py _validate_position_names_and_team_name_for_new_github_team()]"
+            "[about/save_new_github_officer_team_mapping.py "
+            "_validate_position_names_and_team_name_for_new_github_team()]"
             " successful validation")
         return True, None
     else:
         error_message = f"There is already a github team mapping for {team_name}"
         logger.info(
-            "[about/position_mapping_helper.py _validate_position_names_and_team_name_for_new_github_team()]"
+            "[about/save_new_github_officer_team_mapping.py "
+            "_validate_position_names_and_team_name_for_new_github_team()]"
             f" {error_message}")
         return False, error_message
 
@@ -195,13 +199,13 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
 
     github_team = OfficerPositionGithubTeam(team_name=team_name, relevant_previous_terms=relevant_previous_terms)
     github_team.save()
-    logger.info("[about/position_mapping_helper.py _save_new_github_team_mapping()] "
+    logger.info("[about/save_new_github_officer_team_mapping.py _save_new_github_team_mapping()] "
                 f"OfficerPositionGithubTeam object saved for team {team_name}")
     for position_mapping_obj in officer_position_mappings:
         OfficerPositionGithubTeamMapping(
             github_team=github_team, officer_position_mapping=position_mapping_obj
         ).save()
-        logger.info("[about/position_mapping_helper.py _save_new_github_team_mapping()] "
+        logger.info("[about/save_new_github_officer_team_mapping.py _save_new_github_team_mapping()] "
                     f"OfficerPositionGithubTeamMapping object saved for team {team_name} and officer "
                     f"{position_mapping_obj}")
     github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
@@ -215,8 +219,8 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
         filter_by_github=True
     )
     logger.info(
-        "[about/position_mapping_helper.py "
-        "_get_officers_and_position_mappings_assigned_to_specified_positions_names()] officer_github_usernames"
+        "[about/save_new_github_officer_team_mapping.py "
+        "_save_new_github_team_mapping()] officer_github_usernames"
         f" = {officer_github_usernames}"
     )
     for officer_github_username in officer_github_usernames:

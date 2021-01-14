@@ -52,14 +52,14 @@ def _get_position_mappings_assigned_to_specified_positions_names(officer_positio
         if len(officer_position_mapping) == 0:
             error_message = f"No officer found for position with position_name {officer_position_name}"
             logger.info(
-                "[about/position_mapping_helper.py "
-                f"_get_officers_and_position_mappings_assigned_to_specified_positions_names()] {error_message}"
+                "[about/officer_management_helper.py "
+                f"_get_position_mappings_assigned_to_specified_positions_names()] {error_message}"
             )
             return False, f"{error_message}", None
         officer_position_mappings.append(officer_position_mapping[0])
     logger.info(
-        "[about/position_mapping_helper.py "
-        "_get_officers_and_position_mappings_assigned_to_specified_positions_names()]"
+        "[about/officer_management_helper.py "
+        "_get_position_mappings_assigned_to_specified_positions_names()]"
         f" officer_position_mappings = {officer_position_mappings}"
     )
     return True, None, officer_position_mappings

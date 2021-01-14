@@ -133,7 +133,7 @@ def show_create_link_page(request):
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
-    logger.info(f"[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()] "
+    logger.info(f"[about/officer_creation_link_management.py show_create_link_page()] "
                 f"request.POST={request.POST}")
     context.update(create_term_context_variable())
     context['positions'] = "\n".join(
