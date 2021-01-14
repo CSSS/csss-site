@@ -115,8 +115,9 @@ def get_current_term():
     Return
     the term_number that fits the convention YYY<1/2/3>
     """
-    current_date = datetime.datetime.now()
-    return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+    return 20203
+    # current_date = datetime.datetime.now()
+    # return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
 def get_current_term_obj():
