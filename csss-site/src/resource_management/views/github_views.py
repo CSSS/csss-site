@@ -66,21 +66,21 @@ def add_non_officer_to_github_team(request):
                 name = post_dict[LEGAL_NAME_KEY][index]
                 logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] "
                             f"adding user \"{name}\" with github username \"{user_name}\" to team \"{team_name}\"")
-                # success, error_message = github.validate_user(user_name)
-                # if not success:
-                #     if ERROR_MESSAGE_KEY in request.session:
-                #         request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
-                #     else:
-                #         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-                #     continue
-                # github.create_team(team_name)
-                # success, message = github.add_users_to_a_team([user_name], team_name)
-                # if not success:
-                #     if ERROR_MESSAGE_KEY in request.session:
-                #         request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
-                #     else:
-                #         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
-                #     continue
+                success, error_message = github.validate_user(user_name)
+                if not success:
+                    if ERROR_MESSAGE_KEY in request.session:
+                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                    else:
+                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                    continue
+                github.create_team(team_name)
+                success, message = github.add_users_to_a_team([user_name], team_name)
+                if not success:
+                    if ERROR_MESSAGE_KEY in request.session:
+                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
+                    else:
+                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                    continue
                 NonOfficerGithubMember(
                     team_name=team_name,
                     username=user_name,
@@ -96,21 +96,21 @@ def add_non_officer_to_github_team(request):
             name = post_dict[LEGAL_NAME_KEY]
             logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] "
                         f"adding user \"{name}\" with github username \"{user_name}\" to team \"{team_name}\"")
-            # success, error_message = github.validate_user(user_name)
-            # if not success:
-            #     if ERROR_MESSAGE_KEY in request.session:
-            #         request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
-            #     else:
-            #         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-            #     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
-            # github.create_team(team_name)
-            # success, message = github.add_users_to_a_team([user_name], team_name)
-            # if not success:
-            #     if ERROR_MESSAGE_KEY in request.session:
-            #         request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
-            #     else:
-            #         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
-            #     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
+            success, error_message = github.validate_user(user_name)
+            if not success:
+                if ERROR_MESSAGE_KEY in request.session:
+                    request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                else:
+                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
+            github.create_team(team_name)
+            success, message = github.add_users_to_a_team([user_name], team_name)
+            if not success:
+                if ERROR_MESSAGE_KEY in request.session:
+                    request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
+                else:
+                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
             NonOfficerGithubMember(
                 team_name=team_name,
                 username=user_name,

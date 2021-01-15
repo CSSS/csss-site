@@ -1,10 +1,10 @@
 import logging
-# from time import sleep
+from time import sleep
 
 import github
 from github import Github
 
-# from github.GithubException import RateLimitExceededException, GithubException
+from github.GithubException import RateLimitExceededException, GithubException
 
 logger = logging.getLogger('csss_site')
 
@@ -272,58 +272,58 @@ class GitHubAPI:
         if not self.connection_successful:
             return False, self.error_message
         logger.info(f"[GitHubAPI ensure_proper_membership()] reading from org {CSSS_GITHUB_ORG_NAME}")
-        #
-        # github_team_names = []
-        # for user in users_team_membership.keys():
-        #     logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
-        #     github_users = self.git.search_users(query=f"user:{user}")
-        #     github_user = None
-        #     user_has_been_acquired = None
-        #     while user_has_been_acquired is None:
-        #         try:
-        #             github_user = github_users[0]
-        #             user_has_been_acquired = True
-        #         except RateLimitExceededException:
-        #             logger.info("[GitHubAPI ensure_proper_membership()] "
-        #                         f"sleeping for {time_to_wait_due_to_github_rate_limit} seconds since rate "
-        #                         f"limit was encountered")
-        #             sleep(time_to_wait_due_to_github_rate_limit)
-        #         except GithubException as e:
-        #             logger.error("[GitHubAPI ensure_proper_membership()] "
-        #                          f"encountered error {e} when looking for user {user}")
-        #             user_has_been_acquired = False
-        #     if user_has_been_acquired:
-        #         logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
-        #                     f"{github_user} for user {user}")
-        #         for team in users_team_membership[user]:
-        #             if team not in github_team_names:
-        #                 github_team_names.append(team)
-        #             try:
-        #                 git_team = self.org.get_team_by_slug(team)
-        #                 if not git_team.has_in_members(github_user):
-        #                     logger.info("[Github ensure_proper_membership()] adding "
-        #                                 f"{github_user} to the {team} team.")
-        #                     git_team.add_membership(github_user)
-        #             except Exception as e:
-        #                 logger.error(
-        #                     "[GitHubAPI ensure_proper_membership()] encountered following error when trying "
-        #                     f"to add the user {user} to team {team}\n{e}"
-        #                 )
-        #     else:
-        #         logger.error("[GitHubAPI ensure_proper_membership()] could not find the "
-        #                      f"github profile for user {user}")
-        #
-        # for team in self.org.get_teams():
-        #     if team.name not in github_team_names:
-        #         git_team = self.org.get_team_by_slug(team.name)
-        #         git_team.delete()
-        #     else:
-        #         logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
-        #         for user in team.get_members():
-        #             logger.info("[GitHubAPI ensure_proper_membership()] validating "
-        #                         f"{user.login}'s memberships in team {team}")
-        #             if user.login.lower() not in users_team_membership or \
-        #                     team.name not in users_team_membership[user.login.lower()]:
-        #                 logger.info("[GitHubAPI ensure_proper_membership()] remove the user "
-        #                             f"{user.login} from team {team}")
-        #                 team.remove_membership(user)
+
+        github_team_names = []
+        for user in users_team_membership.keys():
+            logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
+            github_users = self.git.search_users(query=f"user:{user}")
+            github_user = None
+            user_has_been_acquired = None
+            while user_has_been_acquired is None:
+                try:
+                    github_user = github_users[0]
+                    user_has_been_acquired = True
+                except RateLimitExceededException:
+                    logger.info("[GitHubAPI ensure_proper_membership()] "
+                                f"sleeping for {time_to_wait_due_to_github_rate_limit} seconds since rate "
+                                f"limit was encountered")
+                    sleep(time_to_wait_due_to_github_rate_limit)
+                except GithubException as e:
+                    logger.error("[GitHubAPI ensure_proper_membership()] "
+                                 f"encountered error {e} when looking for user {user}")
+                    user_has_been_acquired = False
+            if user_has_been_acquired:
+                logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
+                            f"{github_user} for user {user}")
+                for team in users_team_membership[user]:
+                    if team not in github_team_names:
+                        github_team_names.append(team)
+                    try:
+                        git_team = self.org.get_team_by_slug(team)
+                        if not git_team.has_in_members(github_user):
+                            logger.info("[Github ensure_proper_membership()] adding "
+                                        f"{github_user} to the {team} team.")
+                            git_team.add_membership(github_user)
+                    except Exception as e:
+                        logger.error(
+                            "[GitHubAPI ensure_proper_membership()] encountered following error when trying "
+                            f"to add the user {user} to team {team}\n{e}"
+                        )
+            else:
+                logger.error("[GitHubAPI ensure_proper_membership()] could not find the "
+                             f"github profile for user {user}")
+
+        for team in self.org.get_teams():
+            if team.name not in github_team_names:
+                git_team = self.org.get_team_by_slug(team.name)
+                git_team.delete()
+            else:
+                logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
+                for user in team.get_members():
+                    logger.info("[GitHubAPI ensure_proper_membership()] validating "
+                                f"{user.login}'s memberships in team {team}")
+                    if user.login.lower() not in users_team_membership or \
+                            team.name not in users_team_membership[user.login.lower()]:
+                        logger.info("[GitHubAPI ensure_proper_membership()] remove the user "
+                                    f"{user.login} from team {team}")
+                        team.remove_membership(user)

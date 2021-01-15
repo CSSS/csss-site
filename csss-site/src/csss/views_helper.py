@@ -1,3 +1,4 @@
+import datetime
 import logging
 
 from django.conf import settings
@@ -112,11 +113,10 @@ def get_current_term():
     Get the term number for the current term
 
     Return
-    the term_number that fits the convention YYY<1/2/3>
+    the term_number that fits the convention YYYY<1/2/3>
     """
-    return 20203
-    # current_date = datetime.datetime.now()
-    # return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+    current_date = datetime.datetime.now()
+    return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
 def get_current_term_obj():
@@ -128,34 +128,6 @@ def get_current_term_obj():
     """
     terms = Term.objects.all().filter(term_number=get_current_term())
     return None if len(terms) == 0 else terms[0]
-
-
-def get_past_x_term_obj(relevant_previous_terms=0):
-    """
-    Gets the past X terms that are specified
-
-    Keyword Argument
-    relevant_previous_terms - if 0 specified, only get current term
-     if 1 is specified get current and previous term and so forth
-
-     Return
-     terms -- list of applicable terms if Found, otherwise None
-    """
-    term_active = get_current_term()
-    relevant_previous_terms += 1
-    relevant_terms = []
-    for index in range(0, relevant_previous_terms):
-        terms = Term.objects.all().filter(term_number=term_active)
-        if len(terms) > 0:
-            relevant_terms.append(terms[0])
-        if (term_active % 10) == 3:
-            term_active -= 1
-        elif (term_active % 10) == 2:
-            term_active -= 1
-        elif (term_active % 10) == 1:
-            term_active -= 8
-
-    return None if len(relevant_terms) == 0 else relevant_terms
 
 
 def get_term_number_for_specified_year_and_month(month, year):
