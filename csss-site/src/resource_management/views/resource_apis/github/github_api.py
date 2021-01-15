@@ -3,6 +3,7 @@ import logging
 
 import github
 from github import Github
+
 # from github.GithubException import RateLimitExceededException, GithubException
 
 logger = logging.getLogger('csss_site')
@@ -33,6 +34,20 @@ class GitHubAPI:
                 self.error_message = f"experienced following error when trying to" \
                                      f" connect to Github and get Org \"{CSSS_GITHUB_ORG_NAME}\":\n{e}"
                 logger.error(f"[GitHubAPI __init__()] {self.error_message}")
+
+    def validate_user(self, user_name):
+        if not self.connection_successful:
+            return False, self.error_message
+        github_users = self.git.search_users(query=f"user:{user_name}")
+        try:
+            total_count = github_users.totalCount
+            return True, None
+        except Exception as e:
+            error_message = f" Unable to find user \"{user_name}\""
+            logger.error(
+                f"[GitHubAPI validate_user()] {error_message} due to following error\n{e}"
+            )
+            return False, error_message
 
     def create_team(self, team_name):
         """
