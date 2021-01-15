@@ -223,7 +223,8 @@ def create_github_perms():
                 users_to_grant_permission_to_github_officers_team[github_membership_for_non_officer.username].append(
                     github_membership_for_non_officer.team_name)
     logger.info(
-        "[resource_management/github_views.py create_github_perms()] users_to_grant_permission_to_github_officers_team"
+        "[resource_management/github_views.py create_github_perms()] "
+        "users_to_grant_permission_to_github_officers_team"
         f" = {users_to_grant_permission_to_github_officers_team}"
     )
     return users_to_grant_permission_to_github_officers_team

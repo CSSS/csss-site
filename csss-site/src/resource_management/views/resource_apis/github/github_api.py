@@ -1,9 +1,9 @@
 import logging
-from time import sleep
+# from time import sleep
 
 import github
 from github import Github
-from github.GithubException import RateLimitExceededException, GithubException
+# from github.GithubException import RateLimitExceededException, GithubException
 
 logger = logging.getLogger('csss_site')
 
