@@ -40,7 +40,7 @@ class GitHubAPI:
             return False, self.error_message
         github_users = self.git.search_users(query=f"user:{user_name}")
         try:
-            total_count = github_users.totalCount
+            total_count = github_users.totalCount  # noqa: F841
             return True, None
         except Exception as e:
             error_message = f" Unable to find user \"{user_name}\""
