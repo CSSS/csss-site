@@ -151,6 +151,15 @@ def _update_github_mapping(post_dict):
             f"to {new_github_team_name}"
         )
 
+    github_usernames_that_currently_have_access = _get_github_usernames_that_currently_have_github_access(
+        github_team_db_obj, github_team_db_obj.relevant_previous_terms
+    )
+    logger.info(
+        "[about/update_saved_github_mappings.py _update_github_mapping()] "
+        "github_usernames_that_currently_have_access: "
+        f" {github_usernames_that_currently_have_access}"
+    )
+
     if github_team_db_obj.relevant_previous_terms != relevant_previous_terms:
         github_team_db_obj.relevant_previous_terms = relevant_previous_terms
         github_team_db_obj.save()
@@ -159,17 +168,8 @@ def _update_github_mapping(post_dict):
             f"changed to {relevant_previous_terms}"
         )
 
-    github_usernames_that_currently_have_access = _get_github_usernames_that_currently_have_github_access(
-        github_team_db_obj, relevant_previous_terms
-    )
-    logger.info(
-        "[about/update_saved_github_mappings.py _update_github_mapping()] "
-        "github_usernames_that_currently_have_access: "
-        f" {github_usernames_that_currently_have_access}"
-    )
-
     github_usernames_that_need_access = _get_github_usernames_that_need_github_access_granted(
-        officer_position_names, relevant_previous_terms
+        officer_position_names, github_team_db_obj.relevant_previous_terms
     )
     logger.info(
         f"[about/update_saved_github_mappings.py _update_github_mapping()] github_usernames_that_need_access: "
