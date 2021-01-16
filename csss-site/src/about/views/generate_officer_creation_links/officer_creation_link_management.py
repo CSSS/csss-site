@@ -365,10 +365,10 @@ def display_page_for_officers_to_input_their_info(request):
         if 'reuse_bio' in request.POST:
             if not ('past_officer_bio_selected' in request.POST and
                     f"{request.POST['past_officer_bio_selected']}".isdigit() and
-                    Officer.objects.all().filter(id=request.POST['past_officer_bio_selected']) > 0):
+                    Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected'])) > 0):
                 officer = None
             else:
-                officer = Officer.objects.get(id=request.POST['past_officer_bio_selected'])
+                officer = Officer.objects.get(id=int(request.POST['past_officer_bio_selected']))
         else:
             # this also covers "create_new_bio" in request.POST.keys() and when there was a re-direct
             # on the previous page because no past officer exists
@@ -509,7 +509,7 @@ def process_information_entered_by_officer(request):
             "the position was not detected in your submission"
         )
 
-    officer_position = request.POST[HTML_TERM_POSITION_KEY]
+    position_name = request.POST[HTML_TERM_POSITION_KEY]
 
     # these are the keys that are relevant to OFFICER_WITH_NO_GITHUB_ACCESS
     # it does not get its own if statement cause all of these keys are also relevant to the other officers
@@ -519,9 +519,9 @@ def process_information_entered_by_officer(request):
         HTML_COURSE1_KEY, HTML_COURSE2_KEY, HTML_LANGUAGE1_KEY, HTML_LANGUAGE2_KEY, HTML_BIO_KEY,
         HTML_OFFICER_EMAIL_CONTACT_KEY
     ]
-    if officer_position in ELECTION_OFFICER_POSITIONS:
+    if position_name in ELECTION_OFFICER_POSITIONS:
         post_keys.extend([HTML_GITHUB_USERNAME_KEY])
-    elif officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
+    elif position_name not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
         post_keys.extend([HTML_GITHUB_USERNAME_KEY, HTML_GMAIL_KEY])
 
     if len(set(request.POST.keys()).intersection(post_keys)) == len(post_keys):
@@ -537,10 +537,10 @@ def process_information_entered_by_officer(request):
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
         start_date = request.POST[HTML_DATE_KEY].strip()
         github_username = request.POST[HTML_GITHUB_USERNAME_KEY].strip() \
-            if officer_position not in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES else ""
+            if position_name not in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES else ""
 
         gmail = request.POST[HTML_GMAIL_KEY].strip() \
-            if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE else ""
+            if position_name not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE else ""
         course1 = request.POST[HTML_COURSE1_KEY].strip()
         course2 = request.POST[HTML_COURSE2_KEY].strip()
         language1 = request.POST[HTML_LANGUAGE1_KEY].strip()
@@ -549,12 +549,12 @@ def process_information_entered_by_officer(request):
         sfu_officer_mailing_list_email = request.POST[HTML_OFFICER_EMAIL_CONTACT_KEY].strip()
         post_dict = parser.parse(request.POST.urlencode())
         announcement_email = [
-            email.strip()
+            email.strip().lower()
             for row in csv.reader(StringIO(post_dict[HTML_EMAIL_KEY]), delimiter=',')
             for email in row
         ]
         success = False
-        if officer_position not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
+        if position_name not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
             gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
             if gdrive.connection_successful is False:
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
@@ -575,7 +575,7 @@ def process_information_entered_by_officer(request):
                 )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
-                officer_position, full_name,
+                position_name, full_name,
                 sfuid, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
@@ -588,10 +588,10 @@ def process_information_entered_by_officer(request):
                 gitlab_api=gitlab,
                 send_email_notification=True
             )
-        elif officer_position in ELECTION_OFFICER_POSITIONS:
+        elif position_name in ELECTION_OFFICER_POSITIONS:
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
-                officer_position, full_name,
+                position_name, full_name,
                 sfuid, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
@@ -602,10 +602,10 @@ def process_information_entered_by_officer(request):
                 remove_from_naughty_list=True,
                 send_email_notification=True
             )
-        elif officer_position in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
+        elif position_name in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
-                officer_position, full_name,
+                position_name, full_name,
                 sfuid, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
