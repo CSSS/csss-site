@@ -95,16 +95,16 @@ def verify_passphrase_access_and_create_context(request, tab):
     """
     if HTML_PASSPHRASE_GET_KEY in request.GET or HTML_PASSPHRASE_POST_KEY in request.POST \
             or HTML_PASSPHRASE_SESSION_KEY in request.session:
-        new_officer_details = None
+        passphrase = None
         if HTML_PASSPHRASE_GET_KEY in request.GET:
-            new_officer_details = request.GET[HTML_PASSPHRASE_GET_KEY]
+            passphrase = request.GET[HTML_PASSPHRASE_GET_KEY]
         elif HTML_PASSPHRASE_POST_KEY in request.POST:
-            new_officer_details = request.POST[HTML_PASSPHRASE_POST_KEY]
+            passphrase = request.POST[HTML_PASSPHRASE_POST_KEY]
         elif HTML_PASSPHRASE_SESSION_KEY in request.session:
-            new_officer_details = request.session[HTML_PASSPHRASE_SESSION_KEY]
+            passphrase = request.session[HTML_PASSPHRASE_SESSION_KEY]
             del request.session[HTML_PASSPHRASE_SESSION_KEY]
 
-        new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=new_officer_details)
+        new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
         logger.info(
             "[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()] "
             f"len(passphrase) = '{len(new_officer_details)}'"
@@ -112,22 +112,23 @@ def verify_passphrase_access_and_create_context(request, tab):
         if len(new_officer_details) == 0:
             error_message = "You did not supply a passphrase that matched any in the records"
             return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, error_message, None
+        new_officer_detail = new_officer_details[0]
         logger.info(
             f"[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()]"
-            f" passphrase[0].used = '{new_officer_details[0].used}'")
-        if new_officer_details[0].used:
+            f" new_officer_detail.used = '{new_officer_detail.used}'")
+        if new_officer_detail.used:
             error_message = "the passphrase supplied has already been used"
             return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, error_message, None
     else:
         return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, "You did not supply a passphrase", None
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
-    return None, context, None, new_officer_details[0]
+    return None, context, None, new_officer_detail
 
 
 def show_create_link_page(request):
     """
-    Shows the page where the user can select the year, term and positions for who, to create the generation links
+    Shows the page where the user can select the year, term and positions for whom to create the generation links
     """
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:
@@ -170,31 +171,31 @@ def show_page_with_creation_links(request):
         logger.info(f"[about/officer_creation_link_management.py show_page_with_creation_links()] {error_messages}")
         return redirect_user_to_create_link_page(request, context, [error_messages])
 
-    # ensuring that all the necessary keys are in the POST call
-    logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] correct numbers of "
-                "request.POST keys detected")
-    year = int(request.POST[HTML_YEAR_KEY])
+    base_url = f"{settings.HOST_ADDRESS}"
     # this is necessary if the user is testing the site locally and therefore is using the port to access the
     # browser
-    if settings.PORT is None:
-        base_url = f"{settings.HOST_ADDRESS}{settings.URL_ROOT}about/allow_officer_to_choose_name?"
-    else:
-        base_url = f"{settings.HOST_ADDRESS}:{settings.PORT}{settings.URL_ROOT}" \
-                   "about/allow_officer_to_choose_name?"
-    user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
+    if settings.PORT is not None:
+        base_url += f":{settings.PORT}"
+    base_url += f"{settings.URL_ROOT}about/allow_officer_to_choose_name?"
+
+    year = int(request.POST[HTML_YEAR_KEY])
+    term = request.POST[HTML_TERM_KEY]
+
     if request.POST[HTML_OVERWRITE_KEY] == "true":
-        delete_current_term(year, request.POST[HTML_TERM_KEY])
+        delete_officers_and_process_new_officer_models_under_specified_term(year, term)
+
+    user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
     new_officers_to_process = []
     error_messages = []
     validation_for_user_inputted_positions_is_successful = True
-    for position in user_specified_positions:
-        success, officer_details, error_message = get_next_position_number_for_term(position)
+    for position_name in user_specified_positions:
+        success, officer_email_and_position_mapping, error_message = get_next_position_number_for_term(position_name)
         if not success:
             validation_for_user_inputted_positions_is_successful = False
             error_messages.append(error_message)
             logger.info(
                 "[about/officer_creation_link_management.py show_page_with_creation_links()] "
-                f"encountered error {error_messages} when processing position {position}"
+                f"encountered error {error_messages} when processing position {position_name}"
             )
         else:
             # creating the necessary passphrases and officer info for the user inputted position
@@ -202,11 +203,11 @@ def show_page_with_creation_links(request):
             new_officers_to_process.append(
                 ProcessNewOfficer(
                     passphrase=passphrase,
-                    term=request.POST[HTML_TERM_KEY],
+                    term=term,
                     year=year,
-                    position_name=position,
-                    position_index=officer_details.position_index,
-                    sfu_officer_mailing_list_email=officer_details.email,
+                    position_name=position_name,
+                    position_index=officer_email_and_position_mapping.position_index,
+                    sfu_officer_mailing_list_email=officer_email_and_position_mapping.email,
                     link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
                     new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
                     start_date=datetime.datetime.strptime(
@@ -216,7 +217,7 @@ def show_page_with_creation_links(request):
             )
             logger.info(
                 "[about/officer_creation_link_management.py show_page_with_creation_links()] "
-                f"processed position {position}"
+                f"processed position {position_name}"
             )
     if validation_for_user_inputted_positions_is_successful:
         logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] all requested"
@@ -243,12 +244,14 @@ def redirect_user_to_create_link_page(request, context, error_messages):
     request -- the django request object
     context -- the context to pass to the html
     error_messages -- a list of all pertinent error messages
-    user_specific_position -- if specified, takes in a list of officer position specified by the user
 
     Return
     render -- redirects user to create links page
     """
     context.update(create_term_context_variable())
+
+    # ensure that the user inputted choices for the term, year and positions
+    # are when the page loads
     if HTML_TERM_KEY in request.POST:
         context['current_term'] = request.POST[HTML_TERM_KEY]
     if HTML_YEAR_KEY in request.POST:
@@ -261,49 +264,51 @@ def redirect_user_to_create_link_page(request, context, error_messages):
         context[HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS] = request.POST[HTML_OVERWRITE_KEY]
     if HTML_NEW_START_DATE_KEY in request.POST:
         context[HTML_VALUE_ATTRIBUTE_FOR_START_DATE] = request.POST[HTML_NEW_START_DATE_KEY]
+    
     context[ERROR_MESSAGES_KEY] = error_messages
     return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
 
 
-def delete_current_term(year, term):
+def delete_officers_and_process_new_officer_models_under_specified_term(year, term_season):
     """
-    Deletes the officers under the specified term
+    Deletes all Officer and ProcessNewOfficer under the specified term
 
     Keyword Argument
     year -- the year for the term to delete
     term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
     """
-    term_number = get_term_number(year, term)
-    term_obj = Term.objects.all().filter(term=term, term_number=term_number, year=year)
+    term_number = get_term_number(year, term_season)
+    term_obj = Term.objects.all().filter(term=term_season, term_number=term_number, year=year)
     logger.info(f"[about/officer_creation_link_management.py delete_current_term()] deleting all officers under term"
-                f"{year} {term}, for which there are {len(term_obj)} existent term[S] ")
+                f"{year} {term_season}, for which there are {len(term_obj)} existent term[S] ")
     if len(term_obj) > 0:
         term_obj = term_obj[0]
         officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
         for officer in officer_in_selected_term:
             officer.delete()
-    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term, year=year)
+    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term_season, year=year)
     for new_officer in new_officer_details:
         new_officer.delete()
 
 
-def get_next_position_number_for_term(officer_position):
+def get_next_position_number_for_term(position_name):
     """
     Get the next term position number that is available for a term with the specified officer_position
 
     Keyword Arguments
-    officer_position -- the position of the officer that needs to be added to the term
+    position_name -- the position of the officer that needs to be added to the term
 
     Return
     success - True or False
-    officer_position_and_github_mapping -- the information to assign to user
+    officer_email_and_position_mapping -- the information to assign to user
     error_message -- error message if position does not exist
     """
-    position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position,
-                                                                               marked_for_deletion=False)
-    if len(position_mapping) == 0:
-        return False, None, f"position '{officer_position} is not valid"
-    return True, position_mapping[0], None
+    officer_email_and_position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
+        position_name=position_name,marked_for_deletion=False
+    )
+    if len(officer_email_and_position_mapping) == 0:
+        return False, None, f"position '{position_name} is not valid"
+    return True, officer_email_and_position_mapping[0], None
 
 
 def allow_officer_to_choose_name(request):
@@ -349,7 +354,7 @@ def display_page_for_officers_to_input_their_info(request):
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
 
-    # relevant if there was an issue with processing the user input. they get redirected to this page and get shown
+    # relevant if there was an issue with processing the user input. they get redirected back to this page and get shown
     # the error message along with the info they had originally entered
     if ERROR_MESSAGE_KEY in request.session:
         return \
@@ -358,7 +363,12 @@ def display_page_for_officers_to_input_their_info(request):
                                                                                       context)
     else:
         if 'reuse_bio' in request.POST:
-            officer = Officer.objects.get(id=request.POST['past_officer_bio_selected'])
+            if not ('past_officer_bio_selected' in request.POST and
+                    f"{request.POST['past_officer_bio_selected']}".isdigit() and
+                    Officer.objects.all().filter(id=request.POST['past_officer_bio_selected']) > 0):
+                officer = None
+            else:
+                officer = Officer.objects.get(id=request.POST['past_officer_bio_selected'])
         else:
             # this also covers "create_new_bio" in request.POST.keys() and when there was a re-direct
             # on the previous page because no past officer exists
@@ -409,6 +419,7 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     render -- the render object that directs the user back to the page for inputting info
     """
     context[ERROR_MESSAGE_KEY] = request.session[ERROR_MESSAGE_KEY]
+
     del request.session[ERROR_MESSAGE_KEY]
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = passphrase
     context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = request.session[HTML_TERM_POSITION_KEY]
@@ -454,7 +465,7 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     return render(request, 'about/process_new_officer/add_officer.html', context)
 
 
-def determine_new_start_date_for_officer(start_date, previous_officer, new_start_date=True):
+def determine_new_start_date_for_officer(start_date, previous_officer=None, new_start_date=True):
     """
     determine whether or not the officer's start date should be in the current term or previous term
 
