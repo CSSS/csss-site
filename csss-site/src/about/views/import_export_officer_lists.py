@@ -310,7 +310,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     error_message - error message if not successful, otherwise None
     """
     phone_number = officer['phone_number']
-    officer_position = officer['officer_position']
+    position_name = officer['officer_position']
     full_name = officer['name']
     sfuid = officer['sfuid']
     sfu_email_alias = officer['sfu_email_alias']
@@ -326,13 +326,9 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     sfu_officer_mailing_list_email = "NONE"
     # github_teams = officer['github_teams']
     success, error_message = save_officer_and_grant_digital_resources(
-        phone_number, officer_position,
-        full_name, sfuid, sfu_email_alias,
-        announcement_emails, github_username,
-        gmail, start_date, fav_course_1,
-        fav_course_2, fav_language_1,
-        fav_language_2, bio, position_index,
-        term_obj,
+        phone_number, full_name, sfuid, sfu_email_alias, announcement_emails, github_username,
+        gmail, start_date, fav_course_1, fav_course_2, fav_language_1,
+        fav_language_2, bio, position_name, position_index, term_obj,
         sfu_officer_mailing_list_email,
         apply_github_team_memberships=False
     )

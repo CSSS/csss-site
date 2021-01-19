@@ -574,13 +574,13 @@ def process_information_entered_by_officer(request):
                 )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
-                position_name, full_name,
+                full_name,
                 sfuid, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
                 start_date, course1, course2,
                 language1, language2, bio,
-                position_index, term_obj,
+                position_name, position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
                 gdrive_api=gdrive,
@@ -590,13 +590,13 @@ def process_information_entered_by_officer(request):
         elif position_name in ELECTION_OFFICER_POSITIONS:
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
-                position_name, full_name,
+                full_name,
                 sfuid, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
                 start_date, course1, course2,
                 language1, language2, bio,
-                position_index, term_obj,
+                position_name, position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
                 send_email_notification=True
@@ -604,13 +604,13 @@ def process_information_entered_by_officer(request):
         elif position_name in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
-                position_name, full_name,
+                full_name,
                 sfuid, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
                 start_date, course1, course2,
                 language1, language2, bio,
-                position_index, term_obj,
+                position_name, position_index, term_obj,
                 sfu_officer_mailing_list_email,
                 send_email_notification=True
             )
