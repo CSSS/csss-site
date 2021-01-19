@@ -101,7 +101,7 @@ def save_officers_in_csv(request, overwrite):
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
-            if re.match(r"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):  # noqa: W605
+            if re.match(fr"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):  # noqa: W605
                 year = (row[YEAR_AND_TERM_COLUMN].strip()[row[YEAR_AND_TERM_COLUMN].strip().find(" "):]).strip()
                 term = row[YEAR_AND_TERM_COLUMN].strip()[:row[YEAR_AND_TERM_COLUMN].strip().find(" ")].strip()
             logger.info(
@@ -324,7 +324,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     fav_language_2 = officer['fav_language_2']
     bio = officer['bio']
     sfu_officer_mailing_list_email = "NONE"
-    github_teams = officer['github_teams']
+    # github_teams = officer['github_teams']
     success, error_message = save_officer_and_grant_digital_resources(
         phone_number, officer_position,
         full_name, sfuid, sfu_email_alias,
@@ -334,6 +334,6 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
         fav_language_2, bio, position_index,
         term_obj,
         sfu_officer_mailing_list_email,
-        github_teams=github_teams
+        apply_github_team_memberships=False
     )
     return success, error_message

@@ -111,6 +111,7 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
                                              announcement_emails, github_username, gmail, start_date, fav_course_1,
                                              fav_course_2, fav_language_1, fav_language_2, bio, position_index,
                                              term_obj, sfu_officer_mailing_list_email, remove_from_naughty_list=False,
+                                             apply_github_team_memberships=True,
                                              gdrive_api=None, gitlab_api=None,
                                              send_email_notification=False):
     """
@@ -193,10 +194,11 @@ def save_officer_and_grant_digital_resources(phone_number, officer_position, ful
     if remove_from_naughty_list:
         _remove_officer_from_naughty_list(full_name)
 
-    success, error_message = _save_officer_github_membership(officer_obj)
-    if not success:
-        officer_obj.delete()
-        return success, error_message
+    if apply_github_team_memberships:
+        success, error_message = _save_officer_github_membership(officer_obj)
+        if not success:
+            officer_obj.delete()
+            return success, error_message
     subject = "Welcome to the CSSS"
     body = None
     if send_email_notification:

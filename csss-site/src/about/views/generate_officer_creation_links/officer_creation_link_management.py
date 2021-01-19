@@ -264,7 +264,6 @@ def redirect_user_to_create_link_page(request, context, error_messages):
         context[HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS] = request.POST[HTML_OVERWRITE_KEY]
     if HTML_NEW_START_DATE_KEY in request.POST:
         context[HTML_VALUE_ATTRIBUTE_FOR_START_DATE] = request.POST[HTML_NEW_START_DATE_KEY]
-    
     context[ERROR_MESSAGES_KEY] = error_messages
     return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
 
@@ -304,7 +303,7 @@ def get_next_position_number_for_term(position_name):
     error_message -- error message if position does not exist
     """
     officer_email_and_position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
-        position_name=position_name,marked_for_deletion=False
+        position_name=position_name, marked_for_deletion=False
     )
     if len(officer_email_and_position_mapping) == 0:
         return False, None, f"position '{position_name} is not valid"
@@ -354,8 +353,8 @@ def display_page_for_officers_to_input_their_info(request):
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
 
-    # relevant if there was an issue with processing the user input. they get redirected back to this page and get shown
-    # the error message along with the info they had originally entered
+    # relevant if there was an issue with processing the user input. they get redirected back to
+    # this page and get shown the error message along with the info they had originally entered
     if ERROR_MESSAGE_KEY in request.session:
         return \
             display_page_for_officers_to_input_their_info_alongside_error_experienced(request,
