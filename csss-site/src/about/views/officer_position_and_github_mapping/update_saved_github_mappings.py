@@ -296,11 +296,11 @@ def _get_github_usernames_that_need_github_access_granted(
         officer_position_names, relevant_previous_terms):
     """
     Gets the github usernames that need to have their access granted based on what their officer position_name is
-    
+
     Keyword Argument
     officer_position_names -- the list of applicable officer position_names
     relevant_previous_terms -- how far back in previous terms to look for github usernames
-    
+
     Return
     github_usernames_that_need_access -- the list of github usernames that match the position
      names under the relevant_previous_terms
