@@ -81,7 +81,6 @@ def _update_position_mapping(post_dict):
     Return
     ERROR_MESSAGES -- a list of all the possible error messages
     """
-    error_messages = []
     if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in post_dict
             and f"{post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
             and len(
