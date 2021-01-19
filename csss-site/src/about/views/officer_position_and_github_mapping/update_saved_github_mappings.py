@@ -21,7 +21,7 @@ logger = logging.getLogger('csss_site')
 
 def update_saved_github_mappings(request):
     logger.info(
-        "[about/update_saved_github_mappings.py officer_position_and_github_mapping()]"
+        "[about/update_saved_github_mappings.py update_saved_github_mappings()]"
         f" request.POST={request.POST}"
     )
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
@@ -55,15 +55,14 @@ def _toggle_deletion_status_for_github_mapping(post_dict, delete):
     Return
     error_messages -- a list of the possible error messages
     """
-    error_messages = []
-    if not (GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and len(
-            OfficerPositionGithubTeam.objects.filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
+    if not (
+            GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and
+            len(OfficerPositionGithubTeam.objects.filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
         error_message = "No valid team id detected"
         logger.info(
             f"[about/update_saved_github_mappings.py _toggle_deletion_status_for_github_mapping()] {error_message}"
         )
-        error_messages.append(error_message)
-        return error_messages
+        return [error_message]
 
     github_team = OfficerPositionGithubTeam.objects.get(id=int(post_dict[GITHUB_TEAM__ID_KEY]))
     github_team.marked_for_deletion = delete
@@ -72,7 +71,7 @@ def _toggle_deletion_status_for_github_mapping(post_dict, delete):
         "[about/update_saved_github_mappings.py _toggle_deletion_status_for_github_mapping()] github_team"
         f" {github_team.team_name} has been marked for deletion"
     )
-    return error_messages
+    return []
 
 
 def _update_github_mapping(post_dict):
@@ -83,7 +82,7 @@ def _update_github_mapping(post_dict):
     post_dict -- the dictionary created from the POST object
 
     Return
-    ERROR_MESSAGES -- the list of possible error messages
+    error_messages -- the list of possible error messages
     """
     success, error_message, officer_position_names = \
         extract_valid_officers_positions_selected_for_github_team(post_dict)
@@ -100,8 +99,9 @@ def _update_github_mapping(post_dict):
         logger.info(f"[about/update_saved_github_mappings.py _update_github_mapping()] {error_message}")
         return [error_message]
 
-    if not (GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and len(
-            OfficerPositionGithubTeam.objects.all().filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
+    if not (
+            GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and
+            len(OfficerPositionGithubTeam.objects.all().filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
         error_message = "No valid team id detected"
         logger.info(f"[about/update_saved_github_mappings.py _update_github_mapping()] {error_message}")
         return [error_message]
@@ -221,17 +221,17 @@ def _update_github_mapping(post_dict):
         "current_officer_positions_mapped_to_github_team: "
         f" {current_officer_positions_mapped_to_github_team}"
     )
-    current_officer_positions_named_mapped_to_github_team = [
+    current_officer_positions_names_mapped_to_github_team = [
         current_officer_position_mapped_to_github_team.officer_position_mapping.position_name
         for current_officer_position_mapped_to_github_team in current_officer_positions_mapped_to_github_team
     ]
     logger.info(
         "[about/update_saved_github_mappings.py _update_github_mapping()] "
         "current_officer_positions_named_mapped_to_github_team: "
-        f" {current_officer_positions_named_mapped_to_github_team}"
+        f" {current_officer_positions_names_mapped_to_github_team}"
     )
     for new_officer_position_name in officer_position_names:
-        if new_officer_position_name not in current_officer_positions_named_mapped_to_github_team:
+        if new_officer_position_name not in current_officer_positions_names_mapped_to_github_team:
             officer_position_github_team_mapping = OfficerPositionGithubTeamMapping(
                 github_team=github_team_db_obj,
                 officer_position_mapping=OfficerEmailListAndPositionMapping.objects.get(
@@ -258,6 +258,17 @@ def _update_github_mapping(post_dict):
 
 def _get_github_usernames_that_currently_have_github_access(
         github_team_db_obj, relevant_previous_terms):
+    """
+    Get the github usernames that current have access to the specified github team
+
+    Keyword Argument
+    github_team_db_obj -- the OfficerPositionGithubTeam object for the github team
+    relevant_previous_terms -- how far back in previous terms to look for github usernames
+
+    Return
+    github_usernames_that_currently_have_access -- github usernames that currently have access to the github team
+    specified by the github_team_db_obj object
+    """
     officer_position_names_that_currently_have_access_to_github_team = [
         position.officer_position_mapping.position_name
         for position in OfficerPositionGithubTeamMapping.objects.all().filter(github_team=github_team_db_obj)
@@ -283,6 +294,17 @@ def _get_github_usernames_that_currently_have_github_access(
 
 def _get_github_usernames_that_need_github_access_granted(
         officer_position_names, relevant_previous_terms):
+    """
+    Gets the github usernames that need to have their access granted based on what their officer position_name is
+    
+    Keyword Argument
+    officer_position_names -- the list of applicable officer position_names
+    relevant_previous_terms -- how far back in previous terms to look for github usernames
+    
+    Return
+    github_usernames_that_need_access -- the list of github usernames that match the position
+     names under the relevant_previous_terms
+    """
     github_usernames_that_need_access = get_past_x_terms_officer_list(
         relevant_previous_terms=relevant_previous_terms, position_names=officer_position_names,
         filter_by_github=True
@@ -302,12 +324,12 @@ def _delete_github_mapping(post_dict):
     Keyword Argument
     post_dict -- the dictionary created from the POST object
 
-
     Return
-    ERROR_MESSAGES -- the list of possible error messages
+    error_messages -- the list of possible error messages
     """
-    if not (GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and len(
-            OfficerPositionGithubTeam.objects.filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
+    if not (
+            GITHUB_TEAM__ID_KEY in post_dict and f"{post_dict[GITHUB_TEAM__ID_KEY]}".isdigit() and
+            len(OfficerPositionGithubTeam.objects.filter(id=int(post_dict[GITHUB_TEAM__ID_KEY]))) > 0):
         error_message = "No valid team id detected"
         logger.info("[about/update_saved_github_mappings.py _delete_github_mapping()]"
                     f" {error_message}")
