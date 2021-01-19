@@ -51,17 +51,14 @@ def _create_new_github_mapping(post_dict):
     post_dict -- the dictionary created from the POST object
 
     Return
-    UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS -- the unsaved github team mapping if it was not able to save the team
-    ERROR_MESSAGES -- a list of possible error_messagess
+    unsaved_github_officer_team_name_mappings -- the unsaved github team mapping if it was not able to save the team
+    error_messages -- a list of possible error_messages
 
     """
-    unsaved_github_officer_team_name_mappings = None
-    error_messages = []
     if not (GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
         error_message = "No team name detected"
         logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
-        error_messages.append(error_message)
-        return _create_unsaved_github_officer_team_name_mappings(), error_messages
+        return _create_unsaved_github_officer_team_name_mappings(), [error_message]
     team_name = post_dict[GITHUB_TEAM__TEAM_NAME_KEY]
     logger.info(
         "[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] "
@@ -74,8 +71,7 @@ def _create_new_github_mapping(post_dict):
     ):
         error_message = "No valid relevant previous terms detected"
         logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
-        error_messages.append(error_message)
-        return _create_unsaved_github_officer_team_name_mappings(team_name), error_messages
+        return _create_unsaved_github_officer_team_name_mappings(team_name), [error_message]
 
     relevant_previous_terms = f"{post_dict[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}"
     relevant_previous_terms = 0 - int(relevant_previous_terms.lstrip('-')) if relevant_previous_terms[0] == '-' \
@@ -84,27 +80,24 @@ def _create_new_github_mapping(post_dict):
     if not (relevant_previous_terms >= 0):
         error_message = "No valid relevant previous terms detected"
         logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
-        error_messages.append(error_message)
         return _create_unsaved_github_officer_team_name_mappings(
-            team_name, relevant_previous_terms=relevant_previous_terms), error_messages
+            team_name, relevant_previous_terms=relevant_previous_terms), [error_message]
 
     success, error_message, officer_position_names = extract_valid_officers_positions_selected_for_github_team(
         post_dict)
     if not success:
-        error_messages.append(error_message)
         return \
             _create_unsaved_github_officer_team_name_mappings(
                 team_name, relevant_previous_terms=relevant_previous_terms,
-                officer_position_names=officer_position_names), error_messages
+                officer_position_names=officer_position_names), [error_message]
 
     success, error_message = _validate_position_names_and_team_name_for_new_github_team(
         officer_position_names, team_name)
     if not success:
-        error_messages.append(error_message)
         return \
             _create_unsaved_github_officer_team_name_mappings(
                 team_name, relevant_previous_terms=relevant_previous_terms,
-                officer_position_names=officer_position_names), error_messages
+                officer_position_names=officer_position_names), [error_message]
     logger.info(
         "[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] "
         f"all specified officer and team name for github team {team_name} passed validation"
@@ -115,14 +108,20 @@ def _create_new_github_mapping(post_dict):
         f" to new github team are {officer_position_names}"
     )
 
-    error_messages.extend(_save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms))
-    return unsaved_github_officer_team_name_mappings, error_messages
+    return None,\
+        _save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms)
 
 
 def _create_unsaved_github_officer_team_name_mappings(
-        team_name="",
-        officer_position_names=None,
-        relevant_previous_terms=0):
+        team_name="", officer_position_names=None, relevant_previous_terms=0):
+    """
+    Created a dictionary that contains the user input for the github team mapping that failed validation
+
+    Keyword Argument
+    team_name -- the name of the github team
+    officer_position_names -- the officer position names that the user selected
+    relevant_previous_terms -- how many previous terms apply to the github team
+    """
     if officer_position_names is None:
         officer_position_names = []
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
@@ -154,7 +153,7 @@ def _validate_position_names_and_team_name_for_new_github_team(officer_position_
     are valid and map to a position mapping
 
     Keyword Arguments
-    position_names -- the list of officers that need to be mapped to the team name
+    officer_position_names -- the list of officer positions that need to be mapped to the team name
     team_name -- the name to be used for the github team
 
     Return
@@ -190,12 +189,10 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
     Return
     error_messages -- the list of possible error messages
     """
-    error_messages = []
     success, error_message, officer_position_mappings = \
         _get_position_mappings_assigned_to_specified_positions_names(officer_position_names)
     if not success:
-        error_messages.append(error_message)
-        return error_messages
+        return [error_message]
 
     github_team = OfficerPositionGithubTeam(team_name=team_name, relevant_previous_terms=relevant_previous_terms)
     github_team.save()
@@ -211,8 +208,7 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
     github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
     success, error_message = github.create_team(team_name)
     if not success:
-        error_messages.append(error_message)
-        return error_messages
+        return [error_message]
 
     officer_github_usernames = get_past_x_terms_officer_list(
         relevant_previous_terms=relevant_previous_terms, position_names=officer_position_names,
@@ -223,6 +219,7 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
         "_save_new_github_team_mapping()] officer_github_usernames"
         f" = {officer_github_usernames}"
     )
+    error_messages = []
     for officer_github_username in officer_github_usernames:
         success, error_message = github.add_users_to_a_team([officer_github_username], team_name)
         if not success:
