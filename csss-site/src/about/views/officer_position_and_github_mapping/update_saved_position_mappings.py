@@ -59,13 +59,13 @@ def _delete_or_undelete_position_mapping(post_dict):
         return False, "No valid ID for a position mapping found"
 
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
-        id=post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]
+        id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
     )
     position_mapping_for_selected_officer.marked_for_deletion = DELETE_POSITION_MAPPING_KEY in post_dict
     position_mapping_for_selected_officer.save()
     logger.info(
-        f"[about/position_mapping_helper.py officer_position_and_github_mapping()] deletion for position"
-        f" {position_mapping_for_selected_officer.position_index} set to"
+        f"[about/update_saved_position_mappings.py _delete_or_undelete_position_mapping()] deletion for position"
+        f" {position_mapping_for_selected_officer.position_name} set to"
         f" {position_mapping_for_selected_officer.marked_for_deletion}"
     )
     return True, None
@@ -90,32 +90,28 @@ def _update_position_mapping(post_dict):
                 )
             ) > 0):
         error_message = "No valid position mapping id detected"
-        error_messages.append(error_message)
-        logger.info(f"[about/position_mapping_helper.py _update_position_mapping()] {error_message}")
-        return error_messages
+        logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+        return [error_message]
 
     if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX in post_dict
             and f"{post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX]}".isdigit()):
         error_message = "No valid position index detected for position mapping"
-        error_messages.append(error_message)
-        logger.info(f"[about/position_mapping_helper.py _update_position_mapping()] {error_message}")
-        return error_messages
+        logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+        return [error_message]
     if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME in post_dict):
         error_message = "No valid position name detected for position mapping"
-        error_messages.append(error_message)
-        logger.info(f"[about/position_mapping_helper.py _update_position_mapping()] {error_message}")
-        return error_messages
+        logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+        return [error_message]
     if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS in post_dict):
         error_message = "No valid position email list detected for position mapping"
-        error_messages.append(error_message)
-        logger.info(f"[about/position_mapping_helper.py _update_position_mapping()] {error_message}")
-        return error_messages
+        logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+        return [error_message]
 
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
         id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
     )
     logger.info(
-        f"[about/position_mapping_helper.py officer_position_and_github_mapping()] "
+        f"[about/update_saved_position_mappings.py _update_position_mapping()] "
         f"user has selected to update the position {position_mapping_for_selected_officer.position_name}"
     )
 
@@ -127,10 +123,10 @@ def _update_position_mapping(post_dict):
     if new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
             and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
             and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email:
-        return error_messages
+        return []
 
     logger.info(
-        f"[about/position_mapping_helper.py officer_position_and_github_mapping()] the user's "
+        f"[about/update_saved_position_mappings.py _update_position_mapping()] the user's "
         f"change to the position {position_mapping_for_selected_officer.position_name} was detected"
     )
     # if anything has been changed for the selected position
@@ -152,7 +148,7 @@ def _update_position_mapping(post_dict):
                 position_index=position_mapping_for_selected_officer.position_index
             )
             logger.info(
-                f"[about/position_mapping_helper.py officer_position_and_github_mapping()] updating"
+                f"[about/update_saved_position_mappings.py _update_position_mapping()] updating"
                 f" {len(officers_in_current_term_that_need_update)} officers due to change in position"
                 f" {position_mapping_for_selected_officer.position_name}"
             )
@@ -168,10 +164,9 @@ def _update_position_mapping(post_dict):
         position_mapping_for_selected_officer.save()
     else:
         logger.info(
-            "[about/position_mapping_helper.py officer_position_and_github_mapping()]"
+            "[about/update_saved_position_mappings.py _update_position_mapping()]"
             f" encountered error {error_message} when trying to update position"
             f" {position_mapping_for_selected_officer.position_name}"
         )
-    error_messages.append(error_message)
 
-    return error_messages
+    return [error_message]
