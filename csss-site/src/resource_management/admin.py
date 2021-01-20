@@ -3,14 +3,14 @@ from django.contrib import admin
 # Register your models here.
 from resource_management.models import ProcessNewOfficer, NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
-    NaughtyOfficer, OfficerGithubTeamMapping, OfficerGithubTeam, GoogleMailAccountCredentials
+    NaughtyOfficer, OfficerPositionGithubTeam, GoogleMailAccountCredentials, \
+    OfficerPositionGithubTeamMapping
 
 
 class ProcessNewOfficerAdmin(admin.ModelAdmin):
-    # form = OfficerForm
     list_display = (
         'passphrase', 'start_date', 'new_start_date', 'term', 'year', 'position_name', 'used',
-        'position_index', 'used'
+        'position_index'
     )
 
 
@@ -25,7 +25,6 @@ admin.site.register(GoogleMailAccountCredentials, GoogleMailAccountCredentialsAd
 
 
 class NonOfficerGoogleDriveUserAdmin(admin.ModelAdmin):
-    # form = OfficerForm
     list_display = ('gmail', 'name', 'file_id', 'file_name')
 
 
@@ -33,29 +32,27 @@ admin.site.register(NonOfficerGoogleDriveUser, NonOfficerGoogleDriveUserAdmin)
 
 
 class GoogleDrivePublicFileAdmin(admin.ModelAdmin):
-    # form = OfficerForm
     list_display = ('file_id', 'link', 'file_name')
 
 
 admin.site.register(GoogleDrivePublicFile, GoogleDrivePublicFileAdmin)
 
 
-class OfficerGithubTeamMappingAdmin(admin.ModelAdmin):
-    list_display = ('position_name', 'team_name')
+class OfficerPositionGithubTeamAdmin(admin.ModelAdmin):
+    list_display = ('team_name', 'marked_for_deletion')
 
 
-admin.site.register(OfficerGithubTeamMapping, OfficerGithubTeamMappingAdmin)
+admin.site.register(OfficerPositionGithubTeam, OfficerPositionGithubTeamAdmin)
 
 
-class OfficerGithubTeamAdmin(admin.ModelAdmin):
-    list_display = ('team_name', 'officer')
+class OfficerPositionGithubTeamMappingAdmin(admin.ModelAdmin):
+    list_display = ('github_team', 'officer_position_mapping')
 
 
-admin.site.register(OfficerGithubTeam, OfficerGithubTeamAdmin)
+admin.site.register(OfficerPositionGithubTeamMapping, OfficerPositionGithubTeamMappingAdmin)
 
 
 class NonOfficerGithubMemberAdmin(admin.ModelAdmin):
-    # form = OfficerForm
     list_display = ('legal_name', 'username', 'team_name')
 
 

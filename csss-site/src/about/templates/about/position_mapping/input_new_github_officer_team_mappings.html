@@ -1,0 +1,42 @@
+<form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/save_new_github_officer_team_mapping">
+    {%  csrf_token %}
+    <div id="new_github_officer_team_name_mapping">
+        {% if unsaved_github_officer_team_name_mapping is not None %}
+            <div style="border: 3px solid black; padding: 10px;">
+                <label>Github Team Name: </label>
+                <input type="text" id="github_mapping__team_name" name="github_mapping__team_name" value="{{ unsaved_github_officer_team_name_mapping.team_name }}" required><br>
+                <label>Past Terms that Team is applicable to: </label>
+                <input type="number" id="github_mapping__relevant_previous_terms" name="github_mapping__relevant_previous_terms" value="{{ unsaved_github_officer_team_name_mapping.relevant_previous_terms }}" required><br>
+                <label>Applicable Officer: </label><br>
+                    {%  for position in unsaved_github_officer_team_name_mapping.officer_positions %}
+                        <div style="border: 1px transparent solid; display:inline-block;" >
+                            {% if position.checked %}
+                                <input type="checkbox" checked name="github_mapping_selected_officer_position" id="{{ position.position_name }}" value="{{ position.position_name }}" />
+                            {%  else %}
+                                <input type="checkbox" name="github_mapping_selected_officer_position" id="{{ position.position_name }}" value="{{ position.position_name }}" />
+                            {%  endif %}
+                            <label>{{ position.position_name }}</label><br>
+                        </div>
+                    {%  endfor %}
+            </div>
+        {%  endif %}
+
+        {%  if unsaved_github_officer_team_name_mapping is None %}
+            <div style="border: 3px solid black; padding: 10px;">
+                <label>Github Team Name: </label>
+                <input type="text" id="github_mapping__team_name" name="github_mapping__team_name" required><br>
+                <label>Past Terms that Team is applicable to: </label>
+                <input type="number" id="github_mapping__relevant_previous_terms" name="github_mapping__relevant_previous_terms" required><br>
+                <label>Applicable Officer: </label><br>
+                {%  for position in github_position_mapping %}
+                    <div style="border: 1px transparent solid; display:inline-block;" >
+                        <input type="checkbox" name="github_mapping_selected_officer_position" id="{{ position.position_name }}" value="{{ position.position_name }}" />
+                        <label>{{ position.position_name }}</label><br>
+                    </div>
+                {%  endfor %}
+
+            </div>
+        {%  endif %}
+    </div>
+    <input type="submit" name="create_new_github_mapping" value="Submit">
+</form>

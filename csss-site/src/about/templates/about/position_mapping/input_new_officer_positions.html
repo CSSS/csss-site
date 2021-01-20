@@ -1,0 +1,49 @@
+<form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/input_new_officer_positions">
+    {%  csrf_token %}
+    <div id="new_officer_positions">
+
+        <!--shows the previous position mappings that the user tried to save but there were issues saving it -->
+        {%  for unsaved_position_mapping in unsaved_position_mappings %}
+            <div style="border: 3px solid black; padding: 10px;">
+                <label for="position_index">Officer Position Index</label>
+                <input type="number" id="position_index" name="position_index" value="{{ unsaved_position_mapping.position_index }}" required><br>
+                <label for="position_name">Officer Position Name</label>
+                <input type="text" id="position_name" name="position_name" value="{{ unsaved_position_mapping.position_name }}" required><br>
+                <label for="position_email">Officer Position Email</label>
+                <input type="text" id="position_email" name="position_email" value="{{ unsaved_position_mapping.position_email }}" required><br>
+            </div>
+        {%  endfor %}
+
+        <!-- if there are no position mappings that are unsaved, shows just one blank entry for the user to enter a new position mapping -->
+        {%  if unsaved_position_mappings is None %}
+            <div style="border: 3px solid black; padding: 10px;">
+                <label for="position_index">Officer Position Index</label>
+                <input type="number" id="position_index" name="position_index" required><br>
+                <label for="position_name">Officer Position Name</label>
+                <input type="text" id="position_name" name="position_name" required><br>
+                <label for="position_email">Officer Position Email</label>
+                <input type="text" id="position_email" name="position_email" required><br>
+            </div>
+        {%  endif %}
+    </div>
+    <input type="button" value="Remove the last Position Slot" onClick="removeOfficerPosition('#new_officer_positions');">
+    <input type="button" value="Add another Position Slot" onClick="addOfficerPosition('new_officer_positions');">
+    <input type="submit" name="add_new_position_mapping" value="Submit">
+</form>
+    <script type="text/javascript">
+    function removeOfficerPosition(divName){
+        $(divName).children().last().remove();
+    }
+    function addOfficerPosition(divName){
+        var newOfficerPosition = document.createElement('div');
+        newOfficerPosition.setAttribute("style","border: 3px solid black; padding: 10px;");
+        newOfficerPosition.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
+        newOfficerPosition.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
+        newOfficerPosition.innerHTML += "<label for=\"position_name\">Officer Position Name</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
+        newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
+        newOfficerPosition.innerHTML += "</div>";
+        document.getElementById(divName).appendChild(newOfficerPosition);
+    }
+</script>
