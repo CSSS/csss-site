@@ -72,7 +72,12 @@ class GitHubAPI:
             return False, f"username \"{user_name}\" is not in the SFU CSSS GitHub Org, please " \
                           f"check the email associated with your github account to accept invitation"
         except Exception as e:
-            return False, ""
+            error_message = f" Unable to verify that user \"{user_name}\" is on the SFU CSSS Github org"
+            logger.error(
+                f"[GitHubAPI verify_user_in_org()] {error_message} due to following error\n{e}"
+            )
+            return False, error_message
+
 
     def create_team(self, team_name):
         """

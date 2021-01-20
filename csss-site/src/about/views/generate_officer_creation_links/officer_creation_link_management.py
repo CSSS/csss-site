@@ -20,6 +20,7 @@ from csss.views_helper import verify_access_logged_user_and_create_context, ERRO
     ERROR_MESSAGES_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
+from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
 
 logger = logging.getLogger('csss_site')
@@ -482,6 +483,7 @@ def determine_new_start_date_for_officer(start_date, previous_officer=None, new_
     else:
         return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
+
 def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
     error_messages = ""
     if gitlab is not None:
@@ -500,7 +502,6 @@ def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
         if not success and len(error_message) == 0:
             error_messages += f'{error_message}<br>'
     return error_messages
-
 
 
 def process_information_entered_by_officer(request):
