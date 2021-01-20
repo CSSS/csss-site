@@ -9,7 +9,7 @@ from csss.views_helper import there_are_multiple_entries, verify_access_logged_u
     ERROR_MESSAGE_KEY
 from resource_management.models import NonOfficerGithubMember, OfficerPositionGithubTeam, \
     OfficerPositionGithubTeamMapping
-from .get_past_x_terms_officer_list import get_past_x_terms_officer_list
+from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.github.github_api import GitHubAPI
 
 GITHUB_RECORD_KEY = 'record_id'
@@ -209,7 +209,7 @@ def create_github_perms():
                 github_team=github_team
             )
         ]
-        officer_github_usernames = get_past_x_terms_officer_list(
+        officer_github_usernames = get_list_of_officer_details_from_past_specified_terms(
             relevant_previous_terms=github_team.relevant_previous_terms,
             position_names=officer_positions_with_access_to_team,
             filter_by_github=True
