@@ -98,7 +98,8 @@ def verify_access_logged_user_and_create_context(request, tab):
     tab -- the tab that needs to be specified in the context
 
     Return
-    HttpResponseRedirect -- returns a redirect to /error if the user is not allowed to access the page or None if they are
+    HttpResponseRedirect -- returns a redirect to /error if the user is not allowed to access
+     the page or None if they are
     error_message -- the error message if the user is not allowed to access the page
     context -- the context object to pass to html if user is allowed to access the page
     """
