@@ -19,6 +19,21 @@ class GitLabAPI:
             self.error_message = f"experienced following error when trying to connect to SFU Gitlab :\n{e}"
             logger.error(f"[GitLabAPI __init__()] {self.error_message}")
 
+    def validate_username(self, username):
+        if not self.connection_successful:
+            return False, self.error_message
+        user = None
+        try:
+            user = self.sfu_gitlab.users.list(username=f'{username}')[0]
+        except Exception as e:
+            logger.error(
+                f"[GitLabAPI add_officer_to_csss_group()] unable to get the user {user} "
+                f"with username {username} due to {e}"
+            )
+            return False, f"Could not find username \"{username}\" on SFU Gitlab, please log onto " \
+                          f"SFU gitlab at csil-git1.cs.surrey.sfu.ca/ to create account"
+        return True, None
+
     def add_officer_to_csss_group(self, users):
         """Add listed users to the CSSS group
 

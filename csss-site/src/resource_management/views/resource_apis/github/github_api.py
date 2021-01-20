@@ -56,11 +56,23 @@ class GitHubAPI:
             except RateLimitExceededException:
                 sleep(time_to_wait_due_to_github_rate_limit)
             except Exception as e:
-                error_message = f" Unable to find user \"{user_name}\""
+                error_message = f" Unable to find user \"{user_name}\" on Github, please create account"
                 logger.error(
                     f"[GitHubAPI validate_user()] {error_message} due to following error\n{e}"
                 )
                 return False, error_message
+
+    def verify_user_in_org(self, user_name):
+        if not self.connection_successful:
+            return False, self.error_message
+        github_users = self.git.search_users(query=f"user:{user_name}")
+        try:
+            if self.org.has_in_members(github_users[0]):
+                return True, None
+            return False, f"username \"{user_name}\" is not in the SFU CSSS GitHub Org, please " \
+                          f"check the email associated with your github account to accept invitation"
+        except Exception as e:
+            return False, ""
 
     def create_team(self, team_name):
         """

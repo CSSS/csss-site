@@ -482,6 +482,26 @@ def determine_new_start_date_for_officer(start_date, previous_officer=None, new_
     else:
         return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
+def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
+    error_messages = ""
+    if gitlab is not None:
+        if sfuid is None:
+            error_messages += "No SFU ID is provided<br>"
+        else:
+            success, error_message = gitlab.validate_username(sfuid)
+            if not success:
+                error_messages += f'{error_message}<br>'
+    if github_username is not None:
+        github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+        success, error_message = github_api.validate_user(github_username)
+        if not success:
+            error_messages += f'{error_message}<br>'
+        success, error_message = github_api.verify_user_in_org(github_username)
+        if not success and len(error_message) == 0:
+            error_messages += f'{error_message}<br>'
+    return error_messages
+
+
 
 def process_information_entered_by_officer(request):
     """
@@ -572,6 +592,13 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     gitlab.error_message
                 )
+            error_messages = validate_sfuid_and_github(gitlab=gitlab, sfuid=sfuid, github_username=github_username)
+            if len(error_messages) == 0:
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_messages
+                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
@@ -588,6 +615,13 @@ def process_information_entered_by_officer(request):
                 send_email_notification=True
             )
         elif position_name in ELECTION_OFFICER_POSITIONS:
+            error_messages = validate_sfuid_and_github(github_username=github_username)
+            if len(error_messages) == 0:
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_messages
+                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
@@ -602,6 +636,13 @@ def process_information_entered_by_officer(request):
                 send_email_notification=True
             )
         elif position_name in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
+            error_messages = validate_sfuid_and_github(github_username=github_username)
+            if len(error_messages) == 0:
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_messages
+                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
