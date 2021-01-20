@@ -180,6 +180,7 @@ class GitHubAPI:
                                 f"[GitHubAPI add_users_to_a_team()] it seems that {github_user} already is in "
                                 f"the org {CSSS_GITHUB_ORG_NAME} and a member of the {team} team"
                             )
+                    successful = True
                 except RateLimitExceededException:
                     sleep(time_to_wait_due_to_github_rate_limit)
                 except Exception as e:
