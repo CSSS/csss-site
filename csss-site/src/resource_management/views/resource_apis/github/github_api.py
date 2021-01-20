@@ -109,7 +109,9 @@ class GitHubAPI:
                     )
                     github_users = self.git.search_users(query=f"user:{self.git.get_user().login}")
                     team.remove_membership(github_users[0])
-                    logger.info(f"[GitHubAPI create_team()] {self.git.get_user().login} removed from team {team_name}")
+                    logger.info(
+                        f"[GitHubAPI create_team()] {self.git.get_user().login} removed from team {team_name}"
+                    )
                 else:
                     logger.info(f"[GitHubAPI create_team()] no members detected under team {team_name}")
                 return True, None
@@ -228,7 +230,9 @@ class GitHubAPI:
                     if github_users.totalCount == 1:
                         github_user = github_users[0]
                         team.remove_membership(github_user)
-                        logger.info(f"[GitHubAPI remove_users_from_a_team()] removed user {user} from team {team_name}")
+                        logger.info(
+                            f"[GitHubAPI remove_users_from_a_team()] removed user {user} from team {team_name}"
+                        )
                     successful = True
                 except RateLimitExceededException:
                     sleep(time_to_wait_due_to_github_rate_limit)
