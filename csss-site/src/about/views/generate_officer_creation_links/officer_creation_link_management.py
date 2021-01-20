@@ -364,7 +364,7 @@ def display_page_for_officers_to_input_their_info(request):
         if 'reuse_bio' in request.POST:
             if not ('past_officer_bio_selected' in request.POST and
                     f"{request.POST['past_officer_bio_selected']}".isdigit() and
-                    Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected'])) > 0):
+                    len(Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected']))) > 0):
                 officer = None
             else:
                 officer = Officer.objects.get(id=int(request.POST['past_officer_bio_selected']))
