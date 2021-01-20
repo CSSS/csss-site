@@ -29,30 +29,32 @@ def get_list_of_officer_details_from_past_specified_terms(
     officer_list = []
     relevant_previous_terms += 1
     for index in range(0, relevant_previous_terms):
-        term = Term.objects.get(term_number=term_active)
-        logger.info(
-            f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
-            f" collecting the list of officers for the term with term_number {term_active}"
-        )
-        naughty_officers = [naughty_officer.name.strip() for naughty_officer in NaughtyOfficer.objects.all()]
-        current_officers = [
-            officer for officer in Officer.objects.all().filter(elected_term=term)
-            if len([
-                naughty_officer for naughty_officer in naughty_officers if naughty_officer in officer.name
-            ]) == 0 and ((position_names is not None and officer.position_name in position_names) or (
-                        position_names is None))
-        ]
+        terms = Term.objects.all().filter(term_number=term_active)
+        if len(terms) > 0:
+            term = terms[0]
+            logger.info(
+                f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
+                f" collecting the list of officers for the term with term_number {term_active}"
+            )
+            naughty_officers = [naughty_officer.name.strip() for naughty_officer in NaughtyOfficer.objects.all()]
+            current_officers = [
+                officer for officer in Officer.objects.all().filter(elected_term=term)
+                if len([
+                    naughty_officer for naughty_officer in naughty_officers if naughty_officer in officer.name
+                ]) == 0 and ((position_names is not None and officer.position_name in position_names) or (
+                            position_names is None))
+            ]
 
-        logger.info(
-            "[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
-            f" current_officers retrieved = {current_officers}"
-        )
-        if filter_by_github:
-            for current_officer in current_officers:
-                if current_officer.github_username not in officer_list:
-                    officer_list.append(current_officer.github_username)
-        else:
-            officer_list.extend(current_officers)
+            logger.info(
+                "[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
+                f" current_officers retrieved = {current_officers}"
+            )
+            if filter_by_github:
+                for current_officer in current_officers:
+                    if current_officer.github_username not in officer_list:
+                        officer_list.append(current_officer.github_username)
+            else:
+                officer_list.extend(current_officers)
         if (term_active % 10) == 3:
             term_active -= 1
         elif (term_active % 10) == 2:
