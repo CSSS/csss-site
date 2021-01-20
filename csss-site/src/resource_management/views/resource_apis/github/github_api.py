@@ -36,6 +36,16 @@ class GitHubAPI:
                 logger.error(f"[GitHubAPI __init__()] {self.error_message}")
 
     def validate_user(self, user_name):
+        """
+        determine whether or not the specified user_name exists
+
+        Keyword Argument
+        user_name -- the github username to validate
+
+        Return
+        bool -- true or false to indicate if the github username exists
+        error_message -- None if the github user_name does exist. an error message otherwise
+        """
         if not self.connection_successful:
             return False, self.error_message
         github_users = self.git.search_users(query=f"user:{user_name}")
@@ -155,18 +165,6 @@ class GitHubAPI:
                 )
                 return False, error_message
         return True, None
-
-    # def verify_team_name_is_valid(self, team_name):
-    #     """
-    #     Ensuring that the specified team name is valid
-    #     """
-    #     if not self.connection_successful:
-    #         return False, self.error_message
-    #     try:
-    #         self.org.get_team_by_slug(team_name)
-    #         return True
-    #     except Exception:
-    #         return False
 
     def remove_users_from_a_team(self, users, team_name):
         """Remove listed users from a specific team
