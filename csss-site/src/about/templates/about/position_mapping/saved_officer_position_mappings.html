@@ -10,10 +10,10 @@
             <tr>
                 <form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/update_saved_position_mappings">
                     {%  csrf_token %}
-                    <td><input type="number" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID }}" value="{{ position.id }}" readonly required></td>
-                    <td><input type="number" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX }}" value="{{ position.position_index }}" required></td>
-                    <td><input type="text" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME }}" value="{{ position.position_name }}"  required></td>
-                    <td><input type="text" name="{{ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS }}" value="{{ position.email }}" required></td>
+                    <td><input type="number" name="officer_email_list_and_position_mapping__id" value="{{ position.id }}" readonly required></td>
+                    <td><input type="number" name="officer_email_list_and_position_mapping__position_index" value="{{ position.position_index }}" required></td>
+                    <td><input type="text" name="officer_email_list_and_position_mapping__position_name" value="{{ position.position_name }}"  required></td>
+                    <td><input type="text" name="officer_email_list_and_position_mapping__email_list_address" value="{{ position.email }}" required></td>
                     <td>
                         {%  if position.marked_for_deletion is True %}
                             <input type="submit" name="un_delete_position_mapping" value="Un-Delete">

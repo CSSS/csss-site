@@ -19,7 +19,7 @@ UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 
 
 def input_new_officer_positions(request):
-    logger.info(f"[about/position_mapping_helper.py officer_position_and_github_mapping()]"
+    logger.info("[about/input_new_officer_positions.py input_new_officer_positions()]"
                 f" request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
                                                                                           TAB_STRING)
@@ -30,12 +30,13 @@ def input_new_officer_positions(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'add_new_position_mapping' in post_dict:
-            success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = add_new_position_mapping(post_dict)
+            success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
+                _add_new_position_mapping(post_dict)
 
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
 
 
-def add_new_position_mapping(post_dict):
+def _add_new_position_mapping(post_dict):
     """
     Adds a new officer position mapping
 
@@ -51,7 +52,7 @@ def add_new_position_mapping(post_dict):
     error_messages = []
     if there_are_multiple_entries(post_dict, POSITION_NAME_KEY):
         logger.info(
-            "[about/position_mapping_helper.py officer_position_and_github_mapping()] it appears "
+            "[about/input_new_officer_positions.py _add_new_position_mapping()] it appears "
             "that the user wants to create multiple new officers"
         )
         error_detected = False
@@ -72,15 +73,16 @@ def add_new_position_mapping(post_dict):
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
                  POSITION_EMAIL_KEY: position_email}
             )
-            success, error_message = validate_position_mappings(position_index, position_name,
-                                                                submitted_position_names=submitted_position_names,
-                                                                submitted_position_indices=submitted_position_indices)
+            success, error_message = _validate_position_mappings(
+                position_index, position_name,
+                submitted_position_names=submitted_position_names,
+                submitted_position_indices=submitted_position_indices)
             submitted_position_names.append(position_name)
             submitted_position_indices.append(position_index)
             if not success:
                 error_messages.append(f"{error_message}")
                 logger.info(
-                    "[about/position_mapping_helper.py officer_position_and_github_mapping()] "
+                    "[about/input_new_officer_positions.py _add_new_position_mapping()] "
                     f"unable to validate the new position {position_name} due to {error_message}"
                 )
                 error_detected = True
@@ -88,7 +90,7 @@ def add_new_position_mapping(post_dict):
             return False, error_messages, unsaved_position_mappings
         else:
             logger.info(
-                "[about/position_mapping_helper.py officer_position_and_github_mapping()] "
+                "[about/input_new_officer_positions.py _add_new_position_mapping()] "
                 "all new positions passed validation"
             )
             for index in range(number_of_entries):
@@ -97,10 +99,10 @@ def add_new_position_mapping(post_dict):
                                                    email=post_dict[POSITION_EMAIL_KEY][index]).save()
     else:
         success, error_message = \
-            validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
+            _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
         if success:
             logger.info(
-                f"[about/position_mapping_helper.py officer_position_and_github_mapping()] "
+                f"[about/input_new_officer_positions.py _add_new_position_mapping()] "
                 f"new position {post_dict[POSITION_NAME_KEY]} passed validation"
             )
 
@@ -109,7 +111,7 @@ def add_new_position_mapping(post_dict):
                                                email=post_dict[POSITION_EMAIL_KEY]).save()
         else:
             logger.info(
-                f"[about/position_mapping_helper.py officer_position_and_github_mapping()] unable to "
+                f"[about/input_new_officer_positions.py _add_new_position_mapping()] unable to "
                 f"save new position {post_dict[POSITION_NAME_KEY]} due to error {error_message}"
             )
             unsaved_position_mappings = [
@@ -120,8 +122,9 @@ def add_new_position_mapping(post_dict):
     return True, error_messages, None
 
 
-def validate_position_mappings(position_index, position_name, submitted_position_names=None,
-                               submitted_position_indices=None):
+def _validate_position_mappings(
+        position_index, position_name, submitted_position_names=None,
+        submitted_position_indices=None):
     """
     Validates the new inputted position name and index
 

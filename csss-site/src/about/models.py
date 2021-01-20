@@ -27,7 +27,7 @@ class Term(models.Model):
     )
 
     def __str__(self):
-        return f"Term {self.term} {self.year}"
+        return f"{self.term} {self.year}"
 
 
 class Officer(models.Model):
@@ -117,7 +117,7 @@ class Officer(models.Model):
     )
 
     def __str__(self):
-        return f"Officer {self.elected_term} {self.position_name} {self.name}"
+        return f" {self.elected_term} {self.name}"
 
 
 class AnnouncementEmailAddress(models.Model):
@@ -131,7 +131,7 @@ class AnnouncementEmailAddress(models.Model):
     )
 
     def __str__(self):
-        return f"email address for {self.officer.name} {self.email} {self.officer.elected_term}"
+        return f"{self.officer.name} {self.email} {self.officer.elected_term}"
 
 
 class OfficerEmailListAndPositionMapping(models.Model):
@@ -146,9 +146,10 @@ class OfficerEmailListAndPositionMapping(models.Model):
         max_length=140,
         default="NA"
     )
+
     marked_for_deletion = models.BooleanField(
         default=False
     )
 
     def __str__(self):
-        return f"position mapping for {self.position_name}"
+        return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"

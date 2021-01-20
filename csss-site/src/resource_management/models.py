@@ -69,12 +69,15 @@ class OfficerPositionGithubTeam(models.Model):
     marked_for_deletion = models.BooleanField(
         default=False
     )
+    relevant_previous_terms = models.IntegerField(
+        default=0
+    )
 
     def __str__(self):
         return f"officer github team {self.team_name}"
 
 
-class OfficerPositionGithubTeamMappingNew(models.Model):
+class OfficerPositionGithubTeamMapping(models.Model):
     github_team = models.ForeignKey(
         OfficerPositionGithubTeam,
         on_delete=models.CASCADE,
@@ -86,7 +89,8 @@ class OfficerPositionGithubTeamMappingNew(models.Model):
     )
 
     def __str__(self):
-        return f"officer position mapping for {self.officer_position_mapping} to team {self.github_team}"
+        return f"officer position mapping for {self.officer_position_mapping} to" \
+               f" github team {self.github_team.team_name}"
 
 
 class GoogleMailAccountCredentials(models.Model):

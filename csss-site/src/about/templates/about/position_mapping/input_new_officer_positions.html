@@ -31,19 +31,19 @@
     <input type="submit" name="add_new_position_mapping" value="Submit">
 </form>
     <script type="text/javascript">
-    function addOfficerPosition(divName){
-        var newNominee = document.createElement('div');
-        newNominee.setAttribute("style","border: 3px solid black; padding: 10px;");
-        newNominee.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
-        newNominee.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
-        newNominee.innerHTML += "<label for=\"position_name\">Officer Position Name</label>";
-        newNominee.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
-        newNominee.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
-        newNominee.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
-        newNominee.innerHTML += "</div>";
-        document.getElementById(divName).appendChild(newNominee);
-    }
     function removeOfficerPosition(divName){
         $(divName).children().last().remove();
+    }
+    function addOfficerPosition(divName){
+        var newOfficerPosition = document.createElement('div');
+        newOfficerPosition.setAttribute("style","border: 3px solid black; padding: 10px;");
+        newOfficerPosition.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
+        newOfficerPosition.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
+        newOfficerPosition.innerHTML += "<label for=\"position_name\">Officer Position Name</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
+        newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
+        newOfficerPosition.innerHTML += "</div>";
+        document.getElementById(divName).appendChild(newOfficerPosition);
     }
 </script>

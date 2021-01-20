@@ -11,8 +11,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from about.models import Term, Officer
-from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING, get_term_number, \
-    save_new_term, save_officer_and_grant_digital_resources, TERM_SEASONS
+from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
+    TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context
 
 YEAR_AND_TERM_COLUMN = 0
@@ -101,10 +101,12 @@ def save_officers_in_csv(request, overwrite):
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
         for row in csv_reader:
-            if re.match(r"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):
+            if re.match(fr"{'|'.join(TERM_SEASONS)} \d\d\d\d", row[YEAR_AND_TERM_COLUMN]):  # noqa: W605
                 year = (row[YEAR_AND_TERM_COLUMN].strip()[row[YEAR_AND_TERM_COLUMN].strip().find(" "):]).strip()
                 term = row[YEAR_AND_TERM_COLUMN].strip()[:row[YEAR_AND_TERM_COLUMN].strip().find(" ")].strip()
-            logger.info(f"going through term {term} {year}")
+            logger.info(
+                f"[about/import_export_officer_lists save_officers_in_csv()] going through term {term} {year}"
+            )
             if row[NAME_COLUMN] != "" and row[NAME_COLUMN] != "Name":
                 if year not in output:
                     output[year] = {}
@@ -156,7 +158,7 @@ def return_member_json(row):
         'fav_language_2': row[FAVORITE_LANGUAGES_COLUMN][language_divider + 2:] if language_divider != -1 else "",
         'bio': row[BIO_COLUMN].replace("[comma]", ",").replace("\\n", "<br/>")
     }
-    if not re.match(r"\d\d\d\d-\d\d-\d\d", member["start_date"]):
+    if not re.match(r"\d\d\d\d-\d\d-\d\d", member["start_date"]):  # noqa: W605
         error_message = f"invalid start date of '{member['start_date']}' for officer '{member['name']}' specified"
         logger.info(f"[about/import_export_officer_lists return_member_json()] {error_message}")
         return False, None, error_message
@@ -308,7 +310,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     error_message - error message if not successful, otherwise None
     """
     phone_number = officer['phone_number']
-    officer_position = officer['officer_position']
+    position_name = officer['officer_position']
     full_name = officer['name']
     sfuid = officer['sfuid']
     sfu_email_alias = officer['sfu_email_alias']
@@ -322,16 +324,12 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     fav_language_2 = officer['fav_language_2']
     bio = officer['bio']
     sfu_officer_mailing_list_email = "NONE"
-    github_teams = officer['github_teams']
+    # github_teams = officer['github_teams']
     success, error_message = save_officer_and_grant_digital_resources(
-        phone_number, officer_position,
-        full_name, sfuid, sfu_email_alias,
-        announcement_emails, github_username,
-        gmail, start_date, fav_course_1,
-        fav_course_2, fav_language_1,
-        fav_language_2, bio, position_index,
-        term_obj,
+        phone_number, full_name, sfuid, sfu_email_alias, announcement_emails, github_username,
+        gmail, start_date, fav_course_1, fav_course_2, fav_language_1,
+        fav_language_2, bio, position_name, position_index, term_obj,
         sfu_officer_mailing_list_email,
-        github_teams=github_teams
+        apply_github_team_memberships=False
     )
     return success, error_message

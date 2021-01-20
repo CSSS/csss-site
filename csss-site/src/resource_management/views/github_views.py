@@ -7,8 +7,9 @@ from querystring_parser import parser
 
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
     ERROR_MESSAGE_KEY
-from resource_management.models import NonOfficerGithubMember
-from .current_officer_list import create_current_officer_list
+from resource_management.models import NonOfficerGithubMember, OfficerPositionGithubTeam, \
+    OfficerPositionGithubTeamMapping
+from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.github.github_api import GitHubAPI
 
 GITHUB_RECORD_KEY = 'record_id'
@@ -30,7 +31,6 @@ def index(request):
     if ERROR_MESSAGE_KEY in request.session:
         context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]
-    context['github_team'] = "to be declared"
     context['non_officer_github_member'] = NonOfficerGithubMember.objects.all().filter().order_by('id')
     context['GITHUB_RECORD_KEY'] = GITHUB_RECORD_KEY
     context['GITHUB_USERNAME_KEY'] = GITHUB_USERNAME_KEY
@@ -66,18 +66,26 @@ def add_non_officer_to_github_team(request):
                 name = post_dict[LEGAL_NAME_KEY][index]
                 logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] "
                             f"adding user \"{name}\" with github username \"{user_name}\" to team \"{team_name}\"")
+                success, error_message = github.validate_user(user_name)
+                if not success:
+                    if ERROR_MESSAGE_KEY in request.session:
+                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                    else:
+                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                    continue
+                github.create_team(team_name)
                 success, message = github.add_users_to_a_team([user_name], team_name)
-                if success:
-                    NonOfficerGithubMember(
-                        team_name=team_name,
-                        username=user_name,
-                        legal_name=name
-                    ).save()
-                else:
+                if not success:
                     if ERROR_MESSAGE_KEY in request.session:
                         request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
                     else:
                         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                    continue
+                NonOfficerGithubMember(
+                    team_name=team_name,
+                    username=user_name,
+                    legal_name=name
+                ).save()
         else:
             logger.info(
                 "[resource_management/github_views.py add_non_officer_to_github_team()] "
@@ -88,19 +96,26 @@ def add_non_officer_to_github_team(request):
             name = post_dict[LEGAL_NAME_KEY]
             logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] "
                         f"adding user \"{name}\" with github username \"{user_name}\" to team \"{team_name}\"")
-
+            success, error_message = github.validate_user(user_name)
+            if not success:
+                if ERROR_MESSAGE_KEY in request.session:
+                    request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                else:
+                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
+            github.create_team(team_name)
             success, message = github.add_users_to_a_team([user_name], team_name)
-            if success:
-                NonOfficerGithubMember(
-                    team_name=team_name,
-                    username=user_name,
-                    legal_name=name
-                ).save()
-            else:
+            if not success:
                 if ERROR_MESSAGE_KEY in request.session:
                     request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
                 else:
                     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
+            NonOfficerGithubMember(
+                team_name=team_name,
+                username=user_name,
+                legal_name=name
+            ).save()
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
 
 
@@ -185,31 +200,24 @@ def create_github_perms():
         ],
     }
     """
-    officers = create_current_officer_list()
-    list_of_already_existing_github_team_membership_for_current_officers = []
-    for github_membership_for_officer in officers:
-        list_of_already_existing_github_team_membership_for_current_officers.extend(
-            "please implemeent"
-        )
     users_to_grant_permission_to_github_officers_team = {}
-
-    for github_membership_for_officer in list_of_already_existing_github_team_membership_for_current_officers:
-        if github_membership_for_officer.officer_position_mapping.github_username != "":
-            if github_membership_for_officer.officer_position_mapping.github_username.lower() not in \
-                    users_to_grant_permission_to_github_officers_team.keys():
-                # if this officer's github username is not in the dict
-                # users_to_grant_permission_to_github_officers_team yet
-                users_to_grant_permission_to_github_officers_team[
-                    github_membership_for_officer.officer_position_mapping.github_username.lower()] \
-                    = [github_membership_for_officer.team_name]
-            elif github_membership_for_officer.team_name not in \
-                    users_to_grant_permission_to_github_officers_team[
-                        github_membership_for_officer.officer_position_mapping.github_username.lower()
-                    ]:
-                # if the specified team name is not yet mapped to this officer's github username
-                users_to_grant_permission_to_github_officers_team[
-                    github_membership_for_officer.officer_position_mapping.github_username.lower()
-                ].append(github_membership_for_officer.team_name)
+    github_teams = OfficerPositionGithubTeam.objects.all()
+    for github_team in github_teams:
+        officer_positions_with_access_to_team = [
+            position.officer_position_mapping.position_name
+            for position in OfficerPositionGithubTeamMapping.objects.all().filter(
+                github_team=github_team
+            )
+        ]
+        officer_github_usernames = get_list_of_officer_details_from_past_specified_terms(
+            relevant_previous_terms=github_team.relevant_previous_terms,
+            position_names=officer_positions_with_access_to_team,
+            filter_by_github=True
+        )
+        for officer_github_username in officer_github_usernames:
+            if officer_github_username not in users_to_grant_permission_to_github_officers_team:
+                users_to_grant_permission_to_github_officers_team[officer_github_username] = []
+            users_to_grant_permission_to_github_officers_team[officer_github_username].append(github_team.team_name)
 
     non_officer_users_with_access = NonOfficerGithubMember.objects.all()
     logger.info(
@@ -229,4 +237,9 @@ def create_github_perms():
                 # users_to_grant_permission_to_github_officers_team but another team needs to be added
                 users_to_grant_permission_to_github_officers_team[github_membership_for_non_officer.username].append(
                     github_membership_for_non_officer.team_name)
+    logger.info(
+        "[resource_management/github_views.py create_github_perms()] "
+        "users_to_grant_permission_to_github_officers_team"
+        f" = {users_to_grant_permission_to_github_officers_team}"
+    )
     return users_to_grant_permission_to_github_officers_team
