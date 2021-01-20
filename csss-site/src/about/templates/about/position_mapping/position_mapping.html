@@ -1,0 +1,22 @@
+{% extends "csss/new_header.html" %}
+
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+    {{ block.super }}
+    {% if error_messages %}
+        <p style="color: red">Experienced Following Error<br>
+            {% for error_message in error_messages %}
+                {{ error_message }}<br>
+            {%  endfor %}
+        </p>
+    {%  endif %}
+
+    {%  include 'about/position_mapping/saved_officer_position_mappings.html' %}
+
+    {%  include 'about/position_mapping/input_new_officer_positions.html' %}
+
+    {%  include 'about/position_mapping/saved_github_mappings.html' %}
+
+    {%  include 'about/position_mapping/input_new_github_officer_team_mappings.html' %}
+{% endblock %}
