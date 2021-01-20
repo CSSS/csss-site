@@ -13,7 +13,7 @@ from about.views.position_mapping_helper import update_context, \
     GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
-from resource_management.views.get_past_x_terms_officer_list import get_past_x_terms_officer_list
+from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 logger = logging.getLogger('csss_site')
@@ -279,7 +279,7 @@ def _get_github_usernames_that_currently_have_github_access(
         f" {officer_position_names_that_currently_have_access_to_github_team}"
     )
 
-    github_usernames_that_currently_have_access = get_past_x_terms_officer_list(
+    github_usernames_that_currently_have_access = get_list_of_officer_details_from_past_specified_terms(
         relevant_previous_terms=relevant_previous_terms,
         position_names=officer_position_names_that_currently_have_access_to_github_team,
         filter_by_github=True
@@ -305,7 +305,7 @@ def _get_github_usernames_that_need_github_access_granted(
     github_usernames_that_need_access -- the list of github usernames that match the position
      names under the relevant_previous_terms
     """
-    github_usernames_that_need_access = get_past_x_terms_officer_list(
+    github_usernames_that_need_access = get_list_of_officer_details_from_past_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=officer_position_names,
         filter_by_github=True
     )

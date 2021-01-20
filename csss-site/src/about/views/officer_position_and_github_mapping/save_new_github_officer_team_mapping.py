@@ -13,7 +13,7 @@ from about.views.position_mapping_helper import update_context, POSITION_INDEX_K
     validate_position_names_for_github_team
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
-from resource_management.views.get_past_x_terms_officer_list import get_past_x_terms_officer_list
+from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY = 'unsaved_github_officer_team_name_mapping'
@@ -210,7 +210,7 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
     if not success:
         return [error_message]
 
-    officer_github_usernames = get_past_x_terms_officer_list(
+    officer_github_usernames = get_list_of_officer_details_from_past_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=officer_position_names,
         filter_by_github=True
     )
