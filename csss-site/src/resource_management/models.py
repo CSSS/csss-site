@@ -89,7 +89,7 @@ class OfficerPositionGithubTeamMapping(models.Model):
     )
 
     def __str__(self):
-        return f"officer position mapping for {self.officer_position_mapping} to team {self.github_team}"
+        return f"officer position mapping for {self.officer_position_mapping} to github team {self.github_team.team_name}"
 
 
 class GoogleMailAccountCredentials(models.Model):
