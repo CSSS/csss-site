@@ -137,6 +137,7 @@ class GitHubAPI:
         if not self.connection_successful:
             return False, self.error_message
         successful = False
+        team = None
         while not successful:
             try:
                 team = self.org.get_team_by_slug(team_name)
