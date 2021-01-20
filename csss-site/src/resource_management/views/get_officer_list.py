@@ -7,9 +7,9 @@ from resource_management.models import NaughtyOfficer
 logger = logging.getLogger('csss_site')
 
 
-def get_past_x_terms_officer_list(relevant_previous_terms=5, position_names=None, filter_by_github=False):
+def get_list_of_officer_details_from_past_specified_terms(relevant_previous_terms=5, position_names=None, filter_by_github=False):
     """
-    Returns the list of users who currently need to have access to the SFU CSSS Digital Resources
+    Returns the list of users who match the specified position_names and relevant_previous_terms
 
     Keyword Argument
     relevant_previous_terms - if 0 specified, only get current term
@@ -30,7 +30,7 @@ def get_past_x_terms_officer_list(relevant_previous_terms=5, position_names=None
     for index in range(0, relevant_previous_terms):
         term = Term.objects.get(term_number=term_active)
         logger.info(
-            f"[resource_management/current_officer_list.py get_past_x_terms_officer_list()] collecting the "
+            f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()] collecting the "
             f"list of officers for the term with term_number {term_active}"
         )
         naughty_officers = [naughty_officer.name.strip() for naughty_officer in NaughtyOfficer.objects.all()]
@@ -43,7 +43,7 @@ def get_past_x_terms_officer_list(relevant_previous_terms=5, position_names=None
         ]
 
         logger.info(
-            "[resource_management/current_officer_list.py get_past_x_terms_officer_list()] current_officers retrieved"
+            "[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()] current_officers retrieved"
             f" = {current_officers}"
         )
         if filter_by_github:
