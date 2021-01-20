@@ -78,7 +78,6 @@ class GitHubAPI:
             )
             return False, error_message
 
-
     def create_team(self, team_name):
         """
         Will attempt to create the github team with the specified team name
