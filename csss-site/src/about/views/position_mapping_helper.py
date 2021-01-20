@@ -34,8 +34,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
-        'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,  # checked
-        'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,  # checked
+        'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
+        'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
     })
 
     position_mapping_for_selected_officer = \
@@ -155,7 +155,8 @@ def extract_valid_officers_positions_selected_for_github_team(post_dict):
     """
     if not (GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY in post_dict):
         error_message = "Did not find any positions that were selected"
-        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        logger.info("[about/position_mapping_helper.py extract_valid_officers_positions_selected_for_github_team()]"
+                    f" {error_message}")
         return False, error_message, None
 
     if there_are_multiple_entries(post_dict, GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY):
@@ -166,7 +167,7 @@ def extract_valid_officers_positions_selected_for_github_team(post_dict):
         ]
         success = len(officer_positions) > 0
         logger.info(
-            f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found "
+            "[about/position_mapping_helper.py extract_valid_officers_positions_selected_for_github_team()] found "
             "multiple officer positions. Transformed "
             f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_positions}"
             f" which has of {len(officer_positions)}"
@@ -176,43 +177,31 @@ def extract_valid_officers_positions_selected_for_github_team(post_dict):
         success = len(officer_positions) > 0
         officer_positions = [officer_positions]
         logger.info(
-            f"[about/position_mapping_helper.py extract_officers_selected_for_github_team()] found a "
+            "[about/position_mapping_helper.py extract_valid_officers_positions_selected_for_github_team()] found a "
             "single officer position index. Transformed "
             f"{post_dict[GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY]} to {officer_positions},"
             f" and has a success of {success}"
         )
     if not success:
         error_message = "No valid officer position indices detected"
-        logger.info(f"[about/position_mapping_helper.py create_new_github_mapping()] {error_message}")
+        logger.info(f"[about/position_mapping_helper.py extract_valid_officers_positions_selected_for_github_team()]"
+                    f" {error_message}")
         return False, error_message, None
 
     return True, None, officer_positions
 
 
-def validate_select_officer_position_indices(officer_position_indices):
+def validate_position_names_for_github_team(officer_position_names):
     """
-    Verifies that a github mapping with the specified id for the team and officer_position indices exists
+    Validates the position names that were specified in the user's POST call
 
     Keyword Argument
-    github_team_id -- the id for the OfficerPositionGithubTeam object
-    officer_position_indices -- the position_index for the required OfficerEmailListAndPositionMapping object
+    officer_position_names -- the names that are in the user's POST call
 
     Return
-    success -- Bool where true is returned if there exists a mapping for github_team_id and all the specified
-        officer position_indices exist
-    error_message -- returns an error message if there is one, or None otherwise
+    success -- bool that is true or false depending on if all the officer position names are valid
+    error_message -- an error message if one of the position names are invalid
     """
-    for officer_position_index in officer_position_indices:
-        if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_index=officer_position_index)) == 0:
-            error_message = f"validation for position index {officer_position_index} was unsuccessful"
-            logger.info(
-                f"[about/position_mapping_helper.py validate_update_to_github_team_mapping()] {error_message}"
-            )
-            return False, error_message
-    return True, None
-
-
-def validate_position_names_for_github_team(officer_position_names):
     for officer_position_name in officer_position_names:
         if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position_name)) == 0:
             error_message = f"There is no position mapped to the position name of {officer_position_name}"
