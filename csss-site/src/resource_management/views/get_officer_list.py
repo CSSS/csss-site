@@ -28,13 +28,18 @@ def get_list_of_officer_details_from_past_specified_terms(
     term_active = get_current_term()
     officer_list = []
     relevant_previous_terms += 1
+    logger.info(
+        f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
+        f" called with relevant_previous_terms: {relevant_previous_terms}, position_names: {position_names},"
+        f" filter_by_github: {filter_by_github}"
+    )
     for index in range(0, relevant_previous_terms):
         terms = Term.objects.all().filter(term_number=term_active)
         if len(terms) > 0:
             term = terms[0]
             logger.info(
                 f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
-                f" collecting the list of officers for the term with term_number {term_active}"
+                f" collecting the list of officers for the term {term}"
             )
             naughty_officers = [naughty_officer.name.strip() for naughty_officer in NaughtyOfficer.objects.all()]
             current_officers = [
@@ -55,6 +60,10 @@ def get_list_of_officer_details_from_past_specified_terms(
                         officer_list.append(current_officer.github_username)
             else:
                 officer_list.extend(current_officers)
+            logger.info(
+                "[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
+                f" officer_list retrieved so far = {officer_list}"
+            )
         if (term_active % 10) == 3:
             term_active -= 1
         elif (term_active % 10) == 2:

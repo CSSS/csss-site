@@ -200,9 +200,13 @@ def create_github_perms():
         ],
     }
     """
-    users_to_grant_permission_to_github_officers_team = {}
+    users_to_grant_permission_to_github_officers_team = {
+        'team_names': []
+    }
     github_teams = OfficerPositionGithubTeam.objects.all()
     for github_team in github_teams:
+        github_team_name = github_team.team_name.lower()
+        users_to_grant_permission_to_github_officers_team['team_names'].append(github_team_name)
         officer_positions_with_access_to_team = [
             position.officer_position_mapping.position_name
             for position in OfficerPositionGithubTeamMapping.objects.all().filter(
@@ -215,9 +219,11 @@ def create_github_perms():
             filter_by_github=True
         )
         for officer_github_username in officer_github_usernames:
+            officer_github_username = officer_github_username.lower()
             if officer_github_username not in users_to_grant_permission_to_github_officers_team:
                 users_to_grant_permission_to_github_officers_team[officer_github_username] = []
-            users_to_grant_permission_to_github_officers_team[officer_github_username].append(github_team.team_name)
+            if github_team_name not in users_to_grant_permission_to_github_officers_team[officer_github_username]:
+                users_to_grant_permission_to_github_officers_team[officer_github_username].append(github_team_name)
 
     non_officer_users_with_access = NonOfficerGithubMember.objects.all()
     logger.info(
@@ -225,18 +231,23 @@ def create_github_perms():
         f" = {non_officer_users_with_access}"
     )
     for github_membership_for_non_officer in non_officer_users_with_access:
-        if github_membership_for_non_officer.username != "":
-            if github_membership_for_non_officer.username not in \
-                    users_to_grant_permission_to_github_officers_team.keys():
+        github_username = github_membership_for_non_officer.username.lower()
+        github_team_name = github_membership_for_non_officer.team_name.lower()
+        if github_team_name not in users_to_grant_permission_to_github_officers_team['team_names']:
+            users_to_grant_permission_to_github_officers_team['team_names'].append(github_team_name)
+        if github_username != "":
+            if github_username not in users_to_grant_permission_to_github_officers_team.keys():
                 # if this person's github username is not in the dict
                 # users_to_grant_permission_to_github_officers_team yet
-                users_to_grant_permission_to_github_officers_team[github_membership_for_non_officer.username] = [
-                    github_membership_for_non_officer.team_name]
+                users_to_grant_permission_to_github_officers_team[github_username] = [
+                    github_team_name
+                ]
             else:
                 # if this person's github username is in the dict
                 # users_to_grant_permission_to_github_officers_team but another team needs to be added
-                users_to_grant_permission_to_github_officers_team[github_membership_for_non_officer.username].append(
-                    github_membership_for_non_officer.team_name)
+                users_to_grant_permission_to_github_officers_team[github_username].append(
+                    github_team_name
+                )
     logger.info(
         "[resource_management/github_views.py create_github_perms()] "
         "users_to_grant_permission_to_github_officers_team"
