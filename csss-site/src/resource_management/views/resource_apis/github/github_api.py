@@ -368,6 +368,10 @@ class GitHubAPI:
                     if team_name not in users_team_membership['team_names']:
                         git_team = self.org.get_team_by_slug(team_name)
                         git_team.delete()
+                        logger.info(
+                            f"[GitHubAPI ensure_proper_membership()] deleted team {team_name} since it's not"
+                            f" in the list of team_names : {users_team_membership['team_names']}"
+                        )
                     else:
                         logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
                         for user in team.get_members():
