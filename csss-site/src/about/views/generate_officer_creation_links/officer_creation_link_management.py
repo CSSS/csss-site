@@ -654,13 +654,6 @@ def process_information_entered_by_officer(request):
                 send_email_notification=True
             )
         elif position_name in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
-            error_messages = validate_sfuid_github_and_gmail(github_username=github_username)
-            if len(error_messages) > 0:
-                return redirect_back_to_input_page_with_error_message(
-                    request,
-                    new_officer_details.passphrase,
-                    error_messages
-                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
