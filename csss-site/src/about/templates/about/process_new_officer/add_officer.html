@@ -7,7 +7,7 @@
         {% if error_messages %}
         <p style="color: red">Experienced Following Error<br>
             {% for error_message in error_messages %}
-                {{ error_message }}<br>
+                {{ error_message |safe}}<br>
             {%  endfor %}
         </p>
     {%  endif %}
