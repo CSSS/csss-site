@@ -529,7 +529,7 @@ def process_information_entered_by_officer(request):
         return redirect_back_to_input_page_with_error_message(
             request,
             new_officer_details.passphrase,
-            "the position was not detected in your submission"
+            ["the position was not detected in your submission"]
         )
 
     position_name = request.POST[HTML_TERM_POSITION_KEY]
@@ -585,7 +585,7 @@ def process_information_entered_by_officer(request):
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    gdrive.error_message
+                    [gdrive.error_message]
                 )
             gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
             if gitlab.connection_successful is False:
@@ -594,7 +594,7 @@ def process_information_entered_by_officer(request):
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    gitlab.error_message
+                    [gitlab.error_message]
                 )
             error_messages = validate_sfuid_and_github(gitlab=gitlab, sfuid=sfuid, github_username=github_username)
             if len(error_messages) > 0:
