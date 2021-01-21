@@ -31,7 +31,8 @@ class GitLabAPI:
                 f"with username {username} due to {e}"
             )
             return False, f"Could not find username \"{username}\" on SFU Gitlab, please log onto " \
-                          f"SFU gitlab at csil-git1.cs.surrey.sfu.ca/ to create account"
+                          f"SFU gitlab at <a href=\"https://csil-git1.cs.surrey.sfu.ca\">csil-git1.cs." \
+                          f"surrey.sfu.ca</a> to create account"
         return True, None
 
     def add_officer_to_csss_group(self, users):

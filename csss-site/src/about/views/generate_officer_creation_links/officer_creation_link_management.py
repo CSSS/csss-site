@@ -488,7 +488,7 @@ def validate_sfuid_github_and_gmail(gitlab=None, sfuid=None, github_username=Non
     error_messages = []
     if gitlab is not None:
         if sfuid is None:
-            error_messages.append("No SFU ID is provided<br>")
+            error_messages.append("No SFU ID is provided")
             logger.info(
                 f"[about/officer_creation_link_management.py validate_sfuid_and_github()] {error_messages}"
             )
@@ -503,11 +503,11 @@ def validate_sfuid_github_and_gmail(gitlab=None, sfuid=None, github_username=Non
             error_messages.append(error_message)
         else:
             success, error_message = github_api.verify_user_in_org(github_username)
-        if not success:
-            error_messages.append(error_message)
+            if not success:
+                error_messages.append(error_message)
     if gdrive_api is not None:
         if gmail is None:
-            error_messages.append("No Gmail is provided<br>")
+            error_messages.append("No Gmail is provided")
         else:
             success, file_name, error_message = gdrive_api.add_users_gdrive([gmail.lower()])
             if not success:
@@ -607,7 +607,7 @@ def process_information_entered_by_officer(request):
                     [gitlab.error_message]
                 )
             error_messages = validate_sfuid_github_and_gmail(
-                gitlab=gitlab, sfuid=sfuid, gdrive_api=gdrive, github_username=github_username
+                gitlab=gitlab, sfuid=sfuid, gdrive_api=gdrive, gmail=gmail, github_username=github_username
             )
             if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(

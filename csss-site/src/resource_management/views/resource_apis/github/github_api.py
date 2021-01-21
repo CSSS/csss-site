@@ -56,7 +56,8 @@ class GitHubAPI:
             except RateLimitExceededException:
                 sleep(time_to_wait_due_to_github_rate_limit)
             except Exception as e:
-                error_message = f" Unable to find user \"{user_name}\" on Github, please create account at github.com"
+                error_message = f" Unable to find user \"{user_name}\" on Github, please create account at " \
+                                f"<a href=\"https://github.com\">github.com</a>"
                 logger.error(
                     f"[GitHubAPI validate_user()] {error_message} due to following error\n{e}"
                 )
