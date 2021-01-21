@@ -374,7 +374,7 @@ class GitHubAPI:
                             user_name = user.login.lower()
                             logger.info("[GitHubAPI ensure_proper_membership()] validating "
                                         f"{user_name}'s memberships in team {team}")
-                            if user_name in users_team_membership:
+                            if user_name not in users_team_membership:
                                 logger.info(
                                     f"[GitHubAPI ensure_proper_membership()] could not find user {user_name} "
                                     f"in the users_team_membership dict"
