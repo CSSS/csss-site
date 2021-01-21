@@ -506,7 +506,7 @@ def validate_sfuid_github_and_gmail(gitlab=None, sfuid=None, github_username=Non
         if not success:
             error_messages.append(error_message)
     if gdrive_api is not None:
-        if gmail is not None:
+        if gmail is None:
             error_messages.append("No Gmail is provided<br>")
         else:
             success, file_name, error_message = gdrive_api.add_users_gdrive([gmail.lower()])
