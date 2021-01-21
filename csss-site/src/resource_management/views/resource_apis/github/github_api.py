@@ -69,6 +69,7 @@ class GitHubAPI:
         try:
             if self.org.has_in_members(github_users[0]):
                 return True, None
+            logger.info(f"[GitHubAPI verify_user_in_org()] user {user_name} was not found in the SFU CSSS Github Org")
             return False, f"username \"{user_name}\" is not in the SFU CSSS GitHub Org, please " \
                           f"check the email associated with your github account to accept invitation"
         except Exception as e:

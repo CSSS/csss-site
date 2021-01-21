@@ -489,6 +489,9 @@ def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
     if gitlab is not None:
         if sfuid is None:
             error_messages += "No SFU ID is provided<br>"
+            logger.info(
+                f"[about/officer_creation_link_management.py validate_sfuid_and_github()] {error_messages}"
+            )
         else:
             success, error_message = gitlab.validate_username(sfuid)
             if not success:
@@ -499,7 +502,7 @@ def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
         if not success:
             error_messages += f'{error_message}<br>'
         success, error_message = github_api.verify_user_in_org(github_username)
-        if not success and len(error_message) == 0:
+        if not success and len(error_message) > 0:
             error_messages += f'{error_message}<br>'
     return error_messages
 
@@ -594,7 +597,7 @@ def process_information_entered_by_officer(request):
                     gitlab.error_message
                 )
             error_messages = validate_sfuid_and_github(gitlab=gitlab, sfuid=sfuid, github_username=github_username)
-            if len(error_messages) == 0:
+            if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
@@ -617,7 +620,7 @@ def process_information_entered_by_officer(request):
             )
         elif position_name in ELECTION_OFFICER_POSITIONS:
             error_messages = validate_sfuid_and_github(github_username=github_username)
-            if len(error_messages) == 0:
+            if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
@@ -638,7 +641,7 @@ def process_information_entered_by_officer(request):
             )
         elif position_name in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
             error_messages = validate_sfuid_and_github(github_username=github_username)
-            if len(error_messages) == 0:
+            if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
