@@ -505,6 +505,8 @@ def validate_sfuid_github_and_gmail(gitlab=None, sfuid=None, github_username=Non
             success, error_message = github_api.verify_user_in_org(github_username)
             if not success:
                 error_messages.append(error_message)
+                success, error_message = github_api.invite_user_to_org(github_username)
+                error_messages.append(error_message)
     if gdrive_api is not None:
         if gmail is None:
             error_messages.append("No Gmail is provided")

@@ -80,6 +80,24 @@ class GitHubAPI:
             )
             return False, error_message
 
+    def invite_user_to_org(self, user_name):
+        if not self.connection_successful:
+            return False, self.error_message
+        try:
+            github_users = self.git.search_users(query=f"user:{user_name}")
+            if self.org.has_in_members(github_users[0]):
+                return True, None
+            self.org.invite_user(user=github_users[0])
+            logger.info(f"[GitHubAPI verify_user_in_org()] invitation sent to user {user_name}")
+            return True, f"Invitation sent to github username {user_name}. Check email associated with account to " \
+                         "accept the invite"
+        except Exception as e:
+            error_message = f" Unable to add user \"{user_name}\" to the SFU CSSS Github org"
+            logger.error(
+                f"[GitHubAPI verify_user_in_org()] {error_message} due to following error\n{e}"
+            )
+            return False, error_message
+
     def create_team(self, team_name):
         """
         Will attempt to create the github team with the specified team name
