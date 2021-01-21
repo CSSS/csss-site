@@ -484,7 +484,7 @@ def determine_new_start_date_for_officer(start_date, previous_officer=None, new_
         return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
-def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
+def validate_sfuid_github_and_gmail(gitlab=None, sfuid=None, github_username=None, gdrive_api=None, gmail=None):
     error_messages = []
     if gitlab is not None:
         if sfuid is None:
@@ -504,6 +504,15 @@ def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
         success, error_message = github_api.verify_user_in_org(github_username)
         if not success and len(error_message) > 0:
             error_messages.append(error_message)
+    if gdrive_api is not None:
+        if gmail is not None:
+            error_messages.append("No Gmail is provided<br>")
+        else:
+            success, file_name, error_message = gdrive_api.add_users_gdrive([gmail.lower()])
+            if not success:
+                error_messages.append(error_message)
+            else:
+                gdrive_api.remove_users_gdrive([gmail.lower()])
     return error_messages
 
 
@@ -596,7 +605,9 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     [gitlab.error_message]
                 )
-            error_messages = validate_sfuid_and_github(gitlab=gitlab, sfuid=sfuid, github_username=github_username)
+            error_messages = validate_sfuid_github_and_gmail(
+                gitlab=gitlab, sfuid=sfuid, gdrive_api=gdrive, github_username=github_username
+            )
             if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,
@@ -619,7 +630,7 @@ def process_information_entered_by_officer(request):
                 send_email_notification=True
             )
         elif position_name in ELECTION_OFFICER_POSITIONS:
-            error_messages = validate_sfuid_and_github(github_username=github_username)
+            error_messages = validate_sfuid_github_and_gmail(github_username=github_username)
             if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,
@@ -640,7 +651,7 @@ def process_information_entered_by_officer(request):
                 send_email_notification=True
             )
         elif position_name in OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES:
-            error_messages = validate_sfuid_and_github(github_username=github_username)
+            error_messages = validate_sfuid_github_and_gmail(github_username=github_username)
             if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,
