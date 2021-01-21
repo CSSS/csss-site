@@ -359,6 +359,9 @@ class GitHubAPI:
             else:
                 logger.error("[GitHubAPI ensure_proper_membership()] could not find the "
                              f"github profile for user {user}")
+        
+        for team in users_team_membership['team_names']:
+            self.create_team(team)
 
         for team in self.org.get_teams():
             successful = False
