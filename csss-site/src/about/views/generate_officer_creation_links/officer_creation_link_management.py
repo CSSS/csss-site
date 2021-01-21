@@ -356,7 +356,7 @@ def display_page_for_officers_to_input_their_info(request):
 
     # relevant if there was an issue with processing the user input. they get redirected back to
     # this page and get shown the error message along with the info they had originally entered
-    if ERROR_MESSAGE_KEY in request.session:
+    if ERROR_MESSAGES_KEY in request.session:
         return \
             display_page_for_officers_to_input_their_info_alongside_error_experienced(request,
                                                                                       new_officer_details.passphrase,
@@ -418,9 +418,9 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     Return
     render -- the render object that directs the user back to the page for inputting info
     """
-    context[ERROR_MESSAGE_KEY] = request.session[ERROR_MESSAGE_KEY]
+    context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGES_KEY]
 
-    del request.session[ERROR_MESSAGE_KEY]
+    del request.session[ERROR_MESSAGES_KEY]
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = passphrase
     context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = request.session[HTML_TERM_POSITION_KEY]
     del request.session[HTML_TERM_POSITION_KEY]
@@ -485,25 +485,25 @@ def determine_new_start_date_for_officer(start_date, previous_officer=None, new_
 
 
 def validate_sfuid_and_github(gitlab=None, sfuid=None, github_username=None):
-    error_messages = ""
+    error_messages = []
     if gitlab is not None:
         if sfuid is None:
-            error_messages += "No SFU ID is provided<br>"
+            error_messages.append("No SFU ID is provided<br>")
             logger.info(
                 f"[about/officer_creation_link_management.py validate_sfuid_and_github()] {error_messages}"
             )
         else:
             success, error_message = gitlab.validate_username(sfuid)
             if not success:
-                error_messages += f'{error_message}<br>'
+                error_messages.append(error_message)
     if github_username is not None:
         github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
         success, error_message = github_api.validate_user(github_username)
         if not success:
-            error_messages += f'{error_message}<br>'
+            error_messages.append(error_message)
         success, error_message = github_api.verify_user_in_org(github_username)
         if not success and len(error_message) > 0:
-            error_messages += f'{error_message}<br>'
+            error_messages.append(error_message)
     return error_messages
 
 
@@ -696,7 +696,7 @@ def redirect_back_to_input_page_with_error_message(request, passphrase, error_me
     Return
     render -- the render object that directs the user back to the page for inputting info
     """
-    request.session[ERROR_MESSAGE_KEY] = error_message
+    request.session[ERROR_MESSAGES_KEY] = error_message
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = passphrase
     request.session[HTML_TERM_POSITION_KEY] = request.POST[HTML_TERM_POSITION_KEY]
     request.session[HTML_TERM_KEY] = request.POST[HTML_TERM_KEY]
