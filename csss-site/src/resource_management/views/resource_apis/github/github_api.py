@@ -318,7 +318,6 @@ class GitHubAPI:
             return False, self.error_message
         logger.info(f"[GitHubAPI ensure_proper_membership()] reading from org {CSSS_GITHUB_ORG_NAME}")
 
-        github_team_names = []
         for user in users_team_membership.keys():
             logger.info(f"[GitHubAPI ensure_proper_membership()] validating access for user {user}")
             github_user = None
@@ -340,8 +339,6 @@ class GitHubAPI:
                 logger.info("[GitHubAPI ensure_proper_membership()] found github profile "
                             f"{github_user} for user {user}")
                 for team in users_team_membership[user]:
-                    if team not in github_team_names:
-                        github_team_names.append(team)
                     successful = False
                     while not successful:
                         try:
@@ -367,19 +364,31 @@ class GitHubAPI:
             successful = False
             while not successful:
                 try:
-                    if team.name not in github_team_names:
-                        git_team = self.org.get_team_by_slug(team.name)
+                    team_name = team.name.lower()
+                    if team_name not in users_team_membership['team_names']:
+                        git_team = self.org.get_team_by_slug(team_name)
                         git_team.delete()
                     else:
                         logger.info(f"[GitHubAPI ensure_proper_membership()] validating memberships in team {team}")
                         for user in team.get_members():
+                            user_name = user.login.lower()
                             logger.info("[GitHubAPI ensure_proper_membership()] validating "
-                                        f"{user.login}'s memberships in team {team}")
-                            if user.login.lower() not in users_team_membership or \
-                                    team.name not in users_team_membership[user.login.lower()]:
-                                logger.info("[GitHubAPI ensure_proper_membership()] remove the user "
-                                            f"{user.login} from team {team}")
+                                        f"{user_name}'s memberships in team {team}")
+                            if user_name in users_team_membership:
+                                logger.info(
+                                    f"[GitHubAPI ensure_proper_membership()] could not find user {user_name} "
+                                    f"in the users_team_membership dict"
+                                )
+                            else:
+                                logger.info(
+                                    f"[GitHubAPI ensure_proper_membership()] users_team_membership[{user_name}]: "
+                                    f"{users_team_membership[user_name]}"
+                                )
+                            if user_name not in users_team_membership or \
+                                    team_name not in users_team_membership[user_name]:
                                 team.remove_membership(user)
+                                logger.info("[GitHubAPI ensure_proper_membership()] removed the user "
+                                            f"{user_name} from team {team}")
                     successful = True
                 except RateLimitExceededException:
                     sleep(time_to_wait_due_to_github_rate_limit)
