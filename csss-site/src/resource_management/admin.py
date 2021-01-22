@@ -60,7 +60,7 @@ admin.site.register(NonOfficerGithubMember, NonOfficerGithubMemberAdmin)
 
 
 class NaughtyOfficerAdmin(admin.ModelAdmin):
-    list_display = ('name',)
+    list_display = ('sfuid',)
 
 
 admin.site.register(NaughtyOfficer, NaughtyOfficerAdmin)
