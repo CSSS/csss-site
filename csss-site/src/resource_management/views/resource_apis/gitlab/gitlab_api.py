@@ -20,14 +20,23 @@ class GitLabAPI:
             logger.error(f"[GitLabAPI __init__()] {self.error_message}")
 
     def validate_username(self, username):
+        """
+        Determine if the a user exists with the specified username on SFU Gitlab
+
+        Keyword Argument
+        username -- the username for the user to validate
+
+        Return
+        Bool -- true or false to indicate if the user exists
+        error_message -- None if the user exists in SFU Gitlab, otherwise a string
+        """
         if not self.connection_successful:
             return False, self.error_message
-        user = None
         try:
-            user = self.sfu_gitlab.users.list(username=f'{username}')[0]
+            self.sfu_gitlab.users.list(username=f'{username}')[0]
         except Exception as e:
             logger.error(
-                f"[GitLabAPI add_officer_to_csss_group()] unable to get the user {user} "
+                f"[GitLabAPI add_officer_to_csss_group()] unable to get a user "
                 f"with username {username} due to {e}"
             )
             return False, f"Could not find username \"{username}\" on SFU Gitlab, please log onto " \

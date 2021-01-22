@@ -484,16 +484,30 @@ def determine_new_start_date_for_officer(start_date, previous_officer=None, new_
         return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
-def validate_sfuid_github_and_gmail(gitlab=None, sfuid=None, github_username=None, gdrive_api=None, gmail=None):
+def validate_sfuid_github_and_gmail(gitlab_api=None, sfuid=None, github_username=None, gdrive_api=None, gmail=None):
+    """
+    Verify that the given sfuid has access to gitlab, the given github_username exists and
+     is in the SFU CSSS Github org and the gmail is a valid email
+
+    Keyword Argument
+    gitlab -- the gitlab api
+    sfuid -- the sfuid to validate
+    github_username -- the github username to validate
+    gdrive_api -- the google drive api
+    gmaill -- the gmail to validate
+
+    Return
+    error_message -- a list of possible error messages to display for the officer
+    """
     error_messages = []
-    if gitlab is not None:
+    if gitlab_api is not None:
         if sfuid is None:
             error_messages.append("No SFU ID is provided")
             logger.info(
                 f"[about/officer_creation_link_management.py validate_sfuid_and_github()] {error_messages}"
             )
         else:
-            success, error_message = gitlab.validate_username(sfuid)
+            success, error_message = gitlab_api.validate_username(sfuid)
             if not success:
                 error_messages.append(error_message)
     if github_username is not None:
@@ -597,18 +611,18 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     [gdrive.error_message]
                 )
-            gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
-            if gitlab.connection_successful is False:
+            gitlab_api = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
+            if gitlab_api.connection_successful is False:
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {gitlab.error_message}")
+                            f" {gitlab_api.error_message}")
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    [gitlab.error_message]
+                    [gitlab_api.error_message]
                 )
-            error_messages = validate_sfuid_github_and_gmail(
-                gitlab=gitlab, sfuid=sfuid, gdrive_api=gdrive, gmail=gmail, github_username=github_username
-            )
+            error_messages = validate_sfuid_github_and_gmail(gitlab_api=gitlab_api, sfuid=sfuid,
+                                                             github_username=github_username, gdrive_api=gdrive,
+                                                             gmail=gmail)
             if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
                     request,

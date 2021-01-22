@@ -64,6 +64,14 @@ class GitHubAPI:
                 return False, error_message
 
     def verify_user_in_org(self, user_name, invite_user=False):
+        """
+        Verifies if the specified github user is in the SFU CSSS Github org
+
+        Keyword Argument
+        user_name -- the username for the github user that need validation
+        invite_user -- flag to indicate if the user needs to be invited to the SFU CSSS Github org if the
+         user exists and is not in the org
+        """
         if not self.connection_successful:
             return False, self.error_message
 
@@ -90,6 +98,16 @@ class GitHubAPI:
             return False, error_message
 
     def invite_user_to_org(self, user_name):
+        """
+        Invites a github user to the SFU CSSS Github org
+
+        Keyword Argument
+        user_name -- the username for the github user that needs to be invited to the org
+
+        Return
+        bool -- True or false to indicate if the user is already in the org
+        error_message -- None if the user is already in the org, otherwise a string
+        """
         if not self.connection_successful:
             return False, self.error_message
         try:
