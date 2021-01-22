@@ -99,8 +99,8 @@ class GitHubAPI:
                 return True, None
             self.org.invite_user(user=github_user)
             logger.info(f"[GitHubAPI verify_user_in_org()] invitation sent to user {user_name}")
-            return True, f"check email associated with github account {user_name} to " \
-                         "accept the invite"
+            return False, f"check email associated with github account {user_name} to " \
+                          f"accept the invite"
         except Exception as e:
             error_message = f"unable to add user \"{user_name}\" to the SFU CSSS Github org"
             logger.error(
