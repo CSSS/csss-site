@@ -670,7 +670,7 @@ def process_information_entered_by_officer(request):
             return redirect_back_to_input_page_with_error_message(
                 request,
                 new_officer_details.passphrase,
-                error_message
+                [error_message]
             )
         logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
                     " successfully saved the officer and set their digital resources")
@@ -684,7 +684,7 @@ def process_information_entered_by_officer(request):
         return redirect_back_to_input_page_with_error_message(
             request,
             new_officer_details.passphrase,
-            error_message
+            [error_message]
         )
 
 
