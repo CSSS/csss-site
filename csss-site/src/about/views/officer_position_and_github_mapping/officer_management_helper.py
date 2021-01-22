@@ -394,8 +394,17 @@ def _remove_officer_from_naughty_list(sfuid):
     Keyword Argument
     sfuid -- the sfuid of the officer
     """
+    logger.info(f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] sfuid: [{sfuid}]")
     naughty_officers = NaughtyOfficer.objects.all()
     for naughty_officer in naughty_officers:
+        logger.info(
+            "[about/officer_management_helper.py _remove_officer_from_naughty_list()] will compare sfuid"
+            f" [{sfuid}] with naughty_officer.sfuid [{naughty_officer.sfuid}]"
+        )
         if naughty_officer.sfuid == sfuid:
+            logger.info(
+                f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] deleting "
+                f"naughty_officer {naughty_officer.sfuid}"
+            )
             naughty_officer.delete()
             return
