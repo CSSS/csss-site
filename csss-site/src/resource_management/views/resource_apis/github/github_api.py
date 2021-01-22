@@ -63,16 +63,25 @@ class GitHubAPI:
                 )
                 return False, error_message
 
-    def verify_user_in_org(self, user_name):
+    def verify_user_in_org(self, user_name, invite_user=False):
         if not self.connection_successful:
             return False, self.error_message
-        github_users = self.git.search_users(query=f"user:{user_name}")
+
         try:
-            if self.org.has_in_members(github_users[0]):
+            if self.org.has_in_members(self.git.search_users(query=f"user:{user_name}")[0]):
                 return True, None
-            logger.info(f"[GitHubAPI verify_user_in_org()] user {user_name} was not found in the SFU CSSS Github Org")
-            return False, f"username \"{user_name}\" is not in the SFU CSSS GitHub Org, please " \
-                          f"check the email associated with your github account to accept invitation"
+            if invite_user:
+                success, error_message = self.invite_user_to_org(user_name)
+                if success:
+                    return success, error_message
+                else:
+                    logger.info(
+                        f"[GitHubAPI verify_user_in_org()] user {user_name} was not found in the SFU"
+                        " CSSS Github Org, invite sent"
+                    )
+                    return success, f"Could not find user {user_name} in the SF CSSS's Github Org, "+error_message
+            else:
+                return False, f"Could not find user {user_name} in the SF CSSS's Github Org, "
         except Exception as e:
             error_message = f" Unable to verify that user \"{user_name}\" is on the SFU CSSS Github org"
             logger.error(
@@ -85,14 +94,15 @@ class GitHubAPI:
             return False, self.error_message
         try:
             github_users = self.git.search_users(query=f"user:{user_name}")
-            if self.org.has_in_members(github_users[0]):
+            github_user = github_users[0] if github_users.totalCount > 0 else None
+            if self.org.has_in_members(github_user):
                 return True, None
-            self.org.invite_user(user=github_users[0])
+            self.org.invite_user(user=github_user)
             logger.info(f"[GitHubAPI verify_user_in_org()] invitation sent to user {user_name}")
-            return True, f"Invitation sent to github username {user_name}. Check email associated with account to " \
+            return True, f"check email associated with github account {user_name} to " \
                          "accept the invite"
         except Exception as e:
-            error_message = f" Unable to add user \"{user_name}\" to the SFU CSSS Github org"
+            error_message = f"unable to add user \"{user_name}\" to the SFU CSSS Github org"
             logger.error(
                 f"[GitHubAPI verify_user_in_org()] {error_message} due to following error\n{e}"
             )
