@@ -41,13 +41,14 @@ def get_list_of_officer_details_from_past_specified_terms(
                 f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
                 f" collecting the list of officers for the term {term}"
             )
-            naughty_officers = [naughty_officer.name.strip() for naughty_officer in NaughtyOfficer.objects.all()]
+            naughty_officers = [naughty_officer.sfuid.strip() for naughty_officer in NaughtyOfficer.objects.all()]
             current_officers = [
                 officer for officer in Officer.objects.all().filter(elected_term=term)
-                if len([
-                    naughty_officer for naughty_officer in naughty_officers if naughty_officer in officer.name
-                ]) == 0 and ((position_names is not None and officer.position_name in position_names) or (
-                            position_names is None))
+                if officer.sfuid not in naughty_officers and
+                (
+                        (position_names is not None and officer.position_name in position_names) or
+                        (position_names is None)
+                )
             ]
 
             logger.info(

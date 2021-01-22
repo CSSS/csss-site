@@ -156,9 +156,10 @@ class NonOfficerGithubMember(models.Model):
 
 
 class NaughtyOfficer(models.Model):
-    name = models.CharField(
-        max_length=300
+    sfuid = models.CharField(
+        max_length=300,
+        default="NA"
     )
 
     def __str__(self):
-        return f"Naughty Officer {self.name}"
+        return f"Naughty Officer {self.sfuid}"
