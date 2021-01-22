@@ -392,7 +392,7 @@ def _remove_officer_from_naughty_list(sfuid):
     even after a validation
 
     Keyword Argument
-    full_name -- the full name of the officer
+    sfuid -- the sfuid of the officer
     """
     naughty_officers = NaughtyOfficer.objects.all()
     for naughty_officer in naughty_officers:
