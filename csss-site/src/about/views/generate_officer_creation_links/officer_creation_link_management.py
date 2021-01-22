@@ -641,7 +641,7 @@ def process_information_entered_by_officer(request):
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
                 gdrive_api=gdrive,
-                gitlab_api=gitlab,
+                gitlab_api=gitlab_api,
                 send_email_notification=True
             )
         elif position_name in ELECTION_OFFICER_POSITIONS:
