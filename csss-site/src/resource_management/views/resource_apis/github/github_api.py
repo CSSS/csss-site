@@ -56,11 +56,75 @@ class GitHubAPI:
             except RateLimitExceededException:
                 sleep(time_to_wait_due_to_github_rate_limit)
             except Exception as e:
-                error_message = f" Unable to find user \"{user_name}\""
+                error_message = f" Unable to find user \"{user_name}\" on Github, please create account at " \
+                                f"<a href=\"https://github.com\" target=\"_blank\">github.com</a>"
                 logger.error(
                     f"[GitHubAPI validate_user()] {error_message} due to following error\n{e}"
                 )
                 return False, error_message
+
+    def verify_user_in_org(self, user_name, invite_user=False):
+        """
+        Verifies if the specified github user is in the SFU CSSS Github org
+
+        Keyword Argument
+        user_name -- the username for the github user that need validation
+        invite_user -- flag to indicate if the user needs to be invited to the SFU CSSS Github org if the
+         user exists and is not in the org
+        """
+        if not self.connection_successful:
+            return False, self.error_message
+
+        try:
+            if self.org.has_in_members(self.git.search_users(query=f"user:{user_name}")[0]):
+                return True, None
+            if invite_user:
+                success, error_message = self.invite_user_to_org(user_name)
+                if success:
+                    return success, error_message
+                else:
+                    logger.info(
+                        f"[GitHubAPI verify_user_in_org()] user {user_name} was not found in the SFU"
+                        " CSSS Github Org, invite sent"
+                    )
+                    return success, f"Could not find user {user_name} in the SF CSSS's Github Org, "+error_message
+            else:
+                return False, f"Could not find user {user_name} in the SF CSSS's Github Org, "
+        except Exception as e:
+            error_message = f" Unable to verify that user \"{user_name}\" is on the SFU CSSS Github org"
+            logger.error(
+                f"[GitHubAPI verify_user_in_org()] {error_message} due to following error\n{e}"
+            )
+            return False, error_message
+
+    def invite_user_to_org(self, user_name):
+        """
+        Invites a github user to the SFU CSSS Github org
+
+        Keyword Argument
+        user_name -- the username for the github user that needs to be invited to the org
+
+        Return
+        bool -- True or false to indicate if the user is already in the org
+        error_message -- None if the user is already in the org, otherwise a string
+        """
+        if not self.connection_successful:
+            return False, self.error_message
+        try:
+            github_users = self.git.search_users(query=f"user:{user_name}")
+            github_user = github_users[0] if github_users.totalCount > 0 else None
+            if self.org.has_in_members(github_user):
+                return True, None
+            self.org.invite_user(user=github_user)
+            logger.info(f"[GitHubAPI verify_user_in_org()] invitation sent to user {user_name}")
+            return False, f"check email associated with github account {user_name} to " \
+                          f"accept the invite"
+        except Exception as e:
+            error_message = f"unable to add user \"{user_name}\" to the SFU CSSS Github org"
+            logger.error(
+                f"[GitHubAPI verify_user_in_org()] {error_message} due to following error\n{e}"
+            )
+            return False, error_message
 
     def create_team(self, team_name):
         """

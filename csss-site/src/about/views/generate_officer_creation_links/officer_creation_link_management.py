@@ -20,6 +20,7 @@ from csss.views_helper import verify_access_logged_user_and_create_context, ERRO
     ERROR_MESSAGES_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
+from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
 
 logger = logging.getLogger('csss_site')
@@ -355,7 +356,7 @@ def display_page_for_officers_to_input_their_info(request):
 
     # relevant if there was an issue with processing the user input. they get redirected back to
     # this page and get shown the error message along with the info they had originally entered
-    if ERROR_MESSAGE_KEY in request.session:
+    if ERROR_MESSAGES_KEY in request.session:
         return \
             display_page_for_officers_to_input_their_info_alongside_error_experienced(request,
                                                                                       new_officer_details.passphrase,
@@ -417,9 +418,9 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     Return
     render -- the render object that directs the user back to the page for inputting info
     """
-    context[ERROR_MESSAGE_KEY] = request.session[ERROR_MESSAGE_KEY]
+    context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGES_KEY]
 
-    del request.session[ERROR_MESSAGE_KEY]
+    del request.session[ERROR_MESSAGES_KEY]
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = passphrase
     context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = request.session[HTML_TERM_POSITION_KEY]
     del request.session[HTML_TERM_POSITION_KEY]
@@ -483,6 +484,53 @@ def determine_new_start_date_for_officer(start_date, previous_officer=None, new_
         return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
+def validate_sfuid_github_and_gmail(gitlab_api=None, sfuid=None, github_username=None, gdrive_api=None, gmail=None):
+    """
+    Verify that the given sfuid has access to gitlab, the given github_username exists and
+     is in the SFU CSSS Github org and the gmail is a valid email
+
+    Keyword Argument
+    gitlab -- the gitlab api
+    sfuid -- the sfuid to validate
+    github_username -- the github username to validate
+    gdrive_api -- the google drive api
+    gmaill -- the gmail to validate
+
+    Return
+    error_message -- a list of possible error messages to display for the officer
+    """
+    error_messages = []
+    if gitlab_api is not None:
+        if sfuid is None:
+            error_messages.append("No SFU ID is provided")
+            logger.info(
+                f"[about/officer_creation_link_management.py validate_sfuid_and_github()] {error_messages}"
+            )
+        else:
+            success, error_message = gitlab_api.validate_username(sfuid)
+            if not success:
+                error_messages.append(error_message)
+    if github_username is not None:
+        github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+        success, error_message = github_api.validate_user(github_username)
+        if not success:
+            error_messages.append(error_message)
+        else:
+            success, error_message = github_api.verify_user_in_org(github_username, invite_user=True)
+            if not success:
+                error_messages.append(error_message)
+    if gdrive_api is not None:
+        if gmail is None:
+            error_messages.append("No Gmail is provided")
+        else:
+            success, file_name, error_message = gdrive_api.add_users_gdrive([gmail.lower()])
+            if not success:
+                error_messages.append(error_message)
+            else:
+                gdrive_api.remove_users_gdrive([gmail.lower()])
+    return error_messages
+
+
 def process_information_entered_by_officer(request):
     """
     1. Takes in the information entered by the officer and creates a new officer object based on it.
@@ -505,7 +553,7 @@ def process_information_entered_by_officer(request):
         return redirect_back_to_input_page_with_error_message(
             request,
             new_officer_details.passphrase,
-            "the position was not detected in your submission"
+            ["the position was not detected in your submission"]
         )
 
     position_name = request.POST[HTML_TERM_POSITION_KEY]
@@ -561,16 +609,25 @@ def process_information_entered_by_officer(request):
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    gdrive.error_message
+                    [gdrive.error_message]
                 )
-            gitlab = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
-            if gitlab.connection_successful is False:
+            gitlab_api = GitLabAPI(settings.GITLAB_PRIVATE_TOKEN)
+            if gitlab_api.connection_successful is False:
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
-                            f" {gitlab.error_message}")
+                            f" {gitlab_api.error_message}")
                 return redirect_back_to_input_page_with_error_message(
                     request,
                     new_officer_details.passphrase,
-                    gitlab.error_message
+                    [gitlab_api.error_message]
+                )
+            error_messages = validate_sfuid_github_and_gmail(gitlab_api=gitlab_api, sfuid=sfuid,
+                                                             github_username=github_username, gdrive_api=gdrive,
+                                                             gmail=gmail)
+            if len(error_messages) > 0:
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_messages
                 )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
@@ -584,10 +641,17 @@ def process_information_entered_by_officer(request):
                 sfu_officer_mailing_list_email,
                 remove_from_naughty_list=True,
                 gdrive_api=gdrive,
-                gitlab_api=gitlab,
+                gitlab_api=gitlab_api,
                 send_email_notification=True
             )
         elif position_name in ELECTION_OFFICER_POSITIONS:
+            error_messages = validate_sfuid_github_and_gmail(github_username=github_username)
+            if len(error_messages) > 0:
+                return redirect_back_to_input_page_with_error_message(
+                    request,
+                    new_officer_details.passphrase,
+                    error_messages
+                )
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
@@ -620,7 +684,7 @@ def process_information_entered_by_officer(request):
             return redirect_back_to_input_page_with_error_message(
                 request,
                 new_officer_details.passphrase,
-                error_message
+                [error_message]
             )
         logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
                     " successfully saved the officer and set their digital resources")
@@ -634,7 +698,7 @@ def process_information_entered_by_officer(request):
         return redirect_back_to_input_page_with_error_message(
             request,
             new_officer_details.passphrase,
-            error_message
+            [error_message]
         )
 
 
@@ -651,7 +715,7 @@ def redirect_back_to_input_page_with_error_message(request, passphrase, error_me
     Return
     render -- the render object that directs the user back to the page for inputting info
     """
-    request.session[ERROR_MESSAGE_KEY] = error_message
+    request.session[ERROR_MESSAGES_KEY] = error_message
     request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = passphrase
     request.session[HTML_TERM_POSITION_KEY] = request.POST[HTML_TERM_POSITION_KEY]
     request.session[HTML_TERM_KEY] = request.POST[HTML_TERM_KEY]
