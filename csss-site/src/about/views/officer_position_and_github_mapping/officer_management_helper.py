@@ -278,7 +278,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
             success, error_message = gmail.close_connection()
             if not success:
                 officer_obj.delete()
-            return success, error_message
+                return success, error_message
     if remove_from_naughty_list:
         _remove_officer_from_naughty_list(sfuid)
     return True, None
