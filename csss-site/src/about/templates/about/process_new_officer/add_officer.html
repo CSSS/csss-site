@@ -4,9 +4,11 @@
     {{ block.super }}
     {% load static %}
     {% load staticfiles %}
-        {% if error_message %}
-        <p style="color: red">Experienced Following Error<br>
-            {{ error_message }}<br>
+        {% if error_messages %}
+        <p style="color: red">Experienced Following Errors<br>
+            {% for error_message in error_messages %}
+                {{ error_message |safe}}<br><br>
+            {%  endfor %}
         </p>
     {%  endif %}
         <form action="{{URL_ROOT}}about/input_officer_info" method="post">

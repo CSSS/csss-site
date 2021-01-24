@@ -1,5 +1,5 @@
-import logging
 import datetime
+import logging
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
@@ -44,6 +44,12 @@ def create_main_context(request, tab, groups=None):
 
 
 def create_frosh_context():
+    """
+    creates the context dictionary for the frosh webpages
+
+    Return
+    context -- the frosh webpages context dictionary
+    """
     return _create_base_context()
 
 
@@ -62,6 +68,19 @@ def _create_base_context():
 
 
 def verify_access_logged_user_and_create_context_for_elections(request, tab):
+    """
+    Makes sure that the user is allowed to access the election page and returns
+    the context dictionary
+
+    Keyword Argument
+    request -- the django request object
+    tab -- the tab that needs to be specified in the context
+
+    Return
+    HttpResponseRedirect -- either None or the redirect object that redirect to the error page
+    error_message -- the error message if the user is not allowed to access the election pages
+    context -- the base context dictionary
+    """
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
     if not ('election_officer' in groups or request.user.is_staff):
@@ -72,14 +91,15 @@ def verify_access_logged_user_and_create_context_for_elections(request, tab):
 
 def verify_access_logged_user_and_create_context(request, tab):
     """
-    make sure that the user is logged in witth the sufficient level of access to access the page
+    make sure that the user is logged in with the sufficient level of access to access the page
 
     Keyword Arguments
     request -- the django request object
     tab -- the tab that needs to be specified in the context
 
     Return
-    http redirect -- returns a redirect to /error if the user is not allowed to access the page or None if they are
+    HttpResponseRedirect -- returns a redirect to /error if the user is not allowed to access
+     the page or None if they are
     error_message -- the error message if the user is not allowed to access the page
     context -- the context object to pass to html if user is allowed to access the page
     """
@@ -111,7 +131,7 @@ def get_current_term():
     Get the term number for the current term
 
     Return
-    the term_number that fits the convention YYY<1/2/3>
+    the term_number that fits the convention YYYY<1/2/3>
     """
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
@@ -125,10 +145,7 @@ def get_current_term_obj():
     term -- either the term object if it exists or None
     """
     terms = Term.objects.all().filter(term_number=get_current_term())
-    if len(terms) == 0:
-        return None
-
-    return terms[0]
+    return None if len(terms) == 0 else terms[0]
 
 
 def get_term_number_for_specified_year_and_month(month, year):

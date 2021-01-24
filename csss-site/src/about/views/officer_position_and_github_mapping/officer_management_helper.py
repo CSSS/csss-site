@@ -278,9 +278,9 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
             success, error_message = gmail.close_connection()
             if not success:
                 officer_obj.delete()
-            return success, error_message
+                return success, error_message
     if remove_from_naughty_list:
-        _remove_officer_from_naughty_list(full_name)
+        _remove_officer_from_naughty_list(sfuid)
     return True, None
 
 
@@ -386,16 +386,25 @@ def _save_officer_github_membership(officer):
     return True, None
 
 
-def _remove_officer_from_naughty_list(full_name):
+def _remove_officer_from_naughty_list(sfuid):
     """
     Removes the office form the naughty list so that their permissions remain
     even after a validation
 
     Keyword Argument
-    full_name -- the full name of the officer
+    sfuid -- the sfuid of the officer
     """
+    logger.info(f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] sfuid: [{sfuid}]")
     naughty_officers = NaughtyOfficer.objects.all()
     for naughty_officer in naughty_officers:
-        if naughty_officer.name in full_name:
+        logger.info(
+            "[about/officer_management_helper.py _remove_officer_from_naughty_list()] will compare sfuid"
+            f" [{sfuid}] with naughty_officer.sfuid [{naughty_officer.sfuid}]"
+        )
+        if naughty_officer.sfuid == sfuid:
+            logger.info(
+                f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] deleting "
+                f"naughty_officer {naughty_officer.sfuid}"
+            )
             naughty_officer.delete()
             return

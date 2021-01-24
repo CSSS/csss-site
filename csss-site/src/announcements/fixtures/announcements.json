@@ -5179,7 +5179,7 @@
         "manual_announcement": null,
         "date": "2020-04-05T19:42:47",
         "author": "Karan Aujla",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5215,7 +5215,7 @@
         "manual_announcement": null,
         "date": "2020-04-11T03:27:21",
         "author": "Karan Aujla",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5227,7 +5227,7 @@
         "manual_announcement": null,
         "date": "2020-04-11T03:32:52",
         "author": "Karan Aujla",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5239,7 +5239,7 @@
         "manual_announcement": null,
         "date": "2020-04-15T19:17:22",
         "author": "Karan Aujla",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5263,7 +5263,7 @@
         "manual_announcement": null,
         "date": "2020-04-21T13:28:48",
         "author": "Karan Aujla",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5287,7 +5287,7 @@
         "manual_announcement": null,
         "date": "2020-04-23T06:15:51",
         "author": "Karan Aujla",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5419,7 +5419,7 @@
         "manual_announcement": null,
         "date": "2020-05-19T00:12:49",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5431,7 +5431,7 @@
         "manual_announcement": null,
         "date": "2020-05-24T21:05:37",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5455,7 +5455,7 @@
         "manual_announcement": null,
         "date": "2020-06-08T23:32:11",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5539,7 +5539,7 @@
         "manual_announcement": null,
         "date": "2020-06-30T23:45:39",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5587,7 +5587,7 @@
         "manual_announcement": null,
         "date": "2020-07-20T23:02:09",
         "author": "Dusan Kovacevic",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5659,7 +5659,7 @@
         "manual_announcement": null,
         "date": "2020-08-25T17:30:39",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5671,7 +5671,7 @@
         "manual_announcement": null,
         "date": "2020-08-25T17:43:21",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5683,7 +5683,7 @@
         "manual_announcement": null,
         "date": "2020-08-25T17:44:15",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5719,7 +5719,7 @@
         "manual_announcement": null,
         "date": "2020-09-14T15:42:51",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5731,7 +5731,7 @@
         "manual_announcement": null,
         "date": "2020-09-16T15:05:04",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5755,7 +5755,7 @@
         "manual_announcement": null,
         "date": "2020-09-18T16:36:24",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5875,7 +5875,7 @@
         "manual_announcement": null,
         "date": "2020-10-08T07:39:58",
         "author": "Chun Kei Li",
-        "display": false
+        "display": true
     }
 },
 {
@@ -5983,7 +5983,7 @@
         "manual_announcement": null,
         "date": "2020-10-28T11:30:42",
         "author": "John Wu",
-        "display": false
+        "display": true
     }
 },
 {
@@ -6115,6 +6115,54 @@
         "manual_announcement": null,
         "date": "2020-12-03T14:09:26",
         "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 455,
+    "fields": {
+        "term": 20203,
+        "email": 394,
+        "manual_announcement": null,
+        "date": "2020-12-11T01:13:24",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 456,
+    "fields": {
+        "term": 20203,
+        "email": 395,
+        "manual_announcement": null,
+        "date": "2020-12-12T19:18:55",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 457,
+    "fields": {
+        "term": 20203,
+        "email": 396,
+        "manual_announcement": null,
+        "date": "2020-12-27T05:26:07",
+        "author": "Google Account",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 458,
+    "fields": {
+        "term": 20203,
+        "email": 397,
+        "manual_announcement": null,
+        "date": "2020-12-27T21:40:47",
+        "author": "John Wu",
         "display": true
     }
 }
