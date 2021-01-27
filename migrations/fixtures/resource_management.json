@@ -1,0 +1,165 @@
+[
+{
+    "model": "resource_management.officerpositiongithubteam",
+    "pk": 1,
+    "fields": {
+        "team_name": "doa",
+        "marked_for_deletion": false,
+        "relevant_previous_terms": 0
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteam",
+    "pk": 2,
+    "fields": {
+        "team_name": "election_officer",
+        "marked_for_deletion": false,
+        "relevant_previous_terms": 0
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteam",
+    "pk": 3,
+    "fields": {
+        "team_name": "officers",
+        "marked_for_deletion": false,
+        "relevant_previous_terms": 5
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 1,
+    "fields": {
+        "github_team": 1,
+        "officer_position_mapping": 8
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 2,
+    "fields": {
+        "github_team": 2,
+        "officer_position_mapping": 13
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 3,
+    "fields": {
+        "github_team": 2,
+        "officer_position_mapping": 14
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 4,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 1
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 5,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 2
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 6,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 3
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 7,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 4
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 8,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 5
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 9,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 6
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 10,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 7
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 11,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 8
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 12,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 9
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 13,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 10
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 14,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 11
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 15,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 12
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 18,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 16
+    }
+},
+{
+    "model": "resource_management.officerpositiongithubteammapping",
+    "pk": 19,
+    "fields": {
+        "github_team": 3,
+        "officer_position_mapping": 17
+    }
+}
+]

@@ -62,14 +62,8 @@ mkdir -p /path/to/csss-site/website_logs/python_logs
 
 ### Setup Database Entries
 ```shell
-git checkout master
 cd csss-site/src
-python3 manage.py migrate
-python3 manage.py loaddata about
-python3 manage.py loaddata announcements/fixtures/django_mailbox.json
-python3 manage.py loaddata announcements/fixtures/announcements.json
-python3 manage.py loaddata elections
-python3 manage.py loaddata resource_management
+../../migrations/2_apply_database_migrations.sh
 git checkout <branch_name>
 python3 manage.py makemigrations
 python3 manage.py migrate

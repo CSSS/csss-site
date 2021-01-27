@@ -1,0 +1,6289 @@
+[
+{
+    "model": "announcements.manualannouncement",
+    "pk": 1,
+    "fields": {
+        "title": "Welcome Days",
+        "author": "Colin Woodbury",
+        "slug": "welcome-days",
+        "content": "<p class=\"lead\">\r\nToday is Welcome Day at SFU! Some new CS and Engineering students will be shuffling about the ASB, and we'll be waiting for them in TASC9204 to introduce the CSSS, WICS, and the Game Dev club.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nNew students, we'll see you soon.\r\n</p>",
+        "date": "2015-09-03T05:00:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 2,
+    "fields": {
+        "title": "Frosh Begins Tomorrow",
+        "author": "Colin Woodbury",
+        "slug": "frosh-begins-tomorrow",
+        "content": "<p class=\"lead\">\r\n<b>Froshies!</b> Have you been to <a href=\"https://csssfroshweek.ca\">https://csssfroshweek.ca</a> yet? Tomorrow begins our annual Frosh Week, starting with a free BBQ at 1:30 pm in front of the ASB. Make sure to sign in beforehand, so you can grab your Frosh gear and we can know that you're alive. \r\n</p>\r\n\r\n<p class=\"lead\">\r\nSee everyone tomorrow!\r\n</p>\r\n\r\n<p>\r\n<center><img src=\"STATIC_URL/announcements_static/frosh-logo-2015.jpg\"></center>\r\n</p>",
+        "date": "2015-09-07T13:34:49"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 3,
+    "fields": {
+        "title": "Twas the Night Before Pac Macro",
+        "author": "Colin Woodbury",
+        "slug": "pacmacro-tomorrow",
+        "content": "<p class=\"lead\">\r\nHey guys, it's <b>Pac Macro</b> tomorrow. This is one of our biggest events, so make sure to come out. We're meeting in the <b>CSSS Common Room at 3:00pm</b>, and heading downtown together at 3:15. The event itself starts at <b>4:30pm</b> at Harbour Centre.\r\n</p>",
+        "date": "2015-09-09T13:18:35"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 4,
+    "fields": {
+        "title": "2015-09-15 General Meeting",
+        "author": "Colin Woodbury",
+        "slug": "2015-09-15-general-meeting",
+        "content": "<p class=\"lead\">\r\nTomorrow is our first General Meeting of the semester. We'll be electing two First-Year Representatives, so all you froshies, make sure to come out and get involved.<br>\r\nThe meeting is at 1:30pm in <b>TASC 9204.</b><br>\r\nHere's the agenda:\r\n<ul>\r\n<li>Report of Officers</li>\r\n<li> Semesterly Welcome</li>\r\n<li> Elections</li>\r\n<li> Frosh Debrief</li>\r\n<li> Website Update</li>\r\n<li> Hack Time Announcement</li>\r\n<li>Constitutional Amendments</li>\r\n<li>Open Floor</li>\r\n<li>Approval of the Minutes</li>\r\n</ul>\r\n</p>",
+        "date": "2015-09-14T09:15:05"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 5,
+    "fields": {
+        "title": "Hack Time, i=0",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i0",
+        "content": "<p class=\"lead\">\r\nHi Comp Sci students, tomorrow is the first official <b>Hack Time</b>. It's an open workshop where students interested in improving their coding skills can meet each other, form teams (if they want), get mentorship on tools and languages, use our cool dev equipment (Oculus Rift, anyone?) and code, code, code.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nHack Time <b>tomorrow only</b> will be held from <b>3pm to 5pm in ASB9896</b>. From then on, it will be from 3:30 to 6:30 in the same room.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nSee you tomorrow!\r\n</p>",
+        "date": "2015-09-15T09:47:19"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 7,
+    "fields": {
+        "title": "Build SFU Meeting",
+        "author": "Colin Woodbury",
+        "slug": "build-sfu-meeting",
+        "content": "<p class=\"lead\">\r\nHey all, we're having a Special General Meeting today to discuss the upcoming AGM (next week Tuesday) and the Build SFU project. \r\n</p>\r\n\r\n<p class=\"lead\">\r\nThe meeting is being held in <b>TASC 9204</b> at <b>5:30pm</b> today. See you there.\r\n</p>",
+        "date": "2015-09-18T08:34:35"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 8,
+    "fields": {
+        "title": "SFSS AGM + Build SFU Votes",
+        "author": "Colin Woodbury",
+        "slug": "sfss-agm-build-sfu-votes",
+        "content": "<p class=\"lead\">\r\nEveryone, tomorrow is the SFSS Annual General Meeting. There will be three motions regarding Build SFU:\r\n</p>\r\n<ul>\r\n<li>SUB loan vote</li>\r\n<li>Stadium loan vote</li>\r\n<li>Build SFU levy protection by-law</li>\r\n</ul>\r\n<p class=\"lead\">\r\nThese votes will decide the final form of the project. If they pass, the SFSS will be able to secure loans for the project, and then begin construction in 2016. If they don't pass, the project in its current form will end. It has been three years since the project began, and construction was supposed to have started this summer. However, student opposition garnered enough support earlier this year to fail the loan votes at the spring Special General Meeting. The SFSS is asking the student body tomorrow one last time: do you want Build SFU?\r\n</p>\r\n\r\n<p class=\"lead\">\r\nPlease see the websites of both the opposition and the project itself: <a href=\"notobuildsfu.ca\">No to Build SFU</a> and <a  href=\"buildsfu.csss.ca\">Build SFU</a>.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nThe AGM is <b>tomorrow at 3pm</b> in the <b>West Gym</b> at Burnaby campus. You can ask your professors for <a href=\"http://sfss.ca/news/sfss/academic-accommodation-to-attend-the-agm\">academic accommodation</a> so that you can safely miss class for the meeting. Please attend, and vote however you wish.\r\n</p>",
+        "date": "2015-09-21T04:44:09"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 9,
+    "fields": {
+        "title": "Hack Time, i=1",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i1",
+        "content": "<p class=\"lead\">\r\nHey all, Hack Time is starting at 3:30 in ASB 9705 today, and then moving over to TASC 9204 from 4:30 - 6:30. Unfortunately ASB 9896 was not available, though it will be used next week. \r\n\r\nRemember to come with potential project ideas.\r\n</p>",
+        "date": "2015-09-23T04:46:18"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 10,
+    "fields": {
+        "title": "Hack Time, i=2",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i2",
+        "content": "<p class=\"lead\">\r\nHi everyone, Hack Time will be in ASB 9896 today from 3:30 to 6:30.\r\n</p>",
+        "date": "2015-09-30T06:28:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 11,
+    "fields": {
+        "title": "Hack Time, i=3",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i3",
+        "content": "<p class=\"lead\">\r\nHack Time today will be in the <b>Common Room</b> from 3:30 to 6:30. From next week onward, we will be in ASB 9896.\r\n</p>",
+        "date": "2015-10-07T08:34:48"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 12,
+    "fields": {
+        "title": "Hack Time, i=4",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i4",
+        "content": "<p class=\"lead\">\r\nFinal we're hitting our stride: Hack Time is in <b>ASB 9896</b> today at <b>3:30</b>. For the rest of the semester, Hack Time will be in this room at this time.\r\n</p>",
+        "date": "2015-10-14T04:39:43"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 13,
+    "fields": {
+        "title": "CSSS General Meeting: 21/10/2015",
+        "author": "David DoA",
+        "slug": "csss-general-meeting-21-10-2015",
+        "content": "<p class=\"lead\">\r\nHey everyone! We're holding a meeting next week, \r\n</br>\r\nDate: Wednesday, October 21st, 2015</br>\r\nTime: 2:30 PM</br>\r\nLocation: TASC 9204</br>\r\n</br>\r\nAgenda:</br>\r\nReport of Officers</br>\r\nProposed DoR Recall</br>\r\nWebsite Update</br>\r\nPolicies</br>\r\nOpen Floor</br>\r\n-Game Jam</br>\r\nApproval of The Minutes</br>\r\n</br>\r\nPop will be served!</br>\r\n</p>",
+        "date": "2015-10-14T18:53:37"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 14,
+    "fields": {
+        "title": "Hack Time i=5 + General Meeting",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i5-general-meeting",
+        "content": "<p class=\"lead\">\r\nLots to do today. We have a meeting at 2:30pm in TASC 9204. It will be quick, as we only need to elect an Elections Officer.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nWe also have Hack Time today, in our usual room ASB9896. See you there!\r\n</p>",
+        "date": "2015-10-28T04:29:49"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 15,
+    "fields": {
+        "title": "Hack Time i=6 + General Meeting",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i6-general-meeting",
+        "content": "Oh look, another meeting + Hack Time combo. The meeting is at 2:30 in ASB 9896, and Hack Time starts right after that in the same room.",
+        "date": "2015-11-04T07:29:53"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 16,
+    "fields": {
+        "title": "Hack Time i=8 + General Meeting",
+        "author": "Colin Woodbury",
+        "slug": "hack-time-i8-general-meeting",
+        "content": "<p class=\"lead\">\r\nSame bat time, same bat channel. Come on down to our meeting and Hack Time.\r\n\r\n<ul>\r\n<li><b>Meeting</b>: TASC 9204, 2:30pm</li>\r\n<li><b>Hack Time</b>: ASB 9896, 3:30 - 6:30</li>\r\n</ul>\r\n\r\n</p>\r\n",
+        "date": "2015-11-18T06:18:10"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 17,
+    "fields": {
+        "title": "Have a Great Winter Break",
+        "author": "Colin Woodbury",
+        "slug": "have-great-winter-break",
+        "content": "<p class=\"lead\">\r\nHey guys, we hope that your exams are going well. Have a great winter break, and we'll see you in the new year! Expects some sexy upgrades for the common room...\r\n</p>",
+        "date": "2015-12-17T13:52:20"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 18,
+    "fields": {
+        "title": "Spring 2016, Welcome Back!",
+        "author": "Colin Woodbury",
+        "slug": "spring-2016-welcome-back",
+        "content": "<p class=\"lead\">\r\nHi everyone, we hope you had a great winter break. Merry belated Christmas, and Happy belated New Year.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nOur first General Meeting of the semester is today at <b>1:30pm</b> in <b>TASC 9204</b>. We will be electing two new Exec-at-Larges, as well as a new Council Rep. \r\n</p>",
+        "date": "2016-01-14T02:32:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 19,
+    "fields": {
+        "title": "Spring 2016 Hack Time, i = 0",
+        "author": "Colin Woodbury",
+        "slug": "spring-2016-hack-time-i-0",
+        "content": "<p class=\"lead\">\r\nHey all, <b>Hack Time</b> starts up again today. This semester, we have two Hack Time sessions a week, on Monday and Thursday at 3:30.\r\n</p>\r\n\r\n<p class=\"lead\">\r\nAs always, Hack Time is in ASB 9896. Come down if you want to try out an Oculus Rift, Raspberry Pi, Beagle Bone and more!\r\n</p>",
+        "date": "2016-01-21T07:05:41"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 20,
+    "fields": {
+        "title": "2016 Feb 26 General Meeting",
+        "author": "Colin Woodbury",
+        "slug": "2016-feb-26-general-meeting",
+        "content": "<p class=\"lead\">\r\nHi everyone, we have a General Meeting today at 5:30 in <b>ASB 9896</b>. Check your email for details on the Agenda.\r\n</p>",
+        "date": "2016-02-27T08:21:59"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 22,
+    "fields": {
+        "title": "Board Games!",
+        "author": "Colin Woodbury",
+        "slug": "board-games",
+        "content": "<p class=\"lead\">\r\nWe have a combination general-meeting-then-board-games-night tonight. Come down to <b>ASB 9896</b> at 5:30 for some fun! \r\n</p>",
+        "date": "2016-03-11T06:29:50"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 23,
+    "fields": {
+        "title": "2016 SFSS Elections",
+        "author": "Colin Woodbury",
+        "slug": "2016-sfss-elections",
+        "content": "Hi everyone, it's that time of year again. The Simon Fraser Student Society elections are on, and **today** is your last day to vote.\r\n\r\nThis is more important than many students might think. The SFSS wields millions of dollars in students fees, and are currently undergoing some heavy reform. Who has control of that over the next year could set the tone of student government at SFU for many years to come.\r\n\r\nIn short, please vote. Check your [SFU Connect](connect.sfu.ca) account for links to the ballots.\r\n\r\nFor information on who is running, click [here](http://elections.sfss.ca/).",
+        "date": "2016-03-24T07:02:30"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 24,
+    "fields": {
+        "title": "Spring 2016 End of Semester BBQ",
+        "author": "Colin Woodbury",
+        "slug": "spring-2016-end-semester-bbq",
+        "content": "Hey all! It's the last week of classes. To celebrate, as we do every year, we're having a free BBQ at the ASB. Free as in beer, and free as in freedom.\r\n\r\n**Time**: 12pm onwards<BR>\r\n**Place**: ASB main doors\r\n\r\nAfterwards we'll be moving our activities indoors to **TASC 9204** for some video games and board games. ",
+        "date": "2016-04-08T04:06:37"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 25,
+    "fields": {
+        "title": "Have a Great Summer",
+        "author": "Colin Woodbury",
+        "slug": "have-great-summer",
+        "content": "Everyone, I hope you have a great summer. Now that exams are over, we can finally relax. For some of us our summer means more classes, for some it means new jobs, and for some it means rest. Whatever the summer holds in store for you, we at the CSSS wish you luck.\r\n\r\nAs the semester winds down, I must say goodbye to the CSSS. I have not reran, as I am graduating. A new exec team will represent you from May onward, and I know they'll do a good job. Best of luck to James Hannah, your new President.\r\n\r\nI write this alone in the Common Room as I reflect on the countless hours spent on these chairs and couches. Thanks to everyone who made these three years at SFU a great time.\r\n\r\nCheers, and good luck,\r\n\r\n*Colin Woodbury*",
+        "date": "2016-04-25T05:58:15"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 26,
+    "fields": {
+        "title": "CSSS General Elections 2017",
+        "author": "Paymon Jalali",
+        "slug": "csss-general-elections-2017",
+        "content": "Greetings,\r\n\r\nThe voting period for the Computing Science Student Society General Elections for the 2017-2018 term begins on Monday March 20th, 2017 at 11:59 PM and closes on Monday March 27th, 2017 at 11:59 PM. Visit <a href=\"https://www.sfu.ca/~pjalali/speeches.html\">here</a> to view candidate speeches, and <a href=\"https://websurvey.sfu.ca/cgi-bin/WebObjects/WebSurvey.woa/wa/survey?273372327\">here</a> to vote. Or don't - you do you. All this information can also be found <a href=\"https://www.sfu.ca/~pjalali/\">here</a>.\r\n\r\nGood luck to all the candidates!\r\n\r\nRespectfully,</br>\r\nPaymon Jalali</br>\r\nCSSS Elections Officer",
+        "date": "2017-03-25T19:58:43"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 27,
+    "fields": {
+        "title": "REMINDER CSSS Elections 2017",
+        "author": "Paymon Jalali",
+        "slug": "reminder-csss-elections-2017",
+        "content": "Greetings,\r\n\r\nToday is the last day to vote for the Computing Society Student Society General Elections for the 2017-2018 term. The polls close tonight at 11:59PM and results will be released tomorrow. Visit <a href=\"https://www.sfu.ca/~pjalali/speeches.html\">here</a> to view candidate speeches, and <a href=\"https://websurvey.sfu.ca/cgi-bin/WebObjects/WebSurvey.woa/wa/survey?273372327\">here</a> to vote. All this information can also be found <a href=\"https://www.sfu.ca/~pjalali/\">here.</a>\r\n\r\nRespectfully, </br>\r\nPaymon Jalali</br>\r\nCSSS Elections Officer</br>",
+        "date": "2017-03-27T07:06:15"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 28,
+    "fields": {
+        "title": "CSSS Elections 2017 Results",
+        "author": "Paymon Jalali",
+        "slug": "csss-elections-2017-results",
+        "content": "Greetings,\r\n\r\nThe voting period for the CSSS General Elections for the 2017-2018 term is now over and the results have been compiled. \r\n\r\nThere were 116 responses to the websurvey - a big improvement compared to previous elections!\r\n\r\nYour new President, with 62 votes (53.4% approval), is David Miiller.</br>\r\nKasra Jamshidi received 34 votes (29.3%), there were 15 votes of no confidence (12.9%), and 5 empty ballots (4.3%).\r\n\r\nYour new Vice President, with 65 votes (56% approval), is Jon Loewen.</br>\r\nCamille Janicki received 32 votes (27.6%), there were 12 votes of no confidence (10.3%), and 7 empty ballots (6%).\r\n\r\nYour new Treasurer, with 70 votes (60.3% approval), is Dustin Cao.</br>\r\nRobert Tan received 18 votes (15.5%), there were 22 votes of no confidence (19%), and 6 empty ballots (5.2%).\r\n\r\nYour Director of Resources, with 82 votes (70.7% approval), is still Kiarash Mirsalehi.</br>\r\nThere were 28 votes of no confidence (24.1%), and 6 empty ballots (5.2%).\r\n\r\nYour new Director of Events, with 83 votes (71.6% approval), is Brendan Chan.</br>\r\nThere were 26 votes of no confidence (22.4%), and 7 empty ballots (6%).\r\n\r\nYour Director of Communications, with 82 votes (70.7% approval), is still Henry Zhao.</br>\r\nCamille Janicki received 18 votes (15.5%), there were 11 votes of no confidence (9.5%), and 5 empty ballots (4.3%).\r\n\r\nYour new Director of Archives, with 92 votes (79.3% approval), is Josh Wu.</br>\r\nThere were 17 votes of no confidence (14.7%), and 7 empty ballots (6%).\r\n\r\nCongratulations to the new executives of the CSSS!\r\n\r\nA big thank you to everyone who ran for a position, everyone who voted, and everyone who helped me out along the way.\r\n\r\nRespectfully,</br>\r\nPaymon Jalali</br>\r\nCSSS Elections Officer",
+        "date": "2017-03-28T02:15:01"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 29,
+    "fields": {
+        "title": "Silicon Valley Trip!",
+        "author": "Henry Zhao",
+        "slug": "silicon-valley-trip",
+        "content": "Thanks to the effort of a recent alumni and with the help from FAS, the CSSS plans to host 20 people on a trip to Silicon Valley from June 27th - 30th!\r\n\r\nIt\u2019s still in the planning phase, so the costs and itinerary are still being locked down. But, we wanted to give everyone a heads up.\r\n\r\nThe goal of the trip is to meet with SFU alumni and their companies to learn about the area and what these companies are looking for in co-ops and future employees. You will also be attending a conference that weekend that will have lots of SFU alumni present.\r\n\r\nOn the topic of costs, the CSSS has been fundraising this year, and we\u2019re asking both the SFSS and the SFU Alumni Association for funding to subsidize travel, conference, and hotel costs. Once we have some firm numbers, we\u2019ll let you know what\u2019s left over.\r\n\r\nYou\u2019ll be responsible for obtaining visas and any other relevant travel documents. So look out for a formal announcement soon!\r\n\r\n\r\n-- </br>\r\nRegards,</br>\r\n</br>\r\nHenry Zhao</br>\r\nDirector of Communications</br>\r\nSimon Fraser University | CSSS</br>",
+        "date": "2017-04-18T17:35:25"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 30,
+    "fields": {
+        "title": "CSSS: Silicon Valley Trip",
+        "author": "David Miiller",
+        "slug": "csss-silicon-valley-trip",
+        "content": "Hiya CSSS Members, \r\n\r\nI'm excited to announce that due to the hard work of an SFU Alumni, last semester's exec team, and SFU, the CSSS can now announce that our Silicon Valley trip is official. \r\n\r\nThe mission of this trip will be to give passionate students a chance to see the sights and opportunity of the Silicon Valley and the greater San Francisco Bay Area. Highlights include a major company campus tour, the chance to chat with local entrepreneurs and alumni, a Canada Day celebration with local Canadians, and of course a lot of fun sightseeing. It will also be a time to learn about the culture and industry that drives so much of the innovation changing our world. \r\n\r\nThe trip starts on June 27th, landing in San Jose at 11AM, and leaving on June 30th at 8pm. \r\n\r\nThere's a lot more information, so please attend one of our two info nights: \r\n\r\n<b>Friday, May 12th</b></br>\r\nRoom: ASB 9700*</br>\r\nTime: 4:00pm-5:00pm</br>\r\n*This is a CSIL Lab, please meet outside the main entrance if you don't have access\r\n\r\n<b>Wednesday, May 17th</b></br>\r\nRoom: ASB 9705</br>\r\nTime: 5:00pm-6:00pm</br> \r\n\r\nWe will also have a table operating in the ASB over the next two weeks where you can stop by to ask questions, give us your name, and more. \r\n\r\nI'll be sending out a couple more reminders in the time to come, however if this opportunity sounds interesting to you and you want to be in the loop when registration opens, please let us know as soon as possible so we can make sure you know what you need to know. \r\n\r\nAs always, thank you so much everyone, and have a fun day, \r\n\r\nDavid Miiller \r\n\r\nCSSS President</br> \r\n<a href=\"dmiiller@sfu.ca\">dmiiller@sfu.ca</a> | <a href=\"csss-exec@sfu.ca\">csss-exec@sfu.ca</a> </br>\r\n<a href=\"sfucsss.org\">sfucsss.org</a>",
+        "date": "2017-05-09T09:54:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 31,
+    "fields": {
+        "title": "CSSS Silicon Valley Update",
+        "author": "CS Student Society",
+        "slug": "csss-silicon-valley-update",
+        "content": "Hi CSSS,\r\n\r\nSilicon Valley update:\r\n\r\nPreregistration is open today and closing on FRIDAY!\r\n\r\nIn order that we can connect personally with interested students, please reach out to us if you haven't already by replying to this email. This way we can include you in the list of people to receive the registration form. Those of you who have already given us your e-mail either directly or at the Friday info session don't have to reach out to us again; you should be receiving the registration shortly! If you don't receive it by tomorrow, please let us know.\r\n\r\nJust a reminder that the information session Wednesday is our last information session, so please come if you can!\r\nIt's in ASB 9705 from 5:00 \u2013 6:00.\r\n\r\nThanks so much again everyone, and have a great afternoon,\r\n\r\nCSSS Silicon Valley Team",
+        "date": "2017-05-16T15:58:41"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 32,
+    "fields": {
+        "title": "[CSSS] May 26th Boardgames Night",
+        "author": "Brendan Chan",
+        "slug": "csss-may-26th-boardgames-night",
+        "content": "Hi,\r\n\r\nNext Friday (May 26th) we will host a board games night in TASC 9204 starting at 4:30.\r\n\r\nThe room is properly booked so it is definitely happening. (sorry hacktime people)\r\n\r\nEveryone is welcome to come, feel free to bring your own board games too if you like.\r\n\r\nAs usual we will have free food provided to people who attend.\r\n\r\nSee you there,\r\n\r\nBrendan",
+        "date": "2017-05-19T05:30:19"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 33,
+    "fields": {
+        "title": "[CSSS] May 29th Information Sess",
+        "author": "Henry Zhao",
+        "slug": "csss-may-29th-information-sess",
+        "content": "[CSSS] May 29th Information Session with Guest Speaker Ian Reddy\r\n\r\nHello everyone,\r\n\r\nA SFU alumni, Ian Reddy, will be on campus on May 29th to host an information session for our students. Ian Reddy is an accomplished business leader with deep experience in technology, culture, and organization. Ian boasts a wealth of knowledge, and is currently the head of IT Service Management at Paypal.\r\n\r\nThis information session will be an interactive experience, rather than the boring old lectures you\u2019re used to. Ian has recommended students to read the books \u201cOutliers\u201d and \u201cThe Tipping Point\u201d, both by Malcom Gladwell, to better prepare you for your future, as well as the information session. This info session will also serve as a preview of what to come for students coming to our CSSS Silicon Valley Trip. If you aren\u2019t able to make the trip, I highly suggest you to attend this info session instead!\r\n\r\nThe event details is as follows:<br/>\r\nRoom: TASC 9204<br/>\r\nTime: 10:00AM - 12:00PM<br/>\r\nDate: May 29th, 2017<br/>\r\n\r\nI hope to see all of you at the information session!\r\n\r\nRegards,<br/>\r\nHenry Zhao<br/>\r\nDirector of Communications | CSSS",
+        "date": "2017-05-19T11:05:55"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 34,
+    "fields": {
+        "title": "Board games Nite",
+        "author": "Brendan Chan",
+        "slug": "board-games-nite",
+        "content": "board games! all nite! free food!\r\n\r\nFriday May 26th",
+        "date": "2017-05-22T06:56:50"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 35,
+    "fields": {
+        "title": "Plans for next week",
+        "author": "Brendan Chan",
+        "slug": "csss-hacktime-plans-next-w",
+        "content": "Hey Everyone,\r\n\r\nThank you for all your survey responses.\r\nHacktime will be having two sessions next week.\r\n\r\nTuesday, May 30th, TASC 9204e\r\n4:30pm - 7:00pm\r\n\r\nFriday, June 2nd, TASC 9204e\r\n3:00pm - 6:00pm\r\n\r\nThe Tuesday session will be similar to what Hacktime has been in the past. If you have any requests for topics you want covered you can email me and I will prepare a short presentation. Otherwise this will be a time for you to meet other students and organize yourselves to do projects.\r\n\r\nThe Friday session will be a workshop style environment. We will have a lesson prepared and a theme for everyone to explore and work on.\r\n\r\nAs always, feel free to contact me with any questions or concerns.",
+        "date": "2017-05-23T11:34:53"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 36,
+    "fields": {
+        "title": "CSSS Boardgames Night on June 9",
+        "author": "Brendan Chan",
+        "slug": "csss-boardgames-night-june-9",
+        "content": "Hi,\r\n\r\nWe will be having our next session of biweekly Boardgames Night soon next week.\r\n\r\nTASC 9204\r\n\r\nFriday, June 9th 2017\r\n\r\n4:30pm - when everyone leaves\r\n\r\nEveryone is welcome, bring your friends!\r\nBring your own boardgames if you like! Drop in whenever! Free food/pop as usual.\r\n\r\n\r\nRegards,\r\n\r\nBrendan",
+        "date": "2017-05-31T13:50:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 37,
+    "fields": {
+        "title": "CSSS Hacktime June 13 & 16",
+        "author": "Brendan Chan",
+        "slug": "csss-hacktime-june-13-16",
+        "content": "Hi all,\r\n\r\nHacktime has been on involuntary hiatus this week due to convocation taking up our usual room.\r\n\r\nWe will continue sessions from now on every Tuesday and every other Friday. Exact times are subject to room availability but I'll prioritize afternoons and early evenings.\r\n\r\nTuesday June 13th 4:30pm - 7:30pm TASC 9204w\r\nFriday June 16th 3:30pm - 6:30pm TASC 9204w\r\n\r\nWhat is Hacktime you ask? Hacktime is an initiative started by the CSSS a few years ago. Giving students like you (yes you) an opportunity to meet with other students who are passionate about working on projects and using new technology has been the main goal of Hacktime. \r\n\r\nCome to our session on Tuesday and listen to me talk about ways to draw inspiration for new projects and how to collaborate with others.\r\n\r\nMerci beaucoup, \r\n\r\nBrendan",
+        "date": "2017-06-07T11:02:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 38,
+    "fields": {
+        "title": "CSSS Notice of General Meeting",
+        "author": "Joshua Wu",
+        "slug": "csss-notice-general-meeting",
+        "content": "CSSS Notice of General Meeting 2017-06-23 11:30 TASC 9408  \r\n  \r\nHello, this is notice of the Computing Science Student Society's next general meeting. Please note that the room for this meeting is TASC 9408, located at the end of the hall on the east side of TASC.\r\n\r\nDate: Friday, June 23rd 2017  \r\nTime: 11:30 AM  \r\nLocation: TASC 9408  \r\n\r\nAgenda:  \r\nReport of Officers  \r\nSilicon Valley Trip  \r\n-Reimbursing the Organizer for Transit Booking  \r\n-Covering the Attendees Alumni Lunch Expense  \r\nFrosh  \r\nConstitutional Review  \r\nBoard Games Night  \r\nPoker Night  \r\nApproval of the Minutes  \r\n-Amendment to the minutes of 15-May-2017  \r\nOpen Floor  \r\n\r\nPop will be served. Voting restricted to members only. You are a member if you are: a declared CMPT major, minor, or honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science.\r\n  \r\n--  \r\nJoshua Wu | CSSS Director of Archives\r\n",
+        "date": "2017-06-15T13:15:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 39,
+    "fields": {
+        "title": "HackTime Schedule",
+        "author": "Brendan Chan",
+        "slug": "hacktime-schedule",
+        "content": "Hi all,  \r\n  \r\nDue to lack of available personnel, Hacktime for tomorrow is cancelled. Friday will still happen though, and I'll have something (sort of) interesting to chew on for you guys.  \r\n  \r\nFriday, June 30th, 2017  \r\n3:30pm - 5:30pm  \r\nTASC 9204  \r\n  \r\nAs you can probably tell, we need more people to help organize hacktime. If you are interested in helping out, send me an email.  \r\n  \r\nThanks,  \r\n  \r\nBrendan",
+        "date": "2017-06-26T11:36:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 40,
+    "fields": {
+        "title": "CSSS Boardgames Night July 9th",
+        "author": "Brendan Chan",
+        "slug": "csss-boardgames-night-july-9th",
+        "content": "Hi,  \r\n  \r\nCSSS will be hosting another board games night. Come play some boardgames with us! Everyone is welcome. Food will be provided.  \r\n  \r\nFriday, July 7th 2017  \r\n4:30 - when everyone leaves  \r\nTASC 9204  \r\n  \r\n<a href=\"https://www.facebook.com/events/224859068020900/permalink/225893331250807/  \">RSVP to our Facebook event and comment food requests!</a>  \r\n\r\n  \r\nThanks all,  \r\n  \r\nBrendan  ",
+        "date": "2017-07-01T07:50:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 41,
+    "fields": {
+        "title": "Notice of Meeting 2017-07-07",
+        "author": "Joshua Wu",
+        "slug": "Notice_of_Meeting_2017-07-07",
+        "content": "Hello everyone, this is notice of the Computing Science Student Society's next general meeting.  \r\n  \r\nDate: Friday, July 7th 2017  \r\nTime: 11:30 AM  \r\nLocation: TASC 9204W  \r\n  \r\nAgenda:  \r\nReport of Officers  \r\nSilicon Valley Trip Debrief  \r\nFrosh  \r\nBoard Games Night  \r\nConstitution Change Review  \r\nOpen Floor  \r\nApproval of the Minutes  \r\n  \r\nPop will be served. Voting restricted to members only. You are a member if you are: a declared CMPT major, minor, or honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science.  \r\n  \r\n--  \r\nJoshua Wu | CSSS Director of Archives  \r\n  \r\nIf you are not interested in these newsletters or other email correspondence with the CSSS, you can remove yourself from our mailing list by visiting http://maillist.sfu.ca, signing in with your SFU credentials, selecting \"find maillists to which I belong,\" and then unsubscribing from cmpt-students,  csss-announce, and/or csss-active.  \r\n  \r\n  \r\n  \r\n  \r\n  \r\n--  \r\nBest regards,  \r\n  \r\nJoshua Wu | CSSS Director of Archives  ",
+        "date": "2017-07-02T14:46:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 42,
+    "fields": {
+        "title": "CSSS: Frosh 2017 Leader Call Out",
+        "author": "David Miiller",
+        "slug": "csss-frosh-2017-leader-call-out",
+        "content": "Hello CSSS,  \r\n  \r\nWe're now less than two months away from our biggest event of the year, Frosh Week!  \r\nThat means it's time to start looking for Frosh Leaders.  \r\n  \r\nAs a Frosh Leader, you'd help a new group of computing students feel welcome at SFU, and to assist our organizing committee with our daily events.  \r\n  \r\nFor those who attended their Frosh, this is a great opportunity to relive those memories and to give back. For those who never attended their Frosh, then maybe it's your chance to see what all the legends are about.  \r\n  \r\nThe benefits of leading:  \r\n-Fun events with awesome people  \r\n-Leadership experience  \r\n-Provide inspiration to froshees and help the next generation  \r\n-Free food, t-shirts, and gifts  \r\nand quite a bit more!  \r\n  \r\nTo sign up as a Frosh Leader, fill out the survey here:  \r\n[https://goo.gl/forms/PcXERZiyui3YScsX2](https://goo.gl/forms/PcXERZiyui3YScsX2)  \r\n  \r\nFor more information about the Computing Science Student Society, Frosh Week, and to see our event schedule, visit our website:  \r\n[https://csssfroshweek.github.io/mainsite/frosh.html](https://csssfroshweek.github.io/mainsite/frosh.html)  \r\n  \r\nThanks everyone, and have a great day  \r\n  \r\nDavid Miiller  \r\nCSSS President  \r\n  \r\n(On behalf of the Frosh 2017 Committee)  ",
+        "date": "2017-07-09T08:44:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 43,
+    "fields": {
+        "title": "CSSS Boardgames Night July 21st",
+        "author": "Brendan Chan",
+        "slug": "csss-boardgames-night-july-21st",
+        "content": "Hello all,  \r\n  \r\nCSSS will be hosting our last boardgames night for Summer 2017 on July 21st.  \r\nSame time and place as usual, free food, bring your friends, bring your enemies!  \r\n  \r\nFriday, July 21st 2017  \r\n4:30pm - I get tired  \r\nTASC 9204  \r\n  \r\nRSVP to our Facebook event (or don't) and contribute food suggestions to the poll.  \r\n[https://www.facebook.com/events/1434951543240545/](https://www.facebook.com/events/1434951543240545/)  \r\n  \r\nWe are planning a Semesterly End of Semester Social for Celebrating the End of the Semester (SEoSfSCtEotS for short) on August 4th. Similar to boardgames, except (propably higher quality food and) not only boardgames. Open to email suggestions on what you want to happen on that day (BBQ, lan party, mario kart?, \u00af\\\\_(\u30c4)_/\u00af ).  \r\n  \r\nHope to see you there!  \r\n  \r\nBrendan  \r\n  \r\nCSSS Director of Events  ",
+        "date": "2017-07-13T17:35:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 44,
+    "fields": {
+        "title": "General Meeting 2017-07-21",
+        "author": "Joshua Wu",
+        "slug": "General-Meeting-2017-07-21",
+        "content": "This is notice of the Computing Science Student Society's next general meeting.  \r\n  \r\nDate: Friday, July 21st 2017  \r\nTime: 11:30 AM  \r\nLocation: TASC 9204E  \r\n  \r\nAgenda:  \r\nReport of Officers  \r\nFrosh  \r\nEoSS  \r\nCharity Gameathon Support  \r\nHoodie Sale  \r\nSilicon Valley Trip Report  \r\nConstitution  \r\nApproval of the Minutes  \r\nOpen Floor  \r\n- Rob's Proposal for Tickets  \r\n- Free Geek  \r\n  \r\nPop will be served. Voting restricted to members only. You are a member if you are: a declared CMPT major, minor, or honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science.  \r\n  \r\n--  \r\nJoshua Wu | CSSS Director of Archives  \r\n  \r\nIf you are not interested in these newsletters or other email correspondence with the CSSS, you can remove yourself from our mailing list by visiting http://maillist.sfu.ca, signing in with your SFU credentials, selecting \"find maillists to which I belong,\" and then unsubscribing from cmpt-students,  csss-announce, and/or csss-active.  ",
+        "date": "2017-07-14T07:53:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 45,
+    "fields": {
+        "title": "Mobify Grant 2017 Deadline",
+        "author": "Henry Zhao",
+        "slug": "mobify-grant-2017-deadline",
+        "content": "[CSSS] Mobify Grant 2017 Deadline Fast Approaching!  \r\n  \r\nHi everyone,  \r\n  \r\nJust a friendly reminder that the 2017 Mobify Grant's deadline is approaching. Make sure you get your applications in before July 31st, 2017 midnight.  \r\n  \r\nRegards,  \r\n  \r\nHenry Zhao  \r\nDirector of Communications  \r\nSimon Fraser University | CSSS  \r\n  \r\nOn 7/5/2017 7:46 PM, Henry Zhao wrote:  \r\nHello Students,  \r\n  \r\nI hope you're having an awesome Summer!  \r\n  \r\nThe 2017 Mobify Grant applications are now open, and you can find the link here: [http://websurvey.sfu.ca/survey/281687890](http://websurvey.sfu.ca/survey/281687890)  \r\n   \r\nThe deadline for this grant is July 31st, 2017, so make sure you get those applications in early and don't procrastinate!  \r\n    \r\nPlease feel free to reply to this email if you are uncertain about your application, or contact Christopher Duffin at cduffin@sfu.ca directly.   \r\nYou will find below a small blurb detailing what this grant is about, and who it is for. You can find the same information at the websurvey link provided above.  \r\n  \r\nAt Mobify, we're passionate about creating amazing mobile experiences and we're so excited to be able to share our passion with such talented students at SFU! We're confident that you'll come up with some butt kicking ideas and we can't wait to see them come to life. Obviously, mobile technology is what sparks our hunger at Mobify and our engineers have hinted at some impressive ideas that would knock their socks off. Up for the challenge? Here are a few ideas to spark your imagination:   \r\n  \r\n1) Develop an app for an event at SFU,   \r\n2) Develop an app for a particular club or organization at SFU,   \r\n3)Develop an app that will increase student productivity or efficiency at SFU,   \r\n4) Develop an SFU Social Networking App,   \r\n5) Develop an app for a small business on campus,  \r\n6) Host a Hackathon, Networking Event, or Workshop.   \r\n  \r\nThroughout your journey of completing your project, Mobify would like to support you as much as possible. With that being said, Mobifyers are quite busy bees! We've included in the submission form a few sections that request some more detailed information. The more in-depth information you are able to provide, the more we can help you moving forward. Think of it like Batman and Robin - partners in crime. If you have any further questions about either a type of project you and your team have in mind or just questions about filling out the application all together, please contact Christopher Duffin at cduffin@sfu.ca We look forward to seeing what you and your team's imagination comes up with!  \r\n\r\n",
+        "date": "2017-07-21T06:34:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 46,
+    "fields": {
+        "title": "General Meeting 2017-08-04 11:30",
+        "author": "Joshua Wu",
+        "slug": "general-meeting-2017-08-04-1130",
+        "content": "CSSS Notice of General Meeting 2017-08-04 11:30 TASC9204E  \r\n  \r\nHello everyone, this is notice of the Computing Science Student Society's next general meeting.  \r\n  \r\nDate: Friday, August 4th 2017  \r\nTime: 11:30 AM  \r\nLocation: TASC 9204 East  \r\n  \r\nAgenda:  \r\nReport of Officers  \r\nEnd of Semester Address  \r\nFrosh: Budget Approval  \r\nSilicon Valley Wrap-Up  \r\nEoSS  \r\nConstitution Update  \r\nHoodie Sale  \r\nTicket Sales  \r\nElection of By-Elections Officer  \r\nOpen Floor  \r\nApproval of the Minutes  \r\nOpen Floor  \r\n  \r\nPop will be served. Voting restricted to members only. You are a member if you are: a declared CMPT major, minor, or honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science.  \r\n  \r\n--  \r\nJoshua Wu | CSSS Director of Archives  \r\n  \r\nIf you are not interested in these newsletters or other email correspondence with the CSSS, you can remove yourself from our mailing list by visiting [http://maillist.sfu.ca](http://maillist.sfu.ca), signing in with your SFU credentials, selecting \"find maillists to which I belong,\" and then unsubscribing from cmpt-students, csss-announce, and/or csss-active  ",
+        "date": "2017-07-29T17:04:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 47,
+    "fields": {
+        "title": "[CSSS] End of Semester Social",
+        "author": "Brendan Chan",
+        "slug": "csss-end-semester-social",
+        "content": "[CSSS] Semesterly End of Semester Social Celebrating the End of the Semester  \r\n  \r\nHi all,  \r\n  \r\nThe CSSS will be hosting an end of semester social this Friday. Come by and chat, play boardgames, video games, free food, and more!  \r\n  \r\nSEoSSCtEotS  \r\nFriday, August 4th 2017  \r\n6:00pm - Late  \r\nTASC 9204  \r\n  \r\nCome enjoy your last reprieve before the unbearing onslaught of exams!   \r\n  \r\nHope to see you there,  \r\n  \r\nBrendan Chan  \r\n  \r\nCSSS Director of Events  ",
+        "date": "2017-08-03T07:45:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 48,
+    "fields": {
+        "title": "2017-2018 CSSS By-Elections Nom",
+        "author": "Jace Manshadi",
+        "slug": "2017-2018-csss-elections-nom",
+        "content": "Hi everyone,  \r\n  \r\nThe nomination period for positions in the CSSS begins today, and lasts until 11:59pm August 11th. These positions are for the next 2 semesters, i.e until the end of April. If you want to run for any of the positions below, or you want to nominate someone for one of these positions, please do the following:  \r\n  \r\n1) Fill out a nomination form (attached is a digital copy) with the nominees' signature and give a physical copy to me or one of the CSSS executives (there should be at least one exec in the CSSS common room, ASB 9802). You CAN nominate yourself for a position.  \r\n  \r\nPhysical copies will be in the common room, ASB 9802, or you can print out your own from the digital copy located here-> [http://www.sfu.ca/~jsaadatm/nominations.pdf](http://www.sfu.ca/~jsaadatm/nominations.pdf)  \r\n  \r\n2) Have the candidate send a speech to <a href=\"mailto:j_manshad@sfu.ca\">j_manshad@sfu.ca</a>\r\n  \r\nIf you would like examples of past speeches, please check out   \r\n[http://www.sfu.ca/~mtaras/2016.html](http://www.sfu.ca/~mtaras/2016.html)  \r\n[http://www.sfu.ca/~karana/speeches2016](http://www.sfu.ca/~karana/speeches2016)  \r\n[http://www.sfu.ca/~karana/VPspeeches2016.html](http://www.sfu.ca/~karana/VPspeeches2016.html)  \r\n  \r\nThe positions that you can run for are:  \r\n  \r\nDirector of Events  \r\n  \r\nThe Director of Events shall:  \r\n-Chair the Events Committee.  \r\n-Plan, organise, and execute all CSSS sponsored events or delegate such responsibilities as necessary.  \r\n-Be a signing officer of the Society, including the Society\u2019s Bank Account.  \r\n-Write a continuity report at the end of their term for the next executive member who will fill this position.  \r\n  \r\nDirector of Archives  \r\n  \r\nThe Director of Archives shall:  \r\n-Ensure that proper notice of General Meetings is given, as specified by this Constitution.  \r\n-Record the minutes of CSSS meetings, or ensure that the minutes are recorded if they are unable.  \r\n-Keep and reproduce both minutes of CSSS meetings and written records of all decisions, made at properly constituted meetings of the Society.  \r\n-Make the minutes of all meetings available to the public, including the Student Union Organiser.  \r\n-Compile semester executive, representative, and committee membership lists.  \r\n-Post hard copies of the minutes of General Meetings near the CSSS common room(s), and distribute electronic versions of the minutes to appropriate CSSS mailing lists.  \r\n-Maintain the records of the CSSS, including but not limited to the minutes archive, continuity reports, event summaries, Society procedures, and Society history.  \r\n-Be able to provide guidance on the regulations and procedures of the CSSS and SFSS.  \r\n-Write a continuity report at the end of their term for the next executive member who will fill this position.  \r\n  \r\nGood luck to all the candidates!  \r\n  \r\n-Jace Manshadi  \r\nElections Officer | System Administrator | Webmaster  \r\nSimon Fraser University | CSSS  ",
+        "date": "2017-08-04T14:15:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 49,
+    "fields": {
+        "title": "By-Elections 2017-2018 Voting Pe",
+        "author": "Jace Manshadi",
+        "slug": "-elections-2017-2018-voting-pe",
+        "content": "Greetings All!<br/>\r\n<br/>\r\nThe voting period for the Computing Science Student Society By-Elections for the 2017-2018 term begins on Saturday August 12th, 2017 at 7:00 PM and closes on Sunday August 20th, 2017 at 11:59 PM. Visit <a href=\"http://sfucsss.org/elections/2017-2018-csss-elections-nom/\">here</a> to view candidate speeches, and <a href=\"https://websurvey.sfu.ca/cgi-bin/WebObjects/WebSurvey.woa/wa/survey?286259510\">here</a> to vote.\r\n\r\nBest of luck to all the candidates!\r\n\r\n-Jace Manshadi<br/>\r\nElections Officer | System Administrator | Webmaster<br/>\r\nSimon Fraser University | CSSS",
+        "date": "2017-08-12T12:57:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 50,
+    "fields": {
+        "title": "[CORRECTION] By-Elections",
+        "author": "Jace Manshadi",
+        "slug": "correction-elections",
+        "content": "Greetings once again fellow students!  \r\n  \r\nDue to a mistake with the voting system previously set up, I have had to create a new voting survey. I do apologize for the inconvenience and spam. As a new survey has been opened up, I ask that all those who previously submitted a vote, to do so again.  \r\n  \r\nThe voting period for the Computing Science Student Society By-Elections for the 2017-2018 term begins on Monday August 14th, 2017 at 7:00 PM and closes on Tuesday August 22th, 2017 at 11:59 PM. Visit <a href=\"http://sfucsss.org/elections/2017-2018-csss-elections-nom/\">here</a> to view candidate speeches, and <a href=\"https://websurvey.sfu.ca/cgi-bin/WebObjects/WebSurvey.woa/wa/survey?286275721\">here</a> to vote.  \r\n  \r\nBest of luck to all candidates and good luck to all who are still studying for finals!  \r\n  \r\n-Jace Manshadi  \r\nElections Officer | System Administrator | Webmaster  \r\nSimon Fraser University | CSSS  ",
+        "date": "2017-08-14T09:44:59"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 51,
+    "fields": {
+        "title": "FINAL REMINDER CSSS By-Elections",
+        "author": "Jace Manshadi",
+        "slug": "final-reminder-csss-elections",
+        "content": "Greetings All,  \r\n  \r\nToday is the last day to vote for the Computing Society Student Society By-Elections for the 2017-2018 term. The polls close tonight at 11:59PM and results will be released tomorrow. Visit <a href=\"http://sfucsss.org/elections/2017-2018-csss-elections-nom/\">here to view candidate speeches</a>, and <a href=\"https://websurvey.sfu.ca/cgi-bin/WebObjects/WebSurvey.woa/wa/survey?286275721\">here to vote</a>.  \r\n  \r\n-Jace Manshadi  \r\nElections Officer | System Administrator | Webmaster  \r\nSimon Fraser University | CSSS  ",
+        "date": "2017-08-21T17:00:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 52,
+    "fields": {
+        "title": "CSSS By-Elections 2017-2018",
+        "author": "Jace Manshadi",
+        "slug": "csss-elections-2017-2018",
+        "content": "CSSS By-Elections 2017-2018 Results  \r\n  \r\nGreetings All,  \r\n  \r\nThe voting period for the CSSS By-Elections for the 2017-2018 term is now over and the results have been compiled.   \r\n  \r\nBefore getting to the results, I'd like to take a moment to thank our previous Director of Events and Director of Archives, Brendan Chan and Josh Wu respectively for their hardwork and dedication to their position.  \r\n  \r\nThere were 76 responses to the websurvey.  \r\n  \r\nYour new Director of Events is Courtenay Huffman, with Oscar Smith-Sieger coming in at second place.  \r\n  \r\nYour new Director of Archives is Dawn Chandler, with Ali Arshad coming in at second place.  \r\n  \r\nCongratulations to the new executives of the CSSS!  \r\n  \r\nA very big thank you to everyone who ran for a position, everyone who voted and all members of the CSSS who have helped me along the way.  \r\n  \r\n-Jace Manshadi  \r\nElections Officer | System Administrator | Webmaster  \r\nSimon Fraser University | CSSS  ",
+        "date": "2017-08-22T17:00:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 53,
+    "fields": {
+        "title": "CSSS Award Fall 2017 Application",
+        "author": "Henry Zhao",
+        "slug": "csss-award-fall-2017-application",
+        "content": "Hello everyone,\r\n\r\nThe application for CSSS Award Fall 2017 is now officially open. Please attach your application to the reply of this email before September 10th, 2017, 11:59PM.   More information regarding the award can be found below:  \r\n  \r\nAward Criteria:  \r\nA minimum cumulative GPA of 2.00 at SFU and be in good academic standing. In the case the student is a first term or transfer student he/she must possess an equivalent secondary school or college standing.  \r\nRegistration in a minimum of 9 units of standard graded courses in the term of eligibility  \r\nAward Reference:  \r\n  \r\nTitle: COMPUTING SCIENCE STUDENT SOCIETY AWARD  \r\nProgram ID: UEAO-42  \r\nAmount: $2000  \r\n  \r\nThe Undergraduate Computing Science Student Society fund provides annual awards from a portion of the earned interest.  Awards will be given in the Fall and/or Spring terms to undergraduate students in Computing Science, who if declared majors, meet the GPA requirements to stay in the School, or if not a declared major, meet the School's requirement to declare. Candidates need not have completed all the courses required to declare a major in Computing Science.  \r\n  \r\nApplicants must demonstrate service to the university community in particular to the undergraduate Computing Science Student Society and/or the Computing Science undergraduate student body. Financial need may be taken into account if more than one student qualifies for the award.  \r\n  \r\nApplications for the award should be addressed to the Director of the School of Computing Science and will include a letter discussing university community involvement or involvement with the Society. Recommendations from any member may be submitted to the Director.  \r\nAll applications will be reviewed by the CSSS to determine the best nominee going forward, and all applications will be sent to the UCC. A final decision will be reached between the CSSS and the UCC to determine the winning nominee.  \r\n  \r\nFor any questions regarding this award, please reply back to this email, or email us at csss-exec@sfu.ca.  \r\n  \r\nWe hope to see all your applications soon!  \r\n  \r\n  \r\n  \r\n--   \r\nRegards,  \r\n  \r\nHenry Zhao  \r\nDirector of Communications  \r\nSimon Fraser University | CSSS  ",
+        "date": "2017-08-30T10:57:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 54,
+    "fields": {
+        "title": "Notice of Meeting 2017-09-13",
+        "author": "Dawn Chandler",
+        "slug": "notice-meeting-2017-09-13",
+        "content": "Hello,\r\n\r\nThis is notice of the Computing Science Student Society's next general meeting.\r\n\r\nDate: Wednesday, September 13, 2017  \r\nTime: 3:30PM  \r\nLocation: ASB 9705  \r\n\r\nAgenda:  \r\nSemester Welcome  \r\nReport of Officers  \r\nElections:  \r\n- First Year Rep x2  \r\n- Exec at Large x2  \r\nFrosh Report  \r\nHoodie Sale Report  \r\nBoard Games Night  \r\nOpen Floor  \r\nApproval of the Minutes  \r\n\r\nPop will be served. Voting restricted to members only. You are a member\r\nif you are: a declared CMPT major, minor, or honours in any program of\r\nstudy offered at the undergraduate level by the School of Computing\r\nScience; or currently enrolled in any undergraduate course offered by\r\nthe School of Computing Science.\r\n\r\n--\r\n\r\nDawn Chandler | CSSS Director of Archives\r\n\r\nEDITS:  \r\nLocation changed to ASB 9705.  \r\nTime changed to 3:30PM.",
+        "date": "2017-09-07T05:58:50"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 55,
+    "fields": {
+        "title": "Events Committee Meeting",
+        "author": "Courtenay Huffman",
+        "slug": "events-committee-meeting",
+        "content": "Are you interested in helping organize and run events associated with the CSSS? Or maybe you have an event or workshop idea that you think your student society can help you bring to life.\r\n\r\nIf either of these apply to you, or you are just curious about what we have in store for you this semester, join me in TASC 9408 on Wednesday the 13th at 11:30. Don't worry if you can't make it to the meeting but have an idea or want to get involved; send an email to csss-doe@sfu.ca to let me know!\r\n\r\nOn the agenda for this meeting:<br>\r\n-Reviewing the proposed committee setup<br>\r\n-Board Games Nights<br>\r\n-Hacktime<br>\r\n-Your events :D\r\n\r\nHope to see you all there!",
+        "date": "2017-09-10T17:42:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 56,
+    "fields": {
+        "title": "Notice of Meeting 2017-09-27",
+        "author": "Dawn Chandler",
+        "slug": "notice-meeting-2017-09-27",
+        "content": "Hello,\r\n\r\nThis is notice of the Computing Science Student Society's next general meeting.\r\n\r\nDate: Wednesday, September 27  \r\nTime: 3:30PM  \r\nLocation: ASB9705  \r\n\r\nAgenda:  \r\nReport of Officers  \r\nFrosh17 Report  \r\nClothing Sale  \r\nHacktime  \r\nOpen Floor  \r\nApproval of the Minutes  \r\n\r\nPop will be served. Voting restricted to members only. You are a member\r\nif you are: a declared CMPT major, minor, or honours in any program of\r\nstudy offered at the undergraduate level by the School of Computing\r\nScience; or currently enrolled in any undergraduate course offered by\r\nthe School of Computing Science.\r\n\r\n--\r\n\r\nDawn Chandler | CSSS Director of Archives",
+        "date": "2017-09-19T12:08:13"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 57,
+    "fields": {
+        "title": "CSSS By-Election Results 2017",
+        "author": "Jace Manshadi",
+        "slug": "csss-election-results-2017",
+        "content": "CSSS By-Elections Results 2017-2018  \r\n  \r\nThe following are the full results of our last election, which occurred in August:  \r\n  \r\nFor the position of Director of Events:  \r\nCourtenay Huffman - 58  \r\nOscar Smith-Sieger - 10  \r\nNo Confidence - 8  \r\n  \r\nFor the position of Director of Archives:  \r\nDawn Chandler - 43  \r\nAli Arshad - 21  \r\nNo Confidence - 12  \r\n  \r\n-Jace Manshadi  \r\nBy-Elections Officer | System Administrator | Webmaster  \r\nSimon Fraser University | CSSS  ",
+        "date": "2017-09-24T16:36:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 58,
+    "fields": {
+        "title": "CMPT 361 And Graphics Workshop",
+        "author": "David Miiller",
+        "slug": "cmpt-361-and-graphics-workshop",
+        "content": "Hi CSSS,  \r\n  \r\nAs part of an ongoing student technology initiative, HackTime, the CSSS is offering the following upcoming opportunities;  \r\n--  \r\n    \r\nGraphics Workshop - Every Thursday, starting September 28th:  \r\nThe CSSS will be hosting a graphics workshop every Thursday this semester, at 4:30-6:30.  \r\n  \r\nThis workshop is an attempt to help students with implementation problems in CMPT361 using C++. Students using Java are encouraged to consult the course professor instead. The workshop also welcomes anyone who would like to improve their skills, even those not taking the course, as well as those who would like to take graphics in the future but couldn\u2019t in the current semester.  \r\n  \r\nIt will be a loosely guided, open space to solve course work together and will be directed by a student who took the course previously. His philosophy is that graphics was not meant to be taken alone.  \r\n  \r\nThis week, Thursday the 28th, it is taking place in ASB 9705. Due to convocation, we are still searching for a room next week, however starting Thursday the 12th of October we will attempt to hold it regularly in ASB 9896 or TASC 9204  \r\n  \r\nDevelopment Equipment CheckOut - Monday, October 2nd, 11:30-1:30:  \r\nEver wanted to build something awesome, but don't have quite what you need? No worries; the CSSS has you covered. We'll be offering a quiet space in TASC 9204 for you to come and view equipment that is available for you to borrow from our Tech Library this semester. Items available to borrow include VR Equipment, smart devices, raspberry pis, and more. Further, any equipment we don't have may be something we are able to purchase for you to borrow, and we'll be taking those requests at that time as well.  \r\n  \r\nWe also have many project ideas that would offer a chance for you to get some experience and to help the society, enhance our common room, and build cool things. Please feel free to come talk to us then for more info about that.  \r\n  \r\nAnyone unable to make this time can send us requests asking for more information about available opportunities.  \r\n  \r\n--  \r\n  \r\nThanks for your time, and have a great day!  \r\n  \r\nDavid   \r\nCSSS President  ",
+        "date": "2017-09-26T05:03:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 59,
+    "fields": {
+        "title": "Plenty of Fish 24 hour Hackathon",
+        "author": "Henry Zhao",
+        "slug": "plenty-fish-24-hour-hackathon",
+        "content": "Hello everyone,  \r\n  \r\nBelow is a forwarded email from Stephen Makonin, adjunct professor in the School of Engineering Science. This Hackathon event is partnered with Plenty of Fish, and contestants will be working with data sets provided by them to complete their hackathon challenges.   \r\nIf you have any questions regarding the event, please contact Stephen at smakonin@sfu.ca. You can find more information regarding the event in the attached poster.  \r\n  \r\nMay everyone have a successful midterm period!  \r\nThe following message is from Stephen Makonin, adjunct professor in the School of Engineering Science. If you have questions about this event, please contact him directly at smakonin@sfu.ca.  \r\n   \r\nPlenty of Fish (POF) and the Faculty of Applied Sciences (FAS) are excited to announce a 24-hour hackathon with a chance to win $6000 in prizes!  \r\n   \r\nCome hack together a big data app that enhances the conversation (expressiveness and quality) between two people. Other interesting apps could detect conversation sentiment or even protect a person from spam or a scam.  \r\n   \r\nDate and Time:  \r\nOctober 13-14, 2017  \r\n   \r\nLocation:  \r\n\u2028Big Data Hub, Applied Science Building\u2028, SFU Burnaby  \r\n   \r\nPlease see the attached poster for full event details. Registration is now open: <a href=\"http://www.sfu.ca/fas/pofhackathon/\">www.sfu.ca/fas/pofhackathon</a>\r\n   \r\nI look forward to seeing you there!   \r\n   \r\nBest,  \r\nStephen.  \r\n  \r\n--   \r\nRegards,  \r\n  \r\nHenry Zhao  \r\nDirector of Communications  \r\nSimon Fraser University | CSSS  \r\n",
+        "date": "2017-10-03T08:17:00"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 60,
+    "fields": {
+        "title": " Notice of Meeting 2017-10-11",
+        "author": "Dawn Chandler",
+        "slug": "notice-meeting-2017-10-11",
+        "content": "Hello,\r\n\r\nThis is notice of the Computing Science Student Society's next general meeting.\r\n\r\nDate: Wednesday, October 11, 2017  \r\nTime: 3:30PM  \r\nLocation: TASCI 9204E (round tables side)  \r\n\r\nAgenda:  \r\nReport of Officers  \r\n2.4 GPA Restrictions  \r\nUpdate Hoodie Sale Update   \r\nHackathon   \r\nOpen Floor   \r\nApproval of the Minutes\r\n\r\nPop will be served. Voting restricted to members only. You are a member\r\nif you are: a declared CMPT major, minor, or honours in any program of\r\nstudy offered at the undergraduate level by the School of Computing\r\nScience; or currently enrolled in any undergraduate course offered by\r\nthe School of Computing Science.\r\n\r\nYou may attend the meeting remotely by joining the General Meetings voice channel on the CSSS Discord at the link below. A Discord account is not needed. You will not be able to make motions or vote.  \r\n<a href=\"https://discord.gg/t94TGAq\">https://discord.gg/t94TGAq</a>\r\n\r\n--\r\n\r\nDawn Chandler | CSSS Director of Archives",
+        "date": "2017-10-05T11:26:24"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 61,
+    "fields": {
+        "title": "CSSS General Meeting 2017-10-25",
+        "author": "Dawn Chandler",
+        "slug": "csss-general-meeting-2017-10-25",
+        "content": "Hello,\r\n\r\nThis is notice of the Computing Science Student Society's next general meeting.\r\n\r\nDate: Wednesday, October 25  \r\nTime: 3:30PM   \r\nLocation: TASCI 9204E (round tables side)  \r\n\r\nAgenda:  \r\nReport of Officers  \r\n2.4 GPA Changes  \r\nHackathon  \r\nHoodie Sale  \r\nHalloween Socials  \r\nGameJam Support  \r\nOpen Floor  \r\nApproval of the <a href=\"https://docs.google.com/document/d/1arlqk6CxTnt1OIF1bu3Q9VI0vaAZvK1Ye4WDuq9tBa8/edit?usp=sharing\">Minutes</a> \r\n\r\nPop will be served. Voting restricted to Members only. You are a Member if you are: a declared CMPT Major, Minor, or Honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science; or are an Honourary Member of the Society.\r\n\r\nYou may attend the meeting remotely by joining the General Meetings voice channel on the CSSS Discord at the link below. A Discord account is not needed. You will not be able to make motions or vote.\r\n<a href=\"https://discord.gg/t94TGAq\">https://discord.gg/t94TGAq</a>\r\n\r\n--\r\n\r\nDawn Chandler | CSSS Director of Archives",
+        "date": "2017-10-18T22:12:57"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 62,
+    "fields": {
+        "title": "CSSS General Meeting 2017-11-08",
+        "author": "Dawn Chandler",
+        "slug": "csss-general-meeting-2017-11-08",
+        "content": "Hello,\r\n\r\nThis is notice of the Computing Science Student Society's next general meeting.\r\n\r\nDate: Wednesday, November 8, 2017  \r\nTime: 3:30PM  \r\nLocation: TASCI 9204E (round tables side)  \r\n\r\nAgenda:  \r\nReport of Officers  \r\nHoodie Sale  \r\nHackathon  \r\nOpen Floor  \r\nApproval of the Minutes:  \r\n<a href=\"https://drive.google.com/open?id=1pcTdlfGobH9V09xIO_FA5NhqLzDqZfAU7lyQINEwYa0\">https://drive.google.com/open?id=1pcTdlfGobH9V09xIO_FA5NhqLzDqZfAU7lyQINEwYa0</a>\r\n\r\nPop will be served. Voting restricted to Members only. You are a Member if you are: a declared CMPT Major, Minor, or Honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science; or are an Honourary Member of the Society.\r\n\r\nYou may attend the meeting remotely by joining the General Meetings voice channel on the CSSS Discord at the link below. A Discord account is not needed. You will not be able to make motions or vote.  \r\n<a href=\"https://discord.gg/t94TGAq\">https://discord.gg/t94TGAq</a>\r\n\r\n--\r\n\r\nDawn Chandler | CSSS Director of Archives",
+        "date": "2017-11-01T17:22:48"
+    }
+},
+{
+    "model": "announcements.manualannouncement",
+    "pk": 63,
+    "fields": {
+        "title": "CSSS General Meeting 2017-11-22",
+        "author": "Dawn Chandler",
+        "slug": "csss-general-meeting-2017-11-22",
+        "content": "Hello,\r\n\r\nThis is notice of the Computing Science Student Society's next general meeting.\r\n\r\nDate: Wednesday, November 22, 2017  \r\nTime: 3:30PM  \r\nLocation: TASCI 9204E (round tables side)  \r\n\r\nAgenda:  \r\nReport of Officers  \r\nElection of By-Elections Officer  \r\nHackathon  \r\nSpring Start Event  \r\nHoodie Sale  \r\n- Embroidered Motion  \r\nLAN Party  \r\nSemester Recap  \r\nOpen Floor  \r\nApproval of <a href=\"https://drive.google.com/open?id=1SU1W19AQnvxXNz8BJ96dru3zCg5BVhFW-M-FdzEW6f4 \">the Minutes</a>\r\n\r\nPop will be served. Voting restricted to Members only. You are a Member if you are: a declared CMPT Major, Minor, or Honours in any program of study offered at the undergraduate level by the School of Computing Science; or currently enrolled in any undergraduate course offered by the School of Computing Science; or are an Honourary Member of the Society.\r\n\r\nYou may attend the meeting remotely by joining the General Meetings voice channel on the CSSS Discord at the link below. A Discord account is not needed. You will not be able to make motions or vote.\r\n<a href=\"https://discord.gg/t94TGAq\">https://discord.gg/t94TGAq</a>\r\n\r\n--\r\n\r\nDawn Chandler | CSSS Director of Archives",
+        "date": "2017-11-15T17:04:00"
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 1,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 1,
+        "date": "2015-09-03T12:00:00",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 2,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 2,
+        "date": "2015-09-07T20:34:49",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 3,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 3,
+        "date": "2015-09-09T20:18:35",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 4,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 4,
+        "date": "2015-09-14T16:15:05",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 5,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 5,
+        "date": "2015-09-15T16:47:19",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 6,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 7,
+        "date": "2015-09-18T15:34:35",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 7,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 8,
+        "date": "2015-09-21T11:44:09",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 8,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 9,
+        "date": "2015-09-23T11:46:18",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 9,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 10,
+        "date": "2015-09-30T13:28:00",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 10,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 11,
+        "date": "2015-10-07T15:34:48",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 11,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 12,
+        "date": "2015-10-14T11:39:43",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 12,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 13,
+        "date": "2015-10-15T01:53:37",
+        "author": "David DoA",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 13,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 14,
+        "date": "2015-10-28T11:29:49",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 14,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 15,
+        "date": "2015-11-04T14:29:53",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 15,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 16,
+        "date": "2015-11-18T13:18:10",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 16,
+    "fields": {
+        "term": 20153,
+        "email": null,
+        "manual_announcement": 17,
+        "date": "2015-12-17T20:52:20",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 17,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 18,
+        "date": "2016-01-14T09:32:00",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 18,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 19,
+        "date": "2016-01-21T14:05:41",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 19,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 20,
+        "date": "2016-02-27T15:21:59",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 20,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 22,
+        "date": "2016-03-11T13:29:50",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 21,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 23,
+        "date": "2016-03-24T14:02:30",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 22,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 24,
+        "date": "2016-04-08T11:06:37",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 23,
+    "fields": {
+        "term": 20161,
+        "email": null,
+        "manual_announcement": 25,
+        "date": "2016-04-25T12:58:15",
+        "author": "Colin Woodbury",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 24,
+    "fields": {
+        "term": 20171,
+        "email": null,
+        "manual_announcement": 26,
+        "date": "2017-03-26T02:58:43",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 25,
+    "fields": {
+        "term": 20171,
+        "email": null,
+        "manual_announcement": 27,
+        "date": "2017-03-27T14:06:15",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 26,
+    "fields": {
+        "term": 20171,
+        "email": null,
+        "manual_announcement": 28,
+        "date": "2017-03-28T09:15:01",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 27,
+    "fields": {
+        "term": 20171,
+        "email": null,
+        "manual_announcement": 29,
+        "date": "2017-04-19T00:35:25",
+        "author": "Henry Zhao",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 28,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 30,
+        "date": "2017-05-09T16:54:00",
+        "author": "David Miiller",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 29,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 31,
+        "date": "2017-05-16T22:58:41",
+        "author": "CS Student Society",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 30,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 32,
+        "date": "2017-05-19T12:30:19",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 31,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 33,
+        "date": "2017-05-19T18:05:55",
+        "author": "Henry Zhao",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 32,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 34,
+        "date": "2017-05-22T13:56:50",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 33,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 35,
+        "date": "2017-05-23T18:34:53",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 34,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 36,
+        "date": "2017-05-31T20:50:00",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 35,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 37,
+        "date": "2017-06-07T18:02:00",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 36,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 38,
+        "date": "2017-06-15T20:15:00",
+        "author": "Joshua Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 37,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 39,
+        "date": "2017-06-26T18:36:00",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 38,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 40,
+        "date": "2017-07-01T14:50:00",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 39,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 41,
+        "date": "2017-07-02T21:46:00",
+        "author": "Joshua Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 40,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 42,
+        "date": "2017-07-09T15:44:00",
+        "author": "David Miiller",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 41,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 43,
+        "date": "2017-07-14T00:35:00",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 42,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 44,
+        "date": "2017-07-14T14:53:00",
+        "author": "Joshua Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 43,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 45,
+        "date": "2017-07-21T13:34:00",
+        "author": "Henry Zhao",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 44,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 46,
+        "date": "2017-07-30T00:04:00",
+        "author": "Joshua Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 45,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 47,
+        "date": "2017-08-03T14:45:00",
+        "author": "Brendan Chan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 46,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 48,
+        "date": "2017-08-04T21:15:00",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 47,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 49,
+        "date": "2017-08-12T19:57:00",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 48,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 50,
+        "date": "2017-08-14T16:44:59",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 49,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 51,
+        "date": "2017-08-22T00:00:00",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 50,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 52,
+        "date": "2017-08-23T00:00:00",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 51,
+    "fields": {
+        "term": 20172,
+        "email": null,
+        "manual_announcement": 53,
+        "date": "2017-08-30T17:57:00",
+        "author": "Henry Zhao",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 52,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 54,
+        "date": "2017-09-07T12:58:50",
+        "author": "Dawn Chandler",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 53,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 55,
+        "date": "2017-09-11T00:42:00",
+        "author": "Courtenay Huffman",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 54,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 56,
+        "date": "2017-09-19T19:08:13",
+        "author": "Dawn Chandler",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 55,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 57,
+        "date": "2017-09-24T23:36:00",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 56,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 58,
+        "date": "2017-09-26T12:03:00",
+        "author": "David Miiller",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 57,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 59,
+        "date": "2017-10-03T15:17:00",
+        "author": "Henry Zhao",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 58,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 60,
+        "date": "2017-10-05T18:26:24",
+        "author": "Dawn Chandler",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 59,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 61,
+        "date": "2017-10-19T05:12:57",
+        "author": "Dawn Chandler",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 60,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 62,
+        "date": "2017-11-02T00:22:48",
+        "author": "Dawn Chandler",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 61,
+    "fields": {
+        "term": 20173,
+        "email": null,
+        "manual_announcement": 63,
+        "date": "2017-11-16T00:04:00",
+        "author": "Dawn Chandler",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 62,
+    "fields": {
+        "term": 20181,
+        "email": 366,
+        "manual_announcement": null,
+        "date": "2018-03-02T23:05:19",
+        "author": "Andy from Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 63,
+    "fields": {
+        "term": 20181,
+        "email": 365,
+        "manual_announcement": null,
+        "date": "2018-03-02T23:06:35",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 64,
+    "fields": {
+        "term": 20181,
+        "email": 363,
+        "manual_announcement": null,
+        "date": "2018-03-04T00:37:54",
+        "author": "Platform Notifications",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 65,
+    "fields": {
+        "term": 20181,
+        "email": 364,
+        "manual_announcement": null,
+        "date": "2018-03-04T00:46:49",
+        "author": "Platform Notifications",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 66,
+    "fields": {
+        "term": 20181,
+        "email": 362,
+        "manual_announcement": null,
+        "date": "2018-03-08T22:33:20",
+        "author": "Platform Notifications",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 67,
+    "fields": {
+        "term": 20181,
+        "email": 361,
+        "manual_announcement": null,
+        "date": "2018-03-13T19:49:28",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 68,
+    "fields": {
+        "term": 20181,
+        "email": 360,
+        "manual_announcement": null,
+        "date": "2018-03-13T20:05:30",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 69,
+    "fields": {
+        "term": 20181,
+        "email": 359,
+        "manual_announcement": null,
+        "date": "2018-03-13T23:52:46",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 70,
+    "fields": {
+        "term": 20181,
+        "email": 358,
+        "manual_announcement": null,
+        "date": "2018-03-14T00:31:04",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 71,
+    "fields": {
+        "term": 20181,
+        "email": 357,
+        "manual_announcement": null,
+        "date": "2018-03-18T18:43:04",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 72,
+    "fields": {
+        "term": 20181,
+        "email": 355,
+        "manual_announcement": null,
+        "date": "2018-04-22T17:42:10",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 73,
+    "fields": {
+        "term": 20181,
+        "email": 356,
+        "manual_announcement": null,
+        "date": "2018-04-22T17:42:48",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 74,
+    "fields": {
+        "term": 20181,
+        "email": 354,
+        "manual_announcement": null,
+        "date": "2018-04-23T23:12:06",
+        "author": "John Rogers",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 75,
+    "fields": {
+        "term": 20181,
+        "email": 353,
+        "manual_announcement": null,
+        "date": "2018-04-23T23:12:29",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 76,
+    "fields": {
+        "term": 20181,
+        "email": 352,
+        "manual_announcement": null,
+        "date": "2018-04-23T23:13:07",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 77,
+    "fields": {
+        "term": 20181,
+        "email": 351,
+        "manual_announcement": null,
+        "date": "2018-04-25T23:21:21",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 78,
+    "fields": {
+        "term": 20181,
+        "email": 350,
+        "manual_announcement": null,
+        "date": "2018-04-25T23:22:20",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 79,
+    "fields": {
+        "term": 20181,
+        "email": 349,
+        "manual_announcement": null,
+        "date": "2018-04-25T23:23:10",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 80,
+    "fields": {
+        "term": 20181,
+        "email": 348,
+        "manual_announcement": null,
+        "date": "2018-04-28T09:36:15",
+        "author": "John Rogers",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 81,
+    "fields": {
+        "term": 20182,
+        "email": 347,
+        "manual_announcement": null,
+        "date": "2018-05-09T18:50:57",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 82,
+    "fields": {
+        "term": 20182,
+        "email": 346,
+        "manual_announcement": null,
+        "date": "2018-05-10T03:17:06",
+        "author": "John Rogers",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 83,
+    "fields": {
+        "term": 20182,
+        "email": 345,
+        "manual_announcement": null,
+        "date": "2018-05-10T14:17:40",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 84,
+    "fields": {
+        "term": 20182,
+        "email": 344,
+        "manual_announcement": null,
+        "date": "2018-05-10T14:34:16",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 85,
+    "fields": {
+        "term": 20182,
+        "email": 343,
+        "manual_announcement": null,
+        "date": "2018-05-10T15:19:17",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 86,
+    "fields": {
+        "term": 20182,
+        "email": 342,
+        "manual_announcement": null,
+        "date": "2018-05-10T19:27:11",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 87,
+    "fields": {
+        "term": 20182,
+        "email": 341,
+        "manual_announcement": null,
+        "date": "2018-05-10T22:43:09",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 88,
+    "fields": {
+        "term": 20182,
+        "email": 340,
+        "manual_announcement": null,
+        "date": "2018-05-10T22:48:29",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 89,
+    "fields": {
+        "term": 20182,
+        "email": 339,
+        "manual_announcement": null,
+        "date": "2018-05-10T22:48:45",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 90,
+    "fields": {
+        "term": 20182,
+        "email": 336,
+        "manual_announcement": null,
+        "date": "2018-05-10T23:01:57",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 91,
+    "fields": {
+        "term": 20182,
+        "email": 338,
+        "manual_announcement": null,
+        "date": "2018-05-10T23:02:21",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 92,
+    "fields": {
+        "term": 20182,
+        "email": 337,
+        "manual_announcement": null,
+        "date": "2018-05-11T00:08:08",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 93,
+    "fields": {
+        "term": 20182,
+        "email": 335,
+        "manual_announcement": null,
+        "date": "2018-05-11T00:11:06",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 94,
+    "fields": {
+        "term": 20182,
+        "email": 334,
+        "manual_announcement": null,
+        "date": "2018-05-11T00:13:21",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 95,
+    "fields": {
+        "term": 20182,
+        "email": 333,
+        "manual_announcement": null,
+        "date": "2018-05-12T10:47:53",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 96,
+    "fields": {
+        "term": 20182,
+        "email": 332,
+        "manual_announcement": null,
+        "date": "2018-06-19T18:43:21",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 97,
+    "fields": {
+        "term": 20182,
+        "email": 329,
+        "manual_announcement": null,
+        "date": "2018-07-05T04:27:23",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 98,
+    "fields": {
+        "term": 20182,
+        "email": 331,
+        "manual_announcement": null,
+        "date": "2018-07-05T04:36:07",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 99,
+    "fields": {
+        "term": 20182,
+        "email": 330,
+        "manual_announcement": null,
+        "date": "2018-07-05T04:43:48",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 100,
+    "fields": {
+        "term": 20182,
+        "email": 328,
+        "manual_announcement": null,
+        "date": "2018-07-05T04:59:48",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 101,
+    "fields": {
+        "term": 20182,
+        "email": 327,
+        "manual_announcement": null,
+        "date": "2018-07-05T13:40:08",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 102,
+    "fields": {
+        "term": 20182,
+        "email": 326,
+        "manual_announcement": null,
+        "date": "2018-07-06T00:36:38",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 103,
+    "fields": {
+        "term": 20182,
+        "email": 325,
+        "manual_announcement": null,
+        "date": "2018-07-06T23:15:20",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 104,
+    "fields": {
+        "term": 20182,
+        "email": 324,
+        "manual_announcement": null,
+        "date": "2018-07-07T19:53:38",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 105,
+    "fields": {
+        "term": 20182,
+        "email": 323,
+        "manual_announcement": null,
+        "date": "2018-07-09T09:29:46",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 106,
+    "fields": {
+        "term": 20182,
+        "email": 322,
+        "manual_announcement": null,
+        "date": "2018-07-09T09:32:26",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 107,
+    "fields": {
+        "term": 20182,
+        "email": 321,
+        "manual_announcement": null,
+        "date": "2018-07-09T15:34:40",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 108,
+    "fields": {
+        "term": 20182,
+        "email": 320,
+        "manual_announcement": null,
+        "date": "2018-07-11T11:17:40",
+        "author": "Oscar Smith-Sieger",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 109,
+    "fields": {
+        "term": 20182,
+        "email": 319,
+        "manual_announcement": null,
+        "date": "2018-07-17T08:40:54",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 110,
+    "fields": {
+        "term": 20182,
+        "email": 318,
+        "manual_announcement": null,
+        "date": "2018-07-18T15:03:21",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 111,
+    "fields": {
+        "term": 20182,
+        "email": 317,
+        "manual_announcement": null,
+        "date": "2018-07-24T00:42:49",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 112,
+    "fields": {
+        "term": 20182,
+        "email": 316,
+        "manual_announcement": null,
+        "date": "2018-07-24T12:41:54",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 113,
+    "fields": {
+        "term": 20182,
+        "email": 315,
+        "manual_announcement": null,
+        "date": "2018-07-25T10:24:55",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 114,
+    "fields": {
+        "term": 20182,
+        "email": 314,
+        "manual_announcement": null,
+        "date": "2018-07-25T11:46:29",
+        "author": "Truman Bui",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 115,
+    "fields": {
+        "term": 20182,
+        "email": 313,
+        "manual_announcement": null,
+        "date": "2018-08-03T17:20:38",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 116,
+    "fields": {
+        "term": 20182,
+        "email": 312,
+        "manual_announcement": null,
+        "date": "2018-08-08T12:08:31",
+        "author": "Paymon Jalali",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 117,
+    "fields": {
+        "term": 20182,
+        "email": 308,
+        "manual_announcement": null,
+        "date": "2018-08-29T21:24:29",
+        "author": "Paymon Jalali",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 118,
+    "fields": {
+        "term": 20182,
+        "email": 309,
+        "manual_announcement": null,
+        "date": "2018-08-31T12:18:45",
+        "author": "Paymon Jalali",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 119,
+    "fields": {
+        "term": 20183,
+        "email": 311,
+        "manual_announcement": null,
+        "date": "2018-09-05T11:21:11",
+        "author": "Paymon Jalali",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 120,
+    "fields": {
+        "term": 20183,
+        "email": 310,
+        "manual_announcement": null,
+        "date": "2018-09-10T13:41:02",
+        "author": "Paymon Jalali",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 121,
+    "fields": {
+        "term": 20183,
+        "email": 307,
+        "manual_announcement": null,
+        "date": "2018-09-12T22:28:15",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 122,
+    "fields": {
+        "term": 20183,
+        "email": 306,
+        "manual_announcement": null,
+        "date": "2018-09-13T20:32:02",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 123,
+    "fields": {
+        "term": 20183,
+        "email": 305,
+        "manual_announcement": null,
+        "date": "2018-09-15T16:00:38",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 124,
+    "fields": {
+        "term": 20183,
+        "email": 304,
+        "manual_announcement": null,
+        "date": "2018-09-18T18:21:07",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 125,
+    "fields": {
+        "term": 20183,
+        "email": 303,
+        "manual_announcement": null,
+        "date": "2018-09-19T16:28:20",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 126,
+    "fields": {
+        "term": 20183,
+        "email": 302,
+        "manual_announcement": null,
+        "date": "2018-09-19T17:41:04",
+        "author": "Paymon Jalali",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 127,
+    "fields": {
+        "term": 20183,
+        "email": 301,
+        "manual_announcement": null,
+        "date": "2018-09-20T23:31:02",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 128,
+    "fields": {
+        "term": 20183,
+        "email": 300,
+        "manual_announcement": null,
+        "date": "2018-09-21T10:46:19",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 129,
+    "fields": {
+        "term": 20183,
+        "email": 299,
+        "manual_announcement": null,
+        "date": "2018-09-21T10:47:35",
+        "author": "Kasra Jamshidi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 130,
+    "fields": {
+        "term": 20183,
+        "email": 298,
+        "manual_announcement": null,
+        "date": "2018-09-24T10:00:33",
+        "author": "Kasra Jamshidi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 131,
+    "fields": {
+        "term": 20183,
+        "email": 297,
+        "manual_announcement": null,
+        "date": "2018-09-26T19:04:36",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 132,
+    "fields": {
+        "term": 20183,
+        "email": 279,
+        "manual_announcement": null,
+        "date": "2018-09-26T20:04:54",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 133,
+    "fields": {
+        "term": 20183,
+        "email": 296,
+        "manual_announcement": null,
+        "date": "2018-09-28T11:28:28",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 134,
+    "fields": {
+        "term": 20183,
+        "email": 295,
+        "manual_announcement": null,
+        "date": "2018-10-03T14:30:39",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 135,
+    "fields": {
+        "term": 20183,
+        "email": 294,
+        "manual_announcement": null,
+        "date": "2018-10-03T14:42:40",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 136,
+    "fields": {
+        "term": 20183,
+        "email": 293,
+        "manual_announcement": null,
+        "date": "2018-10-04T20:10:58",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 137,
+    "fields": {
+        "term": 20183,
+        "email": 292,
+        "manual_announcement": null,
+        "date": "2018-10-10T09:46:54",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 138,
+    "fields": {
+        "term": 20183,
+        "email": 291,
+        "manual_announcement": null,
+        "date": "2018-10-12T21:12:34",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 139,
+    "fields": {
+        "term": 20183,
+        "email": 290,
+        "manual_announcement": null,
+        "date": "2018-10-17T20:25:41",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 140,
+    "fields": {
+        "term": 20183,
+        "email": 289,
+        "manual_announcement": null,
+        "date": "2018-10-18T11:39:41",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 141,
+    "fields": {
+        "term": 20183,
+        "email": 288,
+        "manual_announcement": null,
+        "date": "2018-10-18T18:43:09",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 142,
+    "fields": {
+        "term": 20183,
+        "email": 287,
+        "manual_announcement": null,
+        "date": "2018-10-19T11:04:37",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 143,
+    "fields": {
+        "term": 20183,
+        "email": 286,
+        "manual_announcement": null,
+        "date": "2018-10-19T15:51:05",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 144,
+    "fields": {
+        "term": 20183,
+        "email": 285,
+        "manual_announcement": null,
+        "date": "2018-10-22T16:22:40",
+        "author": "trumanb",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 145,
+    "fields": {
+        "term": 20183,
+        "email": 284,
+        "manual_announcement": null,
+        "date": "2018-10-26T13:56:42",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 146,
+    "fields": {
+        "term": 20183,
+        "email": 283,
+        "manual_announcement": null,
+        "date": "2018-10-29T20:32:31",
+        "author": "Winfield Chen",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 147,
+    "fields": {
+        "term": 20183,
+        "email": 282,
+        "manual_announcement": null,
+        "date": "2018-10-31T21:16:59",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 148,
+    "fields": {
+        "term": 20183,
+        "email": 281,
+        "manual_announcement": null,
+        "date": "2018-11-07T16:55:35",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 149,
+    "fields": {
+        "term": 20183,
+        "email": 280,
+        "manual_announcement": null,
+        "date": "2018-11-13T03:38:53",
+        "author": "Jace Manshadi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 150,
+    "fields": {
+        "term": 20183,
+        "email": 278,
+        "manual_announcement": null,
+        "date": "2018-11-14T11:03:27",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 151,
+    "fields": {
+        "term": 20183,
+        "email": 277,
+        "manual_announcement": null,
+        "date": "2018-11-14T18:51:14",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 152,
+    "fields": {
+        "term": 20183,
+        "email": 276,
+        "manual_announcement": null,
+        "date": "2018-11-14T21:17:55",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 153,
+    "fields": {
+        "term": 20183,
+        "email": 275,
+        "manual_announcement": null,
+        "date": "2018-11-17T13:15:16",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 154,
+    "fields": {
+        "term": 20183,
+        "email": 274,
+        "manual_announcement": null,
+        "date": "2018-11-22T19:08:50",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 155,
+    "fields": {
+        "term": 20183,
+        "email": 273,
+        "manual_announcement": null,
+        "date": "2018-11-28T13:47:10",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 156,
+    "fields": {
+        "term": 20183,
+        "email": 271,
+        "manual_announcement": null,
+        "date": "2018-11-28T18:48:29",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 157,
+    "fields": {
+        "term": 20183,
+        "email": 272,
+        "manual_announcement": null,
+        "date": "2018-11-28T19:12:53",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 158,
+    "fields": {
+        "term": 20183,
+        "email": 270,
+        "manual_announcement": null,
+        "date": "2018-11-29T12:03:37",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 159,
+    "fields": {
+        "term": 20183,
+        "email": 269,
+        "manual_announcement": null,
+        "date": "2018-11-29T12:44:25",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 160,
+    "fields": {
+        "term": 20183,
+        "email": 268,
+        "manual_announcement": null,
+        "date": "2018-12-01T18:34:56",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 161,
+    "fields": {
+        "term": 20183,
+        "email": 267,
+        "manual_announcement": null,
+        "date": "2018-12-07T19:34:35",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 162,
+    "fields": {
+        "term": 20183,
+        "email": 266,
+        "manual_announcement": null,
+        "date": "2018-12-09T11:28:28",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 163,
+    "fields": {
+        "term": 20183,
+        "email": 265,
+        "manual_announcement": null,
+        "date": "2018-12-18T01:03:56",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 164,
+    "fields": {
+        "term": 20191,
+        "email": 264,
+        "manual_announcement": null,
+        "date": "2019-01-02T23:21:33",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 165,
+    "fields": {
+        "term": 20191,
+        "email": 263,
+        "manual_announcement": null,
+        "date": "2019-01-16T21:28:10",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 166,
+    "fields": {
+        "term": 20191,
+        "email": 262,
+        "manual_announcement": null,
+        "date": "2019-01-18T17:43:08",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 167,
+    "fields": {
+        "term": 20191,
+        "email": 261,
+        "manual_announcement": null,
+        "date": "2019-01-23T15:43:59",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 168,
+    "fields": {
+        "term": 20191,
+        "email": 260,
+        "manual_announcement": null,
+        "date": "2019-01-25T16:10:40",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 169,
+    "fields": {
+        "term": 20191,
+        "email": 259,
+        "manual_announcement": null,
+        "date": "2019-01-30T22:21:51",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 170,
+    "fields": {
+        "term": 20191,
+        "email": 258,
+        "manual_announcement": null,
+        "date": "2019-02-02T13:47:21",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 171,
+    "fields": {
+        "term": 20191,
+        "email": 257,
+        "manual_announcement": null,
+        "date": "2019-02-05T17:35:58",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 172,
+    "fields": {
+        "term": 20191,
+        "email": 256,
+        "manual_announcement": null,
+        "date": "2019-02-11T14:28:53",
+        "author": "Winfield Chen",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 173,
+    "fields": {
+        "term": 20191,
+        "email": 255,
+        "manual_announcement": null,
+        "date": "2019-02-15T17:38:03",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 174,
+    "fields": {
+        "term": 20191,
+        "email": 254,
+        "manual_announcement": null,
+        "date": "2019-02-20T22:12:15",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 175,
+    "fields": {
+        "term": 20191,
+        "email": 253,
+        "manual_announcement": null,
+        "date": "2019-02-27T17:53:29",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 176,
+    "fields": {
+        "term": 20191,
+        "email": 252,
+        "manual_announcement": null,
+        "date": "2019-03-01T07:34:12",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 177,
+    "fields": {
+        "term": 20191,
+        "email": 251,
+        "manual_announcement": null,
+        "date": "2019-03-01T09:28:04",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 178,
+    "fields": {
+        "term": 20191,
+        "email": 250,
+        "manual_announcement": null,
+        "date": "2019-03-03T16:07:19",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 179,
+    "fields": {
+        "term": 20191,
+        "email": 249,
+        "manual_announcement": null,
+        "date": "2019-03-05T11:32:22",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 180,
+    "fields": {
+        "term": 20191,
+        "email": 248,
+        "manual_announcement": null,
+        "date": "2019-03-07T15:49:22",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 181,
+    "fields": {
+        "term": 20191,
+        "email": 247,
+        "manual_announcement": null,
+        "date": "2019-03-07T17:10:02",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 182,
+    "fields": {
+        "term": 20191,
+        "email": 246,
+        "manual_announcement": null,
+        "date": "2019-03-18T22:54:35",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 183,
+    "fields": {
+        "term": 20191,
+        "email": 245,
+        "manual_announcement": null,
+        "date": "2019-03-19T14:34:27",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 184,
+    "fields": {
+        "term": 20191,
+        "email": 244,
+        "manual_announcement": null,
+        "date": "2019-03-27T10:28:36",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 185,
+    "fields": {
+        "term": 20191,
+        "email": 243,
+        "manual_announcement": null,
+        "date": "2019-03-29T21:57:06",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 186,
+    "fields": {
+        "term": 20191,
+        "email": 242,
+        "manual_announcement": null,
+        "date": "2019-04-04T16:16:20",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 187,
+    "fields": {
+        "term": 20191,
+        "email": 241,
+        "manual_announcement": null,
+        "date": "2019-04-04T16:16:35",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 188,
+    "fields": {
+        "term": 20191,
+        "email": 240,
+        "manual_announcement": null,
+        "date": "2019-04-06T17:15:19",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 189,
+    "fields": {
+        "term": 20191,
+        "email": 239,
+        "manual_announcement": null,
+        "date": "2019-04-08T12:16:00",
+        "author": "rvansick",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 190,
+    "fields": {
+        "term": 20191,
+        "email": 238,
+        "manual_announcement": null,
+        "date": "2019-04-12T13:22:53",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 191,
+    "fields": {
+        "term": 20191,
+        "email": 237,
+        "manual_announcement": null,
+        "date": "2019-04-14T17:40:34",
+        "author": "Karan Aujla",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 192,
+    "fields": {
+        "term": 20192,
+        "email": 236,
+        "manual_announcement": null,
+        "date": "2019-05-09T12:05:36",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 193,
+    "fields": {
+        "term": 20192,
+        "email": 235,
+        "manual_announcement": null,
+        "date": "2019-05-09T19:48:55",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 194,
+    "fields": {
+        "term": 20192,
+        "email": 233,
+        "manual_announcement": null,
+        "date": "2019-05-22T12:19:57",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 195,
+    "fields": {
+        "term": 20192,
+        "email": 234,
+        "manual_announcement": null,
+        "date": "2019-05-22T18:21:46",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 196,
+    "fields": {
+        "term": 20192,
+        "email": 232,
+        "manual_announcement": null,
+        "date": "2019-05-22T22:13:57",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 197,
+    "fields": {
+        "term": 20192,
+        "email": 231,
+        "manual_announcement": null,
+        "date": "2019-05-24T21:50:11",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 198,
+    "fields": {
+        "term": 20192,
+        "email": 220,
+        "manual_announcement": null,
+        "date": "2019-05-30T10:46:41",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 199,
+    "fields": {
+        "term": 20192,
+        "email": 230,
+        "manual_announcement": null,
+        "date": "2019-05-30T20:46:03",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 200,
+    "fields": {
+        "term": 20192,
+        "email": 228,
+        "manual_announcement": null,
+        "date": "2019-06-03T20:20:20",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 201,
+    "fields": {
+        "term": 20192,
+        "email": 229,
+        "manual_announcement": null,
+        "date": "2019-06-05T12:10:36",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 202,
+    "fields": {
+        "term": 20192,
+        "email": 227,
+        "manual_announcement": null,
+        "date": "2019-06-05T23:44:00",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 203,
+    "fields": {
+        "term": 20192,
+        "email": 226,
+        "manual_announcement": null,
+        "date": "2019-06-08T19:42:47",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 204,
+    "fields": {
+        "term": 20192,
+        "email": 225,
+        "manual_announcement": null,
+        "date": "2019-06-16T00:54:47",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 205,
+    "fields": {
+        "term": 20192,
+        "email": 221,
+        "manual_announcement": null,
+        "date": "2019-06-16T14:17:54",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 206,
+    "fields": {
+        "term": 20192,
+        "email": 224,
+        "manual_announcement": null,
+        "date": "2019-06-19T23:14:35",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 207,
+    "fields": {
+        "term": 20192,
+        "email": 223,
+        "manual_announcement": null,
+        "date": "2019-06-23T17:33:19",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 208,
+    "fields": {
+        "term": 20192,
+        "email": 222,
+        "manual_announcement": null,
+        "date": "2019-06-25T12:22:57",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 209,
+    "fields": {
+        "term": 20192,
+        "email": 219,
+        "manual_announcement": null,
+        "date": "2019-06-25T15:08:11",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 210,
+    "fields": {
+        "term": 20192,
+        "email": 218,
+        "manual_announcement": null,
+        "date": "2019-07-02T15:59:34",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 211,
+    "fields": {
+        "term": 20192,
+        "email": 217,
+        "manual_announcement": null,
+        "date": "2019-07-03T10:34:35",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 212,
+    "fields": {
+        "term": 20192,
+        "email": 216,
+        "manual_announcement": null,
+        "date": "2019-07-04T22:55:30",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 213,
+    "fields": {
+        "term": 20192,
+        "email": 215,
+        "manual_announcement": null,
+        "date": "2019-07-06T10:52:28",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 214,
+    "fields": {
+        "term": 20192,
+        "email": 214,
+        "manual_announcement": null,
+        "date": "2019-07-07T15:32:21",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 215,
+    "fields": {
+        "term": 20192,
+        "email": 209,
+        "manual_announcement": null,
+        "date": "2019-07-15T11:49:36",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 216,
+    "fields": {
+        "term": 20192,
+        "email": 210,
+        "manual_announcement": null,
+        "date": "2019-07-15T11:52:49",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 217,
+    "fields": {
+        "term": 20192,
+        "email": 213,
+        "manual_announcement": null,
+        "date": "2019-07-17T23:53:36",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 218,
+    "fields": {
+        "term": 20192,
+        "email": 212,
+        "manual_announcement": null,
+        "date": "2019-07-19T19:37:34",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 219,
+    "fields": {
+        "term": 20192,
+        "email": 211,
+        "manual_announcement": null,
+        "date": "2019-07-22T16:48:30",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 220,
+    "fields": {
+        "term": 20192,
+        "email": 208,
+        "manual_announcement": null,
+        "date": "2019-07-24T12:43:09",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 221,
+    "fields": {
+        "term": 20192,
+        "email": 207,
+        "manual_announcement": null,
+        "date": "2019-07-24T17:05:34",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 222,
+    "fields": {
+        "term": 20192,
+        "email": 206,
+        "manual_announcement": null,
+        "date": "2019-07-31T11:24:32",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 223,
+    "fields": {
+        "term": 20192,
+        "email": 205,
+        "manual_announcement": null,
+        "date": "2019-08-01T18:43:07",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 224,
+    "fields": {
+        "term": 20192,
+        "email": 204,
+        "manual_announcement": null,
+        "date": "2019-08-08T10:05:01",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 225,
+    "fields": {
+        "term": 20192,
+        "email": 203,
+        "manual_announcement": null,
+        "date": "2019-08-30T15:02:00",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 226,
+    "fields": {
+        "term": 20193,
+        "email": 202,
+        "manual_announcement": null,
+        "date": "2019-09-05T21:45:09",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 227,
+    "fields": {
+        "term": 20193,
+        "email": 201,
+        "manual_announcement": null,
+        "date": "2019-09-11T10:24:23",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 228,
+    "fields": {
+        "term": 20193,
+        "email": 200,
+        "manual_announcement": null,
+        "date": "2019-09-12T12:51:06",
+        "author": "1",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 229,
+    "fields": {
+        "term": 20193,
+        "email": 199,
+        "manual_announcement": null,
+        "date": "2019-09-12T13:05:37",
+        "author": "Cole Greer",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 230,
+    "fields": {
+        "term": 20193,
+        "email": 198,
+        "manual_announcement": null,
+        "date": "2019-09-16T09:17:07",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 231,
+    "fields": {
+        "term": 20193,
+        "email": 197,
+        "manual_announcement": null,
+        "date": "2019-09-17T11:47:29",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 232,
+    "fields": {
+        "term": 20193,
+        "email": 196,
+        "manual_announcement": null,
+        "date": "2019-09-17T14:12:32",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 233,
+    "fields": {
+        "term": 20193,
+        "email": 195,
+        "manual_announcement": null,
+        "date": "2019-09-18T00:10:25",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 234,
+    "fields": {
+        "term": 20193,
+        "email": 194,
+        "manual_announcement": null,
+        "date": "2019-09-18T23:18:43",
+        "author": "1",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 235,
+    "fields": {
+        "term": 20193,
+        "email": 193,
+        "manual_announcement": null,
+        "date": "2019-09-20T15:12:41",
+        "author": "1",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 236,
+    "fields": {
+        "term": 20193,
+        "email": 192,
+        "manual_announcement": null,
+        "date": "2019-09-20T17:47:45",
+        "author": "1",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 237,
+    "fields": {
+        "term": 20193,
+        "email": 191,
+        "manual_announcement": null,
+        "date": "2019-09-21T13:19:55",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 238,
+    "fields": {
+        "term": 20193,
+        "email": 190,
+        "manual_announcement": null,
+        "date": "2019-09-24T12:34:16",
+        "author": "Cole Greer",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 239,
+    "fields": {
+        "term": 20193,
+        "email": 189,
+        "manual_announcement": null,
+        "date": "2019-09-26T22:34:56",
+        "author": "Hun Seol",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 240,
+    "fields": {
+        "term": 20193,
+        "email": 188,
+        "manual_announcement": null,
+        "date": "2019-09-28T16:34:10",
+        "author": "Hun Seol",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 241,
+    "fields": {
+        "term": 20193,
+        "email": 187,
+        "manual_announcement": null,
+        "date": "2019-09-30T23:36:09",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 242,
+    "fields": {
+        "term": 20193,
+        "email": 186,
+        "manual_announcement": null,
+        "date": "2019-10-04T21:19:58",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 243,
+    "fields": {
+        "term": 20193,
+        "email": 185,
+        "manual_announcement": null,
+        "date": "2019-10-07T18:26:15",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 244,
+    "fields": {
+        "term": 20193,
+        "email": 183,
+        "manual_announcement": null,
+        "date": "2019-10-10T12:06:23",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 245,
+    "fields": {
+        "term": 20193,
+        "email": 184,
+        "manual_announcement": null,
+        "date": "2019-10-10T15:31:22",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 246,
+    "fields": {
+        "term": 20193,
+        "email": 182,
+        "manual_announcement": null,
+        "date": "2019-10-14T22:15:02",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 247,
+    "fields": {
+        "term": 20193,
+        "email": 181,
+        "manual_announcement": null,
+        "date": "2019-10-15T16:38:48",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 248,
+    "fields": {
+        "term": 20193,
+        "email": 180,
+        "manual_announcement": null,
+        "date": "2019-10-15T17:23:01",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 249,
+    "fields": {
+        "term": 20193,
+        "email": 179,
+        "manual_announcement": null,
+        "date": "2019-10-16T15:23:49",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 250,
+    "fields": {
+        "term": 20193,
+        "email": 176,
+        "manual_announcement": null,
+        "date": "2019-10-16T21:41:51",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 251,
+    "fields": {
+        "term": 20193,
+        "email": 177,
+        "manual_announcement": null,
+        "date": "2019-10-19T18:35:10",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 252,
+    "fields": {
+        "term": 20193,
+        "email": 178,
+        "manual_announcement": null,
+        "date": "2019-10-19T18:59:02",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 253,
+    "fields": {
+        "term": 20193,
+        "email": 175,
+        "manual_announcement": null,
+        "date": "2019-10-19T23:38:02",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 254,
+    "fields": {
+        "term": 20193,
+        "email": 174,
+        "manual_announcement": null,
+        "date": "2019-10-20T23:22:15",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 255,
+    "fields": {
+        "term": 20193,
+        "email": 173,
+        "manual_announcement": null,
+        "date": "2019-10-21T19:04:37",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 256,
+    "fields": {
+        "term": 20193,
+        "email": 172,
+        "manual_announcement": null,
+        "date": "2019-10-25T22:37:25",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 257,
+    "fields": {
+        "term": 20193,
+        "email": 171,
+        "manual_announcement": null,
+        "date": "2019-10-28T18:47:19",
+        "author": "sarbjotm",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 258,
+    "fields": {
+        "term": 20193,
+        "email": 170,
+        "manual_announcement": null,
+        "date": "2019-10-29T12:06:02",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 259,
+    "fields": {
+        "term": 20193,
+        "email": 169,
+        "manual_announcement": null,
+        "date": "2019-10-30T23:47:39",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 260,
+    "fields": {
+        "term": 20193,
+        "email": 168,
+        "manual_announcement": null,
+        "date": "2019-11-01T11:23:10",
+        "author": "sarbjotm",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 261,
+    "fields": {
+        "term": 20193,
+        "email": 167,
+        "manual_announcement": null,
+        "date": "2019-11-01T18:43:14",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 262,
+    "fields": {
+        "term": 20193,
+        "email": 166,
+        "manual_announcement": null,
+        "date": "2019-11-03T15:12:17",
+        "author": "sarbjotm",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 263,
+    "fields": {
+        "term": 20193,
+        "email": 165,
+        "manual_announcement": null,
+        "date": "2019-11-04T20:38:52",
+        "author": "sarbjotm",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 264,
+    "fields": {
+        "term": 20193,
+        "email": 119,
+        "manual_announcement": null,
+        "date": "2019-11-08T16:37:59",
+        "author": "YouTube",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 265,
+    "fields": {
+        "term": 20193,
+        "email": 118,
+        "manual_announcement": null,
+        "date": "2019-11-13T17:57:33",
+        "author": "sarbjotm",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 266,
+    "fields": {
+        "term": 20193,
+        "email": 117,
+        "manual_announcement": null,
+        "date": "2019-11-14T22:31:59",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 267,
+    "fields": {
+        "term": 20193,
+        "email": 116,
+        "manual_announcement": null,
+        "date": "2019-11-17T10:25:43",
+        "author": "sarbjotm",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 268,
+    "fields": {
+        "term": 20193,
+        "email": 115,
+        "manual_announcement": null,
+        "date": "2019-11-23T12:57:22",
+        "author": "sarbjotm",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 269,
+    "fields": {
+        "term": 20193,
+        "email": 114,
+        "manual_announcement": null,
+        "date": "2019-11-26T21:08:25",
+        "author": "Dusan Kovacevic",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 270,
+    "fields": {
+        "term": 20193,
+        "email": 96,
+        "manual_announcement": null,
+        "date": "2019-11-28T12:10:19",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 271,
+    "fields": {
+        "term": 20193,
+        "email": 113,
+        "manual_announcement": null,
+        "date": "2019-11-28T14:01:05",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 272,
+    "fields": {
+        "term": 20193,
+        "email": 112,
+        "manual_announcement": null,
+        "date": "2019-11-29T08:14:46",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 273,
+    "fields": {
+        "term": 20193,
+        "email": 111,
+        "manual_announcement": null,
+        "date": "2019-12-02T13:11:04",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 274,
+    "fields": {
+        "term": 20193,
+        "email": 110,
+        "manual_announcement": null,
+        "date": "2019-12-03T14:54:06",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 275,
+    "fields": {
+        "term": 20193,
+        "email": 109,
+        "manual_announcement": null,
+        "date": "2019-12-15T15:59:51",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 276,
+    "fields": {
+        "term": 20193,
+        "email": 108,
+        "manual_announcement": null,
+        "date": "2019-12-18T15:28:02",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 277,
+    "fields": {
+        "term": 20193,
+        "email": 95,
+        "manual_announcement": null,
+        "date": "2019-12-18T19:32:06",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 278,
+    "fields": {
+        "term": 20193,
+        "email": 107,
+        "manual_announcement": null,
+        "date": "2019-12-19T01:27:39",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 279,
+    "fields": {
+        "term": 20193,
+        "email": 106,
+        "manual_announcement": null,
+        "date": "2019-12-19T01:35:09",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 280,
+    "fields": {
+        "term": 20193,
+        "email": 105,
+        "manual_announcement": null,
+        "date": "2019-12-19T01:40:35",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 281,
+    "fields": {
+        "term": 20193,
+        "email": 104,
+        "manual_announcement": null,
+        "date": "2019-12-19T01:47:28",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 282,
+    "fields": {
+        "term": 20193,
+        "email": 103,
+        "manual_announcement": null,
+        "date": "2019-12-19T01:54:13",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 283,
+    "fields": {
+        "term": 20193,
+        "email": 102,
+        "manual_announcement": null,
+        "date": "2019-12-19T02:41:41",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 284,
+    "fields": {
+        "term": 20193,
+        "email": 101,
+        "manual_announcement": null,
+        "date": "2019-12-19T02:42:22",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 285,
+    "fields": {
+        "term": 20193,
+        "email": 100,
+        "manual_announcement": null,
+        "date": "2019-12-19T19:06:17",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 286,
+    "fields": {
+        "term": 20193,
+        "email": 99,
+        "manual_announcement": null,
+        "date": "2019-12-19T19:33:44",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 287,
+    "fields": {
+        "term": 20193,
+        "email": 98,
+        "manual_announcement": null,
+        "date": "2019-12-21T17:11:01",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 288,
+    "fields": {
+        "term": 20193,
+        "email": 97,
+        "manual_announcement": null,
+        "date": "2019-12-21T17:21:15",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 289,
+    "fields": {
+        "term": 20201,
+        "email": 90,
+        "manual_announcement": null,
+        "date": "2020-01-05T22:10:12",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 290,
+    "fields": {
+        "term": 20201,
+        "email": 93,
+        "manual_announcement": null,
+        "date": "2020-01-06T21:14:16",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 291,
+    "fields": {
+        "term": 20201,
+        "email": 94,
+        "manual_announcement": null,
+        "date": "2020-01-06T22:46:37",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 292,
+    "fields": {
+        "term": 20201,
+        "email": 92,
+        "manual_announcement": null,
+        "date": "2020-01-07T15:30:14",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 293,
+    "fields": {
+        "term": 20201,
+        "email": 91,
+        "manual_announcement": null,
+        "date": "2020-01-08T21:23:04",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 294,
+    "fields": {
+        "term": 20201,
+        "email": 89,
+        "manual_announcement": null,
+        "date": "2020-01-09T18:32:35",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 295,
+    "fields": {
+        "term": 20201,
+        "email": 88,
+        "manual_announcement": null,
+        "date": "2020-01-10T23:13:05",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 296,
+    "fields": {
+        "term": 20201,
+        "email": 87,
+        "manual_announcement": null,
+        "date": "2020-01-12T12:36:17",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 297,
+    "fields": {
+        "term": 20201,
+        "email": 86,
+        "manual_announcement": null,
+        "date": "2020-01-13T19:46:02",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 298,
+    "fields": {
+        "term": 20201,
+        "email": 85,
+        "manual_announcement": null,
+        "date": "2020-01-13T23:51:08",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 299,
+    "fields": {
+        "term": 20201,
+        "email": 84,
+        "manual_announcement": null,
+        "date": "2020-01-14T10:22:07",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 300,
+    "fields": {
+        "term": 20201,
+        "email": 83,
+        "manual_announcement": null,
+        "date": "2020-01-14T11:10:51",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 301,
+    "fields": {
+        "term": 20201,
+        "email": 82,
+        "manual_announcement": null,
+        "date": "2020-01-16T10:41:04",
+        "author": "Jace Manshadi",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 302,
+    "fields": {
+        "term": 20201,
+        "email": 161,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:09:36",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 303,
+    "fields": {
+        "term": 20201,
+        "email": 81,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:11:26",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 304,
+    "fields": {
+        "term": 20201,
+        "email": 164,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:16:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 305,
+    "fields": {
+        "term": 20201,
+        "email": 163,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:20:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 306,
+    "fields": {
+        "term": 20201,
+        "email": 162,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:20:19",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 307,
+    "fields": {
+        "term": 20201,
+        "email": 160,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:23:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 308,
+    "fields": {
+        "term": 20201,
+        "email": 159,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:28:03",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 309,
+    "fields": {
+        "term": 20201,
+        "email": 158,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:33:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 310,
+    "fields": {
+        "term": 20201,
+        "email": 157,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:34:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 311,
+    "fields": {
+        "term": 20201,
+        "email": 156,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:34:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 312,
+    "fields": {
+        "term": 20201,
+        "email": 155,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:35:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 313,
+    "fields": {
+        "term": 20201,
+        "email": 154,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:36:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 314,
+    "fields": {
+        "term": 20201,
+        "email": 153,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:38:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 315,
+    "fields": {
+        "term": 20201,
+        "email": 152,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:39:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 316,
+    "fields": {
+        "term": 20201,
+        "email": 151,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:40:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 317,
+    "fields": {
+        "term": 20201,
+        "email": 150,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:44:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 318,
+    "fields": {
+        "term": 20201,
+        "email": 149,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:46:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 319,
+    "fields": {
+        "term": 20201,
+        "email": 148,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:47:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 320,
+    "fields": {
+        "term": 20201,
+        "email": 147,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:48:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 321,
+    "fields": {
+        "term": 20201,
+        "email": 146,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:49:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 322,
+    "fields": {
+        "term": 20201,
+        "email": 145,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:49:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 323,
+    "fields": {
+        "term": 20201,
+        "email": 144,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:51:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 324,
+    "fields": {
+        "term": 20201,
+        "email": 143,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:51:03",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 325,
+    "fields": {
+        "term": 20201,
+        "email": 142,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:52:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 326,
+    "fields": {
+        "term": 20201,
+        "email": 141,
+        "manual_announcement": null,
+        "date": "2020-01-18T11:53:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 327,
+    "fields": {
+        "term": 20201,
+        "email": 140,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:01:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 328,
+    "fields": {
+        "term": 20201,
+        "email": 139,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:01:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 329,
+    "fields": {
+        "term": 20201,
+        "email": 138,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:03:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 330,
+    "fields": {
+        "term": 20201,
+        "email": 137,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:04:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 331,
+    "fields": {
+        "term": 20201,
+        "email": 136,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:05:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 332,
+    "fields": {
+        "term": 20201,
+        "email": 135,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:06:01",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 333,
+    "fields": {
+        "term": 20201,
+        "email": 134,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:07:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 334,
+    "fields": {
+        "term": 20201,
+        "email": 133,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:08:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 335,
+    "fields": {
+        "term": 20201,
+        "email": 132,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:11:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 336,
+    "fields": {
+        "term": 20201,
+        "email": 130,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:15:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 337,
+    "fields": {
+        "term": 20201,
+        "email": 131,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:15:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 338,
+    "fields": {
+        "term": 20201,
+        "email": 129,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:19:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 339,
+    "fields": {
+        "term": 20201,
+        "email": 128,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:20:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 340,
+    "fields": {
+        "term": 20201,
+        "email": 127,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:28:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 341,
+    "fields": {
+        "term": 20201,
+        "email": 126,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:29:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 342,
+    "fields": {
+        "term": 20201,
+        "email": 124,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:29:03",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 343,
+    "fields": {
+        "term": 20201,
+        "email": 125,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:29:03",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 344,
+    "fields": {
+        "term": 20201,
+        "email": 123,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:29:04",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 345,
+    "fields": {
+        "term": 20201,
+        "email": 122,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:31:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 346,
+    "fields": {
+        "term": 20201,
+        "email": 121,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:39:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 347,
+    "fields": {
+        "term": 20201,
+        "email": 120,
+        "manual_announcement": null,
+        "date": "2020-01-18T12:40:02",
+        "author": "",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 348,
+    "fields": {
+        "term": 20201,
+        "email": 80,
+        "manual_announcement": null,
+        "date": "2020-01-20T23:07:41",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 349,
+    "fields": {
+        "term": 20201,
+        "email": 79,
+        "manual_announcement": null,
+        "date": "2020-01-21T21:51:23",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 350,
+    "fields": {
+        "term": 20201,
+        "email": 78,
+        "manual_announcement": null,
+        "date": "2020-01-22T19:20:36",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 351,
+    "fields": {
+        "term": 20201,
+        "email": 77,
+        "manual_announcement": null,
+        "date": "2020-01-27T18:51:12",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 352,
+    "fields": {
+        "term": 20201,
+        "email": 76,
+        "manual_announcement": null,
+        "date": "2020-02-02T17:43:19",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 353,
+    "fields": {
+        "term": 20201,
+        "email": 75,
+        "manual_announcement": null,
+        "date": "2020-02-03T11:08:35",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 354,
+    "fields": {
+        "term": 20201,
+        "email": 72,
+        "manual_announcement": null,
+        "date": "2020-02-03T21:03:31",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 355,
+    "fields": {
+        "term": 20201,
+        "email": 74,
+        "manual_announcement": null,
+        "date": "2020-02-03T23:42:20",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 356,
+    "fields": {
+        "term": 20201,
+        "email": 73,
+        "manual_announcement": null,
+        "date": "2020-02-05T12:59:53",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 357,
+    "fields": {
+        "term": 20201,
+        "email": 71,
+        "manual_announcement": null,
+        "date": "2020-02-07T00:06:17",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 358,
+    "fields": {
+        "term": 20201,
+        "email": 70,
+        "manual_announcement": null,
+        "date": "2020-02-11T22:44:03",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 359,
+    "fields": {
+        "term": 20201,
+        "email": 69,
+        "manual_announcement": null,
+        "date": "2020-02-20T19:08:11",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 360,
+    "fields": {
+        "term": 20201,
+        "email": 68,
+        "manual_announcement": null,
+        "date": "2020-02-21T04:02:51",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 361,
+    "fields": {
+        "term": 20201,
+        "email": 67,
+        "manual_announcement": null,
+        "date": "2020-02-22T23:57:14",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 362,
+    "fields": {
+        "term": 20201,
+        "email": 66,
+        "manual_announcement": null,
+        "date": "2020-02-23T22:50:12",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 363,
+    "fields": {
+        "term": 20201,
+        "email": 65,
+        "manual_announcement": null,
+        "date": "2020-02-24T20:26:41",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 364,
+    "fields": {
+        "term": 20201,
+        "email": 64,
+        "manual_announcement": null,
+        "date": "2020-02-25T13:54:23",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 365,
+    "fields": {
+        "term": 20201,
+        "email": 55,
+        "manual_announcement": null,
+        "date": "2020-02-28T22:19:47",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 366,
+    "fields": {
+        "term": 20201,
+        "email": 63,
+        "manual_announcement": null,
+        "date": "2020-03-02T00:14:38",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 367,
+    "fields": {
+        "term": 20201,
+        "email": 62,
+        "manual_announcement": null,
+        "date": "2020-03-02T11:34:49",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 368,
+    "fields": {
+        "term": 20201,
+        "email": 61,
+        "manual_announcement": null,
+        "date": "2020-03-02T16:34:39",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 369,
+    "fields": {
+        "term": 20201,
+        "email": 60,
+        "manual_announcement": null,
+        "date": "2020-03-02T16:42:55",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 370,
+    "fields": {
+        "term": 20201,
+        "email": 59,
+        "manual_announcement": null,
+        "date": "2020-03-09T19:04:05",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 371,
+    "fields": {
+        "term": 20201,
+        "email": 58,
+        "manual_announcement": null,
+        "date": "2020-03-10T16:01:28",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 372,
+    "fields": {
+        "term": 20201,
+        "email": 57,
+        "manual_announcement": null,
+        "date": "2020-03-12T21:55:01",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 373,
+    "fields": {
+        "term": 20201,
+        "email": 56,
+        "manual_announcement": null,
+        "date": "2020-03-13T09:30:33",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 374,
+    "fields": {
+        "term": 20201,
+        "email": 54,
+        "manual_announcement": null,
+        "date": "2020-03-16T22:21:43",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 375,
+    "fields": {
+        "term": 20201,
+        "email": 53,
+        "manual_announcement": null,
+        "date": "2020-03-28T16:36:05",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 376,
+    "fields": {
+        "term": 20201,
+        "email": 52,
+        "manual_announcement": null,
+        "date": "2020-04-05T19:42:47",
+        "author": "Karan Aujla",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 377,
+    "fields": {
+        "term": 20201,
+        "email": 48,
+        "manual_announcement": null,
+        "date": "2020-04-09T17:29:56",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 378,
+    "fields": {
+        "term": 20201,
+        "email": 47,
+        "manual_announcement": null,
+        "date": "2020-04-10T18:06:35",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 379,
+    "fields": {
+        "term": 20201,
+        "email": 51,
+        "manual_announcement": null,
+        "date": "2020-04-11T03:27:21",
+        "author": "Karan Aujla",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 380,
+    "fields": {
+        "term": 20201,
+        "email": 50,
+        "manual_announcement": null,
+        "date": "2020-04-11T03:32:52",
+        "author": "Karan Aujla",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 381,
+    "fields": {
+        "term": 20201,
+        "email": 49,
+        "manual_announcement": null,
+        "date": "2020-04-15T19:17:22",
+        "author": "Karan Aujla",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 382,
+    "fields": {
+        "term": 20201,
+        "email": 46,
+        "manual_announcement": null,
+        "date": "2020-04-17T19:07:56",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 383,
+    "fields": {
+        "term": 20201,
+        "email": 45,
+        "manual_announcement": null,
+        "date": "2020-04-21T13:28:48",
+        "author": "Karan Aujla",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 384,
+    "fields": {
+        "term": 20201,
+        "email": 44,
+        "manual_announcement": null,
+        "date": "2020-04-23T00:05:21",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 385,
+    "fields": {
+        "term": 20201,
+        "email": 43,
+        "manual_announcement": null,
+        "date": "2020-04-23T06:15:51",
+        "author": "Karan Aujla",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 386,
+    "fields": {
+        "term": 20201,
+        "email": 42,
+        "manual_announcement": null,
+        "date": "2020-04-23T13:06:56",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 387,
+    "fields": {
+        "term": 20201,
+        "email": 41,
+        "manual_announcement": null,
+        "date": "2020-04-23T13:14:02",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 388,
+    "fields": {
+        "term": 20201,
+        "email": 40,
+        "manual_announcement": null,
+        "date": "2020-04-27T13:25:11",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 389,
+    "fields": {
+        "term": 20201,
+        "email": 39,
+        "manual_announcement": null,
+        "date": "2020-04-29T15:21:55",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 390,
+    "fields": {
+        "term": 20202,
+        "email": 38,
+        "manual_announcement": null,
+        "date": "2020-05-01T12:10:54",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 391,
+    "fields": {
+        "term": 20202,
+        "email": 37,
+        "manual_announcement": null,
+        "date": "2020-05-03T18:43:06",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 392,
+    "fields": {
+        "term": 20202,
+        "email": 36,
+        "manual_announcement": null,
+        "date": "2020-05-04T22:44:40",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 393,
+    "fields": {
+        "term": 20202,
+        "email": 29,
+        "manual_announcement": null,
+        "date": "2020-05-16T13:31:16",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 394,
+    "fields": {
+        "term": 20202,
+        "email": 35,
+        "manual_announcement": null,
+        "date": "2020-05-17T13:11:26",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 395,
+    "fields": {
+        "term": 20202,
+        "email": 28,
+        "manual_announcement": null,
+        "date": "2020-05-18T12:25:24",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 396,
+    "fields": {
+        "term": 20202,
+        "email": 34,
+        "manual_announcement": null,
+        "date": "2020-05-19T00:12:49",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 397,
+    "fields": {
+        "term": 20202,
+        "email": 33,
+        "manual_announcement": null,
+        "date": "2020-05-24T21:05:37",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 398,
+    "fields": {
+        "term": 20202,
+        "email": 32,
+        "manual_announcement": null,
+        "date": "2020-06-04T13:04:14",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 399,
+    "fields": {
+        "term": 20202,
+        "email": 31,
+        "manual_announcement": null,
+        "date": "2020-06-08T23:32:11",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 400,
+    "fields": {
+        "term": 20202,
+        "email": 30,
+        "manual_announcement": null,
+        "date": "2020-06-11T15:00:06",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 401,
+    "fields": {
+        "term": 20202,
+        "email": 27,
+        "manual_announcement": null,
+        "date": "2020-06-15T13:39:28",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 402,
+    "fields": {
+        "term": 20202,
+        "email": 26,
+        "manual_announcement": null,
+        "date": "2020-06-17T14:07:18",
+        "author": "Google Accounts",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 403,
+    "fields": {
+        "term": 20202,
+        "email": 25,
+        "manual_announcement": null,
+        "date": "2020-06-18T10:14:14",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 404,
+    "fields": {
+        "term": 20202,
+        "email": 24,
+        "manual_announcement": null,
+        "date": "2020-06-25T12:39:38",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 405,
+    "fields": {
+        "term": 20202,
+        "email": 23,
+        "manual_announcement": null,
+        "date": "2020-06-28T13:46:12",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 406,
+    "fields": {
+        "term": 20202,
+        "email": 22,
+        "manual_announcement": null,
+        "date": "2020-06-30T23:45:39",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 407,
+    "fields": {
+        "term": 20202,
+        "email": 21,
+        "manual_announcement": null,
+        "date": "2020-07-02T12:57:22",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 408,
+    "fields": {
+        "term": 20202,
+        "email": 20,
+        "manual_announcement": null,
+        "date": "2020-07-08T21:57:38",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 409,
+    "fields": {
+        "term": 20202,
+        "email": 19,
+        "manual_announcement": null,
+        "date": "2020-07-09T13:44:16",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 410,
+    "fields": {
+        "term": 20202,
+        "email": 18,
+        "manual_announcement": null,
+        "date": "2020-07-20T23:02:09",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 411,
+    "fields": {
+        "term": 20202,
+        "email": 17,
+        "manual_announcement": null,
+        "date": "2020-07-23T09:30:46",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 412,
+    "fields": {
+        "term": 20202,
+        "email": 16,
+        "manual_announcement": null,
+        "date": "2020-07-30T12:25:05",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 413,
+    "fields": {
+        "term": 20202,
+        "email": 15,
+        "manual_announcement": null,
+        "date": "2020-08-05T01:43:25",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 414,
+    "fields": {
+        "term": 20202,
+        "email": 14,
+        "manual_announcement": null,
+        "date": "2020-08-06T14:49:45",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 415,
+    "fields": {
+        "term": 20202,
+        "email": 13,
+        "manual_announcement": null,
+        "date": "2020-08-21T21:19:46",
+        "author": "wujohnw",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 416,
+    "fields": {
+        "term": 20202,
+        "email": 12,
+        "manual_announcement": null,
+        "date": "2020-08-25T17:30:39",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 417,
+    "fields": {
+        "term": 20202,
+        "email": 11,
+        "manual_announcement": null,
+        "date": "2020-08-25T17:43:21",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 418,
+    "fields": {
+        "term": 20202,
+        "email": 10,
+        "manual_announcement": null,
+        "date": "2020-08-25T17:44:15",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 419,
+    "fields": {
+        "term": 20203,
+        "email": 9,
+        "manual_announcement": null,
+        "date": "2020-09-11T13:47:45",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 420,
+    "fields": {
+        "term": 20203,
+        "email": 8,
+        "manual_announcement": null,
+        "date": "2020-09-11T14:25:45",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 421,
+    "fields": {
+        "term": 20203,
+        "email": 7,
+        "manual_announcement": null,
+        "date": "2020-09-14T15:42:51",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 422,
+    "fields": {
+        "term": 20203,
+        "email": 6,
+        "manual_announcement": null,
+        "date": "2020-09-16T15:05:04",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 423,
+    "fields": {
+        "term": 20203,
+        "email": 5,
+        "manual_announcement": null,
+        "date": "2020-09-17T16:30:13",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 424,
+    "fields": {
+        "term": 20203,
+        "email": 4,
+        "manual_announcement": null,
+        "date": "2020-09-18T16:36:24",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 425,
+    "fields": {
+        "term": 20203,
+        "email": 3,
+        "manual_announcement": null,
+        "date": "2020-09-24T10:37:21",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 426,
+    "fields": {
+        "term": 20203,
+        "email": 2,
+        "manual_announcement": null,
+        "date": "2020-09-26T17:14:11",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 427,
+    "fields": {
+        "term": 20203,
+        "email": 1,
+        "manual_announcement": null,
+        "date": "2020-09-29T02:06:56",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 428,
+    "fields": {
+        "term": 20203,
+        "email": 367,
+        "manual_announcement": null,
+        "date": "2020-09-29T02:10:49",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 429,
+    "fields": {
+        "term": 20203,
+        "email": 368,
+        "manual_announcement": null,
+        "date": "2020-10-01T15:04:15",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 430,
+    "fields": {
+        "term": 20203,
+        "email": 369,
+        "manual_announcement": null,
+        "date": "2020-10-01T22:46:04",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 431,
+    "fields": {
+        "term": 20203,
+        "email": 370,
+        "manual_announcement": null,
+        "date": "2020-10-01T23:02:56",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 432,
+    "fields": {
+        "term": 20203,
+        "email": 371,
+        "manual_announcement": null,
+        "date": "2020-10-07T01:14:41",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 433,
+    "fields": {
+        "term": 20203,
+        "email": 372,
+        "manual_announcement": null,
+        "date": "2020-10-07T20:21:21",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 434,
+    "fields": {
+        "term": 20203,
+        "email": 373,
+        "manual_announcement": null,
+        "date": "2020-10-08T07:39:58",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 435,
+    "fields": {
+        "term": 20203,
+        "email": 374,
+        "manual_announcement": null,
+        "date": "2020-10-08T11:29:07",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 436,
+    "fields": {
+        "term": 20203,
+        "email": 375,
+        "manual_announcement": null,
+        "date": "2020-10-15T17:49:00",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 437,
+    "fields": {
+        "term": 20203,
+        "email": 376,
+        "manual_announcement": null,
+        "date": "2020-10-22T11:29:21",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 438,
+    "fields": {
+        "term": 20203,
+        "email": 377,
+        "manual_announcement": null,
+        "date": "2020-10-22T13:55:58",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 439,
+    "fields": {
+        "term": 20203,
+        "email": 378,
+        "manual_announcement": null,
+        "date": "2020-10-22T23:54:55",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 440,
+    "fields": {
+        "term": 20203,
+        "email": 379,
+        "manual_announcement": null,
+        "date": "2020-10-25T14:08:16",
+        "author": "Mitchell Gale",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 441,
+    "fields": {
+        "term": 20203,
+        "email": 380,
+        "manual_announcement": null,
+        "date": "2020-10-26T19:18:29",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 442,
+    "fields": {
+        "term": 20203,
+        "email": 381,
+        "manual_announcement": null,
+        "date": "2020-10-27T07:53:52",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 443,
+    "fields": {
+        "term": 20203,
+        "email": 382,
+        "manual_announcement": null,
+        "date": "2020-10-28T11:30:42",
+        "author": "John Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 444,
+    "fields": {
+        "term": 20203,
+        "email": 383,
+        "manual_announcement": null,
+        "date": "2020-10-29T12:40:58",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 445,
+    "fields": {
+        "term": 20203,
+        "email": 384,
+        "manual_announcement": null,
+        "date": "2020-11-05T10:52:30",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 446,
+    "fields": {
+        "term": 20203,
+        "email": 385,
+        "manual_announcement": null,
+        "date": "2020-11-10T11:44:30",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 447,
+    "fields": {
+        "term": 20203,
+        "email": 386,
+        "manual_announcement": null,
+        "date": "2020-11-12T13:46:20",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 448,
+    "fields": {
+        "term": 20203,
+        "email": 387,
+        "manual_announcement": null,
+        "date": "2020-11-19T12:29:25",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 449,
+    "fields": {
+        "term": 20203,
+        "email": 388,
+        "manual_announcement": null,
+        "date": "2020-11-20T18:31:51",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 450,
+    "fields": {
+        "term": 20203,
+        "email": 389,
+        "manual_announcement": null,
+        "date": "2020-11-25T22:32:51",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 451,
+    "fields": {
+        "term": 20203,
+        "email": 390,
+        "manual_announcement": null,
+        "date": "2020-11-26T01:43:13",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 452,
+    "fields": {
+        "term": 20203,
+        "email": 391,
+        "manual_announcement": null,
+        "date": "2020-11-27T10:08:08",
+        "author": "Sarbjot Mann",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 453,
+    "fields": {
+        "term": 20203,
+        "email": 392,
+        "manual_announcement": null,
+        "date": "2020-11-28T14:29:04",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 454,
+    "fields": {
+        "term": 20203,
+        "email": 393,
+        "manual_announcement": null,
+        "date": "2020-12-03T14:09:26",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 455,
+    "fields": {
+        "term": 20203,
+        "email": 394,
+        "manual_announcement": null,
+        "date": "2020-12-11T01:13:24",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 456,
+    "fields": {
+        "term": 20203,
+        "email": 395,
+        "manual_announcement": null,
+        "date": "2020-12-12T19:18:55",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 457,
+    "fields": {
+        "term": 20203,
+        "email": 396,
+        "manual_announcement": null,
+        "date": "2020-12-27T05:26:07",
+        "author": "Google Account",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 458,
+    "fields": {
+        "term": 20203,
+        "email": 397,
+        "manual_announcement": null,
+        "date": "2020-12-27T21:40:47",
+        "author": "John Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 459,
+    "fields": {
+        "term": 20211,
+        "email": 398,
+        "manual_announcement": null,
+        "date": "2021-01-08T16:42:28",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 460,
+    "fields": {
+        "term": 20211,
+        "email": 399,
+        "manual_announcement": null,
+        "date": "2021-01-08T18:27:43",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 461,
+    "fields": {
+        "term": 20211,
+        "email": 400,
+        "manual_announcement": null,
+        "date": "2021-01-09T15:23:03",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 462,
+    "fields": {
+        "term": 20211,
+        "email": 401,
+        "manual_announcement": null,
+        "date": "2021-01-10T09:32:55",
+        "author": "VJ Bakhshi",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 463,
+    "fields": {
+        "term": 20211,
+        "email": 402,
+        "manual_announcement": null,
+        "date": "2021-01-12T14:23:34",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 464,
+    "fields": {
+        "term": 20211,
+        "email": 403,
+        "manual_announcement": null,
+        "date": "2021-01-12T23:54:36",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 465,
+    "fields": {
+        "term": 20211,
+        "email": 404,
+        "manual_announcement": null,
+        "date": "2021-01-18T11:43:40",
+        "author": "CS President",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 466,
+    "fields": {
+        "term": 20211,
+        "email": 405,
+        "manual_announcement": null,
+        "date": "2021-01-18T16:09:26",
+        "author": "Chun Kei Li",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 467,
+    "fields": {
+        "term": 20211,
+        "email": 406,
+        "manual_announcement": null,
+        "date": "2021-01-20T12:00:18",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 468,
+    "fields": {
+        "term": 20211,
+        "email": 407,
+        "manual_announcement": null,
+        "date": "2021-01-25T11:47:42",
+        "author": "John Wu",
+        "display": true
+    }
+}
+]
