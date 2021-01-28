@@ -53,7 +53,7 @@ function wait_for_postgres_db {
 
 function applying_master_db_migrations {
   cd "${BASE_DIR}/csss-site/csss-site/src"
-  git checkout master
+  git checkout migration_CI
   ../../migrations/1_update_fixtures.sh
   ../../migrations/2_apply_database_migrations.sh
   python3 manage.py migrate
