@@ -16,16 +16,3 @@ mv announcements.json ../../migrations/fixtures/.
 mv django_mailbox.json ../../migrations/fixtures/.
 mv elections.json ../../migrations/fixtures/.
 mv resource_management.json ../../migrations/fixtures/.
-
-cd ../
-rm -fr csss-site.git
-git clone --mirror https://github.com/CSSS/csss-site.git
-cd csss-site.git
-java -jar /usr/bin/bfg-1.13.2.jar --delete-files about.json
-java -jar /usr/bin/bfg-1.13.2.jar --delete-files announcements.json done
-java -jar /usr/bin/bfg-1.13.2.jar --delete-files django_mailbox.json done
-java -jar /usr/bin/bfg-1.13.2.jar --delete-files elections.json done
-java -jar /usr/bin/bfg-1.13.2.jar --delete-files resource_management.json
-
-git reflog expire --expire=now --all && git gc --prune=now --aggressive
-git push
