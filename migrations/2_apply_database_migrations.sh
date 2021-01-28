@@ -2,7 +2,7 @@
 
 set -e -o xtrace
 
-git checkout master
+git checkout migration_CI
 
 docker stop csss_website_db || true
 docker rm csss_website_db || true
