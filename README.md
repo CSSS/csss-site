@@ -31,6 +31,7 @@ echo 'DEBUG='"'"'true'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 echo 'HOST_ADDRESS='"'"'<serverIP>'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 echo 'ENVIRONMENT='"'"'LOCALHOST'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 echo 'PORT='"'"'8000'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
+echo 'DB_CONTAINER_NAME='"'"'csss_website_dev_db'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 if (you do not want to spin up a docker database){
     echo 'DB_TYPE='"'"'sqlite3'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 }else{
@@ -43,16 +44,8 @@ if (you do not want to spin up a docker database){
 
 ### Set Environment Variables
 ```shell
-. CI/validate_and_deploy/2_deploy/set_env.sh site_envs
-```
-
-
-### Spin up Dockerized Database
-```shell
-if (you choose to use a dockerized database){
-    docker run --name ${DB_NAME} -p ${DB_PORT}:5432 -it -d -e POSTGRES_PASSWORD=${DB_PASSWORD} postgres:alpine
-    docker exec "${DB_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
-}
+cd csss-site/src
+. ../../CI/validate_and_deploy/2_deploy/set_env.sh site_envs
 ```
 
 ### Create log folder
@@ -60,13 +53,15 @@ if (you choose to use a dockerized database){
 mkdir -p /path/to/csss-site/website_logs/python_logs
 ```
 
-### Setup Database Entries
+### Spin up Dockerized Database and Setup Database Entries
 ```shell
-cd csss-site/src
-../../migrations/2_apply_database_migrations.sh
-git checkout <branch_name>
-python3 manage.py makemigrations
-python3 manage.py migrate
+if (you choose to use a dockerized database){
+    sudo apt-get install postgresql-contrib
+    ../../migrations/2_apply_dockerized_database_migration.sh
+    git checkout <branch_name>
+}else{
+    ../../migrations/2_apply_sqlite_database_migration.sh
+}
 ```
 
 ### Needed if you need to log into /admin
@@ -83,8 +78,7 @@ python3 manage.py runserver 0.0.0.0:8000
 
 ## 3.1. Validating the code
 ```shell
-cd /absolute/path/to/parent/folder/of/repo
-./CI/validate_and_deploy/1_validate/run_local_formatting_test.sh
+../../CI/validate_and_deploy/1_validate/run_local_formatting_test.sh
 ```
 
 ## Various tasks to accomplish

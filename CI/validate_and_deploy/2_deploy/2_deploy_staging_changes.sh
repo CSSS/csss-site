@@ -36,7 +36,7 @@ function setup_master_virtual_env(){
 }
 
 
-function applying_master_db_migrations {
+function setup_db_and_apply_master_migrations {
   cd "${BASE_DIR}/csss-site/csss-site/src"
   git checkout migration_CI
   ../../migrations/1_update_fixtures.sh
@@ -180,7 +180,7 @@ go_to_root_directory
 create_directory_for_website_logs
 clone_website
 setup_master_virtual_env
-applying_master_db_migrations
+setup_db_and_apply_master_migrations
 switch_to_pr_branch
 organize_file_structure
 apply_pr_migrations
