@@ -59,12 +59,6 @@ function applying_master_db_migrations {
   git checkout migration_CI
   ../../migrations/1_update_fixtures.sh
   ../../migrations/2_apply_database_migrations.sh
-  python3 manage.py migrate
-  python3 manage.py loaddata about
-  python3 manage.py loaddata announcements/fixtures/django_mailbox.json
-  python3 manage.py loaddata announcements/fixtures/announcements.json
-  python3 manage.py loaddata elections
-  python3 manage.py loaddata resource_management
 }
 
 function switch_to_pr_branch(){
