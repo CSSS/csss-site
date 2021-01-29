@@ -31,6 +31,7 @@ function transfer_env_variables_to_server {
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
+  echo 'DB_CONTAINER_NAME='"'"'csss_site_db_dev'"'" >> site_envs
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs"'" > site_envs_django_admin
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
   echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
