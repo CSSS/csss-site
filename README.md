@@ -58,7 +58,7 @@ mkdir -p /path/to/csss-site/website_logs/python_logs
 if (you choose to use a dockerized database){
     sudo apt-get install postgresql-contrib
     ../../migrations/2_apply_dockerized_database_migration.sh
-    git checkout <branch_name>
+    git checkout <your_branch_name>
 }else{
     ../../migrations/2_apply_sqlite_database_migration.sh
 }

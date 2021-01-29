@@ -17,9 +17,6 @@ function create_directory_for_website_logs {
 function clone_website {
   rm -fr csss-site csss-site-repo || true
   git clone https://github.com/CSSS/csss-site.git
-  cd csss-site
-  git checkout migration_CI
-  cd -
 }
 
 function setup_master_virtual_env(){
@@ -38,7 +35,6 @@ function setup_master_virtual_env(){
 
 function setup_db_and_apply_master_migrations {
   cd "${BASE_DIR}/csss-site/csss-site/src"
-  git checkout migration_CI
   ../../migrations/1_update_fixtures.sh
   docker stop "${DB_CONTAINER_NAME}" || true
   docker rm "${DB_CONTAINER_NAME}" || true

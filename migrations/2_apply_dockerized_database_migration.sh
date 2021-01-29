@@ -2,7 +2,7 @@
 
 set -e -o xtrace
 
-git checkout migration_CI
+git checkout master
 
 
 if [ -z "${DB_CONTAINER_NAME}" ]; then
