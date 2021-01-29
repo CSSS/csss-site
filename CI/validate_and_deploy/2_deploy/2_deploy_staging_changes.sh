@@ -43,7 +43,7 @@ function setup_db_and_apply_master_migrations {
   export DB_CONTAINER_NAME="csss_site_db_dev"
   docker stop "${DB_CONTAINER_NAME}" || true
   docker rm "${DB_CONTAINER_NAME}" || true
-  ../../migrations/2_apply_database_migrations.sh
+  ../../migrations/2_apply_dockerized_database_migration.sh
 }
 
 function switch_to_pr_branch(){
