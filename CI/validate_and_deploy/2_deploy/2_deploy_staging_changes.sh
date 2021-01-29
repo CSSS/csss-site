@@ -40,7 +40,6 @@ function setup_db_and_apply_master_migrations {
   cd "${BASE_DIR}/csss-site/csss-site/src"
   git checkout migration_CI
   ../../migrations/1_update_fixtures.sh
-  export DB_CONTAINER_NAME="csss_site_db_dev"
   docker stop "${DB_CONTAINER_NAME}" || true
   docker rm "${DB_CONTAINER_NAME}" || true
   ../../migrations/2_apply_dockerized_database_migration.sh
