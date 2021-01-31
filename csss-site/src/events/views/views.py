@@ -43,3 +43,7 @@ def mountain_madness2021(request):
 
 def fall_hacks2020(request):
     return render(request, 'events/fall_hacks2020.html', create_main_context(request, TAB))
+
+
+def fall_hacks_submissions2020(request):
+    return render(request, 'events/fall_hacks_submissions2020.html', create_main_context(request, TAB))
