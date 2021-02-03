@@ -25,6 +25,7 @@ def validate_new_election(request):
     """
     return _validate_and_return_information_from_new_election(json.loads(request.POST[JSON_INPUT_FIELD_POST_KEY]))
 
+
 def _validate_and_return_information_from_new_election(updated_elections_information):
     """extract all the information for the election [excluding the datetime] and passes it off to
     save_new_election_to_db to create the election object before returning it back

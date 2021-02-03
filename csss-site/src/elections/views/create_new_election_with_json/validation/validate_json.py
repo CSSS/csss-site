@@ -15,7 +15,8 @@ logger = logging.getLogger('csss_site')
 def validate_inputted_election_json(request):
     if JSON_INPUT_FIELD_POST_KEY not in request.POST:
         error_message = "Could not find the json in the input"
-        logger.info(f"[elections/election_management.py process_new_election_information_from_json()] {error_message}")
+        logger.info("[elections/election_management.py process_new_election_information_from_json()] "
+                    f"{error_message}")
         return False, [error_message], None
     try:
         election_json = json.loads(request.POST[JSON_INPUT_FIELD_POST_KEY])
@@ -45,7 +46,8 @@ def validate_inputted_election_json(request):
                                    Election.election_type_choices]
     election_type = election_json[ELECTION_TYPE_POST_KEY]
     if election_type not in valid_election_type_choices:
-        error_message = f"election_type of {election_type} is not one of the valid options: {valid_election_type_choices}"
+        error_message = f"election_type of {election_type} " \
+                        f"is not one of the valid options: {valid_election_type_choices}"
         logger.error(
             "[elections/election_management.py _validate_and_return_information_from_new_election()]"
             f" {error_message}"
@@ -87,9 +89,10 @@ def _validate_new_nominees_for_new_election_from_json(nominees):
     error_message -- populated if the nominee[s] could not be saved
     """
     for nominee in nominees:
-        if not(NOM_NAME_POST_KEY in nominee and NOM_POSITION_POST_KEY in nominee and NOM_SPEECH_POST_KEY in nominee and
-               NOM_FACEBOOK_POST_KEY in nominee and NOM_LINKEDIN_POST_KEY in nominee and
-               NOM_EMAIL_POST_KEY in nominee and NOM_DISCORD_USERNAME_POST_KEY in nominee):
+        if not(NOM_NAME_POST_KEY in nominee and NOM_POSITION_POST_KEY in nominee
+               and NOM_SPEECH_POST_KEY in nominee and NOM_FACEBOOK_POST_KEY in nominee
+               and NOM_LINKEDIN_POST_KEY in nominee and NOM_EMAIL_POST_KEY in nominee
+               and NOM_DISCORD_USERNAME_POST_KEY in nominee):
             return False, f"It seems that one of the nominees is missing one of the following fields:" \
                           f" {NOM_NAME_POST_KEY}, {NOM_POSITION_POST_KEY}, {NOM_SPEECH_POST_KEY}," \
                           f" {NOM_FACEBOOK_POST_KEY}, {NOM_LINKEDIN_POST_KEY}, {NOM_EMAIL_POST_KEY}," \

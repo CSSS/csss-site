@@ -4,7 +4,7 @@ import logging
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Election, Nominee
 from elections.views.create_new_election_with_json.extraction.extract_from_json import \
-    _create_slug_and_human_friendly_name_election
+    _create_slug_and_human_friendly_name_election, _validate_and_return_information_from_new_election
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, \
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
     ELECTION_DATE_POST_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
@@ -42,7 +42,6 @@ def _create_new_election_from_webform(updated_elections_information):
         f"human_friendly_name={election_page.human_friendly_name} "
     )
     return election_page
-
 
 
 def _save_nominees_for_new_election_from_webform(election, updated_elections_information):

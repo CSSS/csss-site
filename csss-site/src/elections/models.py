@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from datetime import datetime
+
+
 # Create your models here.
 
 
@@ -74,7 +76,6 @@ class Nominee(models.Model):
 
 
 class NomineePosition(models.Model):
-
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
 
     officer_position = models.CharField(
