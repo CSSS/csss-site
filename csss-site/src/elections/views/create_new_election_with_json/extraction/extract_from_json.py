@@ -108,8 +108,8 @@ def save_nominees(election, election_information):
 
 def save_new_nominee(election, full_name, position_names, speech, facebook_link, linkedin_link,
                      email_address, discord_username):
-    nominee = Nominee(election=election, name=full_name, speech=speech, facebook=facebook_link, linked_in=linkedin_link,
-                      email=email_address, discord=discord_username)
+    nominee = Nominee(election=election, name=full_name, speech=speech, facebook=facebook_link,
+                      linked_in=linkedin_link, email=email_address, discord=discord_username)
     nominee.save()
     for position_name in position_names:
         NomineePosition(nominee=nominee, officer_position=position_name).save()
