@@ -5,7 +5,7 @@ from datetime import datetime
 # Create your models here.
 
 
-class NominationPage(models.Model):
+class Election(models.Model):
     class Meta:
         verbose_name_plural = "NominationPages"
 
@@ -45,18 +45,9 @@ class NominationPage(models.Model):
 
 
 class Nominee(models.Model):
-    nomination_page = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=140)
-
-    officer_position = models.CharField(
-        max_length=40,
-        default='NA',
-    )
-
-    position_name = models.IntegerField(
-        default=0
-    )
 
     speech = models.CharField(
         max_length=10000
@@ -80,3 +71,13 @@ class Nominee(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class NomineePosition(models.Model):
+
+    nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
+
+    officer_position = models.CharField(
+        max_length=40,
+        default='NA',
+    )

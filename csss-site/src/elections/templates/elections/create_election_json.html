@@ -6,9 +6,11 @@
 
 {% block content %}
 	<h1 class="title">Create new Election</h1>
-    {% if error_message %}
+    {% if error_messages %}
         <p style="color: red">Experienced Following Error<br>
+			{% for error_message in error_messages %}
             {{ error_message }}<br>
+			{% endfor %}
         </p>
     {%  endif %}
 	<form action="{{URL_ROOT}}elections/create_json/" method="post" class="form">

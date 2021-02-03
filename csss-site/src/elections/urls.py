@@ -1,28 +1,38 @@
 from django.conf.urls import url
 
 from .views import election_management
+from .views.create_new_election_with_json.show_page_for_user_input import \
+    show_page_for_user_to_enter_new_election_information_from_json
+from .views.create_new_election_with_json.process_user_input import \
+    process_new_election_information_from_json
 
 urlpatterns = [
+    url(
+        r'^show_create_json/$',
+        show_page_for_user_to_enter_new_election_information_from_json,
+        name='Show Page To Create Election'
+    ),
+    url(
+        r'^create_json/$',
+        process_new_election_information_from_json,
+        name='Process User Input For New Election'
+    ),
+
+
+
+
     url(
         r'^show_create_webform/$',
         election_management.show_page_for_user_to_enter_new_election_information_from_webform,
         name='Show Page To Create Election'
     ),
-    url(
-        r'^show_create_json/$',
-        election_management.show_page_for_user_to_enter_new_election_information_from_json,
-        name='Show Page To Create Election'
-    ),
+
     url(
         r'^create_webform/$',
         election_management.process_new_election_information_from_webform,
         name='Process User Input For New Election'
     ),
-    url(
-        r'^create_json/$',
-        election_management.process_new_election_information_from_json,
-        name='Process User Input For New Election'
-    ),
+
     url(
         r'^select_election_to_update/$',
         election_management.show_page_where_user_can_select_election_to_update,

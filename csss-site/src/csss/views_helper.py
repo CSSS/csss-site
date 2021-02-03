@@ -5,7 +5,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 
 from about.models import Term
-from elections.models import NominationPage
+from elections.models import Election
 
 ERROR_MESSAGE_KEY = 'error_message'
 ERROR_MESSAGES_KEY = 'error_messages'
@@ -27,7 +27,7 @@ def create_main_context(request, tab, groups=None):
     """
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
-    nom_pages = NominationPage.objects.all().order_by('-date')
+    nom_pages = Election.objects.all().order_by('-date')
     if len(nom_pages) == 0:
         nom_pages = None
     context = _create_base_context()

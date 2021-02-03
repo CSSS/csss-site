@@ -21,28 +21,16 @@
 					{% ifchanged nominee.officer_position %}
 						<h1 class="title is-3">Position: {{nominee.officer_position}}</h1>
 					{% endifchanged %}
-					<p>Nominee Name: <b>{{nominee.name}}</b></p>
-					{% if nominee.facebook != "NONE" or nominee.linked_in != "NONE" or nominee.email != "NONE" or nominee.discord != "NONE" %}
-						<p> Contact/Social Media:
-						{% if nominee.facebook != "NONE" %}
-							<a href="{{nominee.facebook}}">Facebook Profile</a> |
-						{% endif %}
-						{% if nominee.linked_in != "NONE" %}
-							<a href="{{nominee.linked_in}}">LinkedIn Profile</a> |
-						{% endif %}
-						{% if nominee.email != "NONE" %}
-							Email: {{nominee.email}} |
-						{% endif %}
-						{% if nominee.discord != "NONE" %}
-							Discord Username: {{nominee.discord}}
-						{% endif %}
+					<p>Nominee Name: <b>{{nominee.nominee.name}}</b></p>
+					{% if nominee.social_media is not None %}
+						<p> Contact/Social Media: {{nominee.social_media|safe}}
 					{% endif %}
 					<br>
-                    {%  if nominee.speech != "NONE" %}
+                    {%  if nominee.nominee.speech != "NONE" %}
                         <p>Nominee Speech:</p>
                         <br>
                         <article class="box is-light">
-                            {{nominee.speech|safe|linebreaks}}
+                            {{nominee.nominee.speech|safe|linebreaks}}
                         </article>
                     {%  endif %}
 					<hr>

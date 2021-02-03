@@ -2,12 +2,12 @@ from django.contrib import admin
 
 # Register your models here.
 
-from elections.models import NominationPage, Nominee  # ,Nomination
+from elections.models import Election, Nominee, NomineePosition  # ,Nomination
 
 from django import forms
 
 
-class NominationPageAdmin(admin.ModelAdmin):
+class ElectionAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'slug',
@@ -18,11 +18,12 @@ class NominationPageAdmin(admin.ModelAdmin):
 
     def get_election_type(self, obj):
         return obj.election_type
+
     get_election_type.short_desription = "Election Type"
     get_election_type.admin_order_field = "Election Type"
 
 
-admin.site.register(NominationPage, NominationPageAdmin)
+admin.site.register(Election, ElectionAdmin)
 
 
 class NomineeForm(forms.ModelForm):
@@ -34,11 +35,9 @@ class NomineeForm(forms.ModelForm):
 class NomineeAdmin(admin.ModelAdmin):
     form = NomineeForm
     list_display = (
-        'position_name',
         'id',
         'get_election',
         'name',
-        'officer_position',
         'facebook',
         'linked_in',
         'email',
@@ -46,9 +45,20 @@ class NomineeAdmin(admin.ModelAdmin):
     )
 
     def get_election(self, obj):
-        return obj.nomination_page
+        return obj.election
+
     get_election.short_description = "Election"
     get_election.admin_order_field = "Election"
 
 
 admin.site.register(Nominee, NomineeAdmin)
+
+
+class NomineeOfficerPositionAdmin(admin.ModelAdmin):
+    list_display = (
+        'nominee',
+        'officer_position'
+    )
+
+
+admin.site.register(NomineePosition, NomineeOfficerPositionAdmin)
