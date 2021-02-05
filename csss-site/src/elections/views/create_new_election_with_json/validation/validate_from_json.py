@@ -13,9 +13,17 @@ logger = logging.getLogger('csss_site')
 
 
 def validate_inputted_election_json(request):
+    """
+    Ensures that the inputted election json from user is valid
+
+    Return
+    success - Bool to indicate if successful validation
+    error_messages -- list of possible error messages
+    election_json -- the election info in json format to display if not a successful validation
+    """
     if JSON_INPUT_FIELD_POST_KEY not in request.POST:
         error_message = "Could not find the json in the input"
-        logger.info("[elections/election_management.py process_new_election_information_from_json()] "
+        logger.info("[elections/validate_from_json.py validate_inputted_election_json()] "
                     f"{error_message}")
         return False, [error_message], None
     try:
@@ -23,7 +31,7 @@ def validate_inputted_election_json(request):
     except json.decoder.JSONDecodeError as e:
         error_messages = f"Unable to decode the input due to error: {e}"
         logger.info(
-            "[elections/election_management.py process_new_election_information_from_json()] "
+            "[elections/validate_from_json.py validate_inputted_election_json()] "
             f"{error_messages}"
         )
         return False, [error_messages], json.dumps(
@@ -38,7 +46,7 @@ def validate_inputted_election_json(request):
                         f"{ELECTION_TYPE_POST_KEY}, {ELECTION_DATE_POST_KEY}, {ELECTION_WEBSURVEY_LINK_POST_KEY}, " \
                         f"{ELECTION_NOMINEES_POST_KEY}"
         logger.info(
-            f"[elections/election_management.py process_new_election_information_from_json()] {error_message}"
+            f"[elections/validate_from_json.py validate_inputted_election_json()] {error_message}"
         )
         return False, [error_message], election_json
 
@@ -46,10 +54,9 @@ def validate_inputted_election_json(request):
                                    Election.election_type_choices]
     election_type = election_json[ELECTION_TYPE_POST_KEY]
     if election_type not in valid_election_type_choices:
-        error_message = f"election_type of {election_type} " \
-                        f"is not one of the valid options: {valid_election_type_choices}"
+        error_message = f"election_type of {election_type} is not one of the valid options."
         logger.error(
-            "[elections/election_management.py _validate_and_return_information_from_new_election()]"
+            "[elections/validate_from_json.py validate_inputted_election_json()]"
             f" {error_message}"
         )
         return False, [error_message], election_json
@@ -57,29 +64,29 @@ def validate_inputted_election_json(request):
     try:
         datetime.datetime.strptime(f"{election_json[ELECTION_DATE_POST_KEY]}", '%Y-%m-%d %H:%M')
     except ValueError:
-        error_message = f" given date of {election_json[ELECTION_DATE_POST_KEY]} is not in the" \
-                        f" valid format of YYYY-MM-DD HH:MM"
+        error_message = f" given date of {election_json[ELECTION_DATE_POST_KEY]} is not in the valid format"
         logger.error(
-            "[elections/election_management.py _validate_and_return_information_for_new_election_from_json()]"
+            "[elections/validate_from_json.py validate_inputted_election_json()]"
             f"{error_message}"
         )
         return False, [error_message], election_json
-    except TypeError:
+    except TypeError as e:
         error_message = "given date seems to be unreadable"
         logger.error(
-            f"[elections/election_management.py _validate_and_return_information_for_new_election_from_json()]"
-            f" {error_message}"
+            f"[elections/validate_from_json.py validate_inputted_election_json()]"
+            f" {error_message} due to following error \n{e}"
         )
         return False, [error_message], election_json
     nominees = election_json[ELECTION_NOMINEES_POST_KEY]
     success, error_message = _validate_new_nominees_for_new_election_from_json(nominees)
     if not success:
         return False, [error_message], election_json
-    return True, None, None
+    return True, [], None
 
 
 def _validate_new_nominees_for_new_election_from_json(nominees):
-    """takes in a list of nominees to save under the given nomination page from the json page
+    """
+    takes in a list of nominees to validate
 
     Keyword Arguments
     nominees -- a dictionary that contains a list of all the nominees to save under specified election
@@ -110,8 +117,8 @@ def _validate_new_nominees_for_new_election_from_json(nominees):
 
 def _validate_new_nominee(full_name, position_names, speech, facebook_link, linkedin_link,
                           email_address, discord_username):
-    """Takes in the info of a single nominee [except its election] and creates the nominee object
-    that will need to be saved
+    """
+    validates the nominee info to validate it
 
     Keyword Arguments
     full_name -- the full name of the nominee
@@ -121,22 +128,31 @@ def _validate_new_nominee(full_name, position_names, speech, facebook_link, link
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
     discord_username -- the nominee's discord username
-    nominee_index -- the index of the nominee which determines in what order the nominee will be shown on
-    the nomination page
 
     Return
     Boolean -- indicates whether or not nominee information is valid which happens when any of the
     specified fields are empty
-    error_message -- the error message if the nominee could not be created
+    error_message -- the error message if the nominees had an invalid input
     """
-
-    if len(full_name.strip()) == 0 or full_name.strip().upper() == "NONE":
+    logger.info(
+        f"[elections/validate_from_json.py _validate_new_nominee()] "
+        f"full_name={full_name}, position_names={position_names}, facebook_link={facebook_link}, "
+        f"linkedin_link={linkedin_link}, email_address={email_address}, discord_username={discord_username}"
+        f"\nspeech={speech}"
+    )
+    full_name = full_name.strip()
+    speech = speech.strip()
+    facebook_link = facebook_link.strip()
+    linkedin_link = linkedin_link.strip()
+    email_address = email_address.strip()
+    discord_username = discord_username.strip()
+    if len(full_name) == 0 or full_name.upper() == "NONE":
         return False, "No valid name detected for one of the nominees"
     if len(position_names) == 0 or not isinstance(position_names, list):
         return False, f"No valid position detected for nominee {full_name}"
     for position_name in position_names:
         if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=position_name)) == 0:
-            return False, f"Position {position_name} detected for nominee {full_name} is not valid"
+            return False, f"Detected invalid position of {position_name} for nominee {full_name}"
     if len(speech) == 0:
         return False, f"No valid speech detected for nominee" \
                       f" {full_name}, please set to \"NONE\" if there is no speech"

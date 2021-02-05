@@ -9,7 +9,7 @@
     {% if error_messages %}
         <p style="color: red">Experienced Following Error<br>
 			{% for error_message in error_messages %}
-            {{ error_message }}<br>
+            {{ error_message|safe }}<br>
 			{% endfor %}
         </p>
     {%  endif %}
@@ -19,7 +19,8 @@
         <input type="submit" value="submit" />
 		<p><strong>Instructions</strong>
 			<ul>
-				<li>Options for "type_of_election": "by_election", "general_election"</li>
+				<li>{{types_of_elections}}</li>
+				<li>{{valid_position_names}}</li>
 				<li>the HH in date needs to be 24 hour time</li>
 				<li>the html links all need to begin with "http://"</li>
 				<li>speech needs to already be in HTML format: <a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a></li>
