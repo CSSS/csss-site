@@ -6,7 +6,7 @@
 
 {% block content %}
     {% if elections != None %}
-        <form action="{{URL_ROOT}}elections/determine_election_action/" method="post" class="form">
+        <form action="{{URL_ROOT}}elections/process_option_for_election_updating/" method="post" class="form">
         {% csrf_token %}
             <h1 class="title">Select Election To Modify</h1>
             <select name="election_id">

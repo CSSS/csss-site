@@ -158,44 +158,10 @@ def process_new_election_information_from_webform(request):
         return render_value
 
 
-# functions for allowing the user to select what action they want to take on an existing election
-def show_page_where_user_can_select_election_to_update(request):
-    """Shows the page where the user can choose an election and whether they want to update it via JSON or WebForm"""
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
-    elections = Election.objects.all().order_by('-date')
-    if len(elections) == 0:
-        elections = None
-    context.update({'elections': elections})
-    return render(request, 'elections/list_elections_to_modify.html', context)
 
 
-def determine_election_action(request):
-    """Redirects the user to the page where they can edit the chosen election either via JSON or WebForm"""
-    logger.info(f"[administration/election_management.py determine_election_action()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
-    if ELECTION_MODIFY_POST_KEY in request.POST:
-        if request.POST[ELECTION_MODIFY_POST_KEY] == UPDATE_JSON_POST_KEY and ELECTION_ID_POST_KEY in request.POST:
-            request.session[ELECTION_ID_SESSION_KEY] = request.POST[ELECTION_ID_POST_KEY]
-            return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-        elif request.POST[ELECTION_MODIFY_POST_KEY] == UPDATE_WEBFORM_POST_KEY and \
-                ELECTION_ID_POST_KEY in request.POST:
-            request.session[ELECTION_ID_SESSION_KEY] = request.POST[ELECTION_ID_POST_KEY]
-            return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_webform")
-        elif request.POST[ELECTION_MODIFY_POST_KEY] == DELETE_ACTION_POST_KEY \
-                and ELECTION_ID_POST_KEY in request.POST:
-            request.session[ELECTION_ID_SESSION_KEY] = request.POST[ELECTION_ID_POST_KEY]
-            return HttpResponseRedirect(f"{settings.URL_ROOT}elections/delete")
-    logger.info(
-        "[administration/election_management.py determine_election_action()] action "
-        "is not detected, returning /elections/select_election"
-    )
-    return HttpResponseRedirect(f"{settings.URL_ROOT}elections/select_election")
+
+
 
 
 # functions that display existing elections to students so they can update the chosen election
@@ -308,7 +274,7 @@ def process_existing_election_information_from_webform(request):
                                                                            updated_elections_information)
         nom_page.save()
         return HttpResponseRedirect(f"{settings.URL_ROOT}elections/{nom_page.slug}")
-    return HttpResponseRedirect(f"{settings.URL_ROOT}elections/select_election_to_update")
+    return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_options_for_election_updating")
 
 
 def process_existing_election_information_from_json(request):
@@ -387,7 +353,7 @@ def delete_selected_election(request):
         election_id = request.session[ELECTION_ID_SESSION_KEY]
         del request.session[ELECTION_ID_SESSION_KEY]
         Election.objects.get(id=election_id).delete()
-        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/select_election_to_update/')
+        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/show_options_for_election_updating/')
     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format("Could not detect the election ID in your request")
     return render_value
 

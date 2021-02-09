@@ -1,14 +1,35 @@
 from django.conf.urls import url
 
 from .views import election_management
-from .views.create_new_election_with_json.show_page_for_user_input import \
-    display_and_process_html_for_new_json_election
+from .views.create_election.create_election_json import display_and_process_html_for_new_json_election
+from .views.modify_election.select_election_to_modify import show_page_where_user_can_select_election_to_update, \
+    determine_election_action
 
 urlpatterns = [
     url(
-        r'^show_create_json/$',
+        r'^new_election_json/$',
         display_and_process_html_for_new_json_election,
         name='Show Page To Create Election'
+    ),
+    url(
+        r'^show_options_for_election_updating/$',
+        show_page_where_user_can_select_election_to_update,
+        name="Select Election To Modify"
+    ),
+    url(
+        r'^process_option_for_election_updating/$',
+        determine_election_action,
+        name="Determine Election Action"
+    ),
+    url(
+        r'^show_update_json/$',
+        election_management.show_page_for_user_to_modify_election_information_from_json,
+        name='Show Page to Update Election'
+    ),
+    url(
+        r'^update_json/$',
+        election_management.process_existing_election_information_from_json,
+        name='Process User Input for Existing Election'
     ),
 
 
@@ -26,26 +47,9 @@ urlpatterns = [
         name='Process User Input For New Election'
     ),
 
-    url(
-        r'^select_election_to_update/$',
-        election_management.show_page_where_user_can_select_election_to_update,
-        name="Select Election To Modify"
-    ),
-    url(
-        r'^determine_election_action/$',
-        election_management.determine_election_action,
-        name="Determine Election Action"
-    ),
-    url(
-        r'^show_update_json/$',
-        election_management.show_page_for_user_to_modify_election_information_from_json,
-        name='Show Page to Update Election'
-    ),
-    url(
-        r'^update_json/$',
-        election_management.process_existing_election_information_from_json,
-        name='Process User Input for Existing Election'
-    ),
+
+
+
     url(
         r'^show_update_webform/$',
         election_management.show_page_for_user_to_modify_election_information_from_webform,

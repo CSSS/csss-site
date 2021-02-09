@@ -3,14 +3,14 @@ import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Election, Nominee
-from elections.views.create_new_election_with_json.extraction.extract_from_json import \
-    _create_slug_and_human_friendly_name_election, _validate_and_return_information_from_new_election
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, \
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
     ELECTION_DATE_POST_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
     ELECTION_NOMINEES_KEY, NOM_FACEBOOK_KEY, NOM_NAME_KEY, NOM_SPEECH_KEY, NOM_POSITION_KEY, \
     NOM_DISCORD_USERNAME_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_WEBSURVEY_LINK_POST_KEY
+from elections.views.extractors.extract_from_json import save_new_election_from_json, \
+    create_slug_and_human_friendly_name_election
 
 logger = logging.getLogger('csss_site')
 
@@ -31,9 +31,9 @@ def _create_new_election_from_webform(updated_elections_information):
         '%Y-%m-%d %H:%M'
     )
     success, election_page, error_message = \
-        _validate_and_return_information_from_new_election(dt,
-                                                           updated_elections_information
-                                                           )
+        save_new_election_from_json(dt,
+                                    updated_elections_information
+                                    )
     election_page.save()
     logger.info(
         "[elections/election_management.py _create_new_election_from_webform()] election "
@@ -213,7 +213,7 @@ def _validate_information_for_existing_election_obj_and_return_it(dt, election, 
         return False, None, f"the election type you entered {chosen_election_type} " \
                             f"is not one of the valid options: {valid_election_type_choices}"
     election_websurvey = updated_elections_information[ELECTION_WEBSURVEY_LINK_POST_KEY]
-    slug, human_friendly_name = _create_slug_and_human_friendly_name_election(dt, chosen_election_type)
+    slug, human_friendly_name = create_slug_and_human_friendly_name_election(dt, chosen_election_type)
     election.slug = slug
     election.human_friendly_name = human_friendly_name
     election.election_type = chosen_election_type

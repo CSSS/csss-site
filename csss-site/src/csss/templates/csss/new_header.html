@@ -117,8 +117,8 @@
           <div class="navbar-dropdown">
           {% if election_officer or staff %}
             <a href="{{URL_ROOT}}elections/show_create_webform" class="navbar-item">Create Election with WebForm</a>
-            <a href="{{URL_ROOT}}elections/show_create_json" class="navbar-item">Create Election with JSON</a>
-            <a href="{{URL_ROOT}}elections/select_election_to_update" class="navbar-item">Update or Remove Election</a>
+            <a href="{{URL_ROOT}}elections/new_election_json" class="navbar-item">Create Election with JSON</a>
+            <a href="{{URL_ROOT}}elections/show_options_for_election_updating" class="navbar-item">Update or Remove Election</a>
               {%  if nom_pages != None %}
             <hr class="dropdown-divider">
               {%  endif %}
