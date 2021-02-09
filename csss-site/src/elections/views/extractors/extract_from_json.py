@@ -127,4 +127,3 @@ def save_new_nominee(election, full_name, position_names, speech, facebook_link,
         logger.info("[elections/extract_from_json.py save_new_nominee()]"
                     f"saved nominee {nominee} with position {nominee_position}"
                     )
-
