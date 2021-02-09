@@ -158,12 +158,6 @@ def process_new_election_information_from_webform(request):
         return render_value
 
 
-
-
-
-
-
-
 # functions that display existing elections to students so they can update the chosen election
 def show_page_for_user_to_modify_election_information_from_webform(request):
     """Shows the request election to the user in WebForm format"""
