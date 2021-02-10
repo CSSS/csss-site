@@ -1,5 +1,4 @@
 import datetime
-import json
 import logging
 
 from django.conf import settings
@@ -43,9 +42,7 @@ from elections.views.election_management_helper import _create_new_election_from
     _get_existing_election_by_id, \
     _validate_information_for_existing_election_from_webform_and_return_it, \
     _validate_nominees_information_for_existing_election_from_webform_and_return_them, \
-    _update_nominee_information_for_existing_election_from_webform, \
-    _update_information_for_existing_election_from_json, \
-    _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes  # noqa
+    _update_nominee_information_for_existing_election_from_webform  # noqa
 
 logger = logging.getLogger('csss_site')
 
@@ -186,8 +183,6 @@ def show_page_for_user_to_modify_election_information_from_webform(request):
     else:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format("Not all necessary fields were detected in your input")
         return render_value
-
-
 
 
 # functions for processing new information for existing elections

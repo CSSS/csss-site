@@ -2,12 +2,10 @@ import datetime
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
-from elections.models import Election, Nominee, NomineePosition
+from elections.models import Election, Nominee
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, \
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
-    ELECTION_DATE_POST_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
-    ELECTION_NOMINEES_KEY, NOM_FACEBOOK_KEY, NOM_NAME_KEY, NOM_SPEECH_KEY, NOM_POSITION_KEY, \
-    NOM_DISCORD_USERNAME_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, \
+    ELECTION_DATE_POST_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_WEBSURVEY_LINK_POST_KEY
 from elections.views.extractors.extract_from_json import save_new_election_from_json, \
     create_slug_and_human_friendly_name_election
@@ -120,9 +118,6 @@ def _validate_and_return_new_nominee(full_name, position_names, speech, facebook
                              position_index=0
                              ), None
     return True, None, None
-
-
-
 
 
 def _get_existing_election_by_id(election_id):

@@ -9,10 +9,10 @@ from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition
 from elections.views.election_management import TAB_STRING, ELECTION_DICT_POST_KEY, JSON_INPUT_FIELD_POST_KEY, \
-    ELECTION_ID_POST_KEY, ELECTION_ID_SESSION_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
-    ELECTION_NOMINEES_KEY, NOM_NAME_KEY, NOM_FACEBOOK_KEY, NOM_SPEECH_KEY, NOM_DISCORD_USERNAME_KEY, NOM_POSITION_KEY, \
-    NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_DATE_POST_KEY, ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, \
-    ELECTION_NOMINEES_POST_KEY
+    ELECTION_ID_POST_KEY, ELECTION_ID_SESSION_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, \
+    ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, NOM_NAME_KEY, NOM_FACEBOOK_KEY, NOM_SPEECH_KEY, \
+    NOM_DISCORD_USERNAME_KEY, NOM_POSITION_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_DATE_POST_KEY, \
+    ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY
 from elections.views.election_management_helper import _get_existing_election_by_id, \
     _update_information_for_existing_election_from_json, \
     _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes
@@ -89,9 +89,13 @@ def _get_information_for_election_user_wants_to_modify(election_id):
     for nominee_position in nominee_positions:
         nominee = nominee_position.nominee
         election_dictionary[ELECTION_NOMINEES_KEY].append(
-            {NOM_NAME_KEY: nominee.name, NOM_POSITION_KEY: nominee_position.position_name, NOM_EMAIL_KEY: nominee.email,
-             NOM_LINKEDIN_KEY: nominee.linked_in, NOM_FACEBOOK_KEY: nominee.facebook,
-             NOM_DISCORD_USERNAME_KEY: nominee.discord, NOM_SPEECH_KEY: nominee.speech})
+            {
+                NOM_NAME_KEY: nominee.name, NOM_POSITION_KEY: nominee_position.position_name,
+                NOM_EMAIL_KEY: nominee.email, NOM_LINKEDIN_KEY: nominee.linked_in,
+                NOM_FACEBOOK_KEY: nominee.facebook, NOM_DISCORD_USERNAME_KEY: nominee.discord,
+                NOM_SPEECH_KEY: nominee.speech
+            }
+        )
 
     return election_dictionary
 
