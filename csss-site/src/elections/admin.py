@@ -57,7 +57,7 @@ admin.site.register(Nominee, NomineeAdmin)
 class NomineeOfficerPositionAdmin(admin.ModelAdmin):
     list_display = (
         'nominee',
-        'officer_position'
+        'position_name'
     )
 
 

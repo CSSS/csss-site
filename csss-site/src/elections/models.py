@@ -78,7 +78,7 @@ class Nominee(models.Model):
 class NomineePosition(models.Model):
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
 
-    officer_position = models.CharField(
+    position_name = models.CharField(
         max_length=40,
         default='NA',
     )

@@ -40,7 +40,7 @@ TAB_STRING = 'elections'
 
 from elections.views.election_management_helper import _create_new_election_from_webform, \
     _save_nominees_for_new_election_from_webform, _validate_and_return_new_nominee, \
-    _get_information_for_election_user_wants_to_modify, _get_existing_election_by_id, \
+    _get_existing_election_by_id, \
     _validate_information_for_existing_election_from_webform_and_return_it, \
     _validate_nominees_information_for_existing_election_from_webform_and_return_them, \
     _update_nominee_information_for_existing_election_from_webform, \
@@ -188,34 +188,6 @@ def show_page_for_user_to_modify_election_information_from_webform(request):
         return render_value
 
 
-def show_page_for_user_to_modify_election_information_from_json(request):
-    """Shows the requested election to the user in JSON format"""
-    logger.info(
-        f"[administration/election_management.py show_page_for_user_to_modify_election_information_from_json()] "
-        f"request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
-    if ERROR_MESSAGE_KEY in request.session:
-        context[ERROR_MESSAGE_KEY] = request.session[ERROR_MESSAGE_KEY]
-        context[ELECTION_DICT_POST_KEY] = json.dumps(request.session[JSON_INPUT_FIELD_POST_KEY])
-        context[ELECTION_ID_POST_KEY] = request.session[ELECTION_ID_SESSION_KEY]
-        del request.session[ERROR_MESSAGE_KEY]
-        del request.session[JSON_INPUT_FIELD_POST_KEY]
-        del request.session[ELECTION_ID_SESSION_KEY]
-        return render(request, 'elections/update_election_json.html', context)
-    if ELECTION_ID_SESSION_KEY in request.session:
-        election_id = request.session[ELECTION_ID_SESSION_KEY]
-        election_dict = _get_information_for_election_user_wants_to_modify(
-            election_id)
-        context[ELECTION_DICT_POST_KEY] = json.dumps(election_dict)
-        context[ELECTION_ID_POST_KEY] = election_id
-        del request.session[ELECTION_ID_SESSION_KEY]
-        return render(request, 'elections/update_election_json.html', context)
-    else:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format("Not all necessary fields were detected in your input")
-        return render_value
 
 
 # functions for processing new information for existing elections
@@ -269,71 +241,6 @@ def process_existing_election_information_from_webform(request):
         nom_page.save()
         return HttpResponseRedirect(f"{settings.URL_ROOT}elections/{nom_page.slug}")
     return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_options_for_election_updating")
-
-
-def process_existing_election_information_from_json(request):
-    """Updates the specified election using the JSON input"""
-    logger.info(
-        "[elections/election_management.py process_existing_election_information_from_json()] "
-        f"request.POST={request.POST}"
-    )
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
-    if JSON_INPUT_FIELD_POST_KEY in request.POST and ELECTION_ID_POST_KEY in request.POST:
-        logger.info(
-            "[elections/election_management.py process_existing_election_information_from_json()] "
-            "creating new election"
-        )
-        election_id = request.POST[ELECTION_ID_POST_KEY]
-        try:
-            updated_elections_information = json.loads(request.POST[JSON_INPUT_FIELD_POST_KEY])
-        except json.decoder.JSONDecodeError as e:
-            logger.info(
-                "[elections/election_management.py process_existing_election_information_from_json()] "
-                "experienced an error trying to interpet the json input from the user"
-            )
-            request.session[ERROR_MESSAGE_KEY] = f"Unable to decode the JSON input: {e}"
-            request.session[JSON_INPUT_FIELD_POST_KEY] = json.dumps(
-                request.POST[JSON_INPUT_FIELD_POST_KEY]
-            ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
-            request.session[ELECTION_ID_SESSION_KEY] = election_id
-            return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-        election = _get_existing_election_by_id(election_id)
-        if election is None:
-            request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(
-                f"The Selected election for date {updated_elections_information[ELECTION_DATE_POST_KEY]} "
-                "does not exist"
-            )
-            request.session[JSON_INPUT_FIELD_POST_KEY] = updated_elections_information
-            request.session[ELECTION_ID_SESSION_KEY] = election_id
-            return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-        logger.info(
-            f"[elections/election_management.py process_existing_election_information_from_json()] "
-            f"updated_elections_information={updated_elections_information}")
-        if ELECTION_DATE_POST_KEY in updated_elections_information and \
-                ELECTION_TYPE_POST_KEY in updated_elections_information and \
-                ELECTION_WEBSURVEY_LINK_POST_KEY in updated_elections_information and \
-                ELECTION_NOMINEES_POST_KEY in updated_elections_information:
-            success, election, error_message = _update_information_for_existing_election_from_json(
-                election, updated_elections_information)
-            if not success:
-                request.session[ERROR_MESSAGE_KEY] = error_message
-                request.session[JSON_INPUT_FIELD_POST_KEY] = updated_elections_information
-                request.session[ELECTION_ID_SESSION_KEY] = election_id
-                return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-            success, error_message = \
-                _validate_nominee_information_for_existing_elections_from_json_and_save_all_changes(
-                    election, updated_elections_information[ELECTION_NOMINEES_POST_KEY])
-            if not success:
-                request.session[ERROR_MESSAGE_KEY] = error_message
-                request.session[JSON_INPUT_FIELD_POST_KEY] = updated_elections_information
-                request.session[ELECTION_ID_SESSION_KEY] = election_id
-                return HttpResponseRedirect(f"{settings.URL_ROOT}elections/show_update_json")
-            return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/')
-    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format("Not all necessary fields were detected in your input")
-    return render_value
 
 
 def delete_selected_election(request):

@@ -2,7 +2,7 @@ import datetime
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
-from elections.models import Election, Nominee
+from elections.models import Election, Nominee, NomineePosition
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, \
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
     ELECTION_DATE_POST_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
@@ -122,28 +122,7 @@ def _validate_and_return_new_nominee(full_name, position_names, speech, facebook
     return True, None, None
 
 
-def _get_information_for_election_user_wants_to_modify(election_id):
-    """Returns information about the election
 
-    Keyword Argument
-    election_id -- the id for the election to get information about
-
-    Return
-    election_dictionary -- a JSON representation of the election information and its list of nominees
-    """
-    election = Election.objects.get(id=election_id)
-    nominees = [nominee for nominee in Nominee.objects.all().filter(election=election)]
-    nominees.sort(key=lambda x: x.position_name, reverse=True)
-    election_dictionary = {ELECTION_TYPE_KEY: election.election_type,
-                           ELECTION_DATE_KEY: election.date.strftime("%Y-%m-%d %H:%M"),
-                           ELECTION_WEBSURVEY_LINK_KEY: election.websurvey, ELECTION_NOMINEES_KEY: []}
-    for nominee in nominees:
-        election_dictionary[ELECTION_NOMINEES_KEY].append(
-            {NOM_NAME_KEY: nominee.name, NOM_EMAIL_KEY: nominee.email, NOM_LINKEDIN_KEY: nominee.linked_in,
-             NOM_FACEBOOK_KEY: nominee.facebook, NOM_DISCORD_USERNAME_KEY: nominee.discord,
-             NOM_SPEECH_KEY: nominee.speech, NOM_POSITION_KEY: nominee.position_name})
-
-    return election_dictionary
 
 
 def _get_existing_election_by_id(election_id):

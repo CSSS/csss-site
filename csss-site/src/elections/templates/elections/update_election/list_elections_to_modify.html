@@ -5,6 +5,13 @@
 {% bootstrap_messages %}
 
 {% block content %}
+    {% if error_messages %}
+        <p style="color: red">Experienced Following Error<br>
+            {% for error_message in error_messages %}
+                {{ error_message }}<br>
+            {%  endfor %}
+        </p>
+    {%  endif %}
     {% if elections != None %}
         <form action="{{URL_ROOT}}elections/process_option_for_election_updating/" method="post" class="form">
         {% csrf_token %}
