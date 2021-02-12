@@ -169,7 +169,7 @@ def update_officer(
         new_name_for_officer_position, position_mapping_for_selected_officer):
     """
     Updates the officer info since the position mapping got updated
-    
+
     Keyword Argument
     term -- the Term object for the most recent term
     new_position_index_for_officer_position -- the new position index for the officer position
