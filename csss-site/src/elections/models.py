@@ -82,3 +82,7 @@ class NomineePosition(models.Model):
         max_length=40,
         default='NA',
     )
+
+    position_index = models.IntegerField(
+        default=0,
+    )

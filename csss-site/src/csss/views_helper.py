@@ -139,6 +139,21 @@ def get_current_term():
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
+def get_datetime_for_beginning_of_current_term():
+    """
+    Gets the datetime for the beginning of the current term
+
+    Return the datetime for the beginning of the current time where the month is Jan, May, Sept and the day is 1
+    """
+    current_date = datetime.datetime.now()
+    while not (
+            current_date.month == 1 or current_date.month == 5 or current_date.month == 9 and
+            (current_date.day == 1)
+    ):
+        current_date = current_date - datetime.timedelta(days=1)
+    return current_date
+
+
 def get_current_term_obj():
     """
     Get the term object that corresponds to current term

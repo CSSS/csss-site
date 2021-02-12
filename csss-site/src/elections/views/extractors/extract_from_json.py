@@ -1,6 +1,7 @@
 import datetime
 import logging
 
+from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Election, Nominee, NomineePosition
 from elections.views.election_management import ELECTION_DATE_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, NOM_NAME_POST_KEY, \
@@ -122,7 +123,12 @@ def save_new_nominee(election, full_name, position_names, speech, facebook_link,
                 f"saved nominee {nominee} under election {election}"
                 )
     for position_name in position_names:
-        nominee_position = NomineePosition(nominee=nominee, officer_position=position_name)
+        nominee_position = NomineePosition(
+            nominee=nominee, officer_position=position_name,
+            position_index=OfficerEmailListAndPositionMapping.objects.get(
+                position_name=position_name
+            ).position_index
+        )
         nominee_position.save()
         logger.info("[elections/extract_from_json.py save_new_nominee()]"
                     f"saved nominee {nominee} with position {nominee_position}"
