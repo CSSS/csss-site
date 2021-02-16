@@ -32,7 +32,9 @@ def display_and_process_html_for_new_json_election(request):
                                    Election.election_type_choices]
     context['types_of_elections'] = f"Options for \"{ELECTION_TYPE_KEY}\": {', '.join(valid_election_type_choices)}"
     current_positions = [
-        position.position_name for position in OfficerEmailListAndPositionMapping.objects.all()
+        position.position_name for position in OfficerEmailListAndPositionMapping.objects.all().filter(
+            marked_for_deletion=False
+        )
     ]
     context['valid_position_names'] = f"Valid Positions: {', '.join(current_positions)}"
 
