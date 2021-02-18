@@ -42,6 +42,15 @@ def save_new_election_from_json(updated_elections_information):
     return election.slug
 
 
+def update_existing_election_from_json(election, date, election_type, websurvey_link):
+    election.date = datetime.datetime.strptime(f"{date}", '%Y-%m-%d %H:%M')
+    election.slug, election.human_friendly_name = \
+        create_slug_and_human_friendly_name_election(election.date, election_type)
+    election.election_type = election_type
+    election.websurvey = websurvey_link
+    election.save()
+
+
 def create_slug_and_human_friendly_name_election(election_date, chosen_election_type):
     """create the slug and human friendly name for election using its date and election type
 
@@ -93,12 +102,35 @@ def save_nominees(election, election_information):
     """
     nominees = election_information[ELECTION_NOMINEES_POST_KEY]
     for nominee in nominees:
-        save_new_nominee(election,
-                         nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_POST_KEY],
-                         nominee[NOM_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
-                         nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
-                         nominee[NOM_DISCORD_USERNAME_POST_KEY]
-                         )
+        for nominee_position in nominee[NOM_POSITION_POST_KEY]:
+            nominee_position = _get_existing_nominee(
+                nominee[NOM_NAME_POST_KEY], nominee_position, election
+            )
+            if nominee_position is None:
+                save_new_nominee(election,
+                                 nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_POST_KEY],
+                                 nominee[NOM_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
+                                 nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
+                                 nominee[NOM_DISCORD_USERNAME_POST_KEY]
+                                 )
+            else:
+                update_existing_nominee(
+                    nominee_position, nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_POST_KEY],
+                    nominee[NOM_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
+                    nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
+                    nominee[NOM_DISCORD_USERNAME_POST_KEY]
+                )
+
+
+def _get_existing_nominee(nominee_name, nominee_position, election):
+    nominee_name = nominee_name.strip()
+    nominee_position = nominee_position.strip()
+    nominees = NomineePosition.objects.all().filter(
+        nominee__election_id=election.id, nominee__name=nominee_name, position_name=nominee_position
+    )
+    if len(nominees) > 0:
+        return nominees
+    return None
 
 
 def save_new_nominee(election, full_name, position_names, speech, facebook_link, linkedin_link,
@@ -116,6 +148,12 @@ def save_new_nominee(election, full_name, position_names, speech, facebook_link,
     email_address -- the nominee's email address
     discord_username -- the nominee's discord username
     """
+    full_name = full_name.strip()
+    speech = speech.strip()
+    facebook_link = facebook_link.strip()
+    linkedin_link = linkedin_link.strip()
+    email_address = email_address.strip()
+    discord_username = discord_username.strip()
     nominee = Nominee(election=election, name=full_name, speech=speech, facebook=facebook_link,
                       linked_in=linkedin_link, email=email_address, discord=discord_username)
     nominee.save()
@@ -124,7 +162,7 @@ def save_new_nominee(election, full_name, position_names, speech, facebook_link,
                 )
     for position_name in position_names:
         nominee_position = NomineePosition(
-            nominee=nominee, officer_position=position_name,
+            nominee=nominee, position_name=position_name,
             position_index=OfficerEmailListAndPositionMapping.objects.get(
                 position_name=position_name
             ).position_index
@@ -133,3 +171,27 @@ def save_new_nominee(election, full_name, position_names, speech, facebook_link,
         logger.info("[elections/extract_from_json.py save_new_nominee()]"
                     f"saved nominee {nominee} with position {nominee_position}"
                     )
+
+
+def update_existing_nominee(nominee_position, full_name, position_name, speech, facebook_link, linkedin_link,
+                            email_address, discord_username):
+    full_name = full_name.strip()
+    speech = speech.strip()
+    facebook_link = facebook_link.strip()
+    linkedin_link = linkedin_link.strip()
+    email_address = email_address.strip()
+    discord_username = discord_username.strip()
+
+    nominee = nominee_position.nominee
+    nominee.full_name = full_name
+    nominee.speech = speech
+    nominee.facebook = facebook_link
+    nominee.linked_in = linkedin_link
+    nominee.email = email_address
+    nominee.discord = discord_username
+    nominee.save()
+    nominee_position.position_name = position_name
+    nominee_position.position_index = OfficerEmailListAndPositionMapping.objects.get(
+        position_name=position_name
+    ).position_index
+    nominee_position.save()

@@ -1,90 +1,66 @@
+import datetime
 import json
 import logging
-import datetime
 
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Election
-from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, ELECTION_TYPE_POST_KEY, \
-    ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, NOM_NAME_POST_KEY, \
+from elections.views.election_management import NOM_NAME_POST_KEY, \
     NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, \
     NOM_DISCORD_USERNAME_POST_KEY
 
 logger = logging.getLogger('csss_site')
 
 
-def validate_inputted_election_json(request):
-    """
-    Ensures that the inputted election json from user is valid
-
-    Return
-    success - Bool to indicate if successful validation
-    error_messages -- list of possible error messages
-    election_json -- the election info in json format to display if not a successful validation
-    """
-    if JSON_INPUT_FIELD_POST_KEY not in request.POST:
-        error_message = "Could not find the json in the input"
-        logger.info("[elections/validate_from_json.py validate_inputted_election_json()] "
-                    f"{error_message}")
-        return False, [error_message], None
+def validate_and_return_election_json(input_json):
     try:
-        election_json = json.loads(request.POST[JSON_INPUT_FIELD_POST_KEY])
+        election_json = json.loads(input_json)
+        return True, None, election_json
     except json.decoder.JSONDecodeError as e:
         error_messages = f"Unable to decode the input due to error: {e}"
         logger.info(
             "[elections/validate_from_json.py validate_inputted_election_json()] "
             f"{error_messages}"
         )
-        return False, [error_messages], json.dumps(
-            request.POST[JSON_INPUT_FIELD_POST_KEY]
-        ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
+        return False, [error_messages], \
+               json.dumps(
+                   input_json
+               ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
 
-    if not (ELECTION_TYPE_POST_KEY in election_json and
-            ELECTION_DATE_POST_KEY in election_json and
-            ELECTION_WEBSURVEY_LINK_POST_KEY in election_json and
-            ELECTION_NOMINEES_POST_KEY in election_json):
-        error_message = f"Did not find all of the following necessary keys in input: " \
-                        f"{ELECTION_TYPE_POST_KEY}, {ELECTION_DATE_POST_KEY}, {ELECTION_WEBSURVEY_LINK_POST_KEY}, " \
-                        f"{ELECTION_NOMINEES_POST_KEY}"
-        logger.info(
-            f"[elections/validate_from_json.py validate_inputted_election_json()] {error_message}"
-        )
-        return False, [error_message], election_json
 
+def validate_election_type(election_type):
     valid_election_type_choices = [election_type_choice[0] for election_type_choice in
                                    Election.election_type_choices]
-    election_type = election_json[ELECTION_TYPE_POST_KEY]
     if election_type not in valid_election_type_choices:
         error_message = f"election_type of {election_type} is not one of the valid options."
         logger.error(
             "[elections/validate_from_json.py validate_inputted_election_json()]"
             f" {error_message}"
         )
-        return False, [error_message], election_json
+        return False, error_message
+    return True, None
 
+
+def validate_election_date(date):
     try:
-        datetime.datetime.strptime(f"{election_json[ELECTION_DATE_POST_KEY]}", '%Y-%m-%d %H:%M')
+        datetime.datetime.strptime(f"{date}", '%Y-%m-%d %H:%M')
     except ValueError:
-        error_message = f" given date of {election_json[ELECTION_DATE_POST_KEY]} is not in the valid format"
+        error_message = f" given date of {date} is not in the valid format"
         logger.error(
             "[elections/validate_from_json.py validate_inputted_election_json()]"
             f"{error_message}"
         )
-        return False, [error_message], election_json
+        return False, error_message
     except TypeError as e:
         error_message = "given date seems to be unreadable"
         logger.error(
             f"[elections/validate_from_json.py validate_inputted_election_json()]"
             f" {error_message} due to following error \n{e}"
         )
-        return False, [error_message], election_json
-    nominees = election_json[ELECTION_NOMINEES_POST_KEY]
-    success, error_message = _validate_new_nominees_for_new_election_from_json(nominees)
-    if not success:
-        return False, [error_message], election_json
-    return True, [], None
+        return False, error_message
+    return True, None
 
 
-def _validate_new_nominees_for_new_election_from_json(nominees):
+def validate_new_nominees_for_new_election_from_json(nominees):
     """
     takes in a list of nominees to validate
 
@@ -96,10 +72,31 @@ def _validate_new_nominees_for_new_election_from_json(nominees):
     error_message -- populated if the nominee[s] could not be saved
     """
     for nominee in nominees:
-        if not(NOM_NAME_POST_KEY in nominee and NOM_POSITION_POST_KEY in nominee
-               and NOM_SPEECH_POST_KEY in nominee and NOM_FACEBOOK_POST_KEY in nominee
-               and NOM_LINKEDIN_POST_KEY in nominee and NOM_EMAIL_POST_KEY in nominee
-               and NOM_DISCORD_USERNAME_POST_KEY in nominee):
+        if not (NOM_NAME_POST_KEY in nominee and NOM_POSITION_POST_KEY in nominee
+                and NOM_SPEECH_POST_KEY in nominee and NOM_FACEBOOK_POST_KEY in nominee
+                and NOM_LINKEDIN_POST_KEY in nominee and NOM_EMAIL_POST_KEY in nominee
+                and NOM_DISCORD_USERNAME_POST_KEY in nominee):
+            return False, f"It seems that one of the nominees is missing one of the following fields:" \
+                          f" {NOM_NAME_POST_KEY}, {NOM_POSITION_POST_KEY}, {NOM_SPEECH_POST_KEY}," \
+                          f" {NOM_FACEBOOK_POST_KEY}, {NOM_LINKEDIN_POST_KEY}, {NOM_EMAIL_POST_KEY}," \
+                          f" {NOM_DISCORD_USERNAME_POST_KEY}"
+        success, error_message = _validate_new_nominee(
+            nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_POST_KEY],
+            nominee[NOM_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
+            nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
+            nominee[NOM_DISCORD_USERNAME_POST_KEY]
+        )
+        if not success:
+            return False, error_message
+    return True, None
+
+
+def _validate_nominee_for_existing_election_from_json(nominees):
+    for nominee in nominees:
+        if not (NOM_NAME_POST_KEY in nominee and NOM_POSITION_POST_KEY in nominee
+                and NOM_SPEECH_POST_KEY in nominee and NOM_FACEBOOK_POST_KEY in nominee
+                and NOM_LINKEDIN_POST_KEY in nominee and NOM_EMAIL_POST_KEY in nominee
+                and NOM_DISCORD_USERNAME_POST_KEY in nominee):
             return False, f"It seems that one of the nominees is missing one of the following fields:" \
                           f" {NOM_NAME_POST_KEY}, {NOM_POSITION_POST_KEY}, {NOM_SPEECH_POST_KEY}," \
                           f" {NOM_FACEBOOK_POST_KEY}, {NOM_LINKEDIN_POST_KEY}, {NOM_EMAIL_POST_KEY}," \

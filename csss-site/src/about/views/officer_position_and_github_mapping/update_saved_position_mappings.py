@@ -205,7 +205,7 @@ def update_most_recent_elections(
     new_name_for_officer_position -- the new name for the officer position
     """
     positions_to_update = NomineePosition.objects.all().filter(
-        nominee__election_date_ge=get_datetime_for_beginning_of_current_term(),
+        nominee__election__date__gte=get_datetime_for_beginning_of_current_term(),
         position_name=old_name_for_officer_position
     )
     for position_to_update in positions_to_update:

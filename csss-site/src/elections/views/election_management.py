@@ -52,33 +52,31 @@ def get_nominees(request, slug):
     retrieved_obj = Election.objects.get(slug=slug)
     if retrieved_obj.date <= datetime.datetime.now():
         logger.info("[elections/election_management.py get_nominees()] time to vote")
-        positions = OfficerEmailListAndPositionMapping.objects.all().order_by('position_index')
+        positions = NomineePosition.objects.all().filter(
+            nominee__election__slug=slug
+        ).order_by('position_index')
         nominees_display_order = []
-        for position in positions:
-            nominees = NomineePosition.objects.all().filter(
-                officer_position=position.position_name, nominee__election__slug=slug
-            )
-            for nominee in nominees:
-                nominee.social_media = None
-                barrier_needed = False
-                if nominee.nominee.facebook != "NONE":
-                    nominee.social_media = f'<a href="{nominee.nominee.facebook}">Facebook Profile</a>'
-                    barrier_needed = True
-                if nominee.nominee.linked_in != "NONE":
-                    if barrier_needed:
-                        nominee.social_media += " | "
-                    nominee.social_media += f'<a href="{nominee.nominee.linked_in}">LinkedIn Profile</a>'
-                    barrier_needed = True
-                if nominee.nominee.email != "NONE":
-                    if barrier_needed:
-                        nominee.social_media += " | "
-                    nominee.social_media += f'Email: {nominee.nominee.email}'
-                    barrier_needed = True
-                if nominee.nominee.discord != "NONE":
-                    if barrier_needed:
-                        nominee.social_media += " | "
-                    nominee.social_media += f'Discord Username: {nominee.nominee.discord}'
-                nominees_display_order.append(nominee)
+        for nominee in positions:
+            nominee.social_media = None
+            barrier_needed = False
+            if nominee.nominee.facebook != "NONE":
+                nominee.social_media = f'<a href="{nominee.nominee.facebook}">Facebook Profile</a>'
+                barrier_needed = True
+            if nominee.nominee.linked_in != "NONE":
+                if barrier_needed:
+                    nominee.social_media += " | "
+                nominee.social_media += f'<a href="{nominee.nominee.linked_in}">LinkedIn Profile</a>'
+                barrier_needed = True
+            if nominee.nominee.email != "NONE":
+                if barrier_needed:
+                    nominee.social_media += " | "
+                nominee.social_media += f'Email: {nominee.nominee.email}'
+                barrier_needed = True
+            if nominee.nominee.discord != "NONE":
+                if barrier_needed:
+                    nominee.social_media += " | "
+                nominee.social_media += f'Discord Username: {nominee.nominee.discord}'
+            nominees_display_order.append(nominee)
         context.update({
             'election': retrieved_obj,
             'election_date': retrieved_obj.date.strftime("%Y-%m-%d"),
