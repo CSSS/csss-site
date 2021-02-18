@@ -2,9 +2,9 @@ from django.conf.urls import url
 
 from .views import election_management
 from .views.create_election.create_election_json import display_and_process_html_for_new_json_election
-from .views.modify_election.modify_election_json import display_and_process_html_for_modification_of_json_election
-from .views.modify_election.select_election_to_modify import show_page_where_user_can_select_election_to_update, \
+from .views.update_election.select_election_to_update import show_page_where_user_can_select_election_to_update, \
     determine_election_action
+from .views.update_election.update_election_json import display_and_process_html_for_modification_of_json_election
 
 urlpatterns = [
     url(
