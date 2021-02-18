@@ -72,7 +72,7 @@ def _get_information_for_election_user_wants_to_modify(election_id):
     """
     election = _get_existing_election_by_id(election_id)
     if election is None:
-        return {}, [f"No valid election found for given election id"]
+        return {}, ["No valid election found for given election id"]
     nominees = [nominee for nominee in Nominee.objects.all().filter(election=election)]
     nominee_positions = []
     for nominee in nominees:

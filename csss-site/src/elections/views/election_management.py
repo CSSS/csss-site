@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import verify_access_logged_user_and_create_context, \
     there_are_multiple_entries, ERROR_MESSAGE_KEY, create_main_context
 from elections.models import Election, Nominee, NomineePosition

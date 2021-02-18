@@ -22,9 +22,9 @@ def validate_and_return_election_json(input_json):
             f"{error_messages}"
         )
         return False, [error_messages], \
-               json.dumps(
-                   input_json
-               ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
+            json.dumps(
+                input_json
+            ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
 
 
 def validate_election_type(election_type):
