@@ -76,12 +76,13 @@ class NomineeSpeech(models.Model):
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
 
     speech = models.CharField(
-        max_length=10000
+        max_length=10000,
+        default='NA'
     )
 
 
 class NomineePosition(models.Model):
-    nominee_speech = models.ForeignKey(NomineeSpeech, on_delete=models.CASCADE)
+    nominee_speech = models.ForeignKey(NomineeSpeech, on_delete=models.CASCADE, default=None)
 
     position_name = models.CharField(
         max_length=40,

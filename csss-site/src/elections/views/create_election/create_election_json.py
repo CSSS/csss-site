@@ -110,7 +110,7 @@ def process_new_inputted_election(request, context):
         election_json[ELECTION_NOMINEES_POST_KEY]
     )
     if not success:
-        context[ERROR_MESSAGES_KEY] = error_messages
+        context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_json)
         return render(request, 'elections/create_election/create_election_json.html', context)
 

@@ -6,7 +6,7 @@ from elections.models import Election, Nominee, NomineePosition, NomineeSpeech
 from elections.views.election_management import ELECTION_DATE_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, NOM_NAME_POST_KEY, \
     NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, NOM_FACEBOOK_POST_KEY, NOM_EMAIL_POST_KEY, NOM_LINKEDIN_POST_KEY, \
-    NOM_DISCORD_USERNAME_POST_KEY, NOM_POSITION_AND_SPEECH_POST_KEY
+    NOM_DISCORD_USERNAME_POST_KEY, NOM_POSITION_AND_SPEECH_POST_KEY, NOM_ID_POST_KEY
 
 logger = logging.getLogger('csss_site')
 
@@ -100,38 +100,72 @@ def save_nominees(election, election_information):
     election -- the saved election
     election_information -- the dict that contains the noninee information that needs to be saved
     """
+
+    list_of_ids_specified_in_election = []
+    list_of_speech_obj_ids_specified_in_election = []
+    list_of_nominee_position_obj_ids_specified_in_election = []
     nominees = election_information[ELECTION_NOMINEES_POST_KEY]
     for nominee in nominees:
         speech_and_position_pairings = nominee[NOM_POSITION_AND_SPEECH_POST_KEY]
         nominee_position_obj = None
         for speech_and_position_pairing in speech_and_position_pairings:
             for nominee_position in speech_and_position_pairing[NOM_POSITION_POST_KEY]:
-                nominee_position_obj = _get_existing_nominee(
-                    nominee[NOM_NAME_POST_KEY], nominee_position, election
-                )
-        if nominee_position_obj is None:
-            save_new_nominee(
-                election, nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_AND_SPEECH_POST_KEY],
-                nominee[NOM_FACEBOOK_POST_KEY], nominee[NOM_LINKEDIN_POST_KEY],nominee[NOM_EMAIL_POST_KEY],
-                nominee[NOM_DISCORD_USERNAME_POST_KEY]
-            )
-        else:
-            for speech_and_position_pairing in speech_and_position_pairings:
-                for nominee_position in speech_and_position_pairing[NOM_POSITION_POST_KEY]:
-                    update_existing_nominee(
+                if NOM_ID_POST_KEY in nominee:
+                    nominee_position_obj = _get_existing_nominee(
+                        nominee[NOM_ID_POST_KEY], nominee_position, election.id
+                    )
+                if nominee_position_obj is not None:
+                    nominee_position_obj_id, speech_obj_id = update_existing_nominee(
                         nominee_position_obj, nominee[NOM_NAME_POST_KEY], nominee_position,
                         speech_and_position_pairing[NOM_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
                         nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
                         nominee[NOM_DISCORD_USERNAME_POST_KEY]
                     )
+                    list_of_ids_specified_in_election.append(int(NOM_ID_POST_KEY))
+                    list_of_speech_obj_ids_specified_in_election.append(speech_obj_id)
+                    list_of_nominee_position_obj_ids_specified_in_election.append(nominee_position_obj_id)
+        if nominee_position_obj is None:
+            nominee.id, position_ids, speech_ids = save_new_nominee(
+                election, nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_AND_SPEECH_POST_KEY],
+                nominee[NOM_FACEBOOK_POST_KEY], nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
+                nominee[NOM_DISCORD_USERNAME_POST_KEY]
+            )
+            list_of_ids_specified_in_election.append(nominee.id)
+            list_of_speech_obj_ids_specified_in_election.extend(speech_ids)
+            list_of_nominee_position_obj_ids_specified_in_election.extend(position_ids)
+    current_nominee_ids_under_election = [
+        nominee.id for nominee in Nominee.objects.all().filter(election_id=election.id)
+    ]
+    ids_to_delete = [
+        current_nominee_id_under_election for current_nominee_id_under_election in current_nominee_ids_under_election
+        if current_nominee_id_under_election not in list_of_ids_specified_in_election
+    ]
+    for nominee_id_to_delete in ids_to_delete:
+        Nominee.objects.all().get(id=nominee_id_to_delete).delete()
+
+    speeches_id_to_delete = [
+        int(speech.id)
+        for speech in NomineeSpeech.objects.all().filter(nominee__election_id=election.id)
+        if speech.id not in list_of_speech_obj_ids_specified_in_election
+    ]
+    for speech_id_to_delete in speeches_id_to_delete:
+        NomineeSpeech.objects.all().get(id=speech_id_to_delete).delete()
+
+    nominee_positions_to_delete = [
+        int(positions.id)
+        for positions in NomineePosition.objects.all().filter(nominee_speech__nominee__election_id=election.id)
+        if positions.id not in list_of_nominee_position_obj_ids_specified_in_election
+    ]
+    for nominee_position_id_to_delete in nominee_positions_to_delete:
+        NomineePosition.objects.all().get(id=nominee_position_id_to_delete).delete()
 
 
-def _get_existing_nominee(nominee_name, nominee_position, election):
-    nominee_name = nominee_name.strip()
+def _get_existing_nominee(nominee_id, nominee_position, election_id):
     nominee_position = nominee_position.strip()
     nominees = NomineePosition.objects.all().filter(
-        nominee_speech__nominee__election_id=election.id, nominee_speech__nominee__name=nominee_name,
+        nominee_speech__nominee__election_id=election_id,
         position_name=nominee_position,
+        nominee_speech__nominee_id=int(nominee_id)
     )
     if len(nominees) > 0:
         return nominees[0]
@@ -163,11 +197,14 @@ def save_new_nominee(election, full_name, position_names_and_speeches, facebook_
     logger.info("[elections/extract_from_json.py save_new_nominee()]"
                 f"saved nominee {nominee} under election {election}"
                 )
+    position_ids = []
+    speech_ids = []
     for speech_and_position_pairing in position_names_and_speeches:
         speech_obj = NomineeSpeech(
             nominee=nominee, speech=speech_and_position_pairing[NOM_SPEECH_POST_KEY].strip()
         )
         speech_obj.save()
+        speech_ids.append(speech_obj.id)
         for position_name in speech_and_position_pairing[NOM_POSITION_POST_KEY]:
             nominee_position = NomineePosition(
                 position_name=position_name, nominee_speech=speech_obj,
@@ -176,10 +213,12 @@ def save_new_nominee(election, full_name, position_names_and_speeches, facebook_
                 ).position_index
             )
             nominee_position.save()
+            position_ids.append(nominee.id)
             logger.info(
                 "[elections/extract_from_json.py save_new_nominee()]"
                 f"saved nominee {nominee} with position {nominee_position}"
             )
+    return nominee.id, position_ids, speech_ids
 
 
 def update_existing_nominee(nominee_position_obj, full_name, position_name, speech, facebook_link, linkedin_link,
@@ -191,7 +230,7 @@ def update_existing_nominee(nominee_position_obj, full_name, position_name, spee
     email_address = email_address.strip()
     discord_username = discord_username.strip()
 
-    speech_obj = nominee_position_obj.speech
+    speech_obj = nominee_position_obj.nominee_speech
     nominee_obj = speech_obj.nominee
 
     nominee_position_obj.position_name = position_name
@@ -208,3 +247,4 @@ def update_existing_nominee(nominee_position_obj, full_name, position_name, spee
     nominee_position_obj.save()
     speech_obj.save()
     nominee_obj.save()
+    return nominee_position_obj.id, speech_obj.id

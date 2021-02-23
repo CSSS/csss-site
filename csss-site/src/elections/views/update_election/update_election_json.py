@@ -6,16 +6,17 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
-from elections.models import NomineePosition, Nominee
+from elections.models import NomineePosition, Nominee, NomineeSpeech
 from elections.views.election_management import TAB_STRING, ELECTION_DICT_POST_KEY, JSON_INPUT_FIELD_POST_KEY, \
     ELECTION_ID_POST_KEY, ELECTION_ID_SESSION_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, \
     ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, NOM_NAME_KEY, NOM_FACEBOOK_KEY, NOM_SPEECH_KEY, \
     NOM_DISCORD_USERNAME_KEY, NOM_POSITION_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_DATE_POST_KEY, \
-    ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY
+    ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, \
+    NOM_POSITION_AND_SPEECH_POST_KEY, NOM_ID_KEY
 from elections.views.election_management_helper import _get_existing_election_by_id
 from elections.views.extractors.extract_from_json import update_existing_election_from_json, save_nominees
 from elections.views.validators.validate_from_json import validate_election_date, validate_election_type, \
-    validate_new_nominees_for_new_election_from_json, validate_and_return_election_json
+    validate_and_return_election_json, validate_nominees_for_existing_election_from_json
 
 logger = logging.getLogger('csss_site')
 
@@ -73,17 +74,32 @@ def _get_information_for_election_user_wants_to_modify(election_id):
     election = _get_existing_election_by_id(election_id)
     if election is None:
         return {}, ["No valid election found for given election id"]
-    nominees = [nominee for nominee in Nominee.objects.all().filter(election=election)]
+
+    nominees = [
+        nominee_position for nominee_position in Nominee.objects.all().filter(
+            election=election
+        ).order_by('nomineespeech__nomineeposition__position_index')
+    ]
     nominee_positions = []
     for nominee in nominees:
-        nominee_positions_names = [
-            nominee_position.position_name
-            for nominee_position in NomineePosition.objects.all().order_by('position_index')
-        ]
+        speech_and_position_pairings = []
+        speech_and_position_pairing = None
+        for speech in NomineeSpeech.objects.all().filter(nominee=nominee):
+            speech_and_position_pairing = {}
+            for position_name in NomineePosition.objects.all().filter(nominee_speech=speech):
+                if NOM_POSITION_KEY not in speech_and_position_pairing:
+                    speech_and_position_pairing[NOM_POSITION_KEY] = [position_name.position_name]
+                else:
+                    speech_and_position_pairing[NOM_POSITION_KEY].append(position_name.position_name)
+            speech_and_position_pairing[NOM_SPEECH_KEY] = speech.speech
+        if speech_and_position_pairing is not None:
+            speech_and_position_pairings.append(speech_and_position_pairing)
+
         nominee_position = {
-            NOM_NAME_KEY: nominee.name, NOM_POSITION_KEY: nominee_positions_names, NOM_EMAIL_KEY: nominee.email,
+            NOM_NAME_KEY: nominee.name, NOM_ID_KEY: nominee.id,
+            NOM_POSITION_AND_SPEECH_POST_KEY: speech_and_position_pairings, NOM_EMAIL_KEY: nominee.email,
             NOM_LINKEDIN_KEY: nominee.linked_in, NOM_FACEBOOK_KEY: nominee.facebook,
-            NOM_DISCORD_USERNAME_KEY: nominee.discord, NOM_SPEECH_KEY: nominee.speech
+            NOM_DISCORD_USERNAME_KEY: nominee.discord
         }
         nominee_positions.append(nominee_position)
 
@@ -150,8 +166,8 @@ def process_existing_election_information_from_json(request, context):
         context[ELECTION_DICT_POST_KEY] = json.dumps(updated_elections_information)
         context[ERROR_MESSAGES_KEY] = [error_message]
         return render(request, 'elections/update_election/update_election_json.html', context)
-    success, error_message = validate_new_nominees_for_new_election_from_json(
-        updated_elections_information[ELECTION_NOMINEES_POST_KEY]
+    success, error_message = validate_nominees_for_existing_election_from_json(
+        election.id, updated_elections_information[ELECTION_NOMINEES_POST_KEY]
     )
     if not success:
         context[ELECTION_ID_POST_KEY] = election_id

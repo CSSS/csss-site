@@ -11,6 +11,7 @@ from csss.views_helper import verify_access_logged_user_and_create_context, \
 from elections.models import Election, Nominee, NomineePosition
 
 NOM_NAME_POST_KEY = NOM_NAME_KEY = 'name'
+NOM_ID_POST_KEY = NOM_ID_KEY = 'id'
 NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'position_names'
 NOM_POSITION_AND_SPEECH_POST_KEY = NOM_POSITION_AND_SPEECH_KEY = 'position_and_speech'
 NOM_SPEECH_POST_KEY = NOM_SPEECH_KEY = 'speech'
@@ -53,29 +54,31 @@ def get_nominees(request, slug):
     if retrieved_obj.date <= datetime.datetime.now():
         logger.info("[elections/election_management.py get_nominees()] time to vote")
         positions = NomineePosition.objects.all().filter(
-            nominee__election__slug=slug
+            nominee_speech__nominee__election__slug=slug,
         ).order_by('position_index')
         nominees_display_order = []
         for nominee in positions:
             nominee.social_media = None
             barrier_needed = False
-            if nominee.nominee.facebook != "NONE":
-                nominee.social_media = f'<a href="{nominee.nominee.facebook}">Facebook Profile</a>'
+            if nominee.nominee_speech.nominee.facebook != "NONE":
+                nominee.social_media = f'<a href="{nominee.nominee_speech.nominee.facebook}" ' \
+                                       f'target="_blank">Facebook Profile</a>'
                 barrier_needed = True
-            if nominee.nominee.linked_in != "NONE":
+            if nominee.nominee_speech.nominee.linked_in != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
-                nominee.social_media += f'<a href="{nominee.nominee.linked_in}">LinkedIn Profile</a>'
+                nominee.social_media += f'<a href="{nominee.nominee_speech.nominee.linked_in}" ' \
+                                        f'target="_blank">LinkedIn Profile</a>'
                 barrier_needed = True
-            if nominee.nominee.email != "NONE":
+            if nominee.nominee_speech.nominee.email != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
-                nominee.social_media += f'Email: {nominee.nominee.email}'
+                nominee.social_media += f'Email: mailto:{nominee.nominee_speech.nominee.email}'
                 barrier_needed = True
-            if nominee.nominee.discord != "NONE":
+            if nominee.nominee_speech.nominee.discord != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
-                nominee.social_media += f'Discord Username: {nominee.nominee.discord}'
+                nominee.social_media += f'Discord Username: {nominee.nominee_speech.nominee.discord}'
             nominees_display_order.append(nominee)
         context.update({
             'election': retrieved_obj,

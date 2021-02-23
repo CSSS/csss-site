@@ -21,16 +21,16 @@
 					{% ifchanged nominee.position_name %}
 						<h1 class="title is-3">Position: {{nominee.position_name}}</h1>
 					{% endifchanged %}
-					<p>Nominee Name: <b>{{nominee.nominee.name}}</b></p>
+					<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.name}}</b></p>
 					{% if nominee.social_media is not None %}
 						<p> Contact/Social Media: {{nominee.social_media|safe}}
 					{% endif %}
 					<br>
-                    {%  if nominee.nominee.speech != "NONE" %}
+                    {%  if nominee.nominee_speech.speech != "NONE" %}
                         <p>Nominee Speech:</p>
                         <br>
                         <article class="box is-light">
-                            {{nominee.nominee.speech|safe|linebreaks}}
+                            {{nominee.nominee_speech.speech|safe|linebreaks}}
                         </article>
                     {%  endif %}
 					<hr>
