@@ -11,7 +11,8 @@ from elections.models import Election
 from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, TAB_STRING, NOM_NAME_KEY, \
     NOM_POSITION_KEY, NOM_SPEECH_KEY, NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, NOM_EMAIL_KEY, NOM_DISCORD_USERNAME_KEY, \
     ELECTION_TYPE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, ELECTION_DATE_KEY, \
-    ELECTION_TYPE_POST_KEY, ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY
+    ELECTION_TYPE_POST_KEY, ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, \
+    NOM_POSITION_AND_SPEECH_KEY
 from elections.views.extractors.extract_from_json import save_new_election_from_json
 from elections.views.validators.validate_from_json import validate_and_return_election_json, validate_election_type, \
     validate_election_date, \
@@ -52,8 +53,12 @@ def display_empty_election_json(request, context):
             ELECTION_TYPE_KEY: "", ELECTION_DATE_KEY: "YYYY-MM-DD HH:MM",
             ELECTION_WEBSURVEY_LINK_KEY: "",
             ELECTION_NOMINEES_KEY: [
-                {NOM_NAME_KEY: "", NOM_POSITION_KEY: [], NOM_SPEECH_KEY: "NONE", NOM_FACEBOOK_KEY: "NONE",
-                 NOM_LINKEDIN_KEY: "NONE", NOM_EMAIL_KEY: "NONE", NOM_DISCORD_USERNAME_KEY: "NONE"}
+                {
+                    NOM_NAME_KEY: "",
+                    NOM_POSITION_AND_SPEECH_KEY: [{NOM_POSITION_KEY: [], NOM_SPEECH_KEY: "NONE"}],
+                    NOM_FACEBOOK_KEY: "NONE", NOM_LINKEDIN_KEY: "NONE", NOM_EMAIL_KEY: "NONE",
+                    NOM_DISCORD_USERNAME_KEY: "NONE"
+                 }
             ]
         }
     )

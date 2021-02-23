@@ -51,9 +51,6 @@ class Nominee(models.Model):
 
     name = models.CharField(max_length=140)
 
-    speech = models.CharField(
-        max_length=10000
-    )
     facebook = models.CharField(
         _(u'Facebook Link'),
         max_length=300
@@ -75,8 +72,16 @@ class Nominee(models.Model):
         return self.name
 
 
-class NomineePosition(models.Model):
+class NomineeSpeech(models.Model):
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
+
+    speech = models.CharField(
+        max_length=10000
+    )
+
+
+class NomineePosition(models.Model):
+    nominee_speech = models.ForeignKey(NomineeSpeech, on_delete=models.CASCADE)
 
     position_name = models.CharField(
         max_length=40,

@@ -12,6 +12,7 @@ from elections.models import Election, Nominee, NomineePosition
 
 NOM_NAME_POST_KEY = NOM_NAME_KEY = 'name'
 NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'position_names'
+NOM_POSITION_AND_SPEECH_POST_KEY = NOM_POSITION_AND_SPEECH_KEY = 'position_and_speech'
 NOM_SPEECH_POST_KEY = NOM_SPEECH_KEY = 'speech'
 NOM_FACEBOOK_POST_KEY = NOM_FACEBOOK_KEY = 'facebook'
 NOM_LINKEDIN_POST_KEY = NOM_LINKEDIN_KEY = 'linked_in'

@@ -56,9 +56,15 @@ admin.site.register(Nominee, NomineeAdmin)
 
 class NomineeOfficerPositionAdmin(admin.ModelAdmin):
     list_display = (
-        'nominee',
+        'get_nominee',
         'position_name'
     )
+
+    def get_nominee(self, obj):
+        return obj.speech.nominee
+
+    get_nominee.short_description = "Nominee"
+    get_nominee.admin_order_field = "Nominee"
 
 
 admin.site.register(NomineePosition, NomineeOfficerPositionAdmin)
