@@ -1,42 +1,33 @@
 from django.contrib import admin
 
+from elections.models import Election, Nominee, NomineePosition, NomineeSpeech
+
+
 # Register your models here.
-
-from elections.models import Election, Nominee, NomineePosition  # ,Nomination
-
-from django import forms
 
 
 class ElectionAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'slug',
-        'get_election_type',
+        'Election_Type',
         'date',
         'websurvey'
     )
 
-    def get_election_type(self, obj):
+    def Election_Type(self, obj):
         return obj.election_type
 
-    get_election_type.short_desription = "Election Type"
-    get_election_type.admin_order_field = "Election Type"
+    Election_Type.admin_order_field = "election_type"
 
 
 admin.site.register(Election, ElectionAdmin)
 
 
-class NomineeForm(forms.ModelForm):
-    class Meta:
-        model = Nominee
-        fields = '__all__'
-
-
 class NomineeAdmin(admin.ModelAdmin):
-    form = NomineeForm
     list_display = (
         'id',
-        'get_election',
+        'Election',
         'name',
         'facebook',
         'linked_in',
@@ -44,27 +35,42 @@ class NomineeAdmin(admin.ModelAdmin):
         'discord',
     )
 
-    def get_election(self, obj):
+    def Election(self, obj):
         return obj.election
 
-    get_election.short_description = "Election"
-    get_election.admin_order_field = "Election"
+    Election.admin_order_field = "election_id"
 
 
 admin.site.register(Nominee, NomineeAdmin)
 
 
+class NomineeSpeechAdmin(admin.ModelAdmin):
+    list_display = (
+        'Nominee',
+        'speech'
+    )
+
+    def Nominee(self, obj):
+        return obj.nominee
+
+    Nominee.short_description = "Nominee"
+    Nominee.admin_order_field = "nominee"
+
+
+admin.site.register(NomineeSpeech, NomineeSpeechAdmin)
+
+
 class NomineeOfficerPositionAdmin(admin.ModelAdmin):
     list_display = (
-        'get_nominee',
+        'Nominee',
         'position_name'
     )
 
-    def get_nominee(self, obj):
-        return obj.speech.nominee
+    def Nominee(self, obj):
+        return obj.nominee_speech.nominee
 
-    get_nominee.short_description = "Nominee"
-    get_nominee.admin_order_field = "Nominee"
+    Nominee.short_description = "Nominee"
+    Nominee.admin_order_field = "nominee_speech_id"
 
 
 admin.site.register(NomineePosition, NomineeOfficerPositionAdmin)

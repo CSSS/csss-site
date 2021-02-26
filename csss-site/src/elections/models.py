@@ -8,8 +8,8 @@ from datetime import datetime
 
 
 class Election(models.Model):
-    class Meta:
-        verbose_name_plural = "NominationPages"
+    # class Meta:
+    #     verbose_name_plural = "NominationPages"
 
     slug = models.SlugField(
         max_length=32,
@@ -69,7 +69,9 @@ class Nominee(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"Nominee {self.name} for Election {self.election}"
+
+
 
 
 class NomineeSpeech(models.Model):
@@ -79,6 +81,9 @@ class NomineeSpeech(models.Model):
         max_length=10000,
         default='NA'
     )
+
+    def __str__(self):
+        return f"speech for Nominee {self.nominee.name} for Election {self.nominee.election}"
 
 
 class NomineePosition(models.Model):
@@ -92,3 +97,7 @@ class NomineePosition(models.Model):
     position_index = models.IntegerField(
         default=0,
     )
+
+    def __str__(self):
+        return f"Nominee {self.nominee_speech.nominee.name} for Position {self.position_name} " \
+               f"for Election {self.nominee_speech.nominee.election}"

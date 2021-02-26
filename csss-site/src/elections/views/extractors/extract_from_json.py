@@ -125,14 +125,15 @@ def save_nominees(election, election_information):
                     list_of_speech_obj_ids_specified_in_election.append(speech_obj_id)
                     list_of_nominee_position_obj_ids_specified_in_election.append(nominee_position_obj_id)
         if nominee_position_obj is None:
-            nominee.id, position_ids, speech_ids = save_new_nominee(
+            nominee_id, position_ids, speech_ids = save_new_nominee(
                 election, nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_AND_SPEECH_POST_KEY],
                 nominee[NOM_FACEBOOK_POST_KEY], nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY],
                 nominee[NOM_DISCORD_USERNAME_POST_KEY]
             )
-            list_of_ids_specified_in_election.append(nominee.id)
+            list_of_ids_specified_in_election.append(nominee_id)
             list_of_speech_obj_ids_specified_in_election.extend(speech_ids)
             list_of_nominee_position_obj_ids_specified_in_election.extend(position_ids)
+    print(1)
     current_nominee_ids_under_election = [
         nominee.id for nominee in Nominee.objects.all().filter(election_id=election.id)
     ]
@@ -213,7 +214,7 @@ def save_new_nominee(election, full_name, position_names_and_speeches, facebook_
                 ).position_index
             )
             nominee_position.save()
-            position_ids.append(nominee.id)
+            position_ids.append(nominee_position.id)
             logger.info(
                 "[elections/extract_from_json.py save_new_nominee()]"
                 f"saved nominee {nominee} with position {nominee_position}"
