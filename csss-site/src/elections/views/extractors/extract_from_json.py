@@ -133,7 +133,6 @@ def save_nominees(election, election_information):
             list_of_ids_specified_in_election.append(nominee_id)
             list_of_speech_obj_ids_specified_in_election.extend(speech_ids)
             list_of_nominee_position_obj_ids_specified_in_election.extend(position_ids)
-    print(1)
     current_nominee_ids_under_election = [
         nominee.id for nominee in Nominee.objects.all().filter(election_id=election.id)
     ]
