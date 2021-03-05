@@ -6,8 +6,9 @@
 
 {% block content %}
 	<h1 class="title">Create new Election</h1>
+    <p style="color: red" id="js_formatting_error"><br></p>
     {% if error_messages %}
-        <p style="color: red">Experienced Following Error<br>
+        <p style="color: red" id="error">Experienced Following Error<br>
 			{% for error_message in error_messages %}
             {{ error_message|safe }}<br>
 			{% endfor %}
@@ -50,7 +51,12 @@
     <script>
     function beautify() {
         raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
-        el = JSON.parse(JSON.parse(raw_string));
-        $('textarea').val(JSON.stringify(el,null,'\t'));
+        try {
+            el = JSON.parse(JSON.parse(raw_string));
+            $('textarea').val(JSON.stringify(el,null,'\t'));
+        } catch(err) {
+            document.getElementById("js_formatting_error").innerHTML = "Unable to Beautify: " + err.message;
+        }
+
     }
     </script>{% endblock %}
