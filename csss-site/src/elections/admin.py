@@ -10,15 +10,10 @@ class ElectionAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'slug',
-        'Election_Type',
+        'election_type',
         'date',
         'websurvey'
     )
-
-    def Election_Type(self, obj):  # noqa: N802
-        return obj.election_type
-
-    Election_Type.admin_order_field = "election_type"
 
 
 admin.site.register(Election, ElectionAdmin)
@@ -27,7 +22,7 @@ admin.site.register(Election, ElectionAdmin)
 class NomineeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'Election',
+        'election',
         'name',
         'facebook',
         'linked_in',
@@ -35,26 +30,15 @@ class NomineeAdmin(admin.ModelAdmin):
         'discord',
     )
 
-    def Election(self, obj):  # noqa: N802
-        return obj.election
-
-    Election.admin_order_field = "election_id"
-
 
 admin.site.register(Nominee, NomineeAdmin)
 
 
 class NomineeSpeechAdmin(admin.ModelAdmin):
     list_display = (
-        'Nominee',
+        'nominee',
         'speech'
     )
-
-    def Nominee(self, obj):  # noqa: N802
-        return obj.nominee
-
-    Nominee.short_description = "Nominee"
-    Nominee.admin_order_field = "nominee"
 
 
 admin.site.register(NomineeSpeech, NomineeSpeechAdmin)
@@ -62,15 +46,15 @@ admin.site.register(NomineeSpeech, NomineeSpeechAdmin)
 
 class NomineeOfficerPositionAdmin(admin.ModelAdmin):
     list_display = (
-        'Nominee',
+        'nominee',
         'position_name'
     )
 
-    def Nominee(self, obj):  # noqa: N802
+    def nominee(self, obj):
         return obj.nominee_speech.nominee
 
-    Nominee.short_description = "Nominee"
-    Nominee.admin_order_field = "nominee_speech_id"
+    nominee.short_description = "nominee"
+    nominee.admin_order_field = "nominee_speech_id"
 
 
 admin.site.register(NomineePosition, NomineeOfficerPositionAdmin)
