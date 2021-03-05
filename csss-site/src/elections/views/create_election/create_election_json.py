@@ -96,13 +96,13 @@ def process_new_inputted_election(request, context):
 
     success, error_message = validate_election_type(election_json[ELECTION_TYPE_POST_KEY])
     if not success:
-        context[ERROR_MESSAGES_KEY] = error_messages
+        context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_json)
         return render(request, 'elections/create_election/create_election_json.html', context)
 
     success, error_message = validate_election_date(election_json[ELECTION_DATE_POST_KEY])
     if not success:
-        context[ERROR_MESSAGES_KEY] = error_messages
+        context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_json)
         return render(request, 'elections/create_election/create_election_json.html', context)
 
