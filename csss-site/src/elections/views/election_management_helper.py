@@ -127,15 +127,15 @@ def _get_existing_election_by_id(election_id):
     election_id -- the id for the election to return
 
     Return
-    nom_pages -- the election object for the election the user wants
+    elections -- the election object for the election the user wants
     """
     try:
-        nom_pages = Election.objects.get(id=election_id)
+        elections = Election.objects.get(id=election_id)
     except Election.DoesNotExist:
         logger.info("[elections/election_management.py _get_existing_election_by_id()] unable to find an election by "
                     f"id {election_id}")
         return None
-    return nom_pages
+    return elections
 
 
 def _validate_information_for_existing_election_from_webform_and_return_it(election,

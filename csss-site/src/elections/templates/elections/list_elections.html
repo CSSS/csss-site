@@ -7,7 +7,7 @@
 {% block content %}
     <h1 class="title">Past CSSS Elections</h1>
     <ul>
-        {%  for nom_page in nom_pages %}
+        {%  for nom_page in elections %}
             <li><a href="{{URL_ROOT}}elections/{{nom_page.slug}}/">{{nom_page.human_friendly_name}}</a></li>
         {% endfor %}
     </ul>

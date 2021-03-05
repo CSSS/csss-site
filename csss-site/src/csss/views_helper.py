@@ -27,9 +27,9 @@ def create_main_context(request, tab, groups=None):
     """
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
-    nom_pages = Election.objects.all().order_by('-date')
-    if len(nom_pages) == 0:
-        nom_pages = None
+    elections = Election.objects.all().order_by('-date')
+    if len(elections) == 0:
+        elections = None
     context = _create_base_context()
     context.update({
         'authenticated': request.user.is_authenticated,
@@ -38,7 +38,7 @@ def create_main_context(request, tab, groups=None):
         'staff': request.user.is_staff,
         'username': request.user.username,
         'tab': tab,
-        'nom_pages': nom_pages
+        'elections': elections
     })
     return context
 
