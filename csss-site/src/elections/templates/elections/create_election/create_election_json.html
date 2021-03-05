@@ -50,8 +50,8 @@
     </script>
     <script>
     function beautify() {
-        raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
         try {
+            raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
             el = JSON.parse(JSON.parse(raw_string));
             $('textarea').val(JSON.stringify(el,null,'\t'));
         } catch(err) {
