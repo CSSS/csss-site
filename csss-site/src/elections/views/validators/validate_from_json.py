@@ -23,7 +23,7 @@ def validate_and_return_election_json(input_json):
             f"{error_messages}"
         )
         return False, [error_messages], \
-               json.dumps(
+            json.dumps(
                    input_json
                ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
 
@@ -167,8 +167,9 @@ def _validate_new_nominee(full_name, position_names_and_speeches, facebook_link,
     """
     logger.info(
         f"[elections/validate_from_json.py _validate_new_nominee()] "
-        f"full_name={full_name}, position_names_and_speeches={position_names_and_speeches}, facebook_link={facebook_link}, "
-        f"linkedin_link={linkedin_link}, email_address={email_address}, discord_username={discord_username}"
+        f"full_name={full_name}, position_names_and_speeches={position_names_and_speeches}, "
+        f"facebook_link={facebook_link}, linkedin_link={linkedin_link}, email_address={email_address}, "
+        f"discord_username={discord_username}"
     )
     full_name = full_name.strip()
     facebook_link = facebook_link.strip()

@@ -72,8 +72,6 @@ class Nominee(models.Model):
         return f"Nominee {self.name} for Election {self.election}"
 
 
-
-
 class NomineeSpeech(models.Model):
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
 

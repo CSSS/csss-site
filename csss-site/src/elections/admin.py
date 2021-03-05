@@ -15,7 +15,7 @@ class ElectionAdmin(admin.ModelAdmin):
         'websurvey'
     )
 
-    def Election_Type(self, obj):
+    def Election_Type(self, obj):  # noqa: N802
         return obj.election_type
 
     Election_Type.admin_order_field = "election_type"
@@ -35,7 +35,7 @@ class NomineeAdmin(admin.ModelAdmin):
         'discord',
     )
 
-    def Election(self, obj):
+    def Election(self, obj):  # noqa: N802
         return obj.election
 
     Election.admin_order_field = "election_id"
@@ -50,7 +50,7 @@ class NomineeSpeechAdmin(admin.ModelAdmin):
         'speech'
     )
 
-    def Nominee(self, obj):
+    def Nominee(self, obj):  # noqa: N802
         return obj.nominee
 
     Nominee.short_description = "Nominee"
@@ -66,7 +66,7 @@ class NomineeOfficerPositionAdmin(admin.ModelAdmin):
         'position_name'
     )
 
-    def Nominee(self, obj):
+    def Nominee(self, obj):  # noqa: N802
         return obj.nominee_speech.nominee
 
     Nominee.short_description = "Nominee"
