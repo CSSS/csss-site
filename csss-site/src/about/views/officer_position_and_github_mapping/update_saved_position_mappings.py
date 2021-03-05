@@ -143,7 +143,7 @@ def _update_position_mapping(post_dict):
         update_most_recent_elections(
             previous_position_name, new_position_index_for_officer_position, new_name_for_officer_position
         )
-        update_officer(
+        update_relevant_officers(
             new_position_index_for_officer_position, new_sfu_email_list_address_for_officer_position,
             new_name_for_officer_position, position_mapping_for_selected_officer
         )
@@ -162,11 +162,11 @@ def _update_position_mapping(post_dict):
     return [error_message]
 
 
-def update_officer(
+def update_relevant_officers(
         new_position_index_for_officer_position, new_sfu_email_list_address_for_officer_position,
         new_name_for_officer_position, position_mapping_for_selected_officer):
     """
-    Updates the officer info since the position mapping got updated
+    Updates the officer infos since the position mapping got updated
 
     Keyword Argument
     new_position_index_for_officer_position -- the new position index for the officer position
