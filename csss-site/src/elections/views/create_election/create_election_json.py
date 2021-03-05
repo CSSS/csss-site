@@ -48,6 +48,13 @@ def display_and_process_html_for_new_json_election(request):
 
 
 def display_empty_election_json(request, context):
+    """
+    creates the dictionary that the user has to fill in to create an election
+
+    Keyword Argument
+    request -- the django request object
+    context -- the contxt ditionary that needs to have the election dictionary template inserted into it
+    """
     context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(
         {
             ELECTION_TYPE_KEY: "", ELECTION_DATE_KEY: "YYYY-MM-DD HH:MM",
@@ -66,6 +73,14 @@ def display_empty_election_json(request, context):
 
 
 def process_new_inputted_election(request, context):
+    """
+    Takes in the user's new election input and validates it
+
+    Keyword Argument:
+    request -- the django request object that the new election is contained in
+    context -- the dictionary that needs to be filled in with the user's input and the error message
+     if there was an error
+    """
     if JSON_INPUT_FIELD_POST_KEY not in request.POST:
         error_message = "Could not find the json in the input"
         logger.info("[elections/validate_from_json.py validate_inputted_election_json()] "
