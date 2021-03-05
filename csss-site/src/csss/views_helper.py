@@ -38,7 +38,7 @@ def create_main_context(request, tab, groups=None):
         'staff': request.user.is_staff,
         'username': request.user.username,
         'tab': tab,
-        'elections': elections
+        'election_list': elections
     })
     return context
 
