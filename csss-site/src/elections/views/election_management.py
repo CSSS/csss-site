@@ -214,7 +214,7 @@ def process_new_election_information_from_json(request):
                 nominee.save()
                 logger.info(
                     "[elections/election_management.py save_new_nominee()] saved user "
-                    f"full_name={nominee.name} position_index={nominee.position_index}"
+                    f"full_name={nominee.name} position_name={nominee.position_name}"
                     f" facebook_link={nominee.facebook} linkedin_link={nominee.linked_in} "
                     f"email_address={nominee.email} discord_username={nominee.discord}"
                 )
