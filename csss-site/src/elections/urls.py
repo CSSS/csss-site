@@ -13,6 +13,12 @@ urlpatterns = [
         name='Show Page To Create Election'
     ),
     url(
+        r'^election_modification_json/$',
+        display_and_process_html_for_modification_of_json_election,
+        name='Show Page to Update Election'
+    ),
+
+    url(
         r'^show_options_for_election_updating/$',
         show_page_where_user_can_select_election_to_update,
         name="Select Election To Modify"
@@ -21,11 +27,6 @@ urlpatterns = [
         r'^process_option_for_election_updating/$',
         determine_election_action,
         name="Determine Election Action"
-    ),
-    url(
-        r'^election_modification_json/$',
-        display_and_process_html_for_modification_of_json_election,
-        name='Show Page to Update Election'
     ),
 
 
@@ -41,10 +42,6 @@ urlpatterns = [
         election_management.process_new_election_information_from_webform,
         name='Process User Input For New Election'
     ),
-
-
-
-
     url(
         r'^show_update_webform/$',
         election_management.show_page_for_user_to_modify_election_information_from_webform,

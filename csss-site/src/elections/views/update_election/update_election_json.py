@@ -14,7 +14,7 @@ from elections.views.election_management import TAB_STRING, JSON_INPUT_FIELD_POS
     ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, \
     NOM_POSITION_AND_SPEECH_POST_KEY, NOM_ID_KEY
 from elections.views.election_management_helper import _get_existing_election_by_id
-from elections.views.extractors.extract_from_json import update_existing_election_from_json, save_nominees
+from elections.views.extractors.extract_from_json import update_existing_election_from_json, save_new_or_update_existing_nominees
 from elections.views.validators.validate_from_json import validate_election_date, validate_election_type, \
     validate_and_return_election_json, validate_nominees_for_existing_election_from_json
 
@@ -180,5 +180,5 @@ def process_existing_election_information_from_json(request, context):
         updated_elections_information[ELECTION_TYPE_POST_KEY],
         updated_elections_information[ELECTION_WEBSURVEY_LINK_POST_KEY]
     )
-    save_nominees(election, updated_elections_information)
+    save_new_or_update_existing_nominees(election, updated_elections_information)
     return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/')
