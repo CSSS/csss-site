@@ -300,7 +300,7 @@ def update_existing_nominee2(nominee_obj, nominee):
 
     """
     name = nominee[NOM_NAME_POST_KEY].strip()
-    facebook_link nominee[NOM_FACEBOOK_POST_KEY].strip()
+    facebook_link = nominee[NOM_FACEBOOK_POST_KEY].strip()
     linkedin_link = nominee[NOM_LINKEDIN_POST_KEY].strip()
     email_address = nominee[NOM_EMAIL_POST_KEY].strip()
     discord_username = nominee[NOM_DISCORD_USERNAME_POST_KEY].strip()
@@ -314,12 +314,8 @@ def update_existing_nominee2(nominee_obj, nominee):
                 nominee_position_obj = positions[0]
                 if speech_id is None:
                     speech_id = nominee_position_obj.nominee_speech.id
-                elif speech_id != nominee_position_obj.nominee_speech.id:
-                    # this is if the position
-
-            >>>>>>>>>>>>
-            WORK ON THIS FUNCTION
-            <<<<<<<<<<<<<<<
+                # elif speech_id != nominee_position_obj.nominee_speech.id:
+                #     # this is if the position
 
     speech = speech.strip()
 
@@ -331,7 +327,7 @@ def update_existing_nominee2(nominee_obj, nominee):
         position_name=position_name
     ).position_index
     speech_obj.speech = speech
-    nominee_obj.full_name = full_name
+    nominee_obj.full_name = name
     nominee_obj.facebook = facebook_link
     nominee_obj.linked_in = linkedin_link
     nominee_obj.email = email_address
