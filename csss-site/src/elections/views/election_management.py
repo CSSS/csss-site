@@ -12,8 +12,9 @@ from elections.models import Election, Nominee, NomineePosition
 
 NOM_NAME_POST_KEY = NOM_NAME_KEY = 'name'
 NOM_ID_POST_KEY = NOM_ID_KEY = 'id'
-NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'position_names'
-NOM_POSITION_AND_SPEECH_POST_KEY = NOM_POSITION_AND_SPEECH_KEY = 'position_and_speech'
+NOM_POSITIONS_POST_KEY = NOM_POSITIONS_KEY = 'position_names'
+NOM_POSITION_POST_KEY = NOM_POSITION_KEY = 'position_name'
+NOM_POSITION_AND_SPEECH_POST_KEY = NOM_POSITION_AND_SPEECH_KEY = 'position_names_and_speech_pairing'
 NOM_SPEECH_POST_KEY = NOM_SPEECH_KEY = 'speech'
 NOM_FACEBOOK_POST_KEY = NOM_FACEBOOK_KEY = 'facebook'
 NOM_LINKEDIN_POST_KEY = NOM_LINKEDIN_KEY = 'linked_in'
@@ -119,7 +120,7 @@ def process_new_election_information_from_webform(request):
             ELECTION_TIME_POST_KEY in updated_elections_information and \
             ELECTION_WEBSURVEY_LINK_POST_KEY in updated_elections_information and \
             NOM_NAME_POST_KEY in updated_elections_information and \
-            NOM_POSITION_POST_KEY in updated_elections_information and \
+            NOM_POSITIONS_POST_KEY in updated_elections_information and \
             NOM_SPEECH_POST_KEY in updated_elections_information and \
             NOM_FACEBOOK_POST_KEY in updated_elections_information and \
             NOM_LINKEDIN_POST_KEY in updated_elections_information and \
@@ -134,7 +135,7 @@ def process_new_election_information_from_webform(request):
         else:
             success, nominee, error_message = _validate_and_return_new_nominee(
                 updated_elections_information[NOM_NAME_POST_KEY],
-                updated_elections_information[NOM_POSITION_POST_KEY],
+                updated_elections_information[NOM_POSITIONS_POST_KEY],
                 updated_elections_information[NOM_SPEECH_POST_KEY],
                 updated_elections_information[NOM_FACEBOOK_POST_KEY],
                 updated_elections_information[NOM_LINKEDIN_POST_KEY],
@@ -204,7 +205,7 @@ def process_existing_election_information_from_webform(request):
             ELECTION_WEBSURVEY_LINK_POST_KEY in updated_elections_information and \
             ELECTION_ID_POST_KEY in updated_elections_information and \
             NOM_NAME_POST_KEY in updated_elections_information and \
-            NOM_POSITION_POST_KEY in updated_elections_information and \
+            NOM_POSITIONS_POST_KEY in updated_elections_information and \
             NOM_SPEECH_POST_KEY in updated_elections_information and \
             NOM_FACEBOOK_POST_KEY in updated_elections_information and \
             NOM_LINKEDIN_POST_KEY in updated_elections_information and \

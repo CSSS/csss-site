@@ -10,11 +10,12 @@ from elections.models import NomineePosition, Nominee, NomineeSpeech
 from elections.views.election_management import TAB_STRING, JSON_INPUT_FIELD_POST_KEY, \
     ELECTION_ID_POST_KEY, ELECTION_ID_SESSION_KEY, ELECTION_TYPE_KEY, ELECTION_DATE_KEY, \
     ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, NOM_NAME_KEY, NOM_FACEBOOK_KEY, NOM_SPEECH_KEY, \
-    NOM_DISCORD_USERNAME_KEY, NOM_POSITION_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_DATE_POST_KEY, \
+    NOM_DISCORD_USERNAME_KEY, NOM_POSITIONS_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, ELECTION_DATE_POST_KEY, \
     ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, \
     NOM_POSITION_AND_SPEECH_POST_KEY, NOM_ID_KEY
 from elections.views.election_management_helper import _get_existing_election_by_id
-from elections.views.extractors.extract_from_json import update_existing_election_from_json, save_new_or_update_existing_nominees
+from elections.views.extractors.extract_from_json import update_existing_election_from_json, \
+    save_new_or_update_existing_nominees
 from elections.views.validators.validate_from_json import validate_election_date, validate_election_type, \
     validate_and_return_election_json, validate_nominees_for_existing_election_from_json
 
@@ -87,16 +88,25 @@ def _get_information_for_election_user_wants_to_modify(election_id):
         for speech in NomineeSpeech.objects.all().filter(nominee=nominee):
             speech_and_position_pairing = {}
             for position_name in NomineePosition.objects.all().filter(nominee_speech=speech):
-                if NOM_POSITION_KEY not in speech_and_position_pairing:
-                    speech_and_position_pairing[NOM_POSITION_KEY] = [position_name.position_name]
+                if NOM_POSITIONS_KEY not in speech_and_position_pairing:
+                    speech_and_position_pairing[NOM_POSITIONS_KEY] = [{
+                        NOM_ID_KEY: position_name.id,
+                        'position_name': position_name.position_name
+                    }]
                 else:
-                    speech_and_position_pairing[NOM_POSITION_KEY].append(position_name.position_name)
+                    speech_and_position_pairing[NOM_POSITIONS_KEY].append(
+                        {
+                            NOM_ID_KEY: position_name.id,
+                            'position_name': position_name.position_name
+                        }
+                    )
+            speech_and_position_pairing[NOM_ID_KEY] = speech.id
             speech_and_position_pairing[NOM_SPEECH_KEY] = speech.speech
         if speech_and_position_pairing is not None:
             speech_and_position_pairings.append(speech_and_position_pairing)
 
         nominee_position = {
-            NOM_NAME_KEY: nominee.name, NOM_ID_KEY: nominee.id,
+            NOM_ID_KEY: nominee.id, NOM_NAME_KEY: nominee.name,
             NOM_POSITION_AND_SPEECH_POST_KEY: speech_and_position_pairings, NOM_EMAIL_KEY: nominee.email,
             NOM_LINKEDIN_KEY: nominee.linked_in, NOM_FACEBOOK_KEY: nominee.facebook,
             NOM_DISCORD_USERNAME_KEY: nominee.discord

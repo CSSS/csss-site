@@ -9,7 +9,7 @@ from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, TAB_STRING, NOM_NAME_KEY, \
-    NOM_POSITION_KEY, NOM_SPEECH_KEY, NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, NOM_EMAIL_KEY, NOM_DISCORD_USERNAME_KEY, \
+    NOM_POSITIONS_KEY, NOM_SPEECH_KEY, NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, NOM_EMAIL_KEY, NOM_DISCORD_USERNAME_KEY, \
     ELECTION_TYPE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, ELECTION_DATE_KEY, \
     ELECTION_TYPE_POST_KEY, ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, \
     NOM_POSITION_AND_SPEECH_KEY
@@ -62,7 +62,7 @@ def display_empty_election_json(request, context):
             ELECTION_NOMINEES_KEY: [
                 {
                     NOM_NAME_KEY: "",
-                    NOM_POSITION_AND_SPEECH_KEY: [{NOM_POSITION_KEY: [], NOM_SPEECH_KEY: "NONE"}],
+                    NOM_POSITION_AND_SPEECH_KEY: [{NOM_POSITIONS_KEY: [], NOM_SPEECH_KEY: "NONE"}],
                     NOM_FACEBOOK_KEY: "NONE", NOM_LINKEDIN_KEY: "NONE", NOM_EMAIL_KEY: "NONE",
                     NOM_DISCORD_USERNAME_KEY: "NONE"
                  }

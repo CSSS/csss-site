@@ -3,7 +3,7 @@ import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Election, Nominee
-from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITION_POST_KEY, NOM_SPEECH_POST_KEY, \
+from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITIONS_POST_KEY, NOM_SPEECH_POST_KEY, \
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
     ELECTION_DATE_POST_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_WEBSURVEY_LINK_POST_KEY
@@ -52,7 +52,7 @@ def _save_nominees_for_new_election_from_webform(election, updated_elections_inf
     for nominee_index in range(len(updated_elections_information[NOM_NAME_POST_KEY])):
         success, nominee, error_message = _validate_and_return_new_nominee(
             updated_elections_information[NOM_NAME_POST_KEY][nominee_index],
-            updated_elections_information[NOM_POSITION_POST_KEY][nominee_index],
+            updated_elections_information[NOM_POSITIONS_POST_KEY][nominee_index],
             updated_elections_information[NOM_SPEECH_POST_KEY][nominee_index],
             updated_elections_information[NOM_FACEBOOK_POST_KEY][nominee_index],
             updated_elections_information[NOM_LINKEDIN_POST_KEY][nominee_index],
@@ -210,7 +210,7 @@ def _validate_nominees_information_for_existing_election_from_webform_and_return
     new_nominees_names = []
     for nominee_index in range(len(updated_elections_information[NOM_NAME_POST_KEY])):
         full_name = updated_elections_information[NOM_NAME_POST_KEY][nominee_index]
-        position_name = updated_elections_information[NOM_POSITION_POST_KEY][nominee_index]
+        position_name = updated_elections_information[NOM_POSITIONS_POST_KEY][nominee_index]
         speech = updated_elections_information[NOM_SPEECH_POST_KEY][nominee_index]
         facebook_link = updated_elections_information[NOM_FACEBOOK_POST_KEY][nominee_index]
         linkedin_link = updated_elections_information[NOM_LINKEDIN_POST_KEY][nominee_index]
@@ -336,7 +336,7 @@ def _update_nominee_information_for_existing_election_from_webform(election, upd
     existing_nominees_names = [existing_nominee.name for existing_nominee in existing_nominees]
     new_nominees_names = []
     full_name = updated_elections_information[NOM_NAME_POST_KEY]
-    position_name = updated_elections_information[NOM_POSITION_POST_KEY]
+    position_name = updated_elections_information[NOM_POSITIONS_POST_KEY]
     speech = updated_elections_information[NOM_SPEECH_POST_KEY]
     facebook_link = updated_elections_information[NOM_FACEBOOK_POST_KEY]
     linkedin_link = updated_elections_information[NOM_LINKEDIN_POST_KEY]
