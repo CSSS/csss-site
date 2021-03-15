@@ -131,9 +131,9 @@ def _get_existing_election_by_id(election_id):
     """
     try:
         elections = Election.objects.get(id=election_id)
-    except Election.DoesNotExist:
+    except Exception:
         logger.info("[elections/election_management.py _get_existing_election_by_id()] unable to find an election by "
-                    f"id {election_id}")
+                    f"id '{election_id}'")
         return None
     return elections
 

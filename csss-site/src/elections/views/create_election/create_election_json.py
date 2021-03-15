@@ -5,18 +5,17 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
-from elections.models import Election
 from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, TAB_STRING, NOM_NAME_KEY, \
     NOM_POSITIONS_KEY, NOM_SPEECH_KEY, NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, NOM_EMAIL_KEY, NOM_DISCORD_USERNAME_KEY, \
     ELECTION_TYPE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, ELECTION_DATE_KEY, \
     ELECTION_TYPE_POST_KEY, ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY, \
     NOM_POSITION_AND_SPEECH_KEY
 from elections.views.extractors.extract_from_json import save_new_election_from_json
+from elections.views.utils.create_election_context import create_context
+from elections.views.validators.new_elections import validate_new_nominees_for_new_election_from_json
 from elections.views.validators.validate_from_json import validate_and_return_election_json, validate_election_type, \
-    validate_election_date, \
-    validate_new_nominees_for_new_election_from_json
+    validate_election_date
 
 logger = logging.getLogger('csss_site')
 
@@ -32,16 +31,7 @@ def display_and_process_html_for_new_json_election(request):
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
 
-    valid_election_type_choices = [election_type_choice[0] for election_type_choice in
-                                   Election.election_type_choices]
-    context['types_of_elections'] = f"Options for \"{ELECTION_TYPE_KEY}\": {', '.join(valid_election_type_choices)}"
-    current_positions = [
-        position.position_name for position in OfficerEmailListAndPositionMapping.objects.all().filter(
-            marked_for_deletion=False
-        )
-    ]
-    context['valid_position_names'] = f"Valid Positions: {', '.join(current_positions)}"
-
+    context.update(create_context())
     if request.method != "POST":
         return display_empty_election_json(request, context)
     return process_new_inputted_election(request, context)
@@ -65,7 +55,7 @@ def display_empty_election_json(request, context):
                     NOM_POSITION_AND_SPEECH_KEY: [{NOM_POSITIONS_KEY: [], NOM_SPEECH_KEY: "NONE"}],
                     NOM_FACEBOOK_KEY: "NONE", NOM_LINKEDIN_KEY: "NONE", NOM_EMAIL_KEY: "NONE",
                     NOM_DISCORD_USERNAME_KEY: "NONE"
-                 }
+                }
             ]
         }
     )
