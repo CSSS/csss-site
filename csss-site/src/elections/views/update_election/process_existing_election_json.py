@@ -12,9 +12,11 @@ from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, \
 from elections.views.election_management_helper import _get_existing_election_by_id
 from elections.views.save_election.save_existing_election_json import update_existing_election_from_json
 from elections.views.save_nominee.save_new_or_update_existing_nominees import save_new_or_update_existing_nominees
-from elections.views.validators.existing_election import validate_nominees_for_existing_election_from_json
-from elections.views.validators.validate_from_json import validate_election_date, validate_election_type, \
-    validate_and_return_election_json
+from elections.views.validators.validate_and_return_election_json import validate_and_return_election_json
+from elections.views.validators.validate_election_date import validate_election_date
+from elections.views.validators.validate_election_type import validate_election_type
+from elections.views.validators.validate_nominees_for_exsting_election_json import \
+    validate_nominees_for_existing_election_from_json
 
 logger = logging.getLogger('csss_site')
 
