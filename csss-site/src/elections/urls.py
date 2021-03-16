@@ -1,10 +1,11 @@
 from django.conf.urls import url
 
 from .views import election_management
-from .views.create_election.create_election_json import display_and_process_html_for_new_json_election
-from .views.update_election.select_election_to_update import show_page_where_user_can_select_election_to_update, \
-    determine_election_action
-from .views.update_election.update_election_json import display_and_process_html_for_modification_of_json_election
+from elections.views.endpoints.create_election_json import display_and_process_html_for_new_json_election
+from elections.views.endpoints.display_and_process_html_for_json import \
+    display_and_process_html_for_modification_of_json_election
+from .views.endpoints.display_choices_for_updating_elections import show_page_where_user_can_select_election_to_update
+from .views.endpoints.process_user_election_action import determine_election_action
 
 urlpatterns = [
     url(
