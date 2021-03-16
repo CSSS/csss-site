@@ -37,4 +37,3 @@ def validate_new_nominees_for_new_election_from_json(nominees):
         if not success:
             return False, error_message
     return True, None
-
