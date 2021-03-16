@@ -25,4 +25,3 @@ def display_and_process_html_for_new_json_election(request):
     context.update(create_context())
     return process_new_inputted_election(request, context) \
         if request.method == "POST" else display_empty_election_json(request, context)
-

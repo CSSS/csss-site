@@ -4,8 +4,9 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
-from elections.views.election_management import ELECTION_MODIFY_POST_KEY, ELECTION_ID_POST_KEY, UPDATE_JSON_POST_KEY, \
-    ELECTION_ID_SESSION_KEY, UPDATE_WEBFORM_POST_KEY, DELETE_ACTION_POST_KEY, TAB_STRING
+from elections.views.election_management import ELECTION_MODIFY_POST_KEY, ELECTION_ID_POST_KEY, \
+    UPDATE_JSON_POST_KEY, ELECTION_ID_SESSION_KEY, UPDATE_WEBFORM_POST_KEY, \
+    DELETE_ACTION_POST_KEY, TAB_STRING
 from elections.views.election_management_helper import _get_existing_election_by_id
 from elections.views.utils.display_error_message import display_error_message
 

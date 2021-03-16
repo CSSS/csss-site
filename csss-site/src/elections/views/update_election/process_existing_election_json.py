@@ -100,5 +100,3 @@ def process_existing_election_information_from_json(request, context):
     )
     save_new_or_update_existing_nominees(election, updated_elections_information)
     return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/')
-
-

@@ -26,7 +26,8 @@ def process_new_inputted_election(request, context):
      if there was an error
 
      Return
-     either redirect user back to the page where they inputted the election info or direct them to the newly created election page
+     either redirect user back to the page where they inputted the election info or direct them to the newly created
+      election page
     """
     if JSON_INPUT_FIELD_POST_KEY not in request.POST:
         error_message = "Could not find the json in the input"
@@ -80,5 +81,3 @@ def process_new_inputted_election(request, context):
         json.loads(request.POST[JSON_INPUT_FIELD_POST_KEY])
     )
     return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election_slug}/')
-
-
