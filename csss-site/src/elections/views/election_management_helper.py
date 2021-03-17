@@ -7,8 +7,8 @@ from elections.views.election_management import NOM_NAME_POST_KEY, NOM_POSITIONS
     NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, \
     ELECTION_DATE_POST_KEY, ELECTION_TIME_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_WEBSURVEY_LINK_POST_KEY
-from elections.views.extractors.extract_from_json import save_new_election_from_json, \
-    create_slug_and_human_friendly_name_election
+from elections.views.extractors.get_election_from_json import save_new_election_from_json
+from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
 
 logger = logging.getLogger('csss_site')
 
@@ -28,10 +28,9 @@ def _create_new_election_from_webform(updated_elections_information):
         f"{updated_elections_information[ELECTION_TIME_POST_KEY]}",
         '%Y-%m-%d %H:%M'
     )
-    success, election_page, error_message = \
-        save_new_election_from_json(dt,
-                                    updated_elections_information
-                                    )
+    success, election_page, error_message = save_new_election_from_json(
+        dt,updated_elections_information
+    )
     election_page.save()
     logger.info(
         "[elections/election_management.py _create_new_election_from_webform()] election "
@@ -187,7 +186,7 @@ def _validate_information_for_existing_election_obj_and_return_it(dt, election, 
         return False, None, f"the election type you entered {chosen_election_type} " \
                             f"is not one of the valid options: {valid_election_type_choices}"
     election_websurvey = updated_elections_information[ELECTION_WEBSURVEY_LINK_POST_KEY]
-    slug, human_friendly_name = create_slug_and_human_friendly_name_election(dt, chosen_election_type)
+    slug, human_friendly_name = gete_slug_and_human_friendly_name_election(dt, chosen_election_type)
     election.slug = slug
     election.human_friendly_name = human_friendly_name
     election.election_type = chosen_election_type
