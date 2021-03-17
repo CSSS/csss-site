@@ -29,7 +29,7 @@ def _create_new_election_from_webform(updated_elections_information):
         '%Y-%m-%d %H:%M'
     )
     success, election_page, error_message = save_new_election_from_json(
-        dt,updated_elections_information
+        dt, updated_elections_information
     )
     election_page.save()
     logger.info(
