@@ -14,5 +14,5 @@ mv about.json ../../migrations/fixtures/.
 python3 ../../migrations/update_confidential_info.py
 mv announcements.json ../../migrations/fixtures/.
 mv django_mailbox.json ../../migrations/fixtures/.
-mv elections.json ../../migrations/fixtures/.
+#mv elections.json ../../migrations/fixtures/.
 mv resource_management.json ../../migrations/fixtures/.
