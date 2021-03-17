@@ -20,14 +20,14 @@ def validate_election_date(date):
     except ValueError:
         error_message = f" given date of {date} is not in the valid format"
         logger.error(
-            "[elections/validate_election_type.py validate_inputted_election_json()]"
+            "[elections/validate_election_date.py validate_election_date()]"
             f"{error_message}"
         )
         return False, error_message
     except TypeError as e:
         error_message = "given date seems to be unreadable"
         logger.error(
-            f"[elections/validate_election_type.py validate_inputted_election_json()]"
+            f"[elections/validate_election_date.py validate_election_date()]"
             f" {error_message} due to following error \n{e}"
         )
         return False, error_message

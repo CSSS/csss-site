@@ -26,7 +26,7 @@ def validate_new_nominee(full_name, position_names_and_speeches, facebook_link, 
     error_message -- the error message if the nominees had an invalid input
     """
     logger.info(
-        f"[elections/validate_from_json.py _validate_new_nominee()] "
+        f"[elections/validate_nominee_new.py validate_new_nominee()] "
         f"full_name={full_name}, position_names_and_speeches={position_names_and_speeches}, "
         f"facebook_link={facebook_link}, linkedin_link={linkedin_link}, email_address={email_address}, "
         f"discord_username={discord_username}"

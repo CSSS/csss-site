@@ -32,7 +32,7 @@ def save_new_election_from_json(updated_elections_information):
                                                human_friendly_name)
     save_new_or_update_existing_nominees(election, updated_elections_information)
     logger.info(
-        "[elections/extract_from_json.py save_new_election_from_json()] election "
+        "[elections/get_election_from_json.py save_new_election_from_json()] election "
         f"{election} created with slug {election.slug}, "
         f"election_type={election.election_type}, date={election.date}, "
         f"websurvey={election.websurvey}, human_friendly_name={election.human_friendly_name} "

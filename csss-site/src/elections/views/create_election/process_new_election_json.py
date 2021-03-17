@@ -33,8 +33,9 @@ def process_new_inputted_election(request, context):
     """
     if JSON_INPUT_FIELD_POST_KEY not in request.POST:
         error_message = "Could not find the json in the input"
-        logger.info("[elections/validate_election_type.py validate_inputted_election_json()] "
-                    f"{error_message}")
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+        )
         context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_POST_KEY] = None
         return render(request, 'elections/create_election/create_election_json.html', context)
@@ -53,7 +54,7 @@ def process_new_inputted_election(request, context):
                         f"{ELECTION_TYPE_POST_KEY}, {ELECTION_DATE_POST_KEY}, {ELECTION_WEBSURVEY_LINK_POST_KEY}, " \
                         f"{ELECTION_NOMINEES_POST_KEY}"
         logger.info(
-            f"[elections/validate_election_type.py validate_inputted_election_json()] {error_message}"
+            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
         )
         context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_json)

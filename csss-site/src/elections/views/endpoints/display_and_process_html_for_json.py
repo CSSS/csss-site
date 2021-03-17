@@ -14,8 +14,10 @@ def display_and_process_html_for_modification_of_json_election(request):
     Shows the requested election to the user in JSON format
     """
     logger.info(
-        f"[administration/election_management.py show_page_for_user_to_modify_election_information_from_json()] "
-        f"request.POST={request.POST}")
+        "[elections/display_and_process_html_for_json.py "
+        "display_and_process_html_for_modification_of_json_election()] "
+        f"request.POST={request.POST}"
+    )
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)

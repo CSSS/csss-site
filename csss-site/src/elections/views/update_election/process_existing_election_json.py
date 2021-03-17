@@ -37,7 +37,7 @@ def process_existing_election_information_from_json(request, context):
         context[ERROR_MESSAGES_KEY] = ["Not all necessary fields were detected in your input"]
         return render(request, 'elections/update_election/update_election_json.html', context)
     logger.info(
-        "[elections/election_management.py process_existing_election_information_from_json()] "
+        "[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
         "creating new election"
     )
     election_id = request.POST[ELECTION_ID_POST_KEY]
@@ -64,7 +64,7 @@ def process_existing_election_information_from_json(request, context):
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(updated_elections_information)
         return render(request, 'elections/update_election/update_election_json.html', context)
     logger.info(
-        f"[elections/election_management.py process_existing_election_information_from_json()] "
+        f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
         f"updated_elections_information={updated_elections_information}")
     if not (ELECTION_DATE_POST_KEY in updated_elections_information and
             ELECTION_TYPE_POST_KEY in updated_elections_information and

@@ -19,7 +19,7 @@ def determine_election_action(request):
     """
     Redirects the user to the page where they can edit the chosen election either via JSON or WebForm
     """
-    logger.info(f"[administration/election_management.py determine_election_action()] request.POST={request.POST}")
+    logger.info(f"[elections/process_user_election_action.py determine_election_action()] request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)

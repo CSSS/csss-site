@@ -34,7 +34,7 @@ def save_new_nominee(election, full_name, position_names_and_speeches, facebook_
     nominee = Nominee(election=election, name=full_name, facebook=facebook_link,
                       linked_in=linkedin_link, email=email_address, discord=discord_username)
     nominee.save()
-    logger.info("[elections/extract_from_json.py save_new_nominee()]"
+    logger.info("[elections/save_new_nominee.py save_new_nominee()]"
                 f"saved nominee {nominee} under election {election}"
                 )
     position_ids = []
@@ -55,7 +55,7 @@ def save_new_nominee(election, full_name, position_names_and_speeches, facebook_
             nominee_position.save()
             position_ids.append(nominee_position.id)
             logger.info(
-                "[elections/extract_from_json.py save_new_nominee()]"
+                "[elections/save_new_nominee.py save_new_nominee()]"
                 f"saved nominee {nominee} with position {nominee_position}"
             )
     return nominee.id, position_ids, speech_ids

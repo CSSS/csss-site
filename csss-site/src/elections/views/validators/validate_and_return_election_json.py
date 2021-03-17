@@ -22,7 +22,7 @@ def validate_and_return_election_json(input_json):
     except json.decoder.JSONDecodeError as e:
         error_messages = f"Unable to decode the input due to error: {e}"
         logger.info(
-            "[elections/validate_election_type.py validate_inputted_election_json()] "
+            "[elections/validate_and_return_election_json.py validate_and_return_election_json()] "
             f"{error_messages}"
         )
         return False, [error_messages], \

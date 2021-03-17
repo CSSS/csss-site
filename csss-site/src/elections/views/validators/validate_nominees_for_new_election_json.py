@@ -1,11 +1,7 @@
-import logging
-
 from csss.views_helper import there_are_multiple_entries
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, \
     NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, NOM_POSITION_AND_SPEECH_POST_KEY
 from elections.views.validators.validate_nominee_new import validate_new_nominee
-
-logger = logging.getLogger('csss_site')
 
 
 def validate_new_nominees_for_new_election_from_json(nominees):

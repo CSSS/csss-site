@@ -22,7 +22,7 @@ def display_error_message(request, context, error_message):
     """
     context[ERROR_MESSAGES_KEY] = [error_message]
     logger.info(
-        f"[administration/election_management.py determine_election_action()] {error_message} "
+        f"[elections/display_error_message.py display_error_message()] {error_message} "
         f", POST={request.POST}"
     )
     context.update(get_list_of_elections())

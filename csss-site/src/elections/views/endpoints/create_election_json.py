@@ -14,7 +14,7 @@ def display_and_process_html_for_new_json_election(request):
     Shows the page where the json is displayed so that the user inputs the data needed to create a new election
     """
     logger.info(
-        "[elections/show_page_for_user_input.py display_and_process_html_for_new_json_election()] "
+        "[elections/create_election_json.py display_and_process_html_for_new_json_election()] "
         f"request.POST={request.POST}"
     )
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
