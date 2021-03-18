@@ -5,6 +5,7 @@ from elections.views.election_management import TAB_STRING
 from elections.views.update_election.display_json_for_selected_election_json import display_current_election
 from elections.views.update_election.process_existing_election_json import \
     process_existing_election_information_from_json
+from elections.views.utils.create_election_context import create_context
 
 logger = logging.getLogger('csss_site')
 
@@ -22,5 +23,6 @@ def display_and_process_html_for_modification_of_json_election(request):
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
+    context.update(create_context())
     return process_existing_election_information_from_json(request, context) \
         if request.method == "POST" else display_current_election(request, context)

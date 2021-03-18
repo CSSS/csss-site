@@ -31,5 +31,4 @@ def display_current_election(request, context):
     election_dictionary, context[ERROR_MESSAGES_KEY] = \
         get_information_for_election_user_wants_to_modify(context[ELECTION_ID_POST_KEY])
     context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_dictionary)
-    context.update(create_context())
     return render(request, 'elections/update_election/update_election_json.html', context)
