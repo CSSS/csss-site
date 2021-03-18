@@ -20,11 +20,6 @@ def update_existing_nominee(nominee_obj, nominee):
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []
 
-    name = nominee[NOM_NAME_POST_KEY].strip()
-    facebook_link = nominee[NOM_FACEBOOK_POST_KEY].strip()
-    linkedin_link = nominee[NOM_LINKEDIN_POST_KEY].strip()
-    email_address = nominee[NOM_EMAIL_POST_KEY].strip()
-    discord_username = nominee[NOM_DISCORD_USERNAME_POST_KEY].strip()
     speech_and_position_pairings = nominee[NOM_POSITION_AND_SPEECH_POST_KEY]
     for speech_and_positions in speech_and_position_pairings:
         user_specified_speech_id = None if NOM_ID_POST_KEY not in speech_and_positions \
@@ -61,10 +56,10 @@ def update_existing_nominee(nominee_obj, nominee):
             position.nominee_speech = speech_obj
             position.save()
             list_of_nominee_position_obj_ids_specified_in_election.append(position.id)
-    nominee_obj.full_name = name
-    nominee_obj.facebook = facebook_link
-    nominee_obj.linked_in = linkedin_link
-    nominee_obj.email = email_address
-    nominee_obj.discord = discord_username
+    nominee_obj.name = nominee[NOM_NAME_POST_KEY].strip()
+    nominee_obj.facebook = nominee[NOM_FACEBOOK_POST_KEY].strip()
+    nominee_obj.linked_in = nominee[NOM_LINKEDIN_POST_KEY].strip()
+    nominee_obj.email = nominee[NOM_EMAIL_POST_KEY].strip()
+    nominee_obj.discord = nominee[NOM_DISCORD_USERNAME_POST_KEY].strip()
     nominee_obj.save()
     return list_of_nominee_position_obj_ids_specified_in_election, list_of_speech_obj_ids_specified_in_election
