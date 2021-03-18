@@ -33,7 +33,7 @@ def validate_nominees_for_existing_election_from_json(election_id, nominees):
                 if len(matching_nominees_under_specified_election) == 0:
                     return False, f"Invalid nominee id of {int(nominee[NOM_ID_POST_KEY])} detected"
             else:
-                return False, f"Invalid type detected for nominee id of {int(nominee[NOM_ID_POST_KEY])}"
+                return False, f"Invalid type detected for nominee id of {nominee[NOM_ID_POST_KEY]}"
 
         success, error_message = validate_existing_nominee(
             nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_AND_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
