@@ -5,59 +5,13 @@
 {% bootstrap_messages %}
 
 {% block content %}
-	<h1 class="title">Modify Election</h1>
-    <p style="color: red" id="js_formatting_error"><br></p>
-    {% if error_messages %}
-        <p style="color: red">Experienced Following Error<br>
-			{% for error_message in error_messages %}
-            {{ error_message|safe }}<br>
-			{% endfor %}
-        </p>
-    {%  endif %}
-	<form action="{{URL_ROOT}}elections/election_modification_json/" method="post" class="form">
+    <h1 class="title">Modify Election</h1>
+    {%  include 'elections/json/creating_election_js_errors.html' %}
+    <form method="post" class="form">
         <input type="text" name="election_id" value="{{ election_id }}" readonly hidden>
-		{% csrf_token %}
-        <input type="button" value="Beautify JSON" onclick="beautify();" />
-		<input type="submit" value="submit" />
-        <p><strong>Instructions</strong>
-			<ul>
-				<li>{{types_of_elections}}</li>
-				<li>{{valid_position_names}}</li>
-                <li>the HH in date needs to be 24 hour time</li>
-				<li>the html links all need to begin with "http://"</li>
-				<li>speech needs to already be in HTML format: <a href="https://wordtohtml.net/" target="_blank"> Useful Speech Formatter</a></li>
-			</ul>
-		</p>
-		<textarea name="input_json" cols="80" rows="40" required></textarea></p>
-        <input type="button" value="Beautify JSON" onclick="beautify();" />
-		<input type="submit" value="submit" />
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-		<br>
-	</form>
-    {{ input_json|json_script:"election-json-data" }}
-    <script>
-        (function () {
-            raw_string = document.getElementById('election-json-data').textContent
-            el = JSON.parse(JSON.parse(raw_string));
-            $('textarea').val(JSON.stringify(el,null,'\t'));
-        })();
-    </script>
-    <script>
-    function beautify() {
-        try {
-            raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
-            el = JSON.parse(JSON.parse(raw_string));
-            $('textarea').val(JSON.stringify(el, null, '\t'));
-        }catch (err) {
-            document.getElementById("js_formatting_error").innerHTML = "Unable to Beautify: " + err.message;
-        }
-    }
-    </script>
+        {% csrf_token %}
+        {%  include 'elections/json/json_instructions.html' %}
+        {%  include 'elections/json/input_json.html' %}
+    </form>
+    {% include 'elections/json/js_scripts.html' %}
 {% endblock %}

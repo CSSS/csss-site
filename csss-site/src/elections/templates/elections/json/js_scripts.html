@@ -1,0 +1,21 @@
+    {{ input_json|json_script:"election-json-data" }}
+    <script>
+        (function () {
+            raw_string = document.getElementById('election-json-data').textContent
+            el = JSON.parse(JSON.parse(raw_string));
+            $('textarea').val(JSON.stringify(el,null,'\t'));
+        })();
+    </script>
+    <script>
+    function beautify() {
+        try {
+            raw_string = JSON.stringify(document.getElementsByName('input_json')[0].value);
+            el = JSON.parse(JSON.parse(raw_string));
+            $('textarea').val(JSON.stringify(el,null,'\t'));
+            document.getElementById("js_formatting_error").innerHTML = "";
+        } catch(err) {
+            document.getElementById("js_formatting_error").innerHTML = "Unable to Beautify: " + err.message;
+        }
+
+    }
+    </script>
