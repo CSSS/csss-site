@@ -72,7 +72,11 @@ def process_existing_election_information_from_json(request, context):
             ELECTION_NOMINEES_POST_KEY in updated_elections_information):
         context[ELECTION_ID_POST_KEY] = election_id
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(updated_elections_information)
-        context[ERROR_MESSAGES_KEY] = ["Not all necessary fields were detected in your input"]
+        context[ERROR_MESSAGES_KEY] = [
+            f"Did not find all of the following necessary keys in input:"
+            f" {ELECTION_TYPE_POST_KEY}, {ELECTION_DATE_POST_KEY}, "
+            f"{ELECTION_WEBSURVEY_LINK_POST_KEY}, {ELECTION_NOMINEES_POST_KEY}"
+        ]
         return render(request, 'elections/update_election/update_election_json.html', context)
     success, error_message = validate_election_date(updated_elections_information[ELECTION_DATE_POST_KEY])
     if not success:
