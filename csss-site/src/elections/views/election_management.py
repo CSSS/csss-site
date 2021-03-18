@@ -68,17 +68,23 @@ def get_nominees(request, slug):
             if nominee.nominee_speech.nominee.linked_in != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
+                else:
+                    nominee.social_media = ""
                 nominee.social_media += f'<a href="{nominee.nominee_speech.nominee.linked_in}" ' \
                                         f'target="_blank">LinkedIn Profile</a>'
                 barrier_needed = True
             if nominee.nominee_speech.nominee.email != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
+                else:
+                    nominee.social_media = ""
                 nominee.social_media += f'Email: mailto:{nominee.nominee_speech.nominee.email}'
                 barrier_needed = True
             if nominee.nominee_speech.nominee.discord != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
+                else:
+                    nominee.social_media = ""
                 nominee.social_media += f'Discord Username: {nominee.nominee_speech.nominee.discord}'
             nominees_display_order.append(nominee)
         context.update({
