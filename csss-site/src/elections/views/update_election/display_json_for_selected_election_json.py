@@ -7,7 +7,6 @@ from elections.views.election_management import ELECTION_ID_SESSION_KEY, ELECTIO
     JSON_INPUT_FIELD_POST_KEY
 from elections.views.extractors.get_election_info_that_user_wants_to_modify_json import \
     get_information_for_election_user_wants_to_modify
-from elections.views.utils.create_election_context import create_context
 
 
 def display_current_election(request, context):
