@@ -1,8 +1,8 @@
-<p style="color: red" id="js_formatting_error"><br></p>
 {% if error_messages %}
     <p style="color: red" id="error">Experienced Following Error<br>
         {% for error_message in error_messages %}
         {{ error_message|safe }}<br>
         {% endfor %}
+        <div style="color: red" id="js_formatting_error"></div>
     </p>
 {%  endif %}

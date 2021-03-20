@@ -9,8 +9,9 @@
     <h1 class="title">Modify Election</h1>
     {%  include 'elections/json/creating_election_errors.html' %}
     <form method="post" class="form">
-        <input type="text" name="election_id" value="{{ election_id }}" readonly hidden>
         {% csrf_token %}
+        <input type="text" name="election_id" value="{{ election_id }}" readonly hidden>
+        {%  include 'elections/json/election_form_buttons.html' %}
         {%  include 'elections/json/json_instructions.html' %}
         {%  include 'elections/json/input_election.html' %}
     </form>
