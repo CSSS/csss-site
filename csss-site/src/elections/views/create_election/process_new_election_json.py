@@ -18,7 +18,7 @@ from elections.views.validators.validate_nominees_for_new_election_json import \
 logger = logging.getLogger('csss_site')
 
 
-def process_new_inputted_election(request, context):
+def process_new_inputted_json_election(request, context):
     """
     Takes in the user's new election input and validates it before having it saved
 

@@ -5,7 +5,7 @@ from elections.views.election_management import NOM_POSITIONS_KEY, NOM_ID_KEY, N
 from elections.views.election_management_helper import _get_existing_election_by_id
 
 
-def get_information_for_election_user_wants_to_modify(election_id):
+def get_information_for_election_user_wants_to_modify_in_json(election_id):
     """
     Returns information about the election
 

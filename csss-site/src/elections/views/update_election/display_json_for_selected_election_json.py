@@ -6,10 +6,10 @@ from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.views.election_management import ELECTION_ID_SESSION_KEY, ELECTION_ID_POST_KEY, \
     JSON_INPUT_FIELD_POST_KEY
 from elections.views.extractors.get_election_info_that_user_wants_to_modify_json import \
-    get_information_for_election_user_wants_to_modify
+    get_information_for_election_user_wants_to_modify_in_json
 
 
-def display_current_election(request, context):
+def display_current_json_election(request, context):
     """
     Display the selected election
 
@@ -28,6 +28,6 @@ def display_current_election(request, context):
     del request.session[ELECTION_ID_SESSION_KEY]
 
     election_dictionary, context[ERROR_MESSAGES_KEY] = \
-        get_information_for_election_user_wants_to_modify(context[ELECTION_ID_POST_KEY])
+        get_information_for_election_user_wants_to_modify_in_json(context[ELECTION_ID_POST_KEY])
     context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_dictionary)
     return render(request, 'elections/update_election/update_election_json.html', context)

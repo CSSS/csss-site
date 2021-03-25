@@ -2,7 +2,7 @@ import logging
 
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
 from elections.views.create_election.display_json_for_new_election_json import display_empty_election_json
-from elections.views.create_election.process_new_election_json import process_new_inputted_election
+from elections.views.create_election.process_new_election_json import process_new_inputted_json_election
 from elections.views.election_management import TAB_STRING
 from elections.views.utils.create_election_context import create_context
 
@@ -23,5 +23,5 @@ def display_and_process_html_for_new_json_election(request):
         return render_value
 
     context.update(create_context())
-    return process_new_inputted_election(request, context) \
+    return process_new_inputted_json_election(request, context) \
         if request.method == "POST" else display_empty_election_json(request, context)
