@@ -175,11 +175,11 @@ def _validate_and_return_new_nominee(full_name, position_name, speech, facebook_
                             f" {full_name}, please set to \"NONE\" if there is no discord " \
                             f"username "
     if full_name != 'NONE':  # if full_name is NONE, then it is a nominee that needs to be removed
-        return True, Nominee(name=full_name, position_name=position_name,
+        return True, Nominee(name=full_name, officer_position=position_name,
                              speech=speech,
                              facebook=facebook_link, linked_in=linkedin_link, email=email_address,
                              discord=discord_username,
-                             position_index=nominee_index
+                             position_name=nominee_index
                              ), None
     return True, None, None
 
@@ -261,7 +261,7 @@ def _get_information_for_election_user_wants_to_modify(election_id):
     """
     election = NominationPage.objects.get(id=election_id)
     nominees = [nominee for nominee in Nominee.objects.all().filter(nomination_page=election)]
-    nominees.sort(key=lambda x: x.position_name, reverse=True)
+    nominees.sort(key=lambda x: x.position_name)
     election_dictionary = {ELECTION_TYPE_KEY: election.election_type,
                            ELECTION_DATE_KEY: election.date.strftime("%Y-%m-%d %H:%M"),
                            ELECTION_WEBSURVEY_LINK_KEY: election.websurvey, ELECTION_NOMINEES_KEY: []}
@@ -269,7 +269,7 @@ def _get_information_for_election_user_wants_to_modify(election_id):
         election_dictionary[ELECTION_NOMINEES_KEY].append(
             {NOM_NAME_KEY: nominee.name, NOM_EMAIL_KEY: nominee.email, NOM_LINKEDIN_KEY: nominee.linked_in,
              NOM_FACEBOOK_KEY: nominee.facebook, NOM_DISCORD_USERNAME_KEY: nominee.discord,
-             NOM_SPEECH_KEY: nominee.speech, NOM_POSITION_KEY: nominee.position_name})
+             NOM_SPEECH_KEY: nominee.speech, NOM_POSITION_KEY: nominee.officer_position})
 
     return election_dictionary
 
@@ -455,7 +455,7 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
                                 f"username "
         try:
             nominee = Nominee.objects.get(nomination_page=nomination_page, name=full_name,
-                                          position_name=position_name)
+                                          officer_position=position_name)
         except Nominee.DoesNotExist:
             logger.info(
                 "[elections/election_management.py _validate_new_information_for_existing_nominee_for_e"
@@ -464,7 +464,7 @@ def _validate_new_information_for_existing_nominee_for_existing_election_and_ret
             )
             return False, None, f"The nominee {full_name} for position {position_name} could not be found"
 
-        nominee.position_name = position_name
+        nominee.officer_position = position_name
         nominee.nomination_page = nomination_page
         nominee.name = full_name
         nominee.speech = speech
