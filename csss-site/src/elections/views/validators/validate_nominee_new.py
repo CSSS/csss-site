@@ -7,8 +7,8 @@ from elections.views.election_management import NOM_POSITIONS_POST_KEY, NOM_SPEE
 logger = logging.getLogger('csss_site')
 
 
-def validate_new_nominee(full_name, position_names_and_speeches, facebook_link, linkedin_link,
-                         email_address, discord_username):
+def validate_new_nominee_json(full_name, position_names_and_speeches, facebook_link, linkedin_link,
+                              email_address, discord_username):
     """
     validates the nominee info to validate it
 

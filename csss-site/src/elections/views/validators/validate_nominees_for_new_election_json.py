@@ -1,7 +1,7 @@
 from csss.views_helper import there_are_multiple_entries
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, \
     NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, NOM_POSITION_AND_SPEECH_POST_KEY
-from elections.views.validators.validate_nominee_new import validate_new_nominee
+from elections.views.validators.validate_nominee_new import validate_new_nominee_json
 
 
 def validate_new_nominees_for_new_election_from_json(nominees):
@@ -26,7 +26,7 @@ def validate_new_nominees_for_new_election_from_json(nominees):
         if not there_are_multiple_entries(nominee, NOM_POSITION_AND_SPEECH_POST_KEY):
             return False, f"It seems that the nominee {nominee[NOM_NAME_POST_KEY]} does not have a list of speeches" \
                           f" and positions they are running for"
-        success, error_message = validate_new_nominee(
+        success, error_message = validate_new_nominee_json(
             nominee[NOM_NAME_POST_KEY], nominee[NOM_POSITION_AND_SPEECH_POST_KEY], nominee[NOM_FACEBOOK_POST_KEY],
             nominee[NOM_LINKEDIN_POST_KEY], nominee[NOM_EMAIL_POST_KEY], nominee[NOM_DISCORD_USERNAME_POST_KEY]
         )

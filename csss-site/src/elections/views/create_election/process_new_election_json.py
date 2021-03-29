@@ -10,7 +10,7 @@ from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, ELECT
     ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY
 from elections.views.extractors.get_election_from_json import save_new_election_from_json
 from elections.views.validators.validate_and_return_election_json import validate_and_return_election_json
-from elections.views.validators.validate_election_date import validate_election_date
+from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_nominees_for_new_election_json import \
     validate_new_nominees_for_new_election_from_json
@@ -66,7 +66,7 @@ def process_new_inputted_json_election(request, context):
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_json)
         return render(request, 'elections/create_election/create_election_json.html', context)
 
-    success, error_message = validate_election_date(election_json[ELECTION_DATE_POST_KEY])
+    success, error_message = validate_json_election_date_and_time(election_json[ELECTION_DATE_POST_KEY])
     if not success:
         context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(election_json)

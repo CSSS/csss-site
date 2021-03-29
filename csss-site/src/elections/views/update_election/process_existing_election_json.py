@@ -13,7 +13,7 @@ from elections.views.election_management_helper import _get_existing_election_by
 from elections.views.save_election.save_existing_election_json import update_existing_election_from_json
 from elections.views.save_nominee.save_new_or_update_existing_nominees import save_new_or_update_existing_nominees
 from elections.views.validators.validate_and_return_election_json import validate_and_return_election_json
-from elections.views.validators.validate_election_date import validate_election_date
+from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_nominees_for_exsting_election_json import \
     validate_nominees_for_existing_election_from_json
@@ -78,7 +78,7 @@ def process_existing_election_information_from_json(request, context):
             f"{ELECTION_WEBSURVEY_LINK_POST_KEY}, {ELECTION_NOMINEES_POST_KEY}"
         ]
         return render(request, 'elections/update_election/update_election_json.html', context)
-    success, error_message = validate_election_date(updated_elections_information[ELECTION_DATE_POST_KEY])
+    success, error_message = validate_json_election_date_and_time(updated_elections_information[ELECTION_DATE_POST_KEY])
     if not success:
         context[ELECTION_ID_POST_KEY] = election_id
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(updated_elections_information)
