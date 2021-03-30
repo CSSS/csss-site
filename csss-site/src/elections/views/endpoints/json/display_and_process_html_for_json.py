@@ -2,8 +2,8 @@ import logging
 
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
 from elections.views.election_management import TAB_STRING
-from elections.views.update_election.display_json_for_selected_election_json import display_current_json_election
-from elections.views.update_election.process_existing_election_json import \
+from elections.views.update_election.json.display_json_for_selected_election import display_current_json_election
+from elections.views.update_election.json.process_existing_election import \
     process_existing_election_information_from_json
 from elections.views.utils.create_election_context import create_context
 

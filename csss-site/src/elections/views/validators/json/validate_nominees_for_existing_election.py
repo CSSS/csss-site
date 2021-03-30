@@ -1,7 +1,7 @@
 from elections.models import Nominee
 from elections.views.election_management import NOM_NAME_POST_KEY, NOM_FACEBOOK_POST_KEY, NOM_LINKEDIN_POST_KEY, \
     NOM_EMAIL_POST_KEY, NOM_DISCORD_USERNAME_POST_KEY, NOM_POSITION_AND_SPEECH_POST_KEY, NOM_ID_POST_KEY
-from elections.views.validators.validate_nominee_new_json import validate_existing_nominee
+from elections.views.validators.json.validate_new_nominee import validate_existing_nominee
 
 
 def validate_nominees_for_existing_election_from_json(election_id, nominees):

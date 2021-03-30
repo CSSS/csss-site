@@ -8,11 +8,11 @@ from django.shortcuts import render
 from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, ELECTION_TYPE_POST_KEY, \
     ELECTION_DATE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY
-from elections.views.extractors.get_election_from_json import save_new_election_from_json
-from elections.views.validators.validate_and_return_election_json import validate_and_return_election_json
+from elections.views.extractors.json.get_election_from_json import save_new_election_from_json
+from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
-from elections.views.validators.validate_nominees_for_new_election_json import \
+from elections.views.validators.json.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election_from_json
 
 logger = logging.getLogger('csss_site')

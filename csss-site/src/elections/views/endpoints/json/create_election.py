@@ -1,8 +1,8 @@
 import logging
 
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
-from elections.views.create_election.display_json_for_new_election_json import display_empty_election_json
-from elections.views.create_election.process_new_election_json import process_new_inputted_json_election
+from elections.views.create_election.json.display_json_for_new_election import display_empty_election_json
+from elections.views.create_election.json.process_new_election import process_new_inputted_json_election
 from elections.views.election_management import TAB_STRING
 from elections.views.utils.create_election_context import create_context
 
@@ -14,7 +14,7 @@ def display_and_process_html_for_new_json_election(request):
     Shows the page where the json is displayed so that the user inputs the data needed to create a new election
     """
     logger.info(
-        "[elections/create_election_json.py display_and_process_html_for_new_json_election()] "
+        "[elections/create_election.py display_and_process_html_for_new_json_election()] "
         f"request.POST={request.POST}"
     )
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)

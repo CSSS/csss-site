@@ -1,6 +1,6 @@
 import logging
 
-from elections.views.validators.validate_speech_and_position_names_json import speech_in_pairing, position_in_pairing
+from elections.views.validators.json.validate_speech_and_position_names import speech_in_pairing, position_in_pairing
 
 logger = logging.getLogger('csss_site')
 

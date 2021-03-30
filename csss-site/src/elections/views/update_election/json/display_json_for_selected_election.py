@@ -5,7 +5,7 @@ from django.shortcuts import render
 from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.views.election_management import ELECTION_ID_SESSION_KEY, ELECTION_ID_POST_KEY, \
     JSON_INPUT_FIELD_POST_KEY
-from elections.views.extractors.get_election_info_that_user_wants_to_modify_json import \
+from elections.views.extractors.json.get_election_info_that_user_wants_to_modify import \
     get_information_for_election_user_wants_to_modify_in_json
 
 

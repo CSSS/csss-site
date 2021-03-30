@@ -10,12 +10,12 @@ from elections.views.election_management import JSON_INPUT_FIELD_POST_KEY, \
     ELECTION_ID_POST_KEY, ELECTION_DATE_POST_KEY, \
     ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, ELECTION_NOMINEES_POST_KEY
 from elections.views.election_management_helper import _get_existing_election_by_id
-from elections.views.save_election.save_existing_election_json import update_existing_election_from_json
+from elections.views.save_election.json.save_existing_election import update_existing_election_from_json
 from elections.views.save_nominee.save_new_or_update_existing_nominees import save_new_or_update_existing_nominees
-from elections.views.validators.validate_and_return_election_json import validate_and_return_election_json
+from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
-from elections.views.validators.validate_nominees_for_exsting_election_json import \
+from elections.views.validators.json.validate_nominees_for_existing_election import \
     validate_nominees_for_existing_election_from_json
 
 logger = logging.getLogger('csss_site')
@@ -37,7 +37,7 @@ def process_existing_election_information_from_json(request, context):
         context[ERROR_MESSAGES_KEY] = ["Not all necessary fields were detected in your input"]
         return render(request, 'elections/update_election/update_election_json.html', context)
     logger.info(
-        "[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+        "[elections/process_existing_election.py process_existing_election_information_from_json()] "
         "creating new election"
     )
     election_id = request.POST[ELECTION_ID_POST_KEY]
@@ -64,7 +64,7 @@ def process_existing_election_information_from_json(request, context):
         context[JSON_INPUT_FIELD_POST_KEY] = json.dumps(updated_elections_information)
         return render(request, 'elections/update_election/update_election_json.html', context)
     logger.info(
-        f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+        f"[elections/process_existing_election.py process_existing_election_information_from_json()] "
         f"updated_elections_information={updated_elections_information}")
     if not (ELECTION_DATE_POST_KEY in updated_elections_information and
             ELECTION_TYPE_POST_KEY in updated_elections_information and

@@ -4,7 +4,7 @@ import logging
 from elections.views.election_management import ELECTION_TYPE_POST_KEY, ELECTION_WEBSURVEY_LINK_POST_KEY, \
     ELECTION_DATE_POST_KEY
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
-from elections.views.save_election.save_new_election_json import create_and_save_election_object
+from elections.views.save_election.json.save_new_election import create_and_save_election_object
 from elections.views.save_nominee.save_new_or_update_existing_nominees import save_new_or_update_existing_nominees
 
 logger = logging.getLogger('csss_site')
