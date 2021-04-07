@@ -59,7 +59,7 @@ class Nominee(models.Model):
     )
 
     speech = models.CharField(
-        max_length=10000
+        max_length=30000
     )
     facebook = models.CharField(
         _(u'Facebook Link'),
