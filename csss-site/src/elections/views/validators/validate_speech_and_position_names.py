@@ -1,11 +1,11 @@
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import there_are_multiple_entries
 from elections.models import NomineeSpeech, NomineePosition
-from elections.views.election_management import NOM_SPEECH_POST_KEY, NOM_ID_POST_KEY, NOM_POSITIONS_POST_KEY, \
-    NOM_POSITION_POST_KEY
+from elections.views.Constants import NOM_SPEECH_KEY, NOM_ID_KEY, NOM_POSITIONS_KEY, \
+    NOM_POSITION_KEY
 
 
-def speech_in_pairing(speech_and_position_pairing, election_id, name):
+def validate_speech_in_pairing(speech_and_position_pairing, election_id, name):
     """
     Ensures that the pairing has a speeh and if there is an ID, it does belong to ths specified election
 
@@ -18,12 +18,12 @@ def speech_in_pairing(speech_and_position_pairing, election_id, name):
     Bool -- true or false depending on if the speech and [potential] ID is valid
     error_message -- an error message if the validation failed, or None otherwise
     """
-    if not (NOM_SPEECH_POST_KEY in speech_and_position_pairing and
-            len(speech_and_position_pairing[NOM_SPEECH_POST_KEY]) > 0):
+    if not (NOM_SPEECH_KEY in speech_and_position_pairing and
+            len(speech_and_position_pairing[NOM_SPEECH_KEY]) > 0):
         return False, f"one of the speeches specified for {name} is invalid"
-    if NOM_ID_POST_KEY in speech_and_position_pairing:
-        if f"{speech_and_position_pairing[NOM_ID_POST_KEY]}".isdigit() and \
-                NomineeSpeech.objects.all().filter(id=int(speech_and_position_pairing[NOM_ID_POST_KEY]),
+    if NOM_ID_KEY in speech_and_position_pairing:
+        if f"{speech_and_position_pairing[NOM_ID_KEY]}".isdigit() and \
+                NomineeSpeech.objects.all().filter(id=int(speech_and_position_pairing[NOM_ID_KEY]),
                                                    nominee__election_id=election_id):
             return True, None
         else:
@@ -32,7 +32,7 @@ def speech_in_pairing(speech_and_position_pairing, election_id, name):
         return True, None
 
 
-def position_in_pairing(speech_and_position_pairing, specified_position_names, election_id, name):
+def validate_position_in_pairing(speech_and_position_pairing, specified_position_names, election_id, name):
     """
     Ensures that the position is valid
 
@@ -46,25 +46,27 @@ def position_in_pairing(speech_and_position_pairing, specified_position_names, e
     Bool -- true or false depending on if the validation of the position and possible ID passed
     error_message -- error message if the validation is False, None otherwise
     """
-    if NOM_POSITIONS_POST_KEY not in speech_and_position_pairing:
+    if NOM_POSITIONS_KEY not in speech_and_position_pairing:
         return False, f"positions are not specified for one of the speeches for nominee {name}"
-    if not there_are_multiple_entries(speech_and_position_pairing, NOM_POSITIONS_POST_KEY):
+    if not there_are_multiple_entries(speech_and_position_pairing, NOM_POSITIONS_KEY):
         return False, f"It seems that the nominee {name} does not have a list of positions " \
                       f"for one of the positions they are running for"
-    for position in speech_and_position_pairing[NOM_POSITIONS_POST_KEY]:
+    for position in speech_and_position_pairing[NOM_POSITIONS_KEY]:
         if type(position) is dict:
-            if NOM_ID_POST_KEY in position:
+            if NOM_ID_KEY in position:
                 if not (
-                        f"{position[NOM_ID_POST_KEY]}".isdigit() and
-                        NomineePosition.objects.all().filter(
-                            id=int(position[NOM_ID_POST_KEY]), nominee_speech__nominee__election_id=election_id
-                        )
+                        f"{position[NOM_ID_KEY]}".isdigit() and
+                        len(
+                            NomineePosition.objects.all().filter(
+                                id=int(position[NOM_ID_KEY]), nominee_speech__nominee__election_id=election_id
+                            )
+                        ) > 0
                 ):
                     return False, \
                            f"One of the IDs specified for one of the positions that {name} is running for is invalid"
-            if not (NOM_POSITION_POST_KEY in position):
+            if not (NOM_POSITION_KEY in position):
                 return False, f"No position name[s] found for one of the speeches for nominee {name}"
-            position_name = position[NOM_POSITION_POST_KEY]
+            position_name = position[NOM_POSITION_KEY]
         else:
             position_name = position
         if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=position_name)) == 0:

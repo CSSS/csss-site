@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
-from elections.views.election_management import TAB_STRING
+from elections.views.Constants import TAB_STRING
 from elections.views.utils.get_list_of_elections import get_list_of_elections
 
 

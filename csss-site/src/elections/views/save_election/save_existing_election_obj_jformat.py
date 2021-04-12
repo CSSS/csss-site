@@ -3,7 +3,7 @@ import datetime
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
 
 
-def update_existing_election_from_json(election, date, election_type, websurvey_link):
+def update_existing_election_obj_from_jformat(election, date, election_type, websurvey_link):
     """
     updates the election info
 

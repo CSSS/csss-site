@@ -3,7 +3,7 @@ from elections.models import Nominee
 
 def get_exist_nominee(nominee_id, election_id):
     """
-    Gets the Nominee object that maps to the specified IDs
+    Gets the Nominee object that maps to the specified ID
 
     Keyword Argument:
     nominee_id -- the ID of the Nominee object to obtain

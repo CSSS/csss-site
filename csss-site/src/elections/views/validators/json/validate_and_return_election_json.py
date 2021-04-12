@@ -13,6 +13,7 @@ def validate_and_return_election_json(input_json):
 
     Return
     success -- Bool
+    error_message -- potential error message if unable to loads JSON into dict
     election -- either returns the election in DICT form or a tries its best for format the
      user's input into something that resembles a dict
     """
