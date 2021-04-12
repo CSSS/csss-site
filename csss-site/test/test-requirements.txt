@@ -2,7 +2,7 @@ flake8
 pytest
 pytest-flake8
 pep8-naming
-Django==2.2.18
+Django==2.2.20
 
 # for .file_uploads.test_utils
 six==1.12.0
