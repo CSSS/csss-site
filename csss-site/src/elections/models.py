@@ -76,7 +76,7 @@ class NomineeSpeech(models.Model):
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
 
     speech = models.CharField(
-        max_length=10000,
+        max_length=30000,
         default='NA'
     )
 
