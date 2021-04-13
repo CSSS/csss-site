@@ -12,8 +12,12 @@ logger = logging.getLogger('csss_site')
 
 
 def delete_selected_election(request):
-    logger.info(f"[administration/delete_selected_election.py delete_selected_election()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
+    logger.info(
+        f"[administration/delete_selected_election.py delete_selected_election()] request.POST={request.POST}"
+    )
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+        request, TAB_STRING
+    )
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value

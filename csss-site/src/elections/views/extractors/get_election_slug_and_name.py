@@ -1,4 +1,5 @@
 from elections.models import Election
+from elections.views.Constants import DATE_FORMAT
 
 
 def gete_slug_and_human_friendly_name_election(election_date, chosen_election_type):

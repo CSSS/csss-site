@@ -2,10 +2,11 @@ import datetime
 import logging
 
 from elections.views.Constants import ELECTION_TYPE_KEY, ELECTION_WEBSURVEY_LINK_KEY, \
-    ELECTION_DATE_KEY, ELECTION_TIME_KEY
+    ELECTION_DATE_KEY, ELECTION_TIME_KEY, DATE_AND_TIME_FORMAT
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
 from elections.views.save_election.save_new_election_obj_jformat import create_and_save_election_object_jformat
-from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import save_new_or_update_existing_nominees_jformat
+from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \
+    save_new_or_update_existing_nominees_jformat
 
 logger = logging.getLogger('csss_site')
 

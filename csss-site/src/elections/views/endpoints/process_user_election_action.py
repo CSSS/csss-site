@@ -51,4 +51,4 @@ def election_id_is_valid(object_to_check):
     bool -- True or False to indicate if the election ID is valid
     """
     return ELECTION_ID_KEY in object_to_check and f"{object_to_check[ELECTION_ID_KEY]}".isdigit() and \
-           (Election.objects.all().filter(id=int(object_to_check[ELECTION_ID_KEY])) == 1)
+        (Election.objects.all().filter(id=int(object_to_check[ELECTION_ID_KEY])) == 1)

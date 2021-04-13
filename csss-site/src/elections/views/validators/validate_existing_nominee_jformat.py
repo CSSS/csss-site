@@ -1,7 +1,8 @@
 import logging
 
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
-from elections.views.validators.validate_speech_and_position_names import validate_speech_in_pairing, validate_position_in_pairing
+from elections.views.validators.validate_speech_and_position_names import validate_speech_in_pairing, \
+    validate_position_in_pairing
 
 logger = logging.getLogger('csss_site')
 

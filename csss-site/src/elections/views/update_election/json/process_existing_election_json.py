@@ -11,7 +11,8 @@ from elections.views.Constants import JSON_INPUT_FIELD_KEY, \
     ELECTION_TYPE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
-from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import save_new_or_update_existing_nominees_jformat
+from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \
+    save_new_or_update_existing_nominees_jformat
 from elections.views.utils.prepare_json_for_html import prepare_json_for_html
 from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time

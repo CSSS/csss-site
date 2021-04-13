@@ -1,13 +1,14 @@
 from django.conf.urls import url
 
-from elections.views.endpoints.json.create_election_json import display_and_process_html_for_new_json_election
-from elections.views.endpoints.json.display_and_process_html_for_json import \
+from .views.endpoints.json.create_election_json import display_and_process_html_for_new_json_election
+from .views.endpoints.json.display_and_process_html_for_json import \
     display_and_process_html_for_modification_of_json_election
-from elections.views.endpoints.webform.create_election_webform import display_and_process_html_for_new_webform_election
-from elections.views.endpoints.webform.display_and_process_html_for_webform import \
+from .views.endpoints.webform.create_election_webform import \
+    display_and_process_html_for_new_webform_election
+from .views.endpoints.webform.display_and_process_html_for_webform import \
     display_and_process_html_for_modification_of_webform_election
-from .views.Constants import ENDPOINT_SELECT_ELECTION_TO_UPDATE, ENDPOINT_MODIFY_VIA_WEBFORM, ENDPOINT_MODIFY_VIA_JSON, \
-    ENDPOINT_DELETE_ELECTION
+from .views.Constants import ENDPOINT_SELECT_ELECTION_TO_UPDATE, ENDPOINT_MODIFY_VIA_WEBFORM, \
+    ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_DELETE_ELECTION
 from .views.endpoints.delete_selected_election import delete_selected_election
 from .views.endpoints.display_choices_for_updating_elections import show_page_where_user_can_select_election_to_update
 from .views.endpoints.election_page import get_nominees
