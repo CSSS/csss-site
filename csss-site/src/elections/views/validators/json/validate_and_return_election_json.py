@@ -1,6 +1,8 @@
 import json
 import logging
 
+from elections.views.utils.prepare_json_for_html import prepare_json_for_html
+
 logger = logging.getLogger('csss_site')
 
 
@@ -26,7 +28,4 @@ def validate_and_return_election_json(input_json):
             "[elections/validate_and_return_election_json.py validate_and_return_election_json()] "
             f"{error_messages}"
         )
-        return False, [error_messages], \
-            json.dumps(
-                input_json
-            ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
+        return False, [error_messages], prepare_json_for_html(input_json)

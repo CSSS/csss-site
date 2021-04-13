@@ -28,13 +28,13 @@ def save_new_election_from_jformat(updated_elections_information, json=True):
     election_websurvey = updated_elections_information[ELECTION_WEBSURVEY_LINK_KEY]
     if json:
         election_date = datetime.datetime.strptime(
-            f"{updated_elections_information[ELECTION_DATE_KEY]}", '%Y-%m-%d %H:%M'
+            f"{updated_elections_information[ELECTION_DATE_KEY]}", DATE_AND_TIME_FORMAT
         )
     else:
         date_and_time = f"{updated_elections_information[ELECTION_DATE_KEY]} " \
                         f"{updated_elections_information[ELECTION_TIME_KEY]}"
         election_date = datetime.datetime.strptime(
-            date_and_time, '%Y-%m-%d %H:%M'
+            date_and_time, DATE_AND_TIME_FORMAT
         )
     slug, human_friendly_name = gete_slug_and_human_friendly_name_election(election_date, election_type)
     election = create_and_save_election_object_jformat(election_type, election_websurvey, election_date, slug,

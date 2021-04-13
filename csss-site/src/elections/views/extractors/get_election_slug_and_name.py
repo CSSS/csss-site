@@ -18,5 +18,6 @@ def gete_slug_and_human_friendly_name_election(election_date, chosen_election_ty
         for valid_election_type_choice in Election.election_type_choices
         if valid_election_type_choice[0] == chosen_election_type
     ][0]
-    return f"{election_date.strftime('%Y-%m-%d')}-{chosen_election_type}", \
-           f"{human_friendly_election_type}: {election_date.strftime('%Y-%m-%d')}"
+    slug = f"{election_date.strftime(DATE_FORMAT)}-{chosen_election_type}"
+    human_friendly_name = f"{human_friendly_election_type}: {election_date.strftime(DATE_FORMAT)}"
+    return slug, human_friendly_name

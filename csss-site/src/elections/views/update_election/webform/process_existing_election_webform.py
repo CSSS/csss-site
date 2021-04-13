@@ -34,9 +34,7 @@ def process_existing_election_information_from_webform(request, context):
      Return
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
-    election_dict = transform_webform_to_json(
-        parser.parse(request.POST.urlencode())
-    )
+    election_dict = transform_webform_to_json(parser.parse(request.POST.urlencode()))
     if not (ELECTION_DATE_KEY in election_dict and ELECTION_TIME_KEY in election_dict and
             ELECTION_TYPE_KEY in election_dict and ELECTION_WEBSURVEY_LINK_KEY in election_dict and
             ELECTION_ID_KEY in election_dict and ELECTION_NOMINEES_KEY in election_dict):

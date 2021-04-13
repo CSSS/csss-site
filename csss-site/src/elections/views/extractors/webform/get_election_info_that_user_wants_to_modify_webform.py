@@ -22,8 +22,8 @@ def get_information_for_election_user_wants_to_modify_in_webform(election_id):
             ERROR_MESSAGES_KEY: ["No valid election found for given election id"]
         }
     return {
-            ELECTION_DATE_KEY: election.date.strftime('%Y-%m-%d'),
-            ELECTION_TIME_KEY: election.date.strftime('%H:%M'),
+            ELECTION_DATE_KEY: election.date.strftime(DATE_FORMAT),
+            ELECTION_TIME_KEY: election.date.strftime(TIME_FORMAT),
             ELECTION_ID_KEY: election.id,
             ELECTION_TYPE_KEY: election.election_type,
             ELECTION_WEBSURVEY_LINK_KEY: election.websurvey,

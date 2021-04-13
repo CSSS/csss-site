@@ -8,14 +8,14 @@ from elections.views.validators.validate_info_for_nominee_obj import validate_no
 logger = logging.getLogger('csss_site')
 
 
-def validate_new_nominee(name, position_names_and_speeches, facebook_link, linkedin_link,
+def validate_new_nominee(name, position_names_and_speech_pairings, facebook_link, linkedin_link,
                          email_address, discord_username):
     """
     validates the nominee info to validate it
 
     Keyword Arguments
     name -- the full name of the nominee
-    position_names_and_speeches -- a list of the pairings of the nominee's speeches and position_names
+    position_names_and_speech_pairing -- a list of the pairings of the nominee's speeches and position_names
     facebook_link -- the link to the nominee's facebook profile
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
@@ -28,7 +28,7 @@ def validate_new_nominee(name, position_names_and_speeches, facebook_link, linke
     """
     validate_nominee_obj_info(name, facebook_link, linkedin_link, email_address, discord_username)
     specified_position_names = []
-    for position_names_and_speech_pairing in position_names_and_speeches:
+    for position_names_and_speech_pairing in position_names_and_speech_pairings:
         if not (NOM_POSITIONS_KEY in position_names_and_speech_pairing and
                 NOM_SPEECH_KEY in position_names_and_speech_pairing):
             return False, f"It seems that one of speech/position pairings for nominee" \

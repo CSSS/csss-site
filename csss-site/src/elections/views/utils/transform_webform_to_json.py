@@ -9,13 +9,21 @@ logger = logging.getLogger('csss_site')
 
 
 def transform_webform_to_json(election_dict):
+    """
+    Converts the given election_dict into the same format that the JSON pages return
+
+    Keyword Argument
+    election_dict -- the dictionary that the webform creates
+
+    Return
+    election_dict -- the dictionary format that the JSON pages create
+    """
     logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] transforming")
     logger.info(json.dumps(election_dict, indent=3))
     if ELECTION_NOMINEES_KEY in election_dict and type(election_dict[ELECTION_NOMINEES_KEY]) == dict:
         election_dict[ELECTION_NOMINEES_KEY] = list(election_dict[ELECTION_NOMINEES_KEY].values())
         for nominee in election_dict[ELECTION_NOMINEES_KEY]:
-            if NOM_POSITION_AND_SPEECH_KEY in nominee and \
-                    type(nominee[NOM_POSITION_AND_SPEECH_KEY]) == dict:
+            if position_and_speech_pairing_dict_in_nominee_dict(nominee):
                 nominee[NOM_POSITION_AND_SPEECH_KEY] = list(
                     nominee[NOM_POSITION_AND_SPEECH_KEY].values()
                 )
@@ -37,3 +45,7 @@ def transform_webform_to_json(election_dict):
     logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] to")
     logger.info(json.dumps(election_dict, indent=3))
     return election_dict
+
+
+def position_and_speech_pairing_dict_in_nominee_dict(nominee):
+    return NOM_POSITION_AND_SPEECH_KEY in nominee and type(nominee[NOM_POSITION_AND_SPEECH_KEY]) == dict

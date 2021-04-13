@@ -27,5 +27,12 @@ JSON_INPUT_FIELD_KEY = 'input_json'
 
 TAB_STRING = 'elections'
 
+ENDPOINT_SELECT_ELECTION_TO_UPDATE = 'show_options_for_election_updating'
 
+ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
+ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
+ENDPOINT_DELETE_ELECTION = 'delete'
 
+DATE_FORMAT = '%Y-%m-%d'
+TIME_FORMAT = '%H:%M'
+DATE_AND_TIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"

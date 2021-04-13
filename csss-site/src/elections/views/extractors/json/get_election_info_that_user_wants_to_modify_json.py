@@ -27,7 +27,7 @@ def get_information_for_election_user_wants_to_modify_in_json(election_id):
         ELECTION_ID_KEY: election_id,
         JSON_INPUT_FIELD_KEY: json.dumps(
             {
-                ELECTION_DATE_KEY: election.date.strftime("%Y-%m-%d %H:%M"),
+                ELECTION_DATE_KEY: election.date.strftime("DATE_AND_TIME_FORMAT"),
                 ELECTION_TYPE_KEY: election.election_type,
                 ELECTION_WEBSURVEY_LINK_KEY: election.websurvey,
                 ELECTION_NOMINEES_KEY: get_election_nominees(election)

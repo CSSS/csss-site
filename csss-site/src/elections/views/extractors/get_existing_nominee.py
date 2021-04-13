@@ -13,6 +13,6 @@ def get_exist_nominee(nominee_id, election_id):
     Nominee -- the nominee object or None if no matching nominees found
     """
     nominees = Nominee.objects.all().filter(election_id=election_id, id=nominee_id)
-    if len(nominees) > 0:
-        return nominees[0]
-    return None
+    if len(nominees) != 1:
+        return None
+    return nominees[0]

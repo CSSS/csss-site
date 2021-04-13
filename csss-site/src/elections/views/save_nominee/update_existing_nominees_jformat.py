@@ -22,8 +22,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee):
 
     speech_and_position_pairings = nominee[NOM_POSITION_AND_SPEECH_KEY]
     for speech_and_position_pairing in speech_and_position_pairings:
-        user_specified_speech_id = None if NOM_ID_KEY not in speech_and_position_pairing \
-            else speech_and_position_pairing[NOM_ID_KEY]
+        user_specified_speech_id = get_user_specified_speech_id(speech_and_position_pairing)
         if user_specified_speech_id is None:
             speech_obj = NomineeSpeech()
         else:
@@ -37,16 +36,10 @@ def update_existing_nominee_jformat(nominee_obj, nominee):
         list_of_speech_obj_ids_specified_in_election.append(speech_obj.id)
         for position_name_dict in speech_and_position_pairing[NOM_POSITIONS_KEY]:
             if type(position_name_dict) is dict:
-                user_specified_position_id = position_name_dict[NOM_ID_KEY] \
-                    if NOM_ID_KEY in position_name_dict \
-                    else None
                 user_specified_position_name = position_name_dict[NOM_POSITION_KEY]
+                position = NomineePosition.objects.get(id=get_user_specified_position_id(position_name_dict))
             else:
-                user_specified_position_id = None
                 user_specified_position_name = position_name_dict
-            if user_specified_position_id is not None:
-                position = NomineePosition.objects.get(id=user_specified_position_id)
-            else:
                 position = NomineePosition()
             position.position_name = user_specified_position_name
             position.position_index = OfficerEmailListAndPositionMapping.objects.get(
@@ -62,3 +55,17 @@ def update_existing_nominee_jformat(nominee_obj, nominee):
     nominee_obj.discord = nominee[NOM_DISCORD_USERNAME_KEY].strip()
     nominee_obj.save()
     return list_of_nominee_position_obj_ids_specified_in_election, list_of_speech_obj_ids_specified_in_election
+
+
+def get_user_specified_speech_id(speech_and_position_pairing):
+    """
+    Returns the ID if found in the dict speech_and_position_pairing or returns None otherwise
+    """
+    return None if NOM_ID_KEY not in speech_and_position_pairing else speech_and_position_pairing[NOM_ID_KEY]
+
+
+def get_user_specified_position_id(position_name_dict):
+    """
+    Returns the ID if found in the dict position_name_dict or returns None otherwise
+    """
+    return position_name_dict[NOM_ID_KEY] if NOM_ID_KEY in position_name_dict else None

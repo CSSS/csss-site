@@ -12,6 +12,7 @@ from elections.views.Constants import JSON_INPUT_FIELD_KEY, \
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
 from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import save_new_or_update_existing_nominees_jformat
+from elections.views.utils.prepare_json_for_html import prepare_json_for_html
 from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
@@ -47,10 +48,8 @@ def process_existing_election_information_from_json(request, context):
     if not success:
         context[ELECTION_ID_KEY] = election_id
         context[ERROR_MESSAGES_KEY] = error_messages
+        context[JSON_INPUT_FIELD_KEY] = json.dumps(prepare_json_for_html(request.POST[JSON_INPUT_FIELD_KEY]))
         context[JSON_INPUT_FIELD_KEY] = json.dumps(
-            json.dumps(
-                request.POST[JSON_INPUT_FIELD_KEY]
-            ).replace("\\r", "").replace("\\n", "").replace("\\t", "").replace("\\", "")
         )
         return render(request, 'elections/update_election/update_election_json.html', context)
 

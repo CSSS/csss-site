@@ -45,7 +45,7 @@ def _validate_date(date):
     error_message -- an error message if the date was badly formatted, otherwise it is None
     """
     try:
-        datetime.datetime.strptime(f"{date}", '%Y-%m-%d %H:%M')
+        datetime.datetime.strptime(f"{date}", DATE_AND_TIME_FORMAT)
     except ValueError:
         error_message = f" given date of {date} is not in the valid format"
         logger.error(

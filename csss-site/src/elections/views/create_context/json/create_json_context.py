@@ -8,8 +8,8 @@ def create_json_context():
     Creating context for JSON pages for election creation or modification
 
     returns a dict with the following keys
-    types_of_elections
-    valid_position_names
+    types_of_elections : "Options for...."
+    valid_position_names : "Valid Positions: ...."
     """
     valid_election_type_choices = [election_type_choice[0] for election_type_choice in
                                    Election.election_type_choices]

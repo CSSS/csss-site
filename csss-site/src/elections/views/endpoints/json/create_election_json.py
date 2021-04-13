@@ -1,6 +1,6 @@
 import logging
 
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY
+from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
 from elections.views.create_context.json.create_json_context import create_json_context
 from elections.views.create_election.json.display_json_for_new_election import display_empty_election_json
 from elections.views.create_election.json.process_new_election_json import process_new_inputted_json_election
@@ -17,7 +17,7 @@ def display_and_process_html_for_new_json_election(request):
         "[elections/create_election_json.py display_and_process_html_for_new_json_election()] "
         f"request.POST={request.POST}"
     )
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
+    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(request, TAB_STRING)
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value

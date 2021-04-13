@@ -9,6 +9,6 @@ logger = logging.getLogger('csss_site')
 
 
 def list_of_elections(request):
-    logger.info("[administration/Constants.py list_of_elections()]")
+    logger.info("[administration/list_of_elections.py list_of_elections()]")
     context = create_main_context(request, TAB_STRING)
     return render(request, 'elections/list_elections.html', context)
