@@ -30,4 +30,5 @@ def display_and_process_html_for_modification_of_webform_election(request):
 
     context.update(create_webform_context())
     return display_current_webform_election(request, context) \
-        if DISPLAY_ELECTION_KEY in request.POST else process_existing_election_information_from_webform(request, context)
+        if DISPLAY_ELECTION_KEY in request.POST else \
+        process_existing_election_information_from_webform(request, context)

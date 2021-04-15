@@ -37,7 +37,8 @@ def process_existing_election_information_from_json(request, context):
      Return
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
-    if JSON_INPUT_FIELD_KEY not in request.POST or ELECTION_ID_KEY not in request.POST or REDIRECT_TO_ELECTION not in request.POST:
+    if JSON_INPUT_FIELD_KEY not in request.POST or ELECTION_ID_KEY not in request.POST or \
+            REDIRECT_TO_ELECTION not in request.POST:
         error_message = "Not all necessary fields were detected in your input"
         context.update(create_json_context(context, None, None, error_message))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -89,7 +90,10 @@ def process_existing_election_information_from_json(request, context):
         return render(request, 'elections/update_election/update_election_json.html', context)
     if request.POST[REDIRECT_TO_ELECTION] not in [SUBMIT, SUBMIT_AND_CONTINUE_EDITING]:
         context.update(
-            create_json_context(context, election_id, updated_elections_information, "Unable to understand user command"))
+            create_json_context(
+                context, election_id, updated_elections_information, "Unable to understand user command"
+            )
+        )
         return render(request, 'elections/update_election/update_election_json.html', context)
     update_existing_election_obj_from_jformat(
         election,

@@ -44,11 +44,15 @@ def get_election_nominees(election):
         if nominee.name not in nominee_names:
             speech_and_position_pairings = []
             speech_ids = []
-            for speech in NomineeSpeech.objects.all().filter(nominee=nominee).order_by('nomineeposition__position_index'):
+            for speech in NomineeSpeech.objects.all().filter(nominee=nominee).order_by(
+                    'nomineeposition__position_index'
+            ):
                 speech_and_position_pairing = {}
                 if speech.id not in speech_ids:
                     speech_ids.append(speech.id)
-                    for position_name in NomineePosition.objects.all().filter(nominee_speech=speech).order_by('position_index'):
+                    for position_name in NomineePosition.objects.all().filter(nominee_speech=speech).order_by(
+                            'position_index'
+                    ):
                         if NOM_POSITIONS_KEY not in speech_and_position_pairing:
                             speech_and_position_pairing[NOM_POSITIONS_KEY] = [{
                                 NOM_ID_KEY: position_name.id,

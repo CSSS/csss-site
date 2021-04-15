@@ -42,7 +42,8 @@ def process_new_inputted_json_election(request, context):
         context[JSON_INPUT_FIELD_KEY] = None
         return render(request, 'elections/create_election/create_election_json.html', context)
 
-    if not (REDIRECT_TO_ELECTION in request.POST and request.POST[REDIRECT_TO_ELECTION] in [SUBMIT, SUBMIT_AND_CONTINUE_EDITING]):
+    if not (REDIRECT_TO_ELECTION in request.POST and
+            request.POST[REDIRECT_TO_ELECTION] in [SUBMIT, SUBMIT_AND_CONTINUE_EDITING]):
         error_message = "Unable to understand user command"
         logger.info(
             f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"

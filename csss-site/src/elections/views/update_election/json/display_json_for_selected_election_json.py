@@ -21,6 +21,7 @@ def display_current_json_election_json(request, context):
     if not (DISPLAY_ELECTION_KEY in request.POST or ELECTION_ID_KEY in request.POST):
         context[ERROR_MESSAGES_KEY] = ["Unable to locate the Election ID in the request"]
         return render(request, 'elections/update_election/update_election_json.html', context)
-    election_id = request.POST[DISPLAY_ELECTION_KEY] if DISPLAY_ELECTION_KEY in request.POST else request.POST[ELECTION_ID_KEY]
+    election_id = request.POST[DISPLAY_ELECTION_KEY] if DISPLAY_ELECTION_KEY in request.POST \
+        else request.POST[ELECTION_ID_KEY]
     context.update(get_information_for_election_user_wants_to_modify_in_json(election_id))
     return render(request, 'elections/update_election/update_election_json.html', context)
