@@ -3,19 +3,25 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections
+from administration.Constants import AdminConstants
+from csss.views_helper import create_main_context
 from elections.models import Election, NomineePosition
-from elections.views.Constants import TAB_STRING
+from elections.views.Constants import TAB_STRING, ELECTION_ID_KEY, DATE_FORMAT, DISPLAY_ELECTION_KEY
 
 logger = logging.getLogger('csss_site')
 
 
 def get_nominees(request, slug):
-    redirect_value, error_message, context = verify_access_logged_user_and_create_context_for_elections(request,
-                                                                                                        TAB_STRING)
-    view_election = redirect_value is not None
-    retrieved_obj = Election.objects.get(slug=slug)
-    if retrieved_obj.date <= datetime.datetime.now() or view_election:
+    context = create_main_context(request, TAB_STRING)
+    election_to_display = Election.objects.get(slug=slug)
+    if election_to_display.date <= datetime.datetime.now() or user_has_election_management_privilege(request):
+        if user_has_election_management_privilege(request):
+            context.update(
+                {
+                    'election_id_key': ELECTION_ID_KEY,
+                    ELECTION_ID_KEY: election_to_display.id
+                }
+            )
         logger.info("[elections/election_page.py get_nominees()] time to vote")
         positions = NomineePosition.objects.all().filter(
             nominee_speech__nominee__election__slug=slug,
@@ -51,12 +57,17 @@ def get_nominees(request, slug):
                 nominee.social_media += f'Discord Username: {nominee.nominee_speech.nominee.discord}'
             nominees_display_order.append(nominee)
         context.update({
-            'election': retrieved_obj,
-            'election_date': retrieved_obj.date.strftime("DATE_FORMAT"),
+            'election': election_to_display,
+            'election_date': election_to_display.date.strftime(DATE_FORMAT),
             'nominees': nominees_display_order,
+            'display_election_key': DISPLAY_ELECTION_KEY
         })
-        return render(request, 'elections/nominee_list.html', context)
+        return render(request, 'elections/election_page.html', context)
     else:
         logger.info("[elections/election_page.py get_nominees()] cant vote yet")
         context.update({'nominees': 'none', })
-        return render(request, 'elections/nominee_list.html', context)
+        return render(request, 'elections/election_page.html', context)
+
+
+def user_has_election_management_privilege(request):
+    return AdminConstants.ELECTION_MANAGEMENT_GROUP_NAME in list(request.user.groups.values_list('name', flat=True))

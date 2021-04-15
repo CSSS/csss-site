@@ -100,5 +100,5 @@ def valid_id_for_position_pairing(position_dict, election_id):
                 NomineePosition.objects.all().filter(
                     id=int(position_dict[NOM_ID_KEY]), nominee_speech__nominee__election_id=election_id
                 )
-            ) == 0
+            ) == 1
     )

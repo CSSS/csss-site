@@ -1,0 +1,5 @@
+{%  if election_id is not None %}
+    <input type="text" name="election_id" value="{{ election_id }}" readonly hidden>
+    <input type="submit" name="{{redirect_election_key}}" value="{{ submit_key }}" />
+    <input type="submit" name="{{redirect_election_key}}" value="{{ submit_and_continue_editing_key}}" />
+{%  endif %}

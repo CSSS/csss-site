@@ -13,6 +13,21 @@
 				{% if nominees == "none" %}
 				It seems like the time hasn't come to announce the nominees yet....
 			{% else %}
+                    {% if election_management %}
+                        <form action="{{URL_ROOT}}elections/election_modification_json/" method="post" class="form">
+                        {% csrf_token %}
+                        <button name="{{ display_election_key }}" value="{{election_id}}" type="submit">Modify via JSON</button>
+                        </form>
+                        <form action="{{URL_ROOT}}elections/election_modification_webform/" method="post" class="form">
+                        {% csrf_token %}
+                        <button name="{{ display_election_key }}" value="{{election_id}}" type="submit">Modify via Webform</button>
+                        </form>
+                        <form action="{{URL_ROOT}}elections/delete/" method="post" class="form">
+                        {% csrf_token %}
+                            <input type="text" name="{{election_id_key}}" value="{{election_id}}" hidden readonly>
+                        <button type="submit">Delete</button>
+                        </form>
+                    {%  endif %}
 				{% if election.websurvey != "NONE" %}
 					<p> <a href="{{election.websurvey}}">Websurvey Link</a></p>
 				{% endif %}

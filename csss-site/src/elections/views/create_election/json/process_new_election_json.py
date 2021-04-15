@@ -1,19 +1,21 @@
 import json
 import logging
 
-from django.conf import settings
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.views.Constants import JSON_INPUT_FIELD_KEY, ELECTION_TYPE_KEY, \
-    ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY
+    ELECTION_DATE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, REDIRECT_TO_ELECTION, SUBMIT, \
+    SUBMIT_AND_CONTINUE_EDITING
+from elections.views.endpoints.election_page import get_nominees
+from elections.views.save_election.save_new_election_from_jformat import save_new_election_from_jformat
+from elections.views.update_election.json.display_json_for_selected_election_json import \
+    display_current_json_election_json
 from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
-from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
+from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
-from elections.views.save_election.save_new_election_from_jformat import save_new_election_from_jformat
 
 logger = logging.getLogger('csss_site')
 
@@ -40,11 +42,20 @@ def process_new_inputted_json_election(request, context):
         context[JSON_INPUT_FIELD_KEY] = None
         return render(request, 'elections/create_election/create_election_json.html', context)
 
-    success, error_messages, election_json = validate_and_return_election_json(
+    if not (REDIRECT_TO_ELECTION in request.POST and request.POST[REDIRECT_TO_ELECTION] in [SUBMIT, SUBMIT_AND_CONTINUE_EDITING]):
+        error_message = "Unable to understand user command"
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+        )
+        context[ERROR_MESSAGES_KEY] = [error_message]
+        context[JSON_INPUT_FIELD_KEY] = None
+        return render(request, 'elections/create_election/create_election_json.html', context)
+
+    success, error_message, election_json = validate_and_return_election_json(
         request.POST[JSON_INPUT_FIELD_KEY]
     )
     if not success:
-        context[ERROR_MESSAGES_KEY] = error_messages
+        context[ERROR_MESSAGES_KEY] = [error_message]
         context[JSON_INPUT_FIELD_KEY] = json.dumps(election_json)
         return render(request, 'elections/create_election/create_election_json.html', context)
 
@@ -83,4 +94,7 @@ def process_new_inputted_json_election(request, context):
     election_slug = save_new_election_from_jformat(
         json.loads(request.POST[JSON_INPUT_FIELD_KEY])
     )
-    return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election_slug}/')
+    if request.POST[REDIRECT_TO_ELECTION] == SUBMIT:
+        return get_nominees(request, election_slug)
+    else:
+        return display_current_json_election_json(request, context)

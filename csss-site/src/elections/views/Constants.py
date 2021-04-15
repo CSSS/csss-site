@@ -27,8 +27,6 @@ JSON_INPUT_FIELD_KEY = 'input_json'
 
 TAB_STRING = 'elections'
 
-ENDPOINT_SELECT_ELECTION_TO_UPDATE = 'show_options_for_election_updating'
-
 ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
 ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 ENDPOINT_DELETE_ELECTION = 'delete'
@@ -36,3 +34,12 @@ ENDPOINT_DELETE_ELECTION = 'delete'
 DATE_FORMAT = '%Y-%m-%d'
 TIME_FORMAT = '%H:%M'
 DATE_AND_TIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"
+
+DISPLAY_ELECTION_KEY = 'display_election'
+
+REDIRECT_TO_ELECTION = 'redirect_to_election'
+REDIRECT_TO_ELECTION_KEY = 'redirect_election_key'
+SUBMIT = "Submit"
+SUBMIT_KEY = 'submit_key'
+SUBMIT_AND_CONTINUE_EDITING = 'Submit and Continue Editing'
+SUBMIT_AND_CONTINUE_EDITING_KEY = 'submit_and_continue_editing_key'

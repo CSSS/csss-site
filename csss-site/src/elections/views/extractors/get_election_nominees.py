@@ -43,25 +43,28 @@ def get_election_nominees(election):
     for nominee in nominees:
         if nominee.name not in nominee_names:
             speech_and_position_pairings = []
-            for speech in NomineeSpeech.objects.all().filter(nominee=nominee):
+            speech_ids = []
+            for speech in NomineeSpeech.objects.all().filter(nominee=nominee).order_by('nomineeposition__position_index'):
                 speech_and_position_pairing = {}
-                for position_name in NomineePosition.objects.all().filter(nominee_speech=speech):
-                    if NOM_POSITIONS_KEY not in speech_and_position_pairing:
-                        speech_and_position_pairing[NOM_POSITIONS_KEY] = [{
-                            NOM_ID_KEY: position_name.id,
-                            NOM_POSITION_KEY: position_name.position_name
-                        }]
-                    else:
-                        speech_and_position_pairing[NOM_POSITIONS_KEY].append(
-                            {
+                if speech.id not in speech_ids:
+                    speech_ids.append(speech.id)
+                    for position_name in NomineePosition.objects.all().filter(nominee_speech=speech).order_by('position_index'):
+                        if NOM_POSITIONS_KEY not in speech_and_position_pairing:
+                            speech_and_position_pairing[NOM_POSITIONS_KEY] = [{
                                 NOM_ID_KEY: position_name.id,
                                 NOM_POSITION_KEY: position_name.position_name
-                            }
-                        )
-                speech_and_position_pairing[NOM_ID_KEY] = speech.id
-                speech_and_position_pairing[NOM_SPEECH_KEY] = speech.speech
-                if speech_and_position_pairing is not None:
-                    speech_and_position_pairings.append(speech_and_position_pairing)
+                            }]
+                        else:
+                            speech_and_position_pairing[NOM_POSITIONS_KEY].append(
+                                {
+                                    NOM_ID_KEY: position_name.id,
+                                    NOM_POSITION_KEY: position_name.position_name
+                                }
+                            )
+                    speech_and_position_pairing[NOM_ID_KEY] = speech.id
+                    speech_and_position_pairing[NOM_SPEECH_KEY] = speech.speech
+                    if speech_and_position_pairing is not None:
+                        speech_and_position_pairings.append(speech_and_position_pairing)
 
             if nominee.name not in nominees_dict_to_display:
                 nominees_dict_to_display[nominee.name] = {

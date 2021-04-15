@@ -4,7 +4,9 @@ from django.shortcuts import render
 
 from elections.views.Constants import JSON_INPUT_FIELD_KEY, ELECTION_DATE_KEY, ELECTION_TYPE_KEY, \
     ELECTION_WEBSURVEY_LINK_KEY, ELECTION_NOMINEES_KEY, NOM_NAME_KEY, NOM_POSITION_AND_SPEECH_KEY, NOM_FACEBOOK_KEY, \
-    NOM_DISCORD_USERNAME_KEY, NOM_POSITIONS_KEY, NOM_LINKEDIN_KEY, NOM_SPEECH_KEY, NOM_EMAIL_KEY
+    NOM_DISCORD_USERNAME_KEY, NOM_POSITIONS_KEY, NOM_LINKEDIN_KEY, NOM_SPEECH_KEY, NOM_EMAIL_KEY, \
+    REDIRECT_TO_ELECTION_KEY, REDIRECT_TO_ELECTION, SUBMIT_KEY, SUBMIT, SUBMIT_AND_CONTINUE_EDITING_KEY, \
+    SUBMIT_AND_CONTINUE_EDITING
 
 
 def display_empty_election_json(request, context):
@@ -32,4 +34,9 @@ def display_empty_election_json(request, context):
             ]
         }
     )
+    context.update({
+        REDIRECT_TO_ELECTION_KEY: REDIRECT_TO_ELECTION,
+        SUBMIT_KEY: SUBMIT,
+        SUBMIT_AND_CONTINUE_EDITING_KEY: SUBMIT_AND_CONTINUE_EDITING,
+    })
     return render(request, 'elections/create_election/create_election_json.html', context)

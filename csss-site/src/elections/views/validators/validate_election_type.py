@@ -19,7 +19,7 @@ def validate_election_type(election_type):
     valid_election_type_choices = [election_type_choice[0] for election_type_choice in
                                    Election.election_type_choices]
     if election_type not in valid_election_type_choices:
-        error_message = f"election_type of {election_type} is not one of the valid options."
+        error_message = f"election_type of \"{election_type}\" is not one of the valid options."
         logger.error(
             "[elections/validate_election_type.py validate_election_type()]"
             f" {error_message}"
