@@ -6,7 +6,8 @@ from django.shortcuts import render
 from administration.Constants import AdminConstants
 from csss.views_helper import create_main_context
 from elections.models import Election, NomineePosition
-from elections.views.Constants import TAB_STRING, ELECTION_ID_KEY, DATE_FORMAT, DISPLAY_ELECTION_KEY
+from elections.views.Constants_v2 import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
+    BUTTON_MODIFY_ELECTION_ID__NAME, INPUT_ELECTION_ID__NAME, ELECTION_ID, ELECTION__HTML_NAME, NOMINEES_HTML__NAME
 
 logger = logging.getLogger('csss_site')
 
@@ -18,8 +19,10 @@ def get_nominees(request, slug):
         if user_has_election_management_privilege(request):
             context.update(
                 {
-                    'election_id_key': ELECTION_ID_KEY,
-                    ELECTION_ID_KEY: election_to_display.id
+                    INPUT_ELECTION_ID__VALUE: election_to_display.id,
+                    ELECTION_MANAGEMENT_PERMISSION: True,
+                    BUTTON_MODIFY_ELECTION_ID__NAME: ELECTION_ID,
+                    INPUT_ELECTION_ID__NAME: ELECTION_ID
                 }
             )
         logger.info("[elections/election_page.py get_nominees()] time to vote")
@@ -57,10 +60,8 @@ def get_nominees(request, slug):
                 nominee.social_media += f'Discord Username: {nominee.nominee_speech.nominee.discord}'
             nominees_display_order.append(nominee)
         context.update({
-            'election': election_to_display,
-            'election_date': election_to_display.date.strftime(DATE_FORMAT),
-            'nominees': nominees_display_order,
-            'display_election_key': DISPLAY_ELECTION_KEY
+            ELECTION__HTML_NAME: election_to_display,
+            NOMINEES_HTML__NAME: nominees_display_order,
         })
         return render(request, 'elections/election_page.html', context)
     else:
