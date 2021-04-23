@@ -1,4 +1,4 @@
-{{ input_json|json_script:"election-json-data" }}
+{{ election |json_script:"election-json-data" }}
 <script>
     (function () {
         raw_string = document.getElementById('election-json-data').textContent

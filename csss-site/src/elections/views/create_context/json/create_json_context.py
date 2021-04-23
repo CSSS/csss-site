@@ -1,6 +1,6 @@
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Election
-from elections.views.Constants import ELECTION_TYPE_KEY
+from elections.views.Constants_v2 import TYPES_OF_ELECTIONS, ELECTION_JSON_KEY__ELECTION_TYPE, VALID_POSITION_NAMES
 
 
 def create_json_context():
@@ -19,6 +19,6 @@ def create_json_context():
         )
     ]
     return {
-        'types_of_elections': f"Options for \"{ELECTION_TYPE_KEY}\": {', '.join(valid_election_type_choices)}",
-        'valid_position_names': f"Valid Positions: {', '.join(current_positions)}"
+        TYPES_OF_ELECTIONS: f"Options for \"{ELECTION_JSON_KEY__ELECTION_TYPE}\": {', '.join(valid_election_type_choices)}",
+        VALID_POSITION_NAMES: f"Valid Positions: {', '.join(current_positions)}",
     }
