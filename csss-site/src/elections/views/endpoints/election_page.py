@@ -66,7 +66,6 @@ def get_nominees(request, slug):
         return render(request, 'elections/election_page.html', context)
     else:
         logger.info("[elections/election_page.py get_nominees()] cant vote yet")
-        context.update({'nominees': 'none', })
         return render(request, 'elections/election_page.html', context)
 
 
