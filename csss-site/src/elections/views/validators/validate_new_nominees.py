@@ -2,7 +2,7 @@ import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import there_are_multiple_entries
-from elections.views.Constants import NOM_POSITIONS_KEY, NOM_SPEECH_KEY
+from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 
 logger = logging.getLogger('csss_site')
@@ -26,24 +26,32 @@ def validate_new_nominee(name, position_names_and_speech_pairings, facebook_link
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    validate_nominee_obj_info(name, facebook_link, linkedin_link, email_address, discord_username)
+    success, error_message = validate_nominee_obj_info(
+        name, facebook_link, linkedin_link, email_address, discord_username
+    )
+    if not success:
+        return success, error_message
     specified_position_names = []
     for position_names_and_speech_pairing in position_names_and_speech_pairings:
-        if not (NOM_POSITIONS_KEY in position_names_and_speech_pairing and
-                NOM_SPEECH_KEY in position_names_and_speech_pairing):
+        if not all_relevant_position_names_and_speech_pairing_keys_exist(position_names_and_speech_pairing):
             return False, f"It seems that one of speech/position pairings for nominee" \
                           f" {name} has a missing position name or position speech"
-        if not there_are_multiple_entries(position_names_and_speech_pairing, NOM_POSITIONS_KEY):
+        if not there_are_multiple_entries(position_names_and_speech_pairing, ELECTION_JSON_KEY__NOM_POSITION_NAMES):
             return False, f"It seems that the nominee {name}" \
                           f" does not have a list of positions they are running for"
-        for position_name in position_names_and_speech_pairing[NOM_POSITIONS_KEY]:
+        for position_name in position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
             if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=position_name)) == 0:
                 return False, f"Detected invalid position of {position_name} for nominee {name}"
             if position_name in specified_position_names:
                 return False, f"the nominee {name} has the position {position_name} specified more than once"
             specified_position_names.append(position_name)
-        if not (len(position_names_and_speech_pairing[NOM_SPEECH_KEY]) > 0):
+        if not (len(position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
             return False, f"No valid speech detected for nominee" \
                           f" {name}, please set to \"NONE\" if there is no speech"
 
     return True, None
+
+
+def all_relevant_position_names_and_speech_pairing_keys_exist(position_names_and_speech_pairings):
+    return ELECTION_JSON_KEY__NOM_POSITION_NAMES in position_names_and_speech_pairings \
+           and ELECTION_JSON_KEY__NOM_SPEECH in position_names_and_speech_pairings
