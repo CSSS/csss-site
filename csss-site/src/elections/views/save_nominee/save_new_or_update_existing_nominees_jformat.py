@@ -1,7 +1,7 @@
 from elections.models import Nominee, NomineeSpeech, NomineePosition
-from elections.views.Constants import ELECTION_NOMINEES_KEY, NOM_ID_KEY, NOM_NAME_KEY, \
-    NOM_POSITION_AND_SPEECH_KEY, NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, NOM_EMAIL_KEY, \
-    NOM_DISCORD_USERNAME_KEY
+from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOMINEES, ID_KEY, ELECTION_JSON_KEY__NOM_NAME, \
+    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
+    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD
 from elections.views.extractors.get_existing_nominee import get_exist_nominee
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
@@ -24,12 +24,12 @@ def save_new_or_update_existing_nominees_jformat(election, election_information)
     list_of_nominee_ids_specified_in_election = []
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []
-    if ELECTION_NOMINEES_KEY not in election_information:
-        return f"Could not find the key {ELECTION_NOMINEES_KEY} in the election_information"
-    nominees = election_information[ELECTION_NOMINEES_KEY]
+    if ELECTION_JSON_KEY__NOMINEES not in election_information:
+        return f"Could not find the key {ELECTION_JSON_KEY__NOMINEES} in the election_information"
+    nominees = election_information[ELECTION_JSON_KEY__NOMINEES]
     for nominee in nominees:
-        if NOM_ID_KEY in nominee:
-            nominee_obj = get_exist_nominee(nominee[NOM_ID_KEY], election.id)
+        if ID_KEY in nominee:
+            nominee_obj = get_exist_nominee(nominee[ID_KEY], election.id)
             if nominee_obj is not None:
                 position_ids, speech_ids = update_existing_nominee_jformat(nominee_obj, nominee)
                 list_of_nominee_ids_specified_in_election.append(nominee_obj.id)
@@ -37,9 +37,10 @@ def save_new_or_update_existing_nominees_jformat(election, election_information)
                 list_of_nominee_position_obj_ids_specified_in_election.extend(position_ids)
         else:
             nominee_id, position_ids, speech_ids = save_new_nominee_jformat(
-                election, nominee[NOM_NAME_KEY], nominee[NOM_POSITION_AND_SPEECH_KEY],
-                nominee[NOM_FACEBOOK_KEY], nominee[NOM_LINKEDIN_KEY], nominee[NOM_EMAIL_KEY],
-                nominee[NOM_DISCORD_USERNAME_KEY]
+                election, nominee[ELECTION_JSON_KEY__NOM_NAME],
+                nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
+                nominee[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
+                nominee[ELECTION_JSON_KEY__NOM_EMAIL], nominee[ELECTION_JSON_KEY__NOM_DISCORD]
             )
             list_of_nominee_ids_specified_in_election.append(nominee_id)
             list_of_speech_obj_ids_specified_in_election.extend(speech_ids)

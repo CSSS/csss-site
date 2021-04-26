@@ -2,7 +2,7 @@ import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Nominee, NomineeSpeech, NomineePosition
-from elections.views.Constants import NOM_SPEECH_KEY, NOM_POSITIONS_KEY
+from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAME
 
 logger = logging.getLogger('csss_site')
 
@@ -41,11 +41,11 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
     speech_ids = []
     for speech_and_position_pairing in speech_and_position_pairings:
         speech_obj = NomineeSpeech(
-            nominee=nominee, speech=speech_and_position_pairing[NOM_SPEECH_KEY].strip()
+            nominee=nominee, speech=speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH].strip()
         )
         speech_obj.save()
         speech_ids.append(speech_obj.id)
-        for position_name in speech_and_position_pairing[NOM_POSITIONS_KEY]:
+        for position_name in speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAME]:
             nominee_position = NomineePosition(
                 position_name=position_name, nominee_speech=speech_obj,
                 position_index=OfficerEmailListAndPositionMapping.objects.get(
