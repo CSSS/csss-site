@@ -1,5 +1,5 @@
 from csss.views_helper import there_are_multiple_entries
-from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_NAME, \
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD
 from elections.views.validators.validate_new_nominees import validate_new_nominee

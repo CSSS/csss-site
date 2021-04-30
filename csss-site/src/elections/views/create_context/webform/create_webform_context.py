@@ -1,78 +1,156 @@
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.models import Election
-from elections.views.Constants import ELECTION_NOMINEES_KEY, \
-    NOM_POSITION_AND_SPEECH_KEY, NOM_POSITIONS_KEY, NOM_SPEECH_KEY, \
-    NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, NOM_EMAIL_KEY, NOM_DISCORD_USERNAME_KEY, NOM_ID_KEY, \
-    ELECTION_DATE_KEY, ELECTION_TIME_KEY, ELECTION_TYPE_KEY, ELECTION_WEBSURVEY_LINK_KEY, ELECTION_ID_KEY, \
-    NOM_NAME_KEY
+
+from elections.views.Constants import INPUT_ELECTION_ID__NAME, INPUT_ELECTION_ID__VALUE, INPUT_DATE__NAME, \
+    INPUT_DATE__VALUE, INPUT_TIME__NAME, INPUT_TIME__VALUE, SELECT_ELECTION_TYPE__NAME, \
+    SELECTED_ELECTION_TYPE__HTML_NAME, CREATE_NEW_ELECTION__HTML_NAME, NOMINEES_HTML__NAME, CURRENT_WEBSURVEY_LINK, \
+    NOMINEE_DIV__NAME, INPUT_NOMINEE_SPEECH__NAME, INPUT_NOMINEE_FACEBOOK__NAME, \
+    INPUT_NOMINEE_LINKEDIN__NAME, INPUT_NOMINEE_EMAIL__NAME, INPUT_NOMINEE_DISCORD__NAME, \
+    INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, INPUT_NOMINEE_POSITION_NAMES__NAME, CURRENT_ELECTION_TYPES, \
+    ELECTION_JSON_KEY__DATE, \
+    ELECTION_JSON_WEBFORM_KEY__TIME, INPUT_WEBSURVEY__NAME, ELECTION_JSON_KEY__WEBSURVEY, \
+    ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_SPEECH, \
+    ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
+    ELECTION_JSON_KEY__NOM_DISCORD, INPUT_NOMINEE_NAME__NAME, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
+    CURRENT_OFFICER_POSITIONS, ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_ID, ELECTION_JSON_KEY__ELECTION_TYPE, \
+    DATE_FORMAT, TIME_FORMAT, INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME
+from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
+from elections.views.extractors.get_election_nominees import get_election_nominees
+from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
 
 
-def create_webform_context():
+def create_webform_context(create_new_election=True):
     """
     Creating context for WebForm pages for election creation or modification
 
-    returns a dict with the following keys
-    positions
-    time_key
-    election_type_key
-    websurvey_link_key
-    nominee_key
-    speech_and_position_pairing_key
-    position_names_key
-    speech_key
-    speech_id
-    name_key
-    facebook_key
-    linkedin_key
-    email_key
-    discord_key
-    nominee_id_key
+    Keyword Argument
+    create_new_election - bool that determines if context will have a value of True or False for
+     create_new_election__html_name
+
+    Return
+    dict - with the following keys
+    input_date__name
+    input_time__name
+    select_election_type__name
     election_types
-    election_id_key
+    input_websurvey__name
+
+    nominee_div__name
+
+    input_nominee_id__name
+    input_nominee_name__name
+    input_nominee_facebook__name
+    input_nominee_linkedin__name
+    input_nominee_email__name
+    input_nominee_discord__name
+
+    current_officer_positions
+    input_nominee_speech_and_position_pairing__name
+    input_nominee_position_names__name
+    input_nominee_speech__name
+    input_speech_id__name
+
+    create_new_election__html_name
+
+    along with keys from create_submission_buttons_context(
     """
-    return {
-        'positions': OfficerEmailListAndPositionMapping.objects.all().order_by('position_index'),
-        'date_key': ELECTION_DATE_KEY,
-        'time_key': ELECTION_TIME_KEY,
-        'election_type_key': ELECTION_TYPE_KEY,
-        'websurvey_link_key': ELECTION_WEBSURVEY_LINK_KEY,
-        'nominee_key': ELECTION_NOMINEES_KEY,
-        'speech_and_position_pairing_key': NOM_POSITION_AND_SPEECH_KEY,
-        'position_names_key': NOM_POSITIONS_KEY,
-        'speech_key': NOM_SPEECH_KEY,
-        'speech_id': NOM_ID_KEY,
-        'name_key': NOM_NAME_KEY,
-        'facebook_key': NOM_FACEBOOK_KEY,
-        'linkedin_key': NOM_LINKEDIN_KEY,
-        'email_key': NOM_EMAIL_KEY,
-        'discord_key': NOM_DISCORD_USERNAME_KEY,
-        'nominee_id_key': NOM_ID_KEY,
-        'election_types': Election.election_type_choices,
-        'election_id_key': ELECTION_ID_KEY
+    context = {
+        INPUT_DATE__NAME: ELECTION_JSON_KEY__DATE,
+        INPUT_TIME__NAME: ELECTION_JSON_WEBFORM_KEY__TIME,
+        SELECT_ELECTION_TYPE__NAME: ELECTION_JSON_KEY__ELECTION_TYPE,
+        CURRENT_ELECTION_TYPES: Election.election_type_choices,
+        INPUT_WEBSURVEY__NAME: ELECTION_JSON_KEY__WEBSURVEY,
+
+        NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES,
+
+        INPUT_NOMINEE_ID__NAME: ID_KEY,
+        INPUT_NOMINEE_NAME__NAME: ELECTION_JSON_KEY__NOM_NAME,
+        INPUT_NOMINEE_FACEBOOK__NAME: ELECTION_JSON_KEY__NOM_FACEBOOK,
+        INPUT_NOMINEE_LINKEDIN__NAME: ELECTION_JSON_KEY__NOM_LINKEDIN,
+        INPUT_NOMINEE_EMAIL__NAME: ELECTION_JSON_KEY__NOM_EMAIL,
+        INPUT_NOMINEE_DISCORD__NAME: ELECTION_JSON_KEY__NOM_DISCORD,
+
+        CURRENT_OFFICER_POSITIONS: [
+            position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
+                marked_for_deletion=False
+            )
+        ],
+        INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
+        INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
+        INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
+        INPUT_SPEECH_ID__NAME: ID_KEY,
+
+        CREATE_NEW_ELECTION__HTML_NAME: create_new_election,
+
     }
+    context.update(create_submission_buttons_context(create_new_election=create_new_election))
+    return context
 
 
-def create_webform_context_with_pre_populated_election_data(error_message, election_dict=None):
+def create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict=None):
     """
     Returns a dict that is populated with the error message as the sole entry under the key 'error_messages'
     along with the election data under the following keys
-    date
-    time
-    selected_election_type
-    websurvey
-    nominees
+
+    Keyword Arguments
+    error_message -- the error message to store in the context
+    election_dict -- the dict that contains the election info that has to be transferred to the context
+
+    Return
+    a dict with the following keys
+    error_messages
+    input_election_id__name
+    input_election_id__value
+    input_date__value
+    input_time__value
+    selected_election_type__html_name
+    current_websurvey_link
+    nominees__html_name
     """
-    context = {ERROR_MESSAGES_KEY: [error_message]}
+    context = {
+        ERROR_MESSAGES_KEY: [error_message]
+    }
     if election_dict is not None:
-        if ELECTION_DATE_KEY in election_dict:
-            context[ELECTION_DATE_KEY] = election_dict[ELECTION_DATE_KEY]
-        if ELECTION_TIME_KEY in election_dict:
-            context[ELECTION_TIME_KEY] = election_dict[ELECTION_TIME_KEY]
-        if ELECTION_TYPE_KEY in election_dict:
-            context[ELECTION_TYPE_KEY] = election_dict[ELECTION_TYPE_KEY]
-        if ELECTION_WEBSURVEY_LINK_KEY in election_dict:
-            context[ELECTION_WEBSURVEY_LINK_KEY] = election_dict[ELECTION_WEBSURVEY_LINK_KEY]
-        if ELECTION_NOMINEES_KEY in election_dict:
-            context[ELECTION_NOMINEES_KEY] = election_dict[ELECTION_NOMINEES_KEY]
+        if ELECTION_ID in election_dict:
+            context[INPUT_ELECTION_ID__NAME] = ELECTION_ID
+            context[INPUT_ELECTION_ID__VALUE] = election_dict[ELECTION_ID]
+        if ELECTION_JSON_KEY__DATE in election_dict:
+            context[INPUT_DATE__VALUE] = election_dict[ELECTION_JSON_KEY__DATE]
+        if ELECTION_JSON_WEBFORM_KEY__TIME in election_dict:
+            context[INPUT_TIME__VALUE] = election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
+        if ELECTION_JSON_KEY__ELECTION_TYPE in election_dict:
+            context[SELECTED_ELECTION_TYPE__HTML_NAME] = election_dict[ELECTION_JSON_KEY__ELECTION_TYPE]
+        if ELECTION_JSON_KEY__WEBSURVEY in election_dict:
+            context[CURRENT_WEBSURVEY_LINK] = election_dict[ELECTION_JSON_KEY__WEBSURVEY]
+        if ELECTION_JSON_KEY__NOMINEES in election_dict:
+            context[NOMINEES_HTML__NAME] = election_dict[ELECTION_JSON_KEY__NOMINEES]
     return context
+
+
+def create_webform_election_context_from_db_election_obj(election_id):
+    """
+    Returns information about the election
+
+    Keyword Argument
+    election_id -- the id for the election to get information about
+
+    Return
+    a dict that contains either the error experienced when trying to access the election id
+    or the election itself in a format that is ready for the webform page to display
+    """
+    election = get_existing_election_by_id(election_id)
+    if election is None:
+        return {
+            ERROR_MESSAGES_KEY: ["No valid election found for given election id"]
+        }
+
+    return {
+        INPUT_ELECTION_ID__NAME: ELECTION_ID,
+        INPUT_ELECTION_ID__VALUE: election.id,
+        INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
+        INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
+        SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
+        CURRENT_WEBSURVEY_LINK: election.websurvey,
+        NOMINEES_HTML__NAME: get_election_nominees(election)
+    }

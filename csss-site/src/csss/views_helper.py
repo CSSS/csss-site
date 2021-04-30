@@ -5,6 +5,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 
 from about.models import Term
+from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
 from elections.models import Election
 
 ERROR_MESSAGE_KEY = 'error_message'
@@ -34,7 +35,7 @@ def create_main_context(request, tab, groups=None):
     context.update({
         'authenticated': request.user.is_authenticated,
         'authenticated_officer': ('officer' in groups),
-        'election_officer': ('election_officer' in groups),
+        ELECTION_MANAGEMENT_GROUP_NAME: (ELECTION_MANAGEMENT_GROUP_NAME in groups),
         'staff': request.user.is_staff,
         'username': request.user.username,
         'tab': tab,
@@ -83,9 +84,8 @@ def verify_access_logged_user_and_create_context_for_elections(request, tab):
     """
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
-    if not ('election_officer' in groups or request.user.is_staff):
-        return HttpResponseRedirect(
-            '/error'), "You are not authorized to access this page", None
+    if not (ELECTION_MANAGEMENT_GROUP_NAME in groups):
+        return HttpResponseRedirect('/error'), "You are not authorized to access this page", context
     return None, None, context
 
 
@@ -146,12 +146,22 @@ def get_datetime_for_beginning_of_current_term():
     Return the datetime for the beginning of the current time where the month is Jan, May, Sept and the day is 1
     """
     current_date = datetime.datetime.now()
-    while not (
-            current_date.month == 1 or current_date.month == 5 or current_date.month == 9 and
-            (current_date.day == 1)
-    ):
+    while not date_is_first_day_of_term(current_date):
         current_date = current_date - datetime.timedelta(days=1)
     return current_date
+
+
+def date_is_first_day_of_term(current_date):
+    """
+    Returns a bool to indicate if given date is the first date of a School Term
+
+    Keyword Argument
+    current_date -- the date to check
+
+    Return
+    bool
+    """
+    return (current_date.month == 1 or current_date.month == 5 or current_date.month == 9) and current_date.day == 1
 
 
 def get_current_term_obj():

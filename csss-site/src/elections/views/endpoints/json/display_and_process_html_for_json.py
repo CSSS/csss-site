@@ -4,8 +4,7 @@ from django.shortcuts import render
 
 from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY, \
     ERROR_MESSAGES_KEY
-from elections.views.create_context.json.create_json_context import create_json_context
-from elections.views.Constants import TAB_STRING, DISPLAY_ELECTION_KEY
+from elections.views.Constants import ELECTION_ID, TAB_STRING, UPDATE_EXISTING_ELECTION__NAME
 from elections.views.update_election.json.display_json_for_selected_election_json import \
     display_current_json_election_json
 from elections.views.update_election.json.process_existing_election_json import \
@@ -26,13 +25,15 @@ def display_and_process_html_for_modification_of_json_election(request):
     (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
         request, TAB_STRING
     )
-    if context is None:
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
-    if request.method != "POST":
+
+    if not (ELECTION_ID in request.POST or ELECTION_ID in request.session):
         context[ERROR_MESSAGES_KEY] = ["Unable to locate the Election ID in the request"]
         return render(request, 'elections/update_election/update_election_json.html', context)
 
-    context.update(create_json_context())
-    return display_current_json_election_json(request, context)  \
-        if DISPLAY_ELECTION_KEY in request.POST else process_existing_election_information_from_json(request, context)
+    process_election = (request.method == "POST") and (UPDATE_EXISTING_ELECTION__NAME in request.POST)
+
+    return process_existing_election_information_from_json(request, context) \
+        if process_election else display_current_json_election_json(request, context)

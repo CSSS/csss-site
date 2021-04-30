@@ -1,6 +1,7 @@
 from elections.models import Nominee
-from elections.views.Constants import NOM_NAME_KEY, NOM_FACEBOOK_KEY, NOM_LINKEDIN_KEY, \
-    NOM_EMAIL_KEY, NOM_DISCORD_USERNAME_KEY, NOM_POSITION_AND_SPEECH_KEY, NOM_ID_KEY
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
+    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
+    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ID_KEY
 from elections.views.validators.validate_existing_nominee_jformat import validate_existing_nominee_jformat
 
 
@@ -17,27 +18,31 @@ def validate_nominees_for_existing_election_jformat(election_id, nominees):
     error_message -- populated if the nominee[s] could not be saved
     """
     for nominee in nominees:
-        if not (NOM_NAME_KEY in nominee and NOM_FACEBOOK_KEY in nominee
-                and NOM_LINKEDIN_KEY in nominee and NOM_EMAIL_KEY in nominee
-                and NOM_DISCORD_USERNAME_KEY in nominee and NOM_POSITION_AND_SPEECH_KEY in nominee):
+        if not (ELECTION_JSON_KEY__NOM_NAME in nominee and ELECTION_JSON_KEY__NOM_FACEBOOK in nominee
+                and ELECTION_JSON_KEY__NOM_LINKEDIN in nominee and ELECTION_JSON_KEY__NOM_EMAIL in nominee
+                and ELECTION_JSON_KEY__NOM_DISCORD in nominee
+                and ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee):
             return False, f"It seems that one of the nominees is missing one of the following fields:" \
-                          f" {NOM_NAME_KEY}, {NOM_FACEBOOK_KEY}, {NOM_LINKEDIN_KEY}, " \
-                          f"{NOM_EMAIL_KEY}, {NOM_DISCORD_USERNAME_KEY}, " \
-                          f"{NOM_POSITION_AND_SPEECH_KEY}"
-        if NOM_ID_KEY in nominee:
-            if f"{nominee[NOM_ID_KEY]}".isdigit():
+                          f" {ELECTION_JSON_KEY__NOM_NAME}, {ELECTION_JSON_KEY__NOM_FACEBOOK}, " \
+                          f"{ELECTION_JSON_KEY__NOM_LINKEDIN}, " \
+                          f"{ELECTION_JSON_KEY__NOM_EMAIL}, {ELECTION_JSON_KEY__NOM_DISCORD}, " \
+                          f"{ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS}"
+        if ID_KEY in nominee:
+            if f"{nominee[ID_KEY]}".isdigit():
                 matching_nominees_under_specified_election = Nominee.objects.all().filter(
-                    id=int(nominee[NOM_ID_KEY]),
+                    id=int(nominee[ID_KEY]),
                     election_id=election_id
                 )
                 if len(matching_nominees_under_specified_election) == 0:
-                    return False, f"Invalid nominee id of {int(nominee[NOM_ID_KEY])} detected"
+                    return False, f"Invalid nominee id of {int(nominee[ID_KEY])} detected"
             else:
-                return False, f"Invalid type detected for nominee id of {nominee[NOM_ID_KEY]}"
+                return False, f"Invalid type detected for nominee id of {nominee[ID_KEY]}"
 
         success, error_message = validate_existing_nominee_jformat(
-            nominee[NOM_NAME_KEY], nominee[NOM_POSITION_AND_SPEECH_KEY], nominee[NOM_FACEBOOK_KEY],
-            nominee[NOM_LINKEDIN_KEY], nominee[NOM_EMAIL_KEY], nominee[NOM_DISCORD_USERNAME_KEY],
+            nominee[ELECTION_JSON_KEY__NOM_NAME], nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
+            nominee[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
+            nominee[ELECTION_JSON_KEY__NOM_EMAIL],
+            nominee[ELECTION_JSON_KEY__NOM_DISCORD],
             election_id
         )
         if not success:

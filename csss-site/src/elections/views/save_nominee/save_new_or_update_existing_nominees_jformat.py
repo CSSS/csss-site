@@ -1,5 +1,5 @@
 from elections.models import Nominee, NomineeSpeech, NomineePosition
-from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOMINEES, ID_KEY, ELECTION_JSON_KEY__NOM_NAME, \
+from elections.views.Constants import ELECTION_JSON_KEY__NOMINEES, ID_KEY, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD
 from elections.views.extractors.get_existing_nominee import get_exist_nominee

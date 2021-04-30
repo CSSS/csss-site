@@ -1,9 +1,8 @@
 from django.shortcuts import render
 
-from csss.views_helper import ERROR_MESSAGES_KEY
-from elections.views.Constants import DISPLAY_ELECTION_KEY
-from elections.views.extractors.webform.get_election_info_that_user_wants_to_modify_webform import \
-    get_information_for_election_user_wants_to_modify_in_webform
+from elections.views.Constants import ELECTION_ID
+from elections.views.create_context.webform.create_webform_context import create_webform_context, \
+    create_webform_election_context_from_db_election_obj
 
 
 def display_current_webform_election(request, context):
@@ -18,8 +17,10 @@ def display_current_webform_election(request, context):
     render object that direct the user to the page for updating an election in WebForm form, with possibly an
      error message
     """
-    if DISPLAY_ELECTION_KEY not in request.POST:
-        context[ERROR_MESSAGES_KEY] = ["Unable to locate the Election ID in the request"]
-        return render(request, 'elections/update_election/update_election_webform.html', context)
-    context.update(get_information_for_election_user_wants_to_modify_in_webform(request.POST[DISPLAY_ELECTION_KEY]))
+
+    election_id = request.session[ELECTION_ID] if ELECTION_ID in request.session else request.POST[ELECTION_ID]
+    if ELECTION_ID in request.session:
+        del request.session[ELECTION_ID]
+    context.update(create_webform_context(create_new_election=False))
+    context.update(create_webform_election_context_from_db_election_obj(election_id))
     return render(request, 'elections/update_election/update_election_webform.html', context)

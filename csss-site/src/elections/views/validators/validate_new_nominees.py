@@ -2,7 +2,7 @@ import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import there_are_multiple_entries
-from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 
 logger = logging.getLogger('csss_site')

@@ -14,7 +14,7 @@ def validate_existing_nominee_jformat(name, position_names_and_speech_pairings, 
 
     Keyword Arguments
     name -- the full name of the nominee
-    position_names_and_speeches -- a list of the pairings of the nominee's speeches and position_names
+    position_names_and_speech_pairings -- a list of the pairings of the nominee's speeches and position_names
     facebook_link -- the link to the nominee's facebook profile
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address

@@ -6,19 +6,15 @@ from datetime import datetime
 
 # Create your models here.
 
-
 class Election(models.Model):
-    # class Meta:
-    #     verbose_name_plural = "NominationPages"
-
     slug = models.SlugField(
         max_length=32,
+        unique=True
     )
     human_friendly_name = models.CharField(
         max_length=32,
         default="NONE"
     )
-
     election_type_choices = (
         ('general_election', 'General Election'),
         ('by_election', 'By-Election'),
@@ -26,9 +22,9 @@ class Election(models.Model):
 
     election_type = models.CharField(
         _("Election Type"),
-        max_length=16,
         choices=election_type_choices,
         default='General Election',
+        max_length=1000,
     )
 
     date = models.DateTimeField(
@@ -55,7 +51,7 @@ class Nominee(models.Model):
         _(u'Facebook Link'),
         max_length=300
     )
-    linked_in = models.CharField(
+    linkedin = models.CharField(
         _(u'LinkedIn Link'),
         max_length=300
     )

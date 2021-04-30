@@ -1,45 +1,102 @@
-NOM_NAME_KEY = 'name'
-NOM_ID_KEY = 'id'
-NOM_POSITIONS_KEY = 'position_names'
-NOM_POSITION_KEY = 'position_name'
-NOM_POSITION_AND_SPEECH_KEY = 'position_names_and_speech_pairings'
-NOM_SPEECH_KEY = 'speech'
-NOM_FACEBOOK_KEY = 'facebook'
-NOM_LINKEDIN_KEY = 'linked_in'
-NOM_EMAIL_KEY = 'email'
-NOM_DISCORD_USERNAME_KEY = 'discord'
-
-ELECTION_TYPE_KEY = "selected_election_type"
-ELECTION_DATE_KEY = "date"
-ELECTION_WEBSURVEY_LINK_KEY = 'websurvey'
-ELECTION_NOMINEES_KEY = 'nominees'
-ELECTION_ID_KEY = 'election_id'
-ELECTION_TIME_KEY = 'time'
-
-DELETE_ACTION_KEY = 'delete'
-UPDATE_JSON_KEY = 'json'
-UPDATE_WEBFORM_KEY = 'webform'
-ELECTION_MODIFY_KEY = 'modify'
-
-ELECTION_DICT_KEY = 'election_dict'
-
-JSON_INPUT_FIELD_KEY = 'input_json'
+from elections.models import Election, Nominee, NomineePosition, NomineeSpeech
 
 TAB_STRING = 'elections'
 
-ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
-ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
-ENDPOINT_DELETE_ELECTION = 'delete'
+ID_KEY = 'id'
+
+ELECTION__HTML_NAME = 'election__html_name'
+ELECTION_MANAGEMENT_PERMISSION = 'election_management_permission'
+BUTTON_MODIFY_ELECTION_ID__NAME = 'button_modify_election_id__name'
+ELECTION_ID = 'election_id'
+
+INPUT_ELECTION_ID__NAME = 'input_election_id__name'
+INPUT_ELECTION_ID__VALUE = 'input_election_id__value'
+
+NOMINEES_HTML__NAME = 'nominees__html_name'
+
+INPUT_REDIRECT_ELECTION__NAME = 'input_redirect_election_submit__name'
+INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE = (
+    'input_redirect_election_submit_and_continue_editing__value'
+)
+INPUT_REDIRECT_ELECTION_SUBMIT__VALUE = 'input_redirect_election_submit__value'
+CREATE_NEW_ELECTION__NAME = 'create_election'
+UPDATE_EXISTING_ELECTION__NAME = 'update_election'
+SAVE_ELECTION__VALUE = 'Save Election'
+SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
+
+SAVE_NEW_JSON_ELECTION__BUTTON_ID = 'save_election__button_id'
+SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE = 'save_election_button'
+SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID = 'save_new_election_and_continue_editing__button_id'
+SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_election_and_continue_editing__button'
+
+TYPES_OF_ELECTIONS = 'types_of_elections'
+VALID_POSITION_NAMES = 'valid_position_names'
+
+ELECTION_JSON__KEY = 'election'
+
+FORMAT_ELECTION_JSON__DIV_ID_NAME = 'json_formatting_div__name'
+JS_FORMATTING_ERROR = 'js_formatting_error'
+
+USER_INPUTTED_ELECTION_JSON__KEY = 'election_input__html_name'
+USER_INPUTTED_ELECTION_JSON = 'election_input'
+
+
+# keys/values in Election JSON
+ELECTION_JSON_KEY__ELECTION_TYPE = Election.election_type.field_name
+ELECTION_JSON_KEY__DATE = Election.date.field_name
+ELECTION_JSON_WEBFORM_KEY__TIME = "time"
+ELECTION_JSON_VALUE__DATE_AND_TIME_FORMAT = "YYYY-MM-DD HH:MM"
+ELECTION_JSON_KEY__WEBSURVEY = Election.websurvey.field_name
+ELECTION_JSON_KEY__NOMINEES = Nominee.__name__.lower()+"s"
+ELECTION_JSON_KEY__NOM_NAME = Nominee.name.field_name
+ELECTION_JSON_KEY__NOM_POSITION_NAMES = NomineePosition.position_name.field_name + "s"
+ELECTION_JSON_KEY__NOM_POSITION_NAME = NomineePosition.position_name.field_name
+ELECTION_JSON_KEY__NOM_SPEECH = NomineeSpeech.speech.field_name
+ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS = \
+    f'{ELECTION_JSON_KEY__NOM_POSITION_NAMES}_and_{ELECTION_JSON_KEY__NOM_SPEECH}_pairings'
+ELECTION_JSON_KEY__NOM_FACEBOOK = Nominee.facebook.field_name
+ELECTION_JSON_KEY__NOM_LINKEDIN = Nominee.linkedin.field_name
+ELECTION_JSON_KEY__NOM_EMAIL = Nominee.email.field_name
+ELECTION_JSON_KEY__NOM_DISCORD = Nominee.discord.field_name
+
 
 DATE_FORMAT = '%Y-%m-%d'
 TIME_FORMAT = '%H:%M'
 DATE_AND_TIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"
 
-DISPLAY_ELECTION_KEY = 'display_election'
+INPUT_DATE__NAME = 'input_date__name'
+INPUT_DATE__VALUE = 'input_date__value'
+INPUT_TIME__NAME = 'input_time__name'
+INPUT_TIME__VALUE = 'input_time__value'
+POSITIONS_KEY = 'positions'
+SELECT_ELECTION_TYPE__NAME = 'select_election_type__name'
+SELECTED_ELECTION_TYPE = 'selected_election_type'
+CURRENT_ELECTION_TYPES = 'election_types'
+SELECTED_ELECTION_TYPE__HTML_NAME = 'selected_election_type__html_name'
+INPUT_WEBSURVEY__NAME = 'input_websurvey__name'
 
-REDIRECT_TO_ELECTION = 'redirect_to_election'
-REDIRECT_TO_ELECTION_KEY = 'redirect_election_key'
-SUBMIT = "Submit"
-SUBMIT_KEY = 'submit_key'
-SUBMIT_AND_CONTINUE_EDITING = 'Submit and Continue Editing'
-SUBMIT_AND_CONTINUE_EDITING_KEY = 'submit_and_continue_editing_key'
+CURRENT_WEBSURVEY_LINK = 'current_websurvey_link'
+INPUT_NOMINEE_ID__NAME = 'input_nominee_id__name'
+
+CREATE_NEW_ELECTION__HTML_NAME = 'create_new_election__html_name'
+
+NOMINEE_DIV__NAME = 'nominee_div__name'
+
+INPUT_NOMINEE_SPEECH__NAME = 'input_nominee_speech__name'
+
+INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME = 'input_nominee_speech_and_position_pairing__name'
+INPUT_NOMINEE_POSITION_NAMES__NAME = 'input_nominee_position_names__name'
+
+INPUT_SPEECH_ID__NAME = 'input_speech_id__name'
+
+INPUT_NOMINEE_NAME__NAME = 'input_nominee_name__name'
+
+INPUT_NOMINEE_FACEBOOK__NAME = 'input_nominee_facebook__name'
+INPUT_NOMINEE_LINKEDIN__NAME = 'input_nominee_linkedin__name'
+INPUT_NOMINEE_EMAIL__NAME = 'input_nominee_email__name'
+INPUT_NOMINEE_DISCORD__NAME = 'input_nominee_discord__name'
+
+CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
+
+ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
+ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'

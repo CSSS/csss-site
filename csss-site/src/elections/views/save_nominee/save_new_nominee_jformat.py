@@ -2,7 +2,7 @@ import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import Nominee, NomineeSpeech, NomineePosition
-from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAME
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAMES
 
 logger = logging.getLogger('csss_site')
 
@@ -32,7 +32,7 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
     email_address = email_address.strip()
     discord_username = discord_username.strip()
     nominee = Nominee(election=election, name=name, facebook=facebook_link,
-                      linked_in=linkedin_link, email=email_address, discord=discord_username)
+                      linkedin=linkedin_link, email=email_address, discord=discord_username)
     nominee.save()
     logger.info("[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} under election {election}"
@@ -45,7 +45,7 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
         )
         speech_obj.save()
         speech_ids.append(speech_obj.id)
-        for position_name in speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAME]:
+        for position_name in speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
             nominee_position = NomineePosition(
                 position_name=position_name, nominee_speech=speech_obj,
                 position_index=OfficerEmailListAndPositionMapping.objects.get(

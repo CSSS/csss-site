@@ -5,7 +5,6 @@ from elections.models import Election, Nominee, NomineePosition, NomineeSpeech
 
 # Register your models here.
 
-
 class ElectionAdmin(admin.ModelAdmin):
     list_display = (
         'id',
@@ -25,7 +24,7 @@ class NomineeAdmin(admin.ModelAdmin):
         'election',
         'name',
         'facebook',
-        'linked_in',
+        'linkedin',
         'email',
         'discord',
     )

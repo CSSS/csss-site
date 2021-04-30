@@ -1,6 +1,6 @@
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import NomineeSpeech, NomineePosition
-from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, \
     ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ID_KEY
@@ -8,7 +8,7 @@ from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_POSITION_AND_SPE
 
 def update_existing_nominee_jformat(nominee_obj, nominee):
     """
-    Updates the specified nominee position
+    Updates the specified nominee
 
     Keyword Argument
     nominee_obj -- the nominee that needs its info and speech and position updated

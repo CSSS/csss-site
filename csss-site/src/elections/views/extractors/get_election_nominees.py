@@ -1,7 +1,8 @@
 from elections.models import Nominee, NomineeSpeech, NomineePosition
-from elections.views.Constants import NOM_POSITIONS_KEY, NOM_ID_KEY, NOM_POSITION_KEY, NOM_SPEECH_KEY, \
-    NOM_NAME_KEY, NOM_POSITION_AND_SPEECH_KEY, NOM_EMAIL_KEY, NOM_LINKEDIN_KEY, NOM_FACEBOOK_KEY, \
-    NOM_DISCORD_USERNAME_KEY
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
+    ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, \
+    ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
+    ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_SPEECH, ID_KEY
 
 
 def get_election_nominees(election):
@@ -53,32 +54,35 @@ def get_election_nominees(election):
                     for position_name in NomineePosition.objects.all().filter(nominee_speech=speech).order_by(
                             'position_index'
                     ):
-                        if NOM_POSITIONS_KEY not in speech_and_position_pairing:
-                            speech_and_position_pairing[NOM_POSITIONS_KEY] = [{
-                                NOM_ID_KEY: position_name.id,
-                                NOM_POSITION_KEY: position_name.position_name
+                        if ELECTION_JSON_KEY__NOM_POSITION_NAMES not in speech_and_position_pairing:
+                            speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = [{
+                                ID_KEY: position_name.id,
+                                ELECTION_JSON_KEY__NOM_POSITION_NAME: position_name.position_name
                             }]
                         else:
-                            speech_and_position_pairing[NOM_POSITIONS_KEY].append(
+                            speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES].append(
                                 {
-                                    NOM_ID_KEY: position_name.id,
-                                    NOM_POSITION_KEY: position_name.position_name
+                                    ID_KEY: position_name.id,
+                                    ELECTION_JSON_KEY__NOM_POSITION_NAME: position_name.position_name
                                 }
                             )
-                    speech_and_position_pairing[NOM_ID_KEY] = speech.id
-                    speech_and_position_pairing[NOM_SPEECH_KEY] = speech.speech
+                    speech_and_position_pairing[ID_KEY] = speech.id
+                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech.speech
                     if speech_and_position_pairing is not None:
                         speech_and_position_pairings.append(speech_and_position_pairing)
 
             if nominee.name not in nominees_dict_to_display:
                 nominees_dict_to_display[nominee.name] = {
-                    NOM_ID_KEY: nominee.id, NOM_NAME_KEY: nominee.name,
-                    NOM_POSITION_AND_SPEECH_KEY: speech_and_position_pairings, NOM_EMAIL_KEY: nominee.email,
-                    NOM_LINKEDIN_KEY: nominee.linked_in, NOM_FACEBOOK_KEY: nominee.facebook,
-                    NOM_DISCORD_USERNAME_KEY: nominee.discord
+                    ID_KEY: nominee.id,
+                    ELECTION_JSON_KEY__NOM_NAME: nominee.name,
+                    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS: speech_and_position_pairings,
+                    ELECTION_JSON_KEY__NOM_FACEBOOK: nominee.facebook,
+                    ELECTION_JSON_KEY__NOM_LINKEDIN: nominee.linkedin,
+                    ELECTION_JSON_KEY__NOM_EMAIL: nominee.email,
+                    ELECTION_JSON_KEY__NOM_DISCORD: nominee.discord
                 }
             else:
-                nominees_dict_to_display[nominee.name][NOM_POSITION_AND_SPEECH_KEY].extend(
+                nominees_dict_to_display[nominee.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].extend(
                     speech_and_position_pairings
                 )
             nominee_names.append(nominee.name)

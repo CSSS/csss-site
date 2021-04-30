@@ -1,19 +1,26 @@
 import datetime
 import logging
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from administration.Constants import AdminConstants
-from csss.views_helper import create_main_context
+from administration.views import user_has_election_management_privilege
+from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 from elections.models import Election, NomineePosition
-from elections.views.Constants_v2 import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
+from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
     BUTTON_MODIFY_ELECTION_ID__NAME, INPUT_ELECTION_ID__NAME, ELECTION_ID, ELECTION__HTML_NAME, NOMINEES_HTML__NAME
+from elections.views.validators.validate_election_slug import validate_election_slug
 
 logger = logging.getLogger('csss_site')
 
 
 def get_nominees(request, slug):
     context = create_main_context(request, TAB_STRING)
+    if not validate_election_slug(slug):
+        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(
+            "Specified slug seems to have more than one election attached to it."
+        )
+        return HttpResponseRedirect('/error')
     election_to_display = Election.objects.get(slug=slug)
     if election_to_display.date <= datetime.datetime.now() or user_has_election_management_privilege(request):
         if user_has_election_management_privilege(request):
@@ -37,12 +44,12 @@ def get_nominees(request, slug):
                 nominee.social_media = f'<a href="{nominee.nominee_speech.nominee.facebook}" ' \
                                        f'target="_blank">Facebook Profile</a>'
                 barrier_needed = True
-            if nominee.nominee_speech.nominee.linked_in != "NONE":
+            if nominee.nominee_speech.nominee.linkedin != "NONE":
                 if barrier_needed:
                     nominee.social_media += " | "
                 else:
                     nominee.social_media = ""
-                nominee.social_media += f'<a href="{nominee.nominee_speech.nominee.linked_in}" ' \
+                nominee.social_media += f'<a href="{nominee.nominee_speech.nominee.linkedin}" ' \
                                         f'target="_blank">LinkedIn Profile</a>'
                 barrier_needed = True
             if nominee.nominee_speech.nominee.email != "NONE":
@@ -50,7 +57,7 @@ def get_nominees(request, slug):
                     nominee.social_media += " | "
                 else:
                     nominee.social_media = ""
-                nominee.social_media += f'Email: mailto:{nominee.nominee_speech.nominee.email}'
+                nominee.social_media += f'Email: <a href="mailto:{nominee.nominee_speech.nominee.email}"> {nominee.nominee_speech.nominee.email}</a>'
                 barrier_needed = True
             if nominee.nominee_speech.nominee.discord != "NONE":
                 if barrier_needed:
@@ -69,5 +76,3 @@ def get_nominees(request, slug):
         return render(request, 'elections/election_page.html', context)
 
 
-def user_has_election_management_privilege(request):
-    return AdminConstants.ELECTION_MANAGEMENT_GROUP_NAME in list(request.user.groups.values_list('name', flat=True))

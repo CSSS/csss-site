@@ -1,5 +1,7 @@
 import logging
 
+from elections.views.validators.validate_link import validate_http_link
+
 logger = logging.getLogger('csss_site')
 
 
@@ -29,14 +31,20 @@ def validate_nominee_obj_info(name, facebook_link, linkedin_link, email_address,
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
     discord_username = discord_username.strip()
-    if len(name) == 0 or name.upper() == "NONE":
+    if len(name) == 0 or name == "NONE":
         return False, "No valid name detected for one of the nominees"
     if len(facebook_link) == 0:
         return False, f"No valid facebook link detected for nominee" \
                       f" {name}, please set to \"NONE\" if there is no facebook link"
+    success, error_message = validate_http_link(facebook_link, "facebook", nom_name=name)
+    if not success:
+        return False, error_message
     if len(linkedin_link) == 0:
         return False, f"No valid linkedin link detected for nominee" \
                       f" {name}, please set to \"NONE\" if there is no linkedin link"
+    success, error_message = validate_http_link(linkedin_link, "linkedin", nom_name=name)
+    if not success:
+        return False, error_message
     if len(email_address) == 0:
         return False, f"No valid email detected for nominee" \
                       f" {name}, please set to \"NONE\" if there is no email"

@@ -15,5 +15,5 @@
         {%  include 'elections/json/input_election.html' %}
     </form>
     {%  include 'elections/json/js_formatting_script.html' %}
-    <script src="{% static "elections_static/json_beautify.js" %}"></script>
+    {%  include 'elections/json/json_beautify.html' %}
 {% endblock %}
