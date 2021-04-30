@@ -1,7 +1,7 @@
 from django import template
 
 from elections.templatetags.get_position_names import get_position_names
-from elections.views.Constants_v2 import ELECTION_JSON_KEY__NOM_POSITION_NAME, ID_KEY
+from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_NAME, ID_KEY
 
 register = template.Library()
 
