@@ -129,5 +129,3 @@ def process_existing_election_information_from_json(request, context):
     else:
         request.session[ELECTION_ID] = election.id
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{ENDPOINT_MODIFY_VIA_JSON}')
-
-

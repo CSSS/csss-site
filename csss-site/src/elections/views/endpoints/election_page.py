@@ -57,7 +57,8 @@ def get_nominees(request, slug):
                     nominee.social_media += " | "
                 else:
                     nominee.social_media = ""
-                nominee.social_media += f'Email: <a href="mailto:{nominee.nominee_speech.nominee.email}"> {nominee.nominee_speech.nominee.email}</a>'
+                nominee.social_media += f'Email: <a href="mailto:{nominee.nominee_speech.nominee.email}">' \
+                                        f' {nominee.nominee_speech.nominee.email}</a>'
                 barrier_needed = True
             if nominee.nominee_speech.nominee.discord != "NONE":
                 if barrier_needed:
@@ -74,5 +75,3 @@ def get_nominees(request, slug):
     else:
         logger.info("[elections/election_page.py get_nominees()] cant vote yet")
         return render(request, 'elections/election_page.html', context)
-
-

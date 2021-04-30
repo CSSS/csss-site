@@ -42,7 +42,8 @@ def create_json_election_context_from_user_inputted_election_dict(
         )
     ]
     context = {
-        TYPES_OF_ELECTIONS: f"Options for \"{ELECTION_JSON_KEY__ELECTION_TYPE}\": {', '.join(valid_election_type_choices)}",
+        TYPES_OF_ELECTIONS: f"Options for \"{ELECTION_JSON_KEY__ELECTION_TYPE}\": "
+                            f"{', '.join(valid_election_type_choices)}",
         VALID_POSITION_NAMES: f"Valid Positions: {', '.join(current_positions)}",
         FORMAT_ELECTION_JSON__DIV_ID_NAME: JS_FORMATTING_ERROR,
         USER_INPUTTED_ELECTION_JSON__KEY: ELECTION_JSON__KEY

@@ -26,5 +26,3 @@ def delete_selected_election(request):
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/')
     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format("Could not detect the election ID in your request")
     return HttpResponseRedirect(f"{settings.URL_ROOT}error")
-
-
