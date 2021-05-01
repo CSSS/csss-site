@@ -40,7 +40,7 @@ def process_existing_election_information_from_json(request, context):
     if not (ELECTION_ID in request.POST and ELECTION_JSON__KEY in request.POST):
         error_message = "Could not find the json in the input"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] {error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -48,7 +48,7 @@ def process_existing_election_information_from_json(request, context):
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] {error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -66,7 +66,7 @@ def process_existing_election_information_from_json(request, context):
                         f"{ELECTION_JSON_KEY__ELECTION_TYPE}, {ELECTION_JSON_KEY__DATE}, " \
                         f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__NOMINEES}"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] {error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict

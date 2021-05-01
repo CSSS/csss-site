@@ -55,7 +55,7 @@ def process_new_inputted_webform_election(request, context):
     if not validate_user_command(request):
         error_message = "Unable to understand user command"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
         )
         context.update(create_webform_context())
         context.update(create_submission_buttons_context())

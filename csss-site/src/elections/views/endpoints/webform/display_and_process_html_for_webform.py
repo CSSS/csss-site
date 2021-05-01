@@ -15,7 +15,7 @@ logger = logging.getLogger('csss_site')
 
 def display_and_process_html_for_modification_of_webform_election(request):
     """Shows the request election to the user in WebForm format"""
-    logger.info(f"[administration/display_and_process_html_for_webform.py "
+    logger.info(f"[elections/display_and_process_html_for_webform.py "
                 f"display_and_process_html_for_modification_of_webform_election()] request.POST={request.POST}")
     (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
         request, TAB_STRING

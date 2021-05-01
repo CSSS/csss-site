@@ -40,7 +40,7 @@ def process_new_inputted_json_election(request, context):
     if ELECTION_JSON__KEY not in request.POST:
         error_message = "Could not find the json in the input"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
         return render(request, 'elections/create_election/create_election_json.html', context)
@@ -48,7 +48,7 @@ def process_new_inputted_json_election(request, context):
     if not validate_user_command(request):
         error_message = "Unable to understand user command"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
         return render(request, 'elections/create_election/create_election_json.html', context)
@@ -67,7 +67,7 @@ def process_new_inputted_json_election(request, context):
                         f"{ELECTION_JSON_KEY__ELECTION_TYPE}, {ELECTION_JSON_KEY__DATE}, " \
                         f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__NOMINEES}"
         logger.info(
-            f"[elections/process_new_election_json.py process_new_inputted_election()] {error_message}"
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)

@@ -55,7 +55,7 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
             nominee_position.save()
             position_ids.append(nominee_position.id)
             logger.info(
-                "[elections/save_new_nominee_jformat.py save_new_nominee()]"
+                "[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} with position {nominee_position}"
             )
     return nominee.id, position_ids, speech_ids
