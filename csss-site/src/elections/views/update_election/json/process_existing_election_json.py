@@ -40,7 +40,8 @@ def process_existing_election_information_from_json(request, context):
     if not (ELECTION_ID in request.POST and ELECTION_JSON__KEY in request.POST):
         error_message = "Could not find the json in the input"
         logger.info(
-            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] {error_message}"
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -48,7 +49,8 @@ def process_existing_election_information_from_json(request, context):
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
         logger.info(
-            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] {error_message}"
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -57,6 +59,10 @@ def process_existing_election_information_from_json(request, context):
         request.POST[ELECTION_JSON__KEY]
     )
     if not success:
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict
         ))
@@ -66,7 +72,8 @@ def process_existing_election_information_from_json(request, context):
                         f"{ELECTION_JSON_KEY__ELECTION_TYPE}, {ELECTION_JSON_KEY__DATE}, " \
                         f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__NOMINEES}"
         logger.info(
-            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] {error_message}"
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict
@@ -77,6 +84,10 @@ def process_existing_election_information_from_json(request, context):
     if election is None:
         error_message = f"The Selected election for date {election_dict[ELECTION_JSON_KEY__DATE]} " \
                         f"does not exist"
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             election_id=election_id, error_message=error_message, election_information=election_dict
         ))
@@ -87,6 +98,10 @@ def process_existing_election_information_from_json(request, context):
 
     success, error_message = validate_json_election_date_and_time(election_dict[ELECTION_JSON_KEY__DATE])
     if not success:
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             election_id=election_id, error_message=error_message, election_information=election_dict
         ))
@@ -95,6 +110,10 @@ def process_existing_election_information_from_json(request, context):
     success, error_message = validate_election_type(
         election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             election_id=election_id, error_message=error_message, election_information=election_dict
         ))
@@ -102,6 +121,10 @@ def process_existing_election_information_from_json(request, context):
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict
         ))
@@ -111,6 +134,10 @@ def process_existing_election_information_from_json(request, context):
         election.id, election_dict[ELECTION_JSON_KEY__NOMINEES]
     )
     if not success:
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             election_id=election_id, error_message=error_message, election_information=election_dict
         ))

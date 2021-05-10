@@ -1,6 +1,9 @@
+import logging
+
 from elections.models import Election
 from elections.views.Constants import DATE_FORMAT
 
+logger = logging.getLogger('csss_site')
 
 def gete_slug_and_human_friendly_name_election(election_date, chosen_election_type):
     """
@@ -21,4 +24,8 @@ def gete_slug_and_human_friendly_name_election(election_date, chosen_election_ty
     ][0]
     slug = f"{election_date.strftime(DATE_FORMAT)}-{chosen_election_type}"
     human_friendly_name = f"{human_friendly_election_type}: {election_date.strftime(DATE_FORMAT)}"
+    logger.info(f"[elections/get_election_slug_and_name.py gete_slug_and_human_friendly_name_election()] "
+                f"created slug of {slug} and human_friendly_name of {human_friendly_name} from election "
+                f"date {election_date} and election_type of {chosen_election_type}"
+                )
     return slug, human_friendly_name

@@ -1,3 +1,5 @@
+import logging
+
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ELECTION_JSON_KEY__NOMINEES, ID_KEY, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
@@ -6,6 +8,7 @@ from elections.views.extractors.get_existing_nominee import get_exist_nominee
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
 
+logger = logging.getLogger('csss_site')
 
 def save_new_or_update_existing_nominees_jformat(election, election_information):
     """
@@ -45,31 +48,75 @@ def save_new_or_update_existing_nominees_jformat(election, election_information)
             list_of_nominee_ids_specified_in_election.append(nominee_id)
             list_of_speech_obj_ids_specified_in_election.extend(speech_ids)
             list_of_nominee_position_obj_ids_specified_in_election.extend(position_ids)
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"list_of_nominee_ids_specified_in_election = {list_of_nominee_ids_specified_in_election}"
+    )
 
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"list_of_speech_obj_ids_specified_in_election = {list_of_speech_obj_ids_specified_in_election}"
+    )
+
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"list_of_nominee_position_obj_ids_specified_in_election = "
+        f"{list_of_nominee_position_obj_ids_specified_in_election}"
+    )
     # does a cleanup to ensure there are no duplicate or garbage entries remaining for either
     # the nominees, the positions they are running for, or their speeches
     current_nominee_ids_under_election = [
         nominee.id for nominee in Nominee.objects.all().filter(election_id=election.id)
     ]
-    ids_to_delete = [
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"current_nominee_ids_under_election = {current_nominee_ids_under_election}"
+    )
+    nominee_ids_to_delete = [
         current_nominee_id_under_election for current_nominee_id_under_election in current_nominee_ids_under_election
         if current_nominee_id_under_election not in list_of_nominee_ids_specified_in_election
     ]
-    for nominee_id_to_delete in ids_to_delete:
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"nominee_ids_to_delete = {nominee_ids_to_delete}"
+    )
+    for nominee_id_to_delete in nominee_ids_to_delete:
         Nominee.objects.all().get(id=nominee_id_to_delete).delete()
 
-    speeches_id_to_delete = [
+    current_nominee_speech_ids_under_election = [
         speech.id for speech in NomineeSpeech.objects.all().filter(nominee__election_id=election.id)
-        if speech.id not in list_of_speech_obj_ids_specified_in_election
     ]
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"current_nominee_speech_ids_under_election = {current_nominee_speech_ids_under_election}"
+    )
+    speeches_id_to_delete = [
+        speech_id for speech_id in current_nominee_speech_ids_under_election
+        if speech_id not in list_of_speech_obj_ids_specified_in_election
+    ]
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"speeches_id_to_delete = {speeches_id_to_delete}"
+    )
     for speech_id_to_delete in speeches_id_to_delete:
         NomineeSpeech.objects.all().get(id=speech_id_to_delete).delete()
 
-    nominee_positions_to_delete = [
-        positions.id
-        for positions in NomineePosition.objects.all().filter(nominee_speech__nominee__election_id=election.id)
-        if positions.id not in list_of_nominee_position_obj_ids_specified_in_election
+    current_nominee_speech_ids_under_election = [
+        speech.id for speech in NomineePosition.objects.all().filter(nominee_speech__nominee__election_id=election.id)
     ]
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"current_nominee_speech_ids_under_election = {current_nominee_speech_ids_under_election}"
+    )
+    nominee_positions_to_delete = [
+        position_id
+        for position_id in current_nominee_speech_ids_under_election
+        if position_id not in list_of_nominee_position_obj_ids_specified_in_election
+    ]
+    logger.info(
+        "[elections/save_new_or_update_existing_nominees_jformat.py save_new_or_update_existing_nominees_jformat()]"
+        f"nominee_positions_to_delete = {nominee_positions_to_delete}"
+    )
     for nominee_position_id_to_delete in nominee_positions_to_delete:
         NomineePosition.objects.all().get(id=nominee_position_id_to_delete).delete()
     return None

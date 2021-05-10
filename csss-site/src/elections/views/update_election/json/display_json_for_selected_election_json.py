@@ -20,14 +20,12 @@ def display_current_json_election_json(request, context):
      error message
     """
     election_id = None
-    error_message = None
     if ELECTION_ID in request.session:
         election_id = validate_election_id(request.session[ELECTION_ID])
         del request.session[ELECTION_ID]
     elif ELECTION_ID in request.POST:
         election_id = validate_election_id(request.POST[ELECTION_ID])
-    if election_id is None:
-        error_message = "No valid election found for given election id"
+    error_message = None if election_id is None else "No valid election found for given election id"
     context.update(create_json_election_context_from_user_inputted_election_dict(
         error_message=error_message,
         election_id=election_id,

@@ -57,6 +57,9 @@ def process_new_inputted_json_election(request, context):
         request.POST[ELECTION_JSON__KEY]
     )
     if not success:
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)
         )
@@ -77,6 +80,9 @@ def process_new_inputted_json_election(request, context):
     success, error_message = validate_election_type(
         election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)
         )
@@ -84,6 +90,9 @@ def process_new_inputted_json_election(request, context):
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)
         )
@@ -91,6 +100,9 @@ def process_new_inputted_json_election(request, context):
     success, error_message = validate_json_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE])
     if not success:
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)
         )
@@ -100,6 +112,9 @@ def process_new_inputted_json_election(request, context):
         election_dict[ELECTION_JSON_KEY__NOMINEES]
     )
     if not success:
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
+        )
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)
         )

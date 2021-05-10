@@ -15,6 +15,9 @@ def get_existing_election_by_id(election_id):
     Return
     elections -- the election object for the election the user wants
     """
+    logger.info(f"[elections/get_existing_election_by_id.py get_existing_election_by_id()] "
+                f"trying to get election from ID {election_id} "
+                )
     if validate_election_id(election_id):
         return Election.objects.get(id=election_id)
     logger.info("[elections/get_existing_election_by_id.py get_existing_election_by_id()] "

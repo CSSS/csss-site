@@ -1,3 +1,4 @@
+import logging
 from elections.views.Constants import SAVE_NEW_JSON_ELECTION__BUTTON_ID, SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE, \
     INPUT_REDIRECT_ELECTION__NAME, CREATE_NEW_ELECTION__NAME, INPUT_REDIRECT_ELECTION_SUBMIT__VALUE, \
     SAVE_ELECTION__VALUE, SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID, \
@@ -5,6 +6,7 @@ from elections.views.Constants import SAVE_NEW_JSON_ELECTION__BUTTON_ID, SAVE_NE
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
     UPDATE_EXISTING_ELECTION__NAME
 
+logger = logging.getLogger('csss_site')
 
 def create_submission_buttons_context(create_new_election=True):
     """
@@ -39,4 +41,6 @@ def create_submission_buttons_context(create_new_election=True):
             SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE,
         INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE: SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE,
     })
+    logger.info("[elections/submission_buttons_context.py create_submission_buttons_context()] "
+                f"created election context of '{context}'")
     return context

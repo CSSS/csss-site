@@ -10,7 +10,6 @@ from elections.views.Constants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEB
     UPDATE_EXISTING_ELECTION__NAME, SAVE_ELECTION__VALUE, ELECTION_ID, \
     ENDPOINT_MODIFY_VIA_WEBFORM
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
-from elections.views.create_context.webform.create_webform_context import create_webform_context
 from elections.views.create_election.webform.process_new_election_webform import \
     create_webform_election_context_from_user_inputted_election_dict
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
@@ -51,7 +50,6 @@ def process_existing_election_information_from_webform(request, context):
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
             f" {error_message}"
         )
-        context.update(create_webform_context(create_new_election=False))
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
 
@@ -61,7 +59,6 @@ def process_existing_election_information_from_webform(request, context):
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()] "
             f"{error_message, election_dict}"
         )
-        context.update(create_webform_context(create_new_election=False))
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
 
@@ -69,13 +66,19 @@ def process_existing_election_information_from_webform(request, context):
     if election is None:
         error_message = f"The Selected election for date {election_dict[ELECTION_JSON_KEY__DATE]} " \
                         f"does not exist"
-        context.update(create_webform_context(create_new_election=False))
+        logger.info(
+            f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
+            f" {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
 
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
-        context.update(create_webform_context(create_new_election=False))
+        logger.info(
+            f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
+            f" {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
 
@@ -83,15 +86,20 @@ def process_existing_election_information_from_webform(request, context):
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
     )
     if not success:
-        context.update(create_webform_context(create_new_election=False))
-        context.update(create_submission_buttons_context(create_new_election=False))
+        logger.info(
+            f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
+            f" {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
     success, error_message = validate_nominees_for_existing_election_jformat(
         election.id, election_dict[ELECTION_JSON_KEY__NOMINEES]
     )
     if not success:
-        context.update(create_webform_context(create_new_election=False))
+        logger.info(
+            f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
+            f" {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
 

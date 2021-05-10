@@ -1,10 +1,6 @@
-import logging
-
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 from elections.views.validators.validate_speech_and_position_names import validate_speech_in_pairing, \
     validate_position_in_pairing
-
-logger = logging.getLogger('csss_site')
 
 
 def validate_existing_nominee_jformat(name, position_names_and_speech_pairings, facebook_link, linkedin_link,

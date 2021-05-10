@@ -8,9 +8,8 @@ from querystring_parser import parser
 from elections.views.Constants import ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__DATE, \
     ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES, CREATE_NEW_ELECTION__NAME, \
     SAVE_ELECTION__VALUE, ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_ID, ENDPOINT_MODIFY_VIA_WEBFORM
-from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.create_context.webform.create_webform_context import \
-    create_webform_election_context_from_user_inputted_election_dict, create_webform_context
+    create_webform_election_context_from_user_inputted_election_dict
 from elections.views.save_election.save_new_election_from_jformat import save_new_election_from_jformat
 from elections.views.utils.transform_webform_to_json import transform_webform_to_json
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
@@ -47,8 +46,6 @@ def process_new_inputted_webform_election(request, context):
         logger.info(
             f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
         )
-        context.update(create_webform_context())
-        context.update(create_submission_buttons_context())
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/create_election/create_election_webform.html', context)
 
@@ -57,22 +54,22 @@ def process_new_inputted_webform_election(request, context):
         logger.info(
             f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
         )
-        context.update(create_webform_context())
-        context.update(create_submission_buttons_context())
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/create_election/create_election_webform.html', context)
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
-        context.update(create_webform_context())
-        context.update(create_submission_buttons_context())
+        logger.info(
+            f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/create_election/create_election_webform.html', context)
 
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
-        context.update(create_webform_context())
-        context.update(create_submission_buttons_context())
+        logger.info(
+            f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/create_election/create_election_webform.html', context)
 
@@ -80,15 +77,17 @@ def process_new_inputted_webform_election(request, context):
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
     )
     if not success:
-        context.update(create_webform_context())
-        context.update(create_submission_buttons_context())
+        logger.info(
+            f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/create_election/create_election_webform.html', context)
 
     success, error_message = validate_new_nominees_for_new_election(election_dict[ELECTION_JSON_KEY__NOMINEES])
     if not success:
-        context.update(create_webform_context())
-        context.update(create_submission_buttons_context())
+        logger.info(
+            f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
+        )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/create_election/create_election_webform.html', context)
     election = save_new_election_from_jformat(

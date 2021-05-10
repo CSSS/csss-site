@@ -1,9 +1,13 @@
+import json
+import logging
+
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, \
     ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
     ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_SPEECH, ID_KEY
 
+logger = logging.getLogger('csss_site')
 
 def get_election_nominees(election):
     """
@@ -86,4 +90,7 @@ def get_election_nominees(election):
                     speech_and_position_pairings
                 )
             nominee_names.append(nominee.name)
-    return [nominee_info for nominee_info in nominees_dict_to_display.values()]
+    nominees = [nominee_info for nominee_info in nominees_dict_to_display.values()]
+    logger.info("[elections/get_election_nominees.py get_election_nominees()] nominees=")
+    logger.info(json.dumps(nominees, ident=3))
+    return nominees

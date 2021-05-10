@@ -1,4 +1,5 @@
 import json
+import logging
 
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import ERROR_MESSAGES_KEY
@@ -10,6 +11,8 @@ from elections.views.Constants import TYPES_OF_ELECTIONS, ELECTION_JSON_KEY__ELE
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
+
+logger = logging.getLogger('csss_site')
 
 
 def create_json_election_context_from_user_inputted_election_dict(
@@ -55,6 +58,8 @@ def create_json_election_context_from_user_inputted_election_dict(
     if election_information is not None:
         context[ELECTION_JSON__KEY] = json.dumps(election_information)
     context.update(create_submission_buttons_context())
+    logger.info("[elections/create_json_context.py create_json_election_context_from_user_inputted_election_dict()] "
+                f"created context of '{context}'")
     return context
 
 
@@ -69,9 +74,14 @@ def create_json_election_context_from_db_election_obj(election_id):
     a dict that contains the election itself in a format that is ready for the json page to display
     """
     election = get_existing_election_by_id(election_id)
-    return {
-        ELECTION_JSON_KEY__ELECTION_TYPE: election.election_type,
-        ELECTION_JSON_KEY__DATE: election.date.strftime(DATE_AND_TIME_FORMAT),
-        ELECTION_JSON_KEY__WEBSURVEY: election.websurvey,
-        ELECTION_JSON_KEY__NOMINEES: get_election_nominees(election)
-    }
+    context = None
+    if election is not None:
+        context = {
+            ELECTION_JSON_KEY__ELECTION_TYPE: election.election_type,
+            ELECTION_JSON_KEY__DATE: election.date.strftime(DATE_AND_TIME_FORMAT),
+            ELECTION_JSON_KEY__WEBSURVEY: election.websurvey,
+            ELECTION_JSON_KEY__NOMINEES: get_election_nominees(election)
+        }
+    logger.info("[elections/create_json_context.py create_json_election_context_from_db_election_obj()] "
+                f"created election context of '{context}'")
+    return context

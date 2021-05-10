@@ -1,3 +1,5 @@
+import logging
+
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.models import Election
@@ -18,6 +20,8 @@ from elections.views.Constants import INPUT_ELECTION_ID__NAME, INPUT_ELECTION_ID
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
+
+logger = logging.getLogger('csss_site')
 
 
 def create_webform_context(create_new_election=True):
@@ -85,6 +89,8 @@ def create_webform_context(create_new_election=True):
 
     }
     context.update(create_submission_buttons_context(create_new_election=create_new_election))
+    logger.info("[elections/create_webform_context.py create_webform_context()] "
+                f"created context of '{context}'")
     return context
 
 
@@ -125,6 +131,9 @@ def create_webform_election_context_from_user_inputted_election_dict(error_messa
             context[CURRENT_WEBSURVEY_LINK] = election_dict[ELECTION_JSON_KEY__WEBSURVEY]
         if ELECTION_JSON_KEY__NOMINEES in election_dict:
             context[NOMINEES_HTML__NAME] = election_dict[ELECTION_JSON_KEY__NOMINEES]
+    logger.info("[elections/create_webform_context.py create_webform_election_context_"
+                "from_user_inputted_election_dict()] "
+                f"created context of '{context}'")
     return context
 
 
@@ -140,17 +149,20 @@ def create_webform_election_context_from_db_election_obj(election_id):
     or the election itself in a format that is ready for the webform page to display
     """
     election = get_existing_election_by_id(election_id)
+    context = {}
     if election is None:
-        return {
-            ERROR_MESSAGES_KEY: ["No valid election found for given election id"]
-        }
+        context.update({ERROR_MESSAGES_KEY: ["No valid election found for given election id"]})
+    else:
+        context.update({
+            INPUT_ELECTION_ID__NAME: ELECTION_ID,
+            INPUT_ELECTION_ID__VALUE: election.id,
+            INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
+            INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
+            SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
+            CURRENT_WEBSURVEY_LINK: election.websurvey,
+            NOMINEES_HTML__NAME: get_election_nominees(election)
+        })
+    logger.info("[elections/create_webform_context.py create_webform_election_context_from_db_election_obj()] "
+                f"created context of '{context}'")
+    return context
 
-    return {
-        INPUT_ELECTION_ID__NAME: ELECTION_ID,
-        INPUT_ELECTION_ID__VALUE: election.id,
-        INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
-        INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
-        SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
-        CURRENT_WEBSURVEY_LINK: election.websurvey,
-        NOMINEES_HTML__NAME: get_election_nominees(election)
-    }
