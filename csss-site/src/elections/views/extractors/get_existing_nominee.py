@@ -4,6 +4,7 @@ from elections.models import Nominee
 
 logger = logging.getLogger('csss_site')
 
+
 def get_exist_nominee(nominee_id, election_id):
     """
     Gets the Nominee object that maps to the specified IDs
@@ -20,8 +21,6 @@ def get_exist_nominee(nominee_id, election_id):
                 )
     nominees = Nominee.objects.all().filter(election_id=election_id, id=nominee_id)
     if len(nominees) != 1:
-        logger.info(f"[elections/get_existing_nominee.py get_exist_nominee()] "
-                    f"no nominee was found "
-                    )
+        logger.info("[elections/get_existing_nominee.py get_exist_nominee()] no nominee was found ")
         return None
     return nominees[0]

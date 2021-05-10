@@ -13,9 +13,7 @@ logger = logging.getLogger('csss_site')
 
 
 def delete_selected_election(request):
-    logger.info(
-        f"[administration/delete_selected_election.py delete_selected_election()] request.POST="
-    )
+    logger.info("[administration/delete_selected_election.py delete_selected_election()] request.POST=")
     logger.info(json.dumps(request.POST, ident=3))
     (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
         request, TAB_STRING

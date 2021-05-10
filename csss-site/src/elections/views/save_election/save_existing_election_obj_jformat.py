@@ -6,6 +6,7 @@ from elections.views.extractors.get_election_slug_and_name import gete_slug_and_
 
 logger = logging.getLogger('csss_site')
 
+
 def update_existing_election_obj_from_jformat(election, date, election_type, websurvey_link):
     """
     updates the election info

@@ -5,6 +5,7 @@ from elections.views.Constants import DATE_FORMAT
 
 logger = logging.getLogger('csss_site')
 
+
 def gete_slug_and_human_friendly_name_election(election_date, chosen_election_type):
     """
     create the slug and human friendly name for election using its date and election type

@@ -10,6 +10,7 @@ from elections.views.save_nominee.update_existing_nominees_jformat import update
 
 logger = logging.getLogger('csss_site')
 
+
 def save_new_or_update_existing_nominees_jformat(election, election_information):
     """
     Iterates through the list of nominees that need to be saved or updated in the given election

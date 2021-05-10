@@ -9,6 +9,7 @@ from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH
 
 logger = logging.getLogger('csss_site')
 
+
 def get_election_nominees(election):
     """
     Get the nominees for a specified election

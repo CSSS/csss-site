@@ -165,4 +165,3 @@ def create_webform_election_context_from_db_election_obj(election_id):
     logger.info("[elections/create_webform_context.py create_webform_election_context_from_db_election_obj()] "
                 f"created context of '{context}'")
     return context
-

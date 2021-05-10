@@ -5,6 +5,7 @@ from elections.views.Constants import ELECTION_ID
 
 logger = logging.getLogger('csss_site')
 
+
 def validate_election_id_in_dict(request_obj):
     """
     determine if the election ID in the object is a valid election ID tht maps to a single election
@@ -35,7 +36,8 @@ def validate_election_id(election_id):
     bool -- True or False if the election id maps to a single election
     """
     election_id_is_digit = f"{election_id}".isdigit()
-    election_id_is_valid = False if election_id_is_digit is False else (len(Election.objects.all().filter(id=election_id))) == 1
+    election_id_is_valid = False if election_id_is_digit is False else (len(Election.objects.all().filter(
+        id=election_id))) == 1
     logger.info(
         "[elections/validate_election_id.py validate_election_id()]"
         f"election_id of {election_id} has election_id_is_digit = {election_id_is_digit} and "

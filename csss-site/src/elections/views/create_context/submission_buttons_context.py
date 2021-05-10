@@ -8,6 +8,7 @@ from elections.views.Constants import SAVE_NEW_JSON_ELECTION__BUTTON_ID, SAVE_NE
 
 logger = logging.getLogger('csss_site')
 
+
 def create_submission_buttons_context(create_new_election=True):
     """
     creates the context keys needed to populate the button for saving a new election or modifications to the

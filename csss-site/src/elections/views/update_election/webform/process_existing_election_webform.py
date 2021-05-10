@@ -9,7 +9,6 @@ from elections.views.Constants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEB
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES, \
     UPDATE_EXISTING_ELECTION__NAME, SAVE_ELECTION__VALUE, ELECTION_ID, \
     ENDPOINT_MODIFY_VIA_WEBFORM
-from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.create_election.webform.process_new_election_webform import \
     create_webform_election_context_from_user_inputted_election_dict
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id

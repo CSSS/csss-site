@@ -10,6 +10,7 @@ from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH
 
 logger = logging.getLogger('csss_site')
 
+
 def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     """
     Updates the specified nominee
@@ -32,7 +33,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
 
     logger.info(
         "[elections/update_existing_nominees_jformat.py update_existing_nominee_jformat()]"
-        f"updating a nominee obj with the following details ")
+        "updating a nominee obj with the following details ")
     logger.info(f"name = {nominee_obj.name}")
     logger.info(f"facebook = {nominee_obj.facebook}")
     logger.info(f"linked_in = {nominee_obj.linked_in}")
