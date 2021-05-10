@@ -93,5 +93,5 @@ def get_election_nominees(election):
             nominee_names.append(nominee.name)
     nominees = [nominee_info for nominee_info in nominees_dict_to_display.values()]
     logger.info("[elections/get_election_nominees.py get_election_nominees()] nominees=")
-    logger.info(json.dumps(nominees, ident=3))
+    logger.info(json.dumps(nominees, indent=3))
     return nominees

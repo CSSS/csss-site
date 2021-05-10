@@ -73,7 +73,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
             position.save()
             list_of_nominee_position_obj_ids_specified_in_election.append(position.id)
     logger.info("from nominee_dict=")
-    logger.info(json.dumps(nominee_dict, ident=3))
+    logger.info(json.dumps(nominee_dict, indent=3))
 
     nominee_obj.save()
     return list_of_nominee_position_obj_ids_specified_in_election, list_of_speech_obj_ids_specified_in_election

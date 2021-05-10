@@ -19,7 +19,7 @@ def display_and_process_html_for_new_webform_election(request):
         "[elections/create_election_webform.py display_and_process_html_for_new_webform_election()] "
         "request.POST"
     )
-    logger.info(json.dumps(request.POST, ident=3))
+    logger.info(json.dumps(request.POST, indent=3))
     (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
         request, TAB_STRING
     )
