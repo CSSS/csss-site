@@ -13,10 +13,10 @@
                 <input type="text" id="position_email" name="position_email" value="{{ unsaved_position_mapping.position_email }}" required><br>
                 <label for="elected_position">Officer is Elected Position</label>
                 <select name="elected_position" id="elected_position" required>
-                    {%  if unsaved_position_mapping.elected_position == 'True' %}
+                    {%  if unsaved_position_mapping.elected_position is True %}
                         <option value="True" selected>True</option>
                         <option value="False">False</option>
-                    {%  elif unsaved_position_mapping.elected_position == 'False' %}
+                    {%  elif unsaved_position_mapping.elected_position is False %}
                         <option value="True">True</option>
                         <option value="False" selected>False</option>
                     {%  endif %}
