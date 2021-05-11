@@ -19,13 +19,18 @@ def display_current_json_election_json(request, context):
     render object that direct the user to the page for updating an election in json form, with possibly an
      error message
     """
+    election_id_is_valid = None
     election_id = None
     if ELECTION_ID in request.session:
-        election_id = validate_election_id(request.session[ELECTION_ID])
+        election_id_is_valid = validate_election_id(request.session[ELECTION_ID])
+        if election_id_is_valid:
+            election_id = int(request.session[ELECTION_ID])
         del request.session[ELECTION_ID]
     elif ELECTION_ID in request.POST:
-        election_id = validate_election_id(request.POST[ELECTION_ID])
-    error_message = None if election_id is None else "No valid election found for given election id"
+        election_id_is_valid = validate_election_id(request.POST[ELECTION_ID])
+        if election_id_is_valid:
+            election_id = int(request.POST[ELECTION_ID])
+    error_message = None if election_id_is_valid is None else "No valid election found for given election id"
     context.update(create_json_election_context_from_user_inputted_election_dict(
         error_message=error_message,
         election_id=election_id,
