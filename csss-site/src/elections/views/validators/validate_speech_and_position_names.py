@@ -77,7 +77,7 @@ def validate_position_in_pairing(speech_and_position_pairing, specified_position
             position_name = position[ELECTION_JSON_KEY__NOM_POSITION_NAME]
         else:
             position_name = position
-        if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=position_name)) == 0:
+        if not validate_position_name(position_name):
             return False, f"Detected invalid position of {position_name} for nominee {name}"
         if position_name in specified_position_names:
             return False, f"the nominee {name} has the position {position_name} specified more than once"
@@ -102,3 +102,17 @@ def validate_id_for_position_pairing(position_dict, election_id):
                 )
             ) == 1
     )
+
+
+def validate_position_name(position_name):
+    """
+    returns a Bool that indicates if the position name is for a CSSS position that is elected via an election officer
+
+    Keyword Argument
+    position_name -- the name of the position
+    """
+    return len(
+        OfficerEmailListAndPositionMapping.objects.all().filter(
+            position_name=position_name, marked_for_deletion=False, elected_positions=True
+        )
+    ) > 0

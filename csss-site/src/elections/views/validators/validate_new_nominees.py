@@ -36,7 +36,7 @@ def validate_new_nominee(name, position_names_and_speech_pairings, facebook_link
             return False, f"It seems that the nominee {name}" \
                           f" does not have a list of positions they are running for"
         for position_name in position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
-            if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=position_name)) == 0:
+            if not validate_position_name(position_name):
                 return False, f"Detected invalid position of {position_name} for nominee {name}"
             if position_name in specified_position_names:
                 return False, f"the nominee {name} has the position {position_name} specified more than once"
@@ -51,3 +51,17 @@ def validate_new_nominee(name, position_names_and_speech_pairings, facebook_link
 def all_relevant_position_names_and_speech_pairing_keys_exist(position_names_and_speech_pairings):
     return ELECTION_JSON_KEY__NOM_POSITION_NAMES in position_names_and_speech_pairings \
            and ELECTION_JSON_KEY__NOM_SPEECH in position_names_and_speech_pairings
+
+
+def validate_position_name(position_name):
+    """
+    returns a Bool that indicates if the position name is for a CSSS position that is elected via an election officer
+
+    Keyword Argument
+    position_name -- the name of the position
+    """
+    return len(
+        OfficerEmailListAndPositionMapping.objects.all().filter(
+            position_name=position_name, marked_for_deletion=False, elected_positions=True
+        )
+    ) > 0

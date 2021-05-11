@@ -41,7 +41,7 @@ def create_json_election_context_from_user_inputted_election_dict(
                                    Election.election_type_choices]
     current_positions = [
         position.position_name for position in OfficerEmailListAndPositionMapping.objects.all().filter(
-            marked_for_deletion=False
+            marked_for_deletion=False, elected_positions=True
         )
     ]
     context = {

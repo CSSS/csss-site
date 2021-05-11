@@ -151,5 +151,9 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=False
     )
 
+    elected_position = models.BooleanField(
+        default=False
+    )
+
     def __str__(self):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"

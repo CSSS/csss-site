@@ -20,6 +20,8 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_an
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
+    "officer_email_list_and_position_mapping__elected_position"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'
@@ -34,6 +36,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION':
+            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION,
         'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
         'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
     })

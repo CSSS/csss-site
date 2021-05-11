@@ -14,7 +14,7 @@ logger = logging.getLogger('csss_site')
 
 POSITION_NAME_KEY = 'position_name'
 POSITION_EMAIL_KEY = 'position_email'
-
+POSITION_ELECTED_POSITION_KEY = 'elected_position'
 UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 
 
@@ -69,9 +69,10 @@ def _add_new_position_mapping(post_dict):
             position_name = post_dict[POSITION_NAME_KEY][index]
             position_index = post_dict[POSITION_INDEX_KEY][index]
             position_email = post_dict[POSITION_EMAIL_KEY][index]
+            elected_position = post_dict[POSITION_ELECTED_POSITION_KEY][index]
             unsaved_position_mappings.append(
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
-                 POSITION_EMAIL_KEY: position_email}
+                 POSITION_EMAIL_KEY: position_email, POSITION_ELECTED_POSITION_KEY: elected_position}
             )
             success, error_message = _validate_position_mappings(
                 position_index, position_name,
@@ -94,9 +95,12 @@ def _add_new_position_mapping(post_dict):
                 "all new positions passed validation"
             )
             for index in range(number_of_entries):
-                OfficerEmailListAndPositionMapping(position_name=post_dict[POSITION_NAME_KEY][index],
-                                                   position_index=post_dict[POSITION_INDEX_KEY][index],
-                                                   email=post_dict[POSITION_EMAIL_KEY][index]).save()
+                OfficerEmailListAndPositionMapping(
+                    position_name=post_dict[POSITION_NAME_KEY][index],
+                    position_index=post_dict[POSITION_INDEX_KEY][index],
+                    email=post_dict[POSITION_EMAIL_KEY][index],
+                    elected_position=post_dict[POSITION_ELECTED_POSITION_KEY][index]
+                ).save()
     else:
         success, error_message = \
             _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
@@ -108,7 +112,8 @@ def _add_new_position_mapping(post_dict):
 
             OfficerEmailListAndPositionMapping(position_name=post_dict[POSITION_NAME_KEY],
                                                position_index=post_dict[POSITION_INDEX_KEY],
-                                               email=post_dict[POSITION_EMAIL_KEY]).save()
+                                               email=post_dict[POSITION_EMAIL_KEY],
+                                               elected_position=post_dict[POSITION_ELECTED_POSITION_KEY]).save()
         else:
             logger.info(
                 f"[about/input_new_officer_positions.py _add_new_position_mapping()] unable to "

@@ -8,7 +8,8 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     get_current_term, get_datetime_for_beginning_of_current_term
 from elections.models import NomineePosition
@@ -106,6 +107,10 @@ def _update_position_mapping(post_dict):
         error_message = "No valid position email list detected for position mapping"
         logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
         return [error_message]
+    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION in post_dict):
+        error_message = "No valid position elected status detected for position mapping"
+        logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+        return [error_message]
 
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
         id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
@@ -119,10 +124,13 @@ def _update_position_mapping(post_dict):
     new_name_for_officer_position = post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME]
     new_sfu_email_list_address_for_officer_position = \
         post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS]
+    new_elected_position_boolean = \
+        post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION]
 
     if new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
             and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
-            and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email:
+            and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
+            and new_elected_position_boolean == position_mapping_for_selected_officer.elected_position:
         return []
 
     logger.info(
@@ -151,6 +159,7 @@ def _update_position_mapping(post_dict):
         position_mapping_for_selected_officer.position_name = new_name_for_officer_position
         position_mapping_for_selected_officer.position_index = new_position_index_for_officer_position
         position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
+        position_mapping_for_selected_officer.elected_position = new_elected_position_boolean
         position_mapping_for_selected_officer.save()
     else:
         logger.info(

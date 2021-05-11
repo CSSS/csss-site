@@ -49,7 +49,7 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
             nominee_position = NomineePosition(
                 position_name=position_name, nominee_speech=speech_obj,
                 position_index=OfficerEmailListAndPositionMapping.objects.get(
-                    position_name=position_name
+                    position_name=position_name, marked_for_deletion=False, elected_positions=True
                 ).position_index
             )
             nominee_position.save()
