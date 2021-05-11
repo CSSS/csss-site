@@ -12,6 +12,15 @@
                 <label for="position_email">Officer Position Email</label>
                 <input type="text" id="position_email" name="position_email" value="{{ unsaved_position_mapping.position_email }}" required><br>
                 <label for="elected_position">Officer is Elected Position</label>
+                <select name="elected_position" id="elected_position" required>
+                    {%  if unsaved_position_mapping.elected_position == 'True' %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.elected_position == 'False' %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select>
                 <input type="text" id="elected_position" name="elected_position" value="{{ unsaved_position_mapping.elected_position }}" required><br>
             </div>
         {%  endfor %}
@@ -26,7 +35,10 @@
                 <label for="position_email">Officer Position Email</label>
                 <input type="text" id="position_email" name="position_email" required><br>
                 <label for="elected_position">Officer is Elected Position</label>
-                <input type="text" id="elected_position" name="elected_position" required><br>
+                <select name="elected_position" id="elected_position" required>
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select>
             </div>
         {%  endif %}
     </div>
@@ -48,7 +60,12 @@
         newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
         newOfficerPosition.innerHTML += "<label for=\"elected_position\">Officer is Elected Position</label>";
-        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"elected_position\" name=\"elected_position\" required><br>";
+        newOfficerPosition.innerHTML += "<select name=\"elected_position\" id=\"elected_position\" required><br>";
+        newOfficerPosition.innerHTML += "<option value=\"True\">True</option><br>";
+        newOfficerPosition.innerHTML += "<option value=\"False\">False</option><br>";
+        newOfficerPosition.innerHTML += "</select><br>";
+
+
         newOfficerPosition.innerHTML += "</div>";
         document.getElementById(divName).appendChild(newOfficerPosition);
     }
