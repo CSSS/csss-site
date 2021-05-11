@@ -64,7 +64,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
                 position = NomineePosition()
             position.position_name = user_specified_position_name
             position.position_index = OfficerEmailListAndPositionMapping.objects.get(
-                position_name=user_specified_position_name, marked_for_deletion=False, elected_positions=True
+                position_name=user_specified_position_name, marked_for_deletion=False, elected_position=True
             ).position_index
             position.nominee_speech = speech_obj
             logger.info(

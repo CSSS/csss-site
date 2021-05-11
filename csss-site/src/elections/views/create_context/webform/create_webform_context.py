@@ -77,7 +77,7 @@ def create_webform_context(create_new_election=True):
 
         CURRENT_OFFICER_POSITIONS: [
             position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
-                marked_for_deletion=False, elected_positions=True
+                marked_for_deletion=False, elected_position=True
             )
         ],
         INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
