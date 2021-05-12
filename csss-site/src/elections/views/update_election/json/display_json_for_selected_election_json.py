@@ -30,7 +30,7 @@ def display_current_json_election_json(request, context):
         election_id_is_valid = validate_election_id(request.POST[ELECTION_ID])
         if election_id_is_valid:
             election_id = int(request.POST[ELECTION_ID])
-    error_message = None if election_id_is_valid is False else "No valid election found for given election id"
+    error_message = None if election_id_is_valid is True else "No valid election found for given election id"
     context.update(create_json_election_context_from_user_inputted_election_dict(
         error_message=error_message,
         election_id=election_id,
