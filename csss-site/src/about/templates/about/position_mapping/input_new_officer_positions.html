@@ -60,10 +60,15 @@
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
         newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label><br>";
         newOfficerPosition.innerHTML += "<select name=\"elected_via_election_officer\" id=\"elected_via_election_officer\" required><br>";
-        newOfficerPosition.innerHTML += "<option value=\"True\">True</option><br>";
-        newOfficerPosition.innerHTML += "<option value=\"False\">False</option><br>";
-        newOfficerPosition.innerHTML += "</select><br>";
         newOfficerPosition.innerHTML += "</div>";
         document.getElementById(divName).appendChild(newOfficerPosition);
+        const true_option = document.createElement('option');
+        true_option.value = 'True'
+        true_option.innerHTML = 'True'
+        newOfficerPosition.appendChild(true_option);
+        const false_option = document.createElement('option');
+        false_option.value = 'False'
+        false_option.innerHTML = 'False'
+        newOfficerPosition.appendChild(false_option);
     }
 </script>
