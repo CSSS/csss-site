@@ -11,17 +11,16 @@
                 <input type="text" id="position_name" name="position_name" value="{{ unsaved_position_mapping.position_name }}" required><br>
                 <label for="position_email">Officer Position Email</label>
                 <input type="text" id="position_email" name="position_email" value="{{ unsaved_position_mapping.position_email }}" required><br>
-                <label for="elected_position">Officer is Elected Position</label>
-                <select name="elected_position" id="elected_position" required>
-                    {%  if unsaved_position_mapping.elected_position is True %}
+                <label for="elected_via_election_officer">Elected Via Election Officer</label>
+                <select name="elected_via_election_officer" id="elected_via_election_officer" required>
+                    {%  if unsaved_position_mapping.elected_via_election_officer is True %}
                         <option value="True" selected>True</option>
                         <option value="False">False</option>
-                    {%  elif unsaved_position_mapping.elected_position is False %}
+                    {%  elif unsaved_position_mapping.elected_via_election_officer is False %}
                         <option value="True">True</option>
                         <option value="False" selected>False</option>
                     {%  endif %}
                 </select>
-                <input type="text" id="elected_position" name="elected_position" value="{{ unsaved_position_mapping.elected_position }}" required><br>
             </div>
         {%  endfor %}
 
@@ -34,8 +33,8 @@
                 <input type="text" id="position_name" name="position_name" required><br>
                 <label for="position_email">Officer Position Email</label>
                 <input type="text" id="position_email" name="position_email" required><br>
-                <label for="elected_position">Officer is Elected Position</label>
-                <select name="elected_position" id="elected_position" required>
+                <label for="elected_via_election_officer">Elected Via Election Officer</label>
+                <select name="elected_via_election_officer" id="elected_via_election_officer" required>
                         <option value="True">True</option>
                         <option value="False">False</option>
                 </select>
@@ -59,13 +58,23 @@
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
         newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
-        newOfficerPosition.innerHTML += "<label for=\"elected_position\">Officer is Elected Position</label>";
-        newOfficerPosition.innerHTML += "<select name=\"elected_position\" id=\"elected_position\" required><br>";
-        newOfficerPosition.innerHTML += "<option value=\"True\">True</option><br>";
-        newOfficerPosition.innerHTML += "<option value=\"False\">False</option><br>";
-        newOfficerPosition.innerHTML += "</select><br>";
+        newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label><br>";
 
+        const true_option = document.createElement('option');
+        true_option.value = 'True'
+        true_option.innerHTML = 'True'
+        const false_option = document.createElement('option');
+        false_option.value = 'False'
+        false_option.innerHTML = 'False'
 
+        var select_statement = document.createElement('select');
+        select_statement.setAttribute('name', 'elected_via_election_officer');
+        select_statement.setAttribute('id', 'elected_via_election_officer');
+        select_statement.setAttribute('required', '');
+
+        select_statement.appendChild(true_option);
+        select_statement.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement);
         newOfficerPosition.innerHTML += "</div>";
         document.getElementById(divName).appendChild(newOfficerPosition);
     }

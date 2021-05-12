@@ -141,6 +141,26 @@ def validate_position_name(position_name, submitted_position_names=None):
     return True, None
 
 
+def validate_elected_via_election_officer_status(elected_via_election_officer_status):
+    """
+    Validates the status selected for the attribute of elected via election officer
+
+    Keyword Argument
+    elected_via_election_officer_status -- the atribute that indicates if the position is elected via election officer
+
+    Return
+    success -- True or False if the attribute of elected via election officer is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (elected_via_election_officer_status == 'True' or elected_via_election_officer_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_elected_via_election_officer_status()] "
+                    "validating for if the position is elected via election officer "
+                    f"{elected_via_election_officer_status} was unsuccessful")
+        return False, f"the option of elected_via_election_officer which is set to" \
+                      f" {elected_via_election_officer_status} is invalid"
+    return True, None
+
+
 GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY = 'github_mapping_selected_officer_position'
 
 

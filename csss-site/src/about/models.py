@@ -151,7 +151,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=False
     )
 
-    elected_position = models.BooleanField(
+    elected_via_election_officer = models.BooleanField(
         default=False
     )
 
