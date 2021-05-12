@@ -59,16 +59,23 @@
         newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
         newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label><br>";
-        newOfficerPosition.innerHTML += "<select name=\"elected_via_election_officer\" id=\"elected_via_election_officer\" required><br>";
-        newOfficerPosition.innerHTML += "</div>";
-        document.getElementById(divName).appendChild(newOfficerPosition);
+
         const true_option = document.createElement('option');
         true_option.value = 'True'
         true_option.innerHTML = 'True'
-        newOfficerPosition.appendChild(true_option);
         const false_option = document.createElement('option');
         false_option.value = 'False'
         false_option.innerHTML = 'False'
-        newOfficerPosition.appendChild(false_option);
+
+        var select_statement = document.createElement('select');
+        select_statement.setAttribute('name', 'elected_via_election_officer');
+        select_statement.setAttribute('id', 'elected_via_election_officer');
+        select_statement.setAttribute('required', '');
+
+        select_statement.appendChild(true_option);
+        select_statement.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement);
+        newOfficerPosition.innerHTML += "</div>";
+        document.getElementById(divName).appendChild(newOfficerPosition);
     }
 </script>
