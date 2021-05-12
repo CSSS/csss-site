@@ -73,7 +73,9 @@ def _add_new_position_mapping(post_dict):
             elected_via_election_officer = post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index]
             unsaved_position_mappings.append(
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
-                 POSITION_EMAIL_KEY: position_email, ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer}
+                 POSITION_EMAIL_KEY: position_email,
+                 ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer == 'True'
+                 }
             )
             success, error_message = _validate_position_mappings(
                 position_index, position_name,
@@ -102,7 +104,7 @@ def _add_new_position_mapping(post_dict):
                     position_name=post_dict[POSITION_NAME_KEY][index],
                     position_index=post_dict[POSITION_INDEX_KEY][index],
                     email=post_dict[POSITION_EMAIL_KEY][index],
-                    elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index]
+                    elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True'
                 ).save()
     else:
         success, error_message = \
@@ -118,7 +120,7 @@ def _add_new_position_mapping(post_dict):
                 position_name=post_dict[POSITION_NAME_KEY],
                 position_index=post_dict[POSITION_INDEX_KEY],
                 email=post_dict[POSITION_EMAIL_KEY],
-                elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY]
+                elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True'
             ).save()
         else:
             logger.info(
