@@ -123,13 +123,13 @@ def _update_position_mapping(post_dict):
     new_name_for_officer_position = post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME]
     new_sfu_email_list_address_for_officer_position = \
         post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS]
-    new_elected_position_boolean = \
+    elected_via_election_officer = \
         post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION]
 
     if new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
             and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
             and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
-            and new_elected_position_boolean == position_mapping_for_selected_officer.elected_position:
+            and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer:
         return []
 
     logger.info(
@@ -168,7 +168,7 @@ def _update_position_mapping(post_dict):
         position_mapping_for_selected_officer.position_name = new_name_for_officer_position
         position_mapping_for_selected_officer.position_index = new_position_index_for_officer_position
         position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
-        position_mapping_for_selected_officer.elected_via_election_officer = new_elected_position_boolean
+        position_mapping_for_selected_officer.elected_via_election_officer = elected_via_election_officer
         position_mapping_for_selected_officer.save()
     else:
         logger.info(
