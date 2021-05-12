@@ -62,6 +62,6 @@ def validate_position_name(position_name):
     """
     return len(
         OfficerEmailListAndPositionMapping.objects.all().filter(
-            position_name=position_name, marked_for_deletion=False, elected_position=True
+            position_name=position_name, marked_for_deletion=False, elected_via_election_officer=True
         )
     ) > 0
