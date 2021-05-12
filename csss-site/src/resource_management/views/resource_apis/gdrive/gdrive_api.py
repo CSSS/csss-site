@@ -146,6 +146,7 @@ class GoogleDrive:
                         sendNotificationEmail=True,
                         body=body
                     ).execute()
+                    time.sleep(30)
                     logger.info(
                         f"[GoogleDrive add_users_gdrive()] email sent to {user.lower()} "
                         "regarding their access to the sfu google drive"
@@ -193,8 +194,7 @@ class GoogleDrive:
                                 )
                                 self.gdrive.permissions().delete(fileId=file_id,
                                                                  permissionId=permission['id']).execute()
-                                if self._determine_if_file_id_belongs_to_gdrive_folder(file_id):
-                                    time.sleep(5)
+                                time.sleep(30)
                                 logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
                                 logger.error(
@@ -224,6 +224,7 @@ class GoogleDrive:
                     f"publicly available."
                 )
                 self.gdrive.permissions().create(fileId=file_id, body=body).execute()
+                time.sleep(30)
                 logger.info("[GoogleDrive make_public_link_gdrive()] will attempt to get the public link to file.")
                 response = self.gdrive.files().get(fileId=file_id, fields='name, webViewLink').execute()
                 return True, response['name'], response['webViewLink'], None
@@ -244,6 +245,7 @@ class GoogleDrive:
                     f"that is enabled for file with id {file_id}"
                 )
                 self.gdrive.permissions().delete(fileId=file_id, permissionId='anyoneWithLink').execute()
+                time.sleep(30)
                 logger.info(
                     f"[GoogleDrive remove_public_link_gdrive()] removed public link for file with id {file_id}"
                 )
@@ -300,6 +302,8 @@ class GoogleDrive:
             gdrive_users_with_access_to_root_folder = [
                 permission['emailAddress'].lower() for permission in response['permissions']
             ]
+            logger.info("[GoogleDrive _ensure_root_permissions_are_correct()] current root permissions are: ")
+            logger.info(json.dumps(gdrive_users_with_access_to_root_folder, indent=3))
             for gdrive_user in gdrive_users_with_access_to_root_folder:
                 if gdrive_user in google_drive_perms:
                     if self.root_file_id not in google_drive_perms[gdrive_user]:
