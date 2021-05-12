@@ -12,6 +12,7 @@ ssh csss@sfucsss.org "rm /home/csss/create_jsons.sh"
 
 mv about.json ../../migrations/fixtures/.
 python3 ../../migrations/update_confidential_info.py
+mv auth.json ../../migrations/fixtures/.
 mv announcements.json ../../migrations/fixtures/.
 mv django_mailbox.json ../../migrations/fixtures/.
 #mv elections.json ../../migrations/fixtures/.
