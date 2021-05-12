@@ -20,6 +20,8 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_an
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
+    "officer_email_list_and_position_mapping__elected_position"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'
@@ -34,6 +36,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION':
+            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION,
         'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
         'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
     })
@@ -134,6 +138,26 @@ def validate_position_name(position_name, submitted_position_names=None):
         return False, f"the position of {position_name} already exists"
     logger.info(f"[about/position_mapping_helper.py validate_position_name()] validate for position name "
                 f"{position_name} was successful")
+    return True, None
+
+
+def validate_elected_via_election_officer_status(elected_via_election_officer_status):
+    """
+    Validates the status selected for the attribute of elected via election officer
+
+    Keyword Argument
+    elected_via_election_officer_status -- the atribute that indicates if the position is elected via election officer
+
+    Return
+    success -- True or False if the attribute of elected via election officer is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (elected_via_election_officer_status == 'True' or elected_via_election_officer_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_elected_via_election_officer_status()] "
+                    "validating for if the position is elected via election officer "
+                    f"{elected_via_election_officer_status} was unsuccessful")
+        return False, f"the option of elected_via_election_officer which is set to" \
+                      f" {elected_via_election_officer_status} is invalid"
     return True, None
 
 
