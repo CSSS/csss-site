@@ -6285,5 +6285,389 @@
         "author": "John Wu",
         "display": true
     }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 469,
+    "fields": {
+        "term": 20211,
+        "email": 408,
+        "manual_announcement": null,
+        "date": "2021-01-26T20:49:44",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 470,
+    "fields": {
+        "term": 20211,
+        "email": 409,
+        "manual_announcement": null,
+        "date": "2021-01-28T15:26:21",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 471,
+    "fields": {
+        "term": 20211,
+        "email": 410,
+        "manual_announcement": null,
+        "date": "2021-02-01T22:05:42",
+        "author": "Mitchell Gale",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 472,
+    "fields": {
+        "term": 20211,
+        "email": 411,
+        "manual_announcement": null,
+        "date": "2021-02-04T11:37:22",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 473,
+    "fields": {
+        "term": 20211,
+        "email": 412,
+        "manual_announcement": null,
+        "date": "2021-02-08T18:54:10",
+        "author": "John Wu",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 474,
+    "fields": {
+        "term": 20211,
+        "email": 413,
+        "manual_announcement": null,
+        "date": "2021-02-10T21:40:23",
+        "author": "Mitchell Gale",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 475,
+    "fields": {
+        "term": 20211,
+        "email": 414,
+        "manual_announcement": null,
+        "date": "2021-02-11T14:55:59",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 476,
+    "fields": {
+        "term": 20211,
+        "email": 415,
+        "manual_announcement": null,
+        "date": "2021-02-18T10:38:46",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 477,
+    "fields": {
+        "term": 20211,
+        "email": 416,
+        "manual_announcement": null,
+        "date": "2021-02-22T11:17:04",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 478,
+    "fields": {
+        "term": 20211,
+        "email": 417,
+        "manual_announcement": null,
+        "date": "2021-02-23T18:00:14",
+        "author": "Mitchell Gale",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 479,
+    "fields": {
+        "term": 20211,
+        "email": 418,
+        "manual_announcement": null,
+        "date": "2021-02-25T10:50:02",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 480,
+    "fields": {
+        "term": 20211,
+        "email": 419,
+        "manual_announcement": null,
+        "date": "2021-02-27T01:43:09",
+        "author": "Google",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 481,
+    "fields": {
+        "term": 20211,
+        "email": 420,
+        "manual_announcement": null,
+        "date": "2021-03-03T20:13:08",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 482,
+    "fields": {
+        "term": 20211,
+        "email": 421,
+        "manual_announcement": null,
+        "date": "2021-03-04T21:38:45",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 483,
+    "fields": {
+        "term": 20211,
+        "email": 422,
+        "manual_announcement": null,
+        "date": "2021-03-09T15:05:16",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 484,
+    "fields": {
+        "term": 20211,
+        "email": 423,
+        "manual_announcement": null,
+        "date": "2021-03-11T00:15:36",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 485,
+    "fields": {
+        "term": 20211,
+        "email": 424,
+        "manual_announcement": null,
+        "date": "2021-03-11T11:28:47",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 486,
+    "fields": {
+        "term": 20211,
+        "email": 425,
+        "manual_announcement": null,
+        "date": "2021-03-11T12:20:21",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 487,
+    "fields": {
+        "term": 20211,
+        "email": 426,
+        "manual_announcement": null,
+        "date": "2021-03-13T14:41:08",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 488,
+    "fields": {
+        "term": 20211,
+        "email": 427,
+        "manual_announcement": null,
+        "date": "2021-03-18T12:38:07",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 489,
+    "fields": {
+        "term": 20211,
+        "email": 428,
+        "manual_announcement": null,
+        "date": "2021-03-19T00:21:38",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 490,
+    "fields": {
+        "term": 20211,
+        "email": 429,
+        "manual_announcement": null,
+        "date": "2021-03-25T21:39:03",
+        "author": "Dusan Kovacevic",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 491,
+    "fields": {
+        "term": 20211,
+        "email": 430,
+        "manual_announcement": null,
+        "date": "2021-03-27T05:48:17",
+        "author": "Chun Kei Li",
+        "display": false
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 492,
+    "fields": {
+        "term": 20211,
+        "email": 431,
+        "manual_announcement": null,
+        "date": "2021-03-28T15:21:48",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 493,
+    "fields": {
+        "term": 20211,
+        "email": 432,
+        "manual_announcement": null,
+        "date": "2021-03-31T12:04:46",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 494,
+    "fields": {
+        "term": 20211,
+        "email": 433,
+        "manual_announcement": null,
+        "date": "2021-04-01T22:34:53",
+        "author": "Mitchell Gale",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 495,
+    "fields": {
+        "term": 20211,
+        "email": 434,
+        "manual_announcement": null,
+        "date": "2021-04-02T16:06:32",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 496,
+    "fields": {
+        "term": 20211,
+        "email": 435,
+        "manual_announcement": null,
+        "date": "2021-04-08T10:46:35",
+        "author": "Shiva Sanei",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 497,
+    "fields": {
+        "term": 20211,
+        "email": 436,
+        "manual_announcement": null,
+        "date": "2021-04-14T11:44:43",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 498,
+    "fields": {
+        "term": 20211,
+        "email": 437,
+        "manual_announcement": null,
+        "date": "2021-04-15T01:02:23",
+        "author": "Shariq Ahsan",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 499,
+    "fields": {
+        "term": 20212,
+        "email": 438,
+        "manual_announcement": null,
+        "date": "2021-05-05T23:03:56",
+        "author": "Mitchell Gale",
+        "display": true
+    }
+},
+{
+    "model": "announcements.announcement",
+    "pk": 500,
+    "fields": {
+        "term": 20212,
+        "email": 439,
+        "manual_announcement": null,
+        "date": "2021-05-07T13:00:04",
+        "author": "jkl53",
+        "display": true
+    }
 }
 ]
