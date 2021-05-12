@@ -5,6 +5,7 @@
             <th>Officer Position Indices</th>
             <th>Officer Position Names</th>
             <th>Officer SFU Email-List Addresses</th>
+            <th>Elected Via Election Officer</th>
         </tr>
         {%  for position in saved_officer_positions %}
             <tr>
@@ -14,6 +15,17 @@
                     <td><input type="number" name="officer_email_list_and_position_mapping__position_index" value="{{ position.position_index }}" required></td>
                     <td><input type="text" name="officer_email_list_and_position_mapping__position_name" value="{{ position.position_name }}"  required></td>
                     <td><input type="text" name="officer_email_list_and_position_mapping__email_list_address" value="{{ position.email }}" required></td>
+                    <td>
+                        <select name="officer_email_list_and_position_mapping__elected_position" required>
+                            {%  if position.elected_via_election_officer is True %}
+                                <option value="True" selected>True</option>
+                                <option value="False">False</option>
+                            {%  elif position.elected_via_election_officer is False %}
+                                <option value="True">True</option>
+                                <option value="False" selected>False</option>
+                            {%  endif %}
+                        </select>
+                    </td>
                     <td>
                         {%  if position.marked_for_deletion is True %}
                             <input type="submit" name="un_delete_position_mapping" value="Un-Delete">

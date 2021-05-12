@@ -5,7 +5,7 @@ from django.shortcuts import render
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
-    POSITION_INDEX_KEY
+    POSITION_INDEX_KEY, validate_elected_via_election_officer_status
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     there_are_multiple_entries
 from querystring_parser import parser
@@ -14,6 +14,7 @@ logger = logging.getLogger('csss_site')
 
 POSITION_NAME_KEY = 'position_name'
 POSITION_EMAIL_KEY = 'position_email'
+ELECTED_VIA_ELECTION_OFFICER_KEY = 'elected_via_election_officer'
 
 UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 
@@ -69,14 +70,17 @@ def _add_new_position_mapping(post_dict):
             position_name = post_dict[POSITION_NAME_KEY][index]
             position_index = post_dict[POSITION_INDEX_KEY][index]
             position_email = post_dict[POSITION_EMAIL_KEY][index]
+            elected_via_election_officer = post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True'
             unsaved_position_mappings.append(
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
-                 POSITION_EMAIL_KEY: position_email}
+                 POSITION_EMAIL_KEY: position_email, ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer}
             )
             success, error_message = _validate_position_mappings(
                 position_index, position_name,
+                elected_via_election_officer,
                 submitted_position_names=submitted_position_names,
-                submitted_position_indices=submitted_position_indices)
+                submitted_position_indices=submitted_position_indices
+            )
             submitted_position_names.append(position_name)
             submitted_position_indices.append(position_index)
             if not success:
@@ -94,21 +98,28 @@ def _add_new_position_mapping(post_dict):
                 "all new positions passed validation"
             )
             for index in range(number_of_entries):
-                OfficerEmailListAndPositionMapping(position_name=post_dict[POSITION_NAME_KEY][index],
-                                                   position_index=post_dict[POSITION_INDEX_KEY][index],
-                                                   email=post_dict[POSITION_EMAIL_KEY][index]).save()
+                OfficerEmailListAndPositionMapping(
+                    position_name=post_dict[POSITION_NAME_KEY][index],
+                    position_index=post_dict[POSITION_INDEX_KEY][index],
+                    email=post_dict[POSITION_EMAIL_KEY][index],
+                    elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True'
+                ).save()
     else:
         success, error_message = \
-            _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY])
+            _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY],
+                                        post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY])
         if success:
             logger.info(
                 f"[about/input_new_officer_positions.py _add_new_position_mapping()] "
                 f"new position {post_dict[POSITION_NAME_KEY]} passed validation"
             )
 
-            OfficerEmailListAndPositionMapping(position_name=post_dict[POSITION_NAME_KEY],
-                                               position_index=post_dict[POSITION_INDEX_KEY],
-                                               email=post_dict[POSITION_EMAIL_KEY]).save()
+            OfficerEmailListAndPositionMapping(
+                position_name=post_dict[POSITION_NAME_KEY],
+                position_index=post_dict[POSITION_INDEX_KEY],
+                email=post_dict[POSITION_EMAIL_KEY],
+                elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True'
+            ).save()
         else:
             logger.info(
                 f"[about/input_new_officer_positions.py _add_new_position_mapping()] unable to "
@@ -116,15 +127,17 @@ def _add_new_position_mapping(post_dict):
             )
             unsaved_position_mappings = [
                 {POSITION_NAME_KEY: post_dict[POSITION_NAME_KEY], POSITION_INDEX_KEY: post_dict[POSITION_INDEX_KEY],
-                 POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY]}]
+                 POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY],
+                 ELECTED_VIA_ELECTION_OFFICER_KEY: post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True'
+                 }
+            ]
             error_messages.append(error_message)
             return False, error_messages, unsaved_position_mappings
     return True, error_messages, None
 
 
-def _validate_position_mappings(
-        position_index, position_name, submitted_position_names=None,
-        submitted_position_indices=None):
+def _validate_position_mappings(position_index, position_name, elected_via_election_officer,
+                                submitted_position_names=None, submitted_position_indices=None):
     """
     Validates the new inputted position name and index
 
@@ -143,4 +156,7 @@ def _validate_position_mappings(
     success, error_message = validate_position_index(position_index, submitted_position_indices)
     if not success:
         return success, error_message
-    return validate_position_name(position_name, submitted_position_names)
+    success, error_message = validate_position_name(position_name, submitted_position_names)
+    if not success:
+        return success, error_message
+    return validate_elected_via_election_officer_status(elected_via_election_officer)
