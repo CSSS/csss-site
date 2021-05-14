@@ -3,8 +3,8 @@ from elections.views.validators.validate_speech_and_position_names import valida
     validate_position_in_pairing
 
 
-def validate_existing_nominee_jformat(name, position_names_and_speech_pairings, facebook_link, linkedin_link,
-                                      email_address, discord_username, election_id):
+def validate_existing_nominee_jformat(nominee_names_so_far, name, position_names_and_speech_pairings, facebook_link,
+                                      linkedin_link, email_address, discord_username, election_id):
     """
     validates the nominee info to validate it
 
