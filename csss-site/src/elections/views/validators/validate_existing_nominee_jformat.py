@@ -22,9 +22,8 @@ def validate_existing_nominee_jformat(name, position_names_and_speech_pairings, 
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    success, error_message = validate_nominee_obj_info(
-        name, facebook_link, linkedin_link, email_address, discord_username
-    )
+    success, error_message = validate_nominee_obj_info(nominee_names_so_far, name, facebook_link, linkedin_link,
+                                                       email_address, discord_username)
     if not success:
         return success, error_message
     specified_position_names = []

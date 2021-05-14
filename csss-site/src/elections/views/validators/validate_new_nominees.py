@@ -4,7 +4,7 @@ from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELE
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 
 
-def validate_new_nominee(name, position_names_and_speech_pairings, facebook_link, linkedin_link,
+def validate_new_nominee(nominee_names_so_far, name, position_names_and_speech_pairings, facebook_link, linkedin_link,
                          email_address, discord_username):
     """
     validates the nominee info to validate it
@@ -22,9 +22,8 @@ def validate_new_nominee(name, position_names_and_speech_pairings, facebook_link
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    success, error_message = validate_nominee_obj_info(
-        name, facebook_link, linkedin_link, email_address, discord_username
-    )
+    success, error_message = validate_nominee_obj_info(nominee_names_so_far, name, facebook_link, linkedin_link,
+                                                       email_address, discord_username)
     if not success:
         return success, error_message
     specified_position_names = []

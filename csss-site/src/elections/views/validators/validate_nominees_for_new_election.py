@@ -16,6 +16,7 @@ def validate_new_nominees_for_new_election(nominees):
     Boolean -- true if election was saved and false if it was not
     error_message -- populated if the nominee[s] could not be saved
     """
+    nominee_names_so_far = []
     for nominee in nominees:
         if not all_relevant_nominee_keys_exist(nominee):
             return False, f"It seems that one of the nominees is missing one of the following fields:" \
@@ -25,11 +26,12 @@ def validate_new_nominees_for_new_election(nominees):
         if not there_are_multiple_entries(nominee, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS):
             return False, f"It seems that the nominee {nominee[ELECTION_JSON_KEY__NOM_NAME]} " \
                           f"does not have a list of speeches and positions they are running for"
-        success, error_message = validate_new_nominee(
-            nominee[ELECTION_JSON_KEY__NOM_NAME], nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
-            nominee[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
-            nominee[ELECTION_JSON_KEY__NOM_EMAIL], nominee[ELECTION_JSON_KEY__NOM_DISCORD]
-        )
+        success, error_message = validate_new_nominee(nominee_names_so_far, nominee[ELECTION_JSON_KEY__NOM_NAME],
+                                                      nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
+                                                      nominee[ELECTION_JSON_KEY__NOM_FACEBOOK],
+                                                      nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
+                                                      nominee[ELECTION_JSON_KEY__NOM_EMAIL],
+                                                      nominee[ELECTION_JSON_KEY__NOM_DISCORD])
         if not success:
             return False, error_message
     return True, None

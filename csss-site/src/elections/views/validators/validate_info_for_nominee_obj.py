@@ -5,7 +5,8 @@ from elections.views.validators.validate_link import validate_http_link
 logger = logging.getLogger('csss_site')
 
 
-def validate_nominee_obj_info(name, facebook_link, linkedin_link, email_address, discord_username):
+def validate_nominee_obj_info(nominee_names_so_far, name, facebook_link, linkedin_link, email_address,
+                              discord_username):
     """
     validates the nominee info to validate it
 
@@ -31,6 +32,9 @@ def validate_nominee_obj_info(name, facebook_link, linkedin_link, email_address,
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
     discord_username = discord_username.strip()
+    if name in nominee_names_so_far:
+        return False, f"the nominee {name} has been specified more than once"
+    nominee_names_so_far.append(name)
     if len(name) == 0 or name == "NONE":
         return False, "No valid name detected for one of the nominees"
     if len(facebook_link) == 0:
