@@ -3,8 +3,9 @@ from elections.views.validators.validate_speech_and_position_names import valida
     validate_position_in_pairing
 
 
-def validate_existing_nominee_jformat(nominee_names_so_far, name, position_names_and_speech_pairings, facebook_link,
-                                      linkedin_link, email_address, discord_username, election_id):
+def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, position_ids_so_far, name,
+                                      position_names_and_speech_pairings, facebook_link, linkedin_link, email_address,
+                                      discord_username, election_id):
     """
     validates the nominee info to validate it
 
@@ -31,14 +32,12 @@ def validate_existing_nominee_jformat(nominee_names_so_far, name, position_names
         return False, f"It seems that the nominee {name} does not have a list of speeches" \
                       f" and positions they are running for"
     for position_names_and_speech_pairing in position_names_and_speech_pairings:
-        success, error_message = validate_speech_in_pairing(
-            position_names_and_speech_pairing, election_id, name
-        )
+        success, error_message = validate_speech_in_pairing(speech_ids_so_far, position_names_and_speech_pairing,
+                                                            election_id, name)
         if not success:
             return success, error_message
-        success, error_message = validate_position_in_pairing(
-            position_names_and_speech_pairing, specified_position_names, election_id, name
-        )
+        success, error_message = validate_position_in_pairing(position_ids_so_far, position_names_and_speech_pairing,
+                                                              specified_position_names, election_id, name)
         if not success:
             return success, error_message
     return True, None

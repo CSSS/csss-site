@@ -5,7 +5,7 @@ from elections.views.Constants import ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JS
     ELECTION_JSON_KEY__NOM_POSITION_NAME, ID_KEY
 
 
-def validate_speech_in_pairing(speech_and_position_pairing, election_id, name):
+def validate_speech_in_pairing(speech_ids_so_far, speech_and_position_pairing, election_id, name):
     """
     Ensures that the pairing has a speeh and if there is an ID, it does belong to ths specified election
 
@@ -24,15 +24,14 @@ def validate_speech_in_pairing(speech_and_position_pairing, election_id, name):
             len(speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
         return False, f"one of the speeches specified for {name} is invalid"
     if ID_KEY in speech_and_position_pairing:
-        if validate_id_for_speech_pairing(speech_and_position_pairing, election_id):
-            return True, None
-        else:
-            return False, f"one of the IDs specified for one of {name}'s speeches is invalid"
-    else:
-        return True, None
+        success, error_message = validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairing,
+                                                                election_id)
+        if not success:
+            return success, error_message
+    return True, None
 
 
-def validate_id_for_speech_pairing(speech_and_position_pairing, election_id):
+def validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairing, election_id):
     """
     returns a Bool that indicates if the ID in the speech_and_position_pairing is valid and belongs to a speech
      in the current election
@@ -40,16 +39,26 @@ def validate_id_for_speech_pairing(speech_and_position_pairing, election_id):
     Keyword Argument
     speech_and_position_pairing -- the dict that contains the ID for the speech
     election_id -- the Id for the election to check if the speech belongs to it
+
+    Return
+    Bool -- true or false depending on if the speech and [potential] ID is valid
+    error_message -- an error message if the validation failed, or None otherwise
     """
-    return f"{speech_and_position_pairing[ID_KEY]}".isdigit() and \
-           len(
-               NomineeSpeech.objects.all().filter(
-                   id=int(speech_and_position_pairing[ID_KEY]), nominee__election_id=election_id
-               )
-           ) == 1
+    if not f"{speech_and_position_pairing[ID_KEY]}".isdigit():
+        return False, f"the speech ID of {speech_and_position_pairing[ID_KEY]} is invalid"
+    if len(
+            NomineeSpeech.objects.all().filter(
+                id=int(speech_and_position_pairing[ID_KEY]), nominee__election_id=election_id
+            )
+    ) != 1:
+        return False, f"the speech ID of {speech_and_position_pairing[ID_KEY]} does not map to a current Speech object"
+    if int(speech_and_position_pairing[ID_KEY]) in speech_ids_so_far:
+        return False, f"The speech ID of {speech_and_position_pairing[ID_KEY]} is used by more than 1 speech"
+    return True, None
 
 
-def validate_position_in_pairing(speech_and_position_pairing, specified_position_names, election_id, name):
+def validate_position_in_pairing(position_ids_so_far, speech_and_position_pairing, specified_position_names,
+                                 election_id, name):
     """
     Ensures that the position is valid
 
@@ -71,7 +80,7 @@ def validate_position_in_pairing(speech_and_position_pairing, specified_position
     for position in speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
         if type(position) is dict:
             if ID_KEY in position:
-                if not validate_id_for_position_pairing(position, election_id):
+                if not validate_id_for_position_pairing(position_ids_so_far, position, election_id):
                     return False, \
                            f"One of the IDs specified for one of the positions that {name} is running for is invalid"
             if not (ELECTION_JSON_KEY__NOM_POSITION_NAME in position):
@@ -87,7 +96,7 @@ def validate_position_in_pairing(speech_and_position_pairing, specified_position
     return True, None
 
 
-def validate_id_for_position_pairing(position_dict, election_id):
+def validate_id_for_position_pairing(position_ids_so_far, position_dict, election_id):
     """
     returns a Bool that indicates if the ID in the position_dict is valid and belongs to a position name
      in the current election
@@ -95,15 +104,22 @@ def validate_id_for_position_pairing(position_dict, election_id):
     Keyword Argument
     position_dict -- the dict that contains the ID for the position_name
     election_id -- the Id for the election to check if the position_name belongs to it
+
+    Return
+    Bool -- true or false depending on if the speech and [potential] ID is valid
+    error_message -- an error message if the validation failed, or None otherwise
     """
-    return (
-            f"{position_dict[ID_KEY]}".isdigit() and
-            len(
-                NomineePosition.objects.all().filter(
-                    id=int(position_dict[ID_KEY]), nominee_speech__nominee__election_id=election_id
-                )
-            ) == 1
-    )
+    if not f"{position_dict[ID_KEY]}".isdigit():
+        return False, f"the position ID of {position_dict[ID_KEY]} is invalid"
+    if len(
+            NomineePosition.objects.all().filter(
+                id=int(position_dict[ID_KEY]), nominee_speech__nominee__election_id=election_id
+            )
+    ) != 1:
+        return False, f"the position ID of {position_dict[ID_KEY]} does not map to a current position object"
+    if int(position_dict[ID_KEY]) in position_ids_so_far:
+        return False, f"The position ID of {position_dict[ID_KEY]} is used by more than 1 position"
+    return True, None
 
 
 def validate_position_name(position_name):
