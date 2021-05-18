@@ -43,7 +43,9 @@ class Election(models.Model):
 
 
 class Nominee(models.Model):
-    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+    election = models.ForeignKey(
+        Election, on_delete=models.CASCADE, default=None
+    )
 
     name = models.CharField(max_length=140)
 
