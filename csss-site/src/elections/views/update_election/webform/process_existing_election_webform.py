@@ -120,7 +120,7 @@ def process_existing_election_information_from_webform(request, context):
     if request.POST[UPDATE_EXISTING_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         if ELECTION_ID in request.session:
             del request.session[ELECTION_ID]
-            return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/')
+        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/')
     else:
         request.session[ELECTION_ID] = election.id
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{ENDPOINT_MODIFY_VIA_WEBFORM}')
