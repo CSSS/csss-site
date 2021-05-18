@@ -55,6 +55,7 @@ def validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairin
                       "does not map to a current Speech object"
     if int(speech_and_position_pairing[ID_KEY]) in speech_ids_so_far:
         return False, f"The speech ID of {speech_and_position_pairing[ID_KEY]} is used by more than 1 speech"
+    speech_ids_so_far.append(int(speech_and_position_pairing[ID_KEY]))
     return True, None
 
 
@@ -81,9 +82,9 @@ def validate_position_in_pairing(position_ids_so_far, speech_and_position_pairin
     for position in speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
         if type(position) is dict:
             if ID_KEY in position:
-                if not validate_id_for_position_pairing(position_ids_so_far, position, election_id):
-                    return False, \
-                           f"One of the IDs specified for one of the positions that {name} is running for is invalid"
+                success, error_message = validate_id_for_position_pairing(position_ids_so_far, position, election_id)
+                if not success:
+                    return success, error_message
             if not (ELECTION_JSON_KEY__NOM_POSITION_NAME in position):
                 return False, f"No position name[s] found for one of the speeches for nominee {name}"
             position_name = position[ELECTION_JSON_KEY__NOM_POSITION_NAME]
@@ -120,6 +121,7 @@ def validate_id_for_position_pairing(position_ids_so_far, position_dict, electio
         return False, f"the position ID of {position_dict[ID_KEY]} does not map to a current position object"
     if int(position_dict[ID_KEY]) in position_ids_so_far:
         return False, f"The position ID of {position_dict[ID_KEY]} is used by more than 1 position"
+    position_ids_so_far.append(int(position_dict[ID_KEY]))
     return True, None
 
 
