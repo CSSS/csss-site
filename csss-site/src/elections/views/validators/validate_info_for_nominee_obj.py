@@ -53,7 +53,7 @@ def validate_nominee_obj_info(nominee_names_so_far, name, facebook_link, linkedi
     if len(email_address) == 0:
         return False, f"No valid email detected for nominee" \
                       f" {name}, please set to \"NONE\" if there is no email"
-    regex = '^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
+    regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
     if not (re.search(regex, email_address) or email_address == "NONE"):
         return False, f"email {email_address} for nominee {name} did not pass validation"
     if len(discord_username) == 0:
