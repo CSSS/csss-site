@@ -45,7 +45,7 @@ class NominationPage(models.Model):
 
 
 class Nominee(models.Model):
-    nomination_page = models.ForeignKey(NominationPage, on_delete=models.CASCADE, default=None)
+    nomination_page = models.ForeignKey(NominationPage, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=140)
 
