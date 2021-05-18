@@ -89,7 +89,7 @@ def process_existing_election_information_from_webform(request, context):
             f"{error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/create_election/create_election_json.html', context)
+        return render(request, 'elections/update_election/update_election_webform.html', context)
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
