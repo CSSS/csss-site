@@ -47,8 +47,8 @@ def validate_nominees_for_existing_election_jformat(election_id, nominees):
         success, error_message = validate_existing_nominee_jformat(
             nominee_names_so_far, speech_ids_so_far, position_ids_so_far,
             nominee[ELECTION_JSON_KEY__NOM_NAME], nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
-            nominee[ELECTION_JSON_KEY__NOM_FACEBOOK],nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
-            nominee[ELECTION_JSON_KEY__NOM_EMAIL],nominee[ELECTION_JSON_KEY__NOM_DISCORD], election_id)
+            nominee[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
+            nominee[ELECTION_JSON_KEY__NOM_EMAIL], nominee[ELECTION_JSON_KEY__NOM_DISCORD], election_id)
         if not success:
             return False, error_message
     return True, None
