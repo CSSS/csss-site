@@ -18,6 +18,7 @@ def validate_nominees_for_existing_election_jformat(election_id, nominees):
     error_message -- populated if the nominee[s] could not be saved
     """
     nominee_names_so_far = []
+    nominee_ids_so_far = []
     for nominee in nominees:
         if not (ELECTION_JSON_KEY__NOM_NAME in nominee and ELECTION_JSON_KEY__NOM_FACEBOOK in nominee
                 and ELECTION_JSON_KEY__NOM_LINKEDIN in nominee and ELECTION_JSON_KEY__NOM_EMAIL in nominee
@@ -30,6 +31,9 @@ def validate_nominees_for_existing_election_jformat(election_id, nominees):
                           f"{ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS}"
         if ID_KEY in nominee:
             if f"{nominee[ID_KEY]}".isdigit():
+                if int(nominee[ID_KEY]) in nominee_ids_so_far:
+                    return False, f" the ID of {nominee[ID_KEY]} is specified for more than one nominee"
+                nominee_ids_so_far.append(int(nominee[ID_KEY]))
                 matching_nominees_under_specified_election = Nominee.objects.all().filter(
                     id=int(nominee[ID_KEY]),
                     election_id=election_id
@@ -38,7 +42,6 @@ def validate_nominees_for_existing_election_jformat(election_id, nominees):
                     return False, f"Invalid nominee id of {int(nominee[ID_KEY])} detected"
             else:
                 return False, f"Invalid type detected for nominee id of {nominee[ID_KEY]}"
-
         success, error_message = validate_existing_nominee_jformat(
             nominee_names_so_far,
             nominee[ELECTION_JSON_KEY__NOM_NAME],
