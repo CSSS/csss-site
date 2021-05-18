@@ -1,64 +1,43 @@
 from django.conf.urls import url
 
-from .views import election_management
+from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM
+from .views.endpoints.delete_selected_election import delete_selected_election
+from .views.endpoints.election_page import get_nominees
+from .views.endpoints.json.create_election_json import display_and_process_html_for_new_json_election
+from .views.endpoints.json.display_and_process_html_for_json import \
+    display_and_process_html_for_modification_of_json_election
+from .views.endpoints.list_of_elections import list_of_elections
+from .views.endpoints.webform.create_election_webform import \
+    display_and_process_html_for_new_webform_election
+from .views.endpoints.webform.display_and_process_html_for_webform import \
+    display_and_process_html_for_modification_of_webform_election
 
 urlpatterns = [
+    url(r'^$', list_of_elections, name="index"),
     url(
-        r'^show_create_webform/$',
-        election_management.show_page_for_user_to_enter_new_election_information_from_webform,
+        r'^new_election_json/$',
+        display_and_process_html_for_new_json_election,
         name='Show Page To Create Election'
     ),
     url(
-        r'^show_create_json/$',
-        election_management.show_page_for_user_to_enter_new_election_information_from_json,
-        name='Show Page To Create Election'
+        r'^new_election_webform/$',
+        display_and_process_html_for_new_webform_election,
+        name="Show Page To Create Election"
     ),
     url(
-        r'^create_webform/$',
-        election_management.process_new_election_information_from_webform,
-        name='Process User Input For New Election'
-    ),
-    url(
-        r'^create_json/$',
-        election_management.process_new_election_information_from_json,
-        name='Process User Input For New Election'
-    ),
-    url(
-        r'^select_election_to_update/$',
-        election_management.show_page_where_user_can_select_election_to_update,
-        name="Select Election To Modify"
-    ),
-    url(
-        r'^determine_election_action/$',
-        election_management.determine_election_action,
-        name="Determine Election Action"
-    ),
-    url(
-        r'^show_update_json/$',
-        election_management.show_page_for_user_to_modify_election_information_from_json,
+        fr'^{ENDPOINT_MODIFY_VIA_JSON}/$',
+        display_and_process_html_for_modification_of_json_election,
         name='Show Page to Update Election'
     ),
     url(
-        r'^update_json/$',
-        election_management.process_existing_election_information_from_json,
-        name='Process User Input for Existing Election'
-    ),
-    url(
-        r'^show_update_webform/$',
-        election_management.show_page_for_user_to_modify_election_information_from_webform,
+        fr'^{ENDPOINT_MODIFY_VIA_WEBFORM}/$',
+        display_and_process_html_for_modification_of_webform_election,
         name='Show Page to Update Election'
-    ),
-    url(
-        r'^update_webform/$',
-        election_management.process_existing_election_information_from_webform,
-        name='Process User Input for Existing Election'
     ),
     url(
         r'^delete/$',
-        election_management.delete_selected_election,
+        delete_selected_election,
         name="Delete Selected Election"
     ),
-    url(r'^(?P<slug>[-\w]+)/$', election_management.get_nominees, name='nominees_in_nominationPage'),
-    url(r'^$', election_management.list_of_elections, name="index"),
-
+    url(r'^(?P<slug>[-\w]+)/$', get_nominees, name='nominees_in_nominationPage')
 ]

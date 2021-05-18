@@ -115,15 +115,14 @@
           </a>        
           {% endif %}
           <div class="navbar-dropdown">
-          {% if election_officer or staff %}
-            <a href="{{URL_ROOT}}elections/show_create_webform" class="navbar-item">Create Election with WebForm</a>
-            <a href="{{URL_ROOT}}elections/show_create_json" class="navbar-item">Create Election with JSON</a>
-            <a href="{{URL_ROOT}}elections/select_election_to_update" class="navbar-item">Update or Remove Election</a>
-              {%  if nom_pages != None %}
+          {% if election_management %}
+            <a href="{{URL_ROOT}}elections/new_election_webform" class="navbar-item">Create Election with WebForm</a>
+            <a href="{{URL_ROOT}}elections/new_election_json" class="navbar-item">Create Election with JSON</a>
+              {%  if election_list != None %}
             <hr class="dropdown-divider">
               {%  endif %}
           {% endif %}
-              {% for election in nom_pages %}
+              {% for election in election_list %}
                   <a href="{{URL_ROOT}}elections/{{election.slug}}" class="navbar-item" >{{election.human_friendly_name}}</a>
               {% endfor %}
           </div>

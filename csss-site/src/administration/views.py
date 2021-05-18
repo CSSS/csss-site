@@ -4,6 +4,8 @@ from django.conf import settings
 
 import logging
 
+from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
+
 logger = logging.getLogger('csss_site')
 
 
@@ -23,3 +25,7 @@ def login(request):
 def logout(request):
     dj_logout(request)
     return HttpResponseRedirect(settings.URL_ROOT)
+
+
+def user_has_election_management_privilege(request):
+    return ELECTION_MANAGEMENT_GROUP_NAME in list(request.user.groups.values_list('name', flat=True))

@@ -1,0 +1,4 @@
+{%  if election_id is not None %}
+    <input type="text" name="election_id" value="{{ election_id }}" readonly hidden>
+    {% include 'elections/create_election/submission_buttons.html' %}
+{%  endif %}

@@ -1,0 +1,19 @@
+{% extends "csss/new_header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% load staticfiles %}
+
+{% block content %}
+    <h1 class="title">Modify Election</h1>
+    {%  include 'elections/json/creating_election_errors.html' %}
+    <form method="post" class="form">
+        {% csrf_token %}
+        {%  include 'elections/update_election/submission_buttons.html' %}
+        {%  include 'elections/json/json_instructions.html' %}
+        {%  include 'elections/json/input_election.html' %}
+    </form>
+    {%  include 'elections/json/js_formatting_script.html' %}
+    {%  include 'elections/json/json_beautify.html' %}
+{% endblock %}

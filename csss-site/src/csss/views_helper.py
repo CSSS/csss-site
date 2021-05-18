@@ -5,7 +5,8 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 
 from about.models import Term
-from elections.models import NominationPage
+from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
+from elections.models import Election
 
 ERROR_MESSAGE_KEY = 'error_message'
 ERROR_MESSAGES_KEY = 'error_messages'
@@ -27,18 +28,18 @@ def create_main_context(request, tab, groups=None):
     """
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
-    nom_pages = NominationPage.objects.all().order_by('-date')
-    if len(nom_pages) == 0:
-        nom_pages = None
+    elections = Election.objects.all().order_by('-date')
+    if len(elections) == 0:
+        elections = None
     context = _create_base_context()
     context.update({
         'authenticated': request.user.is_authenticated,
         'authenticated_officer': ('officer' in groups),
-        'election_officer': ('election_officer' in groups),
+        ELECTION_MANAGEMENT_GROUP_NAME: (ELECTION_MANAGEMENT_GROUP_NAME in groups),
         'staff': request.user.is_staff,
         'username': request.user.username,
         'tab': tab,
-        'nom_pages': nom_pages
+        'election_list': elections
     })
     return context
 
@@ -83,9 +84,8 @@ def verify_access_logged_user_and_create_context_for_elections(request, tab):
     """
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
-    if not ('election_officer' in groups or request.user.is_staff):
-        return HttpResponseRedirect(
-            '/error'), "You are not authorized to access this page", None
+    if not (ELECTION_MANAGEMENT_GROUP_NAME in groups):
+        return HttpResponseRedirect('/error'), "You are not authorized to access this page", context
     return None, None, context
 
 

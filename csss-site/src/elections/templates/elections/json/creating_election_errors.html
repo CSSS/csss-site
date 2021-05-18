@@ -1,0 +1,9 @@
+{% if error_messages %}
+    <p style="color: red" id="error">Experienced Following Error<br>
+        {% for error_message in error_messages %}
+        {{ error_message|safe }}<br>
+        {% endfor %}
+
+    </p>
+{%  endif %}
+<div style="color: red" id="{{ json_formatting_div__name }}"></div>
