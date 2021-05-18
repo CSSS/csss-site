@@ -16,6 +16,9 @@ def get_position_names(position_infos=None):
     Return
     a list of the position names, or an empty list of position_names is None
     """
+    if position_infos == '':
+        # when a user has accidentally unchecked all position names for a speech
+        return []
     if ELECTION_JSON_KEY__NOM_POSITION_NAME in position_infos[0]:
         return [position_name[ELECTION_JSON_KEY__NOM_POSITION_NAME] for position_name in position_infos]
     return []
