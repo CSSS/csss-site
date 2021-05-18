@@ -16,6 +16,6 @@ def validate_http_link(link, link_type, nom_name=None):
         if nom_name is None:
             return success, f"The {link_type} link des not start with \"http://\" or \"https://\""
         else:
-            return success, f"one of the {link_type} links for nominee {nom_name} does " \
+            return success, f"the {link_type} link for nominee {nom_name} does " \
                             f"not start with \"http://\" or \"https://\""
     return success, None
