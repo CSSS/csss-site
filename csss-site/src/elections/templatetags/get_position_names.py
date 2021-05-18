@@ -19,6 +19,9 @@ def get_position_names(position_infos=None):
     if position_infos == '':
         # when a user has accidentally unchecked all position names for a speech
         return []
-    if ELECTION_JSON_KEY__NOM_POSITION_NAME in position_infos[0]:
-        return [position_name[ELECTION_JSON_KEY__NOM_POSITION_NAME] for position_name in position_infos]
-    return []
+    position_names = [
+        position_info[ELECTION_JSON_KEY__NOM_POSITION_NAME] for position_info in position_infos
+        if ELECTION_JSON_KEY__NOM_POSITION_NAME in position_info
+    ]
+    position_names.extend([position_name for position_name in position_infos if type(position_name) == str])
+    return position_names
