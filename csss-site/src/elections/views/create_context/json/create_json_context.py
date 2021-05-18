@@ -16,7 +16,7 @@ logger = logging.getLogger('csss_site')
 
 
 def create_json_election_context_from_user_inputted_election_dict(
-        election_id=None, error_message=None, election_information=None):
+        election_id=None, error_message=None, election_information=None, create_new_election=True):
     """
     Creating context for JSON pages for election creation or modification
 
@@ -24,6 +24,8 @@ def create_json_election_context_from_user_inputted_election_dict(
     election_id - the ID to transfer to the context that is returned
     error_message - the error message to transfer to the context that is returned
     election_information - the election json that is transferred to the context that is returned
+    create_new_election -- indicates whether the submission buttons should be saving key for creating election
+     or updating an election
 
     Return
     a dict with the following keys
@@ -57,7 +59,7 @@ def create_json_election_context_from_user_inputted_election_dict(
         context[ERROR_MESSAGES_KEY] = [error_message]
     if election_information is not None:
         context[ELECTION_JSON__KEY] = json.dumps(election_information)
-    context.update(create_submission_buttons_context())
+    context.update(create_submission_buttons_context(create_new_election=create_new_election))
     logger.info("[elections/create_json_context.py create_json_election_context_from_user_inputted_election_dict()] "
                 f"created context of '{context}'")
     return context

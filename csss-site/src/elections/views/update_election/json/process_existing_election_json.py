@@ -43,7 +43,9 @@ def process_existing_election_information_from_json(request, context):
             f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
             f"{error_message}"
         )
-        context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
+        context.update(create_json_election_context_from_user_inputted_election_dict(
+            error_message=error_message, create_new_election=False
+        ))
         return render(request, 'elections/update_election/update_election_json.html', context)
 
     if not validate_user_command(request, create_new_election=False):
@@ -52,7 +54,9 @@ def process_existing_election_information_from_json(request, context):
             f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
             f"{error_message}"
         )
-        context.update(create_json_election_context_from_user_inputted_election_dict(error_message=error_message))
+        context.update(create_json_election_context_from_user_inputted_election_dict(
+            error_message=error_message, create_new_election=False
+        ))
         return render(request, 'elections/update_election/update_election_json.html', context)
 
     success, error_message, election_dict = validate_and_return_election_json(
@@ -64,7 +68,7 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            error_message=error_message, election_information=election_dict
+            error_message=error_message, election_information=election_dict, create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
     if not all_relevant_election_json_keys_exist(election_dict):
@@ -76,7 +80,7 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            error_message=error_message, election_information=election_dict
+            error_message=error_message, election_information=election_dict, create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
     election_id = request.POST[ELECTION_ID]
@@ -89,7 +93,8 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict
+            election_id=election_id, error_message=error_message, election_information=election_dict,
+            create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
     logger.info(
@@ -103,7 +108,8 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict
+            election_id=election_id, error_message=error_message, election_information=election_dict,
+            create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
 
@@ -115,7 +121,8 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict
+            election_id=election_id, error_message=error_message, election_information=election_dict,
+            create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
 
@@ -126,7 +133,8 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            error_message=error_message, election_information=election_dict
+            error_message=error_message, election_information=election_dict,
+            create_new_election=False
         ))
         return render(request, 'elections/create_election/create_election_json.html', context)
 
@@ -139,7 +147,8 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict
+            election_id=election_id, error_message=error_message, election_information=election_dict,
+            create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
     update_existing_election_obj_from_jformat(
