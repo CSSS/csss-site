@@ -18,6 +18,8 @@ def validate_speech_in_pairing(speech_and_position_pairing, election_id, name):
     Bool -- true or false depending on if the speech and [potential] ID is valid
     error_message -- an error message if the validation failed, or None otherwise
     """
+    if not (ELECTION_JSON_KEY__NOM_SPEECH in speech_and_position_pairing):
+        return False, f"one of the speech/position pairings is missing a speech for nominee {name}"
     if not (ELECTION_JSON_KEY__NOM_SPEECH in speech_and_position_pairing and
             len(speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
         return False, f"one of the speeches specified for {name} is invalid"
