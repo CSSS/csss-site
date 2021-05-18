@@ -7,10 +7,8 @@ from datetime import datetime
 # Create your models here.
 
 class Election(models.Model):
-    slug = models.SlugField(
-        max_length=32,
-        unique=True
-    )
+    slug = models.SlugField(max_length=32, unique=True)
+
     human_friendly_name = models.CharField(
         max_length=32,
         default="NONE"
@@ -43,9 +41,7 @@ class Election(models.Model):
 
 
 class Nominee(models.Model):
-    election = models.ForeignKey(
-        Election, on_delete=models.CASCADE, default=None
-    )
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
     name = models.CharField(max_length=140)
 
@@ -83,7 +79,7 @@ class NomineeSpeech(models.Model):
 
 
 class NomineePosition(models.Model):
-    nominee_speech = models.ForeignKey(NomineeSpeech, on_delete=models.CASCADE, default=None)
+    nominee_speech = models.ForeignKey(NomineeSpeech, on_delete=models.CASCADE)
 
     position_name = models.CharField(
         max_length=40,
