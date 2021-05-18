@@ -18,6 +18,7 @@ from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat i
 from elections.views.utils.transform_webform_to_json import transform_webform_to_json
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
+from elections.views.validators.validate_link import validate_http_link
 from elections.views.validators.validate_nominees_for_existing_election_jformat import \
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
@@ -80,6 +81,15 @@ def process_existing_election_information_from_webform(request, context):
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)
+
+    success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
+    if not success:
+        logger.info(
+            f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()] "
+            f"{error_message}"
+        )
+        context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
+        return render(request, 'elections/create_election/create_election_json.html', context)
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
