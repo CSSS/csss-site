@@ -3,23 +3,21 @@
 
 # PURPOSE: to be used by the user when they want to test their code against the linter
 
-if [ -z "${COMPOSE_PROJECT_NAME}" ]; then
-	echo "COMPOSE_PROJECT_NAME is not set, exiting."
-	exit 1
-fi
-docker stop ${COMPOSE_PROJECT_NAME}_test || true
-docker rm ${COMPOSE_PROJECT_NAME}_test || true
-docker image rm ${COMPOSE_PROJECT_NAME}_wall_e_test || true
+docker stop csss_website_test || true
+docker rm csss_website_test || true
+docker image rm csss_website_test || true
 pushd ../../
-docker build -t ${COMPOSE_PROJECT_NAME}_wall_e_test -f CI/validate_and_deploy/1_validate/Dockerfile.test --build-arg CONTAINER_HOME_DIR=/usr/src/app --build-arg UNIT_TEST_RESULTS=/usr/src/app/tests --build-arg TEST_RESULT_FILE_NAME=all-unit-tests.xml .
+docker build -t csss_website_test -f CI/validate_and_deploy/1_validate/Dockerfile.test \
+ --build-arg CONTAINER_HOME_DIR=/usr/src/app --build-arg UNIT_TEST_RESULTS=/usr/src/app/tests \
+  --build-arg TEST_RESULT_FILE_NAME=all-unit-tests.xml .
 popd
-docker run -d --name ${COMPOSE_PROJECT_NAME}_test ${COMPOSE_PROJECT_NAME}_wall_e_test
+docker run -d --name csss_website_test csss_website_test
 
 
-while [ "$(docker inspect -f '{{.State.Running}}' ${COMPOSE_PROJECT_NAME}_test)"  = "true" ]
+while [ "$(docker inspect -f '{{.State.Running}}' csss_website_test)"  = "true" ]
 do
 	echo "waiting for testing to complete"
 	sleep 1
 done
 
-docker logs ${COMPOSE_PROJECT_NAME}_test
+docker logs csss_website_test
