@@ -12,8 +12,15 @@ ARG TEST_RESULT_FILE_NAME
 
 ENV TEST_RESULT_FILE_NAME=$TEST_RESULT_FILE_NAME
 
-
 WORKDIR $CONTAINER_HOME_DIR
+
+RUN adduser -D websiteTester
+
+RUN chown websiteTester $CONTAINER_HOME_DIR
+
+USER websiteTester
+
+ENV PATH=$PATH:/home/websiteTester/.local/bin
 
 COPY csss-site/test/test-requirements.txt ./
 
@@ -22,6 +29,8 @@ COPY csss-site/src ./
 COPY csss-site/test/pytest.ini ./
 
 COPY csss-site/test/setup.cfg ./
+
+RUN /usr/local/bin/python3 -m pip --disable-pip-version-check  install --upgrade pip
 
 RUN pip install --no-cache --upgrade pip setuptools
 
