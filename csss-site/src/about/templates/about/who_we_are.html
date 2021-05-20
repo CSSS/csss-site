@@ -1,8 +1,7 @@
-{% extends "csss/new_header.html" %}
+{% extends "csss/header.html" %}
 
 {% block content %}
 {{ block.super }}
-<body>
 	<section class="section">
 		<div class="container">
 			<div class="content" >
@@ -20,7 +19,7 @@
 			
 			More information can be found under Projects.</p>
 				<h2>Frosh Week</h2>
-				<p>Frosh Week is our yearly, week-long welcome event for new students. Held every Fall, Frosh Week is meant to foster early camaraderie between new and old CS students. How do we do this? With games, BBQs, and midnight dodgeball, of course! </br>
+				<p>Frosh Week is our yearly, week-long welcome event for new students. Held every Fall, Frosh Week is meant to foster early camaraderie between new and old CS students. How do we do this? With games, BBQs, and midnight dodgeball, of course! <br>
 			More information can be found under Events > Frosh Week.</p>
 				{% for c in content %}
 					<p>{{c}}</p>
@@ -32,7 +31,4 @@
 	<br>
 	<br>
 	<br>
-
-</body>
-
 {% endblock %}
