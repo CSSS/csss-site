@@ -16,7 +16,7 @@
     <h1 class="title">Create Links for New Term of Officers</h1>
     <form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
         {% csrf_token %}
-        Term <id style="color: #ff0000">*
+		Term <id style="color: #ff0000">*</id>
             <select name="term">
                 {% for term in terms %}
                     {%  if term == current_term  %}
