@@ -22,6 +22,8 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
     "officer_email_list_and_position_mapping__elected_position"
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
+    "officer_email_list_and_position_mapping__delete_status"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'

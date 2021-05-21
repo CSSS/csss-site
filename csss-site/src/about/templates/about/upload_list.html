@@ -11,8 +11,8 @@
         </p>
     {%  endif %}
     <div style="border: 1px solid black;">
-        <h1 class="title">JSON Uploading</h1>
-        <h2 class="title">Upload JSON for Specific term</h2>
+        <h2 class="title is-size-2">JSON Uploading</h2>
+        <h3 class="title is-size-3">Upload JSON for Specific term</h3>
         <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
             {%  csrf_token %}
             <input type="file" name="term_json" required>
@@ -25,7 +25,7 @@
 
         <br><br>
 
-        <h2 class="title">Upload JSON for specified year[s]</h2>
+        <h3 class="title is-size-3">Upload JSON for specified year[s]</h3>
         <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
             {%  csrf_token %}
             <input type="file" name="years_json" required>
@@ -42,7 +42,7 @@
     <br><br><br><br>
 
     <div style="border: 1px solid black;">
-        <h1 class="title">Upload CSV for specified term[s] or year[s]</h1>
+        <h2 class="title is-size-2">Upload CSV for specified term[s] or year[s]</h2>
 
         <b>Markdown Information</b>
         <ol style="margin-left: 2em;">

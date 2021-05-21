@@ -29,47 +29,9 @@ def update_saved_position_mappings(request):
 
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
-        if DELETE_POSITION_MAPPING_KEY in post_dict or UN_DELETED_POSITION_MAPPING_KEY in post_dict:
-            success, error_message = _delete_or_undelete_position_mapping(post_dict)
-            if not success:
-                context[ERROR_MESSAGES_KEY] = [f"{error_message}"]
-        elif UPDATE_POSITION_MAPPING_KEY in post_dict:
-            context[ERROR_MESSAGES_KEY] = _update_position_mapping(post_dict)
+        for position in list(post_dict['saved_officer_positions'].values()):
+            _update_position_mapping(position)
     return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
-
-
-def _delete_or_undelete_position_mapping(post_dict):
-    """
-    Toggles a Position Mapping's delete attribute
-
-    Keyword Argument
-    post_dict -- request.POST in dictionary object
-
-    Return
-    success -- bool that is True or false
-    error_message -- an error_message if no valid position mapping ID is found, None otherwise
-
-    """
-    if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in post_dict
-            and f"{post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
-            and len(
-                OfficerEmailListAndPositionMapping.objects.all().filter(
-                    id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
-                )
-            ) > 0):
-        return False, "No valid ID for a position mapping found"
-
-    position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
-        id=int(post_dict[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
-    )
-    position_mapping_for_selected_officer.marked_for_deletion = DELETE_POSITION_MAPPING_KEY in post_dict
-    position_mapping_for_selected_officer.save()
-    logger.info(
-        f"[about/update_saved_position_mappings.py _delete_or_undelete_position_mapping()] deletion for position"
-        f" {position_mapping_for_selected_officer.position_name} set to"
-        f" {position_mapping_for_selected_officer.marked_for_deletion}"
-    )
-    return True, None
 
 
 def _update_position_mapping(post_dict):
