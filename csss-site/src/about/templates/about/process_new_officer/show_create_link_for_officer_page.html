@@ -16,7 +16,7 @@
     <h1 class="title">Create Links for New Term of Officers</h1>
     <form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
         {% csrf_token %}
-        <id>Term <id style="color: #ff0000">*</id>
+        Term <id style="color: #ff0000">*
             <select name="term">
                 {% for term in terms %}
                     {%  if term == current_term  %}
@@ -44,7 +44,7 @@
                 <input type="date" name="date"  value="{{date_value}}" required>
 
             <p>Positions *<br>(enter them in a newline separated list)<br>
-                <textarea name="positions" cols=40" rows=10" required>{{ positions }}</textarea>
+                <textarea name="positions" cols="40" rows="10" required>{{ positions }}</textarea>
             </p>
 
             Overwrite Current Officer for selected term <id style="color: #ff0000">*</id>
@@ -74,14 +74,5 @@
             {%  endif %}
 
             <br><br><input type="submit" value="submit" />
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
-            <br>
     </form>
 {% endblock %}
