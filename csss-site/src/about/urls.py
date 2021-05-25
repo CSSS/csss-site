@@ -34,7 +34,8 @@ urlpatterns = [
         save_new_github_officer_team_mapping.save_new_github_officer_team_mapping,
         name="Officer Position Mapping"
     ),
-    url(r'^list_of_officers$', officer_management.list_of_officers, name='CSSS List of Officers'),
+    url(r'^list_of_current_officers$', officer_management.list_of_current_officers, name='CSSS List of Current Officers'),
+    url(r'^list_of_past_officers$', officer_management.list_of_past_officers, name='CSSS List of Past Officers'),
     url(r'^who_we_are$', officer_management.who_we_are, name='Who We Are'),
 
 

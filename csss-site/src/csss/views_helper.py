@@ -139,6 +139,11 @@ def get_current_term():
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
+def get_previous_term():
+    current_date = datetime.datetime.now()
+    return get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
+
+
 def get_current_term_obj():
     """
     Get the term object that corresponds to current term

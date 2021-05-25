@@ -3,110 +3,99 @@
 {% load static %}
 {% load staticfiles %}
 {% load set_variable %}
+<link rel="stylesheet" href="{% static 'about_static/list_of_officers.css' %}">
 {% block content %}
-    {{ block.super }}
-    <!-- used to style the officer photos -->
-    <style>
-        .officer-photos {
-            border-radius: 50%;
-            border: 1px solid #ddd;
-            padding: 5px;
-            width: 150px;
-            max-width: 100%;
-            height: auto;
-        }
-    </style>
-    <body>
-    <section class="section">
-        <div class="container">
-            <div class="content">
-                <p>Please feel free to contact us anytime.</p>
-                <ul>
-                    <li>General Inquires for</li>
-                    <ul>
-                        <li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss[at]sfu.ca">csss[at]sfu.ca</a></li>
-                        <li>Only Current Executive Officers : <a href="mailto:csss-exec-current[at]sfu.ca">csss-exec-current[at]sfu.ca</a></li>
-                        <li>All Current and Past Executive Officer of the past 2 years : <a href="mailto:csss-exec[at]sfu.ca">csss-exec[at]sfu.ca</a></li>
-                    </ul>
-                    <li>Computing Science Office: <a href="mailto:csdept[at]sfu.ca">csdept[at]sfu.ca</a></li>
-                </ul>
-                <p>Note: If you wish to contact an Officer directly, see their addresses as listed below.</p>
-                <p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.</br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
-                <!--Tab buttons-->
-                <div class="tabs" id="tabs">
-                    <ul>
-                        {% for term in terms %}
-                            {% if term_active == term.term_number %}
-                                <li data-tab="{{term.term}}_{{term.year}}" class="is-active"><a>{{term.term}} {{term.year}}</a></li>
-                            {% else %}
-                                <li data-tab="{{term.term}}_{{term.year}}"><a>{{term.term}} {{term.year}}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
-                <!-- Tab panes -->
-                <div id="tab-content">
-                    <!-- the prev_position is used to ensure that when a user who is not logged in is viewing the list
-                    they only see the last person to occupy a position -->
-                    {% if authenticated is True %}
-                        {% define "None" as prev_position %}
-                    {%  endif %}
-                    {% for term in terms %}
-                        {% if term_active == term.term_number %}
-                            <div data-content="{{term.term}}_{{term.year}}">
-                        {% else %}
-                            <div class="is-hidden" data-content="{{term.term}}_{{term.year}}">
-                        {% endif %}
-                            <h1 class="title">Officers for {{term.term}} {{term.year}} Term</h1>
-                            <hr>
-                            <div class="row">
-                            {% for officer in officers %}
-                                {%  if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True %}
-                                    <!-- the above if statement is technically (prev_position != officer.position_name) or (prev_position == officer.position_name and authenticated is True)
-                                    but django templates do not allow for parenthesis -->
-                                    {% if officer.elected_term == term %}
-                                        <div class="col-md-4"><center><img class="officer-photos" src="{% static officer.image %}"></center></div>
-                                        <div class="col-md-6">
-                                            <p class="lead">{{officer.position_name}} - <b>{{officer.name}}</b></p>
-                                            <p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
-                                            {% if election_officer or authenticated_officer or staff %}
-                                                <p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
-                                                <p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
-                                            {%  endif %}
-                                            <p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
-                                            <p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
-                                            {% if term_active == term.term_number %}
-                                                <p class="lead">Contact - <a href="{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
-                                            {% endif %}
-                                            <div class="lead"><p>Bio -</p>
-                                                {% if officer.bio|safe|length > 0 %}
-                                                    {{officer.bio|safe}}
-                                                {% else %}
-                                                    {{officer.bio|safe|linebreaks}}
-                                                {% endif %}
-                                            </div>
-                                            <hr>
-                                        </div> <!-- closes col-md-6 div -->
-                                    {%  endif %} <!-- closes the if officer.elected_term == term -->
-                                {% endif %}<!-- closes the if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True -->
-                                {% define officer.position_name as prev_position %}
-                            {% endfor %}<!-- closes the for officer in officers -->
-                            </div><!-- closes the row div -->
-                        </div><!-- closes the div data-content div-->
-                    {% endfor %}<!-- closes the form term in terms -->
-                </div> <!-- closes the tab-content div -->
-            </div><!-- closes the content div -->
-        </div><!-- closes container div -->
-    </section>
-    <br>
-    <br>
-    <br>
-    <br>
-    </body>
+	{{ block.super }}
+	<section class="section">
+		<div class="container">
+			<div class="content">
+				<p>Please feel free to contact us anytime.</p>
+				<ul>
+					<li>General Inquires for
+						<ul>
+							<li>External communications [if you are not an SFU faculty or student], please contact the President or Director of Communications at : <a href="mailto:csss@sfu.ca">csss@sfu.ca</a></li>
+							<li>Only Current Executive Officers : <a href="mailto:csss-exec-current@sfu.ca">csss-exec-current@sfu.ca</a></li>
+							<li>All Current and Past Executive Officer of the past 2 years : <a href="mailto:csss-exec@sfu.ca">csss-exec@sfu.ca</a></li>
+						</ul>
+					</li>
+					<li>Computing Science Office: <a href="mailto:csdept@sfu.ca">csdept@sfu.ca</a></li>
+				</ul>
+				<p>Note: If you wish to contact an Officer directly, see their addresses as listed below.</p>
+				<p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.<br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
 
-    <script type="text/javascript">
+				<!--Tab buttons-->
+				{%  if terms|length > 1 %}
+					<div class="tabs" id="tabs">
+						<ul>
+							{% for term in terms %}
+								{% if term_active == term.term_number %}
+									<li data-tab="{{term.term}}_{{term.year}}" class="is-active"><a>{{term.term}} {{term.year}}</a></li>
+								{% else %}
+									<li data-tab="{{term.term}}_{{term.year}}"><a>{{term.term}} {{term.year}}</a></li>
+								{% endif %}
+							{% endfor %}
+						</ul>
+					</div>
+				{%  endif %}
+
+				<!-- Tab panes -->
+				<div id="tab-content">
+					<!-- the prev_position is used to ensure that when a user who is not logged in is viewing the list
+					they only see the last person to occupy a position -->
+					{% if authenticated is True %}
+						{% define "None" as prev_position %}
+					{%  endif %}
+					{% for term in terms %}
+						{% if term_active == term.term_number %}
+							<div data-content="{{term.term}}_{{term.year}}">
+						{% else %}
+							<div class="is-hidden" data-content="{{term.term}}_{{term.year}}">
+						{% endif %}
+							<h1 class="title">Officers for {{term.term}} {{term.year}} Term</h1>
+							<hr>
+							<div class="row">
+								{% for officer in officers %}
+									{%  if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True %}
+										<!-- the above if statement is technically (prev_position != officer.position_name) or (prev_position == officer.position_name and authenticated is True)
+										but django templates do not allow for parenthesis -->
+										{% if officer.elected_term == term %}
+											<div class="col-md-4">
+												<img class="officer-photos" src="{% static officer.image %}" alt ="{{ officer.name }} photo for term {{term_active}}">
+											</div>
+											<div class="col-md-6">
+												<p class="lead">{{officer.position_name}} - <b>{{officer.name}}</b></p>
+												<p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
+												{% if election_officer or authenticated_officer or staff %}
+													<p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
+													<p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
+												{%  endif %}
+												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
+												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
+												{% if term_active == term.term_number %}
+													<p class="lead">Contact - <a href="{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
+												{% endif %}
+												<div class="lead"><p>Bio -</p>
+													{% if officer.bio|safe|length > 0 %}
+														{{officer.bio|safe}}
+													{% else %}
+														{{officer.bio|safe|linebreaks}}
+													{% endif %}
+												</div>
+												<hr>
+											</div> <!-- closes col-md-6 div -->
+										{%  endif %} <!-- closes the if officer.elected_term == term -->
+									{% endif %}<!-- closes the if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True -->
+									{% define officer.position_name as prev_position %}
+								{% endfor %}<!-- closes the for officer in officers -->
+							</div><!-- closes the row div -->
+						</div><!-- closes the div data-content div-->
+					{% endfor %}<!-- closes the form term in terms -->
+				</div> <!-- closes the tab-content div -->
+			</div><!-- closes the content div -->
+		</div><!-- closes container div -->
+	</section>
+    <script>
         //changes semester tab
-
         $(document).ready(function() {
             $('#tabs li').on('click', function() {
                 var tab = $(this).data('tab');
@@ -122,5 +111,3 @@
         });
     </script>
 {% endblock %}
-
-
