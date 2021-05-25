@@ -9,7 +9,6 @@ from csss.views_helper import create_main_context, get_current_term, get_previou
 
 logger = logging.getLogger('csss_site')
 
-
 def who_we_are(request):
     """
     Show the page what details what CSSS is about
