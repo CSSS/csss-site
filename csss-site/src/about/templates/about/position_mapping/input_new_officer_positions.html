@@ -12,7 +12,7 @@
                 <label for="position_email">Officer Position Email</label>
                 <input type="text" id="position_email" name="position_email" value="{{ unsaved_position_mapping.position_email }}" required><br>
                 <label for="elected_via_election_officer">Elected Via Election Officer</label>
-                <select name="elected_via_election_officer" id="elected_via_election_officer" required>
+                <select name="elected_via_election_officer" id="elected_via_election_officer" required size="2">
                     {%  if unsaved_position_mapping.elected_via_election_officer is True %}
                         <option value="True" selected>True</option>
                         <option value="False">False</option>
@@ -34,7 +34,7 @@
                 <label for="position_email">Officer Position Email</label>
                 <input type="text" id="position_email" name="position_email" required><br>
                 <label for="elected_via_election_officer">Elected Via Election Officer</label>
-                <select name="elected_via_election_officer" id="elected_via_election_officer" required>
+                <select name="elected_via_election_officer" id="elected_via_election_officer" required size="2">
                         <option value="True">True</option>
                         <option value="False">False</option>
                 </select>
@@ -45,7 +45,7 @@
     <input type="button" value="Add another Position Slot" onClick="addOfficerPosition('new_officer_positions');">
     <input type="submit" name="add_new_position_mapping" value="Submit">
 </form>
-    <script type="text/javascript">
+    <script>
     function removeOfficerPosition(divName){
         $(divName).children().last().remove();
     }

@@ -11,9 +11,9 @@
                     {%  for position in unsaved_github_officer_team_name_mapping.officer_positions %}
                         <div style="border: 1px transparent solid; display:inline-block;" >
                             {% if position.checked %}
-                                <input type="checkbox" checked name="github_mapping_selected_officer_position" id="{{ position.position_name }}" value="{{ position.position_name }}" />
+                                <input type="checkbox" checked name="github_mapping_selected_officer_position" value="{{ position.position_name }}" />
                             {%  else %}
-                                <input type="checkbox" name="github_mapping_selected_officer_position" id="{{ position.position_name }}" value="{{ position.position_name }}" />
+                                <input type="checkbox" name="github_mapping_selected_officer_position" value="{{ position.position_name }}" />
                             {%  endif %}
                             <label>{{ position.position_name }}</label><br>
                         </div>
@@ -30,7 +30,7 @@
                 <label>Applicable Officer: </label><br>
                 {%  for position in github_position_mapping %}
                     <div style="border: 1px transparent solid; display:inline-block;" >
-                        <input type="checkbox" name="github_mapping_selected_officer_position" id="{{ position.position_name }}" value="{{ position.position_name }}" />
+                        <input type="checkbox" name="github_mapping_selected_officer_position" value="{{ position.position_name }}" />
                         <label>{{ position.position_name }}</label><br>
                     </div>
                 {%  endfor %}
