@@ -4,17 +4,8 @@ from csss.views_helper import create_main_context
 
 TAB = 'events'
 
-
-def index(request):
-    return render(request, 'events/calendar.html', create_main_context(request, TAB))
-
-
-def gm(request):
-    return render(request, 'events/gm.html', create_main_context(request, TAB))
-
-
-def board_games(request):
-    return render(request, 'events/board_games.html', create_main_context(request, TAB))
+def regular_events(request):
+    return render(request, 'events/regular_events.html', create_main_context(request, TAB))
 
 
 def frosh_week(request):

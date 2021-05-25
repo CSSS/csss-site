@@ -5,8 +5,7 @@ from .views.frosh import (frosh2012, frosh2013, frosh2014, frosh2015,
                           frosh2016, frosh2017, frosh2018, frosh2019, frosh2020)
 
 urlpatterns = [
-    url(r'^general_meetings$', views.gm, name='gm'),
-    url(r'^board_games$', views.board_games, name='board_games'),
+    url(r'^regular_events$', views.regular_events, name='gm'),
     url(r'^mountain_madness2020$', views.mountain_madness2020, name='mountain_madness2020'),
     url(r'^mountain_madness2021$', views.mountain_madness2021, name='mountain_madness2021'),
     url(r'^fall_hacks2020$', views.fall_hacks2020, name='fall_hacks2020'),
@@ -46,6 +45,5 @@ urlpatterns = [
     url(r'^frosh/2019$', frosh2019.index, name="Frosh Week 2019"),
     url(r'^frosh/2019/frosh$', frosh2019.frosh, name="Frosh Week 2019 Frosh"),
     url(r'^frosh/2020$', frosh2020.index, name="Frosh Week 2020"),
-    url(r'^frosh/2020/frosh$', frosh2020.frosh, name="Frosh Week 2020 Frosh"),
-    url(r'^$', views.index, name='index'),
+    url(r'^frosh/2020/frosh$', frosh2020.frosh, name="Frosh Week 2020 Frosh")
 ]

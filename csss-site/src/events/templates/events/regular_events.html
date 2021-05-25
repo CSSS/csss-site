@@ -1,0 +1,34 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+{{ block.super }}
+
+    <section class="section">
+        <div class="container">
+            <div class="content" >
+
+				<h2 class="title is-size-2">Regular Events</h2>
+				You will be alerted to the next regular event, <a target="_blank" href="{{ URL_ROOT }}">both via email</a> and also on the announcements channel of the CSSS Discord Guild.
+
+				<h3 class="title is-size-3">General Meetings</h3>
+				Every 3-4 weeks, the CSSS holds meetings to go over the following things:
+				<ul>
+					<li><b>Officer Reports</b>: officer will report on anything that has happened, pertaining to their job that is necessary to announce at a meeting.</li>
+					<li><b>Announcements</b>: Allow for users to be notified of any upcoming big events that may be happening.</li>
+					<li><b>Open Floor</b>: Open Floor provides an opportunity for anyone at the meeting to voice a question, comment or concern about the CSSS, the CS Department, SFSS, etc.</li>
+				</ul>
+				there may also be other agenda items from time to time.<br>
+
+				<h3 class="title is-size-3">Board Games Nights</h3>
+				The BoardGames nights happen generally every 2-3 weeks on Friday.
+				If you want to request a particular boardgames, please contact the Assistant Director of Events.
+
+				<h3 class="title is-size-3">Movie Nights</h3>
+				The BoardGames nights happen generally every 2-3 weeks on Friday.
+				If you want to request a particular movie, please contact the Assistant Director of Events.
+
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
