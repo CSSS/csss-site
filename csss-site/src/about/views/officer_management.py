@@ -48,8 +48,10 @@ def list_of_past_officers(request):
         'officers': list(
             map(
                 fix_time_for_officer,
-                Officer.objects.all().exclude(elected_term=get_current_term()).order_by('elected_term__term_number', 'position_index',
-                                                        '-start_date')
+                Officer.objects.all().exclude(
+                    elected_term=get_current_term()).order_by(
+                    'elected_term__term_number', 'position_index','-start_date'
+                )
             )
         ),
         'term_active': get_previous_term(),
