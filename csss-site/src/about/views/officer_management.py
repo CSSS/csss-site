@@ -9,6 +9,7 @@ from csss.views_helper import create_main_context, get_current_term, get_previou
 
 logger = logging.getLogger('csss_site')
 
+
 def who_we_are(request):
     """
     Show the page what details what CSSS is about
@@ -49,7 +50,7 @@ def list_of_past_officers(request):
                 fix_time_for_officer,
                 Officer.objects.all().exclude(
                     elected_term=get_current_term()).order_by(
-                    'elected_term__term_number', 'position_index','-start_date'
+                    'elected_term__term_number', 'position_index', '-start_date'
                 )
             )
         ),
