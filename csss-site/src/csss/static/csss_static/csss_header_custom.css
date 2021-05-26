@@ -1,0 +1,26 @@
+.csss_footer_margin_2 {
+    margin-top: 1em;
+}
+
+.csss_footer_margin_1 {
+    margin-left:15px
+}
+
+.csss_footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f6f6f6;
+}
+
+.csss_header_hero_title {
+    text-shadow: 7px 6px 14px rgba(0,0,0,0.89);
+}
+
+.csss_header_text_indent {
+    text-indent: 20px;
+}
+
+
+

@@ -5,13 +5,7 @@
 {% bootstrap_messages %}
 
 {% block content %}
-    {% if error_experienced %}
-        <p style="color: red">Experienced Following Error<br>
-            {%  for error in error_experienced %}
-                {{ error }}<br>
-            {%  endfor %}
-        </p>
-    {%  endif %}
+	{%  include 'csss/display_errors.html' %}
     {% if g_drive_users %}
 		<h2 class="title is-size-2">Users with Access To SFU CSSS Google Drive:</h2>
         <table >

@@ -1,11 +1,7 @@
-{% if error_messages %}
-    <p style="color: red" id="error">Experienced Following Error<br>
-        {% for error_message in error_messages %}
-        {{ error_message|safe }}<br>
-        {% endfor %}
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 
-    </p>
-{%  endif %}
+{%  include 'csss/display_errors.html' %}
 {% if json_formatting_div__name is not None %}
-	<div style="color: red" id="{{ json_formatting_div__name }}"></div>
+	<div class="csss_error_style" id="{{ json_formatting_div__name }}"></div>
 {%  endif %}

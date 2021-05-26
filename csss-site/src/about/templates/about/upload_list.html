@@ -5,12 +5,9 @@
 
 {% block content %}
     {{ block.super }}
-        {% if error_message %}
-        <p style="color: red">Experienced Following Error<br>
-            {{ error_message }}<br>
-        </p>
-    {%  endif %}
-    <div style="border: 1px solid black;">
+	<link href="{% static 'csss_static/csss_custom.css' %}" rel="stylesheet">
+	{%  include 'csss/display_errors.html' %}
+    <div class="csss_box_bordering_3">
         <h2 class="title is-size-2">JSON Uploading</h2>
         <h3 class="title is-size-3">Upload JSON for Specific term</h3>
         <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
@@ -39,11 +36,11 @@
 
     <br><br><br><br>
 
-    <div style="border: 1px solid black;">
+    <div class="csss_box_bordering_3" >
         <h2 class="title is-size-2">Upload CSV for specified term[s] or year[s]</h2>
 
         <b>Markdown Information</b>
-        <ol style="margin-left: 2em;">
+        <ol class="csss_order_list" >
             <li>a newline may be placed in the bio for an officer with a "\n"</li>
             <li>a comma can be put into an entry with "[comma]"</li>
             <li>Some fields, such as github teams or announcement emails can take in multiple values. For those fields, you can separate the multiple values by using "|" as a delimiter</li>

@@ -1,10 +1,12 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 <form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/input_new_officer_positions">
     {%  csrf_token %}
     <div id="new_officer_positions">
 
         <!--shows the previous position mappings that the user tried to save but there were issues saving it -->
         {%  for unsaved_position_mapping in unsaved_position_mappings %}
-            <div style="border: 3px solid black; padding: 10px;">
+            <div class="csss_box_bordering_1" >
                 <label for="position_index">Officer Position Index</label>
                 <input type="number" id="position_index" name="position_index" value="{{ unsaved_position_mapping.position_index }}" required><br>
                 <label for="position_name">Officer Position Name</label>
@@ -26,7 +28,7 @@
 
         <!-- if there are no position mappings that are unsaved, shows just one blank entry for the user to enter a new position mapping -->
         {%  if unsaved_position_mappings is None %}
-            <div style="border: 3px solid black; padding: 10px;">
+            <div class="csss_box_bordering_1" >
                 <label for="position_index">Officer Position Index</label>
                 <input type="number" id="position_index" name="position_index" required><br>
                 <label for="position_name">Officer Position Name</label>

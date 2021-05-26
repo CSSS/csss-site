@@ -4,13 +4,7 @@
 {% load staticfiles %}
 {% block content %}
     {{ block.super }}
-    {% if error_messages %}
-        <p style="color: red">Experienced Following Error<br>
-            {% for error_message in error_messages %}
-                {{ error_message }}<br>
-            {%  endfor %}
-        </p>
-    {%  endif %}
+	{%  include 'csss/display_errors.html' %}
 
     {%  include 'about/position_mapping/saved_officer_position_mappings.html' %}
 

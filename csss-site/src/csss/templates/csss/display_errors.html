@@ -1,0 +1,9 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
+{% if error_messages %}
+	<p class="csss_error_style" >Experienced Following Errors<br>
+		{% for error_message in error_messages %}
+			{{ error_message |safe}}<br><br>
+		{%  endfor %}
+	</p>
+{%  endif %}

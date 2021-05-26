@@ -5,13 +5,7 @@
 {% bootstrap_messages %}
 
 {% block content %}
-    {% if error_experienced %}
-        <p style="color: red">Experienced Following Error<br>
-            {%  for error in error_experienced %}
-                {{ error }}<br>
-            {%  endfor %}
-        </p>
-    {%  endif %}
+	{%  include 'csss/display_errors.html' %}
     {% if non_officer_github_member %}
         <h2 class="title-2">Non-Officers with access to SFU CSSS GitHub Resources</h2>
         <table>

@@ -4,13 +4,7 @@
     {{ block.super }}
     {% load static %}
     {% load staticfiles %}
-	{% if error_messages %}
-        <p style="color: red">Experienced Following Errors<br>
-            {% for error_message in error_messages %}
-                {{ error_message |safe}}<br><br>
-            {%  endfor %}
-        </p>
-    {%  endif %}
+	{%  include 'csss/display_errors.html' %}
 	<form action="{{URL_ROOT}}about/input_officer_info" method="post">
 		{% csrf_token %}
 		<p>
@@ -25,7 +19,7 @@
 		<p><b>SFUID</b>: <input type="text" name="sfuid" value="{{sfuid_value}}" required >@sfu.ca</p>
 		<p><b>SFUID Email alias</b>: <input type="text" name="sfuid_email_alias" value="{{sfuid_email_alias_value}}" required >@sfu.ca</p>
 		<i>Follow these instructions to determine your SFUID Email alias:</i>
-		<ol style="margin-left: 2em;">
+		<ol class="csss_order_list" >
 			<li>Login to <a href="https://www.sfu.ca/sfuds" target="_blank">SFU Directory Entry</a></li>
 			<li>click on <code>[Edit My Entry]</code></li>
 			<li>Enter the email that appear in the list for <code>Email Address ("From" address in SFU Mail):</code> that is not <code>sfuid@sfu.ca</code></li>
