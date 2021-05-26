@@ -36,7 +36,7 @@ def index(request):
     context['GITHUB_USERNAME_KEY'] = GITHUB_USERNAME_KEY
     context['LEGAL_NAME_KEY'] = LEGAL_NAME_KEY
     context['GITHUB_TEAM_KEY'] = GITHUB_TEAM_KEY
-    return render(request, 'resource_management/github_managemet.html', context)
+    return render(request, 'resource_management/github_management.html', context)
 
 
 def add_non_officer_to_github_team(request):
