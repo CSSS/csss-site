@@ -4,7 +4,7 @@
     {{ block.super }}
     {% load static %}
     {% load staticfiles %}
-        {% if error_messages %}
+	{% if error_messages %}
         <p style="color: red">Experienced Following Errors<br>
             {% for error_message in error_messages %}
                 {{ error_message |safe}}<br><br>
@@ -52,7 +52,7 @@
 		<b>Bio</b>:
 		<i>
 			needs to already be in <a href="https://wordtohtml.net/">HTML format</a><br>
-			For examples look at <a href="http://sfucsss.org/about/list_of_officers"> Past Bios</a>
+			For examples look at <a href="http://sfucsss.org/about/list_of_past_officers"> Past Bios</a>
 		</i><br>
 		<textarea name="bio" cols="40" rows="5" required>{{bio_value}}</textarea><br>
 		<input type="submit" value="Submit">

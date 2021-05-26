@@ -15,38 +15,36 @@
 			</tr>
 			{% for github_team in github_teams %}
 				<tr>
-						<td><input type="number" name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping__id]" value="{{ github_team.team_id }}" readonly required></td>
-						<td>
-							{%  for positions_mapped_to_team in github_team.positions %}
-								{% if positions_mapped_to_team.checked %}
-									<input name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping_selected_officer_positions]" checked  type="checkbox" value="{{ positions_mapped_to_team.position_name }}" />
-								{%  else %}
-									<input name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping_selected_officer_positions]"  type="checkbox" value="{{ positions_mapped_to_team.position_name }}" />
-								{%  endif %}
-								<label>{{ positions_mapped_to_team.position_name }}</label><br>
-							{%  endfor %}
-						</td>
-						<td><input type="text" name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping__team_name]" value="{{ github_team.team_name }}"></td>
-						<td>
-							<input type="number" name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping__relevant_previous_terms]" value="{{ github_team.relevant_previous_terms }}">
-						</td>
-						<td>
-							<select name="[saved_officer_position_github_mapping][{{github_team.team_id}}][officer_email_list_and_position_mapping__delete_status]" required size="2">
-								{%  if github_team.marked_for_deletion is True %}
-									<option value="True" selected>True</option>
-									<option value="False">False</option>
-								{%  elif github_team.marked_for_deletion is False %}
-									<option value="True">True</option>
-									<option value="False" selected>False</option>
-								{%  endif %}
-							</select>
-						</td>
-						<td>
-							<select name="[saved_officer_position_github_mapping][{{github_team.team_id}}][delete_github_mapping]" required size="2">
-									<option value="True">True</option>
-									<option value="False" selected>False</option>
-							</select>
-						</td>
+					<td><input type="number" name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping__id]" value="{{ github_team.team_id }}" readonly required></td>
+					<td>
+						{%  for positions_mapped_to_team in github_team.positions %}
+							{% if positions_mapped_to_team.checked %}
+								<input name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping_selected_officer_positions]" checked  type="checkbox" value="{{ positions_mapped_to_team.position_name }}" />
+							{%  else %}
+								<input name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping_selected_officer_positions]"  type="checkbox" value="{{ positions_mapped_to_team.position_name }}" />
+							{%  endif %}
+							<label>{{ positions_mapped_to_team.position_name }}</label><br>
+						{%  endfor %}
+					</td>
+					<td><input type="text" name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping__team_name]" value="{{ github_team.team_name }}"></td>
+					<td><input type="number" name="[saved_officer_position_github_mapping][{{github_team.team_id}}][github_mapping__relevant_previous_terms]" value="{{ github_team.relevant_previous_terms }}"></td>
+					<td>
+						<select name="[saved_officer_position_github_mapping][{{github_team.team_id}}][officer_email_list_and_position_mapping__delete_status]" required size="2">
+							{%  if github_team.marked_for_deletion is True %}
+								<option value="True" selected>True</option>
+								<option value="False">False</option>
+							{%  elif github_team.marked_for_deletion is False %}
+								<option value="True">True</option>
+								<option value="False" selected>False</option>
+							{%  endif %}
+						</select>
+					</td>
+					<td>
+						<select name="[saved_officer_position_github_mapping][{{github_team.team_id}}][delete_github_mapping]" required size="2">
+								<option value="True">True</option>
+								<option value="False" selected>False</option>
+						</select>
+					</td>
 				</tr>
 			{%  endfor %}
 		</table>

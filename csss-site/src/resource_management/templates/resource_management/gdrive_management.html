@@ -13,7 +13,7 @@
         </p>
     {%  endif %}
     {% if g_drive_users %}
-	<h1 class="title">Users with Access To SFU CSSS Google Drive:</h1>
+		<h2 class="title is-size-2">Users with Access To SFU CSSS Google Drive:</h2>
         <table >
             <tr>
                 <th>ID</th>
@@ -24,25 +24,25 @@
                 <th>Actions</th>
             </tr>
             {% for user in g_drive_users %}
-            <tr>
-                <form action="{{URL_ROOT}}resource_management/gdrive/update_current_gdrive_user" method="post">
-                    {% csrf_token %}
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_DB_RECORD_KEY}}" value="{{user.id}}" readonly required></td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_NAME_KEY}}" value="{{user.name}}" required> </td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_GMAIL_KEY}}" value="{{user.gmail}}" required></td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_ID_KEY}}" value="{{user.file_id}}" ></td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_NAME_KEY}}" value="{{user.file_name}}" readonly required></td>
-                    <td>
-                        <button name="action" value="update" type="submit">Update</button>
-                        <button name="action" value="delete" type="submit">Delete</button>
-                    </td>
-                    </form>
-            </tr>
+				<tr>
+					<form action="{{URL_ROOT}}resource_management/gdrive/update_current_gdrive_user" method="post">
+						{% csrf_token %}
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_DB_RECORD_KEY}}" value="{{user.id}}" readonly required></td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_NAME_KEY}}" value="{{user.name}}" required> </td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_GMAIL_KEY}}" value="{{user.gmail}}" required></td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_ID_KEY}}" value="{{user.file_id}}" ></td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_NAME_KEY}}" value="{{user.file_name}}" readonly required></td>
+						<td>
+							<button name="action" value="update" type="submit">Update</button>
+							<button name="action" value="delete" type="submit">Delete</button>
+						</td>
+					</form>
+				</tr>
             {% endfor %}
         </table>
     {% endif %}
 
-	<h1 class="title">Users To Grant Access To SFU CSSS Google Drive:</h1>
+	<h2 class="title is-size-2">Users To Grant Access To SFU CSSS Google Drive:</h2>
 	<form action="{{URL_ROOT}}resource_management/gdrive/add_users_gdrive" method="post">
 		{% csrf_token %}
         <table id="google_drive_users">
@@ -52,7 +52,7 @@
                 <th>Google Drive Folder/File ID<sup>[1]</sup></th>
             </tr>
             <tr>
-                <td><input type="text" name="{{GOOGLE_DRIVE_USERS_NAME_KEY}}"required> </td>
+                <td><input type="text" name="{{GOOGLE_DRIVE_USERS_NAME_KEY}}" required> </td>
                 <td><input type="text" name="{{GOOGLE_DRIVE_USERS_GMAIL_KEY}}" required></td>
                 <td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_ID_KEY}}"></td>
             </tr>
@@ -65,7 +65,7 @@
 
 
     {% if g_drive_public_links %}
-        <h1 class="title">Publicly Available Google Drive Links</h1>
+        <h2 class="title is-size-2">Publicly Available Google Drive Links</h2>
         <table>
             <tr>
                 <th>ID</th>
@@ -75,24 +75,24 @@
                 <th>Actions</th>
             </tr>
             {% for links in g_drive_public_links %}
-            <tr>
-                <form action="{{URL_ROOT}}resource_management/gdrive/update_gdrive_public_linls" method="post">
-                    {% csrf_token %}
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_DB_RECORD_KEY}}" value="{{links.id}}" readonly required></td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_ID_KEY}}" value="{{links.file_id}}" required></td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_NAME_KEY}}" value="{{links.file_name}}"  readonly required></td>
-                    <td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_LINK_KEY}}" value="{{links.link}}" readonly required></td>
-                    <td>
-                        <button name="action" value="update" type="submit">Update</button>
-                        <button name="action" value="delete" type="submit">Delete</button>
-                    </td>
-                </form>
-            </tr>
+				<tr>
+					<form action="{{URL_ROOT}}resource_management/gdrive/update_gdrive_public_linls" method="post">
+						{% csrf_token %}
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_DB_RECORD_KEY}}" value="{{links.id}}" readonly required></td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_ID_KEY}}" value="{{links.file_id}}" required></td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_NAME_KEY}}" value="{{links.file_name}}"  readonly required></td>
+						<td><input type="text" name="{{GOOGLE_DRIVE_USERS_FILE_LINK_KEY}}" value="{{links.link}}" readonly required></td>
+						<td>
+							<button name="action" value="update" type="submit">Update</button>
+							<button name="action" value="delete" type="submit">Delete</button>
+						</td>
+					</form>
+				</tr>
             {% endfor %}
         </table>
     {% endif %}
 
-    <h1  class="title">Folder/File to make publicly available:</h1>
+    <h2 class="title is-size-2">Folder/File to make publicly available:</h2>
     <form action="{{URL_ROOT}}resource_management/gdrive/make_folder_public_gdrive" method="post">
 		{% csrf_token %}
         <table id="google_drive_public_links">
@@ -104,15 +104,15 @@
             </tr>
         </table>
         <input type="submit" value="submit" />
-            <input type="button" value="Add another Publicly Available File" onClick="AddRowToPublicGoogleDriveFilesTable();">
-            <input type="button" value="Remove the last Publicly Available File" onClick="removeGDriveUser('google_drive_public_links');">
+		<input type="button" value="Add another Publicly Available File" onClick="AddRowToPublicGoogleDriveFilesTable();">
+		<input type="button" value="Remove the last Publicly Available File" onClick="removeGDriveUser('google_drive_public_links');">
     </form>
-	<script type="text/javascript">
+	<script>
 		function AddRowToGoogleDriveUsersTable(){
-            var table = document.getElementById('google_drive_users');
+            const table = document.getElementById('google_drive_users');
 
             // Create an empty <tr> element and add it to the 1st position of the table:
-            var row = table.insertRow(-1);
+            const row = table.insertRow(-1);
 
             // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
             var cell1 = row.insertCell(0);
@@ -125,20 +125,20 @@
 		}
 
 		function AddRowToPublicGoogleDriveFilesTable(){
-            var table = document.getElementById('google_drive_public_links');
+            const table = document.getElementById('google_drive_public_links');
 
             // Create an empty <tr> element and add it to the 1st position of the table:
-            var row = table.insertRow(-1);
+            const row = table.insertRow(-1);
 
             // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
-            var cell1 = row.insertCell(0);
+            const cell1 = row.insertCell(0);
 
             // Add some text to the new cells:
             cell1.innerHTML = "<td><input type=\"text\" name=\"{{GOOGLE_DRIVE_USERS_FILE_ID_KEY}}\" required></td>";
 		}
 		function removeGDriveUser(divName) {
-            var table = document.getElementById(divName);
-            var rowCount = table.rows.length;
+            const table = document.getElementById(divName);
+            const rowCount = table.rows.length;
             table.deleteRow(rowCount -1);
 		}
 	</script>

@@ -45,12 +45,12 @@
     <input type="button" value="Add another Position Slot" onClick="addOfficerPosition('new_officer_positions');">
     <input type="submit" name="add_new_position_mapping" value="Submit">
 </form>
-    <script>
+<script>
     function removeOfficerPosition(divName){
         $(divName).children().last().remove();
     }
     function addOfficerPosition(divName){
-        var newOfficerPosition = document.createElement('div');
+        const newOfficerPosition = document.createElement('div');
         newOfficerPosition.setAttribute("style","border: 3px solid black; padding: 10px;");
         newOfficerPosition.innerHTML += "<label for=\"position_index\">Officer Position Index</label>";
         newOfficerPosition.innerHTML += "<input type=\"number\" id=\"position_index\" name=\"position_index\" required><br>";
@@ -67,7 +67,7 @@
         false_option.value = 'False'
         false_option.innerHTML = 'False'
 
-        var select_statement = document.createElement('select');
+        const select_statement = document.createElement('select');
         select_statement.setAttribute('name', 'elected_via_election_officer');
         select_statement.setAttribute('id', 'elected_via_election_officer');
         select_statement.setAttribute('required', '');

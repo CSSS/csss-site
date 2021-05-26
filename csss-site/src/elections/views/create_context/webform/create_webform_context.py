@@ -16,7 +16,8 @@ from elections.views.Constants import INPUT_ELECTION_ID__NAME, INPUT_ELECTION_ID
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_DISCORD, INPUT_NOMINEE_NAME__NAME, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     CURRENT_OFFICER_POSITIONS, ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_ID, ELECTION_JSON_KEY__ELECTION_TYPE, \
-    DATE_FORMAT, TIME_FORMAT, INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME
+    DATE_FORMAT, TIME_FORMAT, INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME, JS_FORMATTING_ERROR, \
+    FORMAT_ELECTION_JSON__DIV_ID_NAME
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id

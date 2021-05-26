@@ -6,4 +6,6 @@
 
     </p>
 {%  endif %}
-<div style="color: red" id="{{ json_formatting_div__name }}"></div>
+{% if json_formatting_div__name is not None %}
+	<div style="color: red" id="{{ json_formatting_div__name }}"></div>
+{%  endif %}
