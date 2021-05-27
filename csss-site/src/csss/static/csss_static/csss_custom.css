@@ -13,6 +13,11 @@
     border: 1px solid black;
 }
 
+.csss_box_bordering_4 {
+    display:inline-block;
+}
+
+
 .csss_error_style {
     color: red
 }

@@ -1,0 +1,44 @@
+.frosh_2020_logo {
+    width:90%;
+    max-width:90%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+}
+
+.frosh_2020_logo_2 {
+    display:block;
+    width:90%;
+    margin-top: 2%;
+    margin-left:auto;
+    margin-right: auto;
+    margin-bottom: 2%
+}
+
+.frosh_2020_logo_3 {
+    width:20%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.frosh_2020_logo_4 {
+    width:100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.frosh_2020_programming_logo {
+    object-fit: contain;
+}
+
+.frosh_2020_width_100 {
+    width:100%;
+}
+
+.frosh_2020_event_info {
+    width: 100%; overflow:auto;
+}

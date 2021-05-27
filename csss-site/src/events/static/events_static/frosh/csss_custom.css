@@ -7,3 +7,8 @@
 .csss_center_align {
     text-align:center
 }
+
+#map_canvas {
+    height: 400px;
+    background-color: #CCC;
+}
