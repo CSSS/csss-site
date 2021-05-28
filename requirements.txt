@@ -38,4 +38,4 @@ oauth2client==3.0.0
 PyGithub
 
 # gitlab management
-python-gitlab
+python-gitlab==2.3.1
