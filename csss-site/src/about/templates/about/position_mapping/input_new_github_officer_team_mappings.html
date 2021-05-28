@@ -4,7 +4,7 @@
     {%  csrf_token %}
     <div id="new_github_officer_team_name_mapping">
         {% if unsaved_github_officer_team_name_mapping is not None %}
-            <div class="csss_box_bordering_1">
+            <div class="csss_box_borders_new_entries">
                 <label>Github Team Name: </label>
                 <input type="text" id="github_mapping__team_name" name="github_mapping__team_name" value="{{ unsaved_github_officer_team_name_mapping.team_name }}" required><br>
                 <label>Past Terms that Team is applicable to: </label>
@@ -24,7 +24,7 @@
         {%  endif %}
 
         {%  if unsaved_github_officer_team_name_mapping is None %}
-            <div class="csss_box_bordering_1" >
+            <div class="csss_box_borders_new_entries" >
                 <label>Github Team Name: </label>
                 <input type="text" id="github_mapping__team_name" name="github_mapping__team_name" required><br>
                 <label>Past Terms that Team is applicable to: </label>
