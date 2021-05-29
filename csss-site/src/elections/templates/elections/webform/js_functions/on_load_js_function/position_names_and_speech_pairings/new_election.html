@@ -1,5 +1,3 @@
-{% load staticfiles %}
-<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 {%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
     speech_index = nominee_speeches.childElementCount;
     speech_div_name = nominee_div_name + '_speech_' + speech_index;
@@ -9,7 +7,7 @@
 
     {%  for position in current_officer_positions %}
         nominee_position = document.createElement('div');
-        nominee_position.setAttribute('class','csss_box_bordering_4');
+        nominee_position.setAttribute('class','csss_nominee_positions_on_same_line');
 
         {% if position.position_name in position_names_and_speech_pairing.position_names %}
             nominee_position.innerHTML += "<input name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_speech_and_position_pairing__name}}]["+speech_index+"][{{input_nominee_position_names__name}}]\" type=\"checkbox\" id=\"{{ position.position_name }}\" value=\"{{ position.position_name }}\" checked />";
