@@ -6,7 +6,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+    ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from resource_management.models import NonOfficerGithubMember, OfficerPositionGithubTeam, \
     OfficerPositionGithubTeamMapping
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
@@ -28,9 +28,9 @@ def index(request):
     if context is None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
-    if ERROR_MESSAGE_KEY in request.session:
-        context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
-        del request.session[ERROR_MESSAGE_KEY]
+    if ERROR_MESSAGES_KEY in request.session:
+        context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGES_KEY].split("<br>")
+        del request.session[ERROR_MESSAGES_KEY]
     context['non_officer_github_member'] = NonOfficerGithubMember.objects.all().filter().order_by('id')
     context['GITHUB_RECORD_KEY'] = GITHUB_RECORD_KEY
     context['GITHUB_USERNAME_KEY'] = GITHUB_USERNAME_KEY
@@ -68,18 +68,18 @@ def add_non_officer_to_github_team(request):
                             f"adding user \"{name}\" with github username \"{user_name}\" to team \"{team_name}\"")
                 success, error_message = github.validate_user(user_name)
                 if not success:
-                    if ERROR_MESSAGE_KEY in request.session:
-                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                    if ERROR_MESSAGES_KEY in request.session:
+                        request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(error_message)
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                        request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
                     continue
                 github.create_team(team_name)
                 success, message = github.add_users_to_a_team([user_name], team_name)
                 if not success:
-                    if ERROR_MESSAGE_KEY in request.session:
-                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
+                    if ERROR_MESSAGES_KEY in request.session:
+                        request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(message)
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                        request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(message)
                     continue
                 NonOfficerGithubMember(
                     team_name=team_name,
@@ -98,18 +98,18 @@ def add_non_officer_to_github_team(request):
                         f"adding user \"{name}\" with github username \"{user_name}\" to team \"{team_name}\"")
             success, error_message = github.validate_user(user_name)
             if not success:
-                if ERROR_MESSAGE_KEY in request.session:
-                    request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                if ERROR_MESSAGES_KEY in request.session:
+                    request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(error_message)
                 else:
-                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                    request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
                 return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
             github.create_team(team_name)
             success, message = github.add_users_to_a_team([user_name], team_name)
             if not success:
-                if ERROR_MESSAGE_KEY in request.session:
-                    request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(message)
+                if ERROR_MESSAGES_KEY in request.session:
+                    request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(message)
                 else:
-                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(message)
+                    request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(message)
                 return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
             NonOfficerGithubMember(
                 team_name=team_name,
@@ -170,10 +170,10 @@ def update_github_non_officer(request):
                     github_user.legal_name = request.POST[LEGAL_NAME_KEY]
                     github_user.save()
                 else:
-                    if ERROR_MESSAGE_KEY in request.session:
-                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                    if ERROR_MESSAGES_KEY in request.session:
+                        request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(error_message)
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                        request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
             elif request.POST['action'] == 'delete':
                 github_user = NonOfficerGithubMember.objects.get(id=request.POST[GITHUB_RECORD_KEY])
                 logger.info(
