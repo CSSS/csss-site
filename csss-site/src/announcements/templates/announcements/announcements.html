@@ -3,7 +3,6 @@
 {% load staticfiles %}
 
 {% block content %}
-	<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 	<link rel="stylesheet" href="{% static 'announcements_static/csss_custom.css' %}">
 	<div class="columns">
 		<div class="column is-three-quarters ">
@@ -21,7 +20,7 @@
 							<p class="is-size-6 has-text-grey has-text-right">
 								posted by {{announcement.author}} on {{announcement.date}}
 							</p>
-							<hr class="csss_announcements_horizontal_rule">
+							<hr class="csss_announcement_subject_underline">
 							<div class="is-size-6">
 							{% if announcement.email is None %}
 								{{announcement.manual_announcement.content|safe|linebreaks }}

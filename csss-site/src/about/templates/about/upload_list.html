@@ -7,7 +7,7 @@
     {{ block.super }}
 	<link href="{% static 'csss_static/csss_custom.css' %}" rel="stylesheet">
 	{%  include 'csss/display_errors.html' %}
-    <div class="csss_box_bordering_3">
+    <div class="csss_divider_officer_list_upload">
         <h2 class="title is-size-2">JSON Uploading</h2>
         <h3 class="title is-size-3">Upload JSON for Specific term</h3>
         <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
@@ -36,7 +36,7 @@
 
     <br><br><br><br>
 
-    <div class="csss_box_bordering_3" >
+    <div class="csss_divider_officer_list_upload" >
         <h2 class="title is-size-2">Upload CSV for specified term[s] or year[s]</h2>
 
         <b>Markdown Information</b>
