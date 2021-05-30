@@ -1,8 +1,8 @@
 from django.conf.urls import url
 
-from .urls.fall_hacks import urlpatterns as fall_hacks_urlpatterns
-from .urls.mm import urlpatterns as mm_urlpatterns
-from .urls.frosh import urlpatterns as frosh_urlpatterns
+from .event_urls.fall_hacks import urlpatterns as fall_hacks_urlpatterns
+from .event_urls.mm import urlpatterns as mm_urlpatterns
+from .event_urls.frosh import urlpatterns as frosh_urlpatterns
 from .views import views
 
 urlpatterns = [
