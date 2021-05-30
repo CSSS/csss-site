@@ -1,4 +1,4 @@
-{% extends "csss/new_header.html" %}
+{% extends "csss/header.html" %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
@@ -6,7 +6,7 @@
 {% load staticfiles %}
 
 {% block content %}
-    <h1 class="title">Modify Election</h1>
+    <h2 class="title is-size-2">Modify Election</h2>
     {%  include 'elections/json/creating_election_errors.html' %}
     <form method="post" class="form">
         {% csrf_token %}

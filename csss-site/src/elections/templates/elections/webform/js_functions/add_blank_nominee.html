@@ -10,7 +10,7 @@ function addBlankNominee(nominees_div_name){
 
     let new_nominee = document.createElement('div');
     new_nominee.setAttribute('id',nominee_div_name);
-    new_nominee.setAttribute('style', 'border: 3px solid black; padding: 10px;');
+    new_nominee.setAttribute('class', 'csss_box_borders_new_entries');
     new_nominee.innerHTML += "<input type=\"button\" value=\"Remove Nominee\" onClick=\"removeDiv('#"+nominee_div_name+"');\">";
     new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" required></p>";
     new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\"NONE\" required></p>";

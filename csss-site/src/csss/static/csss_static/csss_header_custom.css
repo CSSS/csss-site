@@ -1,0 +1,23 @@
+.csss_footer_text_margins {
+    margin-left:15px;
+    margin-top: 1em;
+}
+
+.csss_fix_footer_placement {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    background-color: #f6f6f6;
+}
+
+.csss_header_text_shadowing {
+    text-shadow: 7px 6px 14px rgba(0,0,0,0.89);
+}
+
+.csss_associated_clubs_indent {
+    text-indent: 20px;
+}
+
+
+

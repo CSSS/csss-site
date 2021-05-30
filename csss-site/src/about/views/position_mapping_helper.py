@@ -15,6 +15,8 @@ POSITION_INDEX_KEY = 'position_index'
 
 SAVED_OFFICER_POSITIONS = 'saved_officer_positions'
 
+DELETE_GITHUB_MAPPING = 'delete_github_mapping'
+GITHUB_MAPPING_SELECTED_OFFICER_POSITIONS = 'github_mapping_selected_officer_positions'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID = "officer_email_list_and_position_mapping__id"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_and_position_mapping__position_index"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
@@ -22,6 +24,8 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
     "officer_email_list_and_position_mapping__elected_position"
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
+    "officer_email_list_and_position_mapping__delete_status"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'
@@ -71,6 +75,7 @@ def update_context(context):
             for position in position_mapping_for_selected_officer:
                 github_team_mapping['positions'].append(
                     {
+                        'id': position.id,
                         "position_name": position.position_name,
                         POSITION_INDEX_KEY: position.position_index,
                         "checked": position.position_index in selected_positions_for_mapping

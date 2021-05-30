@@ -1,329 +1,267 @@
-{% extends "csss/new_header.html" %}
-
+{% extends "csss/header.html" %}
+{% load staticfiles %}
 {% block content %}
 {{ block.super }}
-    <title>Fall Hacks 2020</title>
+	<link rel="stylesheet" href="{% static 'events_static/fall_hacks_2020/csss_custom.css' %}">
+	<section id='above-fold'>
+		<header>
+			<h1 class="title is-size-2">Submissions from the Computing Science Student Society Fall Hacks 2020</h1>
+		</header>
 
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-</style>
+		<div id='building' aria-hidden="true"></div>
 
-  </head>
-  <body>
-    <section id='above-fold'>
-      <header>
-        <h1 class="title">Submissions from the Computing Science Student Society Fall Hacks 2020</h1>
-      </header>
+		<div id='mountain' aria-hidden="true">
+			<div class='grass'></div>
+			<div class='grass'></div>
+			<div class='grass'></div>
+		</div>
 
-
-      <div id='building' aria-hidden="true"></div>
-
-      <div id='mountain' aria-hidden="true">
-				<div class='grass'></div>
-				<div class='grass'></div>
-				<div class='grass'></div>
-      </div>
-
-    </section>
-
-
-	</style>
-	</head>
-	<body>
-
+	</section>
 	Please note, these projects made have been made private or changed since submission. Run at your own risk.
 
-	<h2>Submissions</h2>
+	<h2 class="title is-size-2">Submissions</h2>
 
 	<table>
-	  <tr>
-		<th>Prize</th>
-		<th>Project Name </th>
-		<th>Team Name</th>
-		<th>Project Description</th>
-		<th>Project Link</th>
-	  </tr>
-	  <tr>
-		<td style="padding:0 15px 0 15px;">1st</td>
-		<td style="padding:0 15px 0 15px;">Legacy Edition Acronym Finder</td>
-		<td style="padding:0 15px 0 15px;">Legacy Edition</td>
-		<td style="padding:0 15px 0 15px;">Trivial game where you have to be the first person to identify the correct full name of an acronym</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/awtkns/fallhack-2020">https://github.com/awtkns/fallhack-2020</td>
-	  </tr>
-	  <tr>
-		<td style="padding:0 15px 0 15px;">2nd</td>
-		<td style="padding:0 15px 0 15px;">ASC II(A Sophisticated Chat mark II)</td>
-		<td style="padding:0 15px 0 15px;">AYA</td>
-		<td style="padding:0 15px 0 15px;">This is a messenger-like chat app but it requires user to solve ASCII puzzles in order to chat</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/aWildOtto/ASCII">https://github.com/aWildOtto/ASCII</td>
-	  </tr>
-	  <tr>
-		<td style="padding:0 15px 0 15px;">3rd</td>
-		<td style="padding:0 15px 0 15px;">Let's Escape and Fight</td>
-		<td style="padding:0 15px 0 15px;">Canucks </td>
-		<td style="padding:0 15px 0 15px;">Adventure-style game, which player has escaped from a group of bandits! He must now avoid being eliminated and make it back to the safe house. </td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/m-alexeev/Fall2020Hack">https://github.com/m-alexeev/Fall2020Hack</td>
-	  </tr>
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Most Interesting Creation</td>
-		<td style="padding:0 15px 0 15px;">CSSS-LISP-> CSSS's Litter Insepection and Sorting Program</td>
-		<td style="padding:0 15px 0 15px;">CSSS-LISP</td>
-		<td style="padding:0 15px 0 15px;">Image classification using transfer learning to detect the type of litter. Recycle, garbage, Paper, etc</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/harnoors/CSSS-LISP">https://github.com/harnoors/CSSS-LISP</td>
-	  </tr>
-	</table> 
-
-<p>   </p>
-     
+		<tr>
+			<th>Prize</th>
+			<th>Project Name </th>
+			<th>Team Name</th>
+			<th>Project Description</th>
+			<th>Project Link</th>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">1st</td>
+			<td class="csss_fall_hacks_submission_row">Legacy Edition Acronym Finder</td>
+			<td class="csss_fall_hacks_submission_row">Legacy Edition</td>
+			<td class="csss_fall_hacks_submission_row">Trivial game where you have to be the first person to identify the correct full name of an acronym</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/awtkns/fallhack-2020">https://github.com/awtkns/fallhack-2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">2nd</td>
+			<td class="csss_fall_hacks_submission_row">ASC II(A Sophisticated Chat mark II)</td>
+			<td class="csss_fall_hacks_submission_row">AYA</td>
+			<td class="csss_fall_hacks_submission_row">This is a messenger-like chat app but it requires user to solve ASCII puzzles in order to chat</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/aWildOtto/ASCII">https://github.com/aWildOtto/ASCII</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">3rd</td>
+			<td class="csss_fall_hacks_submission_row">Let's Escape and Fight</td>
+			<td class="csss_fall_hacks_submission_row">Canucks </td>
+			<td class="csss_fall_hacks_submission_row">Adventure-style game, which player has escaped from a group of bandits! He must now avoid being eliminated and make it back to the safe house. </td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/m-alexeev/Fall2020Hack">https://github.com/m-alexeev/Fall2020Hack</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Most Interesting Creation</td>
+			<td class="csss_fall_hacks_submission_row">CSSS-LISP-> CSSS's Litter Insepection and Sorting Program</td>
+			<td class="csss_fall_hacks_submission_row">CSSS-LISP</td>
+			<td class="csss_fall_hacks_submission_row">Image classification using transfer learning to detect the type of litter. Recycle, garbage, Paper, etc</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/harnoors/CSSS-LISP">https://github.com/harnoors/CSSS-LISP</a></td>
+		</tr>
+	</table>
 	<table>
-	  <tr>
-		<th>Project Name </th>
-		<th>Team Name</th>
-		<th>Project Description</th>
-		<th>Project Link</th>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">CSCourse Selection Search System C.S.S.S.</td>
-		<td style="padding:0 15px 0 15px;">Team Stop Failing University (S.F.U)</td>
-		<td style="padding:0 15px 0 15px;">Help computing science students to plan ahead for their curriculums</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/richardfuca/hackathonnov2020">https://github.com/richardfuca/hackathonnov2020</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Coronavirus Stati Stic S  (CSSS)</td>
-		<td style="padding:0 15px 0 15px;">Yeppers</td>
-		<td style="padding:0 15px 0 15px;">Using the BC COVID-19 data given by the BC CDC, we created multiple different types of graphs (3 line graphs and a bubble graph). The bubble graph takes a date and visualizes it based on that date. There are more instructions on the README.md in the Github.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/graacelin/bc-coronavirus-statistics">https://github.com/graacelin/bc-coronavirus-statistics</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">CSCourse Selection Search System C.S.S.S.</td>
-		<td style="padding:0 15px 0 15px;">All Squares Condone Inquisition Immediately</td>
-		<td style="padding:0 15px 0 15px;">Our project centers on the battle between 2 blocks as they battle for survival, using power ups and speed to knock each other across the map. Whichever block can knock the other one off the screen first wins!</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/GeoGiovani/FallHack2020/tree/main">https://github.com/GeoGiovani/FallHack2020/tree/main</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Super Furball Utility</td>
-		<td style="padding:0 15px 0 15px;"></td>
-		<td style="padding:0 15px 0 15px;">Take a photo of a dog or cat and the app will tell you if it's a dog or cat - perfect for when you can't tell!</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/PaymonJ/CSSSFallHack2020">https://github.com/PaymonJ/CSSSFallHack2020</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">StayFocusedU!</td>
-		<td style="padding:0 15px 0 15px;">StayFocusedU!</td>
-		<td style="padding:0 15px 0 15px;">This is a simple productivity desktop app for linux users to track their study time with a timer and simple statistics.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/sleep09/stay-focused">https://github.com/sleep09/stay-focused</td>
-	  </tr>
-
-	<tr>
-		<td style="padding:0 15px 0 15px;">Course Seeing Selecting Savant</td>
-		<td style="padding:0 15px 0 15px;">Team CMM</td>
-		<td style="padding:0 15px 0 15px;">Course Seeing Selecting Savant (CSSS) is a website built using React, an API running on JavaScript. It is meant to help SFU Computing Science students track their academic progress and make decisions on courses they can take towards graduation. The website allows them to track which courses they have completed, how many credits they have obtained and still require to graduate,  and also provides course information such as course descriptions and if they met the prerequisites required to take particular courses.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/Cway14/CSSS">https://github.com/Cway14/CSSS</td>
-	  </tr>
-
-<tr>
-		<td style="padding:0 15px 0 15px;">Latrine Inspection Sanitary Protection</td>
-		<td style="padding:0 15px 0 15px;">AirPNP</td>
-		<td style="padding:0 15px 0 15px;">A web-based for finding and reviewing public washrooms in the Vancouver area.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/KeeganMcGinnis2/FallHack2020">https://github.com/KeeganMcGinnis2/FallHack2020</td>
-	  </tr>
-
-
-
-<tr>
-		<td style="padding:0 15px 0 15px;">Anime Screen Conversion Image Improver</td>
-		<td style="padding:0 15px 0 15px;">Hansoo's Kittens</td>
-		<td style="padding:0 15px 0 15px;">Style transfers images on a webpage using a chrome extension to look more like an anime art style.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/alhparsa/CSSS-Hackathon">https://github.com/alhparsa/CSSS-Hackathon</td>
-	  </tr>
-
-<tr>
-		<td style="padding:0 15px 0 15px;">ASCIIGeneratorObject</td>
-		<td style="padding:0 15px 0 15px;">$300 $quad$</td>
-		<td style="padding:0 15px 0 15px;">BMP image to ASCII code.   Run the main file and type in either superman.bmp or letter_s.bmp to execute it.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/yxdcheng/ASCIIGeneratorObject">https://github.com/yxdcheng/ASCIIGeneratorObject</td>
-	  </tr>
-
-<tr>
-		<td style="padding:0 15px 0 15px;">Lease Inventory, See Profits</td>
-		<td style="padding:0 15px 0 15px;">Lease Inventory, See Profits</td>
-		<td style="padding:0 15px 0 15px;">Lease Inventory, See Profits (LISP) is a local rental marketplace. Users can post items to rent or rent items from others.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://csil-git1.cs.surrey.sfu.ca/sraturi/fallhack2020">https://csil-git1.cs.surrey.sfu.ca/sraturi/fallhack2020</td>
-	  </tr>
-
-<tr>
-		<td style="padding:0 15px 0 15px;">Galactic Overlords</td>
-		<td style="padding:0 15px 0 15px;">Galactic Overlords</td>
-		<td style="padding:0 15px 0 15px;">We choose to go with the acronym GO and decided to make a tower defense game called "Galactic Overlord. The game consists of a ship the player controls, the player has to charge its energy near the energy gem to be able to place defenses. To place defenses the player can choose between a missile seeking tower and a machine gun by pressing 1 and 2 on the keyboard respectively. The aim of the game is to survive as long as you can, let's see how far you get!</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/sebastianbugal/Hackathon2020">https://github.com/sebastianbugal/Hackathon2020</td>
-	  </tr>
-
-<tr>
-		<td style="padding:0 15px 0 15px;">LIT ICBC Schedule Picker (LISP)</td>
-		<td style="padding:0 15px 0 15px;">LIT Driver Team</td>
-		<td style="padding:0 15px 0 15px;">The Lit ICBC Schedule Picker is a program that allows for an automatic booking of an appointment on ICBC.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/danlee0528/CSSS-Fall-2020-Hackathon">https://github.com/danlee0528/CSSS-Fall-2020-Hackathon</td>
-	  </tr>
-
-
-<tr>
-		<td style="padding:0 15px 0 15px;">Any Serviceable Computers In It?</td>
-		<td style="padding:0 15px 0 15px;">Any Serviceable Computers In It?</td>
-		<td style="padding:0 15px 0 15px;">A text-based RPG game. Unfinished.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://repl.it/@ssl54/AnyServiceableComputersInIt">https://repl.it/@ssl54/AnyServiceableComputersInIt</td>
-	  </tr>
-
-
-<tr>
-		<td style="padding:0 15px 0 15px;">Shut the Fact Up</td>
-		<td style="padding:0 15px 0 15px;">Fruits of Divorce</td>
-		<td style="padding:0 15px 0 15px;">Don't like what you read on the Internet? Well we've got the cure for what ails you! Introducing: Shut The Fact Up;  a revolutionary new way of consuming information. You can alter what you read in real time to conform to what you believe is true! Easy to use and robust, the possible applications of this weapon are enormous.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/ShayGeko/Fall2020-Hackathon">https://github.com/ShayGeko/Fall2020-Hackathon</td>
-	  </tr>
-
-<tr>
-		<td style="padding:0 15px 0 15px;">ASCII : A Soldier's Crusade Into Imperium</td>
-		<td style="padding:0 15px 0 15px;">Rain Dragon</td>
-		<td style="padding:0 15px 0 15px;">A text-based adventure RPG featuring ASCII Images for enemies.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/Qryn/SFU-Fall2020-ASCII">https://github.com/Qryn/SFU-Fall2020-ASCII</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Snake Finds U</td>
-		<td style="padding:0 15px 0 15px;">Snake Finds U</td>
-		<td style="padding:0 15px 0 15px;">A snake game implemented in Java, that involves the player eating apples to grow their snake, while avoiding bombs to stay alive.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/git-rahulrajesh/Snake-Finds-U">https://github.com/git-rahulrajesh/Snake-Finds-U</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">LEAFGO - Let's eat all Food: Get Obese</td>
-		<td style="padding:0 15px 0 15px;">KodRs</td>
-		<td style="padding:0 15px 0 15px;">LEAFGO is a project which marks all restaurants that you have visited automatically. Our vision is to help explore all restaurants in the area. The end goal? Visit them all and fulfill your obese destiny.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/SiamShafiq/LEAFGO/commit/4b602b3e32362e0c98326fe6a7564df105ab0fe9">https://github.com/SiamShafiq/LEAFGO/commit/4b602b3e32362e0c98326fe6a7564df105ab0fe9</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">GOSFU (Game Over SFU)</td>
-		<td style="padding:0 15px 0 15px;">PATAR</td>
-		<td style="padding:0 15px 0 15px;">GAME-OVER SFU The game is based on free roaming while completing small tasks SFU. The tasks involve making decision in certain situations. Making the right decision will lead to you being able to continue the game and finsih all 5 tasks, or making a wrong choice will cause the game to be over and you starting again.  To start, you can roam around SFU freely and look for the tasks based on the stories made. There are 5 stories leading to 5 paths around SFU and each ends with a task. Finishing the 5 tasks will result in victory. Note: the game represents real-world locations on SFU.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://csil-git1.cs.surrey.sfu.ca/varchit/game-over">https://csil-git1.cs.surrey.sfu.ca/varchit/game-over</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Game of Os</td>
-		<td style="padding:0 15px 0 15px;">The Conways</td>
-		<td style="padding:0 15px 0 15px;">Conway's Game of Life, but not necessarily Life, since you can modify the game rule parameters</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/ryan-lintott/CSSS-Fall-Hackathon-game-of-...-">https://github.com/ryan-lintott/CSSS-Fall-Hackathon-game-of-...-</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Game Outlet</td>
-		<td style="padding:0 15px 0 15px;">!False Story</td>
-		<td style="padding:0 15px 0 15px;">A collection of small games</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/djsiu/fallhacks">https://github.com/djsiu/fallhacks</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Get Out(GO)</td>
-		<td style="padding:0 15px 0 15px;">DXRT</td>
-		<td style="padding:0 15px 0 15px;">A 2d text maze game, which the player(OO) use "awsd" text inputs to control its position form the left entrance to the right ext.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/Richard172/Get-out">https://github.com/Richard172/Get-out</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Summarized For U</td>
-		<td style="padding:0 15px 0 15px;">Hackathing</td>
-		<td style="padding:0 15px 0 15px;">Summarizes terms of services into an easily digestible format.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://gitlab.com/hackathing-2020/sfu-server">https://gitlab.com/hackathing-2020/sfu-server</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Super Fly Underdog</td>
-		<td style="padding:0 15px 0 15px;">Kirbabes</td>
-		<td style="padding:0 15px 0 15px;">Dog game made on scratch. dodge the ghosts and collect the tacos and fortune cookies and cheetos</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://scratch.mit.edu/projects/446753510/">https://scratch.mit.edu/projects/446753510/</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Covid Social Spacing Simulator</td>
-		<td style="padding:0 15px 0 15px;">Mink Activists</td>
-		<td style="padding:0 15px 0 15px;">Simple click to move, time-based survival game. Goal of the game is to save the mink from the Coronavirus in Denmark.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/timothyr/covid-social-spacing-simulator  Link to game is in the README.md">https://github.com/timothyr/covid-social-spacing-simulator  Link to game is in the README.md</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">LEAF SFU GO bot</td>
-		<td style="padding:0 15px 0 15px;">LEAF SFU GO bot</td>
-		<td style="padding:0 15px 0 15px;">It is a discord bot with the intention to eradicate annoying friends and get them to shut frick up while gaming online. LEAFSFUGO = Let's eradicate annoying friends, shut frick up, gamers online.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/shabbiryusufali/FallHack2020">https://github.com/shabbiryusufali/FallHack2020</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Go Outside</td>
-		<td style="padding:0 15px 0 15px;">Go Outside</td>
-		<td style="padding:0 15px 0 15px;">This project is based on the acronym "GO". Go Outside is an Android app that encourages users to complete various challenges in the great outdoors.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/Sterlst/Go-Outside.git">https://github.com/Sterlst/Go-Outside.git</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Grow Old (GO)</td>
-		<td style="padding:0 15px 0 15px;">Hackaroonis</td>
-		<td style="padding:0 15px 0 15px;">We have created a version of Bitlife Simulator. It is a fun and enticing game that leaves you wanting to know more about your exciting (or depressing) virtual life!</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/dparaiso/FallHackathon-2020">https://github.com/dparaiso/FallHackathon-2020</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Runtime Terror</td>
-		<td style="padding:0 15px 0 15px;">LEAF (Low Effort Accessible Fun Game)</td>
-		<td style="padding:0 15px 0 15px;">We made a Low Effort Accessible Fun game of Tic Tac Toe</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/ehannafo/Hackathon2020">https://github.com/ehannafo/Hackathon2020</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">GO</td>
-		<td style="padding:0 15px 0 15px;">Ready... Set... GO...</td>
-		<td style="padding:0 15px 0 15px;"></td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/aymansays/GO">https://github.com/aymansays/GO</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">GO - Goat Organizer</td>
-		<td style="padding:0 15px 0 15px;">Manic Moles</td>
-		<td style="padding:0 15px 0 15px;">It is a game made with Godot in which the object is to catch goats whilst avoiding obstacles.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/Pantoro2380/Goat-Organizer">https://github.com/Pantoro2380/Goat-Organizer</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">LISP: Listen In Silence, Please!</td>
-		<td style="padding:0 15px 0 15px;">LISP: Listen In Silence, Please!</td>
-		<td style="padding:0 15px 0 15px;">Android app based on listening to sound cues to complete the objective. App based on Fall 2020 CMPT 276 assignment.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://gitlab.com/hermanluo/fall2020hackathon">https://gitlab.com/hermanluo/fall2020hackathon</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Leaf : library's easy access files</td>
-		<td style="padding:0 15px 0 15px;">Leaf : library's easy access files</td>
-		<td style="padding:0 15px 0 15px;">Amazon's good reads app(Android) seems to be getting lots of bad reviews. One of them was how people coundn't add books without actually giving reviews. Because of this poeple who quickly wanna use the app end up giving bad reviews to a book which they have never even read. Users wanted a feature to keep list private and public as well. This app tries to solve that issue. Although it's not an production level app, it helps users to make public or private lists and add books to their data without having to give reviews and such. Since the app deals with books, we called it Library's easy access files to fit one of the acronym from the hackathon theme which is LEAF.</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/AshCatchEmAll/hackathon2020.git">https://github.com/AshCatchEmAll/hackathon2020.git</td>
-	  </tr>
-
-	  <tr>
-		<td style="padding:0 15px 0 15px;">Life Is Short and Painful</td>
-		<td style="padding:0 15px 0 15px;">Mint Tea</td>
-		<td style="padding:0 15px 0 15px;">Did you know? The lifespan of a fly is 28 days.  You are an interdimensional fly wishing to travel the galaxies. But life is just too short, and your time is running out!</td>
-		<td style="padding:0 15px 0 15px;"><a href="https://github.com/dayvidpham/flying-lisp.git">https://github.com/dayvidpham/flying-lisp.git</td>
-	  </tr>
-
-	</table> 
-
-
-  </body>
-</html>
+		<tr>
+			<th>Project Name </th>
+			<th>Team Name</th>
+			<th>Project Description</th>
+			<th>Project Link</th>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">CSCourse Selection Search System C.S.S.S.</td>
+			<td class="csss_fall_hacks_submission_row">Team Stop Failing University (S.F.U)</td>
+			<td class="csss_fall_hacks_submission_row">Help computing science students to plan ahead for their curriculums</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/richardfuca/hackathonnov2020">https://github.com/richardfuca/hackathonnov2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Coronavirus Stati Stic S  (CSSS)</td>
+			<td class="csss_fall_hacks_submission_row">Yeppers</td>
+			<td class="csss_fall_hacks_submission_row">Using the BC COVID-19 data given by the BC CDC, we created multiple different types of graphs (3 line graphs and a bubble graph). The bubble graph takes a date and visualizes it based on that date. There are more instructions on the README.md in the Github.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/graacelin/bc-coronavirus-statistics">https://github.com/graacelin/bc-coronavirus-statistics</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">CSCourse Selection Search System C.S.S.S.</td>
+			<td class="csss_fall_hacks_submission_row">All Squares Condone Inquisition Immediately</td>
+			<td class="csss_fall_hacks_submission_row">Our project centers on the battle between 2 blocks as they battle for survival, using power ups and speed to knock each other across the map. Whichever block can knock the other one off the screen first wins!</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/GeoGiovani/FallHack2020/tree/main">https://github.com/GeoGiovani/FallHack2020/tree/main</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Super Furball Utility</td>
+			<td class="csss_fall_hacks_submission_row"></td>
+			<td class="csss_fall_hacks_submission_row">Take a photo of a dog or cat and the app will tell you if it's a dog or cat - perfect for when you can't tell!</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/PaymonJ/CSSSFallHack2020">https://github.com/PaymonJ/CSSSFallHack2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">StayFocusedU!</td>
+			<td class="csss_fall_hacks_submission_row">StayFocusedU!</td>
+			<td class="csss_fall_hacks_submission_row">This is a simple productivity desktop app for linux users to track their study time with a timer and simple statistics.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/sleep09/stay-focused">https://github.com/sleep09/stay-focused</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Course Seeing Selecting Savant</td>
+			<td class="csss_fall_hacks_submission_row">Team CMM</td>
+			<td class="csss_fall_hacks_submission_row">Course Seeing Selecting Savant (CSSS) is a website built using React, an API running on JavaScript. It is meant to help SFU Computing Science students track their academic progress and make decisions on courses they can take towards graduation. The website allows them to track which courses they have completed, how many credits they have obtained and still require to graduate,  and also provides course information such as course descriptions and if they met the prerequisites required to take particular courses.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/Cway14/CSSS">https://github.com/Cway14/CSSS</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Latrine Inspection Sanitary Protection</td>
+			<td class="csss_fall_hacks_submission_row">AirPNP</td>
+			<td class="csss_fall_hacks_submission_row">A web-based for finding and reviewing public washrooms in the Vancouver area.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/KeeganMcGinnis2/FallHack2020">https://github.com/KeeganMcGinnis2/FallHack2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Anime Screen Conversion Image Improver</td>
+			<td class="csss_fall_hacks_submission_row">Hansoo's Kittens</td>
+			<td class="csss_fall_hacks_submission_row">Style transfers images on a webpage using a chrome extension to look more like an anime art style.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/alhparsa/CSSS-Hackathon">https://github.com/alhparsa/CSSS-Hackathon</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">ASCIIGeneratorObject</td>
+			<td class="csss_fall_hacks_submission_row">$300 $quad$</td>
+			<td class="csss_fall_hacks_submission_row">BMP image to ASCII code.   Run the main file and type in either superman.bmp or letter_s.bmp to execute it.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/yxdcheng/ASCIIGeneratorObject">https://github.com/yxdcheng/ASCIIGeneratorObject</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Lease Inventory, See Profits</td>
+			<td class="csss_fall_hacks_submission_row">Lease Inventory, See Profits</td>
+			<td class="csss_fall_hacks_submission_row">Lease Inventory, See Profits (LISP) is a local rental marketplace. Users can post items to rent or rent items from others.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://csil-git1.cs.surrey.sfu.ca/sraturi/fallhack2020">https://csil-git1.cs.surrey.sfu.ca/sraturi/fallhack2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Galactic Overlords</td>
+			<td class="csss_fall_hacks_submission_row">Galactic Overlords</td>
+			<td class="csss_fall_hacks_submission_row">We choose to go with the acronym GO and decided to make a tower defense game called "Galactic Overlord. The game consists of a ship the player controls, the player has to charge its energy near the energy gem to be able to place defenses. To place defenses the player can choose between a missile seeking tower and a machine gun by pressing 1 and 2 on the keyboard respectively. The aim of the game is to survive as long as you can, let's see how far you get!</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/sebastianbugal/Hackathon2020">https://github.com/sebastianbugal/Hackathon2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">LIT ICBC Schedule Picker (LISP)</td>
+			<td class="csss_fall_hacks_submission_row">LIT Driver Team</td>
+			<td class="csss_fall_hacks_submission_row">The Lit ICBC Schedule Picker is a program that allows for an automatic booking of an appointment on ICBC.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/danlee0528/CSSS-Fall-2020-Hackathon">https://github.com/danlee0528/CSSS-Fall-2020-Hackathon</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Any Serviceable Computers In It?</td>
+			<td class="csss_fall_hacks_submission_row">Any Serviceable Computers In It?</td>
+			<td class="csss_fall_hacks_submission_row">A text-based RPG game. Unfinished.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://repl.it/@ssl54/AnyServiceableComputersInIt">https://repl.it/@ssl54/AnyServiceableComputersInIt</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Shut the Fact Up</td>
+			<td class="csss_fall_hacks_submission_row">Fruits of Divorce</td>
+			<td class="csss_fall_hacks_submission_row">Don't like what you read on the Internet? Well we've got the cure for what ails you! Introducing: Shut The Fact Up;  a revolutionary new way of consuming information. You can alter what you read in real time to conform to what you believe is true! Easy to use and robust, the possible applications of this weapon are enormous.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/ShayGeko/Fall2020-Hackathon">https://github.com/ShayGeko/Fall2020-Hackathon</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">ASCII : A Soldier's Crusade Into Imperium</td>
+			<td class="csss_fall_hacks_submission_row">Rain Dragon</td>
+			<td class="csss_fall_hacks_submission_row">A text-based adventure RPG featuring ASCII Images for enemies.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/Qryn/SFU-Fall2020-ASCII">https://github.com/Qryn/SFU-Fall2020-ASCII</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Snake Finds U</td>
+			<td class="csss_fall_hacks_submission_row">Snake Finds U</td>
+			<td class="csss_fall_hacks_submission_row">A snake game implemented in Java, that involves the player eating apples to grow their snake, while avoiding bombs to stay alive.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/git-rahulrajesh/Snake-Finds-U">https://github.com/git-rahulrajesh/Snake-Finds-U</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">LEAFGO - Let's eat all Food: Get Obese</td>
+			<td class="csss_fall_hacks_submission_row">KodRs</td>
+			<td class="csss_fall_hacks_submission_row">LEAFGO is a project which marks all restaurants that you have visited automatically. Our vision is to help explore all restaurants in the area. The end goal? Visit them all and fulfill your obese destiny.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/SiamShafiq/LEAFGO/commit/4b602b3e32362e0c98326fe6a7564df105ab0fe9">https://github.com/SiamShafiq/LEAFGO/commit/4b602b3e32362e0c98326fe6a7564df105ab0fe9</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">GOSFU (Game Over SFU)</td>
+			<td class="csss_fall_hacks_submission_row">PATAR</td>
+			<td class="csss_fall_hacks_submission_row">GAME-OVER SFU The game is based on free roaming while completing small tasks SFU. The tasks involve making decision in certain situations. Making the right decision will lead to you being able to continue the game and finsih all 5 tasks, or making a wrong choice will cause the game to be over and you starting again.  To start, you can roam around SFU freely and look for the tasks based on the stories made. There are 5 stories leading to 5 paths around SFU and each ends with a task. Finishing the 5 tasks will result in victory. Note: the game represents real-world locations on SFU.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://csil-git1.cs.surrey.sfu.ca/varchit/game-over">https://csil-git1.cs.surrey.sfu.ca/varchit/game-over</a></td>'
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Game of Os</td>
+			<td class="csss_fall_hacks_submission_row">The Conways</td>
+			<td class="csss_fall_hacks_submission_row">Conway's Game of Life, but not necessarily Life, since you can modify the game rule parameters</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/ryan-lintott/CSSS-Fall-Hackathon-game-of-...-">https://github.com/ryan-lintott/CSSS-Fall-Hackathon-game-of-...-</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Game Outlet</td>
+			<td class="csss_fall_hacks_submission_row">!False Story</td>
+			<td class="csss_fall_hacks_submission_row">A collection of small games</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/djsiu/fallhacks">https://github.com/djsiu/fallhacks</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Get Out(GO)</td>
+			<td class="csss_fall_hacks_submission_row">DXRT</td>
+			<td class="csss_fall_hacks_submission_row">A 2d text maze game, which the player(OO) use "awsd" text inputs to control its position form the left entrance to the right ext.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/Richard172/Get-out">https://github.com/Richard172/Get-out</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Summarized For U</td>
+			<td class="csss_fall_hacks_submission_row">Hackathing</td>
+			<td class="csss_fall_hacks_submission_row">Summarizes terms of services into an easily digestible format.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://gitlab.com/hackathing-2020/sfu-server">https://gitlab.com/hackathing-2020/sfu-server</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Super Fly Underdog</td>
+			<td class="csss_fall_hacks_submission_row">Kirbabes</td>
+			<td class="csss_fall_hacks_submission_row">Dog game made on scratch. dodge the ghosts and collect the tacos and fortune cookies and cheetos</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://scratch.mit.edu/projects/446753510/">https://scratch.mit.edu/projects/446753510/</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Covid Social Spacing Simulator</td>
+			<td class="csss_fall_hacks_submission_row">Mink Activists</td>
+			<td class="csss_fall_hacks_submission_row">Simple click to move, time-based survival game. Goal of the game is to save the mink from the Coronavirus in Denmark.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/timothyr/covid-social-spacing-simulator">https://github.com/timothyr/covid-social-spacing-simulator  Link to game is in the README.md</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">LEAF SFU GO bot</td>
+			<td class="csss_fall_hacks_submission_row">LEAF SFU GO bot</td>
+			<td class="csss_fall_hacks_submission_row">It is a discord bot with the intention to eradicate annoying friends and get them to shut frick up while gaming online. LEAFSFUGO = Let's eradicate annoying friends, shut frick up, gamers online.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/shabbiryusufali/FallHack2020">https://github.com/shabbiryusufali/FallHack2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Go Outside</td>
+			<td class="csss_fall_hacks_submission_row">Go Outside</td>
+			<td class="csss_fall_hacks_submission_row">This project is based on the acronym "GO". Go Outside is an Android app that encourages users to complete various challenges in the great outdoors.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/Sterlst/Go-Outside.git">https://github.com/Sterlst/Go-Outside.git</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Grow Old (GO)</td>
+			<td class="csss_fall_hacks_submission_row">Hackaroonis</td>
+			<td class="csss_fall_hacks_submission_row">We have created a version of Bitlife Simulator. It is a fun and enticing game that leaves you wanting to know more about your exciting (or depressing) virtual life!</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/dparaiso/FallHackathon-2020">https://github.com/dparaiso/FallHackathon-2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Runtime Terror</td>
+			<td class="csss_fall_hacks_submission_row">LEAF (Low Effort Accessible Fun Game)</td>
+			<td class="csss_fall_hacks_submission_row">We made a Low Effort Accessible Fun game of Tic Tac Toe</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/ehannafo/Hackathon2020">https://github.com/ehannafo/Hackathon2020</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">GO</td>
+			<td class="csss_fall_hacks_submission_row">Ready... Set... GO...</td>
+			<td class="csss_fall_hacks_submission_row"></td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/aymansays/GO">https://github.com/aymansays/GO</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">GO - Goat Organizer</td>
+			<td class="csss_fall_hacks_submission_row">Manic Moles</td>
+			<td class="csss_fall_hacks_submission_row">It is a game made with Godot in which the object is to catch goats whilst avoiding obstacles.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/Pantoro2380/Goat-Organizer">https://github.com/Pantoro2380/Goat-Organizer</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">LISP: Listen In Silence, Please!</td>
+			<td class="csss_fall_hacks_submission_row">LISP: Listen In Silence, Please!</td>
+			<td class="csss_fall_hacks_submission_row">Android app based on listening to sound cues to complete the objective. App based on Fall 2020 CMPT 276 assignment.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://gitlab.com/hermanluo/fall2020hackathon">https://gitlab.com/hermanluo/fall2020hackathon</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Leaf : library's easy access files</td>
+			<td class="csss_fall_hacks_submission_row">Leaf : library's easy access files</td>
+			<td class="csss_fall_hacks_submission_row">Amazon's good reads app(Android) seems to be getting lots of bad reviews. One of them was how people coundn't add books without actually giving reviews. Because of this poeple who quickly wanna use the app end up giving bad reviews to a book which they have never even read. Users wanted a feature to keep list private and public as well. This app tries to solve that issue. Although it's not an production level app, it helps users to make public or private lists and add books to their data without having to give reviews and such. Since the app deals with books, we called it Library's easy access files to fit one of the acronym from the hackathon theme which is LEAF.</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/AshCatchEmAll/hackathon2020.git">https://github.com/AshCatchEmAll/hackathon2020.git</a></td>
+		</tr>
+		<tr>
+			<td class="csss_fall_hacks_submission_row">Life Is Short and Painful</td>
+			<td class="csss_fall_hacks_submission_row">Mint Tea</td>
+			<td class="csss_fall_hacks_submission_row">Did you know? The lifespan of a fly is 28 days.  You are an interdimensional fly wishing to travel the galaxies. But life is just too short, and your time is running out!</td>
+			<td class="csss_fall_hacks_submission_row"><a href="https://github.com/dayvidpham/flying-lisp.git">https://github.com/dayvidpham/flying-lisp.git</a></td>
+		</tr>
+	</table>
 {% endblock %}

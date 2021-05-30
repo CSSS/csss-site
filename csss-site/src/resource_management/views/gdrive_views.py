@@ -7,7 +7,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+    ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
@@ -64,7 +64,7 @@ def gdrive_index(request):
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     if ERROR_MESSAGE_KEY in request.session:
-        context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
+        context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]
     context['g_drive_users'] = NonOfficerGoogleDriveUser.objects.all().filter().order_by('id')
     context['g_drive_public_links'] = GoogleDrivePublicFile.objects.all().filter().order_by('id')

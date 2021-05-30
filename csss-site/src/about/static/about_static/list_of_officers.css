@@ -1,0 +1,10 @@
+/*<!-- used to style the officer photos -->*/
+    .officer-photos {
+        border-radius: 50%;
+        border: 1px solid #ddd;
+        padding: 5px;
+        width: 150px;
+        max-width: 100%;
+        height: auto;
+        text-align: center;
+    }

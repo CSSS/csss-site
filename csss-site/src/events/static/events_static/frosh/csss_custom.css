@@ -1,0 +1,14 @@
+.csss_frosh_logo {
+    height:36px;
+    width:36px;
+    margin-top:6px;
+}
+
+.csss_center_align {
+    text-align:center
+}
+
+#map_canvas {
+    height: 400px;
+    background-color: #CCC;
+}

@@ -25,13 +25,8 @@
 
     <!-- CSS Overrides -->
     <link href="{%  static 'events_static/frosh/2016/css/overrides.css' %}" rel="stylesheet">
-
-    <style>
-        #map_canvas {
-            height: 400px;
-            background-color: #CCC;
-        }
-    </style>
+    <link href="{%  static 'events_static/frosh/csss_custom.css' %}" rel="stylesheet">
+	<link href="{%  static 'events_static/frosh/csss_social_media_custom.css' %}" rel="stylesheet">
 </head>
 
 <body data-spy="scroll" data-offset="0" data-target="#navbar-main">
@@ -40,7 +35,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="http://sfucsss.org"><img src="{%  static 'events_static/frosh/2016/mainsite/images/logos/cssslogowhiteshadowed.png' %}" alt="csss logo" style="height:36px;width:36px;margin-top:6px;"></a>
+                <a href="http://sfucsss.org"><img src="{%  static 'events_static/frosh/2016/mainsite/images/logos/cssslogowhiteshadowed.png' %}" class="csss_frosh_logo" alt="csss logo" ></a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -57,7 +52,7 @@
                     <li> <a href="#team" class="smoothScroll"> Team</a></li>
                     <li> <a href="#sponsors" class="smoothScroll">Sponsors</a></li>
                     <li> <a href="#blog" class="smoothScroll">Contacts</a></li>
-                    <li> <button style="margin-top:9px;" type="button" class="btn btn-warning" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfbo5o_AFKfJ8tA26HFx3xESzkc9_F5-ljXW1_sbnlV-YPmzg/viewform";' >Sign Up Now!</button></li>
+                    <li> <button type="button" class="btn btn-warning csss_frosh_sign_up_button_placement" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSfbo5o_AFKfJ8tA26HFx3xESzkc9_F5-ljXW1_sbnlV-YPmzg/viewform";' >Sign Up Now!</button></li>
                 </ul>
             </div>
         </div>
@@ -467,7 +462,7 @@
             <hr>
         </div><!-- /row -->
 
-        <div class="row" style="text-align:center;">
+        <div class="row csss_center_align" >
             <script>
                 /* function tumblrRedirect() {
                      window.location.href = "http://ncfrosh.tumblr.com/";
@@ -484,11 +479,11 @@
             </script>
 
             <button type="button" class="btn btn-default" onclick="facebookRedirect()">
-                <span class="icon icon-facebook" style="font-size:64px; color:#3b5998;"></span>
+                <span class="icon icon-facebook csss_frosh_facebook_button" ></span>
             </button>
 
             <button type="button" class="btn btn-default" onclick="twitterRedirect()">
-                <span class="i-->con icon-twitter" style="font-size:64px; color:#00aced"></span>
+                <span class="i-->con icon-twitter csss_frosh_twitter_button" ></span>
             </button>
         </div><!-- /row -->
 

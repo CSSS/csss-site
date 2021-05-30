@@ -1,0 +1,26 @@
+
+.csss_box_borders_new_entries {
+    border: 3px solid black;
+    padding: 10px;
+}
+
+.csss_github_team_positions_on_same_line {
+    border: 1px transparent solid;
+    display:inline-block;
+}
+
+.csss_divider_officer_list_upload {
+    border: 1px solid black;
+}
+
+.csss_nominee_positions_on_same_line {
+    display:inline-block;
+}
+
+.csss_error_style {
+    color: red
+}
+
+.csss_order_list {
+    margin-left: 2em;
+}

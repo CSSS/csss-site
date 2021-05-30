@@ -1,17 +1,17 @@
-{% extends "csss/new_header.html" %}
+{% extends "csss/header.html" %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
 {% block content %}
-    <h1 class="title">Create new Election</h1>
+    <h2 class="title is-size-2">Create new Election</h2>
     {%  include 'elections/json/creating_election_errors.html' %}
     <form method="post" class="form">
         {%  include 'elections/webform/form.html' %}
 	</form>
 
-    <script type="text/javascript">
+    <script>
 		function removeDiv(divName){$(divName).remove();}
 
         {%  include 'elections/webform/js_functions/on_load_js_function/main_function.html' %}

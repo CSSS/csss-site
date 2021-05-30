@@ -10,7 +10,7 @@
 
     {%  for position in current_officer_positions %}
         nominee_position = document.createElement('div');
-        nominee_position.setAttribute('style','display:inline-block');
+        nominee_position.setAttribute('class','csss_nominee_positions_on_same_line');
         {% get_position_names position_names_and_speech_pairing.position_names as selected_position_names %}
         {% if position.position_name in selected_position_names %}
             {% get_position_id position.position_name position_names_and_speech_pairing.position_names as position_id %}

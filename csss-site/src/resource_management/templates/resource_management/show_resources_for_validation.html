@@ -1,11 +1,11 @@
-{% extends "csss/new_header.html" %}
+{% extends "csss/header.html" %}
 {% load bootstrap3 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
 
 {% block content %}
-    <h1 class="title">Ensure Access is Valid on All Resources</h1>
+    <h2 class="title is-size-2">Ensure Access is Valid on All Resources</h2>
     <form action="{{URL_ROOT}}resource_management/validate_access" method="post">
         {% csrf_token %}
 		<input type="checkbox" name="resource" value="gdrive">

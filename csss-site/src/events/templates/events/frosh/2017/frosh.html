@@ -26,11 +26,16 @@
 
     <!-- CSS Overrides -->
     <link href="{%  static 'events_static/frosh/2017/css/overrides.css' %}" rel="stylesheet">
+
+	<link href="{%  static 'events_static/frosh/csss_custom.css' %}" rel="stylesheet">
+	<link href="{%  static 'events_static/frosh/2017/css/csss_custom.css' %}" rel="stylesheet">
+	<link href="{%  static 'events_static/frosh/csss_social_media_custom.css' %}" rel="stylesheet">
+
     <style>
-        map_canvas {
-            height: 400px;
-            background-color: #CCC;
-        }
+        {#map_canvas {#}
+        {#    height: 400px;#}
+        {#    background-color: #CCC;#}
+        {#}#}
 
         b,
         strong {
@@ -45,7 +50,7 @@
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <a href="http://sfucsss.org"><img src="{%  static 'events_static/frosh/2017/mainsite/images/logos/cssslogowhiteshadowed.png' %}" style="height:36px;width:36px;margin-top:6px;" alt="CSSS logo"></a>
+                <a href="http://sfucsss.org"><img src="{%  static 'events_static/frosh/2017/mainsite/images/logos/cssslogowhiteshadowed.png' %}" class="csss_frosh_logo" alt="CSSS logo"></a>
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -66,7 +71,7 @@
                     <li> <a href="#sponsors" class="smoothScroll">Sponsors</a></li>
                     <li> <a href="#blog" class="smoothScroll">Contacts</a></li>
                     <li>
-                        <button style="margin-top:9px;margin-left:5px;" type="button" class="btn btn-warning" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdmMFLHiaH6CaEPsOrQ4BiA7_edHA-SgkkDKi6L1UTHn4Se_Q/closedform";' >Sign Up Now!</button>
+                        <button type="button" class="btn btn-warning csss_frosh_sign_up_button_placement_v2" onclick='window.location.href = "https://docs.google.com/forms/d/e/1FAIpQLSdmMFLHiaH6CaEPsOrQ4BiA7_edHA-SgkkDKi6L1UTHn4Se_Q/closedform";' >Sign Up Now!</button>
                     </li>
                 </ul>
             </div>
@@ -226,7 +231,7 @@
             <div class="col-lg-6">
                 <p><b>Dinner at Club Ilia:</b> As you lick your weary wounds from the week past, know that it was but a rehearsal for a larger campaign. As you sit amongst your brethren, be sure to fill your stomach so you may be prepared for the event that lays ahead. Discuss strategy, seek wisdom from your elders, and above all, prepare yourself for the long night ahead. Be ready for hunting, cheering and celebration as you will match wits with yourself, your peers and our eternal foes: the dastardly engineers. Only once we’ve had our fill will we venture out to leave our mark on the world. There we will take back what is rightfully ours at this, the most glorious penultimate event of the week: Midnight Madness.
                     <br><span><i>Location:<a href="https://www.google.ca/maps/place/Club+Ilia/@49.2779871,-122.9145287,17z/data=!3m1!4b1!4m5!3m4!1s0x548679beeb22f875:0xc8d79e8001f6fbbd!8m2!3d49.2779836!4d-122.9123347?hl=en" target="_blank">SFU Burnaby, Club Ilia</a></i></span>
-                    <br><span style="font-size: 11pt"><i>Note: although it is called Club Ilia, it is simply a restaurant on campus. No need to have worries about ID or the like.</i></span></p>
+                    <br><span class="csss_frosh_2017_dinner_notes" ><i>Note: although it is called Club Ilia, it is simply a restaurant on campus. No need to have worries about ID or the like.</i></span></p>
                 <p><b>Midnight Madness:</b> You’ve heard whispers in the shadows and tales on the streets, but this is finally it. The time has arrived for the weak to fall by the wayside and for the strong to survive. It’s time to learn the joy of all-nighters with all the work and none of the fun. We do battle against the engineers at the Frosh Slurpee drink-off, dodgeball game, and more. Inbetween these grueling battles we'll help keep you up all night with adrenaline filled skirmishes containing copious quantities of games, random prize opportunities, and other such mischief.
                     <br>
                     <br>Make sure to tell your parents not to wait up. You probably don’t want them to know of the horrors that go on during the night so... Tell them you’re studying! Ya, they'll totally believe that! Now remember, Midnight Madness goes all night so prepare to be at SFU till the wee hours of the morning on Saturday. The culmination of the week long mystery which may or may not exist will be revealed during the night, so make sure you stay to find out the maybe-possibly-not-sure twist ending.
@@ -536,7 +541,7 @@
         <hr>
         <!-- /row -->
 
-        <div class="row" style="text-align:center;">
+        <div class="row csss_center_align" >
             <script>
                 function tumblrRedirect() {
                     window.location.href = "http://ncfrosh.tumblr.com/";
@@ -560,14 +565,14 @@
             </script>
 
             <button type="button" class="btn btn-default" onclick="facebookRedirect()">
-                <span class="icon icon-facebook" style="font-size:64px; color:#3b5998;"></span>
+                <span class="icon icon-facebook csss_frosh_facebook_button" ></span>
             </button>
 
             <button type="button" class="btn btn-default" onclick="twitterRedirect()">
-                <span class="icon icon-twitter" style="font-size:64px; color:#00aced"></span>
+                <span class="icon icon-twitter csss_frosh_twitter_button" ></span>
             </button>
             <button type="button" class="btn btn-default" onclick="discordRedirect()">
-                <img class="img discord-img-square" src="{%  static 'events_static/frosh/2017/mainsite/images/logos/Discord-Logo-Color.png' %}" alt="Discord logo">
+                <img class="img discord-img-square csss_frosh_discord_button" src="{%  static 'events_static/frosh/2017/mainsite/images/logos/Discord-Logo-Color.png' %}" alt="Discord logo">
             </button>
         </div>
         <!-- /row -->
@@ -599,7 +604,7 @@
             <div class="col-lg-3 col-xs-4 col-md-3">
                 <ul class="contactList">
                     <li><span class="emphasis">Henry Zhao</span></li>
-                    <li style="font-size: 9pt">Frosh Sponsorship Coordinator</li>
+                    <li >Frosh Sponsorship Coordinator</li>
                     <li>CSSS</li>
                     <li class="icon icon-envelop"><a href="mailto:mhzhao@sfu.ca"> mhzhao@sfu.ca</a></li>
                 </ul>

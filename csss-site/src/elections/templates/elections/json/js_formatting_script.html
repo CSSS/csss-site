@@ -1,8 +1,8 @@
 {{ election |json_script:"election-json-data" }}
 <script>
     (function () {
-        raw_string = document.getElementById('election-json-data').textContent
-        el = JSON.parse(JSON.parse(raw_string));
+        const raw_string = document.getElementById('election-json-data').textContent;
+        const el = JSON.parse(JSON.parse(raw_string));
         $('textarea').val(JSON.stringify(el,null,'\t'));
     })();
 </script>

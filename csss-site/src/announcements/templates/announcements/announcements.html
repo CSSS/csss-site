@@ -1,121 +1,80 @@
-{% extends "csss/new_header.html" %}
+{% extends "csss/header.html" %}
 {% load static %}
 {% load staticfiles %}
 
 {% block content %}
-<body>
+	<link rel="stylesheet" href="{% static 'announcements_static/csss_custom.css' %}">
+	<div class="columns">
+		<div class="column is-three-quarters ">
+			{% for announcement in announcements %}
+				<section class="section">
+					<div class="container">
+						<article class="box is-light" >
+							<h3 class="title is-size-3">
+								{%  if announcement.email is None %}
+									{{ announcement.manual_announcement.title }}
+								{%  else %}
+									{{announcement.email.subject}}
+								{%  endif %}
+							</h3>
+							<p class="is-size-6 has-text-grey has-text-right">
+								posted by {{announcement.author}} on {{announcement.date}}
+							</p>
+							<hr class="csss_announcement_subject_underline">
+							<div class="is-size-6">
+							{% if announcement.email is None %}
+								{{announcement.manual_announcement.content|safe|linebreaks }}
+							{%  else %}
+								{% if announcement.email.html|safe|length > 0 %}
+									{{announcement.email.html|safe}}
+								{% else %}
+									{{announcement.email.body|safe|linebreaks}}
+								{% endif %}
+							{%  endif %}
+							</div>
+							{% for attachment in announcement.email.attachments.all %}
+								<a href="{{ URL_ROOT_FOR_EMAIL_ATTACHMENTS }}{%  get_media_prefix %}{{ attachment.document }}">attachment {{ forloop.counter }}</a><br>
+							{% endfor %}
+						</article>
+					</div>
+				</section>
+			{% endfor %}
+			<section class="section">
+				<div class="container">
+
+					<nav class="pagination is-right" role="navigation" aria-label="pagination">
+						<a href="{{ previousButtonLink|safe }}" class="pagination-previous">Previous</a>
+						<a  href="{{ nextButtonLink|safe }}" class="pagination-next">Next page</a>
+					</nav>
+				</div>
+			</section>
+
+		</div>
+	</div>
 
 
-<div class="columns">
-    <div class="column is-three-quarters ">
-        {% for announcement in announcements %}
-            {%  if ENVIRONMENT == "PRODUCTION" %}
-                <section class="section">
-                    <div class="container">
-                        <article class="box is-light" >
-                            <h3 class="title is-size-3">
-                                {%  if announcement.email is None %}
-                                    {{ announcement.manual_announcement.title }}
-                                {%  else %}
-                                    {{announcement.email.subject}}
-                                {%  endif %}
-                            </h3>
-                            <p class="is-size-6 has-text-grey has-text-right">
-                                posted by {{announcement.author}} on {{announcement.date}}
-                            </p>
-                            <hr style=
-                            "border:solid 1px grey;
-                            height: 0px;">
-                            <div class="is-size-6">
-                            {% if announcement.email is None %}
-                                {{announcement.manual_announcement.content|safe|linebreaks }}
-                            {%  else %}
-                                {% if announcement.email.html|safe|length > 0 %}
-                                    {{announcement.email.html|safe}}
-                                {% else %}
-                                    {{announcement.email.body|safe|linebreaks}}
-                                {% endif %}
-                            {%  endif %}
-                            </div>
-                            {% for attachment in announcement.email.attachments.all %}
-                                <a href="{{ URL_ROOT_FOR_EMAIL_ATTACHMENTS }}{%  get_media_prefix %}{{ attachment.document }}">attachment {{ forloop.counter }}</a><br>
-                            {% endfor %}
-                        </article>
-                    </div>
-                </section>
-            {%  elif announcement.email.attachments.all|length == 0 %}
-                {% if ENVIRONMENT == "STAGING" or ENVIRONMENT == "LOCALHOST" %}
-                    <section class="section">
-                        <div class="container">
-                            <article class="box is-light" >
-                                <h3 class="title is-size-3">
-                                    {%  if announcement.email is None %}
-                                        {{ announcement.manual_announcement.title }}
-                                    {%  else %}
-                                        {{announcement.email.subject}}
-                                    {%  endif %}
-                                </h3>
-                                <p class="is-size-6 has-text-grey has-text-right">
-                                    posted by {{announcement.author}} on {{announcement.date}}
-                                </p>
-                                <hr style=
-                                "border:solid 1px grey;
-                                height: 0px;">
-                                <div class="is-size-6">
-                                {% if announcement.email is None %}
-                                    {{announcement.manual_announcement.content|safe|linebreaks }}
-                                {%  else %}
-                                    {% if announcement.email.html|safe|length > 0 %}
-                                        {{announcement.email.html|safe}}
-                                    {% else %}
-                                        {{announcement.email.body|safe|linebreaks}}
-                                    {% endif %}
-                                {%  endif %}
-                                </div>
-                            </article>
-                        </div>
-                    </section>
-                {% endif %}
-            {%  endif %}
-        {% endfor %}
-        <section class="section">
-            <div class="container">
+	<script>
+	//This javascript removes the grey box around the announcements when on mobile so that
+	// the text isnt as squished
 
-                <nav class="pagination is-right" role="navigation" aria-label="pagination">
-                    <a href="{{ previousButtonLink|safe }}" class="pagination-previous">Previous</a>
-                    <a  href="{{ nextButtonLink|safe }}" class="pagination-next">Next page</a>
-                </nav>  
-            </div>
-        </section>
-
-    </div>
-</div>
+	//todo: something better than this
 
 
-</body>
-
-<script>
-//This javascript removes the grey box around the announcements when on mobile so that
-// the text isnt as squished
-
-//todo: something better than this
-
- 
- if ($(window).width() < 600) {
-         $('article').removeClass('box');
-     } else {
-         $('article').addClass('box');
-     }
+	 if ($(window).width() < 600) {
+			 $('article').removeClass('box');
+		 } else {
+			 $('article').addClass('box');
+		 }
 
 
- $(window).resize(function () {
-     if ($(window).width() < 600) {
-         $('article').removeClass('box');
-     } else {
-         $('article').addClass('box');
-     }
-});
-</script>
+	 $(window).resize(function () {
+		 if ($(window).width() < 600) {
+			 $('article').removeClass('box');
+		 } else {
+			 $('article').addClass('box');
+		 }
+	});
+	</script>
 
 
 {% endblock %}

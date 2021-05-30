@@ -13,7 +13,8 @@ from django.shortcuts import render
 from about.models import Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
     TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context
+from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context, \
+    ERROR_MESSAGES_KEY
 
 YEAR_AND_TERM_COLUMN = 0
 POSITION_COLUMN = 0
@@ -75,7 +76,7 @@ def process_officer_list_upload(request):
                     term = officer_json['term']
                     error_message = iterate_through_officers_for_term(overwrite, year, term, officer_json['officers'])
     if error_message is not None:
-        context[ERROR_MESSAGE_KEY] = error_message
+        context[ERROR_MESSAGES_KEY] = [error_message]
         return render(request, 'about/upload_list.html', context)
     return HttpResponseRedirect(f'{settings.URL_ROOT}about/list_of_officers')
 
@@ -114,7 +115,7 @@ def save_officers_in_csv(request, overwrite):
                     output[year][term] = []
                 success, member, error_message = return_member_json(row)
                 if not success:
-                    context[ERROR_MESSAGE_KEY] = error_message
+                    context[ERROR_MESSAGES_KEY] = [error_message]
                     return render(request, 'about/upload_list.html', context)
                 output[year][term].append(member)
         output = collections.OrderedDict(reversed(list(output.items())))
@@ -122,7 +123,7 @@ def save_officers_in_csv(request, overwrite):
             output[key] = collections.OrderedDict(reversed(list(output[key].items())))
         error_message = save_yearly_document(output, overwrite)
     if error_message is not None:
-        context[ERROR_MESSAGE_KEY] = error_message
+        context[ERROR_MESSAGES_KEY] = [error_message]
         return render(request, 'about/upload_list.html', context)
     return HttpResponseRedirect(f'{settings.URL_ROOT}about/list_of_officers')
 

@@ -1,40 +1,39 @@
-{% extends "csss/new_header.html" %}
+{% extends "csss/header.html" %}
 
 {% block content %}
 {{ block.super }}
 {% load staticfiles %}
 {% block body %}
-<body>
     <section class="section">
         <div class="container">
             <div>
-				<h1 class="title is-2">{{election__html_name.human_friendly_name}}</h1>
+				<h2 class="title is-2">{{election__html_name.human_friendly_name}}</h2>
 				<br>
                 {% if nominees__html_name is None %}
                     It seems like the time hasn't come to announce the nominees yet....
                 {% else %}
-                        {% if election_management_permission %}
-                            <form action="{{URL_ROOT}}elections/election_modification_json/" method="post" class="form">
-                            {% csrf_token %}
-                            <button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via JSON</button>
-                            </form>
-                            <form action="{{URL_ROOT}}elections/election_modification_webform/" method="post" class="form">
-                            {% csrf_token %}
-                            <button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via Webform</button>
-                            </form>
-                            <form action="{{URL_ROOT}}elections/delete/" method="post" class="form">
-                            {% csrf_token %}
-                                <input type="text" name="{{input_election_id__name}}" value="{{input_election_id__value}}" hidden readonly>
-                            <button type="submit">Delete</button>
-                            </form>
-                        {%  endif %}
+					{% if election_management_permission %}
+						<form action="{{URL_ROOT}}elections/election_modification_json/" method="post" class="form">
+						{% csrf_token %}
+						<button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via JSON</button>
+						</form>
+						<form action="{{URL_ROOT}}elections/election_modification_webform/" method="post" class="form">
+						{% csrf_token %}
+						<button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via Webform</button>
+						</form>
+						<form action="{{URL_ROOT}}elections/delete/" method="post" class="form">
+						{% csrf_token %}
+							<input type="text" name="{{input_election_id__name}}" value="{{input_election_id__value}}" hidden readonly>
+						<button type="submit">Delete</button>
+						</form>
+					{%  endif %}
                     {% if election__html_name.websurvey != "NONE" %}
                         <p> <a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a></p>
                     {% endif %}
                     <br>
                     {% for nominee in nominees__html_name %}
                         {% ifchanged nominee.position_name %}
-                            <h1 class="title is-3">Position: {{nominee.position_name}}</h1>
+                            <h3 class="title is-size-3">Position: {{nominee.position_name}}</h3>
                         {% endifchanged %}
                         <p>Nominee Name: <b>{{nominee.nominee_speech.nominee.name}}</b></p>
                         {% if nominee.social_media is not None %}
@@ -54,27 +53,23 @@
 			</div>
 		</div>
 	</section>
-</body>
-
-
 <script>
+    const screen = $(window);
+    if (screen.width() < 600) {
+			$('article').removeClass('box');
+		} else {
+			$('article').addClass('box');
+		}
 
-var screen = $(window);  
-if (screen.width() < 600) {
-		$('article').removeClass('box');
-	} else {
-		$('article').addClass('box');
-	}
 
-
-$(window).resize(function () {
-	var screen = $(window);  
-	if (screen.width() < 600) {
-		$('article').removeClass('box');
-	} else {
-		$('article').addClass('box');
-	}
-})
+	$(window).resize(function () {
+        const screen = $(window);
+        if (screen.width() < 600) {
+			$('article').removeClass('box');
+		} else {
+			$('article').addClass('box');
+		}
+	})
 </script>
    
 {% endblock %}
