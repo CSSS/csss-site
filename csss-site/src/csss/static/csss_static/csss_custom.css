@@ -4,7 +4,7 @@
     padding: 10px;
 }
 
-.csss_box_bordering_2 {
+.csss_github_team_positions_on_same_line {
     border: 1px transparent solid;
     display:inline-block;
 }
@@ -16,7 +16,6 @@
 .csss_nominee_positions_on_same_line {
     display:inline-block;
 }
-
 
 .csss_error_style {
     color: red
