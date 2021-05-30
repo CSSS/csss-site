@@ -9,7 +9,7 @@
 	<section class="section">
 		<div class="container">
 			<div class="content">
-				{%  if terms|length > 1 %}
+				{%  if terms|length == 1 %}
 					<p>Please feel free to contact us anytime.</p>
 					<ul>
 						<li>General Inquires for
@@ -23,7 +23,7 @@
 					</ul>
 					<p>Note: If you wish to contact an Officer directly, see their addresses as listed below.</p>
 					<p>The CSSS is run by students who are chosen every year in a Department-wide election. They ensure the business of the Society runs smoothly, and are always available to help any fellow student in need. Any CS student can run for these positions. Every station, save Exec-at-Large, serves for an entire year.<br>Responsibilities for each Role can be found in the <a href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a> under section 4.1</p>
-
+				{%  else %}
 					<!--Tab buttons-->
 					<div class="tabs" id="tabs">
 						<ul>
