@@ -83,4 +83,4 @@ python3 manage.py runserver 0.0.0.0:8000
 
 ## Various tasks to accomplish
 
- * [Add frosh page for a new year](documentation/add_frosh.md)
+ * [Add an events page for frosh, mountain madness, or fall hacks for a new year](documentation/Add_An_Event.md)
