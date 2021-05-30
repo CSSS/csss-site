@@ -10,4 +10,6 @@ def fall_hacks2020(request):
 
 
 def fall_hacks_submissions2020(request):
-    return render(request, 'events/fall_hacks/2020/fall_hacks_submissions2020.html', create_main_context(request, TAB))
+    return render(
+        request, 'events/fall_hacks/2020/fall_hacks_submissions2020.html', create_main_context(request, TAB)
+    )
