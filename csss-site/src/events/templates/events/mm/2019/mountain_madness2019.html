@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load staticfiles %}
+    <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
+	  <link rel="stylesheet" href="{% static 'events_static/mm/2019/mm2019_main.css' %}">
+    <title>Mountain Madness</title>
+  </head>
+  <body>
+
+    <nav id='nav-links'>
+		<a href="{{URL_ROOT}}">
+			CSSS
+		</a>
+      <a href="#about">
+        About
+      </a>
+
+      <a href="#faq">
+        FAQ
+      </a>
+
+      <a href="#schedule">
+        Schedule
+      </a>
+
+      <a href="#prize">
+        Prizes
+      </a>
+    </nav>
+
+    <section id='above-fold'>
+
+      <header>
+        <h3>The CSSS presents</h3>
+        <h1>Mountain Madness</h1>
+        <h3>Feb 23-24, 2019 @ Simon Fraser University</h3>
+        <h2><a href="https://www.eventbrite.ca/e/mountain-madness-2019-tickets-55194346777?utm-medium=discovery&utm-campaign=social&utm-content=attendeeshare&aff=escb&utm-source=cp&utm-term=listing" class='btn'>Register</a></h2>
+      </header>
+
+
+      <div id='building' aria-hidden="true"></div>
+
+      <div id='mountain' aria-hidden="true">
+				<div class='grass'></div>
+				<div class='grass'></div>
+				<div class='grass'></div>
+      </div>
+
+    </section>
+
+    <section id='info-container'>
+
+      <article id='about'>
+        <div>
+          <h2>What is Mountain Madness</h2>
+          <p>Mountain Madness is the annual hackathon organized by the SFU Computing Science Student Society. Our hackathons are cozy, tight-knit events welcoming students of all skill levels and experience. The "Mountain" in the name pays homage to Burnaby Mountain, the original foundation of Simon Fraser University, and the scenic location for a full weekend's worth of fun. The "Madness" part refers to the Rube Goldberg prize we give to the maddest [computer] scientist at the event!
+          </p>
+        </div>
+      </article>
+      <article>
+        <div>
+          <h2>Why Mountain Madness?</h2>
+          <p>
+          We focus less on a project's commercial applications, and more on learning and creativity. This is an opportunity to spend a weekend playing around with your favourite technologies to produce something fun and interesting.
+          </p>
+
+          <p>
+          This makes Mountain Madness the perfect event for everyone from fresh-faced hackers looking to learn to seasoned CS veterans trying to tinker.
+          </p>
+        </div>
+      </article>
+
+      <article id='faq'>
+        <h2>Frequently Asked Questions</h2>
+        <div>
+          <h3>
+            Wait, what actually is a hackathon?
+          </h3>
+          <p>
+            A hackathon is an event where teams of people come together to work on a shared project inspired by an event-provided theme. Mountain Madness will have 24-hours of development time allotted, during which teams will start from scratch and try to make the coolest thing they can before the time is up.
+          </p>
+        </div>
+
+        <div>
+          <h3>
+            Where is Mountain Madness?
+          </h3>
+          <p>
+            The event is being hosted at the SFU Burnaby campus. We have a number of rooms being used for the event, but our primary room, and where you should go for check-in, is TASC 9204. We're going to put up signs with directions everywhere to make it hard for you to get lost.
+          </p>
+        </div>
+
+        <div>
+          <h3>
+            What should I bring?
+          </h3>
+          <p>
+            Mountain Madness is an overnight event, which means participants should be prepared to sleep on the mountain. Be sure to bring everything you need to stay the night, like a sleeping bag, pillow, and toiletries.
+          </p>
+        </div>
+
+        <div>
+          <h3>
+            How much does it cost?
+          </h3>
+          <p>
+            There is a $10 registration fee. For this you get 4 meals, an endless stream of snacks, access to industry mentors, prizes to compete for, and a weekend of fun!
+          </p>
+        </div>
+
+        <div>
+          <h3>
+            Can I work on my previous projects?
+          </h3>
+          <p>
+            No, the goal of the event is to see what awesome things you can make in a 24 hour period of time. So to start from an existing project is against the spirit of the event. Existing open-source libraries and frameworks are fine, of course. Ask an organizer if you are unsure if you can use some code.
+          </p>
+        </div>
+
+        <div>
+          <h3>
+            What size should my team be?
+          </h3>
+          <p>
+            Teams can have no more than 5 members; beyond that organizing yourselves becomes a nightmare. You can work alone if you really want to, but you'll have a worse experience. Don’t worry if you don't have a team before the event, we help all the single people form teams.
+          </p>
+        </div>
+      </article>
+
+      <article id='schedule'>
+        <h2>Schedule</h2>
+        <h3>Make sure to check back here for changes!</h3>
+        <div>
+          <h3>Saturday, February 23</h3>
+          <table>
+            <tr>
+              <td>10:00AM</td><td>Check-in &amp; Registration</td>
+            </tr>
+            <tr>
+              <td>11:00AM</td><td>Event Opens</td>
+            </tr>
+            <tr>
+              <td>12:00PM</td><td>Lunch!</td>
+            </tr>
+            <tr>
+              <td>12:30PM</td><td>Hacking Begins, Assisted Team Creation</td>
+            </tr>
+            <tr>
+              <td>7:00PM</td><td>Dinner!</td>
+            </tr>
+          </table>
+        </div>
+        <div>
+          <h3>Sunday, February 24</h3>
+          <table>
+            <tr>
+              <td>12:00AM</td><td>Midnight on the Mountain</td>
+            </tr>
+            <tr>
+              <td>8:00AM</td><td>Breakfast</td>
+            </tr>
+            <tr>
+              <td>12:00PM</td><td>Hacking Ends, Lunch &amp; Social, Judging Begins</td>
+            </tr>
+            <tr>
+              <td>1:15PM</td><td>Awards &amp; Closing Ceremony</td>
+            </tr>
+          </table>
+        </div>
+      </article>
+
+      <article id='prize'>
+        <h2>Prize Categories</h2>
+        <div>
+          <h3>The Rubey</h3>
+          <p><a href="https://en.wikipedia.org/wiki/Rube_Goldberg_machine">Rube Goldberg machines</a> are overcomplicated systems that perform simple functions. The top prize awarded at Mountain Madness is the Rubey, won by the most impressively overengineered project that still manages to perform a useful task.</p>
+
+          <p>What we hope to see from submissions for the Rubey are impressive technological accomplishments applied to silly or trivial uses. Some examples and inspiration:</p>
+          <ul>
+            <li>a magic eight-ball program that, given a query, simulates a large network and runs a distributed consensus algorithm to arrive at its answer</li>
+            <li>the echo command line tool, but each character is printed by a new Docker container</li>
+            <li>Shazoom&mdash;an iPhone app that builds an Android virtual machine, installs Shazam on it, and then runs Shazam on the virtual machine</li>
+          </ul>
+
+          <p>This is the perfect opportunity to try out your favourite solution that you don't have a problem for! If you are competing for this prize, come up with your idea quickly and run it by the organizers to make sure it has merit.</p>
+        </div>
+
+        <div>
+          <h3>Most Mountainous</h3>
+          <p>
+          To honour Burnaby Mountain, we encourage you to create a project inspired by mountains. All such projects are eligible for the Most Mountainous award.
+          </p>
+          <p>
+          What we hope to see from mountainous projects are clever or fun interpretations of what is undoubtably a silly theme. In the past we have seen video games centred around mountains, apps related to skiing or mountaineering, and geographical software.
+          </p>
+          <p>
+          There are less obvious ways of making a mountainous project though:
+          </p>
+          <ul>
+            <li>insert a mountain-related pun into the name of your submission</li>
+            <li>consider more abstract or philosophical interpretations of mountains, for instance as a metaphor for challenges</li>
+            <li>port Skyrim to microwave ovens</li>
+          </ul>
+
+          <p>
+          This is a fun category if you don't have any ideas for projects. Think about the challenges people face in the various popular activities they do on mountains, and develop a solution.
+          </p>
+        </div>
+
+        <div>
+          <h3>The Classic</h3>
+          <p>
+          Like every other hackathon, we have prizes for old-fashioned good projects too! Every project is eligible for the Classic, so if you are worried your idea doesn't fit into our theme, don't be! If you want a more traditional hackathon experience, this is it.
+          </p>
+
+          <p>
+          What we're looking for in all projects is a cool idea and solid execution. Your project doesn't need to be finished, but it should serve as proof that your overall concept is technologically feasible.
+          </p>
+
+          <p>
+          This means you shouldn't waste too much time on the little details, and focus more on the big picture. A great example: the judges do not care if you haven't implemented a password reset feature for your website. Spend your time on the interesting and fun stuff, not on the details that a finished product needs.
+          </p>
+        </div>
+      </article>
+
+      <!--article id='sponsors'>
+        <h2>Sponsors</h2>
+        <div>
+        <h3>You make great events like this happen.</h3>
+        <h2><a class='btn' href="sponsorship.pdf">Support Us!</a></h2>
+          <a href="https://sfss.org">
+            <img src="SFSS_COLOR_LOGO.png">
+          </a>
+          <a href="https://www.sfu.ca/fas.html">
+            <img src="sfu_logo.png">
+          </a>
+        </div>
+      </article-->
+    </section>
+  </body>
+</html>
