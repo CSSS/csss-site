@@ -25,6 +25,11 @@
     margin-left: 2em;
 }
 
-.csss_float_left {
+.csss_markdown_preview_input {
     float: left
+}
+
+.csss_markdown_preview_output {
+    float: left;
+    margin-left: 10px
 }
