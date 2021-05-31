@@ -24,3 +24,7 @@
 .csss_order_list {
     margin-left: 2em;
 }
+
+.csss_float_left {
+    float: left
+}
