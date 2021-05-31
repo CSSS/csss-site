@@ -1,6 +1,7 @@
 import datetime
 import logging
 
+import markdown
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -73,6 +74,14 @@ def get_nominees(request, slug):
                 else:
                     nominee.social_media = ""
                 nominee.social_media += f'Discord Username: {nominee.nominee_speech.nominee.discord}'
+                nominee.nominee_speech.speech = markdown.markdown(
+                    nominee.nominee_speech.speech, extensions=['sane_lists', 'markdown_link_attr_modifier'],
+                    extension_configs={
+                        'markdown_link_attr_modifier': {
+                            'new_tab': 'on',
+                        },
+                    }
+                )
             nominees_display_order.append(nominee)
         context.update({
             ELECTION__HTML_NAME: election_to_display,

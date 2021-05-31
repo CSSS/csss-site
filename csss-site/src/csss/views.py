@@ -4,6 +4,7 @@ from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+import markdown
 
 from announcements.models import Announcement
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
@@ -52,3 +53,18 @@ def errors(request):
         context['error_experienced'] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]
     return render(request, 'csss/error.html', context)
+
+
+def md(request):
+    context = create_main_context(request, 'index')
+    if 'message' in request.POST:
+        context['md'] = markdown.markdown(
+            request.POST['message'], extensions=['sane_lists', 'markdown_link_attr_modifier'],
+            extension_configs={
+                'markdown_link_attr_modifier': {
+                    'new_tab': 'on',
+                },
+            }
+        )
+
+    return render(request, 'csss/markdown_preview.html', context)

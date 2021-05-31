@@ -4,6 +4,7 @@
 {{ block.super }}
 {% load staticfiles %}
 {% block body %}
+	<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
     <section class="section">
         <div class="container">
             <div>
@@ -43,9 +44,11 @@
                         {%  if nominee.nominee_speech.speech != "NONE" %}
                             <p>Nominee Speech:</p>
                             <br>
-                            <article class="box is-light">
-                                {{nominee.nominee_speech.speech|safe|linebreaks}}
-                            </article>
+							<div class="csss_markdown">
+								<article class="box is-light">
+									{{nominee.nominee_speech.speech|safe}}
+								</article>
+							</div>
                         {%  endif %}
                         <hr>
                     {% endfor %}

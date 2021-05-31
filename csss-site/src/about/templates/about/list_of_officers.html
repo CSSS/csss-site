@@ -6,6 +6,7 @@
 {% block content %}
 	{{ block.super }}
 	<link rel="stylesheet" href="{% static 'about_static/list_of_officers.css' %}">
+	<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
 	<section class="section">
 		<div class="container">
 			<div class="content">
@@ -75,11 +76,9 @@
 													<p class="lead">Contact - <a href="{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
 												{% endif %}
 												<div class="lead"><p>Bio -</p>
-													{% if officer.bio|safe|length > 0 %}
+													<div class="csss_markdown">
 														{{officer.bio|safe}}
-													{% else %}
-														{{officer.bio|safe|linebreaks}}
-													{% endif %}
+													</div>
 												</div>
 												<hr>
 											</div> <!-- closes col-md-6 div -->

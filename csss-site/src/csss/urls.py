@@ -2,7 +2,6 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
-
 from . import views
 
 urlpatterns = [
@@ -16,7 +15,7 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'administration/', include('administration.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'error/', views.errors, name="error page"),
-    url(r'^markdown/', include('django_markdown.urls')),
+    url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
 ]
 
 if settings.ENVIRONMENT == "LOCALHOST":
