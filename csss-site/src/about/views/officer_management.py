@@ -2,6 +2,7 @@ import datetime
 import logging
 
 from django.shortcuts import render
+import markdown
 
 from about.models import Officer, Term
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
@@ -26,7 +27,7 @@ def list_of_current_officers(request):
     context.update({
         'officers': list(
             map(
-                fix_time_for_officer,
+                fix_start_date_and_bio_for_officer,
                 Officer.objects.all().filter(elected_term=get_current_term()).order_by(
                     'elected_term__term_number', 'position_index', '-start_date'
                 )
@@ -47,7 +48,7 @@ def list_of_past_officers(request):
     context.update({
         'officers': list(
             map(
-                fix_time_for_officer,
+                fix_start_date_and_bio_for_officer,
                 Officer.objects.all().exclude(
                     elected_term=get_current_term()).order_by(
                     'elected_term__term_number', 'position_index', '-start_date'
@@ -60,9 +61,9 @@ def list_of_past_officers(request):
     return render(request, 'about/list_of_officers.html', context)
 
 
-def fix_time_for_officer(officer):
+def fix_start_date_and_bio_for_officer(officer):
     """
-    fix the start date for the officers before showing them to the user
+    fix the start date and bio for the officers before showing them to the user
     The start date needs its time component removed
 
     Keyword Argument
@@ -72,4 +73,12 @@ def fix_time_for_officer(officer):
     officer -- the officer whose start date's time was removed
     """
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
+    officer.bio = markdown.markdown(
+        officer.bio, extensions=['sane_lists', 'markdown_link_attr_modifier'],
+        extension_configs={
+            'markdown_link_attr_modifier': {
+                'new_tab': 'on',
+            },
+        }
+    )
     return officer

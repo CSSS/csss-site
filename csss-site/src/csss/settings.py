@@ -163,7 +163,6 @@ INSTALLED_APPS = [
     'resource_management',
     'static_pages',
     'django_mailbox',
-    'django_markdown',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
