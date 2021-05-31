@@ -66,5 +66,6 @@ def md(request):
                 },
             }
         )
+        context['message'] = request.POST['message']
 
     return render(request, 'csss/markdown_preview.html', context)
