@@ -22,6 +22,7 @@ stripe==2.33.0
 django-allauth==0.39.1
 querystring_parser
 psycopg2-binary
+django-markdown-app==0.9.6
 pandas==1.2.4
 tzlocal==2.1
 
