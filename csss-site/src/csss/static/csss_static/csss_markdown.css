@@ -1,9 +1,15 @@
+.csss_markdown {
+    /*display:flex; */
+    /*fucks with the br tags*/
+}
+
 .csss_markdown code {
     background-color: whitesmoke;
     color: #f14668;
     font-size: 0.875em;
     font-weight: normal;
     padding: 0.25em 0.5em 0.25em;
+    display:flex;
 }
 
 .csss_markdown h1 {

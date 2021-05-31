@@ -59,7 +59,9 @@ def md(request):
     context = create_main_context(request, 'index')
     if 'message' in request.POST:
         context['md'] = markdown.markdown(
-            request.POST['message'], extensions=['sane_lists', 'markdown_link_attr_modifier'],
+            request.POST['message'], extensions=[
+                'sane_lists', 'markdown_link_attr_modifier'
+            ],
             extension_configs={
                 'markdown_link_attr_modifier': {
                     'new_tab': 'on',
