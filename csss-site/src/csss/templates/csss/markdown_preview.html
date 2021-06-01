@@ -4,19 +4,17 @@
 	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 	<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
-	<div class="csss_markdown_input">
-		<form method="post" class="form csss_markdown_preview_input">
-			{% csrf_token %}
-			<a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Basic Markdown</a><br>
-			<a href="https://daringfireball.net/projects/markdown/syntax#html" target="_blank">More Markdown Examples</a><br>
-			<input type="submit" value="Submit" /><br>
-		
-			{%  if message is None %}
-				<textarea name="message" cols="60" rows="5" required>Play with Markdown Examples here</textarea>
-			{%  else %}
-				<textarea name="message" cols="60" rows="5" required>{{ message|safe }}</textarea>			
-			{%  endif %}
-		</form>
-	</div>
+	<form method="post" class="form csss_markdown_preview_input">
+		{% csrf_token %}
+		<a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Basic Markdown</a><br>
+		<a href="https://daringfireball.net/projects/markdown/syntax#html" target="_blank">More Markdown Examples</a><br>
+		<input type="submit" value="Submit" /><br>
+	
+		{%  if message is None %}
+			<textarea name="message" cols="60" rows="5" required>Play with Markdown Examples here</textarea>
+		{%  else %}
+			<textarea name="message" cols="60" rows="5" required>{{ message|safe }}</textarea>			
+		{%  endif %}
+	</form>
 	<div class="csss_markdown csss_markdown_preview_output" >{{md|safe}}</div>
 {% endblock %}
