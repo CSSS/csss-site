@@ -8,4 +8,3 @@ urlpatterns = [
     url(r'^mm/', include('events.mountain_madness.urls')),
     url(r'^fall_hacks/', include('events.fall_hacks.urls'))
 ]
-
