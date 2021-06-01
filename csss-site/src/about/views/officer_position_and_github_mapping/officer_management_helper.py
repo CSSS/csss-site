@@ -295,7 +295,7 @@ def get_officer_image_path(term_obj, full_name):
     Return
     pic_path -- the path for the officer's image
     """
-    valid_picture_extensions = ['jpg', 'jpeg']
+    valid_picture_extensions = ['jpg', 'jpeg', 'png']
     valid_picture_path = None
     if ENVIRONMENT == "LOCALHOST":
         for valid_picture_extension in valid_picture_extensions:
