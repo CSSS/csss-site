@@ -159,7 +159,7 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
                                 elected_via_election_officer):
     """
     Returns a bool that indicates if the officer's info has been changed
-    
+
     Keyword Arguments
     position_mapping_for_selected_officer -- the position mapping object for the officer position that may need
      to be updated
@@ -169,22 +169,22 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
      that may need to be updated
     elected_via_election_officer -- the new status of whether a position is elected via election officer for
      the position mapping that may need to be updated
-     
+
      Return
      bool -- true if a position_mapping_for_selected_officer has to be updated
     """
     return new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
-           and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
-           and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
-           and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
+        and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
+        and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
+        and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
 
 
 def update_current_officer(positions_to_save, position_mapping_for_selected_officer,
                            new_position_index_for_officer_position,
                            new_sfu_email_list_address_for_officer_position, new_name_for_officer_position):
     """
-    updating the officer object under the current term with the new position mapping info 
-    
+    updating the officer object under the current term with the new position mapping info
+
     Keyword Argument
     positions_to_save -- the list that has to contain all the officer objects that have to be added to for changes
      to be saved to DB
@@ -220,7 +220,7 @@ def update_elections_in_current_term(nominees_to_save, position_mapping_for_sele
     """
     Updating the nominee objects for nominees that have run for a position that needs to be updated
      in the current term
-     
+
     Keyword Argument
     nominees_to_save -- the list that has to contain all the officer objects that have to be added to for changes
      to be saved to DB
