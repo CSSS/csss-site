@@ -49,6 +49,8 @@ def _update_positions_mapping(positions):
     Return
     error_messages -- a list of all the possible error messages
     """
+    current_specified_position_names = []
+    current_specified_position_indices = []
     for position in positions:
         if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in position
                 and f"{position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
@@ -110,9 +112,17 @@ def _update_positions_mapping(positions):
         previous_position_index = position_mapping_for_selected_officer.position_index
         previous_position_name = position_mapping_for_selected_officer.position_name
         if new_position_index_for_officer_position != previous_position_index:
-            success, error_message = validate_position_index(new_position_index_for_officer_position)
+            if new_position_index_for_officer_position in current_specified_position_indices:
+                error_message = f"more than one position have been assigned an index of {new_position_index_for_officer_position}"
+                success = False
+            else:
+                current_specified_position_indices.append(new_position_index_for_officer_position)
         if success and new_name_for_officer_position != previous_position_name:
-            success, error_message = validate_position_name(new_name_for_officer_position)
+            if new_name_for_officer_position in current_specified_position_names:
+                f"more than one position have been set to the name of {new_name_for_officer_position}"
+                success = False
+            else:
+                current_specified_position_names.append(new_name_for_officer_position)
 
         if success:
             update_current_officer(position_mapping_for_selected_officer, new_position_index_for_officer_position,
@@ -172,7 +182,7 @@ def update_elections_in_current_term(position_mapping_for_selected_officer, new_
                                      new_name_for_officer_position):
     nominees_to_update = NomineePosition.objects.all().filter(
         position_index=position_mapping_for_selected_officer.position_index,
-        nominee_speech__nominee__election_date__gte=get_datetime_for_beginning_of_current_term()
+        nominee_speech__nominee__election__date__gte=get_datetime_for_beginning_of_current_term()
     )
     for nominee_to_update in nominees_to_update:
         nominee_to_update.position_name = new_name_for_officer_position
