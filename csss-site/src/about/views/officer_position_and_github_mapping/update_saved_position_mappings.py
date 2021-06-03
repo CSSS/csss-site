@@ -157,6 +157,22 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
                                 new_position_index_for_officer_position,
                                 new_sfu_email_list_address_for_officer_position,
                                 elected_via_election_officer):
+    """
+    Returns a bool that indicates if the officer's info has been changed
+    
+    Keyword Arguments
+    position_mapping_for_selected_officer -- the position mapping object for the officer position that may need
+     to be updated
+    new_name_for_officer_position -- the new name for the position mapping that may need to be updated
+    new_position_index_for_officer_position -- the new index for the position mapping that may need to be updated
+    new_sfu_email_list_address_for_officer_position -- the new sfu email list address for the position mapping
+     that may need to be updated
+    elected_via_election_officer -- the new status of whether a position is elected via election officer for
+     the position mapping that may need to be updated
+     
+     Return
+     bool -- true if a position_mapping_for_selected_officer has to be updated
+    """
     return new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
            and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
            and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
@@ -166,6 +182,18 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
 def update_current_officer(positions_to_save, position_mapping_for_selected_officer,
                            new_position_index_for_officer_position,
                            new_sfu_email_list_address_for_officer_position, new_name_for_officer_position):
+    """
+    updating the officer object under the current term with the new position mapping info 
+    
+    Keyword Argument
+    positions_to_save -- the list that has to contain all the officer objects that have to be added to for changes
+     to be saved to DB
+    position_mapping_for_selected_officer -- the position mapping object for the position that has to be updated
+    new_name_for_officer_position -- the new name for the officer position that need to be updated
+    new_position_index_for_officer_position -- the new index for the officer position that need to be updated
+    new_sfu_email_list_address_for_officer_position -- the new sfu email list address for the officer position
+     that need to be updated
+    """
     terms = Term.objects.all().filter(term_number=get_current_term())
     if len(terms) == 1:
         term = terms[0]
@@ -189,6 +217,17 @@ def update_current_officer(positions_to_save, position_mapping_for_selected_offi
 def update_elections_in_current_term(nominees_to_save, position_mapping_for_selected_officer,
                                      new_position_index_for_officer_position,
                                      new_name_for_officer_position):
+    """
+    Updating the nominee objects for nominees that have run for a position that needs to be updated
+     in the current term
+     
+    Keyword Argument
+    nominees_to_save -- the list that has to contain all the officer objects that have to be added to for changes
+     to be saved to DB
+    position_mapping_for_selected_officer -- the position mapping object for the position that has to be updated
+    new_name_for_officer_position -- the new name for the nominee positions that need to be updated
+    new_position_index_for_officer_position -- the new index for the nominee positions that need to be updated
+    """
     nominees_to_update = NomineePosition.objects.all().filter(
         position_index=position_mapping_for_selected_officer.position_index,
         nominee_speech__nominee__election__date__gte=get_datetime_for_beginning_of_current_term()
