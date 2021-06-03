@@ -144,6 +144,7 @@ def _update_positions_mapping(positions):
             )
         if error_message is not None:
             return [error_message]
+    return []
 
 
 def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_for_officer_position,
