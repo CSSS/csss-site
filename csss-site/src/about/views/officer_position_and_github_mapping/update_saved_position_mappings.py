@@ -5,14 +5,14 @@ from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
+from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     get_current_term, get_datetime_for_beginning_of_current_term
-from elections.models import Election, NomineePosition
+from elections.models import NomineePosition
 
 DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
 UN_DELETED_POSITION_MAPPING_KEY = 'un_delete_position_mapping'
@@ -115,7 +115,8 @@ def _update_positions_mapping(positions):
         previous_position_name = position_mapping_for_selected_officer.position_name
         if new_position_index_for_officer_position != previous_position_index:
             if new_position_index_for_officer_position in current_specified_position_indices:
-                error_message = f"more than one position have been assigned an index of {new_position_index_for_officer_position}"
+                error_message = f"more than one position have been assigned an index of " \
+                                f"{new_position_index_for_officer_position}"
                 success = False
             else:
                 current_specified_position_indices.append(new_position_index_for_officer_position)
