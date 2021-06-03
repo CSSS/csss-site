@@ -51,6 +51,8 @@ def _update_positions_mapping(positions):
     """
     current_specified_position_names = []
     current_specified_position_indices = []
+    positions_to_save = []
+    nominees_to_save = []
     for position in positions:
         if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in position
                 and f"{position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
@@ -125,9 +127,10 @@ def _update_positions_mapping(positions):
                 current_specified_position_names.append(new_name_for_officer_position)
 
         if success:
-            update_current_officer(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+            update_current_officer(positions_to_save, position_mapping_for_selected_officer,
+                                   new_position_index_for_officer_position,
                                    new_sfu_email_list_address_for_officer_position, new_name_for_officer_position)
-            update_elections_in_current_term(position_mapping_for_selected_officer,
+            update_elections_in_current_term(nominees_to_save, position_mapping_for_selected_officer,
                                              new_position_index_for_officer_position,
                                              new_name_for_officer_position
                                              )
@@ -144,6 +147,8 @@ def _update_positions_mapping(positions):
             )
         if error_message is not None:
             return [error_message]
+    [position_to_save.save() for position_to_save in positions_to_save]
+    [nominee_to_save.save() for nominee_to_save in nominees_to_save]
     return []
 
 
@@ -157,7 +162,8 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
            and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
 
 
-def update_current_officer(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+def update_current_officer(positions_to_save, position_mapping_for_selected_officer,
+                           new_position_index_for_officer_position,
                            new_sfu_email_list_address_for_officer_position, new_name_for_officer_position):
     terms = Term.objects.all().filter(term_number=get_current_term())
     if len(terms) == 1:
@@ -176,10 +182,11 @@ def update_current_officer(position_mapping_for_selected_officer, new_position_i
             officer_in_current_term_that_need_update.sfu_officer_mailing_list_email = \
                 new_sfu_email_list_address_for_officer_position
             officer_in_current_term_that_need_update.position_name = new_name_for_officer_position
-            officer_in_current_term_that_need_update.save()
+            positions_to_save.append(officer_in_current_term_that_need_update)
 
 
-def update_elections_in_current_term(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+def update_elections_in_current_term(nominees_to_save, position_mapping_for_selected_officer,
+                                     new_position_index_for_officer_position,
                                      new_name_for_officer_position):
     nominees_to_update = NomineePosition.objects.all().filter(
         position_index=position_mapping_for_selected_officer.position_index,
@@ -188,4 +195,4 @@ def update_elections_in_current_term(position_mapping_for_selected_officer, new_
     for nominee_to_update in nominees_to_update:
         nominee_to_update.position_name = new_name_for_officer_position
         nominee_to_update.position_index = new_position_index_for_officer_position
-        nominee_to_update.save()
+        nominees_to_save.append(nominee_to_update)
