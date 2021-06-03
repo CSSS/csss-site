@@ -11,7 +11,8 @@ from about.views.position_mapping_helper import update_context, validate_positio
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
 from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
-    get_current_term
+    get_current_term, get_datetime_for_beginning_of_current_term
+from elections.models import Election, NomineePosition
 
 DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
 UN_DELETED_POSITION_MAPPING_KEY = 'un_delete_position_mapping'
@@ -114,24 +115,12 @@ def _update_positions_mapping(positions):
             success, error_message = validate_position_name(new_name_for_officer_position)
 
         if success:
-            terms = Term.objects.all().filter(term_number=get_current_term())
-            if len(terms) > 0:
-                term = terms[0]
-                officers_in_current_term_that_need_update = Officer.objects.all().filter(
-                    elected_term=term,
-                    position_index=position_mapping_for_selected_officer.position_index
-                )
-                logger.info(
-                    f"[about/update_saved_position_mappings.py _update_position_mapping()] updating"
-                    f" {len(officers_in_current_term_that_need_update)} officers due to change in position"
-                    f" {position_mapping_for_selected_officer.position_name}"
-                )
-                for officer_in_current_term_that_need_update in officers_in_current_term_that_need_update:
-                    officer_in_current_term_that_need_update.position_index = new_position_index_for_officer_position
-                    officer_in_current_term_that_need_update.sfu_officer_mailing_list_email = \
-                        new_sfu_email_list_address_for_officer_position
-                    officer_in_current_term_that_need_update.position_name = new_name_for_officer_position
-                    officer_in_current_term_that_need_update.save()
+            update_current_officer(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+                                   new_sfu_email_list_address_for_officer_position, new_name_for_officer_position)
+            update_elections_in_current_term(position_mapping_for_selected_officer,
+                                             new_position_index_for_officer_position,
+                                             new_name_for_officer_position
+                                             )
             position_mapping_for_selected_officer.position_name = new_name_for_officer_position
             position_mapping_for_selected_officer.position_index = new_position_index_for_officer_position
             position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
@@ -155,3 +144,37 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
            and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
            and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
            and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
+
+
+def update_current_officer(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+                           new_sfu_email_list_address_for_officer_position, new_name_for_officer_position):
+    terms = Term.objects.all().filter(term_number=get_current_term())
+    if len(terms) == 1:
+        term = terms[0]
+        officers_in_current_term_that_need_update = Officer.objects.all().filter(
+            elected_term=term,
+            position_index=position_mapping_for_selected_officer.position_index
+        )
+        logger.info(
+            f"[about/update_saved_position_mappings.py _update_position_mapping()] updating"
+            f" {len(officers_in_current_term_that_need_update)} officers due to change in position"
+            f" {position_mapping_for_selected_officer.position_name}"
+        )
+        for officer_in_current_term_that_need_update in officers_in_current_term_that_need_update:
+            officer_in_current_term_that_need_update.position_index = new_position_index_for_officer_position
+            officer_in_current_term_that_need_update.sfu_officer_mailing_list_email = \
+                new_sfu_email_list_address_for_officer_position
+            officer_in_current_term_that_need_update.position_name = new_name_for_officer_position
+            officer_in_current_term_that_need_update.save()
+
+
+def update_elections_in_current_term(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+                                     new_name_for_officer_position):
+    nominees_to_update = NomineePosition.objects.all().filter(
+        position_index=position_mapping_for_selected_officer.position_index,
+        nominee_speech__nominee__election_date__gte=get_datetime_for_beginning_of_current_term()
+    )
+    for nominee_to_update in nominees_to_update:
+        nominee_to_update.position_name = new_name_for_officer_position
+        nominee_to_update.position_index = new_position_index_for_officer_position
+        nominee_to_update.save()

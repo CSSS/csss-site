@@ -173,3 +173,28 @@ def get_term_number_for_specified_year_and_month(month, year):
     else:
         term_active += 3
     return term_active
+
+
+def get_datetime_for_beginning_of_current_term():
+    """
+    Gets the datetime for the beginning of the current term
+
+    Return the datetime for the beginning of the current time where the month is Jan, May, Sept and the day is 1
+    """
+    current_date = datetime.datetime.now()
+    while not date_is_first_day_of_term(current_date):
+        current_date = current_date - datetime.timedelta(days=1)
+    return current_date
+
+
+def date_is_first_day_of_term(current_date):
+    """
+    Returns a bool to indicate if given date is the first date of a School Term
+
+    Keyword Argument
+    current_date -- the date to check
+
+    Return
+    bool
+    """
+    return (current_date.month == 1 or current_date.month == 5 or current_date.month == 9) and current_date.day == 1
