@@ -2,3 +2,7 @@
     border:solid 1px grey;
     height: 0px;
 }
+
+.hide_email_embeds {
+    overflow-x: scroll;
+}

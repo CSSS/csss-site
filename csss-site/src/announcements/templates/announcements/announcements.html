@@ -25,11 +25,13 @@
 							{% if announcement.email is None %}
 								{{announcement.manual_announcement.content|safe|linebreaks }}
 							{%  else %}
-								{% if announcement.email.html|safe|length > 0 %}
-									{{announcement.email.html|safe}}
-								{% else %}
-									{{announcement.email.body|safe|linebreaks}}
-								{% endif %}
+								<div class="hide_email_embeds">
+									{% if announcement.email.html|safe|length > 0 %}
+										{{announcement.email.html|safe}}
+									{% else %}
+										{{announcement.email.body|safe|linebreaks}}
+									{% endif %}
+								</div>
 							{%  endif %}
 							</div>
 							{% for attachment in announcement.email.attachments.all %}
