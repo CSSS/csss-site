@@ -4,7 +4,8 @@ import random
 
 from elections.models import NomineeLink
 from elections.views.Constants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
-    ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, DATE_AND_TIME_FORMAT, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+    ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, DATE_AND_TIME_FORMAT, \
+    NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
 from elections.views.save_election.save_new_election_obj_jformat import create_and_save_election_object_jformat
 

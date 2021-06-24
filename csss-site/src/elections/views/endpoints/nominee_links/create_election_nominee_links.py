@@ -34,5 +34,3 @@ def display_and_process_html_for_new_nominee_links_election(request):
     else:
         context.update(create_context_for_create_election_nominee_links_html(create_new_election=True))
         return render(request, 'elections/nominee_links/create_election_nominee_links.html', context)
-
-

@@ -38,8 +38,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
                         f"{ELECTION_JSON_KEY__WEBSURVEY}, {SAVED_NOMINEE_LINKS}, " \
                         f"{NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS}"
         logger.info(
-            f"[elections/process_existing_election_and_nominee_links.py process_existing_election_and_nominee_links()] "
-            f"{error_message}"
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
         )
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message], slug=slug
@@ -49,7 +49,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
         logger.info(
-            f"[elections/process_existing_election_and_nominee_links.py process_existing_election_and_nominee_links()] {error_message}"
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
         )
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message],
@@ -67,8 +68,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
     )
     if not success:
         logger.info(
-            f"[elections/process_existing_election_and_nominee_links.py process_existing_election_and_nominee_links()] "
-            f"{error_message}"
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
         )
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message],
@@ -84,8 +85,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
         logger.info(
-            f"[elections/process_existing_election_and_nominee_links.py process_existing_election_and_nominee_links()] "
-            f"{error_message}"
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
         )
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message],
@@ -101,8 +102,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
         logger.info(
-            f"[elections/process_existing_election_and_nominee_links.py process_existing_election_and_nominee_links()] "
-            f"{error_message}"
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
         )
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message],
@@ -117,8 +118,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
     success, error_message = validate_saved_nominee_links(election_dict[SAVED_NOMINEE_LINKS])
     if not success:
         logger.info(
-            f"[elections/process_existing_election_and_nominee_links.py process_existing_election_and_nominee_links()] "
-            f"{error_message}"
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
         )
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message],

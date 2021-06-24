@@ -74,6 +74,7 @@ def transform_webform_to_json(election_dict):
     logger.info(json.dumps(new_election_dict, indent=3))
     return new_election_dict
 
+
 def transform_nominee_links_webform_to_json(election_dict):
     logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] transforming")
     logger.info(json.dumps(election_dict, indent=3))
@@ -115,6 +116,7 @@ def transform_nominee_links_webform_to_json(election_dict):
     logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] to")
     logger.info(json.dumps(new_election_dict, indent=3))
     return new_election_dict
+
 
 def verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(nominee):
     return ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee and \
