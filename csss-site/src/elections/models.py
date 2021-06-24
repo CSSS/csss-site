@@ -66,6 +66,23 @@ class Nominee(models.Model):
         return f"Nominee {self.name} for Election {self.election}"
 
 
+class NomineeLink(models.Model):
+    election = models.ForeignKey(Election, on_delete=models.CASCADE)
+
+    nominee = models.ForeignKey(Nominee, null=True, on_delete=models.SET_NULL)
+
+    name = models.CharField(max_length=140)
+
+    passphrase = models.CharField(
+        max_length=300,
+        unique=True,
+        null=True
+    )
+
+    def __str__(self):
+        return f"passphrase for nominee {self.name} for election {self.election}"
+
+
 class NomineeSpeech(models.Model):
     nominee = models.ForeignKey(Nominee, on_delete=models.CASCADE)
 

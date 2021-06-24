@@ -33,3 +33,7 @@
     float: left;
     margin-left: 10px
 }
+
+.saved_nominee_links_table th, td {
+    padding: 5px;
+}

@@ -1,0 +1,7 @@
+<p>Date For Election to be publicly available:
+    {%  if input_date__value is not None %}
+        <input type="date" name="{{input_date__name}}" value="{{input_date__value}}" required>
+    {%  else %}
+        <input type="date" name="{{input_date__name}}" required>
+    {% endif %}
+<p>

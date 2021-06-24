@@ -1,0 +1,12 @@
+<div class="csss_box_borders_new_entries">
+	<h3 class="title is-size-3">Create New Nominee Link For New Election</h3>
+	<form method="post" class="form">
+		{%  csrf_token %}
+		{%  include 'elections/election_info/election_date.html' %}
+		{%  include 'elections/election_info/election_time.html' %}
+		{%  include 'elections/election_info/election_type.html' %}
+		{%  include 'elections/election_info/election_websurvey.html' %}
+		{%  include 'elections/election_info/election_nominees.html' %}<br>
+		{%  include 'elections/create_election/submission_buttons.html' %}
+	</form>
+</div>

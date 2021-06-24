@@ -1,0 +1,7 @@
+<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
+    {%  if input_time__value is not None %}
+        <input type="time" name="{{input_time__name}}" value="{{input_time__value}}" required>
+    {%  else %}
+        <input type="time" name="{{input_time__name}}" required>
+    {%  endif %}
+</p>

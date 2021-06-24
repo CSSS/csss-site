@@ -1,0 +1,13 @@
+<p>Election Type :
+    <select name="{{select_election_type__name}}">
+        {%  for election_type in election_types %}
+            {%  if selected_election_type__html_name is None %}
+                <option value="{{election_type.0}}">{{election_type.1}}</option>
+            {%  elif selected_election_type__html_name == election_type.0 %}
+                <option  selected="selected" value="{{election_type.0}}">{{election_type.1}}</option>
+            {%  else %}
+                <option value="{{election_type.0}}">{{election_type.1}}</option>
+            {%  endif %}
+        {%  endfor %}
+    </select>
+</p>

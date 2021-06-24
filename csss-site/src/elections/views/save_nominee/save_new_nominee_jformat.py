@@ -8,7 +8,7 @@ logger = logging.getLogger('csss_site')
 
 
 def save_new_nominee_jformat(election, name, speech_and_position_pairings, facebook_link, linkedin_link,
-                             email_address, discord_username):
+                             email_address, discord_username, nominee_link=None):
     """
     Saves the given nominees and the relevant NomineeSpeech and NomineePosition objects with the given values
 
@@ -62,4 +62,7 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
         "[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
         f"returning nominee.id = {nominee.id}, position_ids = {position_ids} and speech_ids = {speech_ids}"
     )
+    if nominee_link is not None:
+        nominee_link.nominee = nominee
+        nominee_link.save()
     return nominee.id, position_ids, speech_ids

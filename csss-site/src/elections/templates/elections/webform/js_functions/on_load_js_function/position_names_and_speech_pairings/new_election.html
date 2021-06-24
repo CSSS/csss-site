@@ -1,4 +1,8 @@
-{%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
+let speech_index
+let new_nominee_speech;
+let nominee_position;
+let speech_div_name;
+{%  for position_names_and_speech_pairing in draft_nominee__html_name.position_names_and_speech_pairings %}
     speech_index = nominee_speeches.childElementCount;
     speech_div_name = nominee_div_name + '_speech_' + speech_index;
     new_nominee_speech = document.createElement('div');
@@ -10,16 +14,16 @@
         nominee_position.setAttribute('class','csss_nominee_positions_on_same_line');
 
         {% if position.position_name in position_names_and_speech_pairing.position_names %}
-            nominee_position.innerHTML += "<input name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_speech_and_position_pairing__name}}]["+speech_index+"][{{input_nominee_position_names__name}}]\" type=\"checkbox\" id=\"{{ position.position_name }}\" value=\"{{ position.position_name }}\" checked />";
+            nominee_position.innerHTML += "<input name=\"[{{nominee_div__name}}][{{input_nominee_speech_and_position_pairing__name}}]["+speech_index+"][{{input_nominee_position_names__name}}]\" type=\"checkbox\" id=\"{{ position.position_name }}\" value=\"{{ position.position_name }}\" checked />";
         {%  else %}
-            nominee_position.innerHTML += "<input name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_speech_and_position_pairing__name}}]["+speech_index+"][{{input_nominee_position_names__name}}]\" type=\"checkbox\" id=\"{{ position.position_name }}\" value=\"{{ position.position_name }}\" />";
+            nominee_position.innerHTML += "<input name=\"[{{nominee_div__name}}][{{input_nominee_speech_and_position_pairing__name}}]["+speech_index+"][{{input_nominee_position_names__name}}]\" type=\"checkbox\" id=\"{{ position.position_name }}\" value=\"{{ position.position_name }}\" />";
         {%  endif %}
         nominee_position.innerHTML += "<label>{{ position.position_name }}</label><br>";
         new_nominee_speech.appendChild(nominee_position);
     {%  endfor %}
 
     new_nominee_speech.innerHTML += `<p>Speech: (speech needs to already be in <a href="{{ URL_ROOT }}markdown/" target="_blank"> HTML format</a> )<br>`
-    new_nominee_speech.innerHTML += `<textarea name="[{{nominee_div__name}}][${nominee_index}][{{input_nominee_speech_and_position_pairing__name}}][${speech_index}][{{input_nominee_speech__name}}]" cols="40" rows="1" required>{{position_names_and_speech_pairing.speech}}</textarea></p>`
+    new_nominee_speech.innerHTML += `<textarea name="[{{nominee_div__name}}][{{input_nominee_speech_and_position_pairing__name}}][${speech_index}][{{input_nominee_speech__name}}]" cols="40" rows="1" required>{{position_names_and_speech_pairing.speech}}</textarea></p>`
     new_nominee_speech.innerHTML += "<input type=\"button\" value=\"Remove Speech\" onClick=\"removeDiv('#"+speech_div_name+"');\">";
     nominee_speeches.appendChild(new_nominee_speech);
 {%  endfor %}
