@@ -49,7 +49,7 @@ def display_and_process_html_for_nominee_modification(request):
                 error_messages=error_message
             )
         )
-        return render(request, 'elections/update_nominee/update_nominee.html', context)
+        return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
 
     process_election = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
 

@@ -32,7 +32,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         context.update(create_context_for_update_nominee_html(
             nominee_link_id=nominee_link_id, error_messages=[error_message])
         )
-        return render(request, 'elections/update_nominee/update_nominee.html', context)
+        return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
     nominee_link = nominee_links[0]
     election_id = nominee_link.election.id
     if not (ELECTION_JSON_KEY__NOM_NAME in nominee_info and ELECTION_JSON_KEY__NOM_FACEBOOK in nominee_info
@@ -51,7 +51,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         context.update(create_context_for_update_nominee_html(
             nominee_link_id=nominee_link_id, error_messages=[error_message])
         )
-        return render(request, 'elections/update_nominee/update_nominee.html', context)
+        return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
     if ID_KEY in nominee_info:
         if f"{nominee_info[ID_KEY]}".isdigit():
             matching_nominees_under_specified_election = Nominee.objects.all().filter(
@@ -66,7 +66,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
                 context.update(create_context_for_update_nominee_html(
                     nominee_link_id=nominee_link_id, error_messages=[error_message])
                 )
-                return render(request, 'elections/update_nominee/update_nominee.html', context)
+                return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
         else:
             error_message = f"Invalid type detected for nominee id of {nominee_info[ID_KEY]}"
             logger.info(
@@ -76,7 +76,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             context.update(create_context_for_update_nominee_html(
                 nominee_link_id=nominee_link_id, error_messages=[error_message])
             )
-            return render(request, 'elections/update_nominee/update_nominee.html', context)
+            return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
     nominee_names_so_far = [nominee.name for nominee in Nominee.objects.all().filter(
         election_id=election_id).exclude(nomineelink__id=nominee_link_id)
     ]
@@ -95,7 +95,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         context.update(create_context_for_update_nominee_html(
             nominee_link_id=nominee_link_id, error_messages=[error_message], nominee_info=nominee_info)
         )
-        return render(request, 'elections/update_nominee/update_nominee.html', context)
+        return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
     if nominee_link.nominee is None:
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
