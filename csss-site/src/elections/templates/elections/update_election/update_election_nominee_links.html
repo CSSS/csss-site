@@ -12,10 +12,10 @@
 		<h3 class="title is-size-3">Update {{ nominee_links.0.election.human_friendly_name }}</h3>
 		<form method="post" class="form">
 			{%  csrf_token %}
-			{%  include 'elections/election_info/election_date.html' %}
-			{%  include 'elections/election_info/election_time.html' %}
-			{%  include 'elections/election_info/election_type.html' %}
-			{%  include 'elections/election_info/election_websurvey.html' %}
+			{%  include 'elections/webform/election_date.html' %}
+			{%  include 'elections/webform/election_time.html' %}
+			{%  include 'elections/webform/election_type.html' %}
+			{%  include 'elections/webform/election_websurvey.html' %}
 			<table>
 				<tr>
 					<th>Select Links to Delete</th>
