@@ -1,6 +1,6 @@
 {% csrf_token %}
-{%  include 'elections/webform/election_date.html' %}
-{%  include 'elections/webform/election_time.html' %}
+{%  include 'elections/webform_format/election_date.html' %}
+{%  include 'elections/webform_format/election_time.html' %}
 {%  if positions is not None %}
     <p>Valid Positions:
         {% for position in positions %}
@@ -8,8 +8,8 @@
         {% endfor %}
     </p>
 {%  endif %}
-{%  include 'elections/webform/election_type.html' %}
-{%  include 'elections/webform/election_websurvey.html' %}
+{%  include 'elections/webform_format/election_type.html' %}
+{%  include 'elections/webform_format/election_websurvey.html' %}
 {% include 'elections/create_election/submission_buttons.html' %}
 <br><br><br>
 <input type="button" value="Add another Nominee" onClick="addBlankNominee('{{nominee_div__name}}');">
