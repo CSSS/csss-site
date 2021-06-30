@@ -10,4 +10,4 @@ def display_current_nominee_link_election(request, context, nominee_link_id):
             nominee_link_id=nominee_link_id,
         )
     )
-    return render(request, 'elections/update_nominee/nominee_links/update_nominee.html', context)
+    return render(request, 'elections/update_nominee/update_nominee.html', context)

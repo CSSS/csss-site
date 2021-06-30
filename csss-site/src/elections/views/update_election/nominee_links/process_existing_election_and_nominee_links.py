@@ -44,7 +44,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
         context.update(create_context_for_update_election_nominee_links_html(
             create_new_election=election is None, error_messages=[error_message], slug=slug
         ))
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(request, 'elections/update_election/nominee_links/electon_and_nominee_links/update_election_nominee_links.html', context)
     election_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
@@ -61,7 +61,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS],
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS], slug=slug
         ))
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(request, 'elections/update_election/nominee_links/electon_and_nominee_links/update_election_nominee_links.html', context)
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
