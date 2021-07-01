@@ -47,6 +47,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
+            nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(request, 'elections/create_election/create_election_nominee_links.html', context)
 
@@ -62,6 +63,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
+            nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(request, 'elections/create_election/create_election_nominee_links.html', context)
 
@@ -77,6 +79,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
+            nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(request, 'elections/create_election/create_election_nominee_links.html', context)
 
@@ -93,7 +96,8 @@ def process_new_election_and_nominee_links(request, context):
             election_date=election_dict[ELECTION_JSON_KEY__DATE],
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
-            websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY]
+            websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
+            nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(request, 'elections/create_election/create_election_nominee_links.html', context)
     election = save_new_election_and_nominee_links(election_dict)

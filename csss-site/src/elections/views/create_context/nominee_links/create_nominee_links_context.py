@@ -12,20 +12,21 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID, \
     SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE, \
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
-    NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+    NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, NEW_NOMINEE_NAMES__VALUE
 
 logger = logging.getLogger('csss_site')
 
 
 def create_context_for_create_election_nominee_links_html(context, election_date=None, election_time=None,
                                                           election_type=None, create_new_election=False,
-                                                          websurvey_link=None, error_messages=None):
+                                                          websurvey_link=None, error_messages=None,
+                                                          nominee_names=None):
     _create_context_for_display_errors_html(context, error_messages)
     _create_context_for_election_date_html(context, election_date=election_date)
     _create_context_for_election_time_html(context, election_time=election_time)
     _create_context_for_election_type_html(context, election_type=election_type)
     _create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
-    _create_context_for_election_nominees_html(context)
+    _create_context_for_election_nominees_html(context, nominee_names=nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
     return context
 
@@ -67,10 +68,13 @@ def _create_context_for_election_websurvey_html(context, websurvey_link=None):
     })
 
 
-def _create_context_for_election_nominees_html(context):
+def _create_context_for_election_nominees_html(context, nominee_names=None):
     context.update({
         NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME: NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS,
     })
+    if nominee_names is not None:
+        context[NEW_NOMINEE_NAMES__VALUE] = nominee_names
+
 
 
 def _create_context_for_submission_buttons_html(context, create_new_election=False):
