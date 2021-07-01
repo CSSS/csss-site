@@ -101,5 +101,3 @@ ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME = 'new_nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
-
-ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'

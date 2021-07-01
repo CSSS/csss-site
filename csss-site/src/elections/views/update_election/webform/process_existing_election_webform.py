@@ -57,7 +57,7 @@ def process_existing_election_information_from_webform(request, context):
         error_message = "Unable to understand user command"
         logger.info(
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()] "
-            f"{error_message}"
+            f"{error_message, election_dict}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election_webform.html', context)

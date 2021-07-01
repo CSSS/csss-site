@@ -75,49 +75,6 @@ def transform_webform_to_json(election_dict):
     return new_election_dict
 
 
-def transform_nominee_links_webform_to_json(election_dict):
-    logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] transforming")
-    logger.info(json.dumps(election_dict, indent=3))
-    new_election_dict = election_dict['nominee']
-    if verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(new_election_dict):
-        new_election_dict[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = list(
-            new_election_dict[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].values()
-        )
-        for position_and_speech_pairing in new_election_dict[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]:
-            if ELECTION_JSON_KEY__NOM_POSITION_NAMES in position_and_speech_pairing:
-                if there_are_multiple_entries(position_and_speech_pairing,
-                                              ELECTION_JSON_KEY__NOM_POSITION_NAMES):
-                    positions = []
-                    for position_info in position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
-                        position_info = position_info.split("_")
-                        if len(position_info) == 2 and f"{position_info[1]}".isdigit():
-                            positions.append(
-                                {
-                                    ELECTION_JSON_KEY__NOM_POSITION_NAME: position_info[0],
-                                    ID_KEY: position_info[1]
-                                }
-                            )
-                        else:
-                            positions.append(position_info[0])
-                    position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = positions
-                else:
-                    position_info = position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]
-                    position_info = position_info.split("_")
-                    if len(position_info) == 2 and f"{position_info[1]}".isdigit():
-                        position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = [
-                            {
-                                ELECTION_JSON_KEY__NOM_POSITION_NAME: position_info[0],
-                                ID_KEY: position_info[1]
-                            }
-                        ]
-                    else:
-                        position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = \
-                            [position_info[0]]
-    logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] to")
-    logger.info(json.dumps(new_election_dict, indent=3))
-    return new_election_dict
-
-
 def verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(nominee):
     return ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee and \
            type(nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) == dict
