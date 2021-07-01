@@ -1,8 +1,0 @@
-{% csrf_token %}
-<input type="submit" id="{{ save_nominee__button_id }}" name="{{input_redirect_nominee_submit__name}}" value="{{ input_redirect_nominee_submit__value }}" />
-<br><br><br>
-{%  if create_new_nominee__html_name is not True %}
-    <input type="text" name="{{input_nominee_link_id__name}}" value="{{input_nominee_link_id__value}}" hidden readonly>
-{%  endif %}
-<div id="{{nominee_div__name}}"></div>
-<br>
