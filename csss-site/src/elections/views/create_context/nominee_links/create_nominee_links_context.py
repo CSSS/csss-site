@@ -76,7 +76,6 @@ def _create_context_for_election_nominees_html(context, nominee_names=None):
         context[NEW_NOMINEE_NAMES__VALUE] = nominee_names
 
 
-
 def _create_context_for_submission_buttons_html(context, create_new_election=False):
     context.update({
         SAVE_NEW_JSON_ELECTION__BUTTON_ID: SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE,
