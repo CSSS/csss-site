@@ -22,7 +22,7 @@
 							{% csrf_token %}
 							<button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via Webform</button>
 							</form>
-							<form action="{{URL_ROOT}}elections/election_modification_nominee_links/{{election__html_name.slug}}/" method="post" class="form">
+							<form action="{{URL_ROOT}}elections/{{election__html_name.slug}}/election_modification_nominee_links/" method="post" class="form">
 							{% csrf_token %}
 							<button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via Nominee Links</button>
 							</form>

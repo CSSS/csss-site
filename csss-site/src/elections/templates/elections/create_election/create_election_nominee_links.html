@@ -10,6 +10,7 @@
 		<h3 class="title is-size-3">Create New Nominee Link For New Election</h3>
 		<form method="post" class="form">
 			{%  csrf_token %}
+			{%  include 'csss/display_errors.html' %}
 			{%  include 'elections/webform_format/election_date.html' %}
 			{%  include 'elections/webform_format/election_time.html' %}
 			{%  include 'elections/webform_format/election_type.html' %}
