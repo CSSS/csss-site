@@ -19,6 +19,18 @@ logger = logging.getLogger('csss_site')
 
 
 def process_new_election_and_nominee_links(request, context):
+    """
+    Takes in the user's new election and nominee link input and validates it before having it saved
+
+    Keyword Argument:
+    request -- the django request object that the new election is contained in
+    context -- the dictionary that needs to be filled in with the user's input and the error message
+     if there was an error
+
+     Return
+     either redirect user back to the page where they inputted the election info or direct them to the newly created
+      election page along with nominee links
+    """
     election_dict = request.POST
     if not (ELECTION_JSON_KEY__WEBSURVEY in election_dict and ELECTION_JSON_KEY__ELECTION_TYPE and
             ELECTION_JSON_WEBFORM_KEY__TIME in election_dict and ELECTION_JSON_KEY__DATE in election_dict and
