@@ -24,11 +24,6 @@ UPDATE_EXISTING_ELECTION__NAME = 'update_election'
 SAVE_ELECTION__VALUE = 'Save Election'
 SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
 
-SAVE_NEW_JSON_ELECTION__BUTTON_ID = 'save_election__button_id'
-SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE = 'save_election_button'
-SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID = 'save_new_election_and_continue_editing__button_id'
-SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_election_and_continue_editing__button'
-
 TYPES_OF_ELECTIONS = 'types_of_elections'
 VALID_POSITION_NAMES = 'valid_position_names'
 
@@ -99,6 +94,6 @@ CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
 ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
 ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 
-NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME = 'new_nominee_names__html_name'
+NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
-NEW_NOMINEE_NAMES__VALUE = 'new_nominee_names__value'
+NOMINEE_NAMES__VALUE = 'nominee_names__value'

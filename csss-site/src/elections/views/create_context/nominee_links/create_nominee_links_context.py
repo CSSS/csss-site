@@ -6,13 +6,11 @@ from elections.models import Election
 from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE, INPUT_DATE__VALUE, DATE_FORMAT, \
     INPUT_TIME__NAME, ELECTION_JSON_WEBFORM_KEY__TIME, INPUT_TIME__VALUE, TIME_FORMAT, SELECT_ELECTION_TYPE__NAME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, CURRENT_ELECTION_TYPES, SELECTED_ELECTION_TYPE__HTML_NAME, \
-    CURRENT_WEBSURVEY_LINK, INPUT_WEBSURVEY__NAME, ELECTION_JSON_KEY__WEBSURVEY, SAVE_NEW_JSON_ELECTION__BUTTON_ID, \
-    SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE, INPUT_REDIRECT_ELECTION__NAME, CREATE_NEW_ELECTION__NAME, \
+    CURRENT_WEBSURVEY_LINK, INPUT_WEBSURVEY__NAME, ELECTION_JSON_KEY__WEBSURVEY, INPUT_REDIRECT_ELECTION__NAME, \
+    CREATE_NEW_ELECTION__NAME, \
     UPDATE_EXISTING_ELECTION__NAME, INPUT_REDIRECT_ELECTION_SUBMIT__VALUE, SAVE_ELECTION__VALUE, \
-    SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID, \
-    SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE, \
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
-    NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, NEW_NOMINEE_NAMES__VALUE
+    NOMINEE_NAMES__HTML_NAME, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, NOMINEE_NAMES__VALUE
 
 logger = logging.getLogger('csss_site')
 
@@ -33,7 +31,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
 
 def _create_context_for_display_errors_html(context, error_messages=None):
     if error_messages is not None:
-        context.update({ERROR_MESSAGES_KEY: error_messages})
+        context[ERROR_MESSAGES_KEY] = error_messages
 
 
 def _create_context_for_election_date_html(context, election_date=None):
@@ -62,27 +60,21 @@ def _create_context_for_election_type_html(context, election_type=None):
 
 def _create_context_for_election_websurvey_html(context, websurvey_link=None):
     context.update({
-        CURRENT_WEBSURVEY_LINK: websurvey_link,
         INPUT_WEBSURVEY__NAME: ELECTION_JSON_KEY__WEBSURVEY,
-
+        CURRENT_WEBSURVEY_LINK: websurvey_link,
     })
 
 
 def _create_context_for_election_nominees_html(context, nominee_names=None):
-    context.update({
-        NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS__HTML_NAME: NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS,
-    })
+    context[NOMINEE_NAMES__HTML_NAME] = NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
     if nominee_names is not None:
-        context[NEW_NOMINEE_NAMES__VALUE] = nominee_names
+        context[NOMINEE_NAMES__VALUE] = nominee_names
 
 
 def _create_context_for_submission_buttons_html(context, create_new_election=False):
     context.update({
-        SAVE_NEW_JSON_ELECTION__BUTTON_ID: SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE,
         INPUT_REDIRECT_ELECTION__NAME: CREATE_NEW_ELECTION__NAME if create_new_election
         else UPDATE_EXISTING_ELECTION__NAME,
         INPUT_REDIRECT_ELECTION_SUBMIT__VALUE: SAVE_ELECTION__VALUE,
-        SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID:
-            SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE,
         INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE: SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE
     })
