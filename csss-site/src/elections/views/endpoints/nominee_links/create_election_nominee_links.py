@@ -16,6 +16,7 @@ logger = logging.getLogger('csss_site')
 def display_and_process_html_for_new_nominee_links_election(request):
     """
     Shows the page where the webform is displayed so that the user inputs the data needed to create a new election
+    via Nominee Links
     """
     logger.info(
         "[elections/create_election_nominee_links.py display_and_process_html_for_new_nominee_links_election()] "
