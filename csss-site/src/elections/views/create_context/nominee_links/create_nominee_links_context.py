@@ -10,7 +10,15 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     CREATE_NEW_ELECTION__NAME, \
     UPDATE_EXISTING_ELECTION__NAME, INPUT_REDIRECT_ELECTION_SUBMIT__VALUE, SAVE_ELECTION__VALUE, \
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
-    NOMINEE_NAMES__HTML_NAME, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, NOMINEE_NAMES__VALUE
+    NOMINEE_NAMES__HTML_NAME, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, NOMINEE_NAMES__VALUE, CURRENT_ELECTION, \
+    DRAFT_NOMINEE_LINKS, SAVED_NOMINEE_LINKS__HTML_NAME, SAVED_NOMINEE_LINKS, DELETE__HTML_NAME, DELETE, \
+    SAVED_NOMINEE_LINK__ID__HTML_NAME, SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NAME__HTML_NAME, \
+    SAVED_NOMINEE_LINK__NAME, SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME, SAVED_NOMINEE_LINK__NOMINEE, \
+    NO_NOMINEE_LINKED__HTML_NAME, NOMINEE_LINK_ID__HTML_NAME, NOMINEE_LINK_ID, NO_NOMINEE_LINKED, NOMINEE_LINKS, \
+    CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
+    SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS, SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS_NAME, \
+    SELECT_NOMINEE_LINK_LABEL_CLASS, SELECT_NOMINEE_LINK_LABEL_CLASS_NAME, SELECT_ALL_NOMINEE_LINKS_MESSAGE, \
+    SELECT_ALL_NOMINEE_LINKS, DE_SELECT_ALL_NOMINEE_LINKS_MESSAGE, DE_SELECT_ALL_NOMINEE_LINKS
 
 logger = logging.getLogger('csss_site')
 
@@ -78,3 +86,61 @@ def _create_context_for_submission_buttons_html(context, create_new_election=Fal
         INPUT_REDIRECT_ELECTION_SUBMIT__VALUE: SAVE_ELECTION__VALUE,
         INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE: SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE
     })
+
+
+def create_context_for_update_election_nominee_links_html(
+        context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
+        websurvey_link=None, create_new_election=False, draft_nominee_links=None,
+        new_nominee_names=None, slug=None):
+    if nominee_links is None:
+        nominee_links = []
+    _create_context_for_display_errors_html(context, error_messages=error_messages)
+    context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
+    _create_context_for_election_date_html(context, election_date=election_date)
+    _create_context_for_election_time_html(context, election_time=election_time)
+    _create_context_for_election_type_html(context, election_type=election_type)
+    _create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
+    _create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links, slug=slug,
+                                                 nominee_links=nominee_links)
+    context[SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS] = SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS_NAME
+    context[SELECT_NOMINEE_LINK_LABEL_CLASS] = SELECT_NOMINEE_LINK_LABEL_CLASS_NAME
+    context[SELECT_ALL_NOMINEE_LINKS_MESSAGE] = SELECT_ALL_NOMINEE_LINKS
+    context[DE_SELECT_ALL_NOMINEE_LINKS_MESSAGE] = DE_SELECT_ALL_NOMINEE_LINKS
+    _create_context_for_election_nominee_names_html(context, nominee_names=new_nominee_names)
+    _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
+
+
+def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, slug=None, nominee_links=None):
+    _create_context_for_draft_nominee_links_html(context, draft_nominee_links=draft_nominee_links, slug=slug)
+    _create_context_for_final_nominee_links_html(context, nominee_links=nominee_links)
+
+
+def _create_context_for_draft_nominee_links_html(context, draft_nominee_links=None, slug=None):
+    if draft_nominee_links is not None:
+        context[DRAFT_NOMINEE_LINKS] = draft_nominee_links
+    context[SAVED_NOMINEE_LINKS__HTML_NAME] = SAVED_NOMINEE_LINKS
+    context[DELETE__HTML_NAME] = DELETE
+    context[SAVED_NOMINEE_LINK__ID__HTML_NAME] = SAVED_NOMINEE_LINK__ID
+    context[SAVED_NOMINEE_LINK__NAME__HTML_NAME] = SAVED_NOMINEE_LINK__NAME
+    context[SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME] = SAVED_NOMINEE_LINK__NOMINEE
+    context[NO_NOMINEE_LINKED__HTML_NAME] = NO_NOMINEE_LINKED
+    context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
+    context[CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME] = ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
+    context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID
+
+
+def _create_context_for_final_nominee_links_html(context, nominee_links=None):
+    context[NOMINEE_LINKS] = nominee_links
+    context[SAVED_NOMINEE_LINKS__HTML_NAME] = SAVED_NOMINEE_LINKS
+    context[DELETE__HTML_NAME] = DELETE
+    context[SAVED_NOMINEE_LINK__ID__HTML_NAME] = SAVED_NOMINEE_LINK__ID
+    context[SAVED_NOMINEE_LINK__NAME__HTML_NAME] = SAVED_NOMINEE_LINK__NAME
+    context[SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME] = SAVED_NOMINEE_LINK__NOMINEE
+    context[NO_NOMINEE_LINKED__HTML_NAME] = NO_NOMINEE_LINKED
+    context[CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME] = ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
+    context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID
+
+
+def _create_context_for_election_nominee_names_html(context, nominee_names=None):
+    context[NOMINEE_NAMES__HTML_NAME] = NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+    context[NOMINEE_NAMES__VALUE] = nominee_names
