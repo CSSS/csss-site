@@ -1,18 +1,6 @@
 {% csrf_token %}
-<p>Date For Election to be publicly available:
-    {%  if input_date__value is not None %}
-        <input type="date" name="{{input_date__name}}" value="{{input_date__value}}" required>
-    {%  else %}
-        <input type="date" name="{{input_date__name}}" required>
-    {% endif %}
-<p>
-<p>Time for Election to be publicly available: (press "a" or "p" for the last field)<br>
-    {%  if input_time__value is not None %}
-        <input type="time" name="{{input_time__name}}" value="{{input_time__value}}" required>
-    {%  else %}
-        <input type="time" name="{{input_time__name}}" required>
-    {%  endif %}
-</p>
+{%  include 'elections/webform_format/election_date.html' %}
+{%  include 'elections/webform_format/election_time.html' %}
 {%  if positions is not None %}
     <p>Valid Positions:
         {% for position in positions %}
@@ -20,25 +8,8 @@
         {% endfor %}
     </p>
 {%  endif %}
-<p>Election Type :
-    <select name="{{select_election_type__name}}">
-        {%  for election_type in election_types %}
-            {%  if selected_election_type__html_name is None %}
-                <option value="{{election_type.0}}">{{election_type.1}}</option>
-            {%  elif selected_election_type__html_name == election_type.0 %}
-                <option  selected="selected" value="{{election_type.0}}">{{election_type.1}}</option>
-            {%  else %}
-                <option value="{{election_type.0}}">{{election_type.1}}</option>
-            {%  endif %}
-        {%  endfor %}
-    </select>
-</p>
-<p><b>For Any Links Below, leave as NONE if none to give. If however, you do have the link, remeber to prefix it with "http://"</b></p>
-{%  if current_websurvey_link is None %}
-    <p>Websurvey Link : <input type="text" name="{{input_websurvey__name}}" value="NONE" required></p>
-{%  else %}
-    <p>Websurvey Link : <input type="text" name="{{input_websurvey__name}}" value="{{current_websurvey_link}}" required></p>
-{%  endif %}
+{%  include 'elections/webform_format/election_type.html' %}
+{%  include 'elections/webform_format/election_websurvey.html' %}
 {% include 'elections/create_election/submission_buttons.html' %}
 <br><br><br>
 <input type="button" value="Add another Nominee" onClick="addBlankNominee('{{nominee_div__name}}');">
