@@ -128,12 +128,3 @@ NOMINEE_LINKS = 'nominee_links'
 
 CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME = 'create_or_update_nominee_via_nominee_link__html_name'
 ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nominee_links'
-
-SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS = 'select_all_nominee_links_checkbox_toggle_class'
-SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS_NAME = 'select_all_nominee_links'
-SELECT_NOMINEE_LINK_LABEL_CLASS = 'select_nominee_link_label_class'
-SELECT_NOMINEE_LINK_LABEL_CLASS_NAME = 'select_nominee_link_label'
-SELECT_ALL_NOMINEE_LINKS_MESSAGE = 'select_all_nominee_links_message'
-SELECT_ALL_NOMINEE_LINKS = "Select All Nominee Links"
-DE_SELECT_ALL_NOMINEE_LINKS_MESSAGE = 'de_select_all_nominee_links_message'
-DE_SELECT_ALL_NOMINEE_LINKS = "De-Select All Nominee Links"

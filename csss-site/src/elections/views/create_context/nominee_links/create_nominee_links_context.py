@@ -15,10 +15,7 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     SAVED_NOMINEE_LINK__ID__HTML_NAME, SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NAME__HTML_NAME, \
     SAVED_NOMINEE_LINK__NAME, SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME, SAVED_NOMINEE_LINK__NOMINEE, \
     NO_NOMINEE_LINKED__HTML_NAME, NOMINEE_LINK_ID__HTML_NAME, NOMINEE_LINK_ID, NO_NOMINEE_LINKED, NOMINEE_LINKS, \
-    CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
-    SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS, SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS_NAME, \
-    SELECT_NOMINEE_LINK_LABEL_CLASS, SELECT_NOMINEE_LINK_LABEL_CLASS_NAME, SELECT_ALL_NOMINEE_LINKS_MESSAGE, \
-    SELECT_ALL_NOMINEE_LINKS, DE_SELECT_ALL_NOMINEE_LINKS_MESSAGE, DE_SELECT_ALL_NOMINEE_LINKS
+    CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
 
 logger = logging.getLogger('csss_site')
 
@@ -102,10 +99,6 @@ def create_context_for_update_election_nominee_links_html(
     _create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
     _create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links, slug=slug,
                                                  nominee_links=nominee_links)
-    context[SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS] = SELECT_ALL_NOMINEE_LINKS_CHECKBOX_TOGGLE_CLASS_NAME
-    context[SELECT_NOMINEE_LINK_LABEL_CLASS] = SELECT_NOMINEE_LINK_LABEL_CLASS_NAME
-    context[SELECT_ALL_NOMINEE_LINKS_MESSAGE] = SELECT_ALL_NOMINEE_LINKS
-    context[DE_SELECT_ALL_NOMINEE_LINKS_MESSAGE] = DE_SELECT_ALL_NOMINEE_LINKS
     _create_context_for_election_nominee_names_html(context, nominee_names=new_nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
 
