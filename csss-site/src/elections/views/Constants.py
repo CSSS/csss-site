@@ -24,6 +24,11 @@ UPDATE_EXISTING_ELECTION__NAME = 'update_election'
 SAVE_ELECTION__VALUE = 'Save Election'
 SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
 
+SAVE_NEW_JSON_ELECTION__BUTTON_ID = 'save_election__button_id'
+SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE = 'save_election_button'
+SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID = 'save_new_election_and_continue_editing__button_id'
+SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_election_and_continue_editing__button'
+
 TYPES_OF_ELECTIONS = 'types_of_elections'
 VALID_POSITION_NAMES = 'valid_position_names'
 
