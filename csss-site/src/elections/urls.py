@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
+from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM
 from .views.endpoints.delete_selected_election import delete_selected_election
 from .views.endpoints.election_page import get_nominees
 from .views.endpoints.json.create_election_json import display_and_process_html_for_new_json_election
@@ -44,7 +44,7 @@ urlpatterns = [
         name='Show Page to Update Election via Webform'
     ),
     url(
-        fr'^(?P<slug>[-\w]+)/{ENDPOINT_MODIFY_VIA_NOMINEE_LINKS}/$',
+        fr'^(?P<slug>[-\w]+)/election_modification_nominee_links/$',
         display_and_process_html_for_modification_of_election_and_nominee_links__nominee_links,
         name='Show Page for Updating an Election via Nominee Links'
     ),
