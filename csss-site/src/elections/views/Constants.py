@@ -103,6 +103,7 @@ ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
 NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
 NOMINEE_NAMES__VALUE = 'nominee_names__value'
+NEW_ELECTION='new_election'
 
 CURRENT_ELECTION = 'current_election'
 
