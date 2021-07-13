@@ -25,7 +25,9 @@ def update_existing_nominee_links_from_jformat(election, saved_nominee_links, ne
             else:
                 nominee_link.name = saved_nominee_link[SAVED_NOMINEE_LINK__NAME]
                 if saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE] != NO_NOMINEE_LINKED:
-                    nominee_link.nominee = Nominee.objects.get(id=int(saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE]))
+                    nominee_link.nominee = Nominee.objects.get(
+                        id=int(saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE])
+                    )
                 else:
                     nominee_link.nominee = None
                 nominee_link.save()
