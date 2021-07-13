@@ -17,8 +17,10 @@
 			{%  include 'elections/webform_format/election_type.html' %}
 			{%  include 'elections/webform_format/election_websurvey.html' %}
 			{%  include 'elections/nominee_links/nominee_links_table/nominee_links_table.html' %}
-		<input class="select_all_nominee_links" type="checkbox" id="select_all_nominee_links">
-		<label for="select_all_nominee_links" class="select_nominee_link_label">Select All Nominee Links</label><br>
+		{%  if draft_nominee_links is not None or nominee_links is not None %}
+			<input class="select_all_nominee_links" type="checkbox" id="select_all_nominee_links">
+			<label for="select_all_nominee_links" class="select_nominee_link_label">Select All Nominee Links</label><br>
+		{%  endif %}
 			{%  include 'elections/nominee_links/election_nominee_names.html' %}
 			{%  include 'elections/create_election/submission_buttons.html' %}
 		</form>

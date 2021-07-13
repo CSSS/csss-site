@@ -1,3 +1,4 @@
+{%  if draft_nominee_links is not None or nominee_links is not None %}
 <table>
 	<tr>
 		<th>Select Links to Delete</th>
@@ -10,3 +11,4 @@
 	{%  include 'elections/nominee_links/nominee_links_table/draft_nominee_links.html' %}
 	{%  include 'elections/nominee_links/nominee_links_table/final_nominee_links.html' %}
 </table>
+{%  endif %}
