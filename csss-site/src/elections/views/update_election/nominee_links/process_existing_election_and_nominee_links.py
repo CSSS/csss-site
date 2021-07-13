@@ -14,8 +14,6 @@ from elections.views.create_context.nominee_links.create_nominee_links_context i
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
 from elections.views.save_election.update_existing_nominee_links_from_jformat import \
     update_existing_nominee_links_from_jformat
-from elections.views.update_election.nominee_links.display_selected_election_nominee_links import \
-    display_selected_election_and_nominee_links
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_link import validate_http_link
@@ -149,4 +147,6 @@ def process_existing_election_and_nominee_links(request, context, slug):
     if request.POST[UPDATE_EXISTING_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
     else:
-        return display_selected_election_and_nominee_links(request, context, election.slug)
+        return HttpResponseRedirect(
+            f'{settings.URL_ROOT}elections/{election.slug}/election_modification_nominee_links'
+        )
