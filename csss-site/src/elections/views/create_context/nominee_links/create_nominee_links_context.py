@@ -91,8 +91,6 @@ def create_context_for_update_election_nominee_links_html(
         context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
         websurvey_link=None, create_new_election=False, draft_nominee_links=None,
         new_nominee_names=None, slug=None):
-    if nominee_links is None:
-        nominee_links = []
     _create_context_for_display_errors_html(context, error_messages=error_messages)
     context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
     _create_context_for_election_date_html(context, election_date=election_date)
