@@ -102,7 +102,7 @@ ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
 NOMINEE_NAMES__VALUE = 'nominee_names__value'
-NEW_ELECTION = 'new_election'
+REQUIRE_NOMINEE_NAMES = 'require_nominee_names'
 
 CURRENT_ELECTION = 'current_election'
 

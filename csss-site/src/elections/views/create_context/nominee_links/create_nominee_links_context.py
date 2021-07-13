@@ -16,7 +16,7 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     SAVED_NOMINEE_LINK__NAME, SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME, SAVED_NOMINEE_LINK__NOMINEE, \
     NO_NOMINEE_LINKED__HTML_NAME, NOMINEE_LINK_ID__HTML_NAME, NOMINEE_LINK_ID, NO_NOMINEE_LINKED, NOMINEE_LINKS, \
     CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
-    NEW_ELECTION
+    REQUIRE_NOMINEE_NAMES
 
 logger = logging.getLogger('csss_site')
 
@@ -71,9 +71,9 @@ def _create_context_for_election_websurvey_html(context, websurvey_link=None):
     })
 
 
-def _create_context_for_election_nominee_names_html(context, new_election=True, nominee_names=None):
+def _create_context_for_election_nominee_names_html(context, require_nominee_names=True, nominee_names=None):
     context[NOMINEE_NAMES__HTML_NAME] = NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
-    context[NEW_ELECTION] = new_election
+    context[REQUIRE_NOMINEE_NAMES] = require_nominee_names
     if nominee_names is not None:
         context[NOMINEE_NAMES__VALUE] = nominee_names
 
@@ -91,6 +91,7 @@ def create_context_for_update_election_nominee_links_html(
         context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
         websurvey_link=None, create_new_election=False, draft_nominee_links=None,
         new_nominee_names=None, slug=None):
+    require_nominee_names = False if nominee_links is not None or draft_nominee_links is not None else True
     _create_context_for_display_errors_html(context, error_messages=error_messages)
     context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
     _create_context_for_election_date_html(context, election_date=election_date)
@@ -99,7 +100,7 @@ def create_context_for_update_election_nominee_links_html(
     _create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
     _create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links, slug=slug,
                                                  nominee_links=nominee_links)
-    _create_context_for_election_nominee_names_html(context, new_election=False, nominee_names=new_nominee_names)
+    _create_context_for_election_nominee_names_html(context, require_nominee_names=require_nominee_names, nominee_names=new_nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
 
 
