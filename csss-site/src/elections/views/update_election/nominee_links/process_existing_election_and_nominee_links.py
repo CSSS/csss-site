@@ -143,7 +143,8 @@ def process_existing_election_and_nominee_links(request, context, slug):
     )
     update_existing_nominee_links_from_jformat(
         election, election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None,
-        election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS] if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None
+        election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
+        if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None
     )
     if request.POST[UPDATE_EXISTING_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
