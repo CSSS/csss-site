@@ -149,4 +149,4 @@ def process_existing_election_and_nominee_links(request, context, slug):
     if request.POST[UPDATE_EXISTING_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
     else:
-        return display_selected_election_and_nominee_links(request, context, slug)
+        return display_selected_election_and_nominee_links(request, context, election.slug)
