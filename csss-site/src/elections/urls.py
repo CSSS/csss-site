@@ -44,7 +44,7 @@ urlpatterns = [
         name='Show Page to Update Election via Webform'
     ),
     url(
-        r'^(?P<slug>[-\w]+)/election_modification_nominee_links/$',
+        r'^(?P<slug>[-\w]+)/{ENDPOINT_MODIFY_VIA_NOMINEE_LINKS/$',
         display_and_process_html_for_modification_of_election_and_nominee_links__nominee_links,
         name='Show Page for Updating an Election via Nominee Links'
     ),
