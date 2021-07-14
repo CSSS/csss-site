@@ -1,10 +1,9 @@
-from django.conf import settings
 from django.shortcuts import render
 
-from about.views.generate_officer_creation_links.officer_creation_link_management import HTML_PASSPHRASE_GET_KEY
 from elections.models import NomineeLink, Election
 from elections.views.create_context.nominee_links.create_nominee_links_context import \
     create_context_for_update_election_nominee_links_html
+from elections.views.utils.set_nominee_link import set_nominee_link
 
 
 def display_selected_election_and_nominee_links(request, context, slug):
@@ -14,6 +13,7 @@ def display_selected_election_and_nominee_links(request, context, slug):
     Keyword Argument
     request -- django request object
     context -- the context dictionary
+    slug -- the slug of the election being displayed
 
     Return
     render object that direct the user to the page for updating an election in Nominee Link form, with possibly an
@@ -28,12 +28,3 @@ def display_selected_election_and_nominee_links(request, context, slug):
     return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
 
-def set_nominee_link(nominee_link):
-    base_url = f"{settings.HOST_ADDRESS}"
-    # this is necessary if the user is testing the site locally and therefore is using the port to access the
-    # browser
-    if settings.PORT is not None:
-        base_url += f":{settings.PORT}"
-    base_url += f"{settings.URL_ROOT}about/allow_officer_to_choose_name?"
-    nominee_link.link = f"{base_url}{HTML_PASSPHRASE_GET_KEY}={nominee_link.passphrase}"
-    return nominee_link
