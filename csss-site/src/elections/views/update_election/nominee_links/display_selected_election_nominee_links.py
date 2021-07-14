@@ -16,8 +16,7 @@ def display_selected_election_and_nominee_links(request, context, slug):
     slug -- the slug of the election being displayed
 
     Return
-    render object that direct the user to the page for updating an election in Nominee Link form, with possibly an
-     error message
+    render object that direct the user to the page for updating an election in Nominee Link form
     """
     election = Election.objects.get(slug=slug)
     create_context_for_update_election_nominee_links_html(
