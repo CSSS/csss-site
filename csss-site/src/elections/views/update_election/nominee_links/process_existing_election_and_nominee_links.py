@@ -13,8 +13,10 @@ from elections.views.Constants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEB
 from elections.views.create_context.nominee_links.create_nominee_links_context import \
     create_context_for_update_election_nominee_links_html
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
+from elections.views.save_election.save_new_nominee_links_from_jformat import save_new_nominee_links_from_jformat
 from elections.views.save_election.update_existing_nominee_links_from_jformat import \
     update_existing_nominee_links_from_jformat
+from elections.views.utils.create_error_message import create_error_message
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_link import validate_http_link
@@ -27,15 +29,18 @@ logger = logging.getLogger('csss_site')
 def process_existing_election_and_nominee_links(request, context, slug):
     election = Election.objects.get(slug=slug)
     election_dict = parser.parse(request.POST.urlencode())
+    if SAVED_NOMINEE_LINKS in election_dict:
+        election_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
+
     if not (
             ELECTION_JSON_KEY__DATE in election_dict and ELECTION_JSON_WEBFORM_KEY__TIME in election_dict and
             ELECTION_JSON_KEY__ELECTION_TYPE in election_dict and ELECTION_JSON_KEY__WEBSURVEY in election_dict and
             (SAVED_NOMINEE_LINKS in election_dict or NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict)):
-        error_message = f"It seems that one of the following fields is missing" \
-                        f" {ELECTION_JSON_KEY__DATE}, {ELECTION_JSON_WEBFORM_KEY__TIME}, " \
-                        f"{ELECTION_JSON_KEY__ELECTION_TYPE}, " \
-                        f"{ELECTION_JSON_KEY__WEBSURVEY}, {SAVED_NOMINEE_LINKS}, " \
-                        f"{NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS}"
+        fields = [
+            ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,
+            ELECTION_JSON_KEY__WEBSURVEY, [SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
+        ]
+        error_message = create_error_message(election_dict, fields)
         logger.info(
             "[elections/process_existing_election_and_nominee_links.py"
             f" process_existing_election_and_nominee_links()] {error_message}"
@@ -44,8 +49,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             context, create_new_election=election is None, error_messages=[error_message], slug=slug
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
-    if SAVED_NOMINEE_LINKS in election_dict:
-        election_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
+
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
         logger.info(
@@ -58,9 +62,11 @@ def process_existing_election_and_nominee_links(request, context, slug):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None,
+            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS]
+            if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None, slug=slug
+            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
+            slug=slug
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -78,9 +84,11 @@ def process_existing_election_and_nominee_links(request, context, slug):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None,
+            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS]
+            if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None, slug=slug
+            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
+            slug=slug
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -96,9 +104,11 @@ def process_existing_election_and_nominee_links(request, context, slug):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None,
+            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS]
+            if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None, slug=slug
+            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
+            slug=slug
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -114,9 +124,12 @@ def process_existing_election_and_nominee_links(request, context, slug):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None,
+            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS]
+            if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None, slug=slug)
+            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
+            slug=slug
+        )
 
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
     if SAVED_NOMINEE_LINKS in election_dict:
@@ -134,14 +147,19 @@ def process_existing_election_and_nominee_links(request, context, slug):
                 websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
                 draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS],
                 new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-                if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None, slug=slug)
+                if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
+                slug=slug
+            )
             return render(request, 'elections/update_election/update_election_nominee_links.html', context)
     update_existing_election_obj_from_jformat(
         election, f"{election_dict[ELECTION_JSON_KEY__DATE]} {election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]}",
         election_dict[ELECTION_JSON_KEY__ELECTION_TYPE], election_dict[ELECTION_JSON_KEY__WEBSURVEY]
     )
     update_existing_nominee_links_from_jformat(
-        election, election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None,
+        election_dict[SAVED_NOMINEE_LINKS] if SAVED_NOMINEE_LINKS in election_dict else None
+    )
+    save_new_nominee_links_from_jformat(
+        election,
         election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None
     )

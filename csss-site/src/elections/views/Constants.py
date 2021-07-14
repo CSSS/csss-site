@@ -99,6 +99,7 @@ CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
 ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
 ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
+
 NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
 NOMINEE_NAMES__VALUE = 'nominee_names__value'
