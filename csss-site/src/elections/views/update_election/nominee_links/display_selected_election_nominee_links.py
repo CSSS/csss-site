@@ -8,7 +8,7 @@ from elections.views.utils.set_nominee_link import set_nominee_link
 
 def display_selected_election_and_nominee_links(request, context, slug):
     """
-    Display the selected election
+    Display the selected election and its nominee links
 
     Keyword Argument
     request -- django request object

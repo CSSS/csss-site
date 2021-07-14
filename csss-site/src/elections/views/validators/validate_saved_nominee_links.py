@@ -4,6 +4,16 @@ from elections.views.Constants import SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK
 
 
 def validate_saved_nominee_links(nominee_links):
+    """
+    Ensure that the saved nominee links specified by user have all the necessary fields, have a valid ID and Nominee ID
+
+    Keyword Argument
+    nominee_links -- the saved nominee links specified by the user that has to be validated
+
+    Return
+    bool - True or False
+    error_message -- None if there is no error message, or a string
+    """
     if type(nominee_links) != list:
         return False, "Did not receive a list of nominee links"
     linked_nominees = []
