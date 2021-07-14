@@ -1,4 +1,4 @@
-def create_error_message(election_dict, fields=None):
+def verify_user_input_has_all_required_fields(election_dict, fields=None):
     """
     Create the error message for indicating if a field is missing
 

@@ -16,7 +16,7 @@ from elections.views.save_election.save_existing_election_obj_jformat import upd
 from elections.views.save_election.save_new_nominee_links_from_jformat import save_new_nominee_links_from_jformat
 from elections.views.save_election.update_existing_nominee_links_from_jformat import \
     update_existing_nominee_links_from_jformat
-from elections.views.utils.create_error_message import create_error_message
+from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_link import validate_http_link
@@ -36,7 +36,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
         ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,
         ELECTION_JSON_KEY__WEBSURVEY, [SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
     ]
-    error_message = create_error_message(election_dict, fields)
+    error_message = verify_user_input_has_all_required_fields(election_dict, fields)
     if error_message != "":
         logger.info(
             "[elections/process_existing_election_and_nominee_links.py"
