@@ -32,15 +32,12 @@ def process_existing_election_and_nominee_links(request, context, slug):
     if SAVED_NOMINEE_LINKS in election_dict:
         election_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
 
-    if not (
-            ELECTION_JSON_KEY__DATE in election_dict and ELECTION_JSON_WEBFORM_KEY__TIME in election_dict and
-            ELECTION_JSON_KEY__ELECTION_TYPE in election_dict and ELECTION_JSON_KEY__WEBSURVEY in election_dict and
-            (SAVED_NOMINEE_LINKS in election_dict or NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict)):
-        fields = [
-            ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,
-            ELECTION_JSON_KEY__WEBSURVEY, [SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-        ]
-        error_message = create_error_message(election_dict, fields)
+    fields = [
+        ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,
+        ELECTION_JSON_KEY__WEBSURVEY, [SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
+    ]
+    error_message = create_error_message(election_dict, fields)
+    if error_message != "":
         logger.info(
             "[elections/process_existing_election_and_nominee_links.py"
             f" process_existing_election_and_nominee_links()] {error_message}"

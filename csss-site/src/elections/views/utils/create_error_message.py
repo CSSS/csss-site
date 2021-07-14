@@ -8,19 +8,20 @@ def create_error_message(election_dict, fields=None):
      is needed, add them to via a list under one element in fields
 
     Return
-    the error message
+    the error message -- just "" if there are no errors
     """
     error_message = ""
     if fields is not None and type(fields) == list:
         field_exists = False
-        error_message = f"It seems that the following field[s] are missing: "
         for field in fields:
             if type(field) is list:
                 number_of_field_options_found = [1 for field_option in field if field_option in election_dict]
                 if len(number_of_field_options_found) > 0:
-                    error_message = f", {' or '.join(field)}" if field_exists else f"{' or '.join(field)}"
+                    error_message += f", {' or '.join(field)}" if field_exists else f"{' or '.join(field)}"
                     field_exists = True
             elif field not in election_dict:
-                error_message = f", {field}" if field_exists else f"{field}"
+                error_message += f", {field}" if field_exists else f"{field}"
                 field_exists = True
+    if error_message != "":
+        error_message = f"It seems that the following field[s] are missing: " + error_message
     return error_message
