@@ -16,7 +16,7 @@ def verify_user_input_has_all_required_fields(election_dict, fields=None):
         for field in fields:
             if type(field) is list:
                 number_of_field_options_found = [1 for field_option in field if field_option in election_dict]
-                if len(number_of_field_options_found) > 0:
+                if len(number_of_field_options_found) == 0:
                     error_message += f", {' or '.join(field)}" if field_exists else f"{' or '.join(field)}"
                     field_exists = True
             elif field not in election_dict:
