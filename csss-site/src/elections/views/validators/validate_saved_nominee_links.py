@@ -5,7 +5,8 @@ from elections.views.Constants import SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK
 
 def validate_saved_nominee_links(nominee_links):
     """
-    Ensure that the saved nominee links specified by user have all the necessary fields, have a valid ID and Nominee ID
+    Ensure that the saved nominee links specified by user have all the necessary fields,
+     have a valid ID and Nominee ID
 
     Keyword Argument
     nominee_links -- the saved nominee links specified by the user that has to be validated

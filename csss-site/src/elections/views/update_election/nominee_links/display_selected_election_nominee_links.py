@@ -25,5 +25,3 @@ def display_selected_election_and_nominee_links(request, context, slug):
         websurvey_link=election.websurvey, create_new_election=election is None, slug=slug
     )
     return render(request, 'elections/update_election/update_election_nominee_links.html', context)
-
-

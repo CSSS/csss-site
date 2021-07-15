@@ -16,7 +16,8 @@ from elections.views.save_election.save_existing_election_obj_jformat import upd
 from elections.views.save_election.save_new_nominee_links_from_jformat import save_new_nominee_links_from_jformat
 from elections.views.save_election.update_existing_nominee_links_from_jformat import \
     update_existing_nominee_links_from_jformat
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_link import validate_http_link

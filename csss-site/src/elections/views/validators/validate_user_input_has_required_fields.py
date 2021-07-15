@@ -23,5 +23,5 @@ def verify_user_input_has_all_required_fields(election_dict, fields=None):
                 error_message += f", {field}" if field_exists else f"{field}"
                 field_exists = True
     if error_message != "":
-        error_message = f"It seems that the following field[s] are missing: " + error_message
+        error_message = "It seems that the following field[s] are missing: " + error_message
     return error_message
