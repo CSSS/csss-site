@@ -3,9 +3,9 @@
 	<tr>
 		<td>
 			{%  if draft_nominee_link.delete is not None %}
-				<input type="checkbox" class="nominee_link" checked name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{delete__html_name}}]" value="True">
+				<input type="checkbox" class="{{nominee_link_to_delete__html_class_name}}" checked name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{delete__html_name}}]" value="True">
 			{%  else %}
-				<input type="checkbox" class="nominee_link" name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{delete__html_name}}]" value="True">
+				<input type="checkbox" class="{{nominee_link_to_delete__html_class_name}}" name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{delete__html_name}}]" value="True">
 			{%  endif %}
 		</td>
 		<td>

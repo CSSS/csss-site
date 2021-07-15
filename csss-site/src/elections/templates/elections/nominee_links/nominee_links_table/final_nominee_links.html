@@ -2,7 +2,7 @@
 	{%  for nominee_link in nominee_links %}
 		<tr>
 			<td>
-				<input type="checkbox" class="nominee_link" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{delete__html_name}}]" value="True">
+				<input type="checkbox" class="{{nominee_link_to_delete__html_class_name}}" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{delete__html_name}}]" value="True">
 			</td>
 			<td>
 				<input type="number" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{saved_nominee_link__id__html_name}}]" value="{{ nominee_link.id }}" readonly required>

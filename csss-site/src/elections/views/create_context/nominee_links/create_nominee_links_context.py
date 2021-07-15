@@ -16,7 +16,7 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     SAVED_NOMINEE_LINK__NAME, SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME, SAVED_NOMINEE_LINK__NOMINEE, \
     NO_NOMINEE_LINKED__HTML_NAME, NOMINEE_LINK_ID__HTML_NAME, NOMINEE_LINK_ID, NO_NOMINEE_LINKED, NOMINEE_LINKS, \
     CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
-    REQUIRE_NOMINEE_NAMES
+    REQUIRE_NOMINEE_NAMES, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, TOGGLE_NOMINEE_LINKS_TO_DELETE
 
 logger = logging.getLogger('csss_site')
 
@@ -106,6 +106,7 @@ def create_context_for_update_election_nominee_links_html(
     _create_context_for_election_nominee_names_html(context, require_nominee_names=require_nominee_names,
                                                     nominee_names=new_nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
+    context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
 
 
 def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, slug=None, nominee_links=None):
@@ -122,6 +123,7 @@ def _create_context_for_draft_nominee_links_html(context, draft_nominee_links=No
     context[SAVED_NOMINEE_LINK__NAME__HTML_NAME] = SAVED_NOMINEE_LINK__NAME
     context[SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME] = SAVED_NOMINEE_LINK__NOMINEE
     context[NO_NOMINEE_LINKED__HTML_NAME] = NO_NOMINEE_LINKED
+    context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
     context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
     context[CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME] = \
         ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
@@ -136,6 +138,7 @@ def _create_context_for_final_nominee_links_html(context, nominee_links=None):
     context[SAVED_NOMINEE_LINK__NAME__HTML_NAME] = SAVED_NOMINEE_LINK__NAME
     context[SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME] = SAVED_NOMINEE_LINK__NOMINEE
     context[NO_NOMINEE_LINKED__HTML_NAME] = NO_NOMINEE_LINKED
+    context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
     context[CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME] = \
         ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
     context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID

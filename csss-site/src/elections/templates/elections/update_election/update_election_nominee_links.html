@@ -30,7 +30,7 @@
 				const select_all_nominee_links_text = "Select All Nominee Links";
 				const de_select_nominee_links_text = "De-Select All Nominee Links";
 				const select_nominee_links = $('.select_nominee_link_label')[0].innerHTML === select_all_nominee_links_text;
-				$( '.nominee_link' ).prop('checked', select_nominee_links)
+				$( '.{{nominee_link_to_delete__html_class_name}}' ).prop('checked', select_nominee_links)
 				this.checked = !this.checked
 				$('.select_nominee_link_label')[0].innerHTML = (
 					select_nominee_links ? de_select_nominee_links_text : select_all_nominee_links_text
