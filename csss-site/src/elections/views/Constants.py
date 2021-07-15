@@ -98,7 +98,42 @@ CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
 
 ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
 ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
+ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
 
 NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
 NOMINEE_NAMES__VALUE = 'nominee_names__value'
+REQUIRE_NOMINEE_NAMES = 'require_nominee_names'
+
+CURRENT_ELECTION = 'current_election'
+
+DRAFT_NOMINEE_LINKS = 'draft_nominee_links'
+
+SAVED_NOMINEE_LINKS__HTML_NAME = 'saved_nominee_links__html_name'
+SAVED_NOMINEE_LINKS = 'saved_nominee_links'
+
+DELETE__HTML_NAME = 'delete__html_name'
+DELETE = 'delete'
+
+SAVED_NOMINEE_LINK__ID__HTML_NAME = 'saved_nominee_link__id__html_name'
+SAVED_NOMINEE_LINK__ID = 'saved_nominee_link__id'
+
+SAVED_NOMINEE_LINK__NAME__HTML_NAME = 'saved_nominee_link__name__html_name'
+SAVED_NOMINEE_LINK__NAME = 'saved_nominee_link__name'
+
+SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME = 'saved_nominee_link__nominee__html_name'
+SAVED_NOMINEE_LINK__NOMINEE = 'saved_nominee_link__nominee'
+
+NO_NOMINEE_LINKED__HTML_NAME = 'no_nominee_linked__html_name'
+NO_NOMINEE_LINKED = 'no_nominee_linked'
+
+NOMINEE_LINK_ID__HTML_NAME = 'nominee_link_id__html_name'
+NOMINEE_LINK_ID = 'nominee_link_id'
+
+NOMINEE_LINKS = 'nominee_links'
+
+CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME = 'create_or_update_nominee_via_nominee_link__html_name'
+ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nominee_links'
+
+TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME = 'nominee_link_to_delete__html_class_name'
+TOGGLE_NOMINEE_LINKS_TO_DELETE = 'nominee_link_to_delete'

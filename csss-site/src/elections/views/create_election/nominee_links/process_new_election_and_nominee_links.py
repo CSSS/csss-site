@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 from elections.views.Constants import ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, \
     ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__DATE, CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__VALUE, \
-    NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+    NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
 from elections.views.create_context.nominee_links.create_nominee_links_context import \
     create_context_for_create_election_nominee_links_html
 from elections.views.save_election.save_new_election_and_nominee_links import save_new_election_and_nominee_links
@@ -116,7 +116,6 @@ def process_new_election_and_nominee_links(request, context):
     if request.POST[CREATE_NEW_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
     else:
-        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
-        # return HttpResponseRedirect(
-        #     f'{settings.URL_ROOT}elections/{election.slug}/{ENDPOINT_MODIFY_VIA_NOMINEE_LINKS}/'
-        # )
+        return HttpResponseRedirect(
+            f'{settings.URL_ROOT}elections/{election.slug}/{ENDPOINT_MODIFY_VIA_NOMINEE_LINKS}'
+        )
