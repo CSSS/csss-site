@@ -1,0 +1,53 @@
+$(document).ready(function () {
+    let speech_parent_div_name;
+    let nominees_div_name = '{{nominee_div__name}}';
+    {%  if draft_nominee__html_name is None %}
+		let nominee_index;
+		if (document.getElementById(nominees_div_name).lastChild === null){
+			nominee_index = document.getElementById(nominees_div_name).childElementCount;
+		}else{
+			nominee_index = parseInt(document.getElementById(nominees_div_name).lastChild.id.replace('nominee_',"")) + 1
+		}
+		const nominee_div_name = 'nominee_' + nominee_index;
+		const nominee_speech_div_name = nominee_div_name + '_speeches';
+
+		let new_nominee = document.createElement('div');
+		new_nominee.setAttribute('id',nominee_div_name);
+		new_nominee.setAttribute('class', 'csss_box_borders_new_entries');
+		new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_name__name}}]\" required></p>";
+		new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_facebook__name}}]\" value=\"NONE\" required></p>";
+		new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_linkedin__name}}]\" value=\"NONE\" required></p>";
+		new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_email__name}}]\" value=\"NONE\" required></p>";
+		new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_discord__name}}]\" value=\"NONE\" required></p>";
+		new_nominee.innerHTML += "<input type=\"button\" value=\"Add Another Speech\" onClick=\"addBlankSpeech('"+nominee_index+"');\">";
+
+		document.getElementById(nominees_div_name).appendChild(new_nominee)
+		let nominee_speeches = document.createElement('div')
+		nominee_speeches.setAttribute('id',nominee_speech_div_name)
+		new_nominee.appendChild(nominee_speeches)
+		addBlankSpeech(nominee_index)
+    {%  else %}
+		nominee_index = document.getElementById(nominees_div_name).childElementCount;
+		nominee_div_name = 'nominee_' + nominee_index;
+		speech_parent_div_name = nominee_div_name + '_speeches';
+		new_nominee = document.createElement('div');
+		new_nominee.setAttribute('id',nominee_div_name);
+		new_nominee.setAttribute('class', 'csss_box_borders_new_entries');
+		new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_name__name}}]\" value=\"{{draft_nominee__html_name.name}}\" required></p>";
+		new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_facebook__name}}]\" value=\"{{draft_nominee__html_name.facebook}}\" required></p>";
+		new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_linkedin__name}}]\" value=\"{{draft_nominee__html_name.linkedin}}\" required></p>";
+		new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_email__name}}]\" value=\"{{draft_nominee__html_name.email}}\" required></p>";
+		new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}][{{input_nominee_discord__name}}]\" value=\"{{draft_nominee__html_name.discord}}\" required></p>";
+		new_nominee.innerHTML += "<input type=\"button\" value=\"Add Another Speech\" onClick=\"addBlankSpeech('"+nominee_index+"');\">";
+		document.getElementById(nominees_div_name).appendChild(new_nominee);
+		nominee_speeches = document.createElement('div');
+		nominee_speeches.setAttribute('id',speech_parent_div_name);
+		new_nominee.appendChild(nominee_speeches);
+
+		{% if create_new_nominee__html_name is True %}
+			{%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/new_election.html' %}
+		{%  else %}
+			{%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election.html' %}
+		{%  endif %}
+    {%  endif %}
+});
