@@ -74,7 +74,9 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
                 f"{error_message}"
             )
             context.update(
-                create_context_for_update_nominee_html(nominee_link_id=nominee_link_id, error_messages=[error_message])
+                create_context_for_update_nominee_html(
+                    nominee_link_id=nominee_link_id, error_messages=[error_message]
+                )
                 )
             return render(request, 'elections/update_nominee/update_nominee.html', context)
     nominee_names_so_far = [nominee.name for nominee in Nominee.objects.all().filter(

@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
-from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, \
-    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
+from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM, \
+    ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
 from .views.endpoints.delete_selected_election import delete_selected_election
 from .views.endpoints.election_page import get_nominees
 from .views.endpoints.json.create_election_json import display_and_process_html_for_new_json_election

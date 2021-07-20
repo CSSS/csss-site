@@ -155,6 +155,7 @@ def _create_context_for_final_nominee_links_html(context, nominee_links=None):
         ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
     context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID
 
+
 def create_context_for_update_nominee_html(context, nominee_link_id=None, error_messages=None,
                                            nominee_info=None):
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
@@ -169,6 +170,7 @@ def create_context_for_update_nominee_html(context, nominee_link_id=None, error_
     __create_context_for_add_blank_speech_html(context)
     return context
 
+
 def _create_context_for_form_html(context, create_new_nominee=None, nominee_link_id=None):
     context.update({
         SAVE_NEW_NOMINEE__BUTTON_ID: SAVE_NEW_NOMINEE__BUTTON_ID_VALUE,
@@ -180,6 +182,7 @@ def _create_context_for_form_html(context, create_new_nominee=None, nominee_link
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
 
     })
+
 
 def _create_context_for_main_function_html(context, nominee_link_id=None, create_new_nominee=False, nominee_info=None):
     context.update({
@@ -225,6 +228,7 @@ def _create_context_for_main_function_html(context, nominee_link_id=None, create
     _create_context_for_existing_election_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)
     _create_context_for_view_nominee_html(context, nominee_link_id=nominee_link_id)
 
+
 def _create_context_for_new_election_html(context, nominee_info=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
@@ -240,6 +244,7 @@ def _create_context_for_new_election_html(context, nominee_info=None):
     if nominee_info is not None:
         context[DRAFT_NOMINEE_HTML__NAME][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = \
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
+
 
 def _create_context_for_existing_election_html(context, nominee_info=None, nominee_obj=None):
     context.update({
@@ -280,10 +285,10 @@ def _create_context_for_existing_election_html(context, nominee_info=None, nomin
         context[DRAFT_NOMINEE_HTML__NAME][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = \
             list(pairings.values())
 
+
 def _create_context_for_view_nominee_html(context, nominee_link_id=None):
     if nominee_link_id is not None:
         context.update({FINAL_NOMINEE_HTML__NAME: get_election_nominees(nominee_link_id)})
-
 
 
 def __create_context_for_add_blank_speech_html(context):
