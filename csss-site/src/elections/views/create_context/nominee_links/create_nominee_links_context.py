@@ -29,6 +29,7 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     INPUT_NOMINEE_POSITION_NAMES__NAME, ELECTION_JSON_KEY__NOM_POSITION_NAMES, INPUT_NOMINEE_SPEECH__NAME, \
     ELECTION_JSON_KEY__NOM_SPEECH, CURRENT_OFFICER_POSITIONS, INPUT_SPEECH_ID__NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_NAME, FINAL_NOMINEE_HTML__NAME
+from elections.views.extractors.get_nominee__nominee_link import get_election_nominees
 
 logger = logging.getLogger('csss_site')
 
