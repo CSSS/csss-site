@@ -13,7 +13,7 @@ from elections.views.save_nominee.save_new_nominee_jformat import save_new_nomin
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
 from elections.views.update_election.nominee_links.display_selected_nominee_nominee_links import \
     display_current_nominee_link_election
-from elections.views.utils.transform_webform_to_json_v2 import transform_nominee_links_webform_to_json
+from elections.views.utils.transform_webform_to_json import transform_nominee_links_webform_to_json
 from elections.views.validators.validate_existing_nominee_jformat import validate_existing_nominee_jformat
 
 logger = logging.getLogger('csss_site')
