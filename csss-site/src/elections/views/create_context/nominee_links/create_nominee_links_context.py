@@ -185,7 +185,9 @@ def _create_context_for_form_html(context, create_new_nominee=None, nominee_link
     })
 
 
-def _create_context_for_main_function_html(context, nominee_link_id=None, create_new_nominee=False, nominee_info=None):
+def _create_context_for_main_function_html(
+        context, nominee_link_id=None, create_new_nominee=False,
+        nominee_info=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
         INPUT_NOMINEE_NAME__NAME: ELECTION_JSON_KEY__NOM_NAME,
