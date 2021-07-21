@@ -29,7 +29,9 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             f"[elections/process_nominee__nominee_links.py process_nominee__nominee_links()] "
             f"{error_message}"
         )
-        create_context_for_update_nominee_html(context, nominee_link_id=nominee_link_id, error_messages=[error_message])
+        create_context_for_update_nominee_html(
+            context, nominee_link_id=nominee_link_id, error_messages=[error_message]
+        )
         return render(request, 'elections/update_nominee/update_nominee.html', context)
     nominee_link = nominee_links[0]
     election_id = nominee_link.election.id
@@ -46,7 +48,9 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             f"[elections/process_nominee__nominee_links.py process_nominee__nominee_links()] "
             f"{error_message}"
         )
-        create_context_for_update_nominee_html(context, nominee_link_id=nominee_link_id, error_messages=[error_message])
+        create_context_for_update_nominee_html(
+            context, nominee_link_id=nominee_link_id, error_messages=[error_message]
+        )
         return render(request, 'elections/update_nominee/update_nominee.html', context)
     if ID_KEY in nominee_info:
         if f"{nominee_info[ID_KEY]}".isdigit():
@@ -60,7 +64,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
                     f"{error_message}"
                 )
                 create_context_for_update_nominee_html(
-                    context, nominee_link_id=nominee_link_id,error_messages=[error_message]
+                    context, nominee_link_id=nominee_link_id, error_messages=[error_message]
                 )
                 return render(request, 'elections/update_nominee/update_nominee.html', context)
         else:
@@ -75,7 +79,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             return render(request, 'elections/update_nominee/update_nominee.html', context)
     nominee_names_so_far = [nominee.name for nominee in Nominee.objects.all().filter(
         election_id=election_id).exclude(nomineelink__id=nominee_link_id)
-    ]
+                            ]
     speech_ids_so_far = []
     position_ids_so_far = []
     success, error_message = validate_existing_nominee_jformat(
@@ -89,7 +93,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             f"{error_message}"
         )
         create_context_for_update_nominee_html(
-            context, nominee_link_id=nominee_link_id, error_messages=[error_message],nominee_info=nominee_info
+            context, nominee_link_id=nominee_link_id, error_messages=[error_message], nominee_info=nominee_info
         )
         return render(request, 'elections/update_nominee/update_nominee.html', context)
     if nominee_link.nominee is None:
