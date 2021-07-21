@@ -20,11 +20,11 @@ from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE,
     REQUIRE_NOMINEE_NAMES, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, TOGGLE_NOMINEE_LINKS_TO_DELETE, \
     SAVE_NEW_NOMINEE__BUTTON_ID, SAVE_NEW_NOMINEE__BUTTON_ID_VALUE, INPUT_REDIRECT_NOMINEE__NAME, \
     CREATE_OR_UPDATE_NOMINEE__NAME, INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE, SAVE_OR_UPDATE_NOMINEE__VALUE, \
-    CREATE_NEW_NOMINEE__HTML_NAME, INPUT_NOMINEE_LINK_ID__NAME, INPUT_NOMINEE_LINK_ID__VALUE, NOMINEE_DIV__NAME, \
+    CREATE_NEW_NOMINEE__HTML_NAME, NOMINEE_DIV__NAME, \
     ELECTION_JSON_KEY__NOMINEE, INPUT_NOMINEE_NAME__NAME, ELECTION_JSON_KEY__NOM_NAME, INPUT_NOMINEE_FACEBOOK__NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, INPUT_NOMINEE_LINKEDIN__NAME, ELECTION_JSON_KEY__NOM_LINKEDIN, \
     INPUT_NOMINEE_EMAIL__NAME, ELECTION_JSON_KEY__NOM_EMAIL, INPUT_NOMINEE_DISCORD__NAME, \
-    ELECTION_JSON_KEY__NOM_DISCORD, INPUT_NOMINEE_ID__NAME, ID_KEY, DRAFT_NOMINEE_HTML__NAME, \
+    ELECTION_JSON_KEY__NOM_DISCORD, ID_KEY, DRAFT_NOMINEE_HTML__NAME, \
     INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     INPUT_NOMINEE_POSITION_NAMES__NAME, ELECTION_JSON_KEY__NOM_POSITION_NAMES, INPUT_NOMINEE_SPEECH__NAME, \
     ELECTION_JSON_KEY__NOM_SPEECH, CURRENT_OFFICER_POSITIONS, INPUT_SPEECH_ID__NAME, \
@@ -45,7 +45,6 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     _create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
     _create_context_for_election_nominee_names_html(context, nominee_names=nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
-    return context
 
 
 def _create_context_for_display_errors_html(context, error_messages=None):
@@ -163,23 +162,19 @@ def create_context_for_update_nominee_html(context, nominee_link_id=None, error_
     create_new_nominee = not (len(nominee_links) == 1 and nominee_links[0].nominee is not None)
     _create_context_for_display_errors_html(context, error_messages=error_messages)
     _create_context_for_form_html(
-        context, create_new_nominee=create_new_nominee, nominee_link_id=nominee_link_id
+        context
     )
     _create_context_for_main_function_html(
         context, nominee_link_id=nominee_link_id, create_new_nominee=create_new_nominee, nominee_info=nominee_info
     )
     __create_context_for_add_blank_speech_html(context)
-    return context
 
 
-def _create_context_for_form_html(context, create_new_nominee=None, nominee_link_id=None):
+def _create_context_for_form_html(context):
     context.update({
         SAVE_NEW_NOMINEE__BUTTON_ID: SAVE_NEW_NOMINEE__BUTTON_ID_VALUE,
         INPUT_REDIRECT_NOMINEE__NAME: CREATE_OR_UPDATE_NOMINEE__NAME,
         INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE: SAVE_OR_UPDATE_NOMINEE__VALUE,
-        CREATE_NEW_NOMINEE__HTML_NAME: create_new_nominee,
-        INPUT_NOMINEE_LINK_ID__NAME: NOMINEE_LINK_ID,
-        INPUT_NOMINEE_LINK_ID__VALUE: nominee_link_id,
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
 
     })
@@ -195,7 +190,6 @@ def _create_context_for_main_function_html(
         INPUT_NOMINEE_LINKEDIN__NAME: ELECTION_JSON_KEY__NOM_LINKEDIN,
         INPUT_NOMINEE_EMAIL__NAME: ELECTION_JSON_KEY__NOM_EMAIL,
         INPUT_NOMINEE_DISCORD__NAME: ELECTION_JSON_KEY__NOM_DISCORD,
-        INPUT_NOMINEE_ID__NAME: ID_KEY,
         CREATE_NEW_NOMINEE__HTML_NAME: create_new_nominee,
     })
     nominee_link = NomineeLink.objects.get(id=nominee_link_id)
@@ -205,7 +199,6 @@ def _create_context_for_main_function_html(
         context.update(
             {
                 DRAFT_NOMINEE_HTML__NAME: {
-                    ID_KEY: None if nominee_obj is None else nominee_obj.id,
                     ELECTION_JSON_KEY__NOM_NAME: nominee_info[ELECTION_JSON_KEY__NOM_NAME],
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK],
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN],
@@ -218,7 +211,6 @@ def _create_context_for_main_function_html(
         context.update(
             {
                 DRAFT_NOMINEE_HTML__NAME: {
-                    ID_KEY: None if nominee_obj is None else nominee_obj.id,
                     ELECTION_JSON_KEY__NOM_NAME: nominee_obj.name,
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
@@ -227,12 +219,12 @@ def _create_context_for_main_function_html(
                 }
             }
         )
-    _create_context_for_new_election_html(context, nominee_info=nominee_info)
-    _create_context_for_existing_election_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)
-    _create_context_for_view_nominee_html(context, nominee_link_id=nominee_link_id)
+    _create_context_for_new_nominee_html(context, nominee_info=nominee_info)
+    _create_context_for_existing_nominee_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)
+    _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=nominee_link_id)
 
 
-def _create_context_for_new_election_html(context, nominee_info=None):
+def _create_context_for_new_nominee_html(context, nominee_info=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
         INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
@@ -249,7 +241,7 @@ def _create_context_for_new_election_html(context, nominee_info=None):
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
 
 
-def _create_context_for_existing_election_html(context, nominee_info=None, nominee_obj=None):
+def _create_context_for_existing_nominee_html(context, nominee_info=None, nominee_obj=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
         INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
@@ -289,7 +281,7 @@ def _create_context_for_existing_election_html(context, nominee_info=None, nomin
             list(pairings.values())
 
 
-def _create_context_for_view_nominee_html(context, nominee_link_id=None):
+def _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=None):
     if nominee_link_id is not None:
         context.update({FINAL_NOMINEE_HTML__NAME: get_election_nominees(nominee_link_id)})
 

@@ -12,10 +12,6 @@ ELECTION_ID = 'election_id'
 INPUT_ELECTION_ID__NAME = 'input_election_id__name'
 INPUT_ELECTION_ID__VALUE = 'input_election_id__value'
 
-INPUT_NOMINEE_LINK_ID__VALUE = 'input_nominee_link_id__value'
-
-INPUT_NOMINEE_LINK_ID__NAME = 'input_nominee_link_id__name'
-
 NOMINEES_HTML__NAME = 'nominees__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
 FINAL_NOMINEE_HTML__NAME = 'final_nominee__html_name'
@@ -99,8 +95,6 @@ CREATE_NEW_ELECTION__HTML_NAME = 'create_new_election__html_name'
 NOMINEE_DIV__NAME = 'nominee_div__name'
 
 CREATE_NEW_NOMINEE__HTML_NAME = 'create_new_nominee__html_name'
-
-NOMINEE_DIV__NAME = 'nominee_div__name'
 
 INPUT_NOMINEE_SPEECH__NAME = 'input_nominee_speech__name'
 
