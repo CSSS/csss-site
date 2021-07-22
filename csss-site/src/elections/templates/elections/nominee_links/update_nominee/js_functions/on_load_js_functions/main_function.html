@@ -45,9 +45,9 @@ $(document).ready(function () {
 		new_nominee.appendChild(nominee_speeches);
 
 		{% if create_new_nominee__html_name is True %}
-			{%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/new_nominee.html' %}
+			{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/position_names_and_speech_pairings/new_nominee.html' %}
 		{%  else %}
-			{%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_nominee.html' %}
+			{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/position_names_and_speech_pairings/existing_nominee.html' %}
 		{%  endif %}
     {%  endif %}
 });
