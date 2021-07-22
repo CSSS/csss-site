@@ -12,16 +12,15 @@
 	{%  endif %}
     {%  include 'csss/display_errors.html' %}
 	<form method="post" class="form">
-        {%  include 'elections/update_nominee/form.html' %}
+        {%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
     </form>
 
     <script>
 		function removeDiv(divName){$(divName).remove();}
 
-        {%  include 'elections/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
-
-        {%  include 'elections/update_nominee/js_functions/add_blank_speech.html' %}
+		{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
+        {%  include 'elections/nominee_links/update_nominee/js_functions/add_blank_speech.html' %}
     </script>
 
-	{%  include 'elections/update_nominee/view_saved_nominee_info.html' %}
+	{%  include 'elections/nominee_links/update_nominee/view_saved_nominee_info.html' %}
 {% endblock %}

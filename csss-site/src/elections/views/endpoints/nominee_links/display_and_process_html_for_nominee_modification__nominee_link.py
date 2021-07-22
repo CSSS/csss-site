@@ -44,7 +44,8 @@ def display_and_process_html_for_nominee_modification(request):
         error_message = [f"No election attached to Nominee Link {nominee_links[0]} detected in the request"]
     if error_message is not None:
         create_context_for_update_nominee_html(context, error_messages=error_message)
-        return render(request, 'elections/update_nominee/update_nominee.html', context)
+        return render(request,
+                      'elections/update_nominee/update_nominee__nominee_links.html', context)
 
     process_nominee = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
 

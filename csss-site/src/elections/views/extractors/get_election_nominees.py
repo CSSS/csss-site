@@ -38,16 +38,14 @@ def get_election_nominees(election):
         ]
     }
     """
-    nominees = [
-        nominee for nominee in Nominee.objects.all().filter(
-            election=election
-        ).order_by('nomineespeech__nomineeposition__position_index',
-                   'id')
-    ]
+    nominees = Nominee.objects.all().filter(
+        election=election
+    ).order_by('nomineespeech__nomineeposition__position_index')
     nominees_dict_to_display = {}
-    nominee_names = []
+    nominees_saved = []
     for nominee in nominees:
-        if nominee.name not in nominee_names:
+        if nominee.id not in nominees_saved:
+            nominees_saved.append(nominee.id)
             speech_and_position_pairings = []
             speech_ids = []
             for speech in NomineeSpeech.objects.all().filter(nominee=nominee).order_by(
@@ -90,7 +88,6 @@ def get_election_nominees(election):
                 nominees_dict_to_display[nominee.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].extend(
                     speech_and_position_pairings
                 )
-            nominee_names.append(nominee.name)
     nominees = [nominee_info for nominee_info in nominees_dict_to_display.values()]
     logger.info("[elections/get_election_nominees.py get_election_nominees()] nominees=")
     logger.info(json.dumps(nominees, indent=3))
