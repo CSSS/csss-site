@@ -119,9 +119,7 @@ class NomineeSpeech(models.Model):
             else:
                 social_media = ""
             social_media += f'Discord Username: {self.nominee.discord}'
-        if len(social_media) is not None:
-            social_media = "<p> Contact/Social Media: " + social_media + "</p>"
-        return social_media
+        return "" if social_media is None else "<p> Contact/Social Media: " + social_media + "</p>"
 
     @property
     def formatted_speech(self):
