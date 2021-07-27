@@ -20,6 +20,7 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
     linkedin_link -- the nominee's linkedin link
     email_address -- the nominee's email address
     discord_username -- the nominee's discord username
+    nominee_link -- the nominee_link to associate with the nominee being saved
 
     Return
     nominee_id -- the ID of the nominee that got saved

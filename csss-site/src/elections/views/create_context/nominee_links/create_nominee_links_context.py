@@ -156,21 +156,22 @@ def _create_context_for_final_nominee_links_html(context, nominee_links=None):
     context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID
 
 
-def create_context_for_update_nominee_html(context, nominee_link_id=None, error_messages=None,
-                                           nominee_info=None):
+def create_context_for_update_nominee__nominee_links_html(context, nominee_link_id=None, error_messages=None,
+                                                          nominee_info=None):
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
     create_new_nominee = not (len(nominee_links) == 1 and nominee_links[0].nominee is not None)
     _create_context_for_display_errors_html(context, error_messages=error_messages)
-    _create_context_for_form_html(
+    _create_context_for_form__nominee_links_html(
         context
     )
     _create_context_for_main_function_html(
         context, nominee_link_id=nominee_link_id, create_new_nominee=create_new_nominee, nominee_info=nominee_info
     )
     __create_context_for_add_blank_speech_html(context)
+    _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=nominee_link_id)
 
 
-def _create_context_for_form_html(context):
+def _create_context_for_form__nominee_links_html(context):
     context.update({
         SAVE_NEW_NOMINEE__BUTTON_ID: SAVE_NEW_NOMINEE__BUTTON_ID_VALUE,
         INPUT_REDIRECT_NOMINEE__NAME: CREATE_OR_UPDATE_NOMINEE__NAME,
@@ -221,7 +222,6 @@ def _create_context_for_main_function_html(
         )
     _create_context_for_new_nominee_html(context, nominee_info=nominee_info)
     _create_context_for_existing_nominee_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)
-    _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=nominee_link_id)
 
 
 def _create_context_for_new_nominee_html(context, nominee_info=None):
@@ -292,4 +292,9 @@ def __create_context_for_add_blank_speech_html(context):
         INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
         INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
         INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
+        CURRENT_OFFICER_POSITIONS: [
+            position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
+                marked_for_deletion=False, elected_via_election_officer=True
+            )
+        ],
     })
