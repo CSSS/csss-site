@@ -46,6 +46,12 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     _create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
     _create_context_for_election_nominee_names_html(context, nominee_names=nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
+    logger.info(
+        "[elections/create_nominee_links_context.py"
+        " create_context_for_create_election_nominee_links_html()] "
+        "context="
+    )
+    logger.info(json.dumps(context, indent=3))
 
 
 def _create_context_for_display_errors_html(context, error_messages=None):
@@ -120,6 +126,12 @@ def create_context_for_update_election_nominee_links_html(
                                                     nominee_names=new_nominee_names)
     _create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
     context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
+    logger.info(
+        "[elections/create_nominee_links_context.py"
+        " create_context_for_update_election_nominee_links_html()] "
+        "context="
+    )
+    logger.info(json.dumps(context, indent=3))
 
 
 def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, slug=None, nominee_links=None):
