@@ -1,7 +1,5 @@
 import logging
 
-import markdown
-
 from elections.models import NomineeSpeech
 
 logger = logging.getLogger('csss_site')

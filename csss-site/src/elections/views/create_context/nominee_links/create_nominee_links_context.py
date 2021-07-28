@@ -2,9 +2,14 @@ import datetime
 import json
 import logging
 
+import django
+from django.db import models
+from django.db.models.base import ModelBase
+from django.forms import model_to_dict
+
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import ERROR_MESSAGES_KEY
-from elections.models import Election, NomineeLink, NomineePosition
+from elections.models import Election, NomineeLink, NomineePosition, NomineeSpeech
 from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE, INPUT_DATE__VALUE, DATE_FORMAT, \
     INPUT_TIME__NAME, ELECTION_JSON_WEBFORM_KEY__TIME, INPUT_TIME__VALUE, TIME_FORMAT, SELECT_ELECTION_TYPE__NAME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, CURRENT_ELECTION_TYPES, SELECTED_ELECTION_TYPE__HTML_NAME, \
@@ -131,7 +136,30 @@ def create_context_for_update_election_nominee_links_html(
         " create_context_for_update_election_nominee_links_html()] "
         "context="
     )
-    logger.info(json.dumps(context, indent=3))
+    new_context = {key: make_context_value_json_serializable(value) for (key, value) in context.items()}
+    logger.info(json.dumps(new_context, indent=3))
+
+
+def make_context_value_json_serializable(context_value):
+    if type(context_value) is list and len(context_value) == 0:
+        return []
+    if type(context_value) is list and len(context_value) > 0:
+        if type(context_value[0]) is NomineeLink or type(context_value[0]) is NomineeSpeech or type(
+                context_value[0] is OfficerEmailListAndPositionMapping):
+            return [convert_model_to_dict(model_to_dict(model_instance).items()) for model_instance in context_value]
+    if type(context_value) is django.db.models.query.QuerySet:
+        return [convert_model_to_dict(model_to_dict(model_instance).items()) for model_instance in context_value]
+    if type(context_value) is Election:
+        return convert_model_to_dict(model_to_dict(context_value).items())
+    return make_value_json_serializable(context_value)
+
+
+def convert_model_to_dict(model_attributes):
+    return {key: make_value_json_serializable(value) for (key, value) in model_attributes}
+
+
+def make_value_json_serializable(value):
+    return value.strftime('%Y-%m-%d') if type(value) is datetime.datetime else value
 
 
 def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, slug=None, nominee_links=None):
@@ -189,7 +217,8 @@ def create_context_for_update_nominee__nominee_links_html(context, nominee_link_
         " create_context_for_update_nominee__nominee_links_html()] "
         "context="
     )
-    logger.info(json.dumps(context, indent=3))
+    new_context = {key: make_context_value_json_serializable(value) for (key, value) in context.items()}
+    logger.info(json.dumps(new_context, indent=3))
 
 
 def _create_context_for_form__nominee_links_html(context):
