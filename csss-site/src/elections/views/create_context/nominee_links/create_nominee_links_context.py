@@ -1,4 +1,5 @@
 import datetime
+import json
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
@@ -160,6 +161,8 @@ def create_context_for_update_nominee__nominee_links_html(context, nominee_link_
                                                           nominee_info=None):
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
     create_new_nominee = not (len(nominee_links) == 1 and nominee_links[0].nominee is not None)
+    if nominee_link_id is not None:
+        context[FINAL_NOMINEE_HTML__NAME] = get_election_nominees(nominee_link_id)
     _create_context_for_display_errors_html(context, error_messages=error_messages)
     _create_context_for_form__nominee_links_html(
         context
@@ -169,6 +172,12 @@ def create_context_for_update_nominee__nominee_links_html(context, nominee_link_
     )
     __create_context_for_add_blank_speech_html(context)
     _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=nominee_link_id)
+    logger.info(
+        "[elections/create_nominee_links_context.py"
+        " create_context_for_update_nominee__nominee_links_html()] "
+        "context="
+    )
+    logger.info(json.dumps(context, indent=3))
 
 
 def _create_context_for_form__nominee_links_html(context):
@@ -225,35 +234,23 @@ def _create_context_for_main_function_html(
 
 
 def _create_context_for_new_nominee_html(context, nominee_info=None):
-    context.update({
-        NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
-        INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
-        INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
-        INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
-        CURRENT_OFFICER_POSITIONS: [
-            position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
-                marked_for_deletion=False, elected_via_election_officer=True
-            )
-        ],
-    })
     if nominee_info is not None:
         context[DRAFT_NOMINEE_HTML__NAME][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = \
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
-
-
-def _create_context_for_existing_nominee_html(context, nominee_info=None, nominee_obj=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
         INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
         INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
         INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
-        INPUT_SPEECH_ID__NAME: ID_KEY,
         CURRENT_OFFICER_POSITIONS: [
             position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
                 marked_for_deletion=False, elected_via_election_officer=True
             )
         ],
     })
+
+
+def _create_context_for_existing_nominee_html(context, nominee_info=None, nominee_obj=None):
     if nominee_info is None and nominee_obj is not None:
         positions = NomineePosition.objects.all().filter(
             nominee_speech__nominee_id=nominee_obj.id
@@ -279,22 +276,34 @@ def _create_context_for_existing_nominee_html(context, nominee_info=None, nomine
             context[DRAFT_NOMINEE_HTML__NAME] = {}
         context[DRAFT_NOMINEE_HTML__NAME][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = \
             list(pairings.values())
-
-
-def _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=None):
-    if nominee_link_id is not None:
-        context.update({FINAL_NOMINEE_HTML__NAME: get_election_nominees(nominee_link_id)})
-
-
-def __create_context_for_add_blank_speech_html(context):
     context.update({
-        NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
-        INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
-        INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
-        INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
         CURRENT_OFFICER_POSITIONS: [
             position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
                 marked_for_deletion=False, elected_via_election_officer=True
             )
         ],
+        NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
+        INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
+        INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
+        INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
+        INPUT_SPEECH_ID__NAME: ID_KEY,
+    })
+
+
+def _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=None):
+    if nominee_link_id is not None:
+        context[FINAL_NOMINEE_HTML__NAME] = get_election_nominees(nominee_link_id)
+
+
+def __create_context_for_add_blank_speech_html(context):
+    context.update({
+        CURRENT_OFFICER_POSITIONS: [
+            position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
+                marked_for_deletion=False, elected_via_election_officer=True
+            )
+        ],
+        NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
+        INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,
+        INPUT_NOMINEE_POSITION_NAMES__NAME: ELECTION_JSON_KEY__NOM_POSITION_NAMES,
+        INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
     })
