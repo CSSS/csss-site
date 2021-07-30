@@ -1,7 +1,6 @@
 import logging
 
 from django.shortcuts import render
-from querystring_parser import parser
 
 from elections.models import NomineeLink, Election, NomineeSpeech
 from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
@@ -21,7 +20,7 @@ logger = logging.getLogger('csss_site')
 
 
 def process_nominee__nominee_links(request, context, nominee_link_id):
-    nominee_info = transform_nominee_links_webform_to_json(parser.parse(request.POST.urlencode()))
+    nominee_info = transform_nominee_links_webform_to_json(request)
 
     nominee_link = NomineeLink.objects.all().get(id=nominee_link_id)
     election_id = nominee_link.election.id
