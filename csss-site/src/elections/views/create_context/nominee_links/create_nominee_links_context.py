@@ -4,7 +4,6 @@ import logging
 
 import django
 from django.db import models
-from django.db.models.base import ModelBase
 from django.forms import model_to_dict
 
 from about.models import OfficerEmailListAndPositionMapping
@@ -145,7 +144,7 @@ def make_context_value_json_serializable(context_value):
         return []
     if type(context_value) is list and len(context_value) > 0:
         if type(context_value[0]) is NomineeLink or type(context_value[0]) is NomineeSpeech or type(
-                context_value[0] is OfficerEmailListAndPositionMapping):
+                context_value[0]) is OfficerEmailListAndPositionMapping:
             return [convert_model_to_dict(model_to_dict(model_instance).items()) for model_instance in context_value]
     if type(context_value) is django.db.models.query.QuerySet:
         return [convert_model_to_dict(model_to_dict(model_instance).items()) for model_instance in context_value]
