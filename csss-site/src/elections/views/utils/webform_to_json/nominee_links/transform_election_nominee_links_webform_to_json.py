@@ -1,9 +1,9 @@
 import json
 import logging
 
-from elections.views.Constants import SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, \
-    ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE, \
-    ELECTION_JSON_KEY__WEBSURVEY
+from elections.views.Constants import SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_json import \
+    copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
 
 logger = logging.getLogger('csss_site')
@@ -28,7 +28,7 @@ def transform_election_nominee_links_webform_to_json(request):
     election_dict = transform_post_to_dictionary(request)
     logger.info(json.dumps(election_dict, indent=3))
     new_nominee_dict = {}
-    _copy_election_info_from_webform_to_json(new_nominee_dict, election_dict)
+    copy_election_info_from_webform_to_json(new_nominee_dict, election_dict)
     if SAVED_NOMINEE_LINKS in election_dict:
         new_nominee_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
     if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict:
@@ -38,12 +38,3 @@ def transform_election_nominee_links_webform_to_json(request):
     return new_nominee_dict
 
 
-def _copy_election_info_from_webform_to_json(new_election_dict, election_dict):
-    if ELECTION_JSON_KEY__DATE in election_dict:
-        new_election_dict[ELECTION_JSON_KEY__DATE] = election_dict[ELECTION_JSON_KEY__DATE]
-    if ELECTION_JSON_WEBFORM_KEY__TIME in election_dict:
-        new_election_dict[ELECTION_JSON_WEBFORM_KEY__TIME] = election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
-    if ELECTION_JSON_KEY__ELECTION_TYPE in election_dict:
-        new_election_dict[ELECTION_JSON_KEY__ELECTION_TYPE] = election_dict[ELECTION_JSON_KEY__ELECTION_TYPE]
-    if ELECTION_JSON_KEY__WEBSURVEY in election_dict:
-        new_election_dict[ELECTION_JSON_KEY__WEBSURVEY] = election_dict[ELECTION_JSON_KEY__WEBSURVEY]
