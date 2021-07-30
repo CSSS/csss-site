@@ -27,14 +27,11 @@ def get_election_nominees(nominee_link_id):
         nominee__nomineelink__id=nominee_link_id
     ).order_by('nomineeposition__position_index')
     speeches_saved = []
-    return list(
-        {
-            speech.id: speech for speech in speeches
-            if speech.id not in speeches_saved and append_item(speeches_saved, speech.id)
-        }.values()
-    )
+    return [
+        speech for speech in speeches if speech.id not in speeches_saved and _append_item(speeches_saved, speech.id)
+    ]
 
 
-def append_item(speeches_saved, speech_id):
+def _append_item(speeches_saved, speech_id):
     speeches_saved.append(speech_id)
     return True

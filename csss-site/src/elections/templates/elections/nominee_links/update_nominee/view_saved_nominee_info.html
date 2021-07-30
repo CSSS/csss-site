@@ -5,7 +5,7 @@
 		{{final_nominee__html_name.0.social_media_html|safe}}
 		<br><br>
 		{% for nominee_speech in final_nominee__html_name %}
-			<h4 class="title is-size-4">Position[s]: {{ nominee_speech.html_formatted_position_names }}</h4>
+			<h4 class="title is-size-4">Position[s]: {{ nominee_speech.formatted_position_names_html }}</h4>
 			<br>
 			{%  if nominee_speech.speech != "NONE" %}
 				<p>Nominee Speech:</p>

@@ -133,7 +133,7 @@ class NomineeSpeech(models.Model):
         )
 
     @property
-    def html_formatted_position_names(self):
+    def formatted_position_names_html(self):
         return ", ".join([position.position_name for position in self.nomineeposition_set.all()])
 
     def __str__(self):
