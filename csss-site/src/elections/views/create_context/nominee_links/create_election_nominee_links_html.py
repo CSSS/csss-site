@@ -5,6 +5,8 @@ from elections.views.create_context.nominee_links.utils.display_errors_html impo
     create_context_for_display_errors_html
 from elections.views.create_context.nominee_links.utils.election_nominee_names_html import \
     create_context_for_election_nominee_names_html
+from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
+    make_json_serializable_context_dictionary
 from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
     create_context_for_submission_buttons_html
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
@@ -35,5 +37,6 @@ def create_context_for_create_election_nominee_links_html(context, election_date
         " create_context_for_create_election_nominee_links_html()] "
         "context="
     )
-    logger.info(json.dumps(context, indent=3))
+    json_serializable_context = make_json_serializable_context_dictionary(context)
+    logger.info(json.dumps(json_serializable_context, indent=3))
 

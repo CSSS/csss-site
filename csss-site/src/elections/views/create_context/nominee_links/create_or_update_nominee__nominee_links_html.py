@@ -16,7 +16,7 @@ from elections.views.Constants import FINAL_NOMINEE_HTML__NAME, SAVE_NEW_NOMINEE
 from elections.views.create_context.nominee_links.utils.display_errors_html import \
     create_context_for_display_errors_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
-    make_context_value_json_serializable
+    make_json_serializable_context_dictionary
 from elections.views.extractors.get_nominee__nominee_link import get_election_nominees
 
 logger = logging.getLogger('csss_site')
@@ -42,7 +42,7 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
         " create_context_for_update_nominee__nominee_links_html()] "
         "context="
     )
-    new_context = {key: make_context_value_json_serializable(value) for (key, value) in context.items()}
+    new_context = make_json_serializable_context_dictionary(context)
     logger.info(json.dumps(new_context, indent=3))
 
 

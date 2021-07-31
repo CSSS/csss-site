@@ -9,14 +9,14 @@ from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_
     ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID__HTML_NAME, SAVED_NOMINEE_LINKS, DELETE, \
     SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NAME, SAVED_NOMINEE_LINK__NOMINEE, NO_NOMINEE_LINKED, NOMINEE_LINK_ID, \
     NOMINEE_LINKS
-from elections.views.create_context.nominee_links.utils.election_nominee_names_html import \
-    create_context_for_election_nominee_names_html
-from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
-    create_context_for_submission_buttons_html
 from elections.views.create_context.nominee_links.utils.display_errors_html import \
     create_context_for_display_errors_html
+from elections.views.create_context.nominee_links.utils.election_nominee_names_html import \
+    create_context_for_election_nominee_names_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
-    make_context_value_json_serializable
+    make_json_serializable_context_dictionary
+from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
+    create_context_for_submission_buttons_html
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
     create_context_for_election_date_html
 from elections.views.create_context.webform_format.create_context_for_election_time_html import \
@@ -54,7 +54,7 @@ def create_context_for_update_election_nominee_links_html(
         " create_context_for_update_election_nominee_links_html()] "
         "context="
     )
-    new_context = {key: make_context_value_json_serializable(value) for (key, value) in context.items()}
+    new_context = make_json_serializable_context_dictionary(context)
     logger.info(json.dumps(new_context, indent=3))
 
 

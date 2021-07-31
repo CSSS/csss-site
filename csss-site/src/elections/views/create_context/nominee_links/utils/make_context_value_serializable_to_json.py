@@ -7,7 +7,11 @@ from about.models import OfficerEmailListAndPositionMapping
 from elections.models import NomineeLink, NomineeSpeech, Election
 
 
-def make_context_value_json_serializable(context_value):
+def make_json_serializable_context_dictionary(context):
+    return {key: _make_context_value_json_serializable(value) for (key, value) in context.items()}
+
+
+def _make_context_value_json_serializable(context_value):
     if type(context_value) is list and len(context_value) == 0:
         return []
     if type(context_value) is list and len(context_value) > 0:
