@@ -457,7 +457,7 @@ class GoogleDrive:
                 f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
                 f"will have its owner be alerted."
             )
-            if self._determine_if_file_info_belongs_to_gdrive_folder(file) or self._file_is_gdrive_form(file):
+            if self._determine_if_file_info_belongs_to_gdrive_folder(file):
                 file_name = file['name']
                 logger.info(
                     f"[GoogleDrive _validate_owner_for_file()] google drive file {file_name} "
@@ -486,16 +486,16 @@ class GoogleDrive:
                                 'file_link': link
                             }]
                         }
-            elif self._file_is_gdrive_file(file):
+            elif self._file_is_gdrive_file(file) and not self._file_is_gdrive_form(file):
                 logger.info(
                     "[GoogleDrive _validate_owner_for_file()] file "
-                    f"{file['name']} determined to be a regular google drive file"
+                    f"{file['name']} determined to be a regular google drive file that is not a form"
                 )
                 self._alert_user_to_change_owner(file)
             else:
                 logger.info(
                     "[GoogleDrive _validate_owner_for_file()] file "
-                    f"{file['name']} determined to probably be an uploaded file"
+                    f"{file['name']} determined to probably be an uploaded file or google drive form"
                 )
                 if self._duplicate_file(file):
                     self._alert_user_to_delete_file(file)
