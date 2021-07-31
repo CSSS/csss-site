@@ -2,6 +2,8 @@ import json
 import logging
 
 from elections.views.Constants import SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
+    make_json_serializable_context_dictionary
 from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_json import \
     copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
@@ -22,19 +24,23 @@ def transform_election_nominee_links_webform_to_json(request):
     new_nominee_dict -- the dictionary format that the process_existing_election_and_nominee_links function takes in
     """
     logger.info(
-        "[elections/transform_webform_to_json.py transform_election_nominee_links_webform_to_json()] "
+        "[elections/transform_election_nominee_links_webform_to_json.py "
+        "transform_election_nominee_links_webform_to_json()] "
         "transforming"
     )
     election_dict = transform_post_to_dictionary(request)
-    logger.info(json.dumps(election_dict, indent=3))
+    new_context = make_json_serializable_context_dictionary(election_dict)
+    logger.info(json.dumps(new_context, indent=3))
     new_nominee_dict = {}
     copy_election_info_from_webform_to_json(new_nominee_dict, election_dict)
     if SAVED_NOMINEE_LINKS in election_dict:
         new_nominee_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
     if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict:
         new_nominee_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS] = election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
-    logger.info("[elections/transform_webform_to_json.py transform_election_nominee_links_webform_to_json()] to")
-    logger.info(json.dumps(new_nominee_dict, indent=3))
+    logger.info("[elections/transform_election_nominee_links_webform_to_json.py "
+                "transform_election_nominee_links_webform_to_json()] to")
+    new_context = make_json_serializable_context_dictionary(new_nominee_dict)
+    logger.info(json.dumps(new_context, indent=3))
     return new_nominee_dict
 
 
