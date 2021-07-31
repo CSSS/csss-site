@@ -1,11 +1,11 @@
 import json
 import logging
 
-from elections.views.create_context.nominee_links.create_context_for_display_errors_html import \
+from elections.views.create_context.nominee_links.utils.display_errors_html import \
     create_context_for_display_errors_html
-from elections.views.create_context.nominee_links.create_context_for_election_nominee_names_html import \
+from elections.views.create_context.nominee_links.utils.election_nominee_names_html import \
     create_context_for_election_nominee_names_html
-from elections.views.create_context.nominee_links.create_context_for_submission_buttons_html import \
+from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
     create_context_for_submission_buttons_html
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
     create_context_for_election_date_html

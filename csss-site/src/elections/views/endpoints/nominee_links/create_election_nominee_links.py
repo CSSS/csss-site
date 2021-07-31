@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
 from elections.views.Constants import TAB_STRING
-from elections.views.create_context.nominee_links.election_nominee_links_html import \
+from elections.views.create_context.nominee_links.create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html
 from elections.views.create_election.nominee_links.process_new_election_and_nominee_links import \
     process_new_election_and_nominee_links

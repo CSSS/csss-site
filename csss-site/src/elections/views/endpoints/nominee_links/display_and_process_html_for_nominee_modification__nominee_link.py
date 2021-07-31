@@ -6,7 +6,7 @@ from django.shortcuts import render
 from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
 from elections.models import NomineeLink
 from elections.views.Constants import TAB_STRING, NOMINEE_LINK_ID, CREATE_OR_UPDATE_NOMINEE__NAME
-from elections.views.create_context.nominee_links.create_context_for_update_nominee__nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
     create_context_for_update_nominee__nominee_links_html
 from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
     display_current_nominee_link_election

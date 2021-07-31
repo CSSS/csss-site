@@ -1,5 +1,4 @@
 import json
-import json
 import logging
 
 from elections.models import Election
@@ -10,13 +9,13 @@ from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_
     ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID__HTML_NAME, SAVED_NOMINEE_LINKS, DELETE, \
     SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NAME, SAVED_NOMINEE_LINK__NOMINEE, NO_NOMINEE_LINKED, NOMINEE_LINK_ID, \
     NOMINEE_LINKS
-from elections.views.create_context.nominee_links.create_context_for_display_errors_html import \
-    create_context_for_display_errors_html
-from elections.views.create_context.nominee_links.create_context_for_election_nominee_names_html import \
+from elections.views.create_context.nominee_links.utils.election_nominee_names_html import \
     create_context_for_election_nominee_names_html
-from elections.views.create_context.nominee_links.create_context_for_submission_buttons_html import \
+from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
     create_context_for_submission_buttons_html
-from elections.views.create_context.nominee_links.make_context_value_serializable_to_json import \
+from elections.views.create_context.nominee_links.utils.display_errors_html import \
+    create_context_for_display_errors_html
+from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
     make_context_value_json_serializable
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
     create_context_for_election_date_html

@@ -13,9 +13,9 @@ from elections.views.Constants import FINAL_NOMINEE_HTML__NAME, SAVE_NEW_NOMINEE
     INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     INPUT_NOMINEE_POSITION_NAMES__NAME, ELECTION_JSON_KEY__NOM_POSITION_NAMES, INPUT_NOMINEE_SPEECH__NAME, \
     ELECTION_JSON_KEY__NOM_SPEECH, ID_KEY, ELECTION_JSON_KEY__NOM_POSITION_NAME, INPUT_SPEECH_ID__NAME
-from elections.views.create_context.nominee_links.create_context_for_display_errors_html import \
+from elections.views.create_context.nominee_links.utils.display_errors_html import \
     create_context_for_display_errors_html
-from elections.views.create_context.nominee_links.make_context_value_serializable_to_json import \
+from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
     make_context_value_json_serializable
 from elections.views.extractors.get_nominee__nominee_link import get_election_nominees
 
