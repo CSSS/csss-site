@@ -10,10 +10,13 @@ from elections.views.Constants import ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSO
 from elections.views.create_context.nominee_links.create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html
 from elections.views.save_election.save_new_election_and_nominee_links import save_new_election_and_nominee_links
+from elections.views.utils.webform_to_json.nominee_links.transform_election_nominee_links_webform_to_json import \
+    transform_election_nominee_links_webform_to_json
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_link import validate_http_link
 from elections.views.validators.validate_user_command import validate_user_command
+from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
@@ -31,14 +34,13 @@ def process_new_election_and_nominee_links(request, context):
      either redirect user back to the page where they inputted the election info or direct them to the newly created
       election page along with nominee links
     """
-    election_dict = request.POST
-    if not (ELECTION_JSON_KEY__WEBSURVEY in election_dict and ELECTION_JSON_KEY__ELECTION_TYPE and
-            ELECTION_JSON_WEBFORM_KEY__TIME in election_dict and ELECTION_JSON_KEY__DATE in election_dict and
-            NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict):
-        error_message = f"Did not find all of the following necessary keys in input: " \
-                        f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__ELECTION_TYPE}, " \
-                        f"{ELECTION_JSON_WEBFORM_KEY__TIME}, {ELECTION_JSON_KEY__DATE}, " \
-                        f"{NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS}"
+    election_dict = transform_election_nominee_links_webform_to_json(request)
+    fields = [
+        ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_WEBFORM_KEY__TIME,
+        ELECTION_JSON_KEY__DATE, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+    ]
+    error_message = verify_user_input_has_all_required_fields(election_dict, fields)
+    if error_message != "":
         logger.info(
             "[elections/process_new_election_and_nominee_links.py process_new_election_and_nominee_links()]"
             f" {error_message}"
