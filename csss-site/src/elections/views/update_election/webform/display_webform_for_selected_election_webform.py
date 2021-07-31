@@ -22,4 +22,4 @@ def display_current_webform_election(request, context):
     if ELECTION_ID in request.session:
         del request.session[ELECTION_ID]
     context.update(create_webform_election_context_from_db_election_obj(election_id))
-    return render(request, 'elections/update_election/update_election_webform.html', context)
+    return render(request, 'elections/update_election/update_election__webform.html', context)

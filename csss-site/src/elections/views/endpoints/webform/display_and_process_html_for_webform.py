@@ -29,7 +29,7 @@ def display_and_process_html_for_modification_of_webform_election(request):
 
     if not (ELECTION_ID in request.POST or ELECTION_ID in request.session):
         context[ERROR_MESSAGES_KEY] = ["Unable to locate the Election ID in the request"]
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     process_election = (request.method == "POST") and (UPDATE_EXISTING_ELECTION__NAME in request.POST)
     context.update(create_webform_context(create_new_election=False))
