@@ -50,7 +50,7 @@ def create_context_for_update_election_nominee_links_html(
     create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
     context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
     logger.info(
-        "[elections/create_nominee_links_context.py"
+        "[elections/update_election_nominee_links_html.py"
         " create_context_for_update_election_nominee_links_html()] "
         "context="
     )

@@ -31,7 +31,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     create_context_for_election_nominee_names_html(context, nominee_names=nominee_names)
     create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
     logger.info(
-        "[elections/create_nominee_links_context.py"
+        "[elections/create_election_nominee_links_html.py"
         " create_context_for_create_election_nominee_links_html()] "
         "context="
     )
