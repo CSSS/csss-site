@@ -22,8 +22,8 @@ from elections.views.extractors.get_nominee__nominee_link import get_election_no
 logger = logging.getLogger('csss_site')
 
 
-def create_context_for_update_nominee__nominee_links_html(context, nominee_link_id=None, error_messages=None,
-                                                          nominee_info=None):
+def create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=None, error_messages=None,
+                                                                    nominee_info=None):
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
     create_new_nominee = not (len(nominee_links) == 1 and nominee_links[0].nominee is not None)
     if nominee_link_id is not None:

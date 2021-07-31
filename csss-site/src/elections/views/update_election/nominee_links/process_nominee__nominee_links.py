@@ -7,7 +7,7 @@ from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
 from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
-    create_context_for_update_nominee__nominee_links_html
+    create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
 from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
@@ -36,11 +36,11 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             f"[elections/process_nominee__nominee_links.py process_nominee__nominee_links()] "
             f"{error_message}"
         )
-        create_context_for_update_nominee__nominee_links_html(
+        create_context_for_create_or_update_nominee__nominee_links_html(
             context, nominee_link_id=nominee_link_id, error_messages=[error_message]
         )
         return render(request,
-                      'elections/update_nominee/update_nominee__nominee_links.html', context)
+                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
 
     success, error_message = validate_existing_nominee__nominee_link(election_id, nominee_link_id, nominee_info)
     if not success:
@@ -48,11 +48,11 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             f"[elections/process_nominee__nominee_links.py process_nominee__nominee_links()] "
             f"{error_message}"
         )
-        create_context_for_update_nominee__nominee_links_html(
+        create_context_for_create_or_update_nominee__nominee_links_html(
             context, nominee_link_id=nominee_link_id, error_messages=[error_message], nominee_info=nominee_info
         )
         return render(request,
-                      'elections/update_nominee/update_nominee__nominee_links.html', context)
+                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
     if nominee_link.nominee is None:
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
