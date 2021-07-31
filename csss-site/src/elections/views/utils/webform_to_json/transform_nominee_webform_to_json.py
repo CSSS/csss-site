@@ -39,3 +39,6 @@ def transform_nominee_webform_to_json(nominee):
                     else:
                         position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = \
                             [position_info[0]]
+            if ID_KEY in position_and_speech_pairing:
+                if position_and_speech_pairing[ID_KEY] == "" or not f"{position_and_speech_pairing[ID_KEY]}".isdigit():
+                    del position_and_speech_pairing[ID_KEY]
