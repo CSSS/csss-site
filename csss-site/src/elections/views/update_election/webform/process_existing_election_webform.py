@@ -51,7 +51,7 @@ def process_existing_election_information_from_webform(request, context):
             f" {error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
@@ -60,7 +60,7 @@ def process_existing_election_information_from_webform(request, context):
             f"{error_message, election_dict}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     election = get_existing_election_by_id(election_dict[ELECTION_ID])
     if election is None:
@@ -71,7 +71,7 @@ def process_existing_election_information_from_webform(request, context):
             f" {error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
@@ -80,7 +80,7 @@ def process_existing_election_information_from_webform(request, context):
             f" {error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
@@ -89,7 +89,7 @@ def process_existing_election_information_from_webform(request, context):
             f"{error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
@@ -100,7 +100,7 @@ def process_existing_election_information_from_webform(request, context):
             f" {error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
     success, error_message = validate_nominees_for_existing_election_jformat(
         election.id, election_dict[ELECTION_JSON_KEY__NOMINEES]
     )
@@ -110,7 +110,7 @@ def process_existing_election_information_from_webform(request, context):
             f" {error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election_webform.html', context)
+        return render(request, 'elections/update_election/update_election__webform.html', context)
 
     update_existing_election_obj_from_jformat(
         election, f"{election_dict[ELECTION_JSON_KEY__DATE]} {election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]}",
