@@ -2,11 +2,11 @@ import logging
 
 from django.shortcuts import render
 
-from elections.models import NomineeLink, Election, NomineeSpeech
+from elections.models import NomineeLink, Election, NomineeSpeech, NomineePosition
 from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.nominee_links.create_nominee_links_context import \
+from elections.views.create_context.nominee_links.create_context_for_update_nominee__nominee_links_html import \
     create_context_for_update_nominee__nominee_links_html
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
@@ -63,6 +63,17 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         )
     else:
         position_ids, speech_ids = update_existing_nominee_jformat(nominee_link.nominee, nominee_info)
+
+        current_nominee_position_ids_under_election = [
+            speech.id for speech in NomineePosition.objects.all().filter(
+                nominee_speech__nominee__nomineelink__id=nominee_link_id)
+        ]
+        position_ids_to_delete = [
+            position_id for position_id in current_nominee_position_ids_under_election
+            if position_id not in position_ids
+        ]
+        for position_id_to_delete in position_ids_to_delete:
+            NomineePosition.objects.all().get(id=position_id_to_delete).delete()
 
         current_nominee_speech_ids_under_election = [
             speech.id for speech in NomineeSpeech.objects.all().filter(

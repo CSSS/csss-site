@@ -9,7 +9,7 @@ from elections.views.Constants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEB
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, SAVED_NOMINEE_LINKS, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, SAVE_ELECTION__VALUE, UPDATE_EXISTING_ELECTION__NAME, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
-from elections.views.create_context.nominee_links.create_nominee_links_context import \
+from elections.views.create_context.nominee_links.update_election_nominee_links_html import \
     create_context_for_update_election_nominee_links_html
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
 from elections.views.save_election.save_new_nominee_links_from_jformat import save_new_nominee_links_from_jformat
