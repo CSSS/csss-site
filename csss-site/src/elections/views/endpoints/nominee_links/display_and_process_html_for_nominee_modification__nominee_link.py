@@ -17,9 +17,6 @@ logger = logging.getLogger('csss_site')
 
 
 def display_and_process_html_for_nominee_modification(request):
-    """
-    Shows the page the election officer can update a single nominee
-    """
     logger.info(
         "[elections/display_and_process_html_for_nominee_modification__nominee_link.py"
         " display_and_process_html_for_nominee_modification()] "
@@ -38,9 +35,9 @@ def display_and_process_html_for_nominee_modification(request):
     error_message = None
     if nominee_link_id is None:
         error_message = ["Unable to locate the Nominee Link ID in the request"]
-    if error_message is None and len(nominee_links) != 1:
+    elif len(nominee_links) != 1:
         error_message = [f"invalid Nominee Link ID of {nominee_link_id} detected in the request"]
-    if error_message is None and nominee_links[0].election is None:
+    elif nominee_links[0].election is None:
         error_message = [f"No election attached to Nominee Link {nominee_links[0]} detected in the request"]
     if error_message is not None:
         create_context_for_update_nominee__nominee_links_html(context, error_messages=[error_message])
