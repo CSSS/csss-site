@@ -38,9 +38,12 @@ def get_election_nominees(election):
         ]
     }
     """
-    nominees = Nominee.objects.all().filter(
-        election=election
-    ).order_by('nomineespeech__nomineeposition__position_index')
+    nominees = [
+        nominee for nominee in Nominee.objects.all().filter(
+            election=election
+        ).order_by('nomineespeech__nomineeposition__position_index',
+                   'id')
+    ]
     nominees_dict_to_display = {}
     nominee_names = []
     for nominee in nominees:
