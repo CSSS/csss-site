@@ -6,10 +6,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from administration.views import user_has_election_management_privilege
-from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
-from elections.models import Election, NomineePosition
+from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
-    BUTTON_MODIFY_ELECTION_ID__NAME, INPUT_ELECTION_ID__NAME, ELECTION_ID, ELECTION__HTML_NAME, NOMINEES_HTML__NAME
+    BUTTON_MODIFY_ELECTION_ID__NAME, INPUT_ELECTION_ID__NAME, ELECTION_ID, ELECTION__HTML_NAME, NOMINEES_HTML__NAME, \
+    PRE_EXISTING_ELECTION, DELETE_EXISTING_NOMINEE_LINKS_MESSAGE
 from elections.views.validators.validate_election_slug import validate_election_slug
 
 logger = logging.getLogger('csss_site')
@@ -32,60 +33,32 @@ def get_nominees(request, slug):
                 f"needs to be shown as its date is {election_to_display.date} and the {privilege_message}")
     if election_to_display.date <= datetime.datetime.now() or user_has_election_management_privilege(request):
         if user_has_election_management_privilege(request):
+            nominee_links = NomineeLink.objects.all().exclude(election__slug=slug)
+            context[PRE_EXISTING_ELECTION] = False
+            if len(nominee_links) > 0:
+                context.update({
+                    PRE_EXISTING_ELECTION: True,
+                    DELETE_EXISTING_NOMINEE_LINKS_MESSAGE: (
+                        f"Please delete the nominee links for the {nominee_links[0].election.human_friendly_name} "
+                        f"election before creating a new election via nominee link"
+                    )
+                })
             context.update(
                 {
                     INPUT_ELECTION_ID__VALUE: election_to_display.id,
                     ELECTION_MANAGEMENT_PERMISSION: True,
                     BUTTON_MODIFY_ELECTION_ID__NAME: ELECTION_ID,
-                    INPUT_ELECTION_ID__NAME: ELECTION_ID
+                    INPUT_ELECTION_ID__NAME: ELECTION_ID,
+
                 }
             )
         logger.info("[elections/election_page.py get_nominees()] time to vote")
         positions = NomineePosition.objects.all().filter(
             nominee_speech__nominee__election__slug=slug,
         ).order_by('position_index')
-        nominees_display_order = []
-        for nominee in positions:
-            nominee.social_media = None
-            barrier_needed = False
-            if nominee.nominee_speech.nominee.facebook != "NONE":
-                nominee.social_media = f'<a href="{nominee.nominee_speech.nominee.facebook}" ' \
-                                       f'target="_blank">Facebook Profile</a>'
-                barrier_needed = True
-            if nominee.nominee_speech.nominee.linkedin != "NONE":
-                if barrier_needed:
-                    nominee.social_media += " | "
-                else:
-                    nominee.social_media = ""
-                nominee.social_media += f'<a href="{nominee.nominee_speech.nominee.linkedin}" ' \
-                                        f'target="_blank">LinkedIn Profile</a>'
-                barrier_needed = True
-            if nominee.nominee_speech.nominee.email != "NONE":
-                if barrier_needed:
-                    nominee.social_media += " | "
-                else:
-                    nominee.social_media = ""
-                nominee.social_media += f'Email: <a href="mailto:{nominee.nominee_speech.nominee.email}">' \
-                                        f' {nominee.nominee_speech.nominee.email}</a>'
-                barrier_needed = True
-            if nominee.nominee_speech.nominee.discord != "NONE":
-                if barrier_needed:
-                    nominee.social_media += " | "
-                else:
-                    nominee.social_media = ""
-                nominee.social_media += f'Discord Username: {nominee.nominee_speech.nominee.discord}'
-                nominee.nominee_speech.speech = markdown.markdown(
-                    nominee.nominee_speech.speech, extensions=['sane_lists', 'markdown_link_attr_modifier'],
-                    extension_configs={
-                        'markdown_link_attr_modifier': {
-                            'new_tab': 'on',
-                        },
-                    }
-                )
-            nominees_display_order.append(nominee)
         context.update({
             ELECTION__HTML_NAME: election_to_display,
-            NOMINEES_HTML__NAME: nominees_display_order,
+            NOMINEES_HTML__NAME: positions,
         })
         return render(request, 'elections/election_page.html', context)
     else:

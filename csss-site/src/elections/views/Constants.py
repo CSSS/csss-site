@@ -33,7 +33,6 @@ INPUT_REDIRECT_NOMINEE__NAME = 'input_redirect_nominee_submit__name'
 
 SAVE_OR_UPDATE_NOMINEE__VALUE = 'Save/Update Nominee'
 
-
 SAVE_NEW_JSON_ELECTION__BUTTON_ID = 'save_election__button_id'
 SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE = 'save_election_button'
 SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID = 'save_new_election_and_continue_editing__button_id'
@@ -153,3 +152,6 @@ ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nomin
 
 TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME = 'nominee_link_to_delete__html_class_name'
 TOGGLE_NOMINEE_LINKS_TO_DELETE = 'nominee_link_to_delete'
+
+PRE_EXISTING_ELECTION = 'pre_existing_election'
+DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"

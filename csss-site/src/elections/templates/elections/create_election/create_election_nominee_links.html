@@ -11,12 +11,14 @@
 		<form method="post" class="form">
 			{%  csrf_token %}
 			{%  include 'csss/display_errors.html' %}
-			{%  include 'elections/webform_format/election_date.html' %}
-			{%  include 'elections/webform_format/election_time.html' %}
-			{%  include 'elections/webform_format/election_type.html' %}
-			{%  include 'elections/webform_format/election_websurvey.html' %}
-			{%  include 'elections/nominee_links/election_nominee_names.html' %}<br>
-			{%  include 'elections/create_election/submission_buttons.html' %}
+			{%  if pre_existing_election is False %}
+				{%  include 'elections/webform_format/election_date.html' %}
+				{%  include 'elections/webform_format/election_time.html' %}
+				{%  include 'elections/webform_format/election_type.html' %}
+				{%  include 'elections/webform_format/election_websurvey.html' %}
+				{%  include 'elections/nominee_links/election_nominee_names.html' %}<br>
+				{%  include 'elections/create_election/submission_buttons.html' %}
+			{%  endif %}
 		</form>
 	</div>
 {% endblock %}
