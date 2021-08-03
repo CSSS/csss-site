@@ -13,21 +13,33 @@ INPUT_ELECTION_ID__NAME = 'input_election_id__name'
 INPUT_ELECTION_ID__VALUE = 'input_election_id__value'
 
 NOMINEES_HTML__NAME = 'nominees__html_name'
+DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
+FINAL_NOMINEE_HTML__NAME = 'final_nominee__html_name'
 
 INPUT_REDIRECT_ELECTION__NAME = 'input_redirect_election_submit__name'
 INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE = (
     'input_redirect_election_submit_and_continue_editing__value'
 )
 INPUT_REDIRECT_ELECTION_SUBMIT__VALUE = 'input_redirect_election_submit__value'
+CREATE_OR_UPDATE_NOMINEE__NAME = 'create_or_update_nominee'
 CREATE_NEW_ELECTION__NAME = 'create_election'
 UPDATE_EXISTING_ELECTION__NAME = 'update_election'
 SAVE_ELECTION__VALUE = 'Save Election'
 SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
 
+INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE = 'input_redirect_nominee_submit__value'
+
+INPUT_REDIRECT_NOMINEE__NAME = 'input_redirect_nominee_submit__name'
+
+SAVE_OR_UPDATE_NOMINEE__VALUE = 'Save/Update Nominee'
+
 SAVE_NEW_JSON_ELECTION__BUTTON_ID = 'save_election__button_id'
 SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE = 'save_election_button'
 SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID = 'save_new_election_and_continue_editing__button_id'
 SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_election_and_continue_editing__button'
+
+SAVE_NEW_NOMINEE__BUTTON_ID = 'save_nominee__button_id'
+SAVE_NEW_NOMINEE__BUTTON_ID_VALUE = 'save_nominee_button'
 
 TYPES_OF_ELECTIONS = 'types_of_elections'
 VALID_POSITION_NAMES = 'valid_position_names'
@@ -47,6 +59,7 @@ ELECTION_JSON_WEBFORM_KEY__TIME = "time"
 ELECTION_JSON_VALUE__DATE_AND_TIME_FORMAT = "YYYY-MM-DD HH:MM"
 ELECTION_JSON_KEY__WEBSURVEY = Election.websurvey.field_name
 ELECTION_JSON_KEY__NOMINEES = Nominee.__name__.lower() + "s"
+ELECTION_JSON_KEY__NOMINEE = Nominee.__name__.lower()
 ELECTION_JSON_KEY__NOM_NAME = Nominee.name.field_name
 ELECTION_JSON_KEY__NOM_POSITION_NAMES = NomineePosition.position_name.field_name + "s"
 ELECTION_JSON_KEY__NOM_POSITION_NAME = NomineePosition.position_name.field_name
@@ -79,6 +92,8 @@ INPUT_NOMINEE_ID__NAME = 'input_nominee_id__name'
 CREATE_NEW_ELECTION__HTML_NAME = 'create_new_election__html_name'
 
 NOMINEE_DIV__NAME = 'nominee_div__name'
+
+CREATE_NEW_NOMINEE__HTML_NAME = 'create_new_nominee__html_name'
 
 INPUT_NOMINEE_SPEECH__NAME = 'input_nominee_speech__name'
 
@@ -137,3 +152,6 @@ ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nomin
 
 TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME = 'nominee_link_to_delete__html_class_name'
 TOGGLE_NOMINEE_LINKS_TO_DELETE = 'nominee_link_to_delete'
+
+PRE_EXISTING_ELECTION = 'pre_existing_election'
+DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"

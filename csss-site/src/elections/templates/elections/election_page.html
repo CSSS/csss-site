@@ -21,7 +21,11 @@
 							{% csrf_token %}
 							<button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via Webform</button>
 							</form>
-							<a href="{{URL_ROOT}}elections/{{election__html_name.slug}}/election_modification_nominee_links/">Modify via Nominee Links</a>
+							{%  if pre_existing_election is False %}
+								<a href="{{URL_ROOT}}elections/{{election__html_name.slug}}/election_modification_nominee_links/">Modify via Nominee Links</a>
+							{%  else %}
+								{{ delete_existing_nominee_links_message }}
+							{%  endif %}
 							<form action="{{URL_ROOT}}elections/delete/" method="post" class="form">
 							{% csrf_token %}
 								<input type="text" name="{{input_election_id__name}}" value="{{input_election_id__value}}" hidden readonly>
@@ -37,16 +41,14 @@
 								<h3 class="title is-size-3">Position: {{nominee.position_name}}</h3>
 							{% endifchanged %}
 							<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.name}}</b></p>
-							{% if nominee.social_media is not None %}
-								<p> Contact/Social Media: {{nominee.social_media|safe}}
-							{% endif %}
+							{{nominee.nominee_speech.social_media_html|safe}}
 							<br>
 							{%  if nominee.nominee_speech.speech != "NONE" %}
 								<p>Nominee Speech:</p>
 								<br>
 								<div class="csss_markdown">
 									<article class="box is-light">
-										{{nominee.nominee_speech.speech|safe}}
+										{{nominee.nominee_speech.formatted_speech|safe}}
 									</article>
 								</div>
 							{%  endif %}

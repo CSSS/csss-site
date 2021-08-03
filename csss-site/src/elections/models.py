@@ -1,3 +1,4 @@
+import markdown
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -90,6 +91,50 @@ class NomineeSpeech(models.Model):
         max_length=30000,
         default='NA'
     )
+
+    @property
+    def social_media_html(self):
+        social_media = None
+        barrier_needed = False
+        if self.nominee.facebook != "NONE":
+            social_media = f'<a href="{self.nominee.facebook}" target="_blank">Facebook Profile</a>'
+            barrier_needed = True
+        if self.nominee.linkedin != "NONE":
+            if barrier_needed:
+                social_media += " | "
+            else:
+                social_media = ""
+            social_media += f'<a href="{self.nominee.linkedin}" target="_blank">LinkedIn Profile</a>'
+            barrier_needed = True
+        if self.nominee.email != "NONE":
+            if barrier_needed:
+                social_media += " | "
+            else:
+                social_media = ""
+            social_media += f'Email: <a href="mailto:{self.nominee.email}"> {self.nominee.email}</a>'
+            barrier_needed = True
+        if self.nominee.discord != "NONE":
+            if barrier_needed:
+                social_media += " | "
+            else:
+                social_media = ""
+            social_media += f'Discord Username: {self.nominee.discord}'
+        return "" if social_media is None else "<p> Contact/Social Media: " + social_media + "</p>"
+
+    @property
+    def formatted_speech(self):
+        return markdown.markdown(
+            self.speech, extensions=['sane_lists', 'markdown_link_attr_modifier'],
+            extension_configs={
+                'markdown_link_attr_modifier': {
+                    'new_tab': 'on',
+                },
+            }
+        )
+
+    @property
+    def formatted_position_names_html(self):
+        return ", ".join([position.position_name for position in self.nomineeposition_set.all()])
 
     def __str__(self):
         return f"speech for Nominee {self.nominee.name} for Election {self.nominee.election}"

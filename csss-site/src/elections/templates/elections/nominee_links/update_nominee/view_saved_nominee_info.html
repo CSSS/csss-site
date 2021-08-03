@@ -1,0 +1,22 @@
+{% block content %}
+	{% load staticfiles %}
+	{%  if final_nominee__html_name|length > 0 %}
+		<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
+		{{final_nominee__html_name.0.social_media_html|safe}}
+		<br><br>
+		{% for nominee_speech in final_nominee__html_name %}
+			<h4 class="title is-size-4">Position[s]: {{ nominee_speech.formatted_position_names_html }}</h4>
+			<br>
+			{%  if nominee_speech.speech != "NONE" %}
+				<p>Nominee Speech:</p>
+				<br>
+				<div class="csss_markdown">
+					<article class="box is-light">
+						{{nominee_speech.formatted_speech|safe}}
+					</article>
+				</div>
+			{%  endif %}
+			<hr>
+		{% endfor %}
+	{%  endif %}
+{% endblock %}
