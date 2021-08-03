@@ -38,5 +38,3 @@ def transform_election_nominee_links_webform_to_json(request):
                 "transform_election_nominee_links_webform_to_json()] to")
     logger.info(json.dumps(new_nominee_dict, indent=3))
     return new_nominee_dict
-
-

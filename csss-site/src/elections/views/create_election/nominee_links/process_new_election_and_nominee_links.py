@@ -16,7 +16,8 @@ from elections.views.validators.validate_election_date import validate_webform_e
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_link import validate_http_link
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 

@@ -14,8 +14,10 @@ from elections.views.update_election.nominee_links.display_selected_nominee__nom
     display_current_nominee_link_election
 from elections.views.utils.webform_to_json.nominee_links.transform_nominee_links_webform_to_json import \
     transform_nominee_links_webform_to_json
-from elections.views.validators.validate_existing_nominees__nominee_link import validate_existing_nominee__nominee_link
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from elections.views.validators.validate_existing_nominees__nominee_link import \
+    validate_existing_nominee__nominee_link
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 

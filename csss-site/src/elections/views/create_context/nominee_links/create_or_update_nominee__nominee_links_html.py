@@ -5,14 +5,15 @@ from about.models import OfficerEmailListAndPositionMapping
 from elections.models import NomineeLink, NomineePosition
 from elections.views.Constants import FINAL_NOMINEE_HTML__NAME, SAVE_NEW_NOMINEE__BUTTON_ID, \
     SAVE_NEW_NOMINEE__BUTTON_ID_VALUE, INPUT_REDIRECT_NOMINEE__NAME, CREATE_OR_UPDATE_NOMINEE__NAME, \
-    INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE, SAVE_OR_UPDATE_NOMINEE__VALUE, NOMINEE_DIV__NAME, ELECTION_JSON_KEY__NOMINEE, \
-    INPUT_NOMINEE_NAME__NAME, ELECTION_JSON_KEY__NOM_NAME, INPUT_NOMINEE_FACEBOOK__NAME, \
-    ELECTION_JSON_KEY__NOM_FACEBOOK, INPUT_NOMINEE_LINKEDIN__NAME, ELECTION_JSON_KEY__NOM_LINKEDIN, \
-    INPUT_NOMINEE_EMAIL__NAME, ELECTION_JSON_KEY__NOM_EMAIL, INPUT_NOMINEE_DISCORD__NAME, \
-    ELECTION_JSON_KEY__NOM_DISCORD, CREATE_NEW_NOMINEE__HTML_NAME, DRAFT_NOMINEE_HTML__NAME, CURRENT_OFFICER_POSITIONS, \
-    INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
-    INPUT_NOMINEE_POSITION_NAMES__NAME, ELECTION_JSON_KEY__NOM_POSITION_NAMES, INPUT_NOMINEE_SPEECH__NAME, \
-    ELECTION_JSON_KEY__NOM_SPEECH, ID_KEY, ELECTION_JSON_KEY__NOM_POSITION_NAME, INPUT_SPEECH_ID__NAME
+    INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE, SAVE_OR_UPDATE_NOMINEE__VALUE, NOMINEE_DIV__NAME, \
+    ELECTION_JSON_KEY__NOMINEE, INPUT_NOMINEE_NAME__NAME, ELECTION_JSON_KEY__NOM_NAME, \
+    INPUT_NOMINEE_FACEBOOK__NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, INPUT_NOMINEE_LINKEDIN__NAME, \
+    ELECTION_JSON_KEY__NOM_LINKEDIN, INPUT_NOMINEE_EMAIL__NAME, ELECTION_JSON_KEY__NOM_EMAIL, \
+    INPUT_NOMINEE_DISCORD__NAME, ELECTION_JSON_KEY__NOM_DISCORD, CREATE_NEW_NOMINEE__HTML_NAME, \
+    DRAFT_NOMINEE_HTML__NAME, CURRENT_OFFICER_POSITIONS, INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, \
+    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, INPUT_NOMINEE_POSITION_NAMES__NAME, \
+    ELECTION_JSON_KEY__NOM_POSITION_NAMES, INPUT_NOMINEE_SPEECH__NAME, ELECTION_JSON_KEY__NOM_SPEECH, \
+    ID_KEY, ELECTION_JSON_KEY__NOM_POSITION_NAME, INPUT_SPEECH_ID__NAME
 from elections.views.create_context.nominee_links.utils.display_errors_html import \
     create_context_for_display_errors_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
@@ -22,7 +23,8 @@ from elections.views.extractors.get_nominee__nominee_link import get_election_no
 logger = logging.getLogger('csss_site')
 
 
-def create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=None, error_messages=None,
+def create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=None,
+                                                                    error_messages=None,
                                                                     nominee_info=None):
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
     create_new_nominee = not (len(nominee_links) == 1 and nominee_links[0].nominee is not None)
