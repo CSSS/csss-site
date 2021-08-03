@@ -10,11 +10,11 @@ logger = logging.getLogger('csss_site')
 
 def transform_nominee_links_webform_to_json(request):
     """
-    Converts the given nominee dictionary from Nominee Link into a JSOn format to prepare for the
+    Converts the given request object into a JSON format to prepare for the
      process_nominee__nominee_links function
 
     Keyword Argument
-    nominee_dict -- the dictionary that the nominee modification via link page created
+    request -- the django request object
 
     Return
     new_nominee_dict -- the dictionary format that the process_nominee__nominee_links function takes in

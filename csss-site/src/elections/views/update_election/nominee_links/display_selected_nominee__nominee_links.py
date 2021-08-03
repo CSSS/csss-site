@@ -11,6 +11,7 @@ def display_current_nominee_link_election(request, context, nominee_link_id):
     Keyword Argument
     request -- django request object
     context -- the context dictionary
+    nominee_link_id -- the ID for the nominee link that is has to be displayed
 
     Return
     render object that directs the user to the page for updating a nominee via nominee link

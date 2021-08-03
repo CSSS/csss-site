@@ -23,6 +23,17 @@ logger = logging.getLogger('csss_site')
 
 
 def process_nominee__nominee_links(request, context, nominee_link_id):
+    """
+    Processes the user's input for modify the specified election
+
+    Keyword Argument
+    request -- django request object
+    context -- the context dictionary
+    nominee_link_id -- the ID for the nominee link that has to be modified
+
+    Return
+    render object that directs the user to the page for updating a nominee via nominee link
+    """
     nominee_info = transform_nominee_links_webform_to_json(request)
 
     nominee_link = NomineeLink.objects.all().get(id=nominee_link_id)

@@ -4,6 +4,13 @@ from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH
 
 
 def transform_nominee_webform_to_json(nominee):
+    """
+    converts the nominee dict from the webform into the form that the JSON also creates as that is the
+     one that is more indigestable by the code
+
+    Keyword Arguments:
+    nominee -- the dict that contains the nominee info that will be updated
+    """
     if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee and \
             type(nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) == dict:
         nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = list(

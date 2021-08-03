@@ -41,7 +41,7 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
     _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=nominee_link_id)
     logger.info(
         "[elections/create_or_update_nominee__nominee_links_html.py"
-        " create_context_for_update_nominee__nominee_links_html()] "
+        " create_context_for_create_or_update_nominee__nominee_links_html()] "
         "context="
     )
     new_context = make_json_serializable_context_dictionary(context)

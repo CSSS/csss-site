@@ -29,6 +29,17 @@ logger = logging.getLogger('csss_site')
 
 
 def process_existing_election_and_nominee_links(request, context, slug):
+    """
+    Processes the user's input for modify the specified election and its nominee links
+
+    Keyword Argument
+    request -- django request object
+    context -- the context dictionary
+    slug -- the slug associated with the election
+
+    Return
+    render object that directs the user to the page for updating the election and its nominee links
+    """
     election = Election.objects.get(slug=slug)
     election_dict = transform_election_nominee_links_webform_to_json(request)
     fields = [
