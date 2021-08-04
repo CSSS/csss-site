@@ -149,9 +149,14 @@ NOMINEE_LINKS = 'nominee_links'
 
 CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME = 'create_or_update_nominee_via_nominee_link__html_name'
 ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nominee_links'
+ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK = (
+    'create_or_update_via_nominee_links_for_nominee'
+)
 
 TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME = 'nominee_link_to_delete__html_class_name'
 TOGGLE_NOMINEE_LINKS_TO_DELETE = 'nominee_link_to_delete'
 
 PRE_EXISTING_ELECTION = 'pre_existing_election'
 DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"
+
+HTML_PASSPHRASE_GET_KEY = 'passphrase'
