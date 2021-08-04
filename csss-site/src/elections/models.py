@@ -17,6 +17,7 @@ class Election(models.Model):
     election_type_choices = (
         ('general_election', 'General Election'),
         ('by_election', 'By-Election'),
+        ('council_rep_election', "Council Rep Election")
     )
 
     election_type = models.CharField(
