@@ -10,7 +10,8 @@ from elections.views.create_context.nominee_links.create_or_update_nominee__nomi
     create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
     display_current_nominee_link_election
-from elections.views.update_election.nominee_links.process_nominee__nominee_links import process_nominee__nominee_links
+from elections.views.update_election.nominee_links.process_nominee__nominee_links import \
+    process_nominee__nominee_links
 
 logger = logging.getLogger('csss_site')
 

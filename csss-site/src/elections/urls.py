@@ -15,8 +15,8 @@ from .views.endpoints.nominee_links.display_and_process_html_for_nominee_links i
     display_and_process_html_for_modification_of_election_and_nominee_links__nominee_links
 from .views.endpoints.nominee_links.display_and_process_html_for_nominee_modification__nominee_link import \
     display_and_process_html_for_nominee_modification
-from .views.endpoints.nominee_links.display_and_process_html_for_nominee_modification_via_passphrase__nominee_link import \
-    display_and_process_html_for_nominee_modification_via_passphrase
+from .views.endpoints.nominee_links.display_and_process_html_for_nominee_modification_via_passphrase__nominee_link \
+    import display_and_process_html_for_nominee_modification_via_passphrase
 from .views.endpoints.webform.create_election_webform import \
     display_and_process_html_for_new_webform_election
 from .views.endpoints.webform.display_and_process_html_for_webform import \
