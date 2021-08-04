@@ -17,4 +17,7 @@
     <input type="text" name="{{input_election_id__name}}" value="{{input_election_id__value}}" hidden readonly>
 {%  endif %}
 <div id="{{nominee_div__name}}"></div>
+{% include 'elections/create_election/submission_buttons.html' %}
+<br><br><br>
+<input type="button" value="Add another Nominee" onClick="addBlankNominee('{{nominee_div__name}}');">
 <br>
