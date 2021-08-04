@@ -18,6 +18,6 @@ def set_nominee_link(nominee_link):
     # browser
     if settings.PORT is not None:
         base_url += f":{settings.PORT}"
-    base_url += f"{settings.URL_ROOT}about/allow_officer_to_choose_name?"
-    nominee_link.link = f"{base_url}{HTML_PASSPHRASE_GET_KEY}={nominee_link.passphrase}"
+    base_url += f"{settings.URL_ROOT}elections/create_or_update_via_nominee_links_for_nominee?"
+    nominee_link.link = f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={nominee_link.passphrase}"
     return nominee_link
