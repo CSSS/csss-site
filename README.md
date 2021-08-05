@@ -7,6 +7,7 @@
  - [Various tasks to accomplish](#various-tasks-to-accomplish)
 
 
+
 ## 1. Setup Python Environment
 ```shell
 sudo apt-get install -y python3.7
