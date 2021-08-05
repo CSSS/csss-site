@@ -7,9 +7,8 @@ function create_staging_branch_home_dir {
 }
 
 function remove_existing_files {
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_django_admin" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_gunicorn" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_django_admin" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_gunicorn" || true
 
 }
 
@@ -32,15 +31,15 @@ function transfer_env_variables_to_server {
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
   echo 'DB_CONTAINER_NAME='"'"'csss_site_db_dev'"'" >> site_envs
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs"'" > site_envs_django_admin
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
   echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
   echo 'CHANGE_ID='"'"${CHANGE_ID}"'" >> site_envs
 
   cat site_envs >> site_envs_django_admin
   cat site_envs >>  site_envs_gunicorn
-  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_django_admin"
-  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_gunicorn"
+  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
+  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
 }
 
 function transfer_file_to_deploy_all_above_changes {

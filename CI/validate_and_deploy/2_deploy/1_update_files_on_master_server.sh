@@ -9,9 +9,8 @@ function remove_existing_files {
       "rm -fr ${BASE_DIR}/csss-site" \
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_django_admin" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs_gunicorn" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_django_admin" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_gunicorn" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 
@@ -45,7 +44,7 @@ function transfer_env_variables_to_server {
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs"'" > site_envs_django_admin
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/jenkins"'" > site_envs_jenkins
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
   echo 'DB_NAME='"'postgres'" >> site_envs
@@ -53,9 +52,9 @@ function transfer_env_variables_to_server {
   cat site_envs >> site_envs_django_admin
   cat site_envs >>  site_envs_gunicorn
   cat site_envs >>  site_envs_jenkins
-  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_django_admin"
-  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_gunicorn"
-  scp site_envs_jenkins csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs_jenkins"
+  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
+  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
+  scp site_envs_jenkins csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_jenkins"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
