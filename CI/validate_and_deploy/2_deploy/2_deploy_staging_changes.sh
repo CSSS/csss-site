@@ -29,7 +29,7 @@ function setup_master_virtual_env(){
 
   chmod +x "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh"
   cp "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh" "${BASE_DIR}/set_env.sh"
-  . "${BASE_DIR}/set_env.sh" site_envs_django_admin
+  . "${BASE_DIR}/set_env.sh" site_envs/site_envs_django_admin
 }
 
 
@@ -106,7 +106,7 @@ Requires=gunicorn_${BRANCH_NAME}.socket
 After=network.target
 
 [Service]
-EnvironmentFile=${BASE_DIR}/site_envs_gunicorn
+EnvironmentFile=${BASE_DIR}/site_envs/site_envs_gunicorn
 User=csss
 Group=www-data
 WorkingDirectory=${BASE_DIR}/csss-site
