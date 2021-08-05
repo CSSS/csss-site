@@ -38,6 +38,7 @@ function transfer_env_variables_to_server {
 
   cat site_envs >> site_envs_django_admin
   cat site_envs >>  site_envs_gunicorn
+  ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}/site_envs" || true
   scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
   scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
 }

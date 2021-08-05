@@ -10,7 +10,7 @@ function go_to_root_directory {
 }
 
 function create_directory_for_website_logs {
-  mkdir -p "${BASE_DIR}/website_logs/python_logs"
+  mkdir -p "${BASE_DIR}/website_logs/python_logs/django_admin"
   mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
 }
 
