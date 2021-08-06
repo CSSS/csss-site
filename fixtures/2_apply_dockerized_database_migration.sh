@@ -32,7 +32,7 @@ function applying_master_db_migrations {
   pushd ../../fixtures/
   wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/
   popd
-  python3 manage.py loaddata ../../fixtures/*
+  python3 manage.py loaddata ../../fixtures/*.json
 }
 
 
