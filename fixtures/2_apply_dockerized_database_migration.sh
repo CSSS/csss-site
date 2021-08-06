@@ -29,8 +29,10 @@ function wait_for_postgres_db {
 
 function applying_master_db_migrations {
   python3 manage.py migrate
+  pushd ../../fixtures/
   wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/
-  python3 manage.py loaddata ../../migrations/*
+  python3 manage.py loaddata *
+  popd
 }
 
 
