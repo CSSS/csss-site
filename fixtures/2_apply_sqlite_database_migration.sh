@@ -6,7 +6,12 @@ git checkout master
 
 rm sqlite || true
 python3 manage.py migrate
-wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/
-python3 manage.py loaddata ../../migrations/*
+
+pushed ../../fixtures/
+rm *.json* || true
+wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/ -A 'json'
+popd
+
+python3 manage.py loaddata ../../fixtures/*
 
 git checkout -
