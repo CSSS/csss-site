@@ -16,6 +16,7 @@ function install_latest_python_requirements {
 
 function create_directory_for_website_logs {
   mkdir -p "${BASE_DIR}/website_logs/python_logs"
+  mkdir -p "${BASE_DIR}/website_logs/create_fixtures"
   mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
 }
 
