@@ -57,10 +57,10 @@ mkdir -p /path/to/csss-site/website_logs/python_logs
 ```shell
 if (you choose to use a dockerized database){
     sudo apt-get install postgresql-contrib
-    ../../fixtures/2_apply_dockerized_database_migration.sh
+    ../../CI/fixtures/2_apply_dockerized_database_migration.sh
     git checkout <your_branch_name>
 }else{
-    ../../fixtures/2_apply_sqlite_database_migration.sh
+    ../../CI/fixtures/2_apply_sqlite_database_migration.sh
 }
 ```
 
