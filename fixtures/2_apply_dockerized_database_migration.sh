@@ -30,6 +30,7 @@ function wait_for_postgres_db {
 function applying_master_db_migrations {
   python3 manage.py migrate
   pushd ../../fixtures/
+  rm *.json*
   wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/
   popd
   python3 manage.py loaddata ../../fixtures/*.json
