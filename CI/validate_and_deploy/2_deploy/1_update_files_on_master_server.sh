@@ -45,20 +45,33 @@ function transfer_env_variables_to_server {
   echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
   echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
   echo 'GITLAB_PRIVATE_TOKEN='"'"${GITLAB_PRIVATE_TOKEN}"'" >> site_envs
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn  
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/backup_script"'" > site_envs_backup_script
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/create_fixtures"'" > site_envs_create_fixtures
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/jenkins"'" > site_envs_jenkins
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/create_fixtures"'" > site_envs_create_fixtures
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/process_announcements"'" > site_envs_process_announcements
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_office_pics"'" > site_envs_update_office_pics
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
   echo 'DB_NAME='"'postgres'" >> site_envs
 
-  cat site_envs >> site_envs_django_admin
+  cat site_envs >> site_envs_gunicorn
+  cat site_envs >> site_envs_backup_script
   cat site_envs >> site_envs_create_fixtures
-  cat site_envs >>  site_envs_gunicorn
-  cat site_envs >>  site_envs_jenkins
-  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
-  scp site_envs_create_fixtures csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_create_fixtures"
+  cat site_envs >> site_envs_django_admin
+  cat site_envs >> site_envs_jenkins
+  cat site_envs >> site_envs_process_announcements
+  cat site_envs >> site_envs_update_office_pics
+  cat site_envs >> site_envs_validate_resource_permissions
+  
   scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
+  scp site_envs_backup_script csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_backup_script"
+  scp site_envs_create_fixtures csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_create_fixtures"
+  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
   scp site_envs_jenkins csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_jenkins"
+  scp site_envs_process_announcements csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_process_announcements"
+  scp site_envs_update_office_pics csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_update_office_pics"
+  scp site_envs_validate_resource_permissions csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_validate_resource_permissions"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
