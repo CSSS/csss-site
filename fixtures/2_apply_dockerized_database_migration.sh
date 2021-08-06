@@ -31,7 +31,7 @@ function applying_master_db_migrations {
   python3 manage.py migrate
   pushd ../../fixtures/
   rm *.json* || true
-  wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/
+  wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/ -A 'json'
   popd
   python3 manage.py loaddata ../../fixtures/*.json
 }
