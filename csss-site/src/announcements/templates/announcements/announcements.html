@@ -10,33 +10,37 @@
 				<section class="section">
 					<div class="container">
 						<article class="box is-light" >
-							<h3 class="title is-size-3">
-								{%  if announcement.email is None %}
-									{{ announcement.manual_announcement.title }}
+							{%  if error_message is not None %}
+								{{ error_message }}
+							{% else %}
+								<h3 class="title is-size-3">
+									{%  if announcement.email is None %}
+										{{ announcement.manual_announcement.title }}
+									{%  else %}
+										{{announcement.email.subject}}
+									{%  endif %}
+								</h3>
+								<p class="is-size-6 has-text-grey has-text-right">
+									posted by {{announcement.author}} on {{announcement.date}}
+								</p>
+								<hr class="csss_announcement_subject_underline">
+								<div class="is-size-6">
+								{% if announcement.email is None %}
+									{{announcement.manual_announcement.content|safe|linebreaks }}
 								{%  else %}
-									{{announcement.email.subject}}
+									<div class="hide_email_embeds">
+										{% if announcement.email.html|safe|length > 0 %}
+											{{announcement.email.html|safe}}
+										{% else %}
+											{{announcement.email.body|safe|linebreaks}}
+										{% endif %}
+									</div>
 								{%  endif %}
-							</h3>
-							<p class="is-size-6 has-text-grey has-text-right">
-								posted by {{announcement.author}} on {{announcement.date}}
-							</p>
-							<hr class="csss_announcement_subject_underline">
-							<div class="is-size-6">
-							{% if announcement.email is None %}
-								{{announcement.manual_announcement.content|safe|linebreaks }}
-							{%  else %}
-								<div class="hide_email_embeds">
-									{% if announcement.email.html|safe|length > 0 %}
-										{{announcement.email.html|safe}}
-									{% else %}
-										{{announcement.email.body|safe|linebreaks}}
-									{% endif %}
 								</div>
+								{% for attachment in announcement.email.attachments.all %}
+									<a href="{{ URL_ROOT_FOR_EMAIL_ATTACHMENTS }}{%  get_media_prefix %}{{ attachment.document }}">attachment {{ forloop.counter }}</a><br>
+								{% endfor %}
 							{%  endif %}
-							</div>
-							{% for attachment in announcement.email.attachments.all %}
-								<a href="{{ URL_ROOT_FOR_EMAIL_ATTACHMENTS }}{%  get_media_prefix %}{{ attachment.document }}">attachment {{ forloop.counter }}</a><br>
-							{% endfor %}
 						</article>
 					</div>
 				</section>
