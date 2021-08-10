@@ -54,7 +54,7 @@ function transfer_env_variables_to_server {
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/jenkins"'" > site_envs_jenkins
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/process_announcements"'" > site_envs_process_announcements
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_officer_pics"'" > site_envs_update_officer_pics
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
   echo 'DB_NAME='"'postgres'" >> site_envs
 
   cat site_envs >> site_envs_gunicorn
