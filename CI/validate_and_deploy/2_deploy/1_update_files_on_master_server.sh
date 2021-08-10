@@ -9,10 +9,7 @@ function remove_existing_files {
       "rm -fr ${BASE_DIR}/csss-site" \
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_django_admin" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_gunicorn" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_create_fixtures" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_update_officer_pics" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/*" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 
@@ -53,7 +50,7 @@ function transfer_env_variables_to_server {
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/jenkins"'" > site_envs_jenkins
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/process_announcements"'" > site_envs_process_announcements
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_officer_pics"'" > site_envs_update_officer_pics
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
   echo 'DB_NAME='"'postgres'" >> site_envs
 
   cat site_envs >> site_envs_gunicorn
