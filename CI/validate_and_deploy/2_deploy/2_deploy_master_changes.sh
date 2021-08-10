@@ -22,6 +22,7 @@ function create_directory_for_website_logs {
   mkdir -p "${BASE_DIR}/website_logs/python_logs/update_profile_pics"
   mkdir -p "${BASE_DIR}/website_logs/python_logs/validate_resource_permissions"
   mkdir -p "${BASE_DIR}/website_logs/python_logs/create_fixtures"
+  mkdir -p "${BASE_DIR}/website_logs/python_logs/site_envs_update_office_pics"
   mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
 }
 
