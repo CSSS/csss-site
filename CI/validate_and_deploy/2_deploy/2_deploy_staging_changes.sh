@@ -82,12 +82,12 @@ function update_static_files_location {
 }
 
 function update_media_files {
-  mkdir -p "${BASE_DIR}/static_root/documents_static"
+  mkdir -p "${BASE_DIR}/static_root/documents_static" || true
   ln -ns /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
-  mkdir -p "${BASE_DIR}/static_root/about_static"
+  mkdir -p "${BASE_DIR}/static_root/about_static" || true
   ln -ns /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
-  mkdir -p "${BASE_DIR}/media_root/"
-  ln -s /home/csss/mailbox_attachments "${BASE_DIR}/media_root/."
+  mkdir -p "${BASE_DIR}/media_root/" || true
+  ln -s /home/csss/mailbox_attachments "${BASE_DIR}/media_root/." || true
 }
 
 function set_gunicorn_files {
