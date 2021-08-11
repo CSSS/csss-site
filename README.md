@@ -73,7 +73,7 @@ if (you choose to use a dockerized database){
 
 ### 2.4 Set up Announcement Attachments
 ```shell
-if (you want to downlaod the attachments from the staging server){
+if (you want to download the attachments from the staging server){
   ../../CI/fixtures_and_media_download/download_mailbox_attachments.sh
 }else{
   python3 manage.py create_attachments
