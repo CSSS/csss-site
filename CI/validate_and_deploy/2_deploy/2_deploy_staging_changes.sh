@@ -86,8 +86,6 @@ function update_media_files {
   ln -ns /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
   mkdir -p "${BASE_DIR}/static_root/about_static"
   ln -ns /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
-  scp -r csss@sfucsss.org:"/home/csss/media_root" "${BASE_DIR}/media_root" || true
-
 }
 
 function set_gunicorn_files {
