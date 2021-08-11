@@ -72,6 +72,9 @@ if (you choose to use a dockerized database){
 
 ### 2.4 Set up Announcement Attachments and Officer Profile Pics
 ```shell
+if you want to download the latest email attachments and officer profile pics from the staging server
+python3 manage.py setup_website --download__attachments --download__officer_images
+
 if you want to download the latest email attachments and use the stock image for the officer profile pics
 python3 manage.py setup_website --download__attachments
 
