@@ -159,8 +159,8 @@ function update_nginx_configuration {
     proxy_pass http://unix:${BASE_DIR}/gunicorn.sock;
   }
 " > "branch_${BRANCH_NAME}"
-  cat /home/csss/nginx_site_config branch_* | sudo tee /etc/nginx/sites-available/PR_sites
-  echo "}" | sudo tee -a /etc/nginx/sites-available/PR_sites
+  cat CI/nginx_conf_files/1_nginx_config_file branch_* CI/nginx_conf_files/2_nginx_conf_file \
+   | sudo tee /etc/nginx/sites-available/PR_sites
   sudo ln -s /etc/nginx/sites-available/PR_sites /etc/nginx/sites-enabled/ || true
   sudo nginx -t
   sudo systemctl restart nginx
