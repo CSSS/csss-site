@@ -6,10 +6,9 @@
    - [2.1 Set Environment Variables](#21-set-environment-variables)
    - [2.2 Create log folder](#22-create-log-folder)
    - [2.3 Spin up Dockerized Database and Setup Database Entries](#23-spin-up-dockerized-database-and-setup-database-entries)
-   - [2.4 Set up Announcement Attachments](#24-set-up-announcement-attachments)
-   - [2.5 Set up Officer Profile Pics](#25-set-up-officer-profile-pics)
-   - [2.6 Needed if you need to log into /admin](#26-needed-if-you-need-to-log-into-admin)
-   - [2.7 Run Site](#27-run-site)   
+   - [2.4 Set up Announcement Attachments and Officer Profile Pics](#24-set-up-announcement-attachments-and-officer-profile-pics)
+   - [2.5 Needed if you need to log into /admin](#25-needed-if-you-need-to-log-into-admin)
+   - [2.6 Run Site](#26-run-site)   
  - [Before opening a PR](#3-before-opening-a-pr)
  - [Various tasks to accomplish](#various-tasks-to-accomplish)
 
@@ -71,30 +70,39 @@ if (you choose to use a dockerized database){
 }
 ```
 
-### 2.4 Set up Announcement Attachments
+### 2.4 Set up Announcement Attachments and Officer Profile Pics
 ```shell
-if (you want to download the attachments from the staging server){
-  ../../CI/fixtures_and_media_download/download_mailbox_attachments.sh
-}else{
-  python3 manage.py create_attachments
-}
-```
+if you want to download the latest email attachments and officer profile pics from the staging server
+python3 manage.py setup_website --download__attachments --download__officer_images
 
-### 2.5 Set up Officer Profile Pics
-```shell
-if (you want to use the actual images instead of the stock photos){
-  ../../CI/fixtures_and_media_download/download_officer_photos.sh
-}
+if you want to download the latest email attachments and use the stock image for the officer profile pics
+python3 manage.py setup_website --download__attachments
+
+if you want to create decoy email attachments and download the latest officer profile pics from the staging server
+python3 manage.py setup_website --download__officer_images
+
+if you want to create decoy email attachments and use the stock image for the officer profile pics
+python3 manage.py setup_website
+
+if you want to download the latest email attachments from the staging server
+python3 manage.py create_attachments  --download
+
+if you want to create decoy email attachments
+python3 manage.py create_attachments
+
+if you want to download the latest officer profile pics from the staging server
+python3 manage.py update_officer_images --download
+
+if you want to use the stock image for the officer profile pics
 python3 manage.py update_officer_images
 ```
 
-
-### 2.6 Needed if you need to log into /admin
+### 2.5 Needed if you need to log into /admin
 ```shell
 python3 manage.py createsuperuser
 ```
 
-### 2.7 Run Site
+### 2.6 Run Site
 ```shell
 python3 manage.py runserver 0.0.0.0:8000
 ```
