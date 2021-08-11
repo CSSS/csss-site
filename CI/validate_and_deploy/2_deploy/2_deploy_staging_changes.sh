@@ -162,6 +162,7 @@ function update_nginx_configuration {
   }
 " > "branch_${BRANCH_NAME}"
   cat 1_nginx_config_file branch_* 2_nginx_config_file | sudo tee /etc/nginx/sites-available/PR_sites
+  rm 1_nginx_config_file 2_nginx_config_file || true
   sudo ln -s /etc/nginx/sites-available/PR_sites /etc/nginx/sites-enabled/ || true
   sudo nginx -t
   sudo systemctl restart nginx
