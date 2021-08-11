@@ -12,16 +12,16 @@ server {
 
 	location = /favicon.ico { access_log off; log_not_found off; }
 
-	location /fixtures/ {
+	location /fixtures {
 		proxy_read_timeout 3600;
 		autoindex on;
-		alias /home/csss/fixtures/;
+		alias /mnt/dev_csss_website_media/fixtures/;
 	}
 
 	location /mailbox_attachments {
 		proxy_read_timeout 3600;
 		autoindex on;
-		alias /home/csss/mailbox_attachments/;
+		alias /mnt/dev_csss_website_media/mailbox_attachments/;
 	}
 
 	location /exec-photos {

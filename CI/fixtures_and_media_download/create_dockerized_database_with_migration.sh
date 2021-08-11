@@ -33,7 +33,7 @@ function applying_master_db_migrations {
   if [ -z "${BASE_DIR}" ]; then
     wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/ -A 'json'
   else
-    cp ~/fixtures/* .
+    cp /mnt/dev_csss_website_media/fixtures/* .
   fi
   python3 manage.py loaddata *.json
   rm *.json* || true
