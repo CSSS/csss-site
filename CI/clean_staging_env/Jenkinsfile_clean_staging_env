@@ -19,7 +19,7 @@ node {
                 export PR_NUMBER=${pr_number};
                 scp CI/clean_staging_env/clean_staging_env.sh csss@dev.sfucsss.org:/home/csss/clean_staging_env_\${PR_NUMBER}.sh;
                 scp CI/nginx_conf_files/1_nginx_config_file csss@dev.sfucsss.org:/home/csss/1_nginx_config_file;
-                scp CI/nginx_conf_files/2_nginx_conf_file csss@dev.sfucsss.org:/home/csss/2_nginx_conf_file;
+                scp CI/nginx_conf_files/2_nginx_config_file csss@dev.sfucsss.org:/home/csss/2_nginx_config_file;
                 ssh csss@dev.sfucsss.org "/home/csss/clean_staging_env_\${PR_NUMBER}.sh -pr_number \"\${PR_NUMBER}\"";
                 ssh csss@dev.sfucsss.org "rm -fr \"/home/csss/clean_staging_env_\${PR_NUMBER}.sh\"";
                 cd ../;
