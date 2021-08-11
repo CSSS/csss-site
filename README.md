@@ -74,7 +74,7 @@ if (you choose to use a dockerized database){
 ### 2.4 Set up Announcement Attachments
 ```shell
 if (you want to downlaod the attachments from the staging server){
-  ../../CI/fixtures_and_media_download/download_mailbox_attachments.sh
+  python3 manage.py create_attachments  --download
 }else{
   python3 manage.py create_attachments
 }
@@ -83,9 +83,10 @@ if (you want to downlaod the attachments from the staging server){
 ### 2.5 Set up Officer Profile Pics
 ```shell
 if (you want to use the actual images instead of the stock photos){
-  ../../CI/fixtures_and_media_download/download_officer_photos.sh
+  python3 manage.py update_officer_images --download
+}else{
+  python3 manage.py update_officer_images
 }
-python3 manage.py update_officer_images
 ```
 
 

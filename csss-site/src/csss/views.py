@@ -2,6 +2,7 @@ import logging
 import os
 
 import markdown
+import wget
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
@@ -52,7 +53,7 @@ def index(request):
         if len(announcement) > 0:
             error_message = (
                 "run <br>`python3 manage.py create_attachments`<br> or "
-                "<br>`../../CI/fixtures_and_media_download/download_mailbox_attachments.sh`"
+                "<br>`python3 manage.py create_attachments --download`"
             )
 
     previous_button_link = request_path + '?p=' + str(
@@ -61,7 +62,7 @@ def index(request):
     next_button_link = request_path + '?p=' + str(
         current_page + 1 if current_page + 1 <= paginated_object.num_pages else 1
     )
-
+    wget.download()
     context = create_main_context(request, 'index')
     context.update({
         'announcements': announcements,
