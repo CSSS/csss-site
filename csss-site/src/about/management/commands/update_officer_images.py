@@ -14,7 +14,7 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument(
-            '--poll_email',
+            '--download',
             action='store_true',
             default=False,
             help="pull the latest exec-photos from the staging server"
