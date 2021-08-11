@@ -3,6 +3,13 @@
 
  - [1. Setup Python Environment](#1-setup-python-environment)
  - [2. Setting the Necessary Environment Variables](#2-setting-the-necessary-environment-variables)
+   - [2.1 Set Environment Variables](#21-set-environment-variables)
+   - [2.2 Create log folder](#22-create-log-folder)
+   - [2.3 Spin up Dockerized Database and Setup Database Entries](#23-spin-up-dockerized-database-and-setup-database-entries)
+   - [2.4 Set up Announcement Attachments](#24-set-up-announcement-attachments)
+   - [2.5 Set up Officer Profile Pics](#25-set-up-officer-profile-pics)
+   - [2.6 Needed if you need to log into /admin](#26-needed-if-you-need-to-log-into-admin)
+   - [2.7 Run Site](#27-run-site)   
  - [Before opening a PR](#3-before-opening-a-pr)
  - [Various tasks to accomplish](#various-tasks-to-accomplish)
 
