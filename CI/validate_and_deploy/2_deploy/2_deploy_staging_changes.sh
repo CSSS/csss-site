@@ -35,10 +35,9 @@ function setup_master_virtual_env(){
 
 function setup_db_and_apply_master_migrations {
   cd "${BASE_DIR}/csss-site/csss-site/src"
-  ../../migrations/1_update_fixtures.sh
   docker stop "${DB_CONTAINER_NAME}" || true
   docker rm "${DB_CONTAINER_NAME}" || true
-  ../../migrations/2_apply_dockerized_database_migration.sh
+  ../../CI/fixtures_and_media_download/create_dockerized_database_with_migration.sh
 }
 
 function switch_to_pr_branch(){
@@ -82,12 +81,12 @@ function update_static_files_location {
 }
 
 function update_media_files {
-  mkdir -p "${BASE_DIR}/static_root/documents_static"
+  mkdir -p "${BASE_DIR}/static_root/documents_static" || true
   ln -ns /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
-  mkdir -p "${BASE_DIR}/static_root/about_static"
+  mkdir -p "${BASE_DIR}/static_root/about_static" || true
   ln -ns /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
-  scp -r csss@sfucsss.org:"/home/csss/media_root" "${BASE_DIR}/media_root" || true
-
+  mkdir -p "${BASE_DIR}/media_root/" || true
+  ln -s /home/csss/mailbox_attachments "${BASE_DIR}/media_root/." || true
 }
 
 function set_gunicorn_files {
@@ -144,22 +143,22 @@ function update_nginx_configuration {
   cd ~/
   echo -e "
 
-location /${BRANCH_NAME}/STATIC_URL/ {
-proxy_read_timeout 3600;
-autoindex on;
-alias ${BASE_DIR}/static_root/;
-}
-location /${BRANCH_NAME}/MEDIA_URL/ {
-proxy_read_timeout 3600;
-autoindex on;
-alias ${BASE_DIR}/media_root/;
-}
-location /${BRANCH_NAME}/ {
-proxy_read_timeout 3600;
-include proxy_params;
-proxy_pass http://unix:${BASE_DIR}/gunicorn.sock;
-
-  }" > "branch_${BRANCH_NAME}"
+  location /${BRANCH_NAME}/STATIC_URL/ {
+    proxy_read_timeout 3600;
+    autoindex on;
+    alias ${BASE_DIR}/static_root/;
+  }
+  location /${BRANCH_NAME}/MEDIA_URL/ {
+    proxy_read_timeout 3600;
+    autoindex on;
+    alias ${BASE_DIR}/media_root/;
+  }
+  location /${BRANCH_NAME}/ {
+    proxy_read_timeout 3600;
+    include proxy_params;
+    proxy_pass http://unix:${BASE_DIR}/gunicorn.sock;
+  }
+" > "branch_${BRANCH_NAME}"
   cat /home/csss/nginx_site_config branch_* | sudo tee /etc/nginx/sites-available/PR_sites
   echo "}" | sudo tee -a /etc/nginx/sites-available/PR_sites
   sudo ln -s /etc/nginx/sites-available/PR_sites /etc/nginx/sites-enabled/ || true

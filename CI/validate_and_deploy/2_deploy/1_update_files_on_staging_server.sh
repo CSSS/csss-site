@@ -3,6 +3,7 @@
 set -e -o xtrace
 
 function create_staging_branch_home_dir {
+  ssh csss@"${HOST_ADDRESS}" "rm -fr ${BASE_DIR}" || true
   ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}" || true
 }
 

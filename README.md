@@ -1,8 +1,15 @@
 # csss-site
 
 
- - [Setup Python Environment](#1-setup-python-environment)
- - [Setting the Necessary Environment Variables](#2-setting-the-necessary-environment-variables)
+ - [1. Setup Python Environment](#1-setup-python-environment)
+ - [2. Setting the Necessary Environment Variables](#2-setting-the-necessary-environment-variables)
+   - [2.1 Set Environment Variables](#21-set-environment-variables)
+   - [2.2 Create log folder](#22-create-log-folder)
+   - [2.3 Spin up Dockerized Database and Setup Database Entries](#23-spin-up-dockerized-database-and-setup-database-entries)
+   - [2.4 Set up Announcement Attachments](#24-set-up-announcement-attachments)
+   - [2.5 Set up Officer Profile Pics](#25-set-up-officer-profile-pics)
+   - [2.6 Needed if you need to log into /admin](#26-needed-if-you-need-to-log-into-admin)
+   - [2.7 Run Site](#27-run-site)   
  - [Before opening a PR](#3-before-opening-a-pr)
  - [Various tasks to accomplish](#various-tasks-to-accomplish)
 
@@ -42,34 +49,52 @@ if (you do not want to spin up a docker database){
 }
 ```
 
-### Set Environment Variables
+### 2.1 Set Environment Variables
 ```shell
 cd csss-site/src
 . ../../CI/validate_and_deploy/2_deploy/set_env.sh site_envs
 ```
 
-### Create log folder
+### 2.2 Create log folder
 ```shell
 mkdir -p /path/to/csss-site/website_logs/python_logs
 ```
 
-### Spin up Dockerized Database and Setup Database Entries
+### 2.3 Spin up Dockerized Database and Setup Database Entries
 ```shell
 if (you choose to use a dockerized database){
     sudo apt-get install postgresql-contrib
-    ../../migrations/2_apply_dockerized_database_migration.sh
+    ../../CI/fixtures_and_media_download/create_dockerized_database_with_migration.sh
     git checkout <your_branch_name>
 }else{
-    ../../migrations/2_apply_sqlite_database_migration.sh
+    ../../CI/fixtures_and_media_download/create_sqlite_database_with_migration.sh
 }
 ```
 
-### Needed if you need to log into /admin
+### 2.4 Set up Announcement Attachments
+```shell
+if (you want to downlaod the attachments from the staging server){
+  ../../CI/fixtures_and_media_download/download_mailbox_attachments.sh
+}else{
+  python3 manage.py create_attachments
+}
+```
+
+### 2.5 Set up Officer Profile Pics
+```shell
+if (you want to use the actual images instead of the stock photos){
+  ../../CI/fixtures_and_media_download/download_officer_photos.sh
+}
+python3 manage.py update_officer_images
+```
+
+
+### 2.6 Needed if you need to log into /admin
 ```shell
 python3 manage.py createsuperuser
 ```
 
-### Run Site
+### 2.7 Run Site
 ```shell
 python3 manage.py runserver 0.0.0.0:8000
 ```
