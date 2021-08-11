@@ -62,7 +62,6 @@ def index(request):
     next_button_link = request_path + '?p=' + str(
         current_page + 1 if current_page + 1 <= paginated_object.num_pages else 1
     )
-    wget.download()
     context = create_main_context(request, 'index')
     context.update({
         'announcements': announcements,
