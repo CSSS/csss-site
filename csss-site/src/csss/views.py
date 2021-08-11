@@ -2,7 +2,6 @@ import logging
 import os
 
 import markdown
-import wget
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
