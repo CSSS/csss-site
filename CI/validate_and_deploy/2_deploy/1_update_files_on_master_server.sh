@@ -9,9 +9,7 @@ function remove_existing_files {
       "rm -fr ${BASE_DIR}/csss-site" \
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_django_admin" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_gunicorn" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_create_fixtures" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/*" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 
@@ -51,8 +49,8 @@ function transfer_env_variables_to_server {
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/jenkins"'" > site_envs_jenkins
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/process_announcements"'" > site_envs_process_announcements
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_office_pics"'" > site_envs_update_office_pics
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_officer_pics"'" > site_envs_update_officer_pics
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
   echo 'DB_NAME='"'postgres'" >> site_envs
 
   cat site_envs >> site_envs_gunicorn
@@ -61,7 +59,7 @@ function transfer_env_variables_to_server {
   cat site_envs >> site_envs_django_admin
   cat site_envs >> site_envs_jenkins
   cat site_envs >> site_envs_process_announcements
-  cat site_envs >> site_envs_update_office_pics
+  cat site_envs >> site_envs_update_officer_pics
   cat site_envs >> site_envs_validate_resource_permissions
   
   scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
@@ -70,7 +68,7 @@ function transfer_env_variables_to_server {
   scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
   scp site_envs_jenkins csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_jenkins"
   scp site_envs_process_announcements csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_process_announcements"
-  scp site_envs_update_office_pics csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_update_office_pics"
+  scp site_envs_update_officer_pics csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_update_officer_pics"
   scp site_envs_validate_resource_permissions csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_validate_resource_permissions"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
