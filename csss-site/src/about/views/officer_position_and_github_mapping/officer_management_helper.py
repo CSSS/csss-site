@@ -3,7 +3,6 @@ import logging
 import os
 
 from django.conf import settings
-from django.contrib.staticfiles import finders
 
 from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from csss.Gmail import Gmail

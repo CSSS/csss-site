@@ -21,5 +21,5 @@ class Command(BaseCommand):
                 file_path = file_path[:file_path.rfind("/"):]
                 pathlib.Path(file_path).mkdir(parents=True, exist_ok=True)
                 open(attachment_to_create.path, 'w').close()
-            except Exception as exc:
+            except Exception:
                 pass

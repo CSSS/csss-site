@@ -50,7 +50,10 @@ def index(request):
         announcement = [announcement for announcement in announcements if
                         check_if_file_attachments_exists(announcement)]
         if len(announcement) > 0:
-            error_message = "run <br>`python3 manage.py create_attachments`<br> or <br>`../../CI/fixtures_and_media_download/download_mailbox_attachments.sh`"
+            error_message = (
+                "run <br>`python3 manage.py create_attachments`<br> or "
+                "<br>`../../CI/fixtures_and_media_download/download_mailbox_attachments.sh`"
+            )
 
     previous_button_link = request_path + '?p=' + str(
         current_page - 1 if current_page > 1 else paginated_object.num_pages
