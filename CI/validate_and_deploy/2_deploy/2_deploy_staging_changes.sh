@@ -58,6 +58,8 @@ function organize_file_structure {
   mv "${BASE_DIR}/csss-site" "${BASE_DIR}/csss-site-repo"
   mv "${BASE_DIR}/csss-site-repo/csss-site/src" csss-site
   mv "${BASE_DIR}/csss-site-repo/requirements.txt" requirements.txt
+  cp "${BASE_DIR}/csss-site-repo/CI/nginx_conf_files/1_nginx_config_file" ~/.
+  cp "${BASE_DIR}/csss-site-repo/CI/nginx_conf_files/2_nginx_config_file" ~/.
   rm -fr "${BASE_DIR}/csss-site-repo"
   cd "${BASE_DIR}/csss-site"
 }
@@ -159,8 +161,7 @@ function update_nginx_configuration {
     proxy_pass http://unix:${BASE_DIR}/gunicorn.sock;
   }
 " > "branch_${BRANCH_NAME}"
-  cat CI/nginx_conf_files/1_nginx_config_file branch_* CI/nginx_conf_files/2_nginx_conf_file \
-   | sudo tee /etc/nginx/sites-available/PR_sites
+  cat 1_nginx_config_file branch_* 2_nginx_config_file | sudo tee /etc/nginx/sites-available/PR_sites
   sudo ln -s /etc/nginx/sites-available/PR_sites /etc/nginx/sites-enabled/ || true
   sudo nginx -t
   sudo systemctl restart nginx

@@ -47,8 +47,9 @@ function remove_website_code(){
 
 function remove_nginx_config(){
 	rm -fr /home/csss/branch_${STAGING_NAME} || true
-	cat CI/nginx_conf_files/1_nginx_config_file branch_* CI/nginx_conf_files/2_nginx_conf_file \
+	cat /home/csss/1_nginx_config_file branch_* /home/csss/2_nginx_conf_file \
 	 | sudo tee /etc/nginx/sites-available/PR_sites
+	rm /home/csss/1_nginx_config_file /home/csss/2_nginx_conf_file
 	sudo nginx -t
 	sudo systemctl restart nginx
 }
