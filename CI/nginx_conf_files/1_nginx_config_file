@@ -1,0 +1,31 @@
+server {
+	listen 80;
+	server_name dev.sfucsss.org;
+	return 301 https://$host$request_uri;
+}
+server {
+	listen 443 ssl;
+	server_name dev.sfucsss.org;
+
+	ssl_certificate /etc/letsencrypt/live/dev.sfucsss.org/fullchain.pem;
+	ssl_certificate_key /etc/letsencrypt/live/dev.sfucsss.org/privkey.pem;
+
+	location = /favicon.ico { access_log off; log_not_found off; }
+
+	location /fixtures {
+		proxy_read_timeout 3600;
+		autoindex on;
+		alias /mnt/dev_csss_website_media/fixtures/;
+	}
+
+	location /mailbox_attachments {
+		proxy_read_timeout 3600;
+		autoindex on;
+		alias /mnt/dev_csss_website_media/mailbox_attachments/;
+	}
+
+	location /exec-photos {
+		proxy_read_timeout 3600;
+		autoindex on;
+		alias /mnt/dev_csss_website_media/exec-photos/;
+	}
