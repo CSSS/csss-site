@@ -23,4 +23,3 @@ class Command(BaseCommand):
                 open(attachment_to_create.path, 'w').close()
             except Exception as exc:
                 pass
-

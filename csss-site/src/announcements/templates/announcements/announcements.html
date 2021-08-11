@@ -11,7 +11,7 @@
 					<div class="container">
 						<article class="box is-light" >
 							{%  if error_message is not None %}
-								{{ error_message }}
+								{{ error_message|safe }}
 							{% else %}
 								<h3 class="title is-size-3">
 									{%  if announcement.email is None %}

@@ -57,12 +57,30 @@ mkdir -p /path/to/csss-site/website_logs/python_logs
 ```shell
 if (you choose to use a dockerized database){
     sudo apt-get install postgresql-contrib
-    ../../CI/fixtures/2_apply_dockerized_database_migration.sh
+    ../../CI/fixtures_and_media_download/create_dockerized_database_with_migration.sh
     git checkout <your_branch_name>
 }else{
-    ../../CI/fixtures/2_apply_sqlite_database_migration.sh
+    ../../CI/fixtures_and_media_download/create_sqlite_database_with_migration.sh
 }
 ```
+
+### Set up Announcement Attachments
+```shell
+if (you want to downlaod the attachments from the staging server){
+  ../../CI/fixtures_and_media_download/download_mailbox_attachments.sh
+}else{
+  python3 manage.py create_attachments
+}
+```
+
+### Set up Officer Profile Pics
+```shell
+if (you want to use the actual images instead of the stock photos){
+  ../../CI/fixtures_and_media_download/download_officer_photos.sh
+}
+python3 manage.py update_officer_images
+```
+
 
 ### Needed if you need to log into /admin
 ```shell

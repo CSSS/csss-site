@@ -35,6 +35,7 @@ function setup_master_virtual_env(){
 
 function setup_db_and_apply_master_migrations {
   cd "${BASE_DIR}/csss-site/csss-site/src"
+  git checkout update_fixture_workflow
   ../../migrations/1_update_fixtures.sh
   docker stop "${DB_CONTAINER_NAME}" || true
   docker rm "${DB_CONTAINER_NAME}" || true
