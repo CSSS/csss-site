@@ -116,4 +116,4 @@ python3 manage.py runserver 0.0.0.0:8000
 
 ## Various tasks to accomplish
 
-[Link to wki for add a webpage](https://github.com/CSSS/csss-site/wiki/Adding-a-Webpage)
+[Link to wki for adding a webpage](https://github.com/CSSS/csss-site/wiki/Adding-a-Webpage)
