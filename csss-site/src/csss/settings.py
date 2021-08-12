@@ -37,6 +37,12 @@ if "DEBUG" not in os.environ:
 DEBUG = os.environ['DEBUG'] == "true"
 logger.info(f'[settings.py] DEBUG set to {DEBUG}')
 
+if 'STAGING_SERVER' in os.environ:
+    STAGING_SERVER = os.environ['STAGING_SERVER']
+else:
+    STAGING_SERVER = 'https://dev.sfucsss.org/'
+logger.info(f'[settings.py] STAGING_SERVER set to {STAGING_SERVER}')
+
 if 'ENVIRONMENT' not in os.environ:
     logger.error("[settings.py] ENVIRONMENT was not detected")
     exit(1)

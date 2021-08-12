@@ -1,6 +1,7 @@
 import logging
 import os
 
+from django.conf import settings
 from django.core.management import BaseCommand
 
 from about.models import Officer
@@ -29,7 +30,7 @@ def update_officer_images(download=False):
     if download:
         os.system(
             "rm -fr about/static/about_static/exec-photos || true; "
-            "wget -r --no-host-directories https://dev.sfucsss.org/exec-photos/ -R "
+            f"wget -r -X '*' --no-host-directories {settings.STAGING_SERVER}exec-photos/ -R "
             "'*html*' -P about/static/about_static/ || true"
         )
     for officer in Officer.objects.all().filter():

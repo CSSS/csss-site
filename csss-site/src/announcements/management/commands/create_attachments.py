@@ -2,6 +2,7 @@ import logging
 import os
 import pathlib
 
+from django.conf import settings
 from django.core.management import BaseCommand
 from django_mailbox.models import Message
 
@@ -28,7 +29,7 @@ def download_or_create_announcement_attachments(download=False):
         os.system(
             "rm -fr ../../media_root || true; "
             "mkdir -p ../../media_root || true; "
-            "wget -r --no-host-directories https://dev.sfucsss.org/mailbox_attachments/ -R '*html*' "
+            f"wget -r -X '*' --no-host-directories {settings.STAGING_SERVER}mailbox_attachments/ -R '*html*' "
             "-P ../../media_root/ || true"
         )
     else:
