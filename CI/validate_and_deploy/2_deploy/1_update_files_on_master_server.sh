@@ -12,6 +12,7 @@ function remove_existing_files {
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/*" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/Under-Construction1.jpg" || true
 
 }
 
@@ -23,6 +24,7 @@ function transfer_source_code_and_reqs {
 
   # transfer requirements file for the website
   scp "requirements.txt" csss@"${HOST_ADDRESS}":"${BASE_DIR}/requirements.txt"
+  scp "CI/validate_and_deploy/2_deploy/Under-Construction1.jpg" csss@"${HOST_ADDRESS}":"${BASE_DIR}/Under-Construction1.jpg"
 }
 
 function transfer_env_variables_to_server {
