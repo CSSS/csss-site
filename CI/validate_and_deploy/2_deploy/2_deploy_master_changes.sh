@@ -2,11 +2,7 @@
 
 set -e -o xtrace
 
-function switch_nginx_to_construction_page {
-  sudo rm /etc/nginx/sites-enabled/website
-  sudo ln -s /etc/nginx/sites-available/construction /etc/nginx/sites-enabled/website
-  sudo systemctl restart nginx.service
-}
+
 
 
 
@@ -94,13 +90,8 @@ function clean_up_after_deployment {
   rm "/home/csss/deploy_changes.sh"
 }
 
-function switch_nginx_back_to_website {
-  sudo rm /etc/nginx/sites-enabled/website
-  sudo ln -s /etc/nginx/sites-available/website /etc/nginx/sites-enabled/website
-  sudo systemctl restart nginx.service
-}
 
-switch_nginx_to_construction_page
+
 go_to_root_directory
 install_latest_python_requirements
 create_directory_for_website_logs
@@ -110,4 +101,3 @@ set_gunicorn_files
 updating_gunincorn
 update_nginx_configuration
 clean_up_after_deployment
-switch_nginx_back_to_website
