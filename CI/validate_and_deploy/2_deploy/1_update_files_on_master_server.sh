@@ -2,6 +2,10 @@
 
 set -e -o xtrace
 
+function switch_nginx_to_construction_page {
+  ssh csss@"${HOST_ADDRESS}" "sudo rm /etc/nginx/sites-enabled/website; sudo ln -s /etc/nginx/sites-available/construction /etc/nginx/sites-enabled/website; sudo systemctl restart nginx.service"
+}
+
 function remove_existing_files {
   # remove all old and replace with newer code. will make sure that the migrations are not deleted as they need to be
   # persistent through the changes
@@ -79,7 +83,13 @@ function transfer_file_to_deploy_all_above_changes {
   scp "CI/validate_and_deploy/2_deploy/2_deploy_master_changes.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/deploy_changes.sh"
 }
 
+function switch_nginx_back_to_website {
+  ssh csss@"${HOST_ADDRESS}" "sudo rm /etc/nginx/sites-enabled/website; sudo ln -s /etc/nginx/sites-available/website /etc/nginx/sites-enabled/website; sudo systemctl restart nginx.service"
+}
+
+switch_nginx_to_construction_page
 remove_existing_files
 transfer_source_code_and_reqs
 transfer_env_variables_to_server
 transfer_file_to_deploy_all_above_changes
+switch_nginx_back_to_website
