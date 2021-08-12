@@ -116,4 +116,4 @@ python3 manage.py runserver 0.0.0.0:8000
 
 ## Various tasks to accomplish
 
- * [Add an events page for frosh, mountain madness, or fall hacks for a new year](documentation/Add_An_Event.md)
+[Link to wki for add a webpage](https://github.com/CSSS/csss-site/wiki/Adding-a-Webpage)
