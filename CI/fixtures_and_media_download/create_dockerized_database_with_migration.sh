@@ -30,7 +30,7 @@ function wait_for_postgres_db {
 function applying_master_db_migrations {
   python3 manage.py migrate
   rm *.json* || true
-  if [ -z "${BASE_DIR}" ]; then
+  if [ -z "${CHANGE_ID}" ]; then
     wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/ -A 'json'
   else
     cp /mnt/dev_csss_website_media/fixtures/* .
