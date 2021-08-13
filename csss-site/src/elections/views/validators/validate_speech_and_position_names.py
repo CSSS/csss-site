@@ -44,15 +44,14 @@ def validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairin
     Bool -- true or false depending on if the speech and [potential] ID is valid
     error_message -- an error message if the validation failed, or None otherwise
     """
-    if not f"{speech_and_position_pairing[ID_KEY]}".isdigit():
-        return False, f"the speech ID of {speech_and_position_pairing[ID_KEY]} is invalid"
     if len(
             NomineeSpeech.objects.all().filter(
                 id=int(speech_and_position_pairing[ID_KEY]), nominee__election_id=election_id
             )
     ) != 1:
-        return False, f"the speech ID of {speech_and_position_pairing[ID_KEY]} " \
-                      "does not map to a current Speech object"
+        # if the ID does not map to a current Speech object
+        del speech_and_position_pairing[ID_KEY]
+        return True, None
     if int(speech_and_position_pairing[ID_KEY]) in speech_ids_so_far:
         return False, f"The speech ID of {speech_and_position_pairing[ID_KEY]} is used by more than 1 speech"
     speech_ids_so_far.append(int(speech_and_position_pairing[ID_KEY]))
