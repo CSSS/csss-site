@@ -61,7 +61,8 @@ def transform_webform_to_json(election_dict):
                                 position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = \
                                     [position_info[0]]
                     if ID_KEY in position_and_speech_pairing:
-                        if position_and_speech_pairing[ID_KEY] == "" or not f"{position_and_speech_pairing[ID_KEY]}".isdigit():
+                        if position_and_speech_pairing[ID_KEY] == "" or \
+                                not f"{position_and_speech_pairing[ID_KEY]}".isdigit():
                             del position_and_speech_pairing[ID_KEY]
     if ELECTION_JSON_KEY__DATE in election_dict:
         new_election_dict[ELECTION_JSON_KEY__DATE] = election_dict[ELECTION_JSON_KEY__DATE]

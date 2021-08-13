@@ -49,7 +49,7 @@ def validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairin
                 id=int(speech_and_position_pairing[ID_KEY]), nominee__election_id=election_id
             )
     ) != 1:
-        ## if the ID does not map to a current Speech object
+        # if the ID does not map to a current Speech object
         del speech_and_position_pairing[ID_KEY]
         return True, None
     if int(speech_and_position_pairing[ID_KEY]) in speech_ids_so_far:
