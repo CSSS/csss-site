@@ -86,15 +86,6 @@ class NomineeLink(models.Model):
 
     @property
     def link(self):
-        """
-        Update the Nominee Link object so that it contains the nominee link via the `link` attribute
-
-        Keyword Argument
-        nominee_link -- the nominee link object
-
-        Return
-        the update nominee link object that contains the link attribute
-        """
         base_url = f"{settings.HOST_ADDRESS}"
         # this is necessary if the user is testing the site locally and therefore is using the port to access the
         # browser
