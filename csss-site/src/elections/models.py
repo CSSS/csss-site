@@ -1,4 +1,5 @@
 import markdown
+from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -6,6 +7,8 @@ from datetime import datetime
 
 
 # Create your models here.
+from elections.views.Constants import HTML_PASSPHRASE_GET_KEY
+
 
 class Election(models.Model):
     slug = models.SlugField(max_length=32, unique=True)
@@ -80,6 +83,25 @@ class NomineeLink(models.Model):
         unique=True,
         null=True
     )
+
+    @property
+    def link(self):
+        """
+        Update the Nominee Link object so that it contains the nominee link via the `link` attribute
+
+        Keyword Argument
+        nominee_link -- the nominee link object
+
+        Return
+        the update nominee link object that contains the link attribute
+        """
+        base_url = f"{settings.HOST_ADDRESS}"
+        # this is necessary if the user is testing the site locally and therefore is using the port to access the
+        # browser
+        if settings.PORT is not None:
+            base_url += f":{settings.PORT}"
+        base_url += f"{settings.URL_ROOT}elections/create_or_update_via_nominee_links_for_nominee?"
+        return f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={self.passphrase}"
 
     def __str__(self):
         return f"passphrase for nominee {self.name} for election {self.election}"
