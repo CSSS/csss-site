@@ -3,7 +3,7 @@ import logging
 from django.shortcuts import render
 
 from elections.models import NomineeLink, Election, NomineeSpeech, NomineePosition
-from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
 from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \

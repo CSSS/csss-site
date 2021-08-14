@@ -1,7 +1,8 @@
 from elections.models import Nominee
-from elections.views.Constants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
-    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
-    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ID_KEY
+from elections.views.Constants import ID_KEY
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
+    ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_DISCORD, \
+    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
 from elections.views.validators.validate_existing_nominee_jformat import validate_existing_nominee_jformat
 
 

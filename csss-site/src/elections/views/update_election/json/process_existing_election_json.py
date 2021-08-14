@@ -4,9 +4,10 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from elections.views.Constants import ELECTION_JSON__KEY, ELECTION_ID, ELECTION_JSON_KEY__WEBSURVEY, \
-    ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__NOMINEES, \
+from elections.views.Constants import ELECTION_JSON__KEY, ELECTION_ID, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON, UPDATE_EXISTING_ELECTION__NAME
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
+    ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.json.create_json_context import \
     create_json_election_context_from_user_inputted_election_dict
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id

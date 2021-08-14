@@ -1,6 +1,6 @@
 from django import template
 
-from elections.views.Constants import ELECTION_JSON_KEY__NOM_POSITION_NAME
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITION_NAME
 
 register = template.Library()
 

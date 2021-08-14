@@ -1,8 +1,9 @@
 import datetime
 import logging
 
-from elections.views.Constants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
-    ELECTION_JSON_KEY__DATE, DATE_AND_TIME_FORMAT, ELECTION_JSON_WEBFORM_KEY__TIME
+from elections.views.Constants import DATE_AND_TIME_FORMAT
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
+    ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
 from elections.views.save_election.save_new_election_obj_jformat import create_and_save_election_object_jformat
 from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \

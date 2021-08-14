@@ -4,10 +4,12 @@ import logging
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import ERROR_MESSAGES_KEY
 from elections.models import Election
-from elections.views.Constants import TYPES_OF_ELECTIONS, ELECTION_JSON_KEY__ELECTION_TYPE, VALID_POSITION_NAMES, \
+from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, \
     FORMAT_ELECTION_JSON__DIV_ID_NAME, \
-    JS_FORMATTING_ERROR, USER_INPUTTED_ELECTION_JSON__KEY, ELECTION_JSON__KEY, ELECTION_ID, ELECTION_JSON_KEY__DATE, \
-    DATE_AND_TIME_FORMAT, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
+    JS_FORMATTING_ERROR, USER_INPUTTED_ELECTION_JSON__KEY, ELECTION_JSON__KEY, ELECTION_ID, \
+    DATE_AND_TIME_FORMAT
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
+    ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id

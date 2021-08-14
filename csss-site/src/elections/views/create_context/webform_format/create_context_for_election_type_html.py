@@ -1,6 +1,7 @@
 from elections.models import Election
-from elections.views.Constants import SELECT_ELECTION_TYPE__NAME, ELECTION_JSON_KEY__ELECTION_TYPE, \
+from elections.views.Constants import SELECT_ELECTION_TYPE__NAME, \
     CURRENT_ELECTION_TYPES, SELECTED_ELECTION_TYPE__HTML_NAME
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE
 
 
 def create_context_for_election_type_html(context, election_type=None):

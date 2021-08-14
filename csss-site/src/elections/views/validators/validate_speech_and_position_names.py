@@ -1,8 +1,9 @@
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import there_are_multiple_entries
 from elections.models import NomineeSpeech, NomineePosition
-from elections.views.Constants import ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
-    ELECTION_JSON_KEY__NOM_POSITION_NAME, ID_KEY
+from elections.views.Constants import ID_KEY
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
+    ELECTION_JSON_KEY__NOM_POSITION_NAME
 
 
 def validate_speech_in_pairing(speech_ids_so_far, speech_and_position_pairing, election_id, name):
