@@ -1,7 +1,8 @@
 import json
 import logging
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
+from administration.views.verify_user_access import create_context_and_verify_user_can_manage_elections
+from csss.views_helper import ERROR_MESSAGE_KEY
 from elections.views.Constants import TAB_STRING, CREATE_NEW_ELECTION__NAME
 from elections.views.create_election.json.display_json_for_new_election import display_empty_election_json
 from elections.views.create_election.json.process_new_election_json import process_new_inputted_json_election
@@ -17,7 +18,7 @@ def display_and_process_html_for_new_json_election(request):
         "[elections/create_election_json.py display_and_process_html_for_new_json_election()] request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+    (render_value, error_message, context) = create_context_and_verify_user_can_manage_elections(
         request, TAB_STRING
     )
     if render_value is not None:

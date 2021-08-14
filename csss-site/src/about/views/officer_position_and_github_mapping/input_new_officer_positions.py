@@ -1,14 +1,15 @@
 import logging
 
 from django.shortcuts import render
+from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
+from administration.views.verify_user_access import verify_user_can_update_position_mappings
+from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     there_are_multiple_entries
-from querystring_parser import parser
 
 logger = logging.getLogger('csss_site')
 
@@ -22,9 +23,11 @@ UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 def input_new_officer_positions(request):
     logger.info("[about/input_new_officer_positions.py input_new_officer_positions()]"
                 f" request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
-    if context is None:
+    (render_value, error_message, context) = verify_user_can_update_position_mappings(
+        request,
+        TAB_STRING
+    )
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
     context[ERROR_MESSAGES_KEY] = []

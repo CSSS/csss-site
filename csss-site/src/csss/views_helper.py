@@ -1,10 +1,10 @@
 import logging
 
 from django.conf import settings
-from django.http import HttpResponseRedirect
 
-from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
-from administration.cas_login import interpret_sfu_cas_response
+from administration.Constants import CURRENT_WEBMASTER_OR_DOA, OFFICER_IN_PAST_5_TERMS, \
+    CURRENT_ELECTION_OFFICER, CURRENT_SYS_ADMIN, CURRENT_SYS_ADMIN_OR_WEBMASTER, USER_SFUID
+from administration.cas_session_management import cas_login
 from elections.models import Election
 
 ERROR_MESSAGE_KEY = 'error_message'
@@ -25,31 +25,30 @@ def create_main_context(request, tab):
     Return
     context -- the base context dictionary
     """
-    interpret_sfu_cas_response(request)
+    cas_login(request)
     elections = Election.objects.all().order_by('-date')
     if len(elections) == 0:
         elections = None
     context = _create_base_context()
     request_path = None
-    if request.COOKIES.get("sfuid", None) is None:
+    if request.session.get(USER_SFUID, None) is None:
         request_path = f"https://cas.sfu.ca/cas/login?service=http://{settings.HOST_ADDRESS}"
         if settings.PORT is not None:
             request_path += f":{settings.PORT}"
         request_path += f"{request.path}"
 
     context.update({
-        'username': request.COOKIES.get("sfuid", False),
+        'username': request.session.get(USER_SFUID, False),
         'cas_login': request_path,
         'tab': tab,
         'election_list': elections,
-        'current_webmaster_or_doa': request.COOKIES.get("current_webmaster_or_doa", False),
-        'current_sys_admin': request.COOKIES.get("current_sys_admin", False),
-        'current_sys_admin_or_webmaster': request.COOKIES.get("current_sys_admin_or_webmaster", False),
-        'officer_in_past_5_terms': request.COOKIES.get("officer_in_past_5_terms", False),
-        'current_election_officer': request.COOKIES.get("current_election_officer", False)
+        CURRENT_WEBMASTER_OR_DOA: request.session.get(CURRENT_WEBMASTER_OR_DOA, False),
+        CURRENT_SYS_ADMIN: request.session.get(CURRENT_SYS_ADMIN, False),
+        CURRENT_SYS_ADMIN_OR_WEBMASTER: request.session.get(CURRENT_SYS_ADMIN_OR_WEBMASTER, False),
+        OFFICER_IN_PAST_5_TERMS: request.session.get(OFFICER_IN_PAST_5_TERMS, False),
+        CURRENT_ELECTION_OFFICER: request.session.get(CURRENT_ELECTION_OFFICER, False)
     })
     return context
-
 
 
 def create_frosh_context():
@@ -76,49 +75,6 @@ def _create_base_context():
     return context
 
 
-def verify_access_logged_user_and_create_context_for_elections(request, tab):
-    """
-    Makes sure that the user is allowed to access the election page and returns
-    the context dictionary
-
-    Keyword Argument
-    request -- the django request object
-    tab -- the tab that needs to be specified in the context
-
-    Return
-    HttpResponseRedirect -- either None or the redirect object that redirect to the error page
-    error_message -- the error message if the user is not allowed to access the election pages
-    context -- the base context dictionary
-    """
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_main_context(request, tab, groups)
-    if not (ELECTION_MANAGEMENT_GROUP_NAME in groups):
-        return HttpResponseRedirect('/error'), "You are not authorized to access this page", context
-    return None, None, context
-
-
-def verify_access_logged_user_and_create_context(request, tab):
-    """
-    make sure that the user is logged in with the sufficient level of access to access the page
-
-    Keyword Arguments
-    request -- the django request object
-    tab -- the tab that needs to be specified in the context
-
-    Return
-    HttpResponseRedirect -- returns a redirect to /error if the user is not allowed to access
-     the page or None if they are
-    error_message -- the error message if the user is not allowed to access the page
-    context -- the context object to pass to html if user is allowed to access the page
-    """
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_main_context(request, tab, groups)
-    if not (request.user.is_staff or 'officer' in groups):
-        return HttpResponseRedirect(
-            '/error'), "You are not authorized to access this page", None
-    return None, None, context
-
-
 def there_are_multiple_entries(post_dict, key_to_read):
     """
     Check to see if the given dictionary has an array or a single element at the specified key
@@ -134,5 +90,3 @@ def there_are_multiple_entries(post_dict, key_to_read):
     if key_to_read not in post_dict:
         return None
     return isinstance(post_dict[key_to_read], list)
-
-

@@ -3,10 +3,11 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
+from administration.views.verify_user_access import create_context_and_verify_user_can_manage_elections
+from csss.views_helper import ERROR_MESSAGE_KEY
 from elections.views.Constants import TAB_STRING
-from elections.views.create_election.webform.process_new_election_webform import process_new_inputted_webform_election
 from elections.views.create_context.webform.create_webform_context import create_webform_context
+from elections.views.create_election.webform.process_new_election_webform import process_new_inputted_webform_election
 
 logger = logging.getLogger('csss_site')
 
@@ -20,7 +21,7 @@ def display_and_process_html_for_new_webform_election(request):
         "request.POST"
     )
     logger.info(json.dumps(request.POST, indent=3))
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+    (render_value, error_message, context) = create_context_and_verify_user_can_manage_elections(
         request, TAB_STRING
     )
     if render_value is not None:

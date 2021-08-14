@@ -16,7 +16,8 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
     ELECTION_OFFICER_POSITIONS, OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES, \
     OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS, \
     HTML_VALUE_ATTRIBUTE_FOR_START_DATE, TERM_SEASONS
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context, \
+from administration.views.verify_user_access import verify_user_can_create_officer_creation_links
+from csss.views_helper import ERROR_MESSAGE_KEY, create_main_context, \
     ERROR_MESSAGES_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
@@ -122,8 +123,7 @@ def verify_passphrase_access_and_create_context(request, tab):
             return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, error_message, None
     else:
         return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, "You did not supply a passphrase", None
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_main_context(request, tab, groups)
+    context = create_main_context(request, tab)
     return None, context, None, new_officer_detail
 
 
@@ -131,8 +131,8 @@ def show_create_link_page(request):
     """
     Shows the page where the user can select the year, term and positions for whom to create the generation links
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
+    (render_value, error_message, context) = verify_user_can_create_officer_creation_links(request, TAB_STRING)
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
     logger.info(f"[about/officer_creation_link_management.py show_create_link_page()] "
@@ -156,8 +156,8 @@ def show_page_with_creation_links(request):
         f"[about/officer_creation_link_management.py show_page_with_creation_links()] request.POST={request.POST}")
     logger.info(
         f"[about/officer_creation_link_management.py show_page_with_creation_links()] request.GET={request.GET}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
+    (render_value, error_message, context) = verify_user_can_create_officer_creation_links(request, TAB_STRING)
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
     post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY, HTML_NEW_START_DATE_KEY,

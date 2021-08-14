@@ -13,7 +13,8 @@ from django.shortcuts import render
 from about.models import Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
     TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context, \
+from administration.views.verify_user_access import verify_user_can_upload_officer_lists
+from csss.views_helper import ERROR_MESSAGE_KEY, create_main_context, \
     ERROR_MESSAGES_KEY
 
 YEAR_AND_TERM_COLUMN = 0
@@ -38,8 +39,8 @@ def show_page_for_uploading_officer_list(request):
     """
     Show page where the officer can upload an officer list
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
+    (render_value, error_message, context) = verify_user_can_upload_officer_lists(request, TAB_STRING)
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
     return render(request, 'about/upload_list.html', context)
@@ -49,8 +50,8 @@ def process_officer_list_upload(request):
     """
     Takes in a JSON or CSV with the list of officers to save
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
+    (render_value, error_message, context) = verify_user_can_upload_officer_lists(request, TAB_STRING)
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
     overwrite = 'overwrite' in request.POST

@@ -3,7 +3,8 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY, \
+from administration.views.verify_user_access import create_context_and_verify_user_can_manage_elections
+from csss.views_helper import ERROR_MESSAGE_KEY, \
     ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TAB_STRING
@@ -25,7 +26,7 @@ def display_and_process_html_for_modification_of_election_and_nominee_links__nom
         "request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
+    (render_value, error_message, context) = create_context_and_verify_user_can_manage_elections(
         request, TAB_STRING
     )
     if render_value is not None:

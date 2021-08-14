@@ -1,1 +1,7 @@
 ELECTION_MANAGEMENT_GROUP_NAME = 'election_management'
+CURRENT_WEBMASTER_OR_DOA = 'current_webmaster_or_doa'
+OFFICER_IN_PAST_5_TERMS = 'officer_in_past_5_terms'
+CURRENT_ELECTION_OFFICER = 'current_election_officer'
+CURRENT_SYS_ADMIN = 'current_sys_admin'
+CURRENT_SYS_ADMIN_OR_WEBMASTER = 'current_sys_admin_or_webmaster'
+USER_SFUID = 'sfuid'

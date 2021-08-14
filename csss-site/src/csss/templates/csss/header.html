@@ -170,15 +170,15 @@
 					<div class="navbar-item has-dropdown is-hoverable">
 						<a class="navbar-link">Administration</a>
 						<div class="navbar-dropdown">
-							{%  if sfuid %}
+							{%  if username is not False %}
 								<hr class="dropdown-divider">
 								<div class="dropdown-item">
-									<p><b>Logged in as {{sfuid}}</b></p>
+									<p><b>Logged in as {{username}}</b></p>
 								</div>
 
 								<div class="dropdown-item">
 									<div class="buttons">
-										<a class="button is-light" href="{{URL_ROOT}}/logout">
+										<a class="button is-light" href="{{URL_ROOT}}logout">
 											<strong>Log Out</strong>
 										</a>
 									</div>

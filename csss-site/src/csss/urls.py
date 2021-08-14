@@ -2,6 +2,8 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
+
+from administration import cas_session_management
 from . import views
 
 urlpatterns = [
@@ -12,10 +14,10 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'statics/', include('static_pages.urls')),
     url(r'^' + settings.URL_PATTERN + 'elections/', include('elections.urls')),
     url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
-    url(r'^' + settings.URL_PATTERN + 'administration/', include('administration.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'error/', views.errors, name="error page"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
+    url(r'^logout$', cas_session_management.cas_logout, name="Logout")
 ]
 
 if settings.ENVIRONMENT == "LOCALHOST":

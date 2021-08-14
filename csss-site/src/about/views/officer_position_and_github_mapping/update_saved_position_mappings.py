@@ -4,14 +4,16 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
-from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from administration.views.verify_user_access import verify_user_can_update_position_mappings
+from csss.get_term_info import get_current_term, get_datetime_for_beginning_of_current_term
+from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from elections.models import NomineePosition
+from resource_management.views.gdrive_views import TAB_STRING
 
 DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
 UN_DELETED_POSITION_MAPPING_KEY = 'un_delete_position_mapping'
@@ -21,9 +23,10 @@ logger = logging.getLogger('csss_site')
 
 
 def update_saved_position_mappings(request):
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
-    if context is None:
+    (render_value, error_message, context) = verify_user_can_update_position_mappings(
+        request, TAB_STRING
+    )
+    if render_value is not None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
 

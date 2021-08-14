@@ -9,7 +9,6 @@ if 'BASE_DIR' in os.environ:
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 if 'LOG_LOCATION' in os.environ:
     LOG_LOCATION = os.environ['LOG_LOCATION']
@@ -49,6 +48,10 @@ if 'ENVIRONMENT' not in os.environ:
 ENVIRONMENT = os.environ['ENVIRONMENT']
 logger.info(f"[settings.py] ENVIRONMENT set to {ENVIRONMENT}")
 
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+SESSION_COOKIE_HTTPONLY = True
+
 if ENVIRONMENT != "LOCALHOST" and ENVIRONMENT != "STAGING" and ENVIRONMENT != "PRODUCTION":
     logger.info('[settings.py] ENVIRONMENT is not a valid value')
     exit(1)
@@ -58,7 +61,7 @@ if ENVIRONMENT == "LOCALHOST" and "PORT" not in os.environ:
     exit(1)
 
 # https://stackoverflow.com/a/40522604/7734535
-SESSION_COOKIE_AGE = 3600 # one hour in seconds
+SESSION_COOKIE_AGE = 3600  # one hour in seconds
 
 if "PORT" in os.environ:
     PORT = os.environ['PORT']

@@ -4,20 +4,18 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+from administration.views.verify_user_access import create_context_and_verify_user_was_an_officer_in_past_5_terms, \
+    verify_user_can_update_github_mappings
+from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
-from .gitlab_views import create_gitlab_perms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 from .resource_apis.github.github_api import GitHubAPI
-from .resource_apis.gitlab.gitlab_api import GitLabAPI
 
 logger = logging.getLogger('csss_site')
 
 GOOGLE_DRIVE_KEY = 'gdrive'
 GITHUB_KEY = 'github'
-SFU_GITLAB_KEY = 'gitlab'
 RESOURCES_KEY = 'resource'
 TAB_STRING = 'resource_management'
 
@@ -27,8 +25,10 @@ def show_resources_to_validate(request):
     Displays the resources that the user can validate
     """
     logger.info(f"[administration/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     return render(
@@ -43,19 +43,21 @@ def validate_access(request):
     takes in the inputs from the user on what resources to validate
     """
     logger.info(f"[administration/resource_views.py validate_access()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     if there_are_multiple_entries(request.POST, RESOURCES_KEY):
         for resource in request.POST[RESOURCES_KEY]:
-            determine_resource_to_validate(resource)
+            determine_resource_to_validate(request, resource)
     else:
-        determine_resource_to_validate(request.POST[RESOURCES_KEY])
+        determine_resource_to_validate(request, request.POST[RESOURCES_KEY])
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/show_resources_for_validation')
 
 
-def determine_resource_to_validate(selected_resource_to_validate):
+def determine_resource_to_validate(request, selected_resource_to_validate):
     """
     determine which resource needs to be validated
 
@@ -70,14 +72,10 @@ def determine_resource_to_validate(selected_resource_to_validate):
         logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
                     " to validate the access to the google drive")
         validate_google_drive()
-    if GITHUB_KEY == selected_resource_to_validate:
+    if GITHUB_KEY == selected_resource_to_validate and verify_user_can_update_github_mappings(request):
         logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
                     " to validate the access to the google drive")
         validate_github()
-    if SFU_GITLAB_KEY == selected_resource_to_validate:
-        logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
-                    " to validate the access to the SFU Gitlab")
-        validate_sfu_gitlab()
 
 
 def validate_google_drive():
@@ -96,12 +94,3 @@ def validate_github():
     GitHubAPI(
         settings.GITHUB_ACCESS_TOKEN
     ).ensure_proper_membership(create_github_perms())
-
-
-def validate_sfu_gitlab():
-    """
-    calls the functions for validating the sfu gitlab permissions
-    """
-    GitLabAPI(
-        settings.GITLAB_PRIVATE_TOKEN
-    ).ensure_proper_membership(create_gitlab_perms())

@@ -4,7 +4,7 @@ import logging
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from administration.views import user_has_election_management_privilege
+from administration.views.verify_user_access import verify_user_can_manage_elections
 from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
 from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
@@ -23,15 +23,15 @@ def get_nominees(request, slug):
         )
         return HttpResponseRedirect('/error')
     election_to_display = Election.objects.get(slug=slug)
-    election_management_privilege = user_has_election_management_privilege(request)
+    election_management_privilege = verify_user_can_manage_elections(request)
     if election_management_privilege:
         privilege_message = "user does have election management privilege"
     else:
         privilege_message = "user does not have election management privilege"
     logger.info(f"[elections/election_page.py get_nominees()] determining if election with slug {slug}"
                 f"needs to be shown as its date is {election_to_display.date} and the {privilege_message}")
-    if election_to_display.date <= datetime.datetime.now() or user_has_election_management_privilege(request):
-        if user_has_election_management_privilege(request):
+    if election_to_display.date <= datetime.datetime.now() or election_management_privilege:
+        if election_management_privilege:
             nominee_links = NomineeLink.objects.all().exclude(election__slug=slug)
             context[PRE_EXISTING_ELECTION] = False
             if len(nominee_links) > 0:

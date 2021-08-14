@@ -6,8 +6,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from administration.views.verify_user_access import create_context_and_verify_user_was_an_officer_in_past_5_terms
+from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
@@ -59,8 +59,10 @@ def gdrive_index(request):
     """
     Shows the main page for google drive permission management
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     if ERROR_MESSAGE_KEY in request.session:
@@ -82,8 +84,10 @@ def add_users_to_gdrive(request):
     Takes in the users who need to be given access to the SFU CSSS Google Drive
     """
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
@@ -173,8 +177,10 @@ def update_permissions_for_existing_gdrive_user(request):
         "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
         f"request.POST={request.POST}"
     )
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
@@ -250,8 +256,10 @@ def make_folders_public_gdrive(request):
     """
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
@@ -320,8 +328,10 @@ def update_gdrive_public_links(request):
     """
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
+    (render_value, error_message, context) = create_context_and_verify_user_was_an_officer_in_past_5_terms(
+        request, TAB_STRING
+    )
+    if render_value is not None:  # if the user accessing the page is not authorized to access it
         request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
         return render_value
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
