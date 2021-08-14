@@ -1,7 +1,7 @@
 import json
 import logging
 
-from elections.views.Constants import ELECTION_JSON_KEY__NOMINEE
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE
 from elections.views.utils.webform_to_json.transform_nominee_webform_to_json import transform_nominee_webform_to_json
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
 

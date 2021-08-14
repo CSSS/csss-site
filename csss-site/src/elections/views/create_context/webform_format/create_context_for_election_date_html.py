@@ -1,6 +1,7 @@
 import datetime
 
-from elections.views.Constants import INPUT_DATE__NAME, ELECTION_JSON_KEY__DATE, INPUT_DATE__VALUE, DATE_FORMAT
+from elections.views.Constants import INPUT_DATE__NAME, INPUT_DATE__VALUE, DATE_FORMAT
+from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE
 
 
 def create_context_for_election_date_html(context, election_date=None):

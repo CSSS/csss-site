@@ -3,7 +3,6 @@ from django.shortcuts import render
 from elections.models import NomineeLink, Election
 from elections.views.create_context.nominee_links.update_election_nominee_links_html import \
     create_context_for_update_election_nominee_links_html
-from elections.views.utils.set_nominee_link import set_nominee_link
 
 
 def display_selected_election_and_nominee_links(request, context, slug):
@@ -20,7 +19,7 @@ def display_selected_election_and_nominee_links(request, context, slug):
     """
     election = Election.objects.get(slug=slug)
     create_context_for_update_election_nominee_links_html(
-        context, nominee_links=[set_nominee_link(nominee_link) for nominee_link in NomineeLink.objects.all()],
+        context, nominee_links=NomineeLink.objects.all(),
         election_date=election.date, election_time=election.date, election_type=election.election_type,
         websurvey_link=election.websurvey, create_new_election=election is None, slug=slug
     )
