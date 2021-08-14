@@ -50,14 +50,15 @@
 							<a class="navbar-link">About</a>
 						{% endif %}
 						<div class="navbar-dropdown">
-							{% if authenticated is True %}
-								{% if staff %}
-									<a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
-									<a href="{{ URL_ROOT }}about/show_page_for_inputting_officer_info" class="navbar-item">Upload Officer List</a>
-									<a href="{{ URL_ROOT }}about/officer_position_and_github_mapping" class="navbar-item">Officer Position/Github Mapping</a>
-									<hr class="dropdown-divider">
-								{% endif %}
+							{% if current_webmaster_or_doa is True %}
+								<a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
+								<a href="{{ URL_ROOT }}about/show_page_for_inputting_officer_info" class="navbar-item">Upload Officer List</a>
+								<a href="{{ URL_ROOT }}about/officer_positions" class="navbar-item">Officer Position/Github Mapping</a>
 							{% endif %}
+							{%  if current_sys_admin is True %}
+								<a href="{{ URL_ROOT }}about/officer_github_mapping" class="navbar-item">Officer Position/Github Mapping</a>
+							{%  endif %}
+								<hr class="dropdown-divider">
 							<a href="{{URL_ROOT}}about/who_we_are" class="navbar-item">Who We Are</a>
 							<a href="{{URL_ROOT}}about/list_of_current_officers" class="navbar-item">List of Current Officers</a>
 							<a href="{{URL_ROOT}}about/list_of_past_officers" class="navbar-item">List of Past Officers</a>
@@ -104,7 +105,7 @@
 							<a class="navbar-link">Elections</a>
 						{% endif %}
 						<div class="navbar-dropdown">
-							{% if election_management %}
+							{% if current_election_officer %}
 								<a href="{{URL_ROOT}}elections/new_election_via_nominee_links" class="navbar-item">Create Election with Nominee Links</a>
 								<a href="{{URL_ROOT}}elections/new_election_webform" class="navbar-item">Create Election with WebForm</a>
 								<a href="{{URL_ROOT}}elections/new_election_json" class="navbar-item">Create Election with JSON</a>
@@ -119,7 +120,7 @@
 					</div>
 
 					<!-- Resource Management -->
-					{% if election_officer or authenticated_officer or staff %}
+					{% if current_sys_admin or officer_in_past_5_terms %}
 						<div class="navbar-item has-dropdown is-hoverable">
 							{% if tab == 'resource_management' %}
 								<a class="navbar-link is-active">Resource Management</a>
@@ -127,13 +128,15 @@
 								<a class="navbar-link">Resource Management</a>
 							{% endif %}
 							<div class="navbar-dropdown">
-								{% if authenticated is True %}
-									{% if staff %}
-										<a href="{{ URL_ROOT }}resource_management/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
-										<a href="{{ URL_ROOT }}resource_management/gdrive" class="navbar-item">Modify Google Drive Access</a>
-										<a href="{{ URL_ROOT }}resource_management/github" class="navbar-item">Modify SFU Github Access</a>
-									{% endif %}
-								{% endif %}
+								{%  if current_sys_admin is True %}
+									<a href="{{ URL_ROOT }}resource_management/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
+								{%  endif %}
+								{%  if officer_in_past_5_terms is True %}
+									<a href="{{ URL_ROOT }}resource_management/gdrive" class="navbar-item">Modify Google Drive Access</a>
+								{%  endif %}
+								{%  if current_sys_admin is True %}
+									<a href="{{ URL_ROOT }}resource_management/github" class="navbar-item">Modify SFU Github Access</a>
+								{%  endif %}
 							</div>
 						</div>
 					{% endif %}
@@ -165,49 +168,23 @@
 
 					<!--Administration-->
 					<div class="navbar-item has-dropdown is-hoverable">
-						{% if tab == 'administration' %}
-							<a class="navbar-link is-active">Administration</a>
-						{% else %}
-							<a class="navbar-link">Administration</a>
-						{% endif %}
-
+						<a class="navbar-link">Administration</a>
 						<div class="navbar-dropdown">
-							{% if authenticated is True %}
-								{% if staff %}
-									<a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>
-								{% endif %}
-
+							{%  if sfuid %}
 								<hr class="dropdown-divider">
 								<div class="dropdown-item">
-									<p><b>Logged in as {{username}}</b></p>
+									<p><b>Logged in as {{sfuid}}</b></p>
 								</div>
 
 								<div class="dropdown-item">
 									<div class="buttons">
-										<a class="button is-light" href="{{URL_ROOT}}administration/logout">
+										<a class="button is-light" href="{{URL_ROOT}}/logout">
 											<strong>Log Out</strong>
 										</a>
 									</div>
 								</div>
 							{% else %}
-								<div class="dropdown-item">
-									<form action="{{URL_ROOT}}administration/login" method="post">
-										{% csrf_token %}
-										<div class="field">
-											<label class="label">Username&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-											<div class="control"><input name="username" class="input" type="text" required></div>
-										</div>
-										<div class="field">
-											<label class="label">Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-											<div class="control"><input name="password" class="input" type="password" required></div>
-										</div>
-										<div class="field">
-											<div class="control">
-												<button type="submit" class="button is-light">Log In</button>
-											</div>
-										</div>
-									</form>
-								</div>
+								<div class="dropdown-item"><a href="{{ cas_login }}">Login</a></div>
 							{% endif %}
 						</div>
 					</div>

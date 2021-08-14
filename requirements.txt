@@ -65,3 +65,6 @@ python-gitlab==2.3.1
 
 markdown-link-attr-modifier==0.2.0
 Markdown==3.3.4
+
+lxml
+xmltodict

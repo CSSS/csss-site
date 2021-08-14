@@ -20,7 +20,7 @@ GOOGLE_DRIVE_USERS_GMAIL_KEY = 'gmail'
 GOOGLE_DRIVE_USERS_FILE_ID_KEY = 'file_id'
 GOOGLE_DRIVE_USERS_FILE_NAME_KEY = 'file_name'
 GOOGLE_DRIVE_USERS_FILE_LINK_KEY = 'file_link'
-TAB_STRING = 'administration'
+TAB_STRING = 'resource_management'
 
 
 def user_does_not_have_access_to_file(gmail, file_id):

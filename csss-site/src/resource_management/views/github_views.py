@@ -17,7 +17,7 @@ GITHUB_USERNAME_KEY = 'user_name'
 LEGAL_NAME_KEY = 'legal_name'
 GITHUB_TEAM_KEY = 'github_team'
 logger = logging.getLogger('csss_site')
-TAB_STRING = 'administration'
+TAB_STRING = 'resource_management'
 
 
 def index(request):

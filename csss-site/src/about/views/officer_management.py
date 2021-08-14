@@ -6,7 +6,7 @@ import markdown
 
 from about.models import Officer, Term
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from csss.views_helper import create_main_context, get_current_term, get_previous_term
+from csss.views_helper import create_main_context
 
 logger = logging.getLogger('csss_site')
 

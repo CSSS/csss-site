@@ -19,7 +19,7 @@ GOOGLE_DRIVE_KEY = 'gdrive'
 GITHUB_KEY = 'github'
 SFU_GITLAB_KEY = 'gitlab'
 RESOURCES_KEY = 'resource'
-TAB_STRING = 'administration'
+TAB_STRING = 'resource_management'
 
 
 def show_resources_to_validate(request):

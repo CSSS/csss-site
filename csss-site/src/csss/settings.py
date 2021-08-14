@@ -57,6 +57,9 @@ if ENVIRONMENT == "LOCALHOST" and "PORT" not in os.environ:
     logger.error("[settings.py] PORT is not set but the environment is LOCALHOST")
     exit(1)
 
+# https://stackoverflow.com/a/40522604/7734535
+SESSION_COOKIE_AGE = 3600 # one hour in seconds
+
 if "PORT" in os.environ:
     PORT = os.environ['PORT']
 else:
