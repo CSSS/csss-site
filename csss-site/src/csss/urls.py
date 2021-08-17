@@ -2,8 +2,9 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
+from django_cas_ng.views import LogoutView
 
-from administration import cas_session_management
+from administration.views.LoginView import LoginView
 from . import views
 
 urlpatterns = [
@@ -17,7 +18,8 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'error/', views.errors, name="error page"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
-    url(r'^logout$', cas_session_management.cas_logout, name="Logout")
+    url(r'^login$', LoginView.as_view(), name="Logout"),
+    url(r'^logout$', LogoutView.as_view(), name='logout'),
 ]
 
 if settings.ENVIRONMENT == "LOCALHOST":

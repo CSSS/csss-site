@@ -36,6 +36,7 @@ def create_main_context(request, tab):
         if settings.PORT is not None:
             request_path += f":{settings.PORT}"
         request_path += f"{request.path}"
+        request_path = f"/login?next={request.path}"
 
     context.update({
         'username': request.session.get(USER_SFUID, False),
