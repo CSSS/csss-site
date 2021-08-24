@@ -2,7 +2,7 @@ import json
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
-from csss.views_helper import ERROR_MESSAGES_KEY
+from csss.views.exceptions import ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, \
     FORMAT_ELECTION_JSON__DIV_ID_NAME, \

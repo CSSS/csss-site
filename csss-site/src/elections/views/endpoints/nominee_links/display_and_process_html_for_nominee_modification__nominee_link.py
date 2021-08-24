@@ -3,7 +3,7 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
+from csss.views_helper import create_context_for_election_officer
 from elections.models import NomineeLink
 from elections.views.Constants import TAB_STRING, NOMINEE_LINK_ID, CREATE_OR_UPDATE_NOMINEE__NAME
 from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
@@ -23,12 +23,10 @@ def display_and_process_html_for_nominee_modification(request):
         "request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
-        request, TAB_STRING
+    html_page = 'elections/update_nominee/create_or_update_nominee__nominee_links.html'
+    context = create_context_for_election_officer(
+        request, TAB_STRING, html=html_page
     )
-    if render_value is not None:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
 
     nominee_link_id = request.GET.get(NOMINEE_LINK_ID, None)
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
@@ -41,8 +39,7 @@ def display_and_process_html_for_nominee_modification(request):
         error_message = [f"No election attached to Nominee Link {nominee_links[0]} detected in the request"]
     if error_message is not None:
         create_context_for_create_or_update_nominee__nominee_links_html(context, error_messages=[error_message])
-        return render(request,
-                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
+        return render(request, html_page, context)
 
     process_nominee = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
 

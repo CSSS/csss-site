@@ -13,8 +13,8 @@ from django.shortcuts import render
 from about.models import Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
     TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context, \
-    ERROR_MESSAGES_KEY
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views_helper import create_context_for_officers
 
 YEAR_AND_TERM_COLUMN = 0
 POSITION_COLUMN = 0
@@ -38,21 +38,16 @@ def show_page_for_uploading_officer_list(request):
     """
     Show page where the officer can upload an officer list
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
-    return render(request, 'about/upload_list.html', context)
+    html_page = 'about/upload_list.html'
+    return render(request, html_page, create_context_for_officers(request, TAB_STRING, html=html_page))
 
 
 def process_officer_list_upload(request):
     """
     Takes in a JSON or CSV with the list of officers to save
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    html_page = 'about/upload_list.html'
+    context = create_context_for_officers(request, TAB_STRING, html=html_page)
     overwrite = 'overwrite' in request.POST
     error_message = None
     if request.method == "POST":
@@ -77,7 +72,7 @@ def process_officer_list_upload(request):
                     error_message = iterate_through_officers_for_term(overwrite, year, term, officer_json['officers'])
     if error_message is not None:
         context[ERROR_MESSAGES_KEY] = [error_message]
-        return render(request, 'about/upload_list.html', context)
+        return render(request, html_page, context)
     return HttpResponseRedirect(f'{settings.URL_ROOT}about/list_of_officers')
 
 
@@ -97,7 +92,8 @@ def save_officers_in_csv(request, overwrite):
     output = collections.OrderedDict()
     uploaded_file = request.FILES['csv']
     fs = FileSystemStorage()
-    context = create_main_context(request, TAB_STRING)
+    html_page = 'about/upload_list.html'
+    context = create_context_for_officers(request, TAB_STRING, html=html_page)
     file_name = fs.save(uploaded_file.name, uploaded_file)
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")
@@ -124,7 +120,7 @@ def save_officers_in_csv(request, overwrite):
         error_message = save_yearly_document(output, overwrite)
     if error_message is not None:
         context[ERROR_MESSAGES_KEY] = [error_message]
-        return render(request, 'about/upload_list.html', context)
+        return render(request, html_page, context)
     return HttpResponseRedirect(f'{settings.URL_ROOT}about/list_of_officers')
 
 

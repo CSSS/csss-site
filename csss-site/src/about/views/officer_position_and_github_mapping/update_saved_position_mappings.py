@@ -10,8 +10,9 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
-    get_current_term, get_datetime_for_beginning_of_current_term
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views_helper import ERROR_MESSAGE_KEY, get_current_term, get_datetime_for_beginning_of_current_term, \
+    create_context_for_officers
 from elections.models import NomineePosition
 
 DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
@@ -22,8 +23,8 @@ logger = logging.getLogger('csss_site')
 
 
 def update_saved_position_mappings(request):
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
+    html_page = 'about/position_mapping/position_mapping.html'
+    (render_value, error_message, context) = create_context_for_officers(request, TAB_STRING, html=html_page)
     if context is None:
         request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
         return render_value
@@ -36,7 +37,7 @@ def update_saved_position_mappings(request):
                 )['saved_officer_positions'].values()
             )
         )
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, html_page, update_context(context))
 
 
 def _update_positions_mapping(positions):
@@ -174,9 +175,9 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
      bool -- true if a position_mapping_for_selected_officer has to be updated
     """
     return new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
-        and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
-        and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
-        and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
+           and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
+           and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
+           and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
 
 
 def update_current_officer(positions_to_save, position_mapping_for_selected_officer,

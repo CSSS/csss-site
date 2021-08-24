@@ -3,7 +3,7 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
+from csss.views_helper import create_context_for_election_officer
 from elections.views.Constants import TAB_STRING
 from elections.views.create_context.nominee_links.create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html
@@ -23,15 +23,13 @@ def display_and_process_html_for_new_nominee_links_election(request):
         "request.POST"
     )
     logger.info(json.dumps(request.POST, indent=3))
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context_for_elections(
-        request, TAB_STRING
+    html_page = 'elections/create_election/create_election_nominee_links.html'
+    context = create_context_for_election_officer(
+        request, TAB_STRING, html=html_page
     )
-    if render_value is not None:
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
 
     if request.method == "POST":
         return process_new_election_and_nominee_links(request, context)
     else:
         create_context_for_create_election_nominee_links_html(context, create_new_election=True)
-        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
+        return render(request, html_page, context)

@@ -2,19 +2,19 @@ import datetime
 import logging
 
 from django.conf import settings
-from django.http import HttpResponseRedirect
 
 from about.models import Term
 from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
+from csss.views.exceptions import InvalidPrivilege
+from csss.views.request_validation import officer_request_allowed, election_officer_request_allowed
 from elections.models import Election
 
 ERROR_MESSAGE_KEY = 'error_message'
-ERROR_MESSAGES_KEY = 'error_messages'
 
 logger = logging.getLogger('csss_site')
 
 
-def create_main_context(request, tab, groups=None):
+def create_main_context(request, tab=None, groups=None):
     """
     creates the main context dictionary
 
@@ -32,13 +32,14 @@ def create_main_context(request, tab, groups=None):
     if len(elections) == 0:
         elections = None
     context = _create_base_context()
+    if tab is not None:
+        context['tab'] = tab
     context.update({
         'authenticated': request.user.is_authenticated,
         'authenticated_officer': ('officer' in groups),
         ELECTION_MANAGEMENT_GROUP_NAME: (ELECTION_MANAGEMENT_GROUP_NAME in groups),
         'staff': request.user.is_staff,
         'username': request.user.username,
-        'tab': tab,
         'election_list': elections
     })
     return context
@@ -68,7 +69,7 @@ def _create_base_context():
     return context
 
 
-def verify_access_logged_user_and_create_context_for_elections(request, tab):
+def create_context_for_election_officer(request, tab, html=None, endpoint=None):
     """
     Makes sure that the user is allowed to access the election page and returns
     the context dictionary
@@ -84,12 +85,20 @@ def verify_access_logged_user_and_create_context_for_elections(request, tab):
     """
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
-    if not (ELECTION_MANAGEMENT_GROUP_NAME in groups):
-        return HttpResponseRedirect('/error'), "You are not authorized to access this page", context
-    return None, None, context
+    if html is None and endpoint is None:
+        raise InvalidPrivilege(
+            request,
+            "No endpoint or html page was specified for redirection in case of "
+            "incorrect permission for election management", context, html='csss/error.html'
+        )
+    if election_officer_request_allowed(request, groups):
+        return context
+    raise InvalidPrivilege(
+        request, "You are not allowed to manage the elections.", context, html=html, endpoint=endpoint
+    )
 
 
-def verify_access_logged_user_and_create_context(request, tab):
+def create_context_for_officers(request, tab, html=None, endpoint=None, context_function=None):
     """
     make sure that the user is logged in with the sufficient level of access to access the page
 
@@ -105,10 +114,17 @@ def verify_access_logged_user_and_create_context(request, tab):
     """
     groups = list(request.user.groups.values_list('name', flat=True))
     context = create_main_context(request, tab, groups)
-    if not (request.user.is_staff or 'officer' in groups):
-        return HttpResponseRedirect(
-            '/error'), "You are not authorized to access this page", None
-    return None, None, context
+    if html is None and endpoint is None:
+        raise InvalidPrivilege(
+            request,
+            "No endpoint or html page was specified for redirection in case of "
+            "incorrect permission for officer access", context, html='csss/error.html'
+        )
+    if officer_request_allowed(request, groups=groups):
+        return context
+    if context_function is not None:
+        context = context_function(context)
+    raise InvalidPrivilege(request, "You are not allowed to access this page", context, html=html, endpoint=endpoint)
 
 
 def there_are_multiple_entries(post_dict, key_to_read):

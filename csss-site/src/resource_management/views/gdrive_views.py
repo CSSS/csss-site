@@ -6,8 +6,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views_helper import there_are_multiple_entries, create_context_for_officers
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
@@ -59,13 +59,11 @@ def gdrive_index(request):
     """
     Shows the main page for google drive permission management
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
-    if ERROR_MESSAGE_KEY in request.session:
-        context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGE_KEY].split("<br>")
-        del request.session[ERROR_MESSAGE_KEY]
+    html_page = 'resource_management/gdrive_management.html'
+    context = create_context_for_officers(request, TAB_STRING, html=html_page)
+    if ERROR_MESSAGES_KEY in request.session:
+        context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGES_KEY].split("<br>")
+        del request.session[ERROR_MESSAGES_KEY]
     context['g_drive_users'] = NonOfficerGoogleDriveUser.objects.all().filter().order_by('id')
     context['g_drive_public_links'] = GoogleDrivePublicFile.objects.all().filter().order_by('id')
     context['GOOGLE_DRIVE_USERS_DB_RECORD_KEY'] = GOOGLE_DRIVE_USERS_DB_RECORD_KEY
@@ -74,7 +72,7 @@ def gdrive_index(request):
     context['GOOGLE_DRIVE_USERS_FILE_ID_KEY'] = GOOGLE_DRIVE_USERS_FILE_ID_KEY
     context['GOOGLE_DRIVE_USERS_FILE_NAME_KEY'] = GOOGLE_DRIVE_USERS_FILE_NAME_KEY
     context['GOOGLE_DRIVE_USERS_FILE_LINK_KEY'] = GOOGLE_DRIVE_USERS_FILE_LINK_KEY
-    return render(request, 'resource_management/gdrive_management.html', context)
+    return render(request, html_page, context)
 
 
 def add_users_to_gdrive(request):
@@ -82,10 +80,8 @@ def add_users_to_gdrive(request):
     Takes in the users who need to be given access to the SFU CSSS Google Drive
     """
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
+    validate_request_to_manage_digital_resource_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -104,10 +100,10 @@ def add_users_to_gdrive(request):
                                                                   post_dict[GOOGLE_DRIVE_USERS_GMAIL_KEY][index]
                                                                   )
                 if not success:
-                    if ERROR_MESSAGE_KEY in request.session:
-                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(error_message)
+                    if ERROR_MESSAGES_KEY in request.session:
+                        request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(error_message)
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                        request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
         else:
             logger.info(
                 f"[resource_management/gdrive_views.py add_users_to_gdrive()] "
@@ -120,8 +116,8 @@ def add_users_to_gdrive(request):
                 post_dict[GOOGLE_DRIVE_USERS_GMAIL_KEY]
             )
             if not success:
-                request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
+                request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
+    return HttpResponseRedirect(endpoint)
 
 
 def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inputted_gmail):
@@ -173,10 +169,8 @@ def update_permissions_for_existing_gdrive_user(request):
         "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
         f"request.POST={request.POST}"
     )
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
+    validate_request_to_manage_digital_resource_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         if 'action' in request.POST:
@@ -232,7 +226,7 @@ def update_permissions_for_existing_gdrive_user(request):
                     gdrive_user.file_name = file_name
                     gdrive_user.save()
                 else:
-                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                    request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
             elif request.POST['action'] == 'delete':
                 gdrive_user = NonOfficerGoogleDriveUser.objects.get(id=request.POST[GOOGLE_DRIVE_USERS_DB_RECORD_KEY])
                 logger.info(
@@ -241,7 +235,7 @@ def update_permissions_for_existing_gdrive_user(request):
                 )
                 gdrive.remove_users_gdrive([gdrive_user.gmail], gdrive_user.file_id)
                 gdrive_user.delete()
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
+    return HttpResponseRedirect(endpoint)
 
 
 def make_folders_public_gdrive(request):
@@ -250,10 +244,8 @@ def make_folders_public_gdrive(request):
     """
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
+    validate_request_to_manage_digital_resource_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -266,18 +258,18 @@ def make_folders_public_gdrive(request):
             for index in range(number_of_entries):
                 success, result = make_folder_public_gdrive(gdrive, post_dict[GOOGLE_DRIVE_USERS_FILE_ID_KEY][index])
                 if not success:
-                    if ERROR_MESSAGE_KEY in request.session:
-                        request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(result)
+                    if ERROR_MESSAGES_KEY in request.session:
+                        request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(result)
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(result)
+                        request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(result)
         else:
             success, result = make_folder_public_gdrive(gdrive, post_dict[GOOGLE_DRIVE_USERS_FILE_ID_KEY])
             if not success:
-                if ERROR_MESSAGE_KEY in request.session:
-                    request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(result)
+                if ERROR_MESSAGES_KEY in request.session:
+                    request.session[ERROR_MESSAGES_KEY] += '{}<br>'.format(result)
                 else:
-                    request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(result)
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
+                    request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(result)
+    return HttpResponseRedirect(endpoint)
 
 
 def make_folder_public_gdrive(gdrive, user_inputted_file_id):
@@ -320,10 +312,8 @@ def update_gdrive_public_links(request):
     """
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
+    validate_request_to_manage_digital_resource_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         if 'action' in request.POST:
@@ -348,7 +338,7 @@ def update_gdrive_public_links(request):
                         gdrive_public_files.link = public_link
                         gdrive_public_files.save()
                     else:
-                        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
+                        request.session[ERROR_MESSAGES_KEY] = '{}<br>'.format(error_message)
             elif request.POST['action'] == 'delete':
                 gdrive_public_file = GoogleDrivePublicFile.objects.get(
                     file_id=request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY])
@@ -358,7 +348,7 @@ def update_gdrive_public_links(request):
                 )
                 gdrive.remove_public_link_gdrive(gdrive_public_file.file_id)
                 gdrive_public_file.delete()
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
+    return HttpResponseRedirect(endpoint)
 
 
 def create_google_drive_perms():

@@ -4,8 +4,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+from csss.views_helper import there_are_multiple_entries, create_context_for_officers
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
 from .gitlab_views import create_gitlab_perms
@@ -27,15 +26,10 @@ def show_resources_to_validate(request):
     Displays the resources that the user can validate
     """
     logger.info(f"[administration/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
-    return render(
-        request,
-        'resource_management/show_resources_for_validation.html',
-        context
-    )
+    html_page = 'resource_management/show_resources_for_validation.html'
+    validate_request_to_manage_digital_resource_permissions(request, html=html_page)
+    context = create_context_for_officers(request, TAB_STRING)
+    return render(request, html_page, context)
 
 
 def validate_access(request):
@@ -43,16 +37,14 @@ def validate_access(request):
     takes in the inputs from the user on what resources to validate
     """
     logger.info(f"[administration/resource_views.py validate_access()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/show_resources_for_validation'
+    validate_request_to_manage_digital_resource_permissions(request, endpoint=endpoint)
     if there_are_multiple_entries(request.POST, RESOURCES_KEY):
         for resource in request.POST[RESOURCES_KEY]:
             determine_resource_to_validate(resource)
     else:
         determine_resource_to_validate(request.POST[RESOURCES_KEY])
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/show_resources_for_validation')
+    return HttpResponseRedirect(endpoint)
 
 
 def determine_resource_to_validate(selected_resource_to_validate):

@@ -11,7 +11,8 @@ from about.views.position_mapping_helper import update_context, POSITION_INDEX_K
     extract_valid_officers_positions_selected_for_github_team, \
     GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY, GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, \
     validate_position_names_for_github_team
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views_helper import create_context_for_officers
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
@@ -25,22 +26,18 @@ logger = logging.getLogger('csss_site')
 def save_new_github_officer_team_mapping(request):
     logger.info(f"[about/save_new_github_officer_team_mapping.py save_new_github_officer_team_mapping()] "
                 f"request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
-    context[ERROR_MESSAGES_KEY] = []
+    html_page = 'about/position_mapping/position_mapping.html'
+    context = create_context_for_officers(request, TAB_STRING, html=html_page, context_function=update_context)
 
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'create_new_github_mapping' in post_dict:
             context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], \
-                context[ERROR_MESSAGES_KEY] = _create_new_github_mapping(post_dict)
+            context[ERROR_MESSAGES_KEY] = _create_new_github_mapping(post_dict)
             if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
                 del context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY]
 
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, html_page, update_context(context))
 
 
 def _create_new_github_mapping(post_dict):
@@ -108,8 +105,8 @@ def _create_new_github_mapping(post_dict):
         f" to new github team are {officer_position_names}"
     )
 
-    return None,\
-        _save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms)
+    return None, \
+           _save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms)
 
 
 def _create_unsaved_github_officer_team_name_mappings(

@@ -197,6 +197,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csss.views.error_handlers.HandleBusinessExceptionMiddleware'
 ]
 
 ROOT_URLCONF = 'csss.urls'
@@ -232,7 +233,6 @@ if DB_TYPE == "sqlite3":
             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         }
     }
-
 elif DB_TYPE == "postgres":
 
     if "DB_PASSWORD" not in os.environ:
@@ -266,6 +266,8 @@ else:
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
+
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {

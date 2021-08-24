@@ -6,8 +6,8 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
-    there_are_multiple_entries
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views_helper import ERROR_MESSAGE_KEY, there_are_multiple_entries, create_context_for_officers
 from querystring_parser import parser
 
 logger = logging.getLogger('csss_site')
@@ -22,11 +22,8 @@ UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 def input_new_officer_positions(request):
     logger.info("[about/input_new_officer_positions.py input_new_officer_positions()]"
                 f" request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    html_page = 'about/position_mapping/position_mapping.html'
+    context = create_context_for_officers(request, TAB_STRING, html=html_page)
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
@@ -34,7 +31,7 @@ def input_new_officer_positions(request):
             success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
                 _add_new_position_mapping(post_dict)
 
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, html_page, update_context(context))
 
 
 def _add_new_position_mapping(post_dict):
