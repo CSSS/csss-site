@@ -316,25 +316,27 @@ def get_officer_image_path(term_obj, full_name):
                     else:
                         valid_picture_path = pic_path
     else:
-        path_prefix = "about_static/exec-photos/"
+        path_prefix = "about_static/"
+        stock_photo_path = f"{path_prefix}stockPhoto.jpg"
+        officer_photo_path = f'{path_prefix}exec-photos/'
         logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
                     f"path_prefix = {path_prefix}")
         for valid_picture_extension in valid_picture_extensions:
-            if valid_picture_path is None or valid_picture_path == f"{path_prefix}stockPhoto.jpg":
+            if valid_picture_path is None or valid_picture_path == stock_photo_path:
                 term_season_number = _get_term_obj_season_number(term_obj)
                 if term_season_number is None:
-                    valid_picture_path = f"{path_prefix}stockPhoto.jpg"
+                    valid_picture_path = stock_photo_path
                 else:
                     pic_path = (f'{term_obj.year}_0{_get_term_obj_season_number(term_obj)}_'
                                 f'{term_obj.term}/{full_name.replace(" ", "_")}.{valid_picture_extension}')
-                    pic_path = f"{path_prefix}{pic_path}"
+                    pic_path = f"{officer_photo_path}{pic_path}"
                     logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
                                 f"officer.image = {pic_path}")
                     absolute_path = f"{STATIC_ROOT}{pic_path}"
                     logger.info(f"[about/officer_management_helper.py get_officer_image_path()] "
                                 f"absolute_path = {absolute_path}")
                     if not os.path.isfile(absolute_path):
-                        valid_picture_path = f"{path_prefix}stockPhoto.jpg"
+                        valid_picture_path = stock_photo_path
                     else:
                         valid_picture_path = pic_path
     logger.info("[about/officer_management_helper.py get_officer_image_path()] "
