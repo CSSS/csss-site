@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.views.request_validation import validate_request_to_manage_digital_resource_permissions
 from csss.views_helper import there_are_multiple_entries, create_context_for_officers
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms

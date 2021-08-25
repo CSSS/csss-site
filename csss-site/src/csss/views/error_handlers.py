@@ -20,4 +20,3 @@ class HandleBusinessExceptionMiddleware(MiddlewareMixin):
         if isinstance(exception, DataError):
             request.context[ERROR_MESSAGES_KEY] = [exception]
             return render(request, request.html_page, request.context)
-

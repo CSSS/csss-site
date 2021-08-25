@@ -9,7 +9,6 @@ if 'BASE_DIR' in os.environ:
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 if 'LOG_LOCATION' in os.environ:
     LOG_LOCATION = os.environ['LOG_LOCATION']
@@ -266,7 +265,6 @@ else:
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
-
 
 
 AUTH_PASSWORD_VALIDATORS = [
