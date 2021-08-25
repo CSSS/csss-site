@@ -11,8 +11,8 @@ from about.views.position_mapping_helper import update_context, POSITION_INDEX_K
     extract_valid_officers_positions_selected_for_github_team, \
     GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY, GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, \
     validate_position_names_for_github_team
+from csss.views.context_creation.create_context_for_officers import create_context_for_officers
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views_helper import create_context_for_officers
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI

@@ -4,7 +4,7 @@ ERROR_MESSAGES_KEY = 'error_messages'
 
 
 class InvalidPrivilege(Exception):
-    def __init__(self, request, error_message,  context=None, html=None, endpoint=None):
+    def __init__(self, request, error_message, context=None, html=None, endpoint=None):
         self.render = None
         self.error_messages = None
         self.endpoint = None

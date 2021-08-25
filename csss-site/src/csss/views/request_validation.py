@@ -1,6 +1,6 @@
 from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
+from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import InvalidPrivilege
-from csss.views_helper import create_main_context
 
 
 def officer_request_allowed(request, groups=None):
@@ -15,7 +15,7 @@ def validate_request_to_manage_digital_resource_permissions(request, endpoint=No
         raise InvalidPrivilege(
             request,
             "No endpoint or html page was specified for redirection in case of "
-            "incorrect permission for officer access", create_main_context(request, groups=groups),
+            "incorrect permission for officer access", context=create_main_context(request),
             html='csss/error.html'
         )
     if officer_request_allowed(request, groups=groups):

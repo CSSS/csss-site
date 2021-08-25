@@ -13,8 +13,8 @@ from django.shortcuts import render
 from about.models import Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
     TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
+from csss.views.context_creation.create_context_for_officers import create_context_for_officers
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views_helper import create_context_for_officers
 
 YEAR_AND_TERM_COLUMN = 0
 POSITION_COLUMN = 0

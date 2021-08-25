@@ -3,7 +3,7 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import create_context_for_election_officer
+from csss.views.context_creation.create_context_for_election_officer import create_context_for_election_officer
 from elections.views.Constants import TAB_STRING
 from elections.views.create_context.nominee_links.create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html

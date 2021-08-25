@@ -7,8 +7,9 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status
+from csss.views.context_creation.create_context_for_officers import create_context_for_officers
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views_helper import there_are_multiple_entries, create_context_for_officers
+from csss.views_helper import there_are_multiple_entries
 
 logger = logging.getLogger('csss_site')
 

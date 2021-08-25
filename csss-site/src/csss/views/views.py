@@ -8,7 +8,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from announcements.models import Announcement
-from csss.views_helper import create_main_context, ERROR_MESSAGE_KEY
+from csss.views.context_creation.create_main_context import create_main_context
+from csss.views_helper import ERROR_MESSAGE_KEY
 
 logger = logging.getLogger('csss_site')
 

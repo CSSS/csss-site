@@ -2,8 +2,8 @@ import logging
 
 from django.shortcuts import render
 
+from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views_helper import create_main_context
 from elections.views.Constants import TAB_STRING
 
 logger = logging.getLogger('csss_site')
