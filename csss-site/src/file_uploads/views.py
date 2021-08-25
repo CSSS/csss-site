@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.views import generic
 
-from csss.views_helper import create_main_context
+from csss.views.context_creation.create_main_context import create_main_context
 from . import forms
 
 

@@ -2,7 +2,8 @@ from django.shortcuts import render
 
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from csss.views.request_validation import verify_access_logged_user_and_create_context
+from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 
 
 def position_mapping(request):

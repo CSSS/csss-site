@@ -6,7 +6,8 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
+from csss.views.request_validation import verify_access_logged_user_and_create_context
+from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
     there_are_multiple_entries
 from querystring_parser import parser
 

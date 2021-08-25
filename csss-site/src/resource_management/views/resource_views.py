@@ -4,8 +4,8 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from csss.views_helper import there_are_multiple_entries, verify_access_logged_user_and_create_context, \
-    ERROR_MESSAGE_KEY
+from csss.views.request_validation import verify_access_logged_user_and_create_context
+from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
 from .gitlab_views import create_gitlab_perms

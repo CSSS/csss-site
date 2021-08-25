@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from csss.views_helper import create_frosh_context
+from events.frosh.views.create_frosh_context import create_frosh_context
 
 FROSH_TAB = 'frosh_2011_tab'
 

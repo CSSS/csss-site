@@ -3,7 +3,8 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY, \
+from csss.views.request_validation import verify_access_logged_user_and_create_context_for_elections
+from csss.views_helper import ERROR_MESSAGE_KEY, \
     ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TAB_STRING

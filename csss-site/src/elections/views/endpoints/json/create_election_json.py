@@ -1,7 +1,8 @@
 import json
 import logging
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
+from csss.views.request_validation import verify_access_logged_user_and_create_context_for_elections
+from csss.views_helper import ERROR_MESSAGE_KEY
 from elections.views.Constants import TAB_STRING, CREATE_NEW_ELECTION__NAME
 from elections.views.create_election.json.display_json_for_new_election import display_empty_election_json
 from elections.views.create_election.json.process_new_election_json import process_new_inputted_json_election
