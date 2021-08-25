@@ -13,8 +13,9 @@ from django.shortcuts import render
 from about.models import Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
     TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
-from csss.views_helper import verify_access_logged_user_and_create_context, ERROR_MESSAGE_KEY, create_main_context, \
-    ERROR_MESSAGES_KEY
+from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.request_validation import verify_access_logged_user_and_create_context
+from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 
 YEAR_AND_TERM_COLUMN = 0
 POSITION_COLUMN = 0

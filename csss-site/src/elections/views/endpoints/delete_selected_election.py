@@ -4,7 +4,8 @@ import logging
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
-from csss.views_helper import verify_access_logged_user_and_create_context_for_elections, ERROR_MESSAGE_KEY
+from csss.views.request_validation import verify_access_logged_user_and_create_context_for_elections
+from csss.views_helper import ERROR_MESSAGE_KEY
 from elections.models import Election
 from elections.views.Constants import ELECTION_ID, TAB_STRING
 from elections.views.validators.validate_election_id import validate_election_id_in_dict

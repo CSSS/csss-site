@@ -2,7 +2,8 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
-from . import views
+
+from .views import views
 
 urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),

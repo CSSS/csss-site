@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
 # Create your views here.
-from csss.views_helper import create_main_context
+from csss.views.context_creation.create_main_context import create_main_context
 
 TAB = 'more'
 
