@@ -1,0 +1,40 @@
+.frosh_2021_logo {
+    width:90%;
+    max-width:90%;
+    display:block;
+    margin-left: auto;
+    margin-right: auto;
+    object-fit: contain;
+}
+
+.frosh_2021_signup_button {
+    display:block;
+    width:90%;
+    margin-top: 2%;
+    margin-left:auto;
+    margin-right: auto;
+    margin-bottom: 2%
+}
+
+.frosh_2021_csss_logo {
+    width:20%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+}
+
+.frosh_2021_calendar {
+    width:100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.frosh_2021_programming_logo {
+    object-fit: contain;
+}
+
+.frosh_2021_event_info_placement {
+    width: 100%; overflow:auto;
+}
