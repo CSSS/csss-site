@@ -1,11 +1,6 @@
 
 
-body{
-    /*width: 100%;*/
-    background-size: cover;
-    color:#000000;
-    font-size: 25px;
-}
+
 img{
     object-fit: contain;
 }
@@ -23,12 +18,7 @@ img{
     margin-right: auto; 
     
 }
-.content{
-    background-size: 100% 100%;
-    padding-top: 5%;
-    overflow: auto;
-    color:#000000;
-}
+
 
 .text{
     width:80%;
