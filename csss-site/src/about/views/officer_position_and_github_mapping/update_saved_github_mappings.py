@@ -12,8 +12,9 @@ from about.views.position_mapping_helper import update_context, GITHUB_TEAM__ID_
     GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS, GITHUB_MAPPING_SELECTED_OFFICER_POSITIONS, \
     DELETE_GITHUB_MAPPING
-from csss.views.request_validation import verify_access_logged_user_and_create_context
-from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.request_validation import validate_officer_request
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
@@ -26,11 +27,9 @@ def update_saved_github_mappings(request):
         "[about/update_saved_github_mappings.py update_saved_github_mappings()]"
         f" request.POST={request.POST}"
     )
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
-    if render_value is not None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    html_page = 'about/position_mapping/position_mapping.html'
+    validate_officer_request(request, html=html_page)
+    context = create_main_context(request, TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         github_mappings = list(
@@ -38,7 +37,7 @@ def update_saved_github_mappings(request):
         )
         for github_mapping in github_mappings:
             context[ERROR_MESSAGES_KEY].extend(_update_github_mapping(github_mapping))
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, html_page, update_context(context))
 
 
 def _update_github_mapping(github_mapping):

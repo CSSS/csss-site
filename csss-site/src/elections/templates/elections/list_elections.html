@@ -7,6 +7,8 @@
 {% block content %}
     <h2 class="title is-size-2">Past CSSS Elections</h2>
     <ul>
+		<!-- included if the user tried to delete an election with an incorrect id -->
+		{%  include 'csss/display_errors.html' %}
         {%  for nom_page in election_list %}
             <li><a href="{{URL_ROOT}}elections/{{nom_page.slug}}/">{{nom_page.human_friendly_name}}</a></li>
         {% endfor %}
