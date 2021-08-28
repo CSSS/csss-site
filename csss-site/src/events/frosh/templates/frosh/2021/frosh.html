@@ -1,6 +1,7 @@
-{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
+{% load staticfiles %}
+
 <!-- The Following Site is heavily changed from that of previous Froshes due to the online nature of Frosh Week 2021.-->
 <!-- Go look at Frosh 2019 if you want an example of what the Frosh sites typically look like.. -->
 <!-- Contact John Wu, CSSS Frosh Chair 2021 for additional info.-->
@@ -24,7 +25,7 @@
             <div class = content>
             	<div class = image>
 
-            		<img src = "{% static 'frosh_static/2021/images/title-red.png' %}" class="frosh_2021_logo" >
+            		<img src = "{% static 'frosh_static/2021/images/title-red.png' %}" class="frosh_2021_logo" alt="Title Logo" >
             	</div>
                 <div class =openingcontent>
 
@@ -47,7 +48,7 @@
                         
                     <a href = "https://forms.gle/Pfzj3csd9ZifmNY46">
 
-                        <img src = "{% static 'frosh_static/2021/images/signup.png' %}" class="frosh_2021_signup_button" ></a>
+                        <img src = "{% static 'frosh_static/2021/images/signup.png' %}" class="frosh_2021_signup_button" alt="Sign Up Button"></a>
                     </div>
                       
                    
@@ -70,7 +71,7 @@
                             <p>Frosh Week will take place from September 8th, to September 10th. All events will take place on SFU Burnaby Campus</a></p>
                         </div>
 
-                        <img src = "{% static 'frosh_static/2021/images/schedule.png' %}" class="frosh_2021_calendar">
+                        <img src = "{% static 'frosh_static/2021/images/schedule.png' %}" class="frosh_2021_calendar" alt="Schedule">
                         
                         <div class="frosh_2021_event_info_placement" >
                             <div class = halfdiv>
@@ -96,7 +97,7 @@
                         </div>
                         <a href = "https://www.discord.gg/sfucsss">
 
-                        <img src = "{% static 'frosh_static/2021/images/join_us.png' %}" class="frosh_2021_signup_button" ></a>
+                        <img src = "{% static 'frosh_static/2021/images/join_us.png' %}" class="frosh_2021_signup_button" alt="Discord Button"></a>
                         <div class = heading>
                             <h1>FAQ</h1>
                         </div>
@@ -107,7 +108,7 @@
                             <h2>What if I don't know anyone?</h2>
                             <p>All the more reason to drop by! You'll need to start somewhere, and Frosh Week is a great place to do that. Everyone is looking for cool people to be friends with, theres no reason you can't be one of those.</p>
                             <h2>Where should I go? </h2>
-                            <p>We'll be holding events in various different locations. The best place to keep in touch with event news is at our Discord server at <a href>discord.gg/sfucsss</a></p>
+                            <p>We'll be holding events in various different locations. The best place to keep in touch with event news is at our Discord server at <a href = discord.gg/sfucsss> discord.gg/sfucsss </a></p>
                         </div>
 
                         <div class = halfdiv>
@@ -119,17 +120,17 @@
                             <p>No reason why not! Don't think of Frosh Week as just an orientation, its also a chance to meet new people, make friends, and most of all, have fun!</p>
                         </div>
                     </div>
-                </br>
+                <br>
                 </div>
             </div>
-            </div>
+            
         </div>
     </div>
 <div class = footer>
-	<p></br></p>
+	<p><br></p>
  <p>For any issues with our website, please contact our webmaster at <a href="mailto:csss-webmaster@sfu.ca?Subject=[REGARDING%20FROSH%20WEBSITE]">csss-webmaster@sfu.ca and place the tag "[REGARDING FROSH WEBSITE]" in the subject line</a></p>
     <p>&copy; Copyright 2021 - <a href="{{ URL_ROOT }}">Computing Science Student Society</a></p>
-    <p></br></p>
+    <p><br></p>
 </div>
 </body>
 </html>
