@@ -1,7 +1,8 @@
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
-from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGES_KEY
+from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views_helper import there_are_multiple_entries
 from resource_management.models import OfficerPositionGithubTeam
 
 logger = logging.getLogger('csss_site')
