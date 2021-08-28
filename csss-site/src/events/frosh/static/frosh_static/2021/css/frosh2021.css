@@ -2,7 +2,6 @@
 
 body{
     /*width: 100%;*/
-    background-image: url('../images/background.png');
     background-size: cover;
     color:#000000;
     font-size: 25px;
@@ -25,7 +24,6 @@ img{
     
 }
 .content{
-    background-image: url('../images/content-background.png');
     background-size: 100% 100%;
     padding-top: 5%;
     overflow: auto;
