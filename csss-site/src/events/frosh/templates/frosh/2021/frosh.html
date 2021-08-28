@@ -17,12 +17,21 @@
     <link rel="stylesheet" href="{% static 'frosh_static/csss_custom.css' %}">
 
     <style>
-        body{
-            background-image: url("{% static 'frosh_static/2021/images/background.png' %}")
+    body{
+        /*width: 100%;*/
+        background-image: url({% static 'frosh_static/2021/images/background.png' %});
+        background-size: cover;
+        color:#000000;
+        font-size: 25px;
+    }
+    .content{
+        background-size: 100% 100%;
+        background-image: url({% static 'frosh_static/2021/images/content-background.png' %});
+        padding-top: 5%;
+        overflow: auto;
+        color:#000000;
         }
-        content{
-            background-image: url("{% static 'frosh_static/2021/images/content-background.png' %}")
-        }
+
     </style>
 </head>
 
