@@ -109,6 +109,8 @@ python3 manage.py runserver 0.0.0.0:8000
 
 ## 3. Before opening a PR
 
+**Please submit PRs one week before they need to be merged.**
+
 ## 3.1. Validating the code
 ```shell
 ../../CI/validate_and_deploy/1_validate/run_local_formatting_test.sh
