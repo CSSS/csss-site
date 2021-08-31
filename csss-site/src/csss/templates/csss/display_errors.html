@@ -1,6 +1,6 @@
-{% load staticfiles %}
-<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
-{% if error_messages %}
+{% if error_messages|length > 0 %}
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 	<p class="csss_error_style" >Experienced Following Errors<br>
 		{% for error_message in error_messages %}
 			{{ error_message |safe}}<br><br>

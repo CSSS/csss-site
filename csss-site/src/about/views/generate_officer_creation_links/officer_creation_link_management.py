@@ -16,9 +16,9 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
     ELECTION_OFFICER_POSITIONS, OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES, \
     OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS, \
     HTML_VALUE_ATTRIBUTE_FOR_START_DATE, TERM_SEASONS
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views.request_validation import validate_officer_request
 from csss.views_helper import ERROR_MESSAGE_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
@@ -91,42 +91,37 @@ def verify_passphrase_access_and_create_context(request, tab):
     tab -- the indicator of what section the html page belongs to
 
     Returns
-    render redirect -- the page to direct to if an error is encountered with the passphrase
     context -- the context that gets returned if no error is detected
-    error_message -- the error message to display on the error page
     new_officer_details -- the details for the officer who needs to be saved
     """
-    if HTML_PASSPHRASE_GET_KEY in request.GET or HTML_PASSPHRASE_POST_KEY in request.POST \
-            or HTML_PASSPHRASE_SESSION_KEY in request.session:
-        passphrase = None
-        if HTML_PASSPHRASE_GET_KEY in request.GET:
-            passphrase = request.GET[HTML_PASSPHRASE_GET_KEY]
-        elif HTML_PASSPHRASE_POST_KEY in request.POST:
-            passphrase = request.POST[HTML_PASSPHRASE_POST_KEY]
-        elif HTML_PASSPHRASE_SESSION_KEY in request.session:
-            passphrase = request.session[HTML_PASSPHRASE_SESSION_KEY]
+    context = create_main_context(request, tab=tab)
+    passphrase = request.GET.get(HTML_PASSPHRASE_GET_KEY, None)
+    if passphrase is None:
+        passphrase = request.POST.get(HTML_PASSPHRASE_POST_KEY, None)
+    if passphrase is None:
+        passphrase = request.session.get(HTML_PASSPHRASE_SESSION_KEY, None)
+        if passphrase is not None:
             del request.session[HTML_PASSPHRASE_SESSION_KEY]
+    if passphrase is None:
+        context[ERROR_MESSAGES_KEY] = ["You did not supply a passphrase"]
+        return context, None
 
-        new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
-        logger.info(
-            "[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()] "
-            f"len(passphrase) = '{len(new_officer_details)}'"
-        )
-        if len(new_officer_details) == 0:
-            error_message = "You did not supply a passphrase that matched any in the records"
-            return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, error_message, None
-        new_officer_detail = new_officer_details[0]
-        logger.info(
-            f"[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()]"
-            f" new_officer_detail.used = '{new_officer_detail.used}'")
-        if new_officer_detail.used:
-            error_message = "the passphrase supplied has already been used"
-            return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, error_message, None
-    else:
-        return HttpResponseRedirect(f'{settings.URL_ROOT}error'), None, "You did not supply a passphrase", None
-    groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_main_context(request, tab, groups)
-    return None, context, None, new_officer_detail
+    new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
+    logger.info(
+        "[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()] "
+        f"len(passphrase) = '{len(new_officer_details)}'"
+    )
+    if len(new_officer_details) != 1:
+        context[ERROR_MESSAGES_KEY] = ["Passphrase is not attached to a record for a new Officer"]
+        return context, None
+    new_officer_detail = new_officer_details[0]
+    logger.info(
+        f"[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()]"
+        f" new_officer_detail.used = '{new_officer_detail.used}'")
+    if new_officer_detail.used:
+        context[ERROR_MESSAGES_KEY] = ["the passphrase supplied has already been used"]
+        return context, None
+    return context, new_officer_detail
 
 
 def show_create_link_page(request):
@@ -136,8 +131,7 @@ def show_create_link_page(request):
     logger.info(f"[about/officer_creation_link_management.py show_create_link_page()] "
                 f"request.POST={request.POST}")
     html_page = 'about/process_new_officer/show_create_link_for_officer_page.html'
-    validate_officer_request(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_officer_creation_links(request, tab=TAB_STRING, html=html_page)
     context.update(create_term_context_variable())
     context['positions'] = "\n".join(
         [position.position_name
@@ -159,9 +153,7 @@ def show_page_with_creation_links(request):
         f"[about/officer_creation_link_management.py show_page_with_creation_links()] request.GET={request.GET}")
 
     html_page = 'about/process_new_officer/show_create_link_for_officer_page.html'
-    validate_officer_request(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
-
+    context = create_context_for_officer_creation_links(request, tab=TAB_STRING, html=html_page)
     post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY, HTML_NEW_START_DATE_KEY,
                  HTML_DATE_KEY]
     if len(set(post_keys).intersection(request.POST.keys())) != len(post_keys):
@@ -321,11 +313,17 @@ def allow_officer_to_choose_name(request):
     """
     logger.info(
         f"[about/officer_creation_link_management.py allow_officer_to_choose_name()] request.POST={request.POST}")
-    (render_value, context, error_message, new_officer_details) = \
-        verify_passphrase_access_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    html_page = 'about/process_new_officer/allow_officer_to_choose_name.html'
+
+    (context, new_officer_details) = verify_passphrase_access_and_create_context(request, TAB_STRING)
+
+    error_message = request.session.get(ERROR_MESSAGE_KEY, None)
+    if error_message is not None:
+        del request.session[ERROR_MESSAGE_KEY]
+        context[ERROR_MESSAGES_KEY] = [error_message]
+        return render(request, html_page, context)
+    if new_officer_details is None:
+        return render(request, html_page, context)
     officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'position_index',
                                                        '-start_date')
 
@@ -337,7 +335,7 @@ def allow_officer_to_choose_name(request):
         return HttpResponseRedirect(f'{settings.URL_ROOT}about/display_page_for_officer_to_input_info')
 
     context[HTML_PAST_OFFICERS_KEY] = officers
-    return render(request, 'about/process_new_officer/allow_officer_to_choose_name.html', context)
+    return render(request, html_page, context)
 
 
 def display_page_for_officers_to_input_their_info(request):
@@ -350,11 +348,10 @@ def display_page_for_officers_to_input_their_info(request):
         "[about/officer_creation_link_management.py display_page_for_officers_to_input_their_info()] "
         f"request.GET={request.GET}"
     )
-    (render_value, context, error_message, new_officer_details) = \
-        verify_passphrase_access_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    (context, new_officer_details) = verify_passphrase_access_and_create_context(request, TAB_STRING)
+    if new_officer_details is None:
+        request.session[ERROR_MESSAGES_KEY] = context[ERROR_MESSAGES_KEY]
+        return HttpResponseRedirect(f"{settings.URL_ROOT}about/allow_officer_to_choose_name")
 
     # relevant if there was an issue with processing the user input. they get redirected back to
     # this page and get shown the error message along with the info they had originally entered
@@ -545,11 +542,10 @@ def process_information_entered_by_officer(request):
     logger.info(
         f"[about/officer_creation_link_management.py "
         f"process_information_entered_by_officer()] request.POST={request.POST}")
-    (render_value, context, error_message, new_officer_details) = \
-        verify_passphrase_access_and_create_context(request, TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    (context, new_officer_details) = verify_passphrase_access_and_create_context(request, TAB_STRING)
+    if new_officer_details is None:
+        request.session[ERROR_MESSAGES_KEY] = context[ERROR_MESSAGES_KEY]
+        return HttpResponseRedirect(f"{settings.URL_ROOT}about/allow_officer_to_choose_name")
 
     if HTML_TERM_POSITION_KEY not in request.POST:
         return redirect_back_to_input_page_with_error_message(
@@ -580,7 +576,7 @@ def process_information_entered_by_officer(request):
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = \
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
-            else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
+                else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         sfuid = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
