@@ -1,0 +1,12 @@
+{% extends "csss/header.html" %}
+
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+    {{ block.super }}
+	{%  include 'csss/display_errors.html' %}
+
+    {%  include 'about/github_position_mapping/saved_github_mappings.html' %}
+
+    {%  include 'about/github_position_mapping/input_new_github_officer_team_mappings.html' %}
+{% endblock %}

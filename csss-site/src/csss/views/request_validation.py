@@ -30,15 +30,18 @@ def webmaster_or_doa_request_allowed(request, groups=None):
         groups = list(request.user.groups.values_list('name', flat=True))
     return 'doa' in groups or 'webmaster' in groups
 
+
 def sys_admin_request_allowed(request, groups=None):
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
     return 'sys-admin' in groups
 
+
 def webmaster_or_sys_admin_request_allowed(request, groups=None):
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
     return 'sys-admin' in groups or 'webmaster' in groups
+
 
 def election_officer_request_allowed(request, groups=None):
     if groups is None:

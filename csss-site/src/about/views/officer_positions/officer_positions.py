@@ -7,8 +7,8 @@ from csss.views.exceptions import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_officer_request
 
 
-def position_mapping(request):
-    html_page = 'about/position_mapping/position_mapping.html'
+def officer_positions(request):
+    html_page = 'about/officer_positions/officer_positions.html'
     validate_officer_request(request, html=html_page)
     context = create_main_context(request, TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []

@@ -24,7 +24,7 @@ logger = logging.getLogger('csss_site')
 
 
 def update_saved_position_mappings(request):
-    html_page = 'about/position_mapping/position_mapping.html'
+    html_page = 'about/officer_positions/officer_positions.html'
     validate_officer_request(request, html=html_page)
     context = create_main_context(request, TAB_STRING)
 

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load staticfiles %}
+
+<!-- The Following Site is heavily changed from that of previous Froshes due to the online nature of Frosh Week 2021.-->
+<!-- Go look at Frosh 2019 if you want an example of what the Frosh sites typically look like.. -->
+<!-- Contact John Wu, CSSS Frosh Chair 2021 for additional info.-->
+
+<head>
+    <meta charset="utf-8">
+
+    <title>CSSS Frosh 2021</title>
+
+
+    <link rel="stylesheet" type="text/css" href="{% static 'frosh_static/2021/css/frosh2021.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'frosh_static/2021/css/csss_custom.css' %}">
+    <link rel="stylesheet" href="{% static 'frosh_static/csss_custom.css' %}">
+
+    <style>
+    body{
+        /*width: 100%;*/
+        background-image: url({% static 'frosh_static/2021/images/background.png' %});
+        background-size: cover;
+        color:#000000;
+        font-size: 25px;
+    }
+    .content{
+        background-size: 100% 100%;
+        background-image: url({% static 'frosh_static/2021/images/content-background.png' %});
+        padding-top: 5%;
+        overflow: auto;
+        color:#000000;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class = wrapper>
+        <div class = center>
+        
+            <div class = content>
+            	<div class = image>
+
+            		<img src = "{% static 'frosh_static/2021/images/title-red.png' %}" class="frosh_2021_logo" alt="Title Logo" >
+            	</div>
+                <div class =openingcontent>
+
+                    
+                    
+                    <div class = text style="font-style: italic; text-shadow: 1px 1px white; font-weight: bold">
+                       
+                      	<!-- <img src = "{% static 'frosh_static/2021/images/CSSS_Logo_Red.png' %}" class="frosh_2021_csss_logo"> -->
+                    	<p style="font-size: 30px">Legend tells of a civilization situated upon mountain top, hundreds of meters above the land below. It is here, where thousands of the brightest academics across the land gather in the pursuit of greater knowledge.</p>
+
+						<p style="font-size: 30px">Every year, as the tree tops shift from pale yellow into bright amber, young hopefuls from all walks of life take the rite of passage, ascending the mountain and making their first steps onto the sky-high peaks and towards greatness.</p>
+
+						<p style="font-size: 30px">It would appear that you, young scholar are also keen on making this journey.</p>
+
+						<p style="font-size: 30px">Let us be your guides and welcome you to the start of your new adventure.</p>
+                       
+                    </div>
+                   
+                    <div class="csss_width_100" >
+                        
+                    <a href = "https://forms.gle/Pfzj3csd9ZifmNY46">
+
+                        <img src = "{% static 'frosh_static/2021/images/signup.png' %}" class="frosh_2021_signup_button" alt="Sign Up Button"></a>
+                    </div>
+                      
+                   
+                </div>
+                <div class = CSSScontent>
+
+                    <div class = moreContent>
+                        <div class = heading>
+                            <h1>What is the CSSS?</h1>
+                        </div>
+                        <div class = text>
+                            <p>The Simon Fraser University Computing Science Student Society (CSSS) is a student led society of over 2000 students. If you are declared as a Computer Science Major, Minor, or Honours, you are already part of the society. The CSSS aims to provide the best university life possible for all of the students in the School of Computing Science. Frosh Week is held every year in order to let new students get involved with the community, and help them get adjusted to university life. Throughout the entire year, the CSSS holds events ranging from Board Game Nights, to Hackathons, to Workshops. The <a href = "https://discord.gg/sfucsss">Official CSSS Discord Server</a> is an excellent place to get help with schoolwork, discuss classes, and meet new people. Whether you're just entering SFU, or have been around long enough to remember when the Student Union Building was first promised to us, the CSSS is glad to make your student life all the better.</p>
+                        </div>
+
+                        <div class = heading>
+                            <h1>Frosh Week Events</h1>
+                        </div>
+
+                        <div class = text>
+                            <p>Frosh Week will take place from September 8th, to September 10th. All events will take place on SFU Burnaby Campus</p>
+                        </div>
+
+                        <img src = "{% static 'frosh_static/2021/images/schedule.png' %}" class="frosh_2021_calendar" alt="Schedule">
+                        
+                        <div class="frosh_2021_event_info_placement" >
+                            <div class = halfdiv>
+                                <h2>Ice (cream) Breaker Social</h2>
+                                <p>Come join us and start your first day of classes strong by meeting the people you'll be stuck with for the next 4+ years of your life. Mentors will be available to ask for advice and help you with any questions you may have. We'll also be providing Ice Cream, so make sure to drop by!.</p>
+                                <h2>Barbeque</h2>
+                                <p>Make sure to stick around after the Ice Breaker, and join us outside to eat some delicious hamburgers, hot dogs, and more. All made by your fellow CS students!.</p>
+                             	<h2>Info Session </h2>
+                             	<p>The CS Info Session is a one and a half hour talk on our Canvas Course featuring many different prominent groups within the School of Computing Science. Learn about all the opportunities open to you and what to look forward to in your four (or more!) years at SFU.</p>
+                             	<h2>Burnaby Mountain Hike</h2>
+                             	<p>Join us on a short hike down the mountain to the nearby Burnaby Mountain Park, where we'll be taking full advantage of the beautiful weather with all kinds of outdoor fun.</p>
+                             	<h2>Pizza Night</h2>
+                             	<p>Whether or not you made it for the hike, you can still join us for the after party! Join us for pizza and board games and relax after your second day of classes.</p>
+                            </div>
+                            <div class = halfdiv>
+                                <h2>Midnight Madness</h2>
+                                <p>This is it, the end of your first week, and the start of your first all nighter. Learn the joy of all-nighters with all of the fun and none of the work! Join us for an all night party filled with fun, food, friends, and some other words that may or may not begin with the letter F. Make sure to tell your parents not to wait up. You'll be "studying". This event goes all night so prepare to be at SFU till the early hours of the morning on Saturday. Make sure you stay the whole night, so you can make it to the... </p>
+                                <h2>Ramming Ceremony</h2>
+                                <p>When the first beams of sunlight begin to shine through the tree tops and the voices of the local fauna signal the coming of the new dawn, you'll have known in your head and in your heart, that your first week has come to an end. You've lasted through the night, and came out the other side stronger than ever before. But wait, theres still more. Before you can stand proud and call yourself a true Computing Science Student, you must withstand one final test. Stand together with the students who've been by your side this entire week, and prepare to be <b><i>rammed</i></b></p>
+                                <h2>Breakfast</h2>
+                                <p>After the RAMing ceremony is all said and done, join with your fellow students and eat to your hearts content. Reminisce about the experiences shared, how you’ll never forget them, and how you’ll definitely come back for more CSSS events in the future.</p>
+                            </div>
+                        </div>
+                        <a href = "https://www.discord.gg/sfucsss">
+
+                        <img src = "{% static 'frosh_static/2021/images/join_us.png' %}" class="frosh_2021_signup_button" alt="Discord Button"></a>
+                        <div class = heading>
+                            <h1>FAQ</h1>
+                        </div>
+                        <div class = halfdiv>
+                            <h2>Is Frosh Week worth it?</h2>
+                            <p>Definitely! This is going to be one of the best weeks of your undergraduate life. Also, it’s a great way to instantly make friends and get involved with our community!</p>
+
+                            <h2>What if I don't know anyone?</h2>
+                            <p>All the more reason to drop by! You'll need to start somewhere, and Frosh Week is a great place to do that. Everyone is looking for cool people to be friends with, theres no reason you can't be one of those.</p>
+                            <h2>Where should I go? </h2>
+                            <p>We'll be holding events in various different locations. The best place to keep in touch with event news is at our Discord server at <a href = discord.gg/sfucsss> discord.gg/sfucsss </a></p>
+                        </div>
+
+                        <div class = halfdiv>
+                            <h2>How much does Frosh Week cost?</h2>
+                            <p>It's free!</p>
+                            <h2> Do I have to go to every event? </h2>
+                            <p>While we do recommend you go to every event, of course you don’t have to. However, we do reccommend participating in Frosh Week as much as you can. There's all kinds of awesome people you'll meet just by dropping by and enjoying yourself.</p>
+                            <h2>This is not my first year at SFU / I'm not a Computing Science major. Can I still come?</h2>
+                            <p>No reason why not! Don't think of Frosh Week as just an orientation, its also a chance to meet new people, make friends, and most of all, have fun!</p>
+                        </div>
+                    </div>
+                <br>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+<div class = footer>
+	<p><br></p>
+ <p>For any issues with our website, please contact our webmaster at <a href="mailto:csss-webmaster@sfu.ca?Subject=%5BREGARDING%20FROSH%20WEBSITE%5D">csss-webmaster@sfu.ca and place the tag "[REGARDING FROSH WEBSITE]" in the subject line</a></p>
+    <p>&copy; Copyright 2021 - <a href="{{ URL_ROOT }}">Computing Science Student Society</a></p>
+    <p><br></p>
+</div>
+</body>
+</html>

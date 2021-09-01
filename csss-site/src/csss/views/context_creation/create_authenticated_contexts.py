@@ -6,7 +6,6 @@ from csss.views.request_validation import webmaster_or_doa_request_allowed, sys_
 
 def _create_context_for_authenticated_user(request, authentication_method=None,
                                            tab=None, groups=None, endpoint=None, html=None):
-
     if html is None and endpoint is None:
         raise InvalidPrivilege(
             request,
@@ -93,5 +92,3 @@ def create_context_for_election_officer(request, tab=None, groups=None, endpoint
         request, authentication_method=election_officer_request_allowed, tab=tab, groups=groups,
         endpoint=endpoint, html=html
     )
-
-

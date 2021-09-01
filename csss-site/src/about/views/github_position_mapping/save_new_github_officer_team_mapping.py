@@ -5,8 +5,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping
-from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING, \
-    _get_position_mappings_assigned_to_specified_positions_names
+from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, POSITION_INDEX_KEY, \
     extract_valid_officers_positions_selected_for_github_team, \
     GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY, GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, \
@@ -27,7 +26,7 @@ logger = logging.getLogger('csss_site')
 def save_new_github_officer_team_mapping(request):
     logger.info(f"[about/save_new_github_officer_team_mapping.py save_new_github_officer_team_mapping()] "
                 f"request.POST={request.POST}")
-    html_page = 'about/position_mapping/position_mapping.html'
+    html_page = 'about/github_position_mapping/github_position_mapping.html'
     validate_officer_request(request, html=html_page)
     context = create_main_context(request, TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
@@ -35,11 +34,10 @@ def save_new_github_officer_team_mapping(request):
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'create_new_github_mapping' in post_dict:
-            context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY], \
-                context[ERROR_MESSAGES_KEY] = _create_new_github_mapping(post_dict)
-            if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
-                del context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY]
-
+            unsaved_github_officer_team_mapping_key, errors = _create_new_github_mapping(post_dict)
+            context[ERROR_MESSAGES_KEY] = errors
+            if unsaved_github_officer_team_mapping_key is not None:
+                context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] = unsaved_github_officer_team_mapping_key
     return render(request, html_page, update_context(context))
 
 
@@ -108,8 +106,7 @@ def _create_new_github_mapping(post_dict):
         f" to new github team are {officer_position_names}"
     )
 
-    return None,\
-        _save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms)
+    return None, _save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms)
 
 
 def _create_unsaved_github_officer_team_name_mappings(
@@ -225,3 +222,37 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
         if not success:
             error_messages.append(error_message)
     return error_messages
+
+
+def _get_position_mappings_assigned_to_specified_positions_names(officer_position_names):
+    """
+    Returns all officer_mappings that map to the specified position_names
+
+    Keyword Argument
+    officer_position_names -- the position_name for the required OfficerEmailListAndPositionMapping object
+
+    Return
+    success -- bool to Success, turns false if one of the officer position_names is not valid
+    error_message -- error_message if not successful
+    officer_position_and_github_mapping -- the OfficerEmailListAndPositionMapping object that maps
+     to the specified officer position names
+    """
+    officer_position_mappings = []
+    for officer_position_name in officer_position_names:
+        officer_position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
+            position_name=officer_position_name
+        )
+        if len(officer_position_mapping) == 0:
+            error_message = f"No officer found for position with position_name {officer_position_name}"
+            logger.info(
+                "[about/officer_management_helper.py "
+                f"_get_position_mappings_assigned_to_specified_positions_names()] {error_message}"
+            )
+            return False, f"{error_message}", None
+        officer_position_mappings.append(officer_position_mapping[0])
+    logger.info(
+        "[about/officer_management_helper.py "
+        "_get_position_mappings_assigned_to_specified_positions_names()]"
+        f" officer_position_mappings = {officer_position_mappings}"
+    )
+    return True, None, officer_position_mappings
