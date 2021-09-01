@@ -41,7 +41,7 @@ def save_new_github_officer_team_mapping(request):
             if context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] is None:
                 del context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY]
 
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, 'about/github_position_mapping/github_position_mapping.html', update_context(context))
 
 
 def _create_new_github_mapping(post_dict):

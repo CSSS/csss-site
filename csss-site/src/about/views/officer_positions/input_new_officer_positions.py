@@ -35,7 +35,7 @@ def input_new_officer_positions(request):
             success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
                 _add_new_position_mapping(post_dict)
 
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))
 
 
 def _add_new_position_mapping(post_dict):

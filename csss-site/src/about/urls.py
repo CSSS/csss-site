@@ -2,8 +2,12 @@ from django.conf.urls import url
 
 from .views import officer_management, import_export_officer_lists
 from .views.generate_officer_creation_links import officer_creation_link_management
-from .views.officer_position_and_github_mapping import update_saved_position_mappings, input_new_officer_positions, \
-    update_saved_github_mappings, save_new_github_officer_team_mapping, position_mapping_index
+from .views.github_position_mapping.github_mapping import github_mapping
+from .views.github_position_mapping.save_new_github_officer_team_mapping import save_new_github_officer_team_mapping
+from .views.github_position_mapping.update_saved_github_mappings import update_saved_github_mappings
+from .views.officer_positions.input_new_officer_positions import input_new_officer_positions
+from .views.officer_positions.officer_positions import officer_positions
+from .views.officer_positions.update_saved_position_mappings import update_saved_position_mappings
 
 urlpatterns = [
     url(
@@ -11,27 +15,31 @@ urlpatterns = [
         officer_creation_link_management.show_create_link_page,
         name='Show Page For Creating Links for Officer Information Input'),
     url(
-        r'^officer_position_and_github_mapping$', position_mapping_index.position_mapping,
+        r'^officer_position$', officer_positions,
         name="Officer Position Mapping"
     ),
     url(
-        r'^officer_position_and_github_mapping/update_saved_position_mappings$',
-        update_saved_position_mappings.update_saved_position_mappings,
+        r'^officer_position/update_saved_position_mappings$',
+        update_saved_position_mappings,
         name="Officer Position Mapping"
     ),
     url(
-        r'^officer_position_and_github_mapping/input_new_officer_positions$',
-        input_new_officer_positions.input_new_officer_positions,
+        r'^officer_position/input_new_officer_positions$',
+        input_new_officer_positions,
         name="Officer Position Mapping"
     ),
     url(
-        r'^officer_position_and_github_mapping/update_saved_github_mappings$',
-        update_saved_github_mappings.update_saved_github_mappings,
+        r'^github_mapping$', github_mapping,
         name="Officer Position Mapping"
     ),
     url(
-        r'^officer_position_and_github_mapping/save_new_github_officer_team_mapping$',
-        save_new_github_officer_team_mapping.save_new_github_officer_team_mapping,
+        r'^github_mapping/update_saved_github_mappings$',
+        update_saved_github_mappings,
+        name="Officer Position Mapping"
+    ),
+    url(
+        r'^github_mapping/save_new_github_officer_team_mapping$',
+        save_new_github_officer_team_mapping,
         name="Officer Position Mapping"
     ),
     url(

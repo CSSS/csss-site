@@ -37,7 +37,7 @@ def update_saved_position_mappings(request):
                 )['saved_officer_positions'].values()
             )
         )
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))
 
 
 def _update_positions_mapping(positions):
