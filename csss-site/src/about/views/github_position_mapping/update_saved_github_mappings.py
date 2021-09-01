@@ -6,12 +6,10 @@ from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
-from about.views.officer_position_and_github_mapping.save_new_github_officer_team_mapping import \
-    GITHUB_TEAM__TEAM_NAME_KEY
 from about.views.position_mapping_helper import update_context, GITHUB_TEAM__ID_KEY, \
     GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS, GITHUB_MAPPING_SELECTED_OFFICER_POSITIONS, \
-    DELETE_GITHUB_MAPPING
+    DELETE_GITHUB_MAPPING, GITHUB_TEAM__TEAM_NAME_KEY
 from csss.views.request_validation import verify_access_logged_user_and_create_context
 from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
@@ -38,7 +36,7 @@ def update_saved_github_mappings(request):
         )
         for github_mapping in github_mappings:
             context[ERROR_MESSAGES_KEY].extend(_update_github_mapping(github_mapping))
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, 'about/github_position_mapping/github_position_mapping.html', update_context(context))
 
 
 def _update_github_mapping(github_mapping):

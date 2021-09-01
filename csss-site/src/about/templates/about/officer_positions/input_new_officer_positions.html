@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
-<form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/input_new_officer_positions">
+<form method="post" action="{{ URL_ROOT }}about/officer_position/input_new_officer_positions">
     {%  csrf_token %}
     <div id="new_officer_positions">
 

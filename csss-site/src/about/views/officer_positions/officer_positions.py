@@ -6,7 +6,7 @@ from csss.views.request_validation import verify_access_logged_user_and_create_c
 from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
 
 
-def position_mapping(request):
+def officer_positions(request):
     (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
                                                                                           TAB_STRING)
     if context is None:
@@ -14,4 +14,4 @@ def position_mapping(request):
         return render_value
     context[ERROR_MESSAGES_KEY] = []
 
-    return render(request, 'about/position_mapping/position_mapping.html', update_context(context))
+    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))

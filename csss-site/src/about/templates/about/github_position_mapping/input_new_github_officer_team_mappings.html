@@ -1,6 +1,6 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
-<form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/save_new_github_officer_team_mapping">
+<form method="post" action="{{ URL_ROOT }}about/github_mapping/save_new_github_officer_team_mapping">
     {%  csrf_token %}
     <div id="new_github_officer_team_name_mapping">
         {% if unsaved_github_officer_team_name_mapping is not None %}

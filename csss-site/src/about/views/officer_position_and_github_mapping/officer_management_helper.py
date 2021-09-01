@@ -29,40 +29,6 @@ THIRD_TERM_SEASON = 'Fall'
 TERM_SEASONS = [FIRST_TERM_SEASON, SECOND_TERM_SEASON, THIRD_TERM_SEASON]
 
 
-def _get_position_mappings_assigned_to_specified_positions_names(officer_position_names):
-    """
-    Returns all officer_mappings that map to the specified position_names
-
-    Keyword Argument
-    officer_position_names -- the position_name for the required OfficerEmailListAndPositionMapping object
-
-    Return
-    success -- bool to Success, turns false if one of the officer position_names is not valid
-    error_message -- error_message if not successful
-    officer_position_and_github_mapping -- the OfficerEmailListAndPositionMapping object that maps
-     to the specified officer position names
-    """
-    officer_position_mappings = []
-    for officer_position_name in officer_position_names:
-        officer_position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
-            position_name=officer_position_name
-        )
-        if len(officer_position_mapping) == 0:
-            error_message = f"No officer found for position with position_name {officer_position_name}"
-            logger.info(
-                "[about/officer_management_helper.py "
-                f"_get_position_mappings_assigned_to_specified_positions_names()] {error_message}"
-            )
-            return False, f"{error_message}", None
-        officer_position_mappings.append(officer_position_mapping[0])
-    logger.info(
-        "[about/officer_management_helper.py "
-        "_get_position_mappings_assigned_to_specified_positions_names()]"
-        f" officer_position_mappings = {officer_position_mappings}"
-    )
-    return True, None, officer_position_mappings
-
-
 def get_term_number(year, term_season):
     """
     gets the term number using the year and term

@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <link rel="stylesheet" href="{% static 'about_static/saved_officer_position_mappings.css' %}">
 {%  if saved_officer_positions is not None %}
-	<form method="post" action="{{ URL_ROOT }}about/officer_position_and_github_mapping/update_saved_position_mappings">
+	<form method="post" action="{{ URL_ROOT }}about/officer_position/update_saved_position_mappings">
 		{%  csrf_token %}
 		<table class="saved_positions_table">
 			<tr>

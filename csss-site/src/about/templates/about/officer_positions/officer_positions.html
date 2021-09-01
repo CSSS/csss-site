@@ -1,0 +1,12 @@
+{% extends "csss/header.html" %}
+
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+    {{ block.super }}
+	{%  include 'csss/display_errors.html' %}
+
+    {%  include 'about/officer_positions/saved_officer_position_mappings.html' %}
+
+    {%  include 'about/officer_positions/input_new_officer_positions.html' %}
+{% endblock %}
