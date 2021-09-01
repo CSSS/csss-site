@@ -108,7 +108,7 @@ def _create_new_github_mapping(post_dict):
         f" to new github team are {officer_position_names}"
     )
 
-    return None,\
+    return None, \
         _save_new_github_team_mapping(officer_position_names, team_name, relevant_previous_terms)
 
 

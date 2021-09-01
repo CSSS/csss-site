@@ -29,8 +29,6 @@ THIRD_TERM_SEASON = 'Fall'
 TERM_SEASONS = [FIRST_TERM_SEASON, SECOND_TERM_SEASON, THIRD_TERM_SEASON]
 
 
-
-
 def get_term_number(year, term_season):
     """
     gets the term number using the year and term
