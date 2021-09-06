@@ -7,9 +7,8 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views.request_validation import validate_officer_request
 from csss.views_helper import there_are_multiple_entries
 
 logger = logging.getLogger('csss_site')
@@ -25,8 +24,7 @@ def input_new_officer_positions(request):
     logger.info("[about/input_new_officer_positions.py input_new_officer_positions()]"
                 f" request.POST={request.POST}")
     html_page = 'about/officer_positions/officer_positions.html'
-    validate_officer_request(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING, html=html_page)
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())

@@ -3,8 +3,7 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views.context_creation.create_main_context import create_main_context
-from csss.views.request_validation import validate_request_to_manage_elections
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from elections.views.Constants import TAB_STRING
 from elections.views.create_context.nominee_links.create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html
@@ -25,8 +24,7 @@ def display_and_process_html_for_new_nominee_links_election(request):
     )
     logger.info(json.dumps(request.POST, indent=3))
     html_page = 'elections/create_election/create_election_nominee_links.html'
-    validate_request_to_manage_elections(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_election_officer(request, tab=TAB_STRING, html=html_page)
 
     if request.method == "POST":
         return process_new_election_and_nominee_links(request, context)

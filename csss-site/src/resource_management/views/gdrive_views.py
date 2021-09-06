@@ -6,9 +6,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_google_drive_permissions
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views.request_validation import validate_officer_request
+from csss.views.request_validation import validate_request_to_update_gdrive_permissions
 from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
@@ -62,8 +62,7 @@ def gdrive_index(request):
     Shows the main page for google drive permission management
     """
     html_page = 'resource_management/gdrive_management.html'
-    validate_officer_request(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_google_drive_permissions(request, tab=TAB_STRING, html=html_page)
     if ERROR_MESSAGE_KEY in request.session:
         context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]
@@ -84,7 +83,7 @@ def add_users_to_gdrive(request):
     """
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
     endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -173,7 +172,7 @@ def update_permissions_for_existing_gdrive_user(request):
         f"request.POST={request.POST}"
     )
     endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         if 'action' in request.POST:
@@ -248,7 +247,7 @@ def make_folders_public_gdrive(request):
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
     endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -316,7 +315,7 @@ def update_gdrive_public_links(request):
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
     endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         if 'action' in request.POST:

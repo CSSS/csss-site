@@ -5,9 +5,10 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.context_creation.create_authenticated_contexts import \
+    create_context_for_updating_github_mappings_and_permissions
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views.request_validation import validate_officer_request
+from csss.views.request_validation import validate_request_to_update_github_permissions
 from csss.views_helper import there_are_multiple_entries
 from resource_management.models import NonOfficerGithubMember, OfficerPositionGithubTeam, \
     OfficerPositionGithubTeamMapping
@@ -27,8 +28,7 @@ def index(request):
     shows the main page for google drive permission management
     """
     html_page = 'resource_management/github_management.html'
-    validate_officer_request(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING, html=html_page)
     if ERROR_MESSAGES_KEY in request.session:
         context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGES_KEY].split("<br>")
         del request.session[ERROR_MESSAGES_KEY]
@@ -47,7 +47,7 @@ def add_non_officer_to_github_team(request):
     """
     logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] request.POST={request.POST}")
     endpoint = f'{settings.URL_ROOT}resource_management/github'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_github_permissions(request, endpoint=endpoint)
     github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
     if github.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -125,7 +125,7 @@ def update_github_non_officer(request):
     """
     logger.info(f"[resource_management/github_views.py update_github_non_officer()] request.POST={request.POST}")
     endpoint = f'{settings.URL_ROOT}resource_management/github'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_github_permissions(request, endpoint=endpoint)
     github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
     if github.connection_successful:
         if 'action' in request.POST:

@@ -4,8 +4,9 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from csss.views.context_creation.create_main_context import create_main_context
-from csss.views.request_validation import validate_officer_request
+from csss.views.context_creation.create_authenticated_contexts import \
+    create_context_for_current_and_past_officers_details
+from csss.views.request_validation import validate_request_to_update_digital_resource_permissions
 from csss.views_helper import there_are_multiple_entries
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
@@ -29,8 +30,11 @@ def show_resources_to_validate(request):
     """
     logger.info(f"[administration/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
     html_page = 'resource_management/show_resources_for_validation.html'
-    validate_officer_request(request, html=html_page)
-    return render(request, html_page, create_main_context(request, TAB_STRING))
+    return render(
+        request,
+        html_page,
+        create_context_for_current_and_past_officers_details(request, tab=TAB_STRING, html=html_page)
+    )
 
 
 def validate_access(request):
@@ -39,7 +43,7 @@ def validate_access(request):
     """
     logger.info(f"[administration/resource_views.py validate_access()] request.POST={request.POST}")
     endpoint = f'{settings.URL_ROOT}resource_management/show_resources_for_validation'
-    validate_officer_request(request, endpoint=endpoint)
+    validate_request_to_update_digital_resource_permissions(request, endpoint=endpoint)
     if there_are_multiple_entries(request.POST, RESOURCES_KEY):
         for resource in request.POST[RESOURCES_KEY]:
             determine_resource_to_validate(resource)

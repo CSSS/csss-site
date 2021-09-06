@@ -1,8 +1,7 @@
 import json
 import logging
 
-from csss.views.context_creation.create_main_context import create_main_context
-from csss.views.request_validation import validate_request_to_manage_elections
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from elections.views.Constants import TAB_STRING, CREATE_NEW_ELECTION__NAME
 from elections.views.create_election.json.display_json_for_new_election import display_empty_election_json
 from elections.views.create_election.json.process_new_election_json import process_new_inputted_json_election
@@ -18,8 +17,9 @@ def display_and_process_html_for_new_json_election(request):
         "[elections/create_election_json.py display_and_process_html_for_new_json_election()] request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-    validate_request_to_manage_elections(request, html='elections/create_election/create_election_json.html')
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_election_officer(
+        request, tab=TAB_STRING, html='elections/create_election/create_election_json.html'
+    )
     process_election = request.method == "POST" and CREATE_NEW_ELECTION__NAME in request.POST
 
     return process_new_inputted_json_election(request, context) \

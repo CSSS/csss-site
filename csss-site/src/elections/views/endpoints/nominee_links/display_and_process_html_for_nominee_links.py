@@ -3,9 +3,8 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views.request_validation import validate_request_to_manage_elections
 from elections.models import Election
 from elections.views.Constants import TAB_STRING
 from elections.views.update_election.nominee_links.display_selected_election_nominee_links import \
@@ -27,8 +26,7 @@ def display_and_process_html_for_modification_of_election_and_nominee_links__nom
     )
     logger.info(json.dumps(request.POST, indent=3))
     html_page = 'elections/update_election/update_election_nominee_links.html'
-    validate_request_to_manage_elections(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_election_officer(request, tab=TAB_STRING, html=html_page)
 
     if len(Election.objects.all().filter(slug=slug)) != 1:
         context[ERROR_MESSAGES_KEY] = [f"Received invalid Election slug of {slug}"]

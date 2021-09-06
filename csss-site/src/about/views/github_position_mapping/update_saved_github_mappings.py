@@ -10,9 +10,9 @@ from about.views.position_mapping_helper import update_context, GITHUB_TEAM__ID_
     GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS, GITHUB_MAPPING_SELECTED_OFFICER_POSITIONS, \
     DELETE_GITHUB_MAPPING, GITHUB_TEAM__TEAM_NAME_KEY
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.context_creation.create_authenticated_contexts import \
+    create_context_for_updating_github_mappings_and_permissions
 from csss.views.exceptions import ERROR_MESSAGES_KEY
-from csss.views.request_validation import validate_officer_request
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
@@ -26,8 +26,7 @@ def update_saved_github_mappings(request):
         f" request.POST={request.POST}"
     )
     html_page = 'about/github_position_mapping/github_position_mapping.html'
-    validate_officer_request(request, html=html_page)
-    context = create_main_context(request, TAB_STRING)
+    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING, html=html_page)
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         github_mappings = list(
