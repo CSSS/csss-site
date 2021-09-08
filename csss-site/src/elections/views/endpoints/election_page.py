@@ -18,7 +18,7 @@ logger = logging.getLogger('csss_site')
 def get_nominees(request, slug):
     context = create_main_context(request, TAB_STRING)
     if not validate_election_slug(slug):
-        context[ERROR_MESSAGES_KEY] = ["Specified slug seems to have more than one election attached to it."]
+        context[ERROR_MESSAGES_KEY] = ["specified slug has an incorrect number of elections attached to it."]
         return render(request, 'elections/election_page.html', context)
     election_to_display = Election.objects.get(slug=slug)
     election_management_privilege = user_has_election_management_privilege(request)
