@@ -7,13 +7,16 @@
 
 {% block content %}
     <h2 class="title is-size-2">Modify Election</h2>
-    {%  include 'elections/json/creating_election_errors.html' %}
-    <form method="post" class="form">
-        {% csrf_token %}
-        {%  include 'elections/update_election/submission_buttons.html' %}
-        {%  include 'elections/json/json_instructions.html' %}
-        {%  include 'elections/json/input_election.html' %}
-    </form>
-    {%  include 'elections/json/js_formatting_script.html' %}
-    {%  include 'elections/json/json_beautify.html' %}
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
+		{%  include 'elections/json/creating_election_errors.html' %}
+		<form method="post" class="form">
+			{% csrf_token %}
+			{%  include 'elections/update_election/submission_buttons.html' %}
+			{%  include 'elections/json/json_instructions.html' %}
+			{%  include 'elections/json/input_election.html' %}
+		</form>
+		{%  include 'elections/json/js_formatting_script.html' %}
+		{%  include 'elections/json/json_beautify.html' %}
+	{%  endif %}
 {% endblock %}

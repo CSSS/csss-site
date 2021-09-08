@@ -6,8 +6,8 @@
 {% block content %}
     {{ block.super }}
 	<link href="{% static 'csss_static/csss_custom.css' %}" rel="stylesheet">
-	{%  include 'csss/display_errors.html' %}
-	{%  if error_messages is None or error_messages|length == 0 %}
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
 		<div class="csss_divider_officer_list_upload">
 			<h2 class="title is-size-2">JSON Uploading</h2>
 			<h3 class="title is-size-3">Upload JSON for Specific term</h3>

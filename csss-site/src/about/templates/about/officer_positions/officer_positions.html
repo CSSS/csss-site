@@ -4,9 +4,12 @@
 {% load staticfiles %}
 {% block content %}
     {{ block.super }}
-	{%  include 'csss/display_errors.html' %}
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
+		{%  include 'csss/display_errors.html' %}
 
-    {%  include 'about/officer_positions/saved_officer_position_mappings.html' %}
+		{%  include 'about/officer_positions/saved_officer_position_mappings.html' %}
 
-    {%  include 'about/officer_positions/input_new_officer_positions.html' %}
+		{%  include 'about/officer_positions/input_new_officer_positions.html' %}
+	{% endif %}
 {% endblock %}

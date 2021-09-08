@@ -15,14 +15,13 @@ def validate_election_id_in_dict(request_obj):
 
     Return
     bool -- True or False to indicate if the election ID in the dict is valid
+    error_message -- a potential error message if ID is not valid
     """
-    election_id_present = ELECTION_ID in request_obj
-    election_id_is_valid = False if election_id_present is False else validate_election_id(request_obj[ELECTION_ID])
-    logger.info(
-        "[elections/validate_election_id.py validate_election_id_in_dict()]"
-        f"election_id_present = {election_id_present}, election_id_is_valid = {election_id_is_valid}"
-    )
-    return election_id_is_valid
+    if ELECTION_ID not in request_obj:
+        error_message = "Unable to find an election ID in your request"
+        logger.info(f"[elections/validate_election_id.py validate_election_id_in_dict()] {error_message}")
+        return False, error_message
+    return validate_election_id(request_obj[ELECTION_ID])
 
 
 def validate_election_id(election_id):
@@ -34,13 +33,14 @@ def validate_election_id(election_id):
 
     Return
     bool -- True or False if the election id maps to a single election
+    error_message -- a potential error message if ID does not map to a single election
     """
-    election_id_is_digit = f"{election_id}".isdigit()
-    election_id_is_valid = False if election_id_is_digit is False else (len(Election.objects.all().filter(
-        id=election_id))) == 1
-    logger.info(
-        "[elections/validate_election_id.py validate_election_id()]"
-        f"election_id of {election_id} has election_id_is_digit = {election_id_is_digit} and "
-        f"election_id_is_valid = {election_id_is_valid}"
-    )
-    return election_id_is_valid
+    if not election_id:
+        error_message = f"the detected election ID '{election_id}' is not a number"
+        logger.info(f"[elections/validate_election_id.py validate_election_id()] {error_message}")
+        return False, error_message
+    if len(Election.objects.all().filter(id=election_id)) != 1:
+        error_message = f"there is not election attached to ID '{election_id}'"
+        logger.info(f"[elections/validate_election_id.py validate_election_id()] {error_message}")
+        return False, error_message
+    return True, None

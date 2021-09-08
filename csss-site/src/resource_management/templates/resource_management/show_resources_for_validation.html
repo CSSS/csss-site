@@ -6,14 +6,17 @@
 
 {% block content %}
     <h2 class="title is-size-2">Ensure Access is Valid on All Resources</h2>
-    <form action="{{URL_ROOT}}resource_management/validate_access" method="post">
-        {% csrf_token %}
-		<input type="checkbox" name="resource" value="gdrive">
-		Google Drive:<br>
-        <input type="checkbox" name="resource" value="github">
-        Github<br>
-        <input type="checkbox" name="resource" value="gitlab">
-		SFU Gitlab<br>
-		<br><input type="submit" value="submit" />
-    </form>
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
+		<form action="{{URL_ROOT}}resource_management/validate_access" method="post">
+			{% csrf_token %}
+			<input type="checkbox" name="resource" value="gdrive">
+			Google Drive:<br>
+			<input type="checkbox" name="resource" value="github">
+			Github<br>
+			<input type="checkbox" name="resource" value="gitlab">
+			SFU Gitlab<br>
+			<br><input type="submit" value="submit" />
+		</form>
+	{%  endif %}
 {% endblock %}

@@ -332,7 +332,7 @@ def allow_officer_to_choose_name(request):
         del request.session[PASSPHRASE_ERROR_KEY]
         context[ERROR_MESSAGES_KEY] = [error_message]
         return render(request, html_page, context)
-    if not successful:
+    if not successful: # tested
         # if user used the wrong passphrase to either select a previous officer bio or use a new bio
         context[ERROR_MESSAGES_KEY] = [context[PASSPHRASE_ERROR_KEY]]
         return render(request, html_page, context)

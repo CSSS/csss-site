@@ -18,7 +18,8 @@ def get_existing_election_by_id(election_id):
     logger.info(f"[elections/get_existing_election_by_id.py get_existing_election_by_id()] "
                 f"trying to get election from ID {election_id} "
                 )
-    if validate_election_id(election_id):
+    success, error_message = validate_election_id(election_id)
+    if success:
         return Election.objects.get(id=election_id)
     logger.info("[elections/get_existing_election_by_id.py get_existing_election_by_id()] "
                 f"unable to find an election by id '{election_id}'")

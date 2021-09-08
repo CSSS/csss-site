@@ -7,8 +7,8 @@
 {% block content %}
 	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'about_static/input_officer_info.css' %}">
-	{%  include 'csss/display_errors.html' %}
-	{%  if error_messages is None or error_messages|length == 0 %}
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
 		<h2 class="title is-size-2">Create Links for New Term of Officers</h2>
 		<form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
 			{% csrf_token %}
