@@ -7,6 +7,7 @@ from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import InvalidPrivilege
 from csss.views.views import ERROR_MESSAGES_KEY
 
+
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         if isinstance(exception, InvalidPrivilege):
