@@ -16,6 +16,7 @@ logger = logging.getLogger('csss_site')
 ERROR_MESSAGES_KEY = 'error_messages'
 ERROR_EXPERIENCED_KEY = 'error_experienced'
 
+
 def check_if_file_attachments_exists(message):
     """
     Checks all the attachments for the message and returns true if any of them don't exist
