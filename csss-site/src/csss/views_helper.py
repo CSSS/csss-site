@@ -3,7 +3,6 @@ import logging
 
 from about.models import Term
 
-ERROR_MESSAGE_KEY = 'error_message'
 
 logger = logging.getLogger('csss_site')
 
