@@ -22,12 +22,12 @@ def display_current_json_election_json(request, context):
     election_id_is_valid = False
     election_id = None
     if ELECTION_ID in request.session:
-        election_id_is_valid = validate_election_id(request.session[ELECTION_ID])
+        election_id_is_valid, error_message = validate_election_id(request.session[ELECTION_ID])
         if election_id_is_valid:
             election_id = int(request.session[ELECTION_ID])
         del request.session[ELECTION_ID]
     elif ELECTION_ID in request.POST:
-        election_id_is_valid = validate_election_id(request.POST[ELECTION_ID])
+        election_id_is_valid, error_message = validate_election_id(request.POST[ELECTION_ID])
         if election_id_is_valid:
             election_id = int(request.POST[ELECTION_ID])
     error_message = None if election_id_is_valid is True else "No valid election found for given election id"

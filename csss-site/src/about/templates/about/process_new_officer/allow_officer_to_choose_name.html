@@ -4,20 +4,22 @@
 	{{ block.super }}
 	{% load static %}
 	{% load staticfiles %}
-
-	<form action="{{URL_ROOT}}about/display_page_for_officer_to_input_info" method="post">
-		{% csrf_token %}
-		{%  if past_officers %}
-			<label for="past_officer_bio_selected">Past Bio To Select: </label>
-			<select name="past_officer_bio_selected" id="past_officer_bio_selected">
-				{%  for officer in past_officers %}
-					<option value="{{officer.id}}">{{officer}}</option>
-				{%  endfor %}
-			</select>
-			<input type="submit" name="reuse_bio" value="Proceed with Selected Bio">
-			<br><br><br>
-			<p>or
-		{%  endif %}
-		<input type="submit" name="create_new_bio" value="Create New Bio"></p>
-	</form>
+	{%  include 'csss/display_errors.html' %}
+	{%  if error_messages is None or error_messages|length == 0 %}
+		<form action="{{URL_ROOT}}about/display_page_for_officer_to_input_info?{{ HTML_PASSPHRASE_GET_KEY }}={{ passphrase }}" method="post">
+			{% csrf_token %}
+			{%  if past_officers %}
+				<label for="past_officer_bio_selected">Past Bio To Select: </label>
+				<select name="past_officer_bio_selected" id="past_officer_bio_selected">
+					{%  for officer in past_officers %}
+						<option value="{{officer.id}}">{{officer}}</option>
+					{%  endfor %}
+				</select>
+				<input type="submit" name="reuse_bio" value="Proceed with Selected Bio">
+				<br><br><br>
+				<p>or
+			{%  endif %}
+			<input type="submit" name="create_new_bio" value="Create New Bio"></p>
+		</form>
+	{%  endif %}
 {% endblock %}

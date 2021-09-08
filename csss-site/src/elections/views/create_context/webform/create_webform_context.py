@@ -1,7 +1,7 @@
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
-from csss.views_helper import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import INPUT_ELECTION_ID__NAME, INPUT_ELECTION_ID__VALUE, INPUT_DATE__NAME, \
     INPUT_DATE__VALUE, INPUT_TIME__NAME, INPUT_TIME__VALUE, SELECT_ELECTION_TYPE__NAME, \

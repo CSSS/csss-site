@@ -4,8 +4,10 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from csss.views.request_validation import verify_access_logged_user_and_create_context
-from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY
+from csss.views.context_creation.create_authenticated_contexts import \
+    create_context_for_current_and_past_officers_details
+from csss.views.request_validation import validate_request_to_update_digital_resource_permissions
+from csss.views_helper import there_are_multiple_entries
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
 from .gitlab_views import create_gitlab_perms
@@ -27,14 +29,11 @@ def show_resources_to_validate(request):
     Displays the resources that the user can validate
     """
     logger.info(f"[administration/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    html_page = 'resource_management/show_resources_for_validation.html'
     return render(
         request,
-        'resource_management/show_resources_for_validation.html',
-        context
+        html_page,
+        create_context_for_current_and_past_officers_details(request, tab=TAB_STRING, html=html_page)
     )
 
 
@@ -43,16 +42,14 @@ def validate_access(request):
     takes in the inputs from the user on what resources to validate
     """
     logger.info(f"[administration/resource_views.py validate_access()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/show_resources_for_validation'
+    validate_request_to_update_digital_resource_permissions(request, endpoint=endpoint)
     if there_are_multiple_entries(request.POST, RESOURCES_KEY):
         for resource in request.POST[RESOURCES_KEY]:
             determine_resource_to_validate(resource)
     else:
         determine_resource_to_validate(request.POST[RESOURCES_KEY])
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/show_resources_for_validation')
+    return HttpResponseRedirect(endpoint)
 
 
 def determine_resource_to_validate(selected_resource_to_validate):

@@ -10,9 +10,9 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
-from csss.views.request_validation import verify_access_logged_user_and_create_context
-from csss.views_helper import ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY, \
-    get_current_term, get_datetime_for_beginning_of_current_term
+from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
+from csss.views.views import ERROR_MESSAGES_KEY
+from csss.views_helper import get_current_term, get_datetime_for_beginning_of_current_term
 from elections.models import NomineePosition
 
 DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
@@ -23,11 +23,8 @@ logger = logging.getLogger('csss_site')
 
 
 def update_saved_position_mappings(request):
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request,
-                                                                                          TAB_STRING)
-    if context is None:
-        request.session[ERROR_MESSAGE_KEY] = f'{error_message}<br>'
-        return render_value
+    html_page = 'about/officer_positions/officer_positions.html'
+    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING, html=html_page)
 
     if request.method == "POST":
         context[ERROR_MESSAGES_KEY] = _update_positions_mapping(
@@ -37,7 +34,7 @@ def update_saved_position_mappings(request):
                 )['saved_officer_positions'].values()
             )
         )
-    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))
+    return render(request, html_page, update_context(context))
 
 
 def _update_positions_mapping(positions):

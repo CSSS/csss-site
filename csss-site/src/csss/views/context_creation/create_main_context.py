@@ -3,7 +3,7 @@ from csss.views.context_creation.create_base_context import create_base_context
 from elections.models import Election
 
 
-def create_main_context(request, tab, groups=None):
+def create_main_context(request, tab=None, groups=None):
     """
     creates the main context dictionary
 

@@ -5,8 +5,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from csss.views.request_validation import verify_access_logged_user_and_create_context
-from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY, ERROR_MESSAGES_KEY
+from csss.views.context_creation.create_authenticated_contexts import \
+    create_context_for_updating_github_mappings_and_permissions
+from csss.views.views import ERROR_MESSAGES_KEY
+from csss.views.request_validation import validate_request_to_update_github_permissions
+from csss.views_helper import there_are_multiple_entries
 from resource_management.models import NonOfficerGithubMember, OfficerPositionGithubTeam, \
     OfficerPositionGithubTeamMapping
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
@@ -24,10 +27,8 @@ def index(request):
     """
     shows the main page for google drive permission management
     """
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    html_page = 'resource_management/github_management.html'
+    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING, html=html_page)
     if ERROR_MESSAGES_KEY in request.session:
         context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGES_KEY].split("<br>")
         del request.session[ERROR_MESSAGES_KEY]
@@ -36,7 +37,7 @@ def index(request):
     context['GITHUB_USERNAME_KEY'] = GITHUB_USERNAME_KEY
     context['LEGAL_NAME_KEY'] = LEGAL_NAME_KEY
     context['GITHUB_TEAM_KEY'] = GITHUB_TEAM_KEY
-    return render(request, 'resource_management/github_management.html', context)
+    return render(request, html_page, context)
 
 
 def add_non_officer_to_github_team(request):
@@ -45,10 +46,8 @@ def add_non_officer_to_github_team(request):
     membership
     """
     logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/github'
+    validate_request_to_update_github_permissions(request, endpoint=endpoint)
     github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
     if github.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -116,7 +115,7 @@ def add_non_officer_to_github_team(request):
                 username=user_name,
                 legal_name=name
             ).save()
-    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/github')
+    return HttpResponseRedirect(endpoint)
 
 
 def update_github_non_officer(request):
@@ -125,10 +124,8 @@ def update_github_non_officer(request):
     with the membership
     """
     logger.info(f"[resource_management/github_views.py update_github_non_officer()] request.POST={request.POST}")
-    (render_value, error_message, context) = verify_access_logged_user_and_create_context(request, TAB_STRING)
-    if context is None:  # if the user accessing the page is not authorized to access it
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-        return render_value
+    endpoint = f'{settings.URL_ROOT}resource_management/github'
+    validate_request_to_update_github_permissions(request, endpoint=endpoint)
     github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
     if github.connection_successful:
         if 'action' in request.POST:

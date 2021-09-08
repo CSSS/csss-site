@@ -6,53 +6,55 @@
 {% block content %}
     {{ block.super }}
 	<link href="{% static 'csss_static/csss_custom.css' %}" rel="stylesheet">
-	{%  include 'csss/display_errors.html' %}
-    <div class="csss_divider_officer_list_upload">
-        <h2 class="title is-size-2">JSON Uploading</h2>
-        <h3 class="title is-size-3">Upload JSON for Specific term</h3>
-        <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
-            {%  csrf_token %}
-            <input type="file" name="term_json" required>
-            <input type="checkbox" id="overwrite_term" name="overwrite" value="true">
-            <label for="overwrite_term">Overwrite Officers for inputted term</label><br>
-            <button type="submit">Submit</button>
-        </form>
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
+		<div class="csss_divider_officer_list_upload">
+			<h2 class="title is-size-2">JSON Uploading</h2>
+			<h3 class="title is-size-3">Upload JSON for Specific term</h3>
+			<form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
+				{%  csrf_token %}
+				<input type="file" name="term_json" required>
+				<input type="checkbox" id="overwrite_term" name="overwrite" value="true">
+				<label for="overwrite_term">Overwrite Officers for inputted term</label><br>
+				<button type="submit">Submit</button>
+			</form>
 
-        <a href="{% static 'about_static/term.json' %}" download  >Download sample term specific json</a>
+			<a href="{% static 'about_static/term.json' %}" download  >Download sample term specific json</a>
 
-        <br><br>
+			<br><br>
 
-        <h3 class="title is-size-3">Upload JSON for specified year[s]</h3>
-        <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
-            {%  csrf_token %}
-            <input type="file" name="years_json" required>
-            <input type="checkbox" id="overwrite_years" name="overwrite" value="true">
-            <label for="overwrite_years">Overwrite Officers for inputted year[s]</label><br>
-            <button type="submit">Submit</button>
-        </form>
+			<h3 class="title is-size-3">Upload JSON for specified year[s]</h3>
+			<form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
+				{%  csrf_token %}
+				<input type="file" name="years_json" required>
+				<input type="checkbox" id="overwrite_years" name="overwrite" value="true">
+				<label for="overwrite_years">Overwrite Officers for inputted year[s]</label><br>
+				<button type="submit">Submit</button>
+			</form>
 
-        <a href="{% static 'about_static/years.json' %}" download  >Download sample json for year[s]</a>
-    </div>
+			<a href="{% static 'about_static/years.json' %}" download  >Download sample json for year[s]</a>
+		</div>
 
-    <br><br><br><br>
+		<br><br><br><br>
 
-    <div class="csss_divider_officer_list_upload" >
-        <h2 class="title is-size-2">Upload CSV for specified term[s] or year[s]</h2>
+		<div class="csss_divider_officer_list_upload" >
+			<h2 class="title is-size-2">Upload CSV for specified term[s] or year[s]</h2>
 
-        <b>Markdown Information</b>
-        <ol class="csss_order_list" >
-            <li>a newline may be placed in the bio for an officer with a "\n"</li>
-            <li>a comma can be put into an entry with "[comma]"</li>
-            <li>Some fields, such as github teams or announcement emails can take in multiple values. For those fields, you can separate the multiple values by using "|" as a delimiter</li>
-        </ol>
-        <form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
-            {%  csrf_token %}
-            <input type="file" name="csv" required>
-            <input type="checkbox" id="overwrite_csv" name="overwrite" value="true">
-            <label for="overwrite_csv">Overwrite Officers for inputted year[s]</label><br>
-            <button type="submit">Submit</button>
-        </form>
+			<b>Markdown Information</b>
+			<ol class="csss_order_list" >
+				<li>a newline may be placed in the bio for an officer with a "\n"</li>
+				<li>a comma can be put into an entry with "[comma]"</li>
+				<li>Some fields, such as github teams or announcement emails can take in multiple values. For those fields, you can separate the multiple values by using "|" as a delimiter</li>
+			</ol>
+			<form method="post" action="{{ URL_ROOT}}about/upload_officer_list" enctype="multipart/form-data">
+				{%  csrf_token %}
+				<input type="file" name="csv" required>
+				<input type="checkbox" id="overwrite_csv" name="overwrite" value="true">
+				<label for="overwrite_csv">Overwrite Officers for inputted year[s]</label><br>
+				<button type="submit">Submit</button>
+			</form>
 
-        <a href="{% static 'about_static/years.csv' %}" download  >Download sample csv for year[s]</a>
-    </div>
+			<a href="{% static 'about_static/years.csv' %}" download  >Download sample csv for year[s]</a>
+		</div>
+	{% endif %}
 {% endblock %}

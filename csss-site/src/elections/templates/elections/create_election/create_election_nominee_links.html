@@ -6,19 +6,22 @@
 
 {% block content %}
     <h2 class="title is-size-2">Create Election</h2>
-	<div class="csss_box_borders_new_entries">
-		<h3 class="title is-size-3">Create New Nominee Link For New Election</h3>
-		<form method="post" class="form">
-			{%  csrf_token %}
-			{%  include 'csss/display_errors.html' %}
-			{%  if pre_existing_election is False %}
-				{%  include 'elections/webform_format/election_date.html' %}
-				{%  include 'elections/webform_format/election_time.html' %}
-				{%  include 'elections/webform_format/election_type.html' %}
-				{%  include 'elections/webform_format/election_websurvey.html' %}
-				{%  include 'elections/nominee_links/election_nominee_names.html' %}<br>
-				{%  include 'elections/create_election/submission_buttons.html' %}
-			{%  endif %}
-		</form>
-	</div>
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
+		<div class="csss_box_borders_new_entries">
+			<h3 class="title is-size-3">Create New Nominee Link For New Election</h3>
+			<form method="post" class="form">
+				{%  csrf_token %}
+				{%  include 'csss/display_errors.html' %}
+				{%  if pre_existing_election is False %}
+					{%  include 'elections/webform_format/election_date.html' %}
+					{%  include 'elections/webform_format/election_time.html' %}
+					{%  include 'elections/webform_format/election_type.html' %}
+					{%  include 'elections/webform_format/election_websurvey.html' %}
+					{%  include 'elections/nominee_links/election_nominee_names.html' %}<br>
+					{%  include 'elections/create_election/submission_buttons.html' %}
+				{%  endif %}
+			</form>
+		</div>
+	{% endif %}
 {% endblock %}

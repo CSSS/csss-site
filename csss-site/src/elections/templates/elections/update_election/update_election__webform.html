@@ -6,19 +6,22 @@
 
 {% block content %}
 	<h2 class="title is-size-2">Modify Election</h2>
-    {%  include 'elections/json/creating_election_errors.html' %}
-	<form method="post" class="form">
-        {%  include 'elections/webform/form__webform.html' %}
-    </form>
+	{%  include 'csss/display_invalid_privilege_errors.html' %}
+	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
+		{%  include 'elections/json/creating_election_errors.html' %}
+		<form method="post" class="form">
+			{%  include 'elections/webform/form__webform.html' %}
+		</form>
 
-    <script>
-		function removeDiv(divName){$(divName).remove();}
+		<script>
+			function removeDiv(divName){$(divName).remove();}
 
-        {%  include 'elections/webform/js_functions/on_load_js_function/main_function.html' %}
+			{%  include 'elections/webform/js_functions/on_load_js_function/main_function.html' %}
 
-        {%  include 'elections/webform/js_functions/add_blank_nominee.html' %}
+			{%  include 'elections/webform/js_functions/add_blank_nominee.html' %}
 
-        {%  include 'elections/webform/js_functions/add_blank_speech.html' %}
-    </script>
+			{%  include 'elections/webform/js_functions/add_blank_speech.html' %}
+		</script>
+	{%  endif %}
 
 {% endblock %}

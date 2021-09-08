@@ -1,47 +1,57 @@
-from django.http import HttpResponseRedirect
-
 from administration.Constants import ELECTION_MANAGEMENT_GROUP_NAME
-from csss.views.views import create_main_context
+from csss.views.exceptions import InvalidPrivilege
 
 
-def verify_access_logged_user_and_create_context_for_elections(request, tab):
-    """
-    Makes sure that the user is allowed to access the election page and returns
-    the context dictionary
+def officer_request_allowed(request, groups=None):
+    if groups is None:
+        groups = list(request.user.groups.values_list('name', flat=True))
+    return 'officer' in groups
 
-    Keyword Argument
-    request -- the django request object
-    tab -- the tab that needs to be specified in the context
 
-    Return
-    HttpResponseRedirect -- either None or the redirect object that redirect to the error page
-    error_message -- the error message if the user is not allowed to access the election pages
-    context -- the base context dictionary
-    """
+def validate_request_to_update_digital_resource_permissions(request, endpoint=None):
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_main_context(request, tab, groups)
-    if not (ELECTION_MANAGEMENT_GROUP_NAME in groups):
-        return HttpResponseRedirect('/error'), "You are not authorized to access this page", context
-    return None, None, context
+    if officer_request_allowed(request, groups=groups):
+        return
+    raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
 
 
-def verify_access_logged_user_and_create_context(request, tab):
-    """
-    make sure that the user is logged in with the sufficient level of access to access the page
+def validate_request_to_update_gdrive_permissions(request, endpoint=None):
+    validate_request_to_update_digital_resource_permissions(request, endpoint=endpoint)
 
-    Keyword Arguments
-    request -- the django request object
-    tab -- the tab that needs to be specified in the context
 
-    Return
-    HttpResponseRedirect -- returns a redirect to /error if the user is not allowed to access
-     the page or None if they are
-    error_message -- the error message if the user is not allowed to access the page
-    context -- the context object to pass to html if user is allowed to access the page
-    """
+def webmaster_or_doa_request_allowed(request, groups=None):
+    if groups is None:
+        groups = list(request.user.groups.values_list('name', flat=True))
+    return 'doa' in groups or 'webmaster' in groups
+
+
+def sys_admin_request_allowed(request, groups=None):
+    if groups is None:
+        groups = list(request.user.groups.values_list('name', flat=True))
+    return 'sys-admin' in groups
+
+
+def validate_request_to_update_github_permissions(request, endpoint=None):
     groups = list(request.user.groups.values_list('name', flat=True))
-    context = create_main_context(request, tab, groups)
-    if not (request.user.is_staff or 'officer' in groups):
-        return HttpResponseRedirect(
-            '/error'), "You are not authorized to access this page", None
-    return None, None, context
+    if sys_admin_request_allowed(request, groups=groups):
+        return
+    raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
+
+
+def webmaster_or_sys_admin_request_allowed(request, groups=None):
+    if groups is None:
+        groups = list(request.user.groups.values_list('name', flat=True))
+    return 'sys-admin' in groups or 'webmaster' in groups
+
+
+def election_officer_request_allowed(request, groups=None):
+    if groups is None:
+        groups = list(request.user.groups.values_list('name', flat=True))
+    return ELECTION_MANAGEMENT_GROUP_NAME in groups
+
+
+def validate_request_to_delete_election(request, endpoint=None):
+    groups = list(request.user.groups.values_list('name', flat=True))
+    if election_officer_request_allowed(request, groups=groups):
+        return
+    raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)

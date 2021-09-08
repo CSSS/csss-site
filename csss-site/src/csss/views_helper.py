@@ -4,7 +4,6 @@ import logging
 from about.models import Term
 
 ERROR_MESSAGE_KEY = 'error_message'
-ERROR_MESSAGES_KEY = 'error_messages'
 
 logger = logging.getLogger('csss_site')
 
