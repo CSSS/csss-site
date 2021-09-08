@@ -7,7 +7,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_google_drive_permissions
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_request_to_update_gdrive_permissions
 from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile

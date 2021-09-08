@@ -4,7 +4,8 @@ from django.shortcuts import render
 from django.utils.deprecation import MiddlewareMixin
 
 from csss.views.context_creation.create_main_context import create_main_context
-from csss.views.exceptions import InvalidPrivilege, ERROR_MESSAGES_KEY
+from csss.views.exceptions import InvalidPrivilege
+from csss.views.views import ERROR_MESSAGES_KEY, ERROR_EXPERIENCED_KEY
 
 
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
@@ -19,5 +20,5 @@ class HandleBusinessExceptionMiddleware(MiddlewareMixin):
             request.context[ERROR_MESSAGES_KEY] = [exception]
             return render(request, request.html_page, request.context)
         context = create_main_context(request, 'index')
-        context[ERROR_MESSAGES_KEY] = [f"Encountered an unexpected exception of: {exception}"]
+        context[ERROR_EXPERIENCED_KEY] = [f"Encountered an unexpected exception of: {exception}"]
         return render(request, 'csss/error.html', context)

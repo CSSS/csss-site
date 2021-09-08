@@ -1,4 +1,4 @@
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 
 
 def create_context_for_display_errors_html(context, error_messages=None):

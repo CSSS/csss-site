@@ -4,7 +4,7 @@ import logging
 from django.shortcuts import render
 
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from elections.views.Constants import ELECTION_ID, TAB_STRING, UPDATE_EXISTING_ELECTION__NAME
 from elections.views.create_context.webform.create_webform_context import create_webform_context
 from elections.views.update_election.webform.display_webform_for_selected_election_webform import \

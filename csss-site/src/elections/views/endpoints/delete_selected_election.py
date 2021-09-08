@@ -4,7 +4,7 @@ import logging
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_request_to_delete_election
 from elections.models import Election
 from elections.views.Constants import ELECTION_ID

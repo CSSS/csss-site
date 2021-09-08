@@ -4,7 +4,7 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
 from about.views.position_mapping_helper import update_context
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 
 
 def github_mapping(request):

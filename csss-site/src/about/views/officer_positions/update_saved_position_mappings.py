@@ -11,7 +11,7 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_term, get_datetime_for_beginning_of_current_term
 from elections.models import NomineePosition
 

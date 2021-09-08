@@ -12,7 +12,7 @@ from about.views.position_mapping_helper import update_context, GITHUB_TEAM__ID_
     DELETE_GITHUB_MAPPING, GITHUB_TEAM__TEAM_NAME_KEY
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI

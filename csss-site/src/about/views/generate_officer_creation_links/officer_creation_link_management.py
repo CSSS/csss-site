@@ -18,7 +18,7 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
     HTML_VALUE_ATTRIBUTE_FOR_START_DATE, TERM_SEASONS
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 from csss.views.context_creation.create_main_context import create_main_context
-from csss.views.exceptions import ERROR_MESSAGES_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
@@ -332,7 +332,7 @@ def allow_officer_to_choose_name(request):
         del request.session[PASSPHRASE_ERROR_KEY]
         context[ERROR_MESSAGES_KEY] = [error_message]
         return render(request, html_page, context)
-    if not successful: # tested
+    if not successful:
         # if user used the wrong passphrase to either select a previous officer bio or use a new bio
         context[ERROR_MESSAGES_KEY] = [context[PASSPHRASE_ERROR_KEY]]
         return render(request, html_page, context)
