@@ -5,8 +5,9 @@ from django.utils.deprecation import MiddlewareMixin
 
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import InvalidPrivilege
-from csss.views.views import ERROR_MESSAGES_KEY, ERROR_EXPERIENCED_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 
+ERROR_EXPERIENCED_KEY = 'error_experienced'
 
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):

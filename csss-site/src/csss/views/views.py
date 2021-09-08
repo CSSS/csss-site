@@ -14,7 +14,6 @@ from csss.views_helper import ERROR_MESSAGE_KEY
 logger = logging.getLogger('csss_site')
 
 ERROR_MESSAGES_KEY = 'error_messages'
-ERROR_EXPERIENCED_KEY = 'error_experienced'
 
 
 def check_if_file_attachments_exists(message):
@@ -76,14 +75,6 @@ def index(request):
         'ENVIRONMENT': settings.ENVIRONMENT
     })
     return render(request, 'announcements/announcements.html', context)
-
-
-def errors(request):
-    context = create_main_context(request, 'index')
-    if ERROR_MESSAGE_KEY in request.session:
-        context[ERROR_EXPERIENCED_KEY] = request.session[ERROR_MESSAGE_KEY].split("<br>")
-        del request.session[ERROR_MESSAGE_KEY]
-    return render(request, 'csss/error.html', context)
 
 
 def md(request):
