@@ -15,7 +15,6 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
     url(r'^' + settings.URL_PATTERN + 'administration/', include('administration.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
-    url(r'^' + settings.URL_PATTERN + 'error/', views.errors, name="error page"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
 ]
 
