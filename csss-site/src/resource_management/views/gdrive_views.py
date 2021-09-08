@@ -9,7 +9,7 @@ from querystring_parser import parser
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_google_drive_permissions
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_request_to_update_gdrive_permissions
-from csss.views_helper import there_are_multiple_entries, ERROR_MESSAGE_KEY
+from csss.views_helper import there_are_multiple_entries
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
 from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
@@ -23,6 +23,8 @@ GOOGLE_DRIVE_USERS_FILE_ID_KEY = 'file_id'
 GOOGLE_DRIVE_USERS_FILE_NAME_KEY = 'file_name'
 GOOGLE_DRIVE_USERS_FILE_LINK_KEY = 'file_link'
 TAB_STRING = 'administration'
+
+ERROR_MESSAGE_KEY = 'error_message'
 
 
 def user_does_not_have_access_to_file(gmail, file_id):

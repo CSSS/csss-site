@@ -1,12 +1,11 @@
 import datetime
 import logging
 
-from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from administration.views import user_has_election_management_privilege
 from csss.views.context_creation.create_main_context import create_main_context
-from csss.views_helper import ERROR_MESSAGE_KEY
+from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
     BUTTON_MODIFY_ELECTION_ID__NAME, INPUT_ELECTION_ID__NAME, ELECTION_ID, ELECTION__HTML_NAME, NOMINEES_HTML__NAME, \
@@ -19,10 +18,8 @@ logger = logging.getLogger('csss_site')
 def get_nominees(request, slug):
     context = create_main_context(request, TAB_STRING)
     if not validate_election_slug(slug):
-        request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(
-            "Specified slug seems to have more than one election attached to it."
-        )
-        return HttpResponseRedirect('/error')
+        context[ERROR_MESSAGES_KEY] = ["specified slug has an incorrect number of elections attached to it."]
+        return render(request, 'elections/election_page.html', context)
     election_to_display = Election.objects.get(slug=slug)
     election_management_privilege = user_has_election_management_privilege(request)
     if election_management_privilege:
