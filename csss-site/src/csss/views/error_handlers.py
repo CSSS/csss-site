@@ -9,6 +9,7 @@ from csss.views.views import ERROR_MESSAGES_KEY
 
 ERROR_EXPERIENCED_KEY = 'error_experienced'
 
+
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         if isinstance(exception, InvalidPrivilege):
