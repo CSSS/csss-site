@@ -29,7 +29,7 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
     if groups is None:
         groups = list(request.user.groups.values_list('name', flat=True))
     if authentication_method(request, groups=groups):
-        return create_main_context(request, tab, groups=groups)
+        return create_main_context(request, tab)
     if endpoint is not None:
         raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
     if html is not None:

@@ -50,14 +50,16 @@
 							<a class="navbar-link">About</a>
 						{% endif %}
 						<div class="navbar-dropdown">
-							{% if authenticated is True %}
-								{% if staff %}
-									<a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
-									<a href="{{ URL_ROOT }}about/show_page_for_inputting_officer_info" class="navbar-item">Upload Officer List</a>
-									<a href="{{ URL_ROOT }}about/officer_position" class="navbar-item">Officer Positions</a>
-									<a href="{{ URL_ROOT }}about/github_mapping" class="navbar-item">Officer Github Mapping</a>
+							{%  if current_webmaster_or_doa is True %}
+								<a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
+								<a href="{{ URL_ROOT }}about/show_page_for_inputting_officer_info" class="navbar-item">Upload Officer List</a>
+								<a href="{{ URL_ROOT }}about/officer_position" class="navbar-item">Officer Positions</a>
+							{%  endif %}
+							{%  if current_sys_admin is True %}
+								<a href="{{ URL_ROOT }}about/github_mapping" class="navbar-item">Officer Github Mapping</a>
+							{%  endif %}
+							{% if current_webmaster_or_doa is True or current_sys_admin is True  %}
 									<hr class="dropdown-divider">
-								{% endif %}
 							{% endif %}
 							<a href="{{URL_ROOT}}about/who_we_are" class="navbar-item">Who We Are</a>
 							<a href="{{URL_ROOT}}about/list_of_current_officers" class="navbar-item">List of Current Officers</a>
@@ -163,54 +165,12 @@
 
 						</div>
 					</div>
-
-					<!--Administration-->
-					<div class="navbar-item has-dropdown is-hoverable">
-						{% if tab == 'administration' %}
-							<a class="navbar-link is-active">Administration</a>
-						{% else %}
-							<a class="navbar-link">Administration</a>
-						{% endif %}
-
-						<div class="navbar-dropdown">
-							{% if authenticated is True %}
-								{% if staff %}
-									<a href="{{URL_ROOT}}admin" class="navbar-item">Django Admin</a>
-								{% endif %}
-
-								<hr class="dropdown-divider">
-								<div class="dropdown-item">
-									<p><b>Logged in as {{username}}</b></p>
-								</div>
-
-								<div class="dropdown-item">
-									<div class="buttons">
-										<a class="button is-light" href="{{URL_ROOT}}administration/logout">
-											<strong>Log Out</strong>
-										</a>
-									</div>
-								</div>
-							{% else %}
-								<div class="dropdown-item">
-									<form action="{{URL_ROOT}}administration/login" method="post">
-										{% csrf_token %}
-										<div class="field">
-											<label class="label">Username&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-											<div class="control"><input name="username" class="input" type="text" required></div>
-										</div>
-										<div class="field">
-											<label class="label">Password&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
-											<div class="control"><input name="password" class="input" type="password" required></div>
-										</div>
-										<div class="field">
-											<div class="control">
-												<button type="submit" class="button is-light">Log In</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							{% endif %}
-						</div>
+					<div class="navbar-item is-hoverable">
+						{% if user.is_authenticated %}
+							<p>Logged in as {{user.username}}. <a href="{{ LOGOUT_URL }}">Logout</a></p>
+						{%  else %}
+								<a  class="navbar-link login-navbar-link" href="{{ LOGIN_URL }}">Sign In</a>
+						{%  endif %}
 					</div>
 				</div>
 			</div>

@@ -33,3 +33,8 @@
     float: left;
     margin-left: 10px
 }
+
+
+.login-navbar-link::after {
+    content: normal !important;
+}

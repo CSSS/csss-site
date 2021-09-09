@@ -8,7 +8,7 @@ logger = logging.getLogger('csss_site')
 
 
 def get_list_of_officer_details_from_past_specified_terms(
-        relevant_previous_terms=5, position_names=None, filter_by_github=False):
+        relevant_previous_terms=5, position_names=None, filter_by_github=False, filter_by_sfuid=False):
     """
     Returns the list of users who match the specified position_names and relevant_previous_terms
 
@@ -59,6 +59,10 @@ def get_list_of_officer_details_from_past_specified_terms(
                 for current_officer in current_officers:
                     if current_officer.github_username not in officer_list:
                         officer_list.append(current_officer.github_username)
+            elif filter_by_sfuid:
+                for current_officer in current_officers:
+                    if current_officer.github_username not in officer_list:
+                        officer_list.append(current_officer.sfuid)
             else:
                 officer_list.extend(current_officers)
             logger.info(
