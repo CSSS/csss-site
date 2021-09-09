@@ -49,13 +49,14 @@ def create_main_context(request, tab=None):
     current_sys_admin_or_webmaster_sfuid = get_list_of_officer_details_from_past_specified_terms(
         relevant_previous_terms=0, position_names=["Webmaster", "Systems Administrator"], filter_by_sfuid=True
     )
-    if request.user.username in ['jsaadatm']:
-        request.user.is_staff = True
-        request.user.is_superuser = True
-    else:
-        request.user.is_staff = False
-        request.user.is_superuser = False
-    request.user.save()
+    if request.user.is_authenticated:
+        if request.user.username in ['jsaadatm']:
+            request.user.is_staff = True
+            request.user.is_superuser = True
+        else:
+            request.user.is_staff = False
+            request.user.is_superuser = False
+        request.user.save()
     sfuid_for_officer_in_past_5_terms = get_list_of_officer_details_from_past_specified_terms(
         filter_by_sfuid=True
     )
