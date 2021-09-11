@@ -314,7 +314,7 @@ SITE_ID = 1
 CAS_SERVER_URL = "https://cas.sfu.ca/cas/"
 CAS_VERSION = '3'
 CAS_LOGIN_MSG = None
-CAS_LOGIN_URL_NAME = "login"  # needed so that /admin can be accessed
+CAS_LOGIN_URL_NAME = "login"  # needed so that /admin can be accessed with CAS login
 
 STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:
