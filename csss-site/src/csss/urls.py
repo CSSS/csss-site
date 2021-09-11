@@ -17,7 +17,6 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'statics/', include('static_pages.urls')),
     url(r'^' + settings.URL_PATTERN + 'elections/', include('elections.urls')),
     url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
-    url(r'^' + settings.URL_PATTERN + 'administration/', include('administration.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
     url(r'^' + settings.URL_PATTERN + 'login/$', LoginView.as_view(), name='login'),
