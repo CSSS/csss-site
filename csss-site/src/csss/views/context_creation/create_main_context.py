@@ -57,11 +57,11 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
     if settings.PORT is not None:
         request_path += f":{settings.PORT}"
     if request.user.is_authenticated:
-        request_path += "/logout"
+        request_path += f"{settings.URL_ROOT}logout"
         context['LOGOUT_URL'] = request_path
         context['user'] = request.user
     else:
-        request_path += f"/login?next={request.path}"
+        request_path += f"{settings.URL_ROOT}login?next={request.path}"
         context['LOGIN_URL'] = request_path
 
     elections = Election.objects.all().order_by('-date')
