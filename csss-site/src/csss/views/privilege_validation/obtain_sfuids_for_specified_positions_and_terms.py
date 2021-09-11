@@ -3,9 +3,10 @@ from csss.views.privilege_validation.list_of_officer_details_from_past_specified
     get_list_of_officer_details_from_past_specified_terms
 from resource_management.models import NaughtyOfficer
 
+
 def get_current_election_officer_sfuid(naughty_officers=None, officers=None):
     relevant_previous_terms = 0
-    position_names = ["Systems Administrator", "General Election Officer", "By-Election Officer"]
+    position_names = ["General Election Officer", "By-Election Officer"]
     return _get_sfuids_for_specified_position_in_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=position_names,
         naughty_officers=naughty_officers, officers=officers

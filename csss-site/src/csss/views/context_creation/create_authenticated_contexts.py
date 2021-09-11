@@ -102,7 +102,7 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
                                                                               officers=officers),
             sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(naughty_officers=naughty_officers,
                                                                                     officers=officers),
-            current_sys_admin_sfuid=get_current_sys_admin_sfuid(naughty_officers=naughty_officers,officers=officers),
+            current_sys_admin_sfuid=get_current_sys_admin_sfuid(naughty_officers=naughty_officers, officers=officers),
             current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
                                                                               officers=officers)
         )
