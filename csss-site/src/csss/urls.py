@@ -2,12 +2,14 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
 from django.contrib import admin
-from django_cas_ng.views import LogoutView
 
 from .views import views
-from .views.login import LoginView
+from .views.login import LoginView, LogoutView
 
 urlpatterns = [
+    url(r'^' + settings.URL_PATTERN + 'admin/logout', LogoutView.as_view()),
+    # needed if the user decides to logout via link in /admin page
+
     url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),
     url(r'^' + settings.URL_PATTERN + 'about/', include('about.urls')),
     url(r'^' + settings.URL_PATTERN + 'documents/', include('documents.urls')),

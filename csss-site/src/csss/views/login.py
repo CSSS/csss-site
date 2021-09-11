@@ -2,14 +2,22 @@ from urllib.error import HTTPError
 from xml.etree.ElementTree import ParseError
 
 from django.http import HttpResponseForbidden
-
 from django_cas_ng.views import LoginView as CasLoginView
+from django_cas_ng.views import LogoutView as CASLogoutView
+
+from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
+    get_current_sys_admin_or_webmaster_sfuid
 
 
 class LoginView(CasLoginView):
     def successful_login(self, request, next_page):
         # create a LogEntry when users log in
-        return super().successful_login(request, next_page)
+        login_redirect = super().successful_login(request, next_page)
+        if request.user.username in get_current_sys_admin_or_webmaster_sfuid():
+            request.user.is_staff = True
+            request.user.is_superuser = True
+            request.user.save()
+        return login_redirect
 
     def get(self, request):
         # Override to catch exceptions caused by CAS server not responding, which happens and is beyond our control.
@@ -38,3 +46,12 @@ class LoginView(CasLoginView):
 
         error = "<h1>Forbidden</h1><p>Login failed because of a CAS error.</p>"
         return HttpResponseForbidden(error)
+
+
+class LogoutView(CASLogoutView):
+
+    def get(self, request):
+        request.user.is_staff = False
+        request.user.is_superuser = False
+        request.user.save()
+        return super().get(request)

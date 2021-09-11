@@ -15,7 +15,6 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
     TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_uploading_and_download_officer_lists
-from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
 
 YEAR_AND_TERM_COLUMN = 0
@@ -58,7 +57,7 @@ def process_officer_list_upload(request):
     error_message = None
     if request.method == "POST":
         if 'csv' in request.FILES:
-            return save_officers_in_csv(request, overwrite)
+            return save_officers_in_csv(request, overwrite, context)
         if 'years_json' in request.FILES:
             uploaded_file = request.FILES['years_json']
             fs = FileSystemStorage()
@@ -82,7 +81,7 @@ def process_officer_list_upload(request):
     return HttpResponseRedirect(f'{settings.URL_ROOT}about/list_of_officers')
 
 
-def save_officers_in_csv(request, overwrite):
+def save_officers_in_csv(request, overwrite, context):
     """
     Saved the officers specified in the csv
 
@@ -98,7 +97,6 @@ def save_officers_in_csv(request, overwrite):
     output = collections.OrderedDict()
     uploaded_file = request.FILES['csv']
     fs = FileSystemStorage()
-    context = create_main_context(request, TAB_STRING)
     file_name = fs.save(uploaded_file.name, uploaded_file)
     with open(fs.path(file_name)) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=",")

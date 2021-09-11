@@ -107,7 +107,7 @@
 							<a class="navbar-link">Elections</a>
 						{% endif %}
 						<div class="navbar-dropdown">
-							{% if election_management %}
+							{% if current_election_officer %}
 								<a href="{{URL_ROOT}}elections/new_election_via_nominee_links" class="navbar-item">Create Election with Nominee Links</a>
 								<a href="{{URL_ROOT}}elections/new_election_webform" class="navbar-item">Create Election with WebForm</a>
 								<a href="{{URL_ROOT}}elections/new_election_json" class="navbar-item">Create Election with JSON</a>
@@ -121,25 +121,7 @@
 						</div>
 					</div>
 
-					<!-- Resource Management -->
-					{% if election_officer or authenticated_officer or staff %}
-						<div class="navbar-item has-dropdown is-hoverable">
-							{% if tab == 'resource_management' %}
-								<a class="navbar-link is-active">Resource Management</a>
-							{% else %}
-								<a class="navbar-link">Resource Management</a>
-							{% endif %}
-							<div class="navbar-dropdown">
-								{% if authenticated is True %}
-									{% if staff %}
-										<a href="{{ URL_ROOT }}resource_management/show_resources_for_validation" class="navbar-item">Validate Access On All Resources</a>
-										<a href="{{ URL_ROOT }}resource_management/gdrive" class="navbar-item">Modify Google Drive Access</a>
-										<a href="{{ URL_ROOT }}resource_management/github" class="navbar-item">Modify SFU Github Access</a>
-									{% endif %}
-								{% endif %}
-							</div>
-						</div>
-					{% endif %}
+
 
 					<!--More-->
 					<div class="navbar-item has-dropdown is-hoverable">
@@ -156,13 +138,21 @@
 
 							<div class="navbar-item">Associated Clubs and DSUs</div>
 
-							<a target="_blank" class="navbar-item csss_associated_clubs_indent" href="https://www.sfu.ca/computing/wics/">WiCS</a>
-							<a target="_blank" class="navbar-item csss_associated_clubs_indent" href="https://sfumsu.github.io/" >MSU</a>
-							<a target="_blank" class="navbar-item csss_associated_clubs_indent" href="http://esss.ca/" >ESSS</a>
-							<a target="_blank" class="navbar-item csss_associated_clubs_indent" href="https://msess.ca/index.html" >Mechs</a>
-							<a target="_blank"  class="navbar-item csss_associated_clubs_indent" href='https://www.facebook.com/ssss.sfu/' >SSSS</a>
-							<a target="_blank" class="navbar-item csss_associated_clubs_indent" href='http://www.sfu.ca/clubs/wie.html' >WiE</a>
+							<a target="_blank" class="navbar-item csss_header_more_sub_items_indent" href="https://www.sfu.ca/computing/wics/">WiCS</a>
+							<a target="_blank" class="navbar-item csss_header_more_sub_items_indent" href="https://sfumsu.github.io/" >MSU</a>
+							<a target="_blank" class="navbar-item csss_header_more_sub_items_indent" href="http://esss.ca/" >ESSS</a>
+							<a target="_blank" class="navbar-item csss_header_more_sub_items_indent" href="https://msess.ca/index.html" >Mechs</a>
+							<a target="_blank"  class="navbar-item csss_header_more_sub_items_indent" href='https://www.facebook.com/ssss.sfu/' >SSSS</a>
+							<a target="_blank" class="navbar-item csss_header_more_sub_items_indent" href='http://www.sfu.ca/clubs/wie.html' >WiE</a>
 
+
+							<!-- Resource Management -->
+							{% if officer_in_past_5_terms %}
+								<div class="navbar-item">Resource Management</div>
+								<a class="navbar-item csss_header_more_sub_items_indent" href="{{ URL_ROOT }}resource_management/show_resources_for_validation" >Validate Access On All Resources</a>
+								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/gdrive' >Modify Google Drive Access</a>
+								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/github' >Modify SFU Github Access</a>
+							{% endif %}
 						</div>
 					</div>
 					<div class="navbar-item is-hoverable">

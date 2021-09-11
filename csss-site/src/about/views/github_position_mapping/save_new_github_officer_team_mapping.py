@@ -12,9 +12,10 @@ from about.views.position_mapping_helper import update_context, POSITION_INDEX_K
     validate_position_names_for_github_team
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
+from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
+    get_list_of_officer_details_from_past_specified_terms
 from csss.views.views import ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
-from resource_management.views.get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY = 'unsaved_github_officer_team_name_mapping'

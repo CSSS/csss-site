@@ -9,7 +9,6 @@ if 'BASE_DIR' in os.environ:
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 if 'LOG_LOCATION' in os.environ:
     LOG_LOCATION = os.environ['LOG_LOCATION']
@@ -229,9 +228,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'csss.wsgi.application'
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/done/'
-
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
@@ -314,13 +310,11 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/products'
 
 CAS_SERVER_URL = "https://cas.sfu.ca/cas/"
 CAS_VERSION = '3'
 CAS_LOGIN_MSG = None
-CAS_ADMIN_PREFIX = '/admin'
-
+CAS_LOGIN_URL_NAME = "login"  ## needed so that /admin can be accessed
 
 STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:
