@@ -20,8 +20,8 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'administration/', include('administration.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
-    url(r'^login/$', LoginView.as_view(), name='login'),
-    url(r'^logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^' + settings.URL_PATTERN + 'login/$', LoginView.as_view(), name='login'),
+    url(r'^' + settings.URL_PATTERN + 'logout/$', LogoutView.as_view(), name='logout'),
 ]
 
 if settings.ENVIRONMENT == "LOCALHOST":
