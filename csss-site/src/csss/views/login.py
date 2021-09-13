@@ -10,6 +10,8 @@ from django_cas_ng.views import LogoutView as CASLogoutView
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_sys_admin_or_webmaster_sfuid
 
+CAS_GROUP_NAME = 'CAS_users'
+
 
 class LoginView(CasLoginView):
 
@@ -19,9 +21,13 @@ class LoginView(CasLoginView):
             request.user.is_staff = True
             request.user.is_superuser = True
             request.user.save()
-        groups = Group.objects.all().filter(name="CAS_users")
+        groups = Group.objects.all().filter(name=CAS_GROUP_NAME)
         if len(groups) == 1:
             groups[0].user_set.add(request.user)
+        else:
+            group = Group(name=CAS_GROUP_NAME)
+            group.user_set.add(request.user)
+            group.save()
         return login_redirect
 
     def get(self, request):
@@ -56,14 +62,8 @@ class LoginView(CasLoginView):
 class LogoutView(CASLogoutView):
 
     def get(self, request):
-        user_cas_group_memberships = [
-            group_name for group_name in list(request.user.groups.values_list('name', flat=True))
-            if group_name == "CAS_users"
-        ]
-        if len(user_cas_group_memberships) == 1:
-            request.user.is_staff = False
-            request.user.is_superuser = False
-            request.user.save()
+        groups = Group.objects.all().filter(name=CAS_GROUP_NAME)
+        if len(groups) == 1 and len(groups[0].user_set.all().filter(username=request.user.username)) == 1:
             return super().get(request)
         dj_logout(request)
         return HttpResponseRedirect("/")
