@@ -46,8 +46,9 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
             context[CURRENT_ELECTION_OFFICER] = request.user.username in current_election_officer_sfuid
 
         if sfuid_for_officer_in_past_5_terms is None:
-            sfuid_for_officer_in_past_5_terms = get_sfuid_for_officer_in_past_5_terms(naughty_officers=naughty_officers,
-                                                                                      officers=officers)
+            sfuid_for_officer_in_past_5_terms = get_sfuid_for_officer_in_past_5_terms(
+                naughty_officers=naughty_officers,
+                officers=officers)
             context[OFFICER_IN_PAST_5_TERMS] = request.user.username in sfuid_for_officer_in_past_5_terms
 
         if current_sys_admin_sfuid is None:

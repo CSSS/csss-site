@@ -2,7 +2,7 @@ from urllib.error import HTTPError
 from xml.etree.ElementTree import ParseError
 
 from django.contrib.auth import logout as dj_logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django_cas_ng.views import LoginView as CasLoginView
 from django_cas_ng.views import LogoutView as CASLogoutView
@@ -12,13 +12,16 @@ from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_t
 
 
 class LoginView(CasLoginView):
+
     def successful_login(self, request, next_page):
-        # create a LogEntry when users log in
         login_redirect = super().successful_login(request, next_page)
         if request.user.username in get_current_sys_admin_or_webmaster_sfuid():
             request.user.is_staff = True
             request.user.is_superuser = True
             request.user.save()
+        groups = Group.objects.all().filter(name="CAS_users")
+        if len(groups) == 1:
+            groups[0].user_set.add(request.user)
         return login_redirect
 
     def get(self, request):
@@ -53,12 +56,14 @@ class LoginView(CasLoginView):
 class LogoutView(CASLogoutView):
 
     def get(self, request):
-        try:
+        user_cas_group_memberships = [
+            group_name for group_name in list(request.user.groups.values_list('name', flat=True))
+            if group_name == "CAS_users"
+        ]
+        if len(user_cas_group_memberships) == 1:
             request.user.is_staff = False
             request.user.is_superuser = False
             request.user.save()
             return super().get(request)
-        except Exception as e:
-            print(e)
-            dj_logout(request)
-            return HttpResponseRedirect("/")
+        dj_logout(request)
+        return HttpResponseRedirect("/")

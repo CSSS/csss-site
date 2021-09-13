@@ -1,4 +1,3 @@
-import django
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
@@ -8,7 +7,7 @@ from .views import views
 from .views.login import LoginView, LogoutView
 
 urlpatterns = [
-    url(r'^' + settings.URL_PATTERN + 'admin/', django.contrib.admin.site.urls),
+    url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),
     url(r'^' + settings.URL_PATTERN + 'about/', include('about.urls')),
     url(r'^' + settings.URL_PATTERN + 'documents/', include('documents.urls')),
     url(r'^' + settings.URL_PATTERN + 'events/', include('events.urls')),

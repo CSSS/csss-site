@@ -204,7 +204,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csss.views.error_handlers.HandleBusinessExceptionMiddleware',
-    # 'django_cas_ng.middleware.CASMiddleware'
 ]
 
 ROOT_URLCONF = 'csss.urls'

@@ -3,7 +3,6 @@ import os
 
 import markdown
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -34,7 +33,6 @@ def check_if_file_attachments_exists(message):
 
 
 def index(request):
-    users = User.objects.all().filter()
     current_page = request.GET.get('p', 'none')
     if current_page == 'none':
         current_page = 1
