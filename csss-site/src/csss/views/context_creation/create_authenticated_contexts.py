@@ -10,8 +10,11 @@ from resource_management.models import NaughtyOfficer
 
 
 def create_context_for_officer_creation_links(request, tab=None, endpoint=None, html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
         html=html, naughty_officers=naughty_officers, officers=officers
@@ -19,8 +22,11 @@ def create_context_for_officer_creation_links(request, tab=None, endpoint=None, 
 
 
 def create_context_for_uploading_and_download_officer_lists(request, tab=None, endpoint=None, html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
         html=html, naughty_officers=naughty_officers, officers=officers
@@ -28,8 +34,11 @@ def create_context_for_uploading_and_download_officer_lists(request, tab=None, e
 
 
 def create_context_for_updating_position_mappings(request, tab=None, endpoint=None, html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
         html=html, naughty_officers=naughty_officers, officers=officers
@@ -38,8 +47,11 @@ def create_context_for_updating_position_mappings(request, tab=None, endpoint=No
 
 def create_context_for_updating_github_mappings_and_permissions(request, tab=None, endpoint=None,
                                                                 html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_sys_admin, tab=tab, endpoint=endpoint,
         html=html, naughty_officers=naughty_officers, officers=officers
@@ -47,8 +59,11 @@ def create_context_for_updating_github_mappings_and_permissions(request, tab=Non
 
 
 def create_context_for_current_and_past_officers_details(request, tab=None, endpoint=None, html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_officer_in_past_5_terms, tab=tab, endpoint=endpoint,
         html=html, naughty_officers=naughty_officers, officers=officers
@@ -56,8 +71,11 @@ def create_context_for_current_and_past_officers_details(request, tab=None, endp
 
 
 def create_context_for_google_drive_permissions(request, tab=None, endpoint=None, html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_officer_in_past_5_terms, tab=tab, endpoint=endpoint,
         html=html, naughty_officers=naughty_officers, officers=officers
@@ -65,8 +83,11 @@ def create_context_for_google_drive_permissions(request, tab=None, endpoint=None
 
 
 def create_context_for_election_officer(request, tab=None, endpoint=None, html=None):
-    naughty_officers = NaughtyOfficer.objects.all()
-    officers = Officer.objects.all()
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all()
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_election_officer, tab=tab, endpoint=endpoint, html=html,
         naughty_officers=naughty_officers, officers=officers

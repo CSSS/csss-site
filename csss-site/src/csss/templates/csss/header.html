@@ -50,15 +50,15 @@
 							<a class="navbar-link">About</a>
 						{% endif %}
 						<div class="navbar-dropdown">
-							{%  if current_webmaster_or_doa is True %}
+							{%  if current_webmaster_or_doa is True or root_user is True %}
 								<a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
 								<a href="{{ URL_ROOT }}about/show_page_for_inputting_officer_info" class="navbar-item">Upload Officer List</a>
 								<a href="{{ URL_ROOT }}about/officer_position" class="navbar-item">Officer Positions</a>
 							{%  endif %}
-							{%  if current_sys_admin is True %}
+							{%  if current_sys_admin is True or root_user is True %}
 								<a href="{{ URL_ROOT }}about/github_mapping" class="navbar-item">Officer Github Mapping</a>
 							{%  endif %}
-							{% if current_webmaster_or_doa is True or current_sys_admin is True  %}
+							{% if current_webmaster_or_doa is True or current_sys_admin is True or root_user is True %}
 									<hr class="dropdown-divider">
 							{% endif %}
 							<a href="{{URL_ROOT}}about/who_we_are" class="navbar-item">Who We Are</a>
@@ -107,7 +107,7 @@
 							<a class="navbar-link">Elections</a>
 						{% endif %}
 						<div class="navbar-dropdown">
-							{% if current_election_officer %}
+							{% if current_election_officer or root_user %}
 								<a href="{{URL_ROOT}}elections/new_election_via_nominee_links" class="navbar-item">Create Election with Nominee Links</a>
 								<a href="{{URL_ROOT}}elections/new_election_webform" class="navbar-item">Create Election with WebForm</a>
 								<a href="{{URL_ROOT}}elections/new_election_json" class="navbar-item">Create Election with JSON</a>
@@ -147,7 +147,7 @@
 
 
 							<!-- Resource Management -->
-							{% if officer_in_past_5_terms %}
+							{% if officer_in_past_5_terms or root_user%}
 								<div class="navbar-item">Resource Management</div>
 								<a class="navbar-item csss_header_more_sub_items_indent" href="{{ URL_ROOT }}resource_management/show_resources_for_validation" >Validate Access On All Resources</a>
 								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/gdrive' >Modify Google Drive Access</a>

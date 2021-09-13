@@ -8,9 +8,6 @@ from .views import views
 from .views.login import LoginView, LogoutView
 
 urlpatterns = [
-    # url(r'^' + settings.URL_PATTERN + 'admin/logout', LogoutView.as_view()),
-    # needed if the user decides to logout via link in /admin page
-
     url(r'^' + settings.URL_PATTERN + 'admin/', django.contrib.admin.site.urls),
     url(r'^' + settings.URL_PATTERN + 'about/', include('about.urls')),
     url(r'^' + settings.URL_PATTERN + 'documents/', include('documents.urls')),
@@ -22,8 +19,6 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
     url(r'^' + settings.URL_PATTERN + 'login', LoginView.as_view(), name='login'),
     url(r'^' + settings.URL_PATTERN + 'logout', LogoutView.as_view(), name='logout'),
-    # url(r'^admin_portal/', admin.site.urls, name='login'),
-
 ]
 
 if settings.ENVIRONMENT == "LOCALHOST":

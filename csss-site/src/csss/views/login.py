@@ -1,7 +1,9 @@
 from urllib.error import HTTPError
 from xml.etree.ElementTree import ParseError
 
-from django.http import HttpResponseForbidden
+from django.contrib.auth import logout as dj_logout
+from django.contrib.auth.models import User
+from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django_cas_ng.views import LoginView as CasLoginView
 from django_cas_ng.views import LogoutView as CASLogoutView
 
@@ -51,7 +53,12 @@ class LoginView(CasLoginView):
 class LogoutView(CASLogoutView):
 
     def get(self, request):
-        request.user.is_staff = False
-        request.user.is_superuser = False
-        request.user.save()
-        return super().get(request)
+        try:
+            request.user.is_staff = False
+            request.user.is_superuser = False
+            request.user.save()
+            return super().get(request)
+        except Exception as e:
+            print(e)
+            dj_logout(request)
+            return HttpResponseRedirect("/")
