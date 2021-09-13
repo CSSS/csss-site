@@ -204,7 +204,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'csss.views.error_handlers.HandleBusinessExceptionMiddleware',
-    'django_cas_ng.middleware.CASMiddleware'
+    # 'django_cas_ng.middleware.CASMiddleware'
 ]
 
 ROOT_URLCONF = 'csss.urls'
@@ -305,6 +305,7 @@ USE_L10N = True
 USE_TZ = False
 
 AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
     'django_cas_ng.backends.CASBackend',
 )
 
@@ -313,7 +314,6 @@ SITE_ID = 1
 CAS_SERVER_URL = "https://cas.sfu.ca/cas/"
 CAS_VERSION = '3'
 CAS_LOGIN_MSG = None
-CAS_LOGIN_URL_NAME = "login"  # needed so that /admin can be accessed with CAS login
 
 STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:

@@ -1,3 +1,4 @@
+import django
 from django.conf import settings
 from django.conf.urls import url, include
 from django.conf.urls.static import static
@@ -7,10 +8,10 @@ from .views import views
 from .views.login import LoginView, LogoutView
 
 urlpatterns = [
-    url(r'^' + settings.URL_PATTERN + 'admin/logout', LogoutView.as_view()),
+    # url(r'^' + settings.URL_PATTERN + 'admin/logout', LogoutView.as_view()),
     # needed if the user decides to logout via link in /admin page
 
-    url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),
+    url(r'^' + settings.URL_PATTERN + 'admin/', django.contrib.admin.site.urls),
     url(r'^' + settings.URL_PATTERN + 'about/', include('about.urls')),
     url(r'^' + settings.URL_PATTERN + 'documents/', include('documents.urls')),
     url(r'^' + settings.URL_PATTERN + 'events/', include('events.urls')),
@@ -19,8 +20,10 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
-    url(r'^' + settings.URL_PATTERN + 'login/$', LoginView.as_view(), name='login'),
-    url(r'^' + settings.URL_PATTERN + 'logout/$', LogoutView.as_view(), name='logout'),
+    url(r'^' + settings.URL_PATTERN + 'login', LoginView.as_view(), name='login'),
+    url(r'^' + settings.URL_PATTERN + 'logout', LogoutView.as_view(), name='logout'),
+    # url(r'^admin_portal/', admin.site.urls, name='login'),
+
 ]
 
 if settings.ENVIRONMENT == "LOCALHOST":
