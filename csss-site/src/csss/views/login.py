@@ -26,8 +26,8 @@ class LoginView(CasLoginView):
             groups[0].user_set.add(request.user)
         else:
             group = Group(name=CAS_GROUP_NAME)
-            group.user_set.add(request.user)
             group.save()
+            group.user_set.add(request.user)
         return login_redirect
 
     def get(self, request):
