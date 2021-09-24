@@ -1,14 +1,18 @@
 from urllib.error import HTTPError
 from xml.etree.ElementTree import ParseError
 
+from django.conf import settings
 from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.models import Group
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django_cas_ng.views import LoginView as CasLoginView
 from django_cas_ng.views import LogoutView as CASLogoutView
 
+from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_sys_admin_or_webmaster_sfuid
+from csss.views.views import ERROR_MESSAGES_KEY
 
 CAS_GROUP_NAME = 'CAS_users'
 
@@ -32,6 +36,7 @@ class LoginView(CasLoginView):
 
     def get(self, request):
         # Override to catch exceptions caused by CAS server not responding, which happens and is beyond our control.
+        context = create_main_context(request, 'index')
         try:
             return super().get(request)
         except IOError as e:
@@ -47,16 +52,17 @@ class LoginView(CasLoginView):
                     pass
                 else:
                     # Any other HTTPError should bubble up and let us know something horrible has happened.
-                    raise HTTPError("Got an HTTP Error when authenticating. The error is: {0!s}.".format(e))
+                    context[ERROR_MESSAGES_KEY] = [f"Encountered an unexpected exception of: {e}"]
+                    return render(request, 'csss/error.html', )
 
             else:
-                raise IOError("The errno is %r: %s." % (e.errno, str(e)))
-
+                context[ERROR_MESSAGES_KEY] = [f"The errno is {e.errno}: {e}."]
+                return render(request, 'csss/error.html', )
         except ParseError:
             pass
 
-        error = "<h1>Forbidden</h1><p>Login failed because of a CAS error.</p>"
-        return HttpResponseForbidden(error)
+        context[ERROR_MESSAGES_KEY] = ["Login failed because of a CAS error."]
+        return render(request, 'csss/error.html', )
 
 
 class LogoutView(CASLogoutView):
@@ -66,4 +72,4 @@ class LogoutView(CASLogoutView):
         if len(groups) == 1 and len(groups[0].user_set.all().filter(username=request.user.username)) == 1:
             return super().get(request)
         dj_logout(request)
-        return HttpResponseRedirect("/")
+        return HttpResponseRedirect(settings.URL_ROOT)
