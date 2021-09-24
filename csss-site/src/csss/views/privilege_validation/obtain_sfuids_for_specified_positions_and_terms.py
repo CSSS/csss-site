@@ -113,8 +113,8 @@ def _get_sfuids_for_specified_position_in_specified_terms(
     position_names -- indicates which officers to narrow the list down to if specified
     naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
     officers -- all current and past officers
-    current_officer_only -- indicates whether to return a list of all the officers that match the condition or just the
-     latest one to do so
+    current_officer_only -- indicates whether to return a list of all the officers that match
+     the condition or just the latest one to do so
 
     Return
     the list of SFUIDs or the sole applicable SFUID based on the parameters
