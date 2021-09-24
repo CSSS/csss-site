@@ -5,21 +5,51 @@ from resource_management.models import NaughtyOfficer
 
 
 def get_current_election_officer_sfuid(naughty_officers=None, officers=None):
+    """
+    Get the SFUID for the current election officer
+
+    Keyword Arguments
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    the SFUID for the current election officer
+    """
     relevant_previous_terms = 0
     position_names = ["General Election Officer", "By-Election Officer"]
     return _get_sfuids_for_specified_position_in_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=position_names,
-        naughty_officers=naughty_officers, officers=officers
+        naughty_officers=naughty_officers, officers=officers, current_officer_only=True
     )
 
 
 def get_sfuid_for_officer_in_past_5_terms(naughty_officers=None, officers=None):
+    """
+    Get the SFUIDs for any person who has been an officer in the past 5 terms
+
+    Keyword Arguments
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    a list of SFUIDs for officer who have been officers in the past 5 terms and have updated their bio
+    """
     return _get_sfuids_for_specified_position_in_specified_terms(
         naughty_officers=naughty_officers, officers=officers
     )
 
 
 def get_current_sys_admin_or_webmaster_sfuid(naughty_officers=None, officers=None):
+    """
+    Get the SFUIDs for any person who is a current sys admin or webmaster
+
+    Keyword Arguments
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    a list of SFUIDs for officer who are currently a sys admin or webmaster
+    """
     relevant_previous_terms = 0
     position_names = ["Webmaster", "Systems Administrator"]
     return _get_sfuids_for_specified_position_in_specified_terms(
@@ -29,15 +59,35 @@ def get_current_sys_admin_or_webmaster_sfuid(naughty_officers=None, officers=Non
 
 
 def get_current_sys_admin_sfuid(naughty_officers=None, officers=None):
+    """
+    Get the SFUID for the current sys admin
+
+    Keyword Arguments
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    the SFUID for the current sys admin
+    """
     relevant_previous_terms = 0
     position_names = ["Systems Administrator"]
     return _get_sfuids_for_specified_position_in_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=position_names,
-        naughty_officers=naughty_officers, officers=officers
+        naughty_officers=naughty_officers, officers=officers, current_officer_only=True
     )
 
 
 def get_current_webmaster_or_doa_sfuid(naughty_officers=None, officers=None):
+    """
+    Get the SFUIDs for any person who is a current DoA or Webmaster (or Sys Admin if there is not Webmaster)
+
+    Keyword Arguments
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    a list of SFUIDs for officer who is currently a DoA or Webmaster (or Sys Admin if there is no Webmaster)
+    """
     relevant_previous_terms = 0
     current_webmaster_sfuids = _get_sfuids_for_specified_position_in_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=["Webmaster"],
@@ -53,7 +103,22 @@ def get_current_webmaster_or_doa_sfuid(naughty_officers=None, officers=None):
 
 def _get_sfuids_for_specified_position_in_specified_terms(
         relevant_previous_terms=5, position_names=None,
-        naughty_officers=None, officers=None):
+        naughty_officers=None, officers=None, current_officer_only=False):
+    """
+    gets either a list of SFUIDs or the sole applicable SFUID
+
+    Keyword Argument
+    relevant_previous_terms - if 0 specified, only get current term
+     if 1 is specified get current and previous term and so forth
+    position_names -- indicates which officers to narrow the list down to if specified
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+    current_officer_only -- indicates whether to return a list of all the officers that match the condition or just the
+     latest one to do so
+
+    Return
+    the list of SFUIDs or the sole applicable SFUID based on the parameters
+    """
     if naughty_officers is None:
         naughty_officers = [naughty_officer.sfuid.strip() for naughty_officer in NaughtyOfficer.objects.all()]
     else:
@@ -61,7 +126,7 @@ def _get_sfuids_for_specified_position_in_specified_terms(
     if officers is None:
         all_officers_in_past_term = Officer.objects.all().filter(
             elected_term__in=Term.objects.all().filter(term_number__in=get_relevant_terms(relevant_previous_terms))
-        )
+        ).order_by('-start_date')
     else:
         all_officers_in_past_term = officers.filter(
             elected_term__in=Term.objects.all().filter(term_number__in=get_relevant_terms(relevant_previous_terms))
@@ -69,5 +134,6 @@ def _get_sfuids_for_specified_position_in_specified_terms(
     return get_list_of_officer_details_from_past_specified_terms(
         position_names=position_names,
         filter_by_sfuid=True, naughty_officers=naughty_officers,
-        all_officers_in_relevant_terms=all_officers_in_past_term
+        all_officers_in_relevant_terms=all_officers_in_past_term,
+        current_officer_only=current_officer_only
     )

@@ -25,7 +25,13 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
     Keyword Arguments
     request -- the django request object
     tab -- the tab that needs to be specified it the context
-    groups -- the groups that need to be checked to see if the user is allowed to certain group privileges
+    current_election_officer_sfuid -- the SFUID for the current election officer
+    sfuid_for_officer_in_past_5_terms -- a list that contains the SFUIDs for anyone who has been an officer
+     in the past 5 terms
+    current_sys_admin_sfuid -- the SFUID for the current sys admin
+    current_webmaster_or_doa_sfuid -- a list that contains the SFUIDs for the current webmaster or DoA
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
 
     Return
     context -- the base context dictionary
@@ -38,12 +44,12 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
             if naughty_officers is None:
                 naughty_officers = NaughtyOfficer.objects.all()
             if officers is None:
-                officers = Officer.objects.all()
+                officers = Officer.objects.all().order_by('-start_date')
 
         if current_election_officer_sfuid is None:
             current_election_officer_sfuid = get_current_election_officer_sfuid(naughty_officers=naughty_officers,
                                                                                 officers=officers)
-            context[CURRENT_ELECTION_OFFICER] = request.user.username in current_election_officer_sfuid
+            context[CURRENT_ELECTION_OFFICER] = request.user.username == current_election_officer_sfuid
 
         if sfuid_for_officer_in_past_5_terms is None:
             sfuid_for_officer_in_past_5_terms = get_sfuid_for_officer_in_past_5_terms(
@@ -54,7 +60,7 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
         if current_sys_admin_sfuid is None:
             current_sys_admin_sfuid = get_current_sys_admin_sfuid(naughty_officers=naughty_officers,
                                                                   officers=officers)
-            context[CURRENT_SYS_ADMIN] = request.user.username in current_sys_admin_sfuid
+            context[CURRENT_SYS_ADMIN] = request.user.username == current_sys_admin_sfuid
 
         if current_webmaster_or_doa_sfuid is None:
             current_webmaster_or_doa_sfuid = get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
