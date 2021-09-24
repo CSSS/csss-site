@@ -1,11 +1,233 @@
+from about.models import Officer
 from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.determine_user_role import user_is_current_webmaster_or_doa, user_is_current_sys_admin, \
+    user_is_officer_in_past_5_terms, user_is_current_election_officer
 from csss.views.exceptions import InvalidPrivilege
-from csss.views.request_validation import webmaster_or_doa_request_allowed, sys_admin_request_allowed, \
-    webmaster_or_sys_admin_request_allowed, officer_request_allowed, election_officer_request_allowed
+from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
+    get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
+    get_sfuid_for_officer_in_past_5_terms, get_current_election_officer_sfuid
+from resource_management.models import NaughtyOfficer
+
+
+def create_context_for_officer_creation_links(request, tab=None, endpoint=None, html=None):
+    """
+    Create the context for the pages where officer creation links are created
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
+        html=html, naughty_officers=naughty_officers, officers=officers
+    )
+
+
+def create_context_for_uploading_and_download_officer_lists(request, tab=None, endpoint=None, html=None):
+    """
+    Create the context for the pages where officer information is uploaded or downloaded
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
+        html=html, naughty_officers=naughty_officers, officers=officers
+    )
+
+
+def create_context_for_updating_position_mappings(request, tab=None, endpoint=None, html=None):
+    """
+    Create the context for the pages where the officer position and email mappings are set
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
+        html=html, naughty_officers=naughty_officers, officers=officers
+    )
+
+
+def create_context_for_updating_github_mappings_and_permissions(request, tab=None, endpoint=None,
+                                                                html=None):
+    """
+    Create the context for the pages where github mappings and permissions are set
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_sys_admin, tab=tab, endpoint=endpoint,
+        html=html, naughty_officers=naughty_officers, officers=officers
+    )
+
+
+def create_context_for_current_and_past_officers_details(request, tab=None, endpoint=None, html=None):
+    """
+    Create the context for the pages where the current or past officer details are displayed
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_officer_in_past_5_terms, tab=tab, endpoint=endpoint,
+        html=html, naughty_officers=naughty_officers, officers=officers
+    )
+
+
+def create_context_for_google_drive_permissions(request, tab=None, endpoint=None, html=None):
+    """
+    Create the context for the pages where the google drive permissions are managed
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_officer_in_past_5_terms, tab=tab, endpoint=endpoint,
+        html=html, naughty_officers=naughty_officers, officers=officers
+    )
+
+
+def create_context_for_election_officer(request, tab=None, endpoint=None, html=None):
+    """
+    Create the context for the pages where only the election officer is allowed to access
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    naughty_officers = None
+    officers = None
+    if request.user.username != "root":
+        naughty_officers = NaughtyOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_election_officer, tab=tab, endpoint=endpoint, html=html,
+        naughty_officers=naughty_officers, officers=officers
+    )
 
 
 def _create_context_for_authenticated_user(request, authentication_method=None,
-                                           tab=None, groups=None, endpoint=None, html=None):
+                                           tab=None, endpoint=None, html=None, naughty_officers=None, officers=None):
+    """
+    Makes sure that the context is only read for user who pass the authentication and method and that either the
+    endpoint or html is specified
+
+    Keyword Arguments
+    request -- the django request object
+    authentication_method -- the function to use to validate the requested access
+    tab -- the tab for the page that the user is on
+        endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
     if html is None and endpoint is None:
         raise InvalidPrivilege(
             request,
@@ -26,69 +248,18 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
                 "No authentication method detected", tab=tab,
                 endpoint=endpoint
             )
-    if groups is None:
-        groups = list(request.user.groups.values_list('name', flat=True))
-    if authentication_method(request, groups=groups):
-        return create_main_context(request, tab, groups=groups)
+    if authentication_method(request, naughty_officers=naughty_officers, officers=officers):
+        return create_main_context(
+            request, tab,
+            current_election_officer_sfuid=get_current_election_officer_sfuid(naughty_officers=naughty_officers,
+                                                                              officers=officers),
+            sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(naughty_officers=naughty_officers,
+                                                                                    officers=officers),
+            current_sys_admin_sfuid=get_current_sys_admin_sfuid(naughty_officers=naughty_officers, officers=officers),
+            current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
+                                                                              officers=officers)
+        )
     if endpoint is not None:
         raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
     if html is not None:
         raise InvalidPrivilege(request, "You are not allowed to access this page", html=html)
-
-
-def create_context_for_officer_creation_links(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=webmaster_or_doa_request_allowed, tab=tab, groups=groups, endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_uploading_and_download_officer_lists(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=webmaster_or_doa_request_allowed, tab=tab, groups=groups, endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_updating_position_mappings(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=webmaster_or_doa_request_allowed, tab=tab, groups=groups, endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_updating_github_mappings_and_permissions(request, tab=None, groups=None, endpoint=None,
-                                                                html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=sys_admin_request_allowed, tab=tab, groups=groups, endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_accessing_admin(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=webmaster_or_sys_admin_request_allowed, tab=tab, groups=groups,
-        endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_current_and_past_officers_details(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=officer_request_allowed, tab=tab, groups=groups, endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_google_drive_permissions(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=officer_request_allowed, tab=tab, groups=groups, endpoint=endpoint,
-        html=html
-    )
-
-
-def create_context_for_election_officer(request, tab=None, groups=None, endpoint=None, html=None):
-    return _create_context_for_authenticated_user(
-        request, authentication_method=election_officer_request_allowed, tab=tab, groups=groups,
-        endpoint=endpoint, html=html
-    )

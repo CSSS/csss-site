@@ -43,7 +43,7 @@
 				<div id="tab-content">
 					<!-- the prev_position is used to ensure that when a user who is not logged in is viewing the list
 					they only see the last person to occupy a position -->
-					{% if authenticated is True %}
+					{% if officer_in_past_5_terms is True or root_user is True %}
 						{% define "None" as prev_position %}
 					{%  endif %}
 					{% for term in terms %}
@@ -56,9 +56,7 @@
 							<hr>
 							<div class="row">
 								{% for officer in officers %}
-									{%  if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True %}
-										<!-- the above if statement is technically (prev_position != officer.position_name) or (prev_position == officer.position_name and authenticated is True)
-										but django templates do not allow for parenthesis -->
+									{%  if prev_position != officer.position_name or officer_in_past_5_terms is True or root_user is True  %}
 										{% if officer.elected_term == term %}
 											<div class="col-md-4">
 												<img class="officer-photos" src="{% static officer.image %}" alt ="{{ officer.name }} photo for term {{term_active}}">
@@ -66,7 +64,7 @@
 											<div class="col-md-6">
 												<p class="lead">{{officer.position_name}} - <b>{{officer.name}}</b></p>
 												<p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
-												{% if election_officer or authenticated_officer or staff %}
+												{% if officer_in_past_5_terms or root_user %}
 													<p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
 													<p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
 												{%  endif %}
@@ -83,7 +81,7 @@
 												<hr>
 											</div> <!-- closes col-md-6 div -->
 										{%  endif %} <!-- closes the if officer.elected_term == term -->
-									{% endif %}<!-- closes the if prev_position != officer.position_name or prev_position == officer.position_name and authenticated is True -->
+									{% endif %}<!-- closes the if prev_position != officer.position_name or officer_in_past_5_terms is True or root_user is True-->
 									{% define officer.position_name as prev_position %}
 								{% endfor %}<!-- closes the for officer in officers -->
 							</div><!-- closes the row div -->

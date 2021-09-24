@@ -3,8 +3,8 @@ import logging
 
 from django.shortcuts import render
 
-from administration.views import user_has_election_management_privilege
 from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.determine_user_role import user_is_current_election_officer
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
@@ -21,15 +21,15 @@ def get_nominees(request, slug):
         context[ERROR_MESSAGES_KEY] = ["specified slug has an incorrect number of elections attached to it."]
         return render(request, 'elections/election_page.html', context)
     election_to_display = Election.objects.get(slug=slug)
-    election_management_privilege = user_has_election_management_privilege(request)
-    if election_management_privilege:
+    user_is_election_officer = user_is_current_election_officer(request)
+    if user_is_election_officer:
         privilege_message = "user does have election management privilege"
     else:
         privilege_message = "user does not have election management privilege"
     logger.info(f"[elections/election_page.py get_nominees()] determining if election with slug {slug}"
                 f"needs to be shown as its date is {election_to_display.date} and the {privilege_message}")
-    if election_to_display.date <= datetime.datetime.now() or user_has_election_management_privilege(request):
-        if user_has_election_management_privilege(request):
+    if election_to_display.date <= datetime.datetime.now() or user_is_election_officer:
+        if user_is_election_officer:
             nominee_links = NomineeLink.objects.all().exclude(election__slug=slug)
             context[PRE_EXISTING_ELECTION] = False
             if len(nominee_links) > 0:

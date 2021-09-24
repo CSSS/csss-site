@@ -15,9 +15,13 @@
     text-shadow: 7px 6px 14px rgba(0,0,0,0.89);
 }
 
-.csss_associated_clubs_indent {
+/*makes sure that all the sub-options in the More tab get indented*/
+.csss_header_more_sub_items_indent {
     text-indent: 20px;
 }
 
 
-
+/*removing the triangle after the "Sign In button on the header*/
+.login-navbar-link::after {
+    content: normal !important;
+}

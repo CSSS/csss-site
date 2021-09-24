@@ -9,7 +9,6 @@ if 'BASE_DIR' in os.environ:
 else:
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 if 'LOG_LOCATION' in os.environ:
     LOG_LOCATION = os.environ['LOG_LOCATION']
@@ -19,6 +18,13 @@ logger = initialize_logger(LOG_LOCATION)
 
 logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 logger.info(f'[settings.py] LOG_LOCATION set to {LOG_LOCATION}')
+
+SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
+
+SESSION_COOKIE_HTTPONLY = True
+
+# https://stackoverflow.com/a/40522604/7734535
+SESSION_COOKIE_AGE = 3600  # one hour in seconds
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
@@ -168,7 +174,6 @@ INSTALLED_APPS = [
     'events.frosh',
     'events.mountain_madness',
     'events.fall_hacks',
-    'administration',
     'resource_management',
     'static_pages',
     'django_mailbox',
@@ -187,6 +192,7 @@ INSTALLED_APPS = [
     'django_pony_forms',
     'elections',
     'django.contrib.sites',
+    'django_cas_ng'
 ]
 
 MIDDLEWARE = [
@@ -197,7 +203,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'csss.views.error_handlers.HandleBusinessExceptionMiddleware'
+    'csss.views.error_handlers.HandleBusinessExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'csss.urls'
@@ -219,9 +225,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'csss.wsgi.application'
-
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/done/'
 
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
@@ -302,11 +305,14 @@ USE_TZ = False
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
+    'django_cas_ng.backends.CASBackend',
 )
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/products'
+
+CAS_SERVER_URL = "https://cas.sfu.ca/cas/"
+CAS_VERSION = '3'
+CAS_LOGIN_MSG = None
 
 STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:

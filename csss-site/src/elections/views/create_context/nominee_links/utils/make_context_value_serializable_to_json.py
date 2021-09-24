@@ -2,6 +2,7 @@ import datetime
 
 import django
 from django.forms import model_to_dict
+from django.utils.functional import SimpleLazyObject
 
 from about.models import OfficerEmailListAndPositionMapping
 from elections.models import NomineeLink, NomineeSpeech, Election
@@ -12,6 +13,10 @@ def make_json_serializable_context_dictionary(context):
 
 
 def _make_context_value_json_serializable(context_value):
+    if type(context_value) is SimpleLazyObject:
+        # user to filter out User object when logged
+        # in since those aren't JSON serializable
+        return None
     if type(context_value) is list and len(context_value) == 0:
         return []
     if type(context_value) is list and len(context_value) > 0:

@@ -65,3 +65,6 @@ python-gitlab==2.3.1
 
 markdown-link-attr-modifier==0.2.0
 Markdown==3.3.4
+
+# needed for logging in
+git+git://github.com/gregbaker/django-cas-ng.git@08509c3ad23f69d6d4e69a0a66453d0221023f3d # fix for session_key bug (PR #195), and duplicate session_key bug (PR #209)

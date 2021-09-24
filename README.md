@@ -99,7 +99,8 @@ python3 manage.py update_officer_images
 
 ### 2.5 Needed if you need to log into /admin
 ```shell
-python3 manage.py createsuperuser
+echo "from django.contrib.auth.models import User; User.objects.create_superuser('root', 'admin@example.com', 'root')" | python3 manage.py shell || true
+> This allows you to access http://127.0.0.1:8000/admin with the credentials root/root
 ```
 
 ### 2.6 Run Site

@@ -7,11 +7,12 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_google_drive_permissions
+from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
+    get_list_of_officer_details_from_past_specified_terms
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_request_to_update_gdrive_permissions
 from csss.views_helper import there_are_multiple_entries
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
-from .get_officer_list import get_list_of_officer_details_from_past_specified_terms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 
 logger = logging.getLogger('csss_site')

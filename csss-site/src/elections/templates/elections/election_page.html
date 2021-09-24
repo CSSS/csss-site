@@ -14,7 +14,7 @@
 						{% if nominees__html_name is None %}
 							It seems like the time hasn't come to announce the nominees yet....
 						{% else %}
-							{% if election_management_permission %}
+							{% if current_election_officer %}
 								<form action="{{URL_ROOT}}elections/election_modification_json/" method="post" class="form">
 								{% csrf_token %}
 								<button name="{{ button_modify_election_id__name }}" value="{{input_election_id__value}}" type="submit">Modify via JSON</button>
