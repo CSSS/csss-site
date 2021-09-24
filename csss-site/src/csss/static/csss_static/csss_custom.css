@@ -35,6 +35,7 @@
 }
 
 
+/*removing the triangle after the "Sign In button on the header*/
 .login-navbar-link::after {
     content: normal !important;
 }

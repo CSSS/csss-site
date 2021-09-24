@@ -15,6 +15,7 @@
     text-shadow: 7px 6px 14px rgba(0,0,0,0.89);
 }
 
+/*makes sure that all the sub-options in the More tab get indented*/
 .csss_header_more_sub_items_indent {
     text-indent: 20px;
 }
