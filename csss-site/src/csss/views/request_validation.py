@@ -6,6 +6,17 @@ from resource_management.models import NaughtyOfficer
 
 
 def validate_request_to_update_digital_resource_permissions(request, endpoint=None):
+    """
+    Ensure that the request is made by either root or the someone who is allowed to modify the
+     digital resources permissions
+
+    Keyword Argument
+    request -- the django request object
+    endpoint -- the endpoint to call if there is an error
+
+    Exception thrown if the request is made by someone who is not allowed to modify the digital resources
+     permissions
+    """
     if request.user.username == "root":
         return
     naughty_officers = NaughtyOfficer.objects.all()
@@ -16,10 +27,30 @@ def validate_request_to_update_digital_resource_permissions(request, endpoint=No
 
 
 def validate_request_to_update_gdrive_permissions(request, endpoint=None):
+    """
+    Ensure that the request is made by either root or the someone who is allowed to modify the
+     google drive permissions
+
+    Keyword Argument
+    request -- the django request object
+    endpoint -- the endpoint to call if there is an error
+
+    Exception thrown if the request is made by someone who is not allowed to modify the google drive permissions
+    """
     validate_request_to_update_digital_resource_permissions(request, endpoint=endpoint)
 
 
 def validate_request_to_update_github_permissions(request, endpoint=None):
+    """
+    Ensure that the request is made by either root or the someone who is allowed to modify the
+     github permissions
+
+    Keyword Argument
+    request -- the django request object
+    endpoint -- the endpoint to call if there is an error
+
+    Exception thrown if the request is made by someone who is not allowed to modify the digital resources
+    """
     if request.user.username == "root":
         return
     naughty_officers = NaughtyOfficer.objects.all()
@@ -30,6 +61,15 @@ def validate_request_to_update_github_permissions(request, endpoint=None):
 
 
 def validate_request_to_delete_election(request, endpoint=None):
+    """
+    Ensure that the request is made by either root or the election officer
+
+    Keyword Argument
+    request -- the django request object
+    endpoint -- the endpoint to call if there is an error
+
+    Exception thrown if the request is made by either root or the election officer
+    """
     if request.user.username == "root":
         return
     naughty_officers = NaughtyOfficer.objects.all()
