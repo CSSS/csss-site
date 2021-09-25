@@ -10,20 +10,17 @@
 	{%  else %}
 		<h2 class="title is-size-2">Modify Nominee Info</h2>
 	{%  endif %}
-	{%  include 'csss/display_invalid_privilege_errors.html' %}
-	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
-		{%  include 'csss/display_errors.html' %}
-		<form method="post" class="form">
-			{%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
-		</form>
+	{%  include 'csss/display_errors.html' %}
+	<form method="post" class="form">
+		{%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
+	</form>
 
-		<script>
-			function removeDiv(divName){$(divName).remove();}
+	<script>
+		function removeDiv(divName){$(divName).remove();}
 
-			{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
-			{%  include 'elections/nominee_links/update_nominee/js_functions/add_blank_speech.html' %}
-		</script>
+		{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
+		{%  include 'elections/nominee_links/update_nominee/js_functions/add_blank_speech.html' %}
+	</script>
 
-		{%  include 'elections/nominee_links/update_nominee/view_saved_nominee_info.html' %}
-	{%  endif %}
+	{%  include 'elections/nominee_links/update_nominee/view_saved_nominee_info.html' %}
 {% endblock %}
