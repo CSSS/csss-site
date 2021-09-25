@@ -136,8 +136,7 @@ def show_create_link_page(request):
     """
     logger.info(f"[about/officer_creation_link_management.py show_create_link_page()] "
                 f"request.POST={request.POST}")
-    html_page = 'about/process_new_officer/show_create_link_for_officer_page.html'
-    context = create_context_for_officer_creation_links(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_officer_creation_links(request, tab=TAB_STRING)
     context.update(create_term_context_variable())
     context['positions'] = "\n".join(
         [position.position_name
@@ -146,7 +145,7 @@ def show_create_link_page(request):
             'position_index')
          ]
     )
-    return render(request, html_page, context)
+    return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
 
 
 def show_page_with_creation_links(request):
@@ -158,8 +157,7 @@ def show_page_with_creation_links(request):
     logger.info(
         f"[about/officer_creation_link_management.py show_page_with_creation_links()] request.GET={request.GET}")
 
-    html_page = 'about/process_new_officer/show_create_link_for_officer_page.html'
-    context = create_context_for_officer_creation_links(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_officer_creation_links(request, tab=TAB_STRING)
     post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY, HTML_NEW_START_DATE_KEY,
                  HTML_DATE_KEY]
     if len(set(post_keys).intersection(request.POST.keys())) != len(post_keys):

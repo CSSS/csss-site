@@ -2,14 +2,14 @@ from about.models import Officer
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.determine_user_role import user_is_current_webmaster_or_doa, user_is_current_sys_admin, \
     user_is_officer_in_past_5_terms, user_is_current_election_officer
-from csss.views.exceptions import InvalidPrivilege
+from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
     get_sfuid_for_officer_in_past_5_terms, get_current_election_officer_sfuid
 from resource_management.models import NaughtyOfficer
 
 
-def create_context_for_officer_creation_links(request, tab=None, endpoint=None, html=None):
+def create_context_for_officer_creation_links(request, tab=None):
     """
     Create the context for the pages where officer creation links are created
 
@@ -32,12 +32,12 @@ def create_context_for_officer_creation_links(request, tab=None, endpoint=None, 
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
-        html=html, naughty_officers=naughty_officers, officers=officers
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
+        naughty_officers=naughty_officers, officers=officers
     )
 
 
-def create_context_for_uploading_and_download_officer_lists(request, tab=None, endpoint=None, html=None):
+def create_context_for_uploading_and_download_officer_lists(request, tab=None):
     """
     Create the context for the pages where officer information is uploaded or downloaded
 
@@ -60,12 +60,12 @@ def create_context_for_uploading_and_download_officer_lists(request, tab=None, e
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
-        html=html, naughty_officers=naughty_officers, officers=officers
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
+        naughty_officers=naughty_officers, officers=officers
     )
 
 
-def create_context_for_updating_position_mappings(request, tab=None, endpoint=None, html=None):
+def create_context_for_updating_position_mappings(request, tab=None):
     """
     Create the context for the pages where the officer position and email mappings are set
 
@@ -88,13 +88,12 @@ def create_context_for_updating_position_mappings(request, tab=None, endpoint=No
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab, endpoint=endpoint,
-        html=html, naughty_officers=naughty_officers, officers=officers
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
+        naughty_officers=naughty_officers, officers=officers
     )
 
 
-def create_context_for_updating_github_mappings_and_permissions(request, tab=None, endpoint=None,
-                                                                html=None):
+def create_context_for_updating_github_mappings_and_permissions(request, tab=None):
     """
     Create the context for the pages where github mappings and permissions are set
 
@@ -117,12 +116,12 @@ def create_context_for_updating_github_mappings_and_permissions(request, tab=Non
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_current_sys_admin, tab=tab, endpoint=endpoint,
-        html=html, naughty_officers=naughty_officers, officers=officers
+        request, authentication_method=user_is_current_sys_admin, tab=tab,
+        naughty_officers=naughty_officers, officers=officers
     )
 
 
-def create_context_for_current_and_past_officers_details(request, tab=None, endpoint=None, html=None):
+def create_context_for_current_and_past_officers_details(request, tab=None):
     """
     Create the context for the pages where the current or past officer details are displayed
 
@@ -145,12 +144,12 @@ def create_context_for_current_and_past_officers_details(request, tab=None, endp
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_officer_in_past_5_terms, tab=tab, endpoint=endpoint,
-        html=html, naughty_officers=naughty_officers, officers=officers
+        request, authentication_method=user_is_officer_in_past_5_terms, tab=tab,
+        naughty_officers=naughty_officers, officers=officers
     )
 
 
-def create_context_for_google_drive_permissions(request, tab=None, endpoint=None, html=None):
+def create_context_for_google_drive_permissions(request, tab=None):
     """
     Create the context for the pages where the google drive permissions are managed
 
@@ -173,12 +172,12 @@ def create_context_for_google_drive_permissions(request, tab=None, endpoint=None
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_officer_in_past_5_terms, tab=tab, endpoint=endpoint,
-        html=html, naughty_officers=naughty_officers, officers=officers
+        request, authentication_method=user_is_officer_in_past_5_terms, tab=tab,
+        naughty_officers=naughty_officers, officers=officers
     )
 
 
-def create_context_for_election_officer(request, tab=None, endpoint=None, html=None):
+def create_context_for_election_officer(request, tab=None):
     """
     Create the context for the pages where only the election officer is allowed to access
 
@@ -201,13 +200,13 @@ def create_context_for_election_officer(request, tab=None, endpoint=None, html=N
         naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
-        request, authentication_method=user_is_current_election_officer, tab=tab, endpoint=endpoint, html=html,
+        request, authentication_method=user_is_current_election_officer, tab=tab,
         naughty_officers=naughty_officers, officers=officers
     )
 
 
 def _create_context_for_authenticated_user(request, authentication_method=None,
-                                           tab=None, endpoint=None, html=None, naughty_officers=None, officers=None):
+                                           tab=None, naughty_officers=None, officers=None):
     """
     Makes sure that the context is only read for user who pass the authentication and method and that either the
     endpoint or html is specified
@@ -228,28 +227,14 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    if html is None and endpoint is None:
-        raise InvalidPrivilege(
-            request,
-            "No endpoint or html page was specified for redirection in case of "
-            "incorrect permission for officer access", tab=tab,
-            html='csss/error.html'
-        )
     if authentication_method is None:
-        if html is not None:
-            raise InvalidPrivilege(
-                request,
-                "No authentication method detected", tab=tab,
-                html=html
-            )
-        if endpoint is not None:
-            raise InvalidPrivilege(
-                request,
-                "No authentication method detected", tab=tab,
-                endpoint=endpoint
-            )
-    if authentication_method(request, naughty_officers=naughty_officers, officers=officers):
-        return create_main_context(
+        raise NoAuthenticationMethod(
+            request, tab=tab
+        )
+    if not authentication_method(request, naughty_officers=naughty_officers, officers=officers):
+        raise InvalidPrivilege(request, tab=tab)
+
+    return create_main_context(
             request, tab,
             current_election_officer_sfuid=get_current_election_officer_sfuid(naughty_officers=naughty_officers,
                                                                               officers=officers),
@@ -259,7 +244,3 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
             current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
                                                                               officers=officers)
         )
-    if endpoint is not None:
-        raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
-    if html is not None:
-        raise InvalidPrivilege(request, "You are not allowed to access this page", html=html)

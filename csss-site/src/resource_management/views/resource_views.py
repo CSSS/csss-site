@@ -29,11 +29,10 @@ def show_resources_to_validate(request):
     Displays the resources that the user can validate
     """
     logger.info(f"[administration/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
-    html_page = 'resource_management/show_resources_for_validation.html'
     return render(
         request,
-        html_page,
-        create_context_for_current_and_past_officers_details(request, tab=TAB_STRING, html=html_page)
+        'resource_management/show_resources_for_validation.html',
+        create_context_for_current_and_past_officers_details(request, tab=TAB_STRING)
     )
 
 
@@ -42,14 +41,13 @@ def validate_access(request):
     takes in the inputs from the user on what resources to validate
     """
     logger.info(f"[administration/resource_views.py validate_access()] request.POST={request.POST}")
-    endpoint = f'{settings.URL_ROOT}resource_management/show_resources_for_validation'
-    validate_request_to_update_digital_resource_permissions(request, endpoint=endpoint)
+    validate_request_to_update_digital_resource_permissions(request)
     if there_are_multiple_entries(request.POST, RESOURCES_KEY):
         for resource in request.POST[RESOURCES_KEY]:
             determine_resource_to_validate(resource)
     else:
         determine_resource_to_validate(request.POST[RESOURCES_KEY])
-    return HttpResponseRedirect(endpoint)
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/show_resources_for_validation')
 
 
 def determine_resource_to_validate(selected_resource_to_validate):

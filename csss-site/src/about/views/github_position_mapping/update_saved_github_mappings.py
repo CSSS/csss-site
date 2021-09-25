@@ -26,8 +26,7 @@ def update_saved_github_mappings(request):
         "[about/update_saved_github_mappings.py update_saved_github_mappings()]"
         f" request.POST={request.POST}"
     )
-    html_page = 'about/github_position_mapping/github_position_mapping.html'
-    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         github_mappings = list(
@@ -35,7 +34,7 @@ def update_saved_github_mappings(request):
         )
         for github_mapping in github_mappings:
             context[ERROR_MESSAGES_KEY].extend(_update_github_mapping(github_mapping))
-    return render(request, html_page, update_context(context))
+    return render(request, 'about/github_position_mapping/github_position_mapping.html', update_context(context))
 
 
 def _update_github_mapping(github_mapping):

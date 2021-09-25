@@ -16,11 +16,10 @@ logger = logging.getLogger('csss_site')
 def delete_selected_election(request):
     logger.info("[administration/delete_selected_election.py delete_selected_election()] request.POST=")
     logger.info(json.dumps(request.POST, indent=3))
-    endpoint = f'{settings.URL_ROOT}elections/'
-    validate_request_to_delete_election(request, endpoint=endpoint)
+    validate_request_to_delete_election(request)
     success, error_message = validate_election_id_in_dict(request.POST)
     if success:
         Election.objects.get(id=int(request.POST[ELECTION_ID])).delete()
     else:
         request.session[ERROR_MESSAGES_KEY] = [error_message]
-    return HttpResponseRedirect(endpoint)
+    return HttpResponseRedirect(f'{settings.URL_ROOT}elections/')

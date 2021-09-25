@@ -5,7 +5,7 @@ from csss.views.exceptions import InvalidPrivilege
 from resource_management.models import NaughtyOfficer
 
 
-def validate_request_to_update_digital_resource_permissions(request, endpoint=None):
+def validate_request_to_update_digital_resource_permissions(request):
     """
     Ensure that the request is made by either root or the someone who is allowed to modify the
      digital resources permissions
@@ -23,10 +23,10 @@ def validate_request_to_update_digital_resource_permissions(request, endpoint=No
     officers = Officer.objects.all()
     if user_is_officer_in_past_5_terms(request, naughty_officers=naughty_officers, officers=officers):
         return
-    raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
+    raise InvalidPrivilege(request)
 
 
-def validate_request_to_update_gdrive_permissions(request, endpoint=None):
+def validate_request_to_update_gdrive_permissions(request):
     """
     Ensure that the request is made by either root or the someone who is allowed to modify the
      google drive permissions
@@ -37,10 +37,10 @@ def validate_request_to_update_gdrive_permissions(request, endpoint=None):
 
     Exception thrown if the request is made by someone who is not allowed to modify the google drive permissions
     """
-    validate_request_to_update_digital_resource_permissions(request, endpoint=endpoint)
+    validate_request_to_update_digital_resource_permissions(request)
 
 
-def validate_request_to_update_github_permissions(request, endpoint=None):
+def validate_request_to_update_github_permissions(request):
     """
     Ensure that the request is made by either root or the someone who is allowed to modify the
      github permissions
@@ -57,10 +57,10 @@ def validate_request_to_update_github_permissions(request, endpoint=None):
     officers = Officer.objects.all()
     if user_is_current_sys_admin(request, naughty_officers=naughty_officers, officers=officers):
         return
-    raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
+    raise InvalidPrivilege(request)
 
 
-def validate_request_to_delete_election(request, endpoint=None):
+def validate_request_to_delete_election(request):
     """
     Ensure that the request is made by either root or the election officer
 
@@ -76,4 +76,4 @@ def validate_request_to_delete_election(request, endpoint=None):
     officers = Officer.objects.all()
     if user_is_current_election_officer(request, naughty_officers=naughty_officers, officers=officers):
         return
-    raise InvalidPrivilege(request, "You are not allowed to access this page", endpoint=endpoint)
+    raise InvalidPrivilege(request)

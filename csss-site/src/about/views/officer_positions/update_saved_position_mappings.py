@@ -23,8 +23,7 @@ logger = logging.getLogger('csss_site')
 
 
 def update_saved_position_mappings(request):
-    html_page = 'about/officer_positions/officer_positions.html'
-    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING)
 
     if request.method == "POST":
         context[ERROR_MESSAGES_KEY] = _update_positions_mapping(
@@ -34,7 +33,7 @@ def update_saved_position_mappings(request):
                 )['saved_officer_positions'].values()
             )
         )
-    return render(request, html_page, update_context(context))
+    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))
 
 
 def _update_positions_mapping(positions):

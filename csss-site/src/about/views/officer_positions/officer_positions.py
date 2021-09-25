@@ -7,8 +7,7 @@ from csss.views.views import ERROR_MESSAGES_KEY
 
 
 def officer_positions(request):
-    html_page = 'about/officer_positions/officer_positions.html'
-    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
 
-    return render(request, html_page, update_context(context))
+    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))

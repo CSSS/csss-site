@@ -39,11 +39,10 @@ def show_page_for_uploading_officer_list(request):
     """
     Show page where the officer can upload an officer list
     """
-    html_page = 'about/upload_list.html'
     return render(
         request,
-        html_page,
-        create_context_for_uploading_and_download_officer_lists(request, tab=TAB_STRING, html=html_page)
+        'about/upload_list.html',
+        create_context_for_uploading_and_download_officer_lists(request, tab=TAB_STRING)
     )
 
 
@@ -51,8 +50,7 @@ def process_officer_list_upload(request):
     """
     Takes in a JSON or CSV with the list of officers to save
     """
-    html_page = 'about/upload_list.html'
-    context = create_context_for_uploading_and_download_officer_lists(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_uploading_and_download_officer_lists(request, tab=TAB_STRING)
     overwrite = 'overwrite' in request.POST
     error_message = None
     if request.method == "POST":
@@ -77,7 +75,7 @@ def process_officer_list_upload(request):
                     error_message = iterate_through_officers_for_term(overwrite, year, term, officer_json['officers'])
     if error_message is not None:
         context[ERROR_MESSAGES_KEY] = [error_message]
-        return render(request, html_page, context)
+        return render(request, 'about/upload_list.html', context)
     return HttpResponseRedirect(f'{settings.URL_ROOT}about/list_of_officers')
 
 

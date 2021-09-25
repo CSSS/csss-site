@@ -23,8 +23,7 @@ def display_and_process_html_for_nominee_modification(request):
         "request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-    html_page = 'elections/update_nominee/create_or_update_nominee__nominee_links.html'
-    context = create_context_for_election_officer(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_election_officer(request, tab=TAB_STRING)
 
     nominee_link_id = request.GET.get(NOMINEE_LINK_ID, None)
     nominee_links = NomineeLink.objects.all().filter(id=nominee_link_id)
@@ -38,7 +37,7 @@ def display_and_process_html_for_nominee_modification(request):
     if error_message is not None:
         create_context_for_create_or_update_nominee__nominee_links_html(context, error_messages=[error_message])
         return render(request,
-                      html_page, context)
+                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
 
     process_nominee = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
 

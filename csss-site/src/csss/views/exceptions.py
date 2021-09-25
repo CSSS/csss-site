@@ -6,17 +6,14 @@ INVALID_PRIVILEGE_MESSAGES_KEY = 'invalid_privilege_error_messages'
 
 
 class InvalidPrivilege(Exception):
-    def __init__(self, request, error_message, tab=None, html=None, endpoint=None):
-        self.render = None
-        self.error_messages = None
-        self.endpoint = None
-        if endpoint is not None:
-            self.error_messages = [error_message]
-            self.endpoint = endpoint
-        else:
-            context = create_main_context(request, tab)
-            if html is None:
-                error_message = "No html page or endpoint was specified in exception"
-                html = 'csss/error.html'
-            context[INVALID_PRIVILEGE_MESSAGES_KEY] = [error_message]
-            self.render = render(request, html, context)
+    def __init__(self, request, tab=None):
+        context = create_main_context(request, tab)
+        context[INVALID_PRIVILEGE_MESSAGES_KEY] = ["You are not allowed to access this page"]
+        self.render = render(request, 'csss/error.html', context)
+
+
+class NoAuthenticationMethod(Exception):
+    def __init__(self, request, tab=None):
+        context = create_main_context(request, tab)
+        context[INVALID_PRIVILEGE_MESSAGES_KEY] = ["No Authentication Method found"]
+        self.render = render(request, 'csss/error.html', context)

@@ -25,12 +25,11 @@ def display_and_process_html_for_modification_of_election_and_nominee_links__nom
         "request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-    html_page = 'elections/update_election/update_election_nominee_links.html'
-    context = create_context_for_election_officer(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_election_officer(request, tab=TAB_STRING)
 
     if len(Election.objects.all().filter(slug=slug)) != 1:
         context[ERROR_MESSAGES_KEY] = [f"Received invalid Election slug of {slug}"]
-        return render(request, html_page, context)
+        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
     process_election = (request.method == "POST")
 

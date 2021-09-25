@@ -23,15 +23,14 @@ UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 def input_new_officer_positions(request):
     logger.info("[about/input_new_officer_positions.py input_new_officer_positions()]"
                 f" request.POST={request.POST}")
-    html_page = 'about/officer_positions/officer_positions.html'
-    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_updating_position_mappings(request, tab=TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
         if 'add_new_position_mapping' in post_dict:
             success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
                 _add_new_position_mapping(post_dict)
-    return render(request, html_page, update_context(context))
+    return render(request, 'about/officer_positions/officer_positions.html', update_context(context))
 
 
 def _add_new_position_mapping(post_dict):

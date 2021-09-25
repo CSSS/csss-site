@@ -23,11 +23,10 @@ def display_and_process_html_for_new_nominee_links_election(request):
         "request.POST"
     )
     logger.info(json.dumps(request.POST, indent=3))
-    html_page = 'elections/create_election/create_election_nominee_links.html'
-    context = create_context_for_election_officer(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_election_officer(request, tab=TAB_STRING)
 
     if request.method == "POST":
         return process_new_election_and_nominee_links(request, context)
     else:
         create_context_for_create_election_nominee_links_html(context, create_new_election=True)
-        return render(request, html_page, context)
+        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
