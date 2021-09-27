@@ -1,4 +1,6 @@
 import datetime
+
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
@@ -31,6 +33,21 @@ class Term(models.Model):
 
 
 class Officer(models.Model):
+
+    def validate_unique(self, exclude=None):
+        if Officer.objects.filter(
+                position_name=self.position_name, name=self.name,
+                elected_term__term_number=self.elected_term.term_number,
+                start_date=self.start_date).exists():
+            raise ValidationError(
+                f"There is already an officer saved for term {self.elected_term.term_number} for officer {self.name} "
+                f"and position name {self.position_name} under start_date {self.start_date}"
+            )
+
+    def save(self, *args, **kwargs):
+        self.validate_unique()
+        super(Officer, self).save(*args, **kwargs)
+
     position_name = models.CharField(
         max_length=300,
         default='President',
