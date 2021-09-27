@@ -4,7 +4,6 @@ TAB_STRING = 'elections'
 ID_KEY = 'id'
 
 ELECTION__HTML_NAME = 'election__html_name'
-ELECTION_MANAGEMENT_PERMISSION = 'election_management_permission'
 BUTTON_MODIFY_ELECTION_ID__NAME = 'button_modify_election_id__name'
 ELECTION_ID = 'election_id'
 

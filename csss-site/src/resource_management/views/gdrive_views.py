@@ -64,8 +64,7 @@ def gdrive_index(request):
     """
     Shows the main page for google drive permission management
     """
-    html_page = 'resource_management/gdrive_management.html'
-    context = create_context_for_google_drive_permissions(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_google_drive_permissions(request, tab=TAB_STRING)
     if ERROR_MESSAGE_KEY in request.session:
         context[ERROR_MESSAGES_KEY] = request.session[ERROR_MESSAGE_KEY].split("<br>")
         del request.session[ERROR_MESSAGE_KEY]
@@ -77,7 +76,7 @@ def gdrive_index(request):
     context['GOOGLE_DRIVE_USERS_FILE_ID_KEY'] = GOOGLE_DRIVE_USERS_FILE_ID_KEY
     context['GOOGLE_DRIVE_USERS_FILE_NAME_KEY'] = GOOGLE_DRIVE_USERS_FILE_NAME_KEY
     context['GOOGLE_DRIVE_USERS_FILE_LINK_KEY'] = GOOGLE_DRIVE_USERS_FILE_LINK_KEY
-    return render(request, html_page, context)
+    return render(request, 'resource_management/gdrive_management.html', context)
 
 
 def add_users_to_gdrive(request):
@@ -85,8 +84,7 @@ def add_users_to_gdrive(request):
     Takes in the users who need to be given access to the SFU CSSS Google Drive
     """
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
-    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -122,7 +120,7 @@ def add_users_to_gdrive(request):
             )
             if not success:
                 request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(error_message)
-    return HttpResponseRedirect(endpoint)
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
 def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inputted_gmail):
@@ -174,8 +172,7 @@ def update_permissions_for_existing_gdrive_user(request):
         "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
         f"request.POST={request.POST}"
     )
-    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         if 'action' in request.POST:
@@ -240,7 +237,7 @@ def update_permissions_for_existing_gdrive_user(request):
                 )
                 gdrive.remove_users_gdrive([gdrive_user.gmail], gdrive_user.file_id)
                 gdrive_user.delete()
-    return HttpResponseRedirect(endpoint)
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
 def make_folders_public_gdrive(request):
@@ -249,8 +246,7 @@ def make_folders_public_gdrive(request):
     """
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
-    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
@@ -274,7 +270,7 @@ def make_folders_public_gdrive(request):
                     request.session[ERROR_MESSAGE_KEY] += '{}<br>'.format(result)
                 else:
                     request.session[ERROR_MESSAGE_KEY] = '{}<br>'.format(result)
-    return HttpResponseRedirect(endpoint)
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
 def make_folder_public_gdrive(gdrive, user_inputted_file_id):
@@ -317,8 +313,7 @@ def update_gdrive_public_links(request):
     """
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
-    endpoint = f'{settings.URL_ROOT}resource_management/gdrive/'
-    validate_request_to_update_gdrive_permissions(request, endpoint=endpoint)
+    validate_request_to_update_gdrive_permissions(request)
     gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
     if gdrive.connection_successful:
         if 'action' in request.POST:
@@ -353,7 +348,7 @@ def update_gdrive_public_links(request):
                 )
                 gdrive.remove_public_link_gdrive(gdrive_public_file.file_id)
                 gdrive_public_file.delete()
-    return HttpResponseRedirect(endpoint)
+    return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
 def create_google_drive_perms():

@@ -18,7 +18,7 @@ def display_and_process_html_for_new_json_election(request):
     )
     logger.info(json.dumps(request.POST, indent=3))
     context = create_context_for_election_officer(
-        request, tab=TAB_STRING, html='elections/create_election/create_election_json.html'
+        request, tab=TAB_STRING
     )
     process_election = request.method == "POST" and CREATE_NEW_ELECTION__NAME in request.POST
 

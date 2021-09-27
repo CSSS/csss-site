@@ -5,14 +5,12 @@ from django.conf import settings
 from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django_cas_ng.views import LoginView as CasLoginView
 from django_cas_ng.views import LogoutView as CASLogoutView
 
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.exceptions import CASAuthenticationMethod
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_sys_admin_or_webmaster_sfuid
-from csss.views.views import ERROR_MESSAGES_KEY
 
 CAS_GROUP_NAME = 'CAS_users'
 
@@ -36,7 +34,6 @@ class LoginView(CasLoginView):
 
     def get(self, request):
         # Override to catch exceptions caused by CAS server not responding, which happens and is beyond our control.
-        context = create_main_context(request, 'index')
         try:
             return super().get(request)
         except IOError as e:
@@ -52,17 +49,15 @@ class LoginView(CasLoginView):
                     pass
                 else:
                     # Any other HTTPError should bubble up and let us know something horrible has happened.
-                    context[ERROR_MESSAGES_KEY] = [f"Encountered an unexpected exception of: {e}"]
-                    return render(request, 'csss/error.html', )
-
+                    raise CASAuthenticationMethod(
+                        request,
+                        error_message=f"Encountered an unexpected exception of: {e}"
+                    )
             else:
-                context[ERROR_MESSAGES_KEY] = [f"The errno is {e.errno}: {e}."]
-                return render(request, 'csss/error.html', )
+                raise CASAuthenticationMethod(request, error_message=f"The errno is {e.errno}: {e}.")
         except ParseError:
             pass
-
-        context[ERROR_MESSAGES_KEY] = ["Login failed because of a CAS error."]
-        return render(request, 'csss/error.html', )
+        raise CASAuthenticationMethod(request, error_message="Login failed because of a CAS error.")
 
 
 class LogoutView(CASLogoutView):

@@ -3,27 +3,26 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
+{% load staticfiles %}
 
 {% block content %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	<link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
 	{% if final_nominee__html_name.0.nominee.name is not None %}
 		<h2 class="title is-size-2">Modify {{final_nominee__html_name.0.nominee.name }}'s info for {{ final_nominee__html_name.0.nominee.election.human_friendly_name }}</h2>
 	{%  else %}
 		<h2 class="title is-size-2">Modify Nominee Info</h2>
 	{%  endif %}
-	{%  include 'csss/display_invalid_privilege_errors.html' %}
-	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
-		{%  include 'csss/display_errors.html' %}
-		<form method="post" class="form">
-			{%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
-		</form>
+	<form method="post" class="form">
+		{%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
+	</form>
 
-		<script>
-			function removeDiv(divName){$(divName).remove();}
+	<script>
+		function removeDiv(divName){$(divName).remove();}
 
-			{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
-			{%  include 'elections/nominee_links/update_nominee/js_functions/add_blank_speech.html' %}
-		</script>
+		{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
+		{%  include 'elections/nominee_links/update_nominee/js_functions/add_blank_speech.html' %}
+	</script>
 
-		{%  include 'elections/nominee_links/update_nominee/view_saved_nominee_info.html' %}
-	{%  endif %}
+	{%  include 'elections/nominee_links/update_nominee/view_saved_nominee_info.html' %}
 {% endblock %}

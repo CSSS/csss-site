@@ -27,8 +27,7 @@ logger = logging.getLogger('csss_site')
 def save_new_github_officer_team_mapping(request):
     logger.info(f"[about/save_new_github_officer_team_mapping.py save_new_github_officer_team_mapping()] "
                 f"request.POST={request.POST}")
-    html_page = 'about/github_position_mapping/github_position_mapping.html'
-    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
 
     if request.method == "POST":
@@ -38,7 +37,7 @@ def save_new_github_officer_team_mapping(request):
             context[ERROR_MESSAGES_KEY] = errors
             if unsaved_github_officer_team_mapping_key is not None:
                 context[UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY] = unsaved_github_officer_team_mapping_key
-    return render(request, html_page, update_context(context))
+    return render(request, 'about/github_position_mapping/github_position_mapping.html', update_context(context))
 
 
 def _create_new_github_mapping(post_dict):

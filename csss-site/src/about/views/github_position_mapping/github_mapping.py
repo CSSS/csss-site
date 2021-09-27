@@ -8,8 +8,7 @@ from csss.views.views import ERROR_MESSAGES_KEY
 
 
 def github_mapping(request):
-    html_page = 'about/github_position_mapping/github_position_mapping.html'
-    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING, html=html_page)
+    context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING)
     context[ERROR_MESSAGES_KEY] = []
 
-    return render(request, html_page, update_context(context))
+    return render(request, 'about/github_position_mapping/github_position_mapping.html', update_context(context))

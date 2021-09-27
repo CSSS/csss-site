@@ -2,7 +2,7 @@
 
 {% block content %}
 	{{ block.super }}
-	{%  include 'csss/display_errors.html' %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	{%  if error_messages is None or error_messages|length == 0 %}
 		{% load staticfiles %}
 			<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">

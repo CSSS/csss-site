@@ -40,7 +40,7 @@ def validate_election_id(election_id):
         logger.info(f"[elections/validate_election_id.py validate_election_id()] {error_message}")
         return False, error_message
     if len(Election.objects.all().filter(id=election_id)) != 1:
-        error_message = f"there is not election attached to ID '{election_id}'"
+        error_message = f"there is no election attached to ID '{election_id}'"
         logger.info(f"[elections/validate_election_id.py validate_election_id()] {error_message}")
         return False, error_message
     return True, None

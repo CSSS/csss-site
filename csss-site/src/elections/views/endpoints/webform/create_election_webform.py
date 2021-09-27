@@ -20,12 +20,11 @@ def display_and_process_html_for_new_webform_election(request):
         "request.POST"
     )
     logger.info(json.dumps(request.POST, indent=3))
-    html_page = 'elections/create_election/create_election__webform.html'
-    context = create_context_for_election_officer(request, html=html_page, tab=TAB_STRING)
+    context = create_context_for_election_officer(request, tab=TAB_STRING)
 
     context.update(create_webform_context())
     process_election = request.method == "POST"
 
     return process_new_inputted_webform_election(request, context) \
         if process_election \
-        else render(request, html_page, context)
+        else render(request, 'elections/create_election/create_election__webform.html', context)

@@ -3,40 +3,37 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
+{% load staticfiles %}
 
 {% block content %}
-	{%  include 'csss/display_invalid_privilege_errors.html' %}
-	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
-		{%  include 'csss/display_errors.html' %}
-		{% load staticfiles %}
-		<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
-		<div class="csss_box_borders_new_entries">
-			<h3 class="title is-size-3">Update {{ current_election.human_friendly_name }}</h3>
-			<form method="post" class="form">
-				{%  csrf_token %}
-				{%  include 'elections/webform_format/election_date.html' %}
-				{%  include 'elections/webform_format/election_time.html' %}
-				{%  include 'elections/webform_format/election_type.html' %}
-				{%  include 'elections/webform_format/election_websurvey.html' %}
-				{%  include 'elections/nominee_links/nominee_links_table/nominee_links_table.html' %}
-			{%  if draft_nominee_links|length > 0 or nominee_links|length  > 0 %}
-				<input type="button" class="select_nominee_link_label" value="Select All Nominee Links" onclick="toggle_deletion()"><br>
-			{%  endif %}
-				{%  include 'elections/nominee_links/election_nominee_names.html' %}
-				{%  include 'elections/create_election/submission_buttons.html' %}
-			</form>
-		<script>
-			function toggle_deletion() {
-				const select_all_nominee_links_text = "Select All Nominee Links";
-				const de_select_nominee_links_text = "De-Select All Nominee Links";
-				const select_nominee_links = $('.select_nominee_link_label')[0].value === select_all_nominee_links_text;
-				$( '.{{nominee_link_to_delete__html_class_name}}' ).prop('checked', select_nominee_links)
-				this.checked = !this.checked
-				$('.select_nominee_link_label')[0].value = (
-					select_nominee_links ? de_select_nominee_links_text : select_all_nominee_links_text
-				);
-			}
-		</script>
-		</div>
-	{%  endif %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
+	<div class="csss_box_borders_new_entries">
+		<h3 class="title is-size-3">Update {{ current_election.human_friendly_name }}</h3>
+		<form method="post" class="form">
+			{%  csrf_token %}
+			{%  include 'elections/webform_format/election_date.html' %}
+			{%  include 'elections/webform_format/election_time.html' %}
+			{%  include 'elections/webform_format/election_type.html' %}
+			{%  include 'elections/webform_format/election_websurvey.html' %}
+			{%  include 'elections/nominee_links/nominee_links_table/nominee_links_table.html' %}
+		{%  if draft_nominee_links|length > 0 or nominee_links|length  > 0 %}
+			<input type="button" class="select_nominee_link_label" value="Select All Nominee Links" onclick="toggle_deletion()"><br>
+		{%  endif %}
+			{%  include 'elections/nominee_links/election_nominee_names.html' %}
+			{%  include 'elections/create_election/submission_buttons.html' %}
+		</form>
+	<script>
+		function toggle_deletion() {
+			const select_all_nominee_links_text = "Select All Nominee Links";
+			const de_select_nominee_links_text = "De-Select All Nominee Links";
+			const select_nominee_links = $('.select_nominee_link_label')[0].value === select_all_nominee_links_text;
+			$( '.{{nominee_link_to_delete__html_class_name}}' ).prop('checked', select_nominee_links)
+			this.checked = !this.checked
+			$('.select_nominee_link_label')[0].value = (
+				select_nominee_links ? de_select_nominee_links_text : select_all_nominee_links_text
+			);
+		}
+	</script>
+	</div>
 {% endblock %}

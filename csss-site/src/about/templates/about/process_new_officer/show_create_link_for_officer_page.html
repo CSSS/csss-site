@@ -3,68 +3,65 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
-
+{% load staticfiles %}
 {% block content %}
-	{% load staticfiles %}
 	<link rel="stylesheet" href="{% static 'about_static/input_officer_info.css' %}">
-	{%  include 'csss/display_invalid_privilege_errors.html' %}
-	{%  if invalid_privilege_error_messages is None or invalid_privilege_error_messages|length == 0 %}
-		<h2 class="title is-size-2">Create Links for New Term of Officers</h2>
-		<form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
-			{% csrf_token %}
-			Term <div class="red_dot_mandatory" >*</div>
-			<select name="term">
-				{% for term in terms %}
-					{%  if term == current_term  %}
-						<option selected value="{{term}}">{{term}}</option>
-					{%  else %}
-						<option value="{{term}}">{{term}}</option>
-					{%  endif %}
-				{% endfor %}
-			</select>
-			<br>
-			Year <div class="red_dot_mandatory">*</div>
-			<select name="year">
-				{% for year in years %}
-					{%  if year == current_year %}
-						<option selected value="{{year}}">{{year}}</option>
-					{%  else %}
-						<option value="{{ year }}">{{ year }}</option>
-					{%  endif %}
-				{% endfor %}
-			</select>
-			<br>
-			Start-Date <div class="red_dot_mandatory">*</div>
-			<input type="date" name="date"  value="{{date_value}}" required>
-			<br>
-			Positions <div class="red_dot_mandatory" >*</div><br>(enter them in a newline separated list)<br>
-			<textarea name="positions" cols="40" rows="10" required>{{ positions }}</textarea>
-			<br>
-			Overwrite Current Officer for selected term <div class="red_dot_mandatory">*</div>
-			<br>
-			{%  if overwrite_value == "true" %}
-				<input type="radio" name="overwrite" value="true" checked="checked" required>Yes
-				<input type="radio" name="overwrite" value="false" required>No
-			{% elif overwrite_value == "false" %}
-				<input type="radio" name="overwrite" value="true" required>Yes
-				<input type="radio" name="overwrite" value="false" checked="checked" required>No
-			{% else %}
-				<input type="radio" name="overwrite" value="true" required>Yes
-				<input type="radio" name="overwrite" value="false" required>No
-			{%  endif %}
-			<br><br>Use new start date for above officers <div class="red_dot_mandatory">*</div>
-			<br>
-			{%  if start_date_value == "true" %}
-				<input type="radio" name="new_start_date" value="true" checked="checked" required>Yes
-				<input type="radio" name="new_start_date" value="false" required>No
-			{% elif start_date_value == "false" %}
-				<input type="radio" name="new_start_date" value="true" required>Yes
-				<input type="radio" name="new_start_date" value="false" checked="checked" required>No
-			{% else %}
-				<input type="radio" name="new_start_date" value="true" required>Yes
-				<input type="radio" name="new_start_date" value="false" required>No
-			{%  endif %}
-			<br><br><input type="submit" value="submit" />
-		</form>
-	{%  endif %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	<h2 class="title is-size-2">Create Links for New Term of Officers</h2>
+	<form action="{{URL_ROOT}}about/show_page_with_creation_links" method="post" class="form">
+		{% csrf_token %}
+		Term <div class="red_dot_mandatory" >*</div>
+		<select name="term">
+			{% for term in terms %}
+				{%  if term == current_term  %}
+					<option selected value="{{term}}">{{term}}</option>
+				{%  else %}
+					<option value="{{term}}">{{term}}</option>
+				{%  endif %}
+			{% endfor %}
+		</select>
+		<br>
+		Year <div class="red_dot_mandatory">*</div>
+		<select name="year">
+			{% for year in years %}
+				{%  if year == current_year %}
+					<option selected value="{{year}}">{{year}}</option>
+				{%  else %}
+					<option value="{{ year }}">{{ year }}</option>
+				{%  endif %}
+			{% endfor %}
+		</select>
+		<br>
+		Start-Date <div class="red_dot_mandatory">*</div>
+		<input type="date" name="date"  value="{{date_value}}" required>
+		<br>
+		Positions <div class="red_dot_mandatory" >*</div><br>(enter them in a newline separated list)<br>
+		<textarea name="positions" cols="40" rows="10" required>{{ positions }}</textarea>
+		<br>
+		Overwrite Current Officer for selected term <div class="red_dot_mandatory">*</div>
+		<br>
+		{%  if overwrite_value == "true" %}
+			<input type="radio" name="overwrite" value="true" checked="checked" required>Yes
+			<input type="radio" name="overwrite" value="false" required>No
+		{% elif overwrite_value == "false" %}
+			<input type="radio" name="overwrite" value="true" required>Yes
+			<input type="radio" name="overwrite" value="false" checked="checked" required>No
+		{% else %}
+			<input type="radio" name="overwrite" value="true" required>Yes
+			<input type="radio" name="overwrite" value="false" required>No
+		{%  endif %}
+		<br><br>Use new start date for above officers <div class="red_dot_mandatory">*</div>
+		<br>
+		{%  if start_date_value == "true" %}
+			<input type="radio" name="new_start_date" value="true" checked="checked" required>Yes
+			<input type="radio" name="new_start_date" value="false" required>No
+		{% elif start_date_value == "false" %}
+			<input type="radio" name="new_start_date" value="true" required>Yes
+			<input type="radio" name="new_start_date" value="false" checked="checked" required>No
+		{% else %}
+			<input type="radio" name="new_start_date" value="true" required>Yes
+			<input type="radio" name="new_start_date" value="false" required>No
+		{%  endif %}
+		<br><br><input type="submit" value="submit" />
+	</form>
 {% endblock %}
