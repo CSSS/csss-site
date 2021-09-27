@@ -500,35 +500,97 @@ def determine_new_start_date_for_officer(process_new_officer, officer_name):
     Return
     start_date -- the start date that needs to be used as indicated by "use_new_start_date"
     """
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] process_new_officer.use_new_start_date="
+        f"{process_new_officer.use_new_start_date}"
+    )
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] name of officer to find start date for ="
+        f"{officer_name}"
+    )
     if process_new_officer.use_new_start_date:
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
     position_name = process_new_officer.position_name
+    current_term_number = get_current_term_number()
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] position_name to find start_date for ="
+        f"{position_name}"
+    )
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] current_term_number ="
+        f"{current_term_number}"
+    )
     past_bios_for_officer = None
     if (
             position_name in YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING and
-            get_current_term_number() in [SUMMER_TERM_NUMBER, FALL_TERM_NUMBER]):
+            current_term_number in [SUMMER_TERM_NUMBER, FALL_TERM_NUMBER]):
+        start_date_for_last_spring_term = get_last_spring_term()
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] start_date_for_last_spring_term="
+            f"{start_date_for_last_spring_term}"
+        )
         past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
             name=officer_name, position_name=position_name,
-            start_date__gte=get_last_spring_term()
+            start_date__gte=start_date_for_last_spring_term
         )
     elif (
             position_name in YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER and
-            get_current_term_number() in [FALL_TERM_NUMBER, SPRING_TERM_NUMBER]):
+            current_term_number in [FALL_TERM_NUMBER, SPRING_TERM_NUMBER]):
+        start_date_for_last_summer_term = get_last_summer_term()
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] start_date_for_last_summer_term="
+            f"{start_date_for_last_summer_term}"
+        )
         past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
             name=officer_name, position_name=position_name,
-            start_date__gte=get_last_summer_term()
+            start_date__gte=start_date_for_last_summer_term
         )
     elif (
             position_name in TWO_TERM_POSITIONS_START_IN_FALL
-            and get_current_term_number() == SPRING_TERM_NUMBER):
+            and current_term_number == SPRING_TERM_NUMBER):
+        start_date_for_last_fall_term = get_last_fall_term()
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] start_date_for_last_fall_term="
+            f"{start_date_for_last_fall_term}"
+        )
         past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
             name=officer_name, position_name=position_name,
             start_date__gte=get_last_fall_term()
         )
-    if past_bios_for_officer is None or len(past_bios_for_officer) == 0:
+    if past_bios_for_officer is None:
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] "
+            f"No queries were performed, will use a new start date"
+        )
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
-    return past_bios_for_officer[0].start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] "
+        f"{len(past_bios_for_officer)} past bios for officer found with the specified constraints"
+    )
+    if len(past_bios_for_officer) == 0:
+        logger.info(
+            "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+            f"using new start date since no past bios for officer found with the specified constraints"
+        )
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    past_bio_for_officer = past_bios_for_officer[0]
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] using the start date attached to officer"
+        f"{past_bio_for_officer.position_name} for term {past_bio_for_officer.elected_term} which is "
+        f"{past_bio_for_officer.start_date.strftime('%A, %d %b %Y %I:%m %S %p')}"
+    )
+    return past_bio_for_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None):
