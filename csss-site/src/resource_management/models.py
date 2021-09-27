@@ -48,7 +48,7 @@ class ProcessNewOfficer(models.Model):
         default=timezone.now
     )
 
-    new_start_date = models.BooleanField(
+    use_new_start_date = models.BooleanField(
         default=True
     )
 

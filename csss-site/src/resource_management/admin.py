@@ -9,7 +9,7 @@ from resource_management.models import ProcessNewOfficer, NonOfficerGoogleDriveU
 
 class ProcessNewOfficerAdmin(admin.ModelAdmin):
     list_display = (
-        'passphrase', 'start_date', 'new_start_date', 'term', 'year', 'position_name', 'used',
+        'passphrase', 'start_date', 'use_new_start_date', 'term', 'year', 'position_name', 'used',
         'position_index'
     )
 
