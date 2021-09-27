@@ -5,6 +5,7 @@
 
 {% block content %}
     {{ block.super }}
+	{% include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<link href="{% static 'csss_static/csss_custom.css' %}" rel="stylesheet">
 	<div class="csss_divider_officer_list_upload">
 		<h2 class="title is-size-2">JSON Uploading</h2>

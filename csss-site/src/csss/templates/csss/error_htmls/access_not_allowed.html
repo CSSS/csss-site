@@ -2,8 +2,8 @@
 
 {% block content %}
 {{ block.super }}
-	<h1 class="title">Privilege Error Detected</h1>
+	<h1 class="title is-size-1">Privilege Error Detected</h1>
 	{%  for error_message in error_messages %}
-		{{ error_message }}
+		{{ error_message|safe}}<br><br>
 	{% endfor %}
 {% endblock %}

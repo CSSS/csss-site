@@ -137,7 +137,7 @@ def process_existing_election_information_from_json(request, context):
             error_message=error_message, election_information=election_dict,
             create_new_election=False
         ))
-        return render(request, 'elections/create_election/create_election_json.html', context)
+        return render(request, 'elections/update_election/update_election_json.html', context)
 
     success, error_message = validate_nominees_for_existing_election_jformat(
         election.id, election_dict[ELECTION_JSON_KEY__NOMINEES]

@@ -3,11 +3,11 @@ import logging
 
 from django.shortcuts import render
 
-from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.context_creation.create_main_context import create_main_context, CURRENT_ELECTION_OFFICER
 from csss.views.determine_user_role import user_is_current_election_officer
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
-from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, ELECTION_MANAGEMENT_PERMISSION, \
+from elections.views.Constants import TAB_STRING, INPUT_ELECTION_ID__VALUE, \
     BUTTON_MODIFY_ELECTION_ID__NAME, INPUT_ELECTION_ID__NAME, ELECTION_ID, ELECTION__HTML_NAME, NOMINEES_HTML__NAME, \
     PRE_EXISTING_ELECTION, DELETE_EXISTING_NOMINEE_LINKS_MESSAGE
 from elections.views.validators.validate_election_slug import validate_election_slug
@@ -43,7 +43,7 @@ def get_nominees(request, slug):
             context.update(
                 {
                     INPUT_ELECTION_ID__VALUE: election_to_display.id,
-                    ELECTION_MANAGEMENT_PERMISSION: True,
+                    CURRENT_ELECTION_OFFICER: user_is_election_officer,
                     BUTTON_MODIFY_ELECTION_ID__NAME: ELECTION_ID,
                     INPUT_ELECTION_ID__NAME: ELECTION_ID,
 

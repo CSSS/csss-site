@@ -6,13 +6,13 @@
 {% load staticfiles %}
 
 {% block content %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
 	{% if final_nominee__html_name.0.nominee.name is not None %}
 		<h2 class="title is-size-2">Modify {{final_nominee__html_name.0.nominee.name }}'s info for {{ final_nominee__html_name.0.nominee.election.human_friendly_name }}</h2>
 	{%  else %}
 		<h2 class="title is-size-2">Modify Nominee Info</h2>
 	{%  endif %}
-	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<form method="post" class="form">
 		{%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
 	</form>

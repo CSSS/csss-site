@@ -317,7 +317,6 @@ def allow_officer_to_choose_name(request):
     """
     logger.info(
         f"[about/officer_creation_link_management.py allow_officer_to_choose_name()] request.POST={request.POST}")
-    html_page = 'about/process_new_officer/allow_officer_to_choose_name.html'
 
     (successful, context, new_officer_details, passphrase) = verify_passphrase_access_and_create_context(
         request, TAB_STRING
@@ -329,11 +328,11 @@ def allow_officer_to_choose_name(request):
         # or when trying to parse the passphrase when processing the user's input
         del request.session[PASSPHRASE_ERROR_KEY]
         context[ERROR_MESSAGES_KEY] = [error_message]
-        return render(request, html_page, context)
+        return render(request, 'about/process_new_officer/allow_officer_to_choose_name.html', context)
     if not successful:
         # if user used the wrong passphrase to either select a previous officer bio or use a new bio
         context[ERROR_MESSAGES_KEY] = [context[PASSPHRASE_ERROR_KEY]]
-        return render(request, html_page, context)
+        return render(request, 'about/process_new_officer/allow_officer_to_choose_name.html', context)
     officers = Officer.objects.all().filter().order_by('-elected_term__term_number', 'position_index',
                                                        '-start_date')
     # if there are no past officer, the user just get sent directly to the page that asks for their info
@@ -344,7 +343,7 @@ def allow_officer_to_choose_name(request):
         )
 
     context[HTML_PAST_OFFICERS_KEY] = officers
-    return render(request, html_page, context)
+    return render(request, 'about/process_new_officer/allow_officer_to_choose_name.html', context)
 
 
 def display_page_for_officers_to_input_their_info(request):
