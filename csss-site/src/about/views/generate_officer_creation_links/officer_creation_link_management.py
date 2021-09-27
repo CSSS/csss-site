@@ -394,7 +394,7 @@ def display_page_for_officers_to_input_their_info(request):
         bio_selected_id_is_valid = False
         if bio_selected_id_is_digit:
             bio_selected_id_is_valid = (
-                    len(Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected']))) == 0
+                    len(Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected']))) == 1
             )
         if reuse_bio_selected and bio_selected_id_is_valid:
             officer = Officer.objects.get(id=int(request.POST['past_officer_bio_selected']))
@@ -405,7 +405,7 @@ def display_page_for_officers_to_input_their_info(request):
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
         context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = determine_new_start_date_for_officer(
-            new_officer_details, officer.name
+            new_officer_details, officer
         )
         context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
@@ -489,13 +489,13 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     return render(request, 'about/process_new_officer/add_officer.html', context)
 
 
-def determine_new_start_date_for_officer(process_new_officer, officer_name):
+def determine_new_start_date_for_officer(process_new_officer, officer):
     """
     determine whether or not the officer's start date should be in the current term or previous term
 
     Keyword Argument
     process_new_officer -- the details for the officer who needs to be saved
-    officer_name -- the name of officer to determine a start date for
+    officer -- the bio for the officer whose bio is being re-used
 
     Return
     start_date -- the start date that needs to be used as indicated by "use_new_start_date"
@@ -508,9 +508,10 @@ def determine_new_start_date_for_officer(process_new_officer, officer_name):
     logger.info(
         "[about/officer_creation_link_management.py "
         "determine_new_start_date_for_officer()] name of officer to find start date for ="
-        f"{officer_name}"
+        f"{officer.name}"
     )
-    if process_new_officer.use_new_start_date:
+    officer_name = officer.name
+    if process_new_officer.use_new_start_date or officer is None:
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
     position_name = process_new_officer.position_name

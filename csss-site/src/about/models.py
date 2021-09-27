@@ -31,6 +31,14 @@ class Term(models.Model):
 
 
 class Officer(models.Model):
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['position_name', 'name', 'elected_term__term_number', 'start_date'],
+                name="unique_officer_for_term"
+            )
+        ]
+
     position_name = models.CharField(
         max_length=300,
         default='President',
