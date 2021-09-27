@@ -1,0 +1,9 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+{{ block.super }}
+	<h1 class="title">Privilege Error Detected</h1>
+	{%  for error_message in error_messages %}
+		{{ error_message }}
+	{% endfor %}
+{% endblock %}

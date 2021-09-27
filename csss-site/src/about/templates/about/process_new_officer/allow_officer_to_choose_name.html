@@ -4,7 +4,7 @@
 	{{ block.super }}
 	{% load static %}
 	{% load staticfiles %}
-	{%  include 'csss/display_errors.html' %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	{%  if error_messages is None or error_messages|length == 0 %}
 		<form action="{{URL_ROOT}}about/display_page_for_officer_to_input_info?{{ HTML_PASSPHRASE_GET_KEY }}={{ passphrase }}" method="post">
 			{% csrf_token %}

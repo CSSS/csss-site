@@ -3,9 +3,11 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
+{% load staticfiles %}
 
 {% block content %}
-    <h2 class="title is-size-2">Create new Election</h2>
+    <link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
+	<h2 class="title is-size-2">Create new Election</h2>
 	{%  include 'elections/json/creating_election_errors.html' %}
 	<form method="post" class="form">
 		{%  include 'elections/webform/form__webform.html' %}

@@ -4,7 +4,7 @@
     {{ block.super }}
     {% load static %}
     {% load staticfiles %}
-	{%  include 'csss/display_errors.html' %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<form action="{{URL_ROOT}}about/input_officer_info" method="post">
 		{% csrf_token %}
 		<p>

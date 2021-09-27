@@ -1,7 +1,7 @@
 {% load staticfiles %}
-<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
+<link rel="stylesheet" href="{% static 'elections_static/json/error_styling.css' %}">
 
-{%  include 'csss/display_errors.html' %}
+{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 {% if json_formatting_div__name is not None %}
 	<div class="csss_error_style" id="{{ json_formatting_div__name }}"></div>
 {%  endif %}

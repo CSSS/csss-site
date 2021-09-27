@@ -1,9 +1,0 @@
-{% extends "csss/header.html" %}
-
-{% block content %}
-{{ block.super }}
-	<h1 class="title">Error Detected</h1>
-    {%  for error in error_messages %}
-        {{ error }}
-    {% endfor %}
-{% endblock %}
