@@ -85,6 +85,16 @@ HTML_VALUE_ATTRIBUTE_FOR_TIME = "time_value"
 PASSPHRASE_ERROR_KEY = 'passphrase_error'
 REQUEST_SESSION_USER_INPUT_ERROR_KEY = 'user_input_error'
 
+YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING = ["Frosh Week Chair"]
+YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER = [
+    "President", "Vice-President", "Treasurer", "Director of Resources", "Director of Events",
+    "Assistant Director of Events", "Director of Communications", "Director of Archives",
+    "SFSS Council Representative"
+]
+TWO_TERM_POSITIONS_START_IN_FALL = [
+    "First Year Representative 1", "First Year Representative 2"
+]
+
 
 def verify_passphrase_access_and_create_context(request, tab):
     """
@@ -494,16 +504,6 @@ def determine_new_start_date_for_officer(process_new_officer, officer_name):
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
     position_name = process_new_officer.position_name
-    YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING = ["Frosh Week Chair"]
-    YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER = [
-        "President", "Vice-President", "Treasurer", "Director of Resources", "Director of Events",
-        "Assistant Director of Events", "Director of Communications", "Director of Archives",
-        "SFSS Council Representative"
-    ]
-    TWO_TERM_POSITIONS_START_IN_FALL = [
-        "First Year Representative 1", "First Year Representative 2"
-    ]
-
     past_bios_for_officer = None
     if (
             position_name in YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING and
@@ -616,7 +616,7 @@ def process_information_entered_by_officer(request):
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = \
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
-                else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
+            else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         sfuid = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
