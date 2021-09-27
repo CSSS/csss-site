@@ -3,8 +3,11 @@ import logging
 
 from about.models import Term
 
-
 logger = logging.getLogger('csss_site')
+
+SPRING_TERM_NUMBER = 1
+SUMMER_TERM_NUMBER = 2
+FALL_TERM_NUMBER = 3
 
 
 def there_are_multiple_entries(post_dict, key_to_read):
@@ -33,6 +36,82 @@ def get_current_term():
     """
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+
+
+def get_last_summer_term():
+    """
+    Get the datetime that corresponds to the last relevant summer term
+
+    Return
+    -   if current_term is Spring
+            returns the datetime for first day of Summer Term last year
+        if current_term is Summer or Fall
+            returns the datetime for the first day of Summer or Fall term of this year
+    """
+    current_date = datetime.datetime.now()
+    if get_current_term_number() == SPRING_TERM_NUMBER:
+        return get_datetime_for_beginning_of_specified_term(
+            current_date.year - 1, 5, current_date.day
+        )
+    return get_datetime_for_beginning_of_specified_term(
+        current_date.year, 5, current_date.day
+    )
+
+
+def get_last_fall_term():
+    """
+    Get the datetime that corresponds to the last relevant Fall term
+
+    Return
+    -   if current_term is Spring or Summer
+            returns the datetime for first day of Fall Term last year
+        if current_term is Fall
+            returns the datetime for the first day of Fall term of this year
+    """
+    current_date = datetime.datetime.now()
+    if get_current_term_number() in [SPRING_TERM_NUMBER, SUMMER_TERM_NUMBER]:
+        return get_datetime_for_beginning_of_specified_term(
+            current_date.year - 1, 9, current_date.day
+        )
+    return get_datetime_for_beginning_of_specified_term(
+        current_date.year, 9, current_date.day
+    )
+
+
+def get_last_spring_term():
+    """
+    Get the datetime that corresponds to the last relevant Spring term
+
+    Return
+    -   if current_term is Spring or Summer or Fall
+            returns the datetime for first day of Spring term of this year
+    """
+    current_date = datetime.datetime.now()
+    return get_datetime_for_beginning_of_specified_term(
+        current_date.year, current_date.month, current_date.day
+    )
+
+
+def get_current_term_number():
+    """
+    Get the term number for the current term
+
+    Return
+    the term_number that is either <1/2/3>
+    """
+    return get_current_term() % 10
+
+
+def get_datetime_for_beginning_of_specified_term(year, month, day):
+    """
+    Gets the datetime for the beginning of the current term
+
+    Return the datetime for the beginning of the current time where the month is Jan, May, Sept and the day is 1
+    """
+    current_date = datetime.datetime(year, month=month, day=day)
+    while not date_is_first_day_of_term(current_date):
+        current_date = current_date - datetime.timedelta(days=1)
+    return current_date
 
 
 def get_previous_term():

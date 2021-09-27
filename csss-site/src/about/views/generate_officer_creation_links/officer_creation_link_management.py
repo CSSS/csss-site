@@ -19,6 +19,8 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
+from csss.views_helper import get_current_term_number, SUMMER_TERM_NUMBER, FALL_TERM_NUMBER, SPRING_TERM_NUMBER, \
+    get_last_summer_term, get_last_fall_term, get_last_spring_term
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
@@ -373,27 +375,28 @@ def display_page_for_officers_to_input_their_info(request):
                                                                                       new_officer_details.passphrase,
                                                                                       context)
     else:
-        if 'reuse_bio' in request.POST:
-            if not ('past_officer_bio_selected' in request.POST and
-                    f"{request.POST['past_officer_bio_selected']}".isdigit() and
-                    len(Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected']))) > 0):
-                officer = None
-            else:
-                officer = Officer.objects.get(id=int(request.POST['past_officer_bio_selected']))
-        else:
-            # this also covers "create_new_bio" in request.POST.keys() and when there was a re-direct
-            # on the previous page because no past officer exists
-            officer = None
+        officer = None
+        reuse_bio_selected = 'reuse_bio' in request.POST
+        past_bio_selected = 'past_officer_bio_selected' in request.POST
+        bio_selected_id_is_digit = False
+        if past_bio_selected:
+            bio_selected_id_is_digit = f"{request.POST['past_officer_bio_selected']}".isdigit()
+        bio_selected_id_is_valid = False
+        if bio_selected_id_is_digit:
+            bio_selected_id_is_valid = (
+                    len(Officer.objects.all().filter(id=int(request.POST['past_officer_bio_selected']))) == 0
+            )
+        if reuse_bio_selected and bio_selected_id_is_valid:
+            officer = Officer.objects.get(id=int(request.POST['past_officer_bio_selected']))
         request.session[HTML_REQUEST_SESSION_PASSPHRASE_KEY] = new_officer_details.passphrase
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM] = new_officer_details.term
         context[HTML_VALUE_ATTRIBUTE_FOR_YEAR] = new_officer_details.year
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_name
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
-        context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = \
-            determine_new_start_date_for_officer(
-                new_officer_details.start_date, officer, new_officer_details.new_start_date
-            )
+        context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = determine_new_start_date_for_officer(
+            new_officer_details, officer.name
+        )
         context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID_EMAIL_ALIAS] = "" if officer is None else officer.sfu_email_alias
@@ -476,23 +479,56 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
     return render(request, 'about/process_new_officer/add_officer.html', context)
 
 
-def determine_new_start_date_for_officer(start_date, previous_officer=None, new_start_date=True):
+def determine_new_start_date_for_officer(process_new_officer, officer_name):
     """
     determine whether or not the officer's start date should be in the current term or previous term
 
     Keyword Argument
-    start_date -- the new start-date
-    previous_officer -- the previous officer's info that the user wants to reuse, or a None
-     object if the user did not select one
-    new_start_date -- indicates whether or not the officer's start-date should use a previous date
+    process_new_officer -- the details for the officer who needs to be saved
+    officer_name -- the name of officer to determine a start date for
 
     Return
-    start_date -- the start date that needs to be used as indicated by "new_start_date"
+    start_date -- the start date that needs to be used as indicated by "use_new_start_date"
     """
-    if new_start_date or previous_officer is None or previous_officer.start_date is None:
-        return start_date.strftime("%A, %d %b %Y %I:%m %S %p")
-    else:
-        return previous_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    if process_new_officer.use_new_start_date:
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+
+    position_name = process_new_officer.position_name
+    YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING = ["Frosh Week Chair"]
+    YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER = [
+        "President", "Vice-President", "Treasurer", "Director of Resources", "Director of Events",
+        "Assistant Director of Events", "Director of Communications", "Director of Archives",
+        "SFSS Council Representative"
+    ]
+    TWO_TERM_POSITIONS_START_IN_FALL = [
+        "First Year Representative 1", "First Year Representative 2"
+    ]
+
+    past_bios_for_officer = None
+    if (
+            position_name in YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING and
+            get_current_term_number() in [SUMMER_TERM_NUMBER, FALL_TERM_NUMBER]):
+        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
+            name=officer_name, position_name=position_name,
+            start_date__gte=get_last_spring_term()
+        )
+    elif (
+            position_name in YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER and
+            get_current_term_number() in [FALL_TERM_NUMBER, SPRING_TERM_NUMBER]):
+        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
+            name=officer_name, position_name=position_name,
+            start_date__gte=get_last_summer_term()
+        )
+    elif (
+            position_name in TWO_TERM_POSITIONS_START_IN_FALL
+            and get_current_term_number() == SPRING_TERM_NUMBER):
+        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
+            name=officer_name, position_name=position_name,
+            start_date__gte=get_last_fall_term()
+        )
+    if past_bios_for_officer is None or len(past_bios_for_officer) == 0:
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    return past_bios_for_officer[0].start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None):
@@ -580,7 +616,7 @@ def process_information_entered_by_officer(request):
         phone_number = 0 if request.POST[HTML_PHONE_NUMBER_KEY] == '' else int(request.POST[HTML_PHONE_NUMBER_KEY])
         position_index = \
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
-            else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
+                else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
         sfuid = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
