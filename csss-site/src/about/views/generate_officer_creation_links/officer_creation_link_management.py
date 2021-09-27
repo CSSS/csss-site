@@ -505,17 +505,18 @@ def determine_new_start_date_for_officer(process_new_officer, officer):
         "determine_new_start_date_for_officer()] process_new_officer.use_new_start_date="
         f"{process_new_officer.use_new_start_date}"
     )
+
+    if process_new_officer.use_new_start_date or officer is None:
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+
+    officer_name = officer.name
+    position_name = process_new_officer.position_name
+    current_term_number = get_current_term_number()
     logger.info(
         "[about/officer_creation_link_management.py "
         "determine_new_start_date_for_officer()] name of officer to find start date for ="
         f"{officer.name}"
     )
-    officer_name = officer.name
-    if process_new_officer.use_new_start_date or officer is None:
-        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
-
-    position_name = process_new_officer.position_name
-    current_term_number = get_current_term_number()
     logger.info(
         "[about/officer_creation_link_management.py "
         "determine_new_start_date_for_officer()] position_name to find start_date for ="
