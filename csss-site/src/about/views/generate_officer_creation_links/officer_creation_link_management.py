@@ -220,7 +220,7 @@ def show_page_with_creation_links(request):
                     position_index=officer_email_and_position_mapping.position_index,
                     sfu_officer_mailing_list_email=officer_email_and_position_mapping.email,
                     link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
-                    new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
+                    use_new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
                     start_date=datetime.datetime.strptime(
                         f"{request.POST[HTML_DATE_KEY]}",
                         '%Y-%m-%d')
@@ -567,26 +567,24 @@ def determine_new_start_date_for_officer(process_new_officer, officer_name):
         )
     if past_bios_for_officer is None:
         logger.info(
-            "[about/officer_creation_link_management.py "
-            "determine_new_start_date_for_officer()] "
-            f"No queries were performed, will use a new start date"
+            "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+            "No queries were performed, will use a new start date"
         )
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
     logger.info(
-        "[about/officer_creation_link_management.py "
-        "determine_new_start_date_for_officer()] "
+        "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
         f"{len(past_bios_for_officer)} past bios for officer found with the specified constraints"
     )
     if len(past_bios_for_officer) == 0:
         logger.info(
             "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
-            f"using new start date since no past bios for officer found with the specified constraints"
+            "using new start date since no past bios for officer found with the specified constraints"
         )
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
     past_bio_for_officer = past_bios_for_officer[0]
     logger.info(
-        "[about/officer_creation_link_management.py "
-        "determine_new_start_date_for_officer()] using the start date attached to officer"
+        "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+        "using the start date attached to officer"
         f"{past_bio_for_officer.position_name} for term {past_bio_for_officer.elected_term} which is "
         f"{past_bio_for_officer.start_date.strftime('%A, %d %b %Y %I:%m %S %p')}"
     )
