@@ -5,13 +5,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from elections.views.Constants import UPDATE_EXISTING_ELECTION__NAME, SAVE_ELECTION__VALUE, ELECTION_ID, \
+from elections.views.Constants import UPDATE_EXISTING_ELECTION__NAME, SAVE_ELECTION__VALUE, \
     ENDPOINT_MODIFY_VIA_WEBFORM
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_election.webform.process_new_election_webform import \
     create_webform_election_context_from_user_inputted_election_dict
-from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
 from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \
     save_new_or_update_existing_nominees_jformat
@@ -28,7 +27,7 @@ from elections.views.validators.verify_that_all_relevant_election_webform_keys_e
 logger = logging.getLogger('csss_site')
 
 
-def process_existing_election_information_from_webform(request, context):
+def process_existing_election_information_from_webform(request, election, context):
     """
     Takes in the user's existing election input and validates it before having it saved
 
@@ -45,7 +44,7 @@ def process_existing_election_information_from_webform(request, context):
         error_message = f"Did not find all of the following necessary keys in input: " \
                         f"{ELECTION_JSON_KEY__DATE}, {ELECTION_JSON_WEBFORM_KEY__TIME}, " \
                         f"{ELECTION_JSON_KEY__ELECTION_TYPE}, " \
-                        f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_ID}, {ELECTION_JSON_KEY__NOMINEES}"
+                        f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__NOMINEES}"
         logger.info(
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
             f" {error_message}"
@@ -58,17 +57,6 @@ def process_existing_election_information_from_webform(request, context):
         logger.info(
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()] "
             f"{error_message, election_dict}"
-        )
-        context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
-        return render(request, 'elections/update_election/update_election__webform.html', context)
-
-    election = get_existing_election_by_id(election_dict[ELECTION_ID])
-    if election is None:
-        error_message = f"The Selected election for date {election_dict[ELECTION_JSON_KEY__DATE]} " \
-                        f"does not exist"
-        logger.info(
-            f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
-            f" {error_message}"
         )
         context.update(create_webform_election_context_from_user_inputted_election_dict(error_message, election_dict))
         return render(request, 'elections/update_election/update_election__webform.html', context)
@@ -118,9 +106,6 @@ def process_existing_election_information_from_webform(request, context):
     )
     save_new_or_update_existing_nominees_jformat(election, election_dict)
     if request.POST[UPDATE_EXISTING_ELECTION__NAME] == SAVE_ELECTION__VALUE:
-        if ELECTION_ID in request.session:
-            del request.session[ELECTION_ID]
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/')
     else:
-        request.session[ELECTION_ID] = election.id
-        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{ENDPOINT_MODIFY_VIA_WEBFORM}')
+        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/{ENDPOINT_MODIFY_VIA_WEBFORM}')

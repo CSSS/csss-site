@@ -40,12 +40,12 @@ urlpatterns = [
         name="Show Page To Create Election via Nominee Links"
     ),
     url(
-        fr'^{ENDPOINT_MODIFY_VIA_JSON}/$',
+        fr'^(?P<slug>[-\w]+)/{ENDPOINT_MODIFY_VIA_JSON}/$',
         display_and_process_html_for_modification_of_json_election,
         name='Show Page to Update Election via JSON'
     ),
     url(
-        fr'^{ENDPOINT_MODIFY_VIA_WEBFORM}/$',
+        fr'^(?P<slug>[-\w]+)/{ENDPOINT_MODIFY_VIA_WEBFORM}/$',
         display_and_process_html_for_modification_of_webform_election,
         name='Show Page to Update Election via Webform'
     ),
@@ -53,6 +53,9 @@ urlpatterns = [
         fr'^(?P<slug>[-\w]+)/{ENDPOINT_MODIFY_VIA_NOMINEE_LINKS}/$',
         display_and_process_html_for_modification_of_election_and_nominee_links__nominee_links,
         name='Show Page for Updating an Election via Nominee Links'
+    ),
+    url(
+        r'^(?P<slug>[-\w]+)/delete/$', delete_selected_election, name="Delete Selected Election"
     ),
     url(
         fr'^{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK}/$',
@@ -64,10 +67,6 @@ urlpatterns = [
         display_and_process_html_for_nominee_modification_via_passphrase,
         name="SHow Page for Nominees to update their own info"
     ),
-    url(
-        r'^delete/$',
-        delete_selected_election,
-        name="Delete Selected Election"
-    ),
+
     url(r'^(?P<slug>[-\w]+)/$', get_nominees, name='Election Page')
 ]

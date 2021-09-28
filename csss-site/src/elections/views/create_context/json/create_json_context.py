@@ -18,7 +18,7 @@ logger = logging.getLogger('csss_site')
 
 
 def create_json_election_context_from_user_inputted_election_dict(
-        election_id=None, error_message=None, election_information=None, create_new_election=True):
+        error_message=None, election_information=None, create_new_election=True):
     """
     Creating context for JSON pages for election creation or modification
 
@@ -55,8 +55,6 @@ def create_json_election_context_from_user_inputted_election_dict(
         FORMAT_ELECTION_JSON__DIV_ID_NAME: JS_FORMATTING_ERROR,
         USER_INPUTTED_ELECTION_JSON__KEY: ELECTION_JSON__KEY
     }
-    if election_id is not None:
-        context[ELECTION_ID] = election_id
     if error_message is not None:
         context[ERROR_MESSAGES_KEY] = [error_message]
     if election_information is not None:
@@ -67,7 +65,7 @@ def create_json_election_context_from_user_inputted_election_dict(
     return context
 
 
-def create_json_election_context_from_db_election_obj(election_id):
+def create_json_election_context_from_db_election_obj(election):
     """
     Returns information about the election
 
@@ -77,15 +75,12 @@ def create_json_election_context_from_db_election_obj(election_id):
     Return
     a dict that contains the election itself in a format that is ready for the json page to display
     """
-    election = get_existing_election_by_id(election_id)
-    context = None
-    if election is not None:
-        context = {
-            ELECTION_JSON_KEY__ELECTION_TYPE: election.election_type,
-            ELECTION_JSON_KEY__DATE: election.date.strftime(DATE_AND_TIME_FORMAT),
-            ELECTION_JSON_KEY__WEBSURVEY: election.websurvey,
-            ELECTION_JSON_KEY__NOMINEES: get_election_nominees(election)
-        }
+    context = {
+        ELECTION_JSON_KEY__ELECTION_TYPE: election.election_type,
+        ELECTION_JSON_KEY__DATE: election.date.strftime(DATE_AND_TIME_FORMAT),
+        ELECTION_JSON_KEY__WEBSURVEY: election.websurvey,
+        ELECTION_JSON_KEY__NOMINEES: get_election_nominees(election)
+    }
     logger.info("[elections/create_json_context.py create_json_election_context_from_db_election_obj()] "
                 f"created election context of '{context}'")
     return context

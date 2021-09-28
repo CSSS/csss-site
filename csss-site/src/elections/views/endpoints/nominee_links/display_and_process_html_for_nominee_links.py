@@ -32,6 +32,7 @@ def display_and_process_html_for_modification_of_election_and_nominee_links__nom
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
     process_election = (request.method == "POST")
+    election = Election.objects.get(slug=slug)
 
-    return process_existing_election_and_nominee_links(request, context, slug) if process_election \
-        else display_selected_election_and_nominee_links(request, context, slug)
+    return process_existing_election_and_nominee_links(request, election, context) if process_election \
+        else display_selected_election_and_nominee_links(request, election, context)

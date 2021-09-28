@@ -137,7 +137,7 @@ def create_webform_election_context_from_user_inputted_election_dict(error_messa
     return context
 
 
-def create_webform_election_context_from_db_election_obj(election_id):
+def create_webform_election_context_from_db_election_obj(election):
     """
     Returns information about the election
 
@@ -148,20 +148,15 @@ def create_webform_election_context_from_db_election_obj(election_id):
     a dict that contains either the error experienced when trying to access the election id
     or the election itself in a format that is ready for the webform page to display
     """
-    election = get_existing_election_by_id(election_id)
-    context = {}
-    if election is None:
-        context.update({ERROR_MESSAGES_KEY: ["No valid election found for given election id"]})
-    else:
-        context.update({
-            INPUT_ELECTION_ID__NAME: ELECTION_ID,
-            INPUT_ELECTION_ID__VALUE: election.id,
-            INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
-            INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
-            SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
-            CURRENT_WEBSURVEY_LINK: election.websurvey,
-            NOMINEES_HTML__NAME: get_election_nominees(election)
-        })
+    context = {
+        INPUT_ELECTION_ID__NAME: ELECTION_ID,
+        INPUT_ELECTION_ID__VALUE: election.id,
+        INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
+        INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
+        SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
+        CURRENT_WEBSURVEY_LINK: election.websurvey,
+        NOMINEES_HTML__NAME: get_election_nominees(election)
+    }
     logger.info("[elections/create_webform_context.py create_webform_election_context_from_db_election_obj()] "
                 f"created context of '{context}'")
     return context

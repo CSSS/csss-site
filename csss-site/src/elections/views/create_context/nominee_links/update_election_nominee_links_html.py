@@ -32,18 +32,18 @@ logger = logging.getLogger('csss_site')
 def create_context_for_update_election_nominee_links_html(
         context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
         websurvey_link=None, create_new_election=False, draft_nominee_links=None,
-        new_nominee_names=None, slug=None):
+        new_nominee_names=None, election=None):
     require_nominee_names = (
             (nominee_links is None or len(nominee_links) == 0) and
             (draft_nominee_links is None or len(draft_nominee_links) == 0)
     )
     create_context_for_display_errors_html(context, error_messages=error_messages)
-    context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
+    context[CURRENT_ELECTION] = None if election is None else election
     create_context_for_election_date_html(context, election_date=election_date)
     create_context_for_election_time_html(context, election_time=election_time)
     create_context_for_election_type_html(context, election_type=election_type)
     create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
-    _create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links, slug=slug,
+    _create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links,
                                                  nominee_links=nominee_links)
     create_context_for_election_nominee_names_html(context, require_nominee_names=require_nominee_names,
                                                    nominee_names=new_nominee_names)
@@ -58,12 +58,12 @@ def create_context_for_update_election_nominee_links_html(
     logger.info(json.dumps(new_context, indent=3))
 
 
-def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, slug=None, nominee_links=None):
-    _create_context_for_draft_nominee_links_html(context, draft_nominee_links=draft_nominee_links, slug=slug)
+def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, nominee_links=None, election=None):
+    _create_context_for_draft_nominee_links_html(context, draft_nominee_links=draft_nominee_links, election=election)
     _create_context_for_final_nominee_links_html(context, nominee_links=nominee_links)
 
 
-def _create_context_for_draft_nominee_links_html(context, draft_nominee_links=None, slug=None):
+def _create_context_for_draft_nominee_links_html(context, draft_nominee_links=None, election=None):
     if draft_nominee_links is not None:
         context[DRAFT_NOMINEE_LINKS] = draft_nominee_links
     context[SAVED_NOMINEE_LINKS__HTML_NAME] = SAVED_NOMINEE_LINKS
@@ -73,7 +73,7 @@ def _create_context_for_draft_nominee_links_html(context, draft_nominee_links=No
     context[SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME] = SAVED_NOMINEE_LINK__NOMINEE
     context[NO_NOMINEE_LINKED__HTML_NAME] = NO_NOMINEE_LINKED
     context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
-    context[CURRENT_ELECTION] = None if slug is None else Election.objects.get(slug=slug)
+    context[CURRENT_ELECTION] = None if election is None else election
     context[CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME] = \
         ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
     context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID
