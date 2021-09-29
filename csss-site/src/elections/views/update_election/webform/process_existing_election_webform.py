@@ -40,7 +40,7 @@ def process_existing_election_information_from_webform(request, election, contex
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
     election_dict = transform_webform_to_json(parser.parse(request.POST.urlencode()))
-    if not verify_that_all_relevant_election_webform_keys_exist(election_dict, new_election=False):
+    if not verify_that_all_relevant_election_webform_keys_exist(election_dict):
         error_message = f"Did not find all of the following necessary keys in input: " \
                         f"{ELECTION_JSON_KEY__DATE}, {ELECTION_JSON_WEBFORM_KEY__TIME}, " \
                         f"{ELECTION_JSON_KEY__ELECTION_TYPE}, " \

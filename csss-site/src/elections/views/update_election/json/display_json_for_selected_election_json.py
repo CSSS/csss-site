@@ -1,10 +1,8 @@
 from django.shortcuts import render
 
-from elections.views.Constants import ELECTION_ID
 from elections.views.create_context.json.create_json_context import \
     create_json_election_context_from_user_inputted_election_dict, \
     create_json_election_context_from_db_election_obj
-from elections.views.validators.validate_election_id import validate_election_id
 
 
 def display_current_json_election_json(request, election, context):

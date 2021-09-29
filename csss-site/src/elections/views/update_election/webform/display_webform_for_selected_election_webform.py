@@ -1,6 +1,5 @@
 from django.shortcuts import render
 
-from elections.views.Constants import ELECTION_ID
 from elections.views.create_context.webform.create_webform_context import \
     create_webform_election_context_from_db_election_obj
 
