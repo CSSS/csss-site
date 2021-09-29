@@ -24,7 +24,7 @@
         new_nominee_speech.appendChild(nominee_position);
     {%  endfor %}
 
-    new_nominee_speech.innerHTML += "<p>Speech: (speech needs to already be in <a href=\"{{ URL_ROOT }}markdown/\" target=\"_blank\"> HTML format</a> )<br>";
+    new_nominee_speech.innerHTML += "<p>Speech: (speech needs to already be in <a href=\"{{ URL_ROOT }}markdown/\" target=\"_blank\"> Markdown format</a> )<br>";
     new_nominee_speech.innerHTML += `<textarea name=\"[{{nominee_div__name}}][${nominee_index}][{{input_nominee_speech_and_position_pairing__name}}][${speech_index}][{{input_nominee_speech__name}}]\" cols=\"40\" rows=\"1\" required>{{position_names_and_speech_pairing.speech}}</textarea></p>`;
     new_nominee_speech.innerHTML += "<input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_speech_and_position_pairing__name}}]["+speech_index+"][{{input_speech_id__name}}]\" value=\"{{position_names_and_speech_pairing.id}}\" hidden readonly>"
     new_nominee_speech.innerHTML += "<input type=\"button\" value=\"Remove Speech\" onClick=\"removeDiv('#"+speech_div_name+"');\">";
