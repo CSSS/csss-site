@@ -1,4 +1,3 @@
-
 TAB_STRING = 'elections'
 
 ID_KEY = 'id'
@@ -90,6 +89,7 @@ CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
 ENDPOINT_MODIFY_VIA_JSON = 'election_modification_json'
 ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
+ENDPOINT_DELETE_NOMINEE_LINKS = 'delete_nominee_links'
 
 NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
 NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
@@ -136,3 +136,5 @@ PRE_EXISTING_ELECTION = 'pre_existing_election'
 DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"
 
 HTML_PASSPHRASE_GET_KEY = 'passphrase'
+
+DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY = 'redirect_path'

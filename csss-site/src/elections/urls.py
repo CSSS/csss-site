@@ -2,8 +2,9 @@ from django.conf.urls import url
 
 from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
-    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK
+    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, ENDPOINT_DELETE_NOMINEE_LINKS
 from .views.endpoints.delete_selected_election import delete_selected_election
+from .views.endpoints.delete_selected_election_nominee_links import delete_selected_election__nominee_links
 from .views.endpoints.election_page import get_nominees
 from .views.endpoints.json.create_election_json import display_and_process_html_for_new_json_election
 from .views.endpoints.json.display_and_process_html_for_json import \
@@ -56,6 +57,10 @@ urlpatterns = [
     ),
     url(
         r'^(?P<slug>[-\w]+)/delete/$', delete_selected_election, name="Delete Selected Election"
+    ),
+    url(
+        fr'^(?P<slug>[-\w]+)/{ENDPOINT_DELETE_NOMINEE_LINKS}/$', delete_selected_election__nominee_links,
+        name="Delete Selected Election's Nominee Links"
     ),
     url(
         fr'^{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK}/$',

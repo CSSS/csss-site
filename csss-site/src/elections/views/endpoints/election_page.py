@@ -1,13 +1,15 @@
 import datetime
 import logging
 
+from django.conf import settings
 from django.shortcuts import render
 
 from csss.views.context_creation.create_election_page_context import create_election_page_context
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, ELECTION__HTML_NAME, \
-    NOMINEES_HTML__NAME, PRE_EXISTING_ELECTION, DELETE_EXISTING_NOMINEE_LINKS_MESSAGE
+    NOMINEES_HTML__NAME, PRE_EXISTING_ELECTION, DELETE_EXISTING_NOMINEE_LINKS_MESSAGE, \
+    ENDPOINT_DELETE_NOMINEE_LINKS, DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY
 from elections.views.validators.validate_election_slug import validate_election_slug
 
 logger = logging.getLogger('csss_site')
@@ -33,8 +35,13 @@ def get_nominees(request, slug):
                 context.update({
                     PRE_EXISTING_ELECTION: True,
                     DELETE_EXISTING_NOMINEE_LINKS_MESSAGE: (
-                        f"Please delete the nominee links for the {nominee_links[0].election.human_friendly_name} "
-                        f"election before creating a new election via nominee link"
+                        f'<a href="{ settings.URL_ROOT }elections/{ nominee_links[0].election.slug }'
+                        f'/{ENDPOINT_DELETE_NOMINEE_LINKS}?'
+                        f'{DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY}={request.path}"> '
+                        'Click here delete the nominee links for the '
+                        f'"{nominee_links[0].election.human_friendly_name}'
+                        f' election before creating Nominee Links for this election.'
+                        '</a>'
                     )
                 })
         logger.info("[elections/election_page.py get_nominees()] time to vote")
