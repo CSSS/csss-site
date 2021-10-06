@@ -9,6 +9,7 @@
             document.getElementById("{{json_formatting_div__name}}").innerHTML = "";
             document.getElementById('{{save_election__button_id}}').removeAttribute("disabled");
             document.getElementById('{{save_new_election_and_continue_editing__button_id}}').removeAttribute("disabled");
+            document.getElementById('{{validate_json__class_name}}').innerHTML = "";
         } catch (err) {
             document.getElementById('{{ json_formatting_div__name }}').innerHTML = "Unable to Beautify: " + err.message;
             document.getElementById('{{save_election__button_id}}').setAttribute("disabled", "true");
@@ -18,5 +19,6 @@
     function disableSubmitButton(){
         document.getElementById('{{save_election__button_id}}').setAttribute("disabled", "true");
         document.getElementById('{{save_new_election_and_continue_editing__button_id}}').setAttribute("disabled", "true");
+        document.getElementById('{{validate_json__class_name}}').innerHTML = "Validate JSON before Submitting Changes";
 	}
 </script>

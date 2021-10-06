@@ -1,3 +1,7 @@
 .csss_error_style {
     color: red
 }
+
+.validate_json_instructions_box_width {
+    display: inline-block
+}

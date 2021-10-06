@@ -1,5 +1,10 @@
-<input type="submit" id="{{save_election__button_id}}" name="{{input_redirect_election_submit__name}}" value="{{ input_redirect_election_submit__value }}" />
+{% load staticfiles %}
+<link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
+<link rel="stylesheet" href="{%  static 'elections_static/json/error_styling.css' %}">
+<div class="csss_box_borders_new_entries validate_json_instructions_box_width">
+	<div class="csss_error_style" id="{{ validate_json__class_name }}"></div>
+	<input type="submit" id="{{save_election__button_id}}" name="{{input_redirect_election_submit__name}}" value="{{ input_redirect_election_submit__value }}" />
 
-<input type="submit" id="{{save_new_election_and_continue_editing__button_id}}" name="{{input_redirect_election_submit__name}}" value="{{ input_redirect_election_submit_and_continue_editing__value}}" />
-
-<input type="button" value="Validate JSON" onclick="beautify();" />
+	<input type="submit" id="{{save_new_election_and_continue_editing__button_id}}" name="{{input_redirect_election_submit__name}}" value="{{ input_redirect_election_submit_and_continue_editing__value}}" />
+	<br><br><input type="button" value="Validate JSON" onclick="beautify();" />
+</div>

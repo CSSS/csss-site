@@ -9,7 +9,8 @@ from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, 
     JS_FORMATTING_ERROR, USER_INPUTTED_ELECTION_JSON__KEY, ELECTION_JSON__KEY, DATE_AND_TIME_FORMAT, \
     SAVE_NEW_JSON_ELECTION__BUTTON_ID, SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE, \
     SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID, \
-    SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE
+    SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE, DISPLAY_INSTRUCTIONS_TO_VALID_JSON__CLASS_NAME, \
+    DISPLAY_INSTRUCTIONS_TO_VALID_JSON
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
     ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
@@ -107,6 +108,7 @@ def create_json_submission_buttons_context(create_new_election=True):
         SAVE_NEW_JSON_ELECTION__BUTTON_ID: SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE,
         SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID:
             SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE,
+        DISPLAY_INSTRUCTIONS_TO_VALID_JSON__CLASS_NAME: DISPLAY_INSTRUCTIONS_TO_VALID_JSON
     })
     logger.info("[elections/submission_buttons_context.py create_json_submission_buttons_context()] "
                 f"created election context of '{context}'")
