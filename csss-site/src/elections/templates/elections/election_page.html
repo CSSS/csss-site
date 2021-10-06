@@ -14,17 +14,34 @@
 						{% if nominees__html_name is None %}
 							It seems like the time hasn't come to announce the nominees yet....
 						{% else %}
-							{% if current_election_officer %}
-								<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_json">Modify via JSON</a> ||
-								<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_webform">Modify via Webform</a> ||
-								{%  if pre_existing_election is False %}
-									<a href="{{URL_ROOT}}elections/{{election__html_name.slug}}/election_modification_nominee_links">Modify via Nominee Links</a> ||
-								{%  else %}
-									{{ delete_existing_nominee_links_message }}
-								{%  endif %}
-								<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/delete">Delete</a>
 
+							{% if current_election_officer %}
+								<table>
+									<tr>
+										<td style="width: 25%">
+											<h5 class="title is-5">Modify Via JSON</h5>
+											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_json">Link</a>
+										</td>
+										<td style="width: 25%">
+											<h5 class="title is-5">Modify Via Webform</h5>
+											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_webform">Link</a>
+										</td>
+										<td style="width: 25%">
+											<h5 class="title is-5">Modify Via Nominee Links</h5>
+											{%  if pre_existing_election is False %}
+												<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_nominee_links">Link</a>
+											{%  else %}
+												{{ delete_existing_nominee_links_message|safe }}
+											{%  endif %}
+										</td>
+										<td style="width: 25%">
+											<h5 class="title is-5">Delete Election</h5>
+											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/delete">Link</a>
+										</td>
+									</tr>
+								</table>
 							{%  endif %}
+
 							{% if election__html_name.websurvey != "NONE" %}
 								<p> <a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a></p>
 							{% endif %}
