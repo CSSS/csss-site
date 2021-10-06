@@ -30,6 +30,8 @@ SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE = 'save_election_button'
 SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID = 'save_new_election_and_continue_editing__button_id'
 SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_election_and_continue_editing__button'
 
+DISPLAY_INSTRUCTIONS_TO_VALID_JSON__CLASS_NAME = 'validate_json__class_name'
+DISPLAY_INSTRUCTIONS_TO_VALID_JSON = 'validate_json'
 SAVE_NEW_NOMINEE__BUTTON_ID = 'save_nominee__button_id'
 SAVE_NEW_NOMINEE__BUTTON_ID_VALUE = 'save_nominee_button'
 
