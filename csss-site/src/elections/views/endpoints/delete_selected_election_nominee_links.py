@@ -23,6 +23,6 @@ def delete_selected_election__nominee_links(request, slug):
     NomineeLink.objects.all().filter(election__slug=slug).delete()
     redirect_path = request.GET.get(DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY, None)
     if redirect_path is None:
-        request.session[ERROR_MESSAGES_KEY] = [f"No redirect path detected"]
+        request.session[ERROR_MESSAGES_KEY] = ["No redirect path detected"]
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/')
     return HttpResponseRedirect(redirect_path)

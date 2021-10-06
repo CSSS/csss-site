@@ -8,8 +8,8 @@ from csss.views.context_creation.create_election_page_context import create_elec
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, ELECTION__HTML_NAME, \
-    NOMINEES_HTML__NAME, PRE_EXISTING_ELECTION, DELETE_EXISTING_NOMINEE_LINKS_MESSAGE, ENDPOINT_DELETE_NOMINEE_LINKS, \
-    DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY
+    NOMINEES_HTML__NAME, PRE_EXISTING_ELECTION, DELETE_EXISTING_NOMINEE_LINKS_MESSAGE, \
+    ENDPOINT_DELETE_NOMINEE_LINKS, DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY
 from elections.views.validators.validate_election_slug import validate_election_slug
 
 logger = logging.getLogger('csss_site')
