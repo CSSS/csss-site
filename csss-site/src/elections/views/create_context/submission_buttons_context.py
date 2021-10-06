@@ -13,7 +13,7 @@ logger = logging.getLogger('csss_site')
 def create_json_submission_buttons_context(create_new_election=True):
     """
     creates the context keys needed to populate the button for saving a new election or modifications to the
-     existing election
+     existing election on the JSON pages
 
     Keyword Argument
     create_new_election -- default of True. used to indicate if the election has to use a value of "create_election"
@@ -51,7 +51,7 @@ def create_json_submission_buttons_context(create_new_election=True):
 def create_webform_submission_buttons_context(create_new_election=True):
     """
     creates the context keys needed to populate the button for saving a new election or modifications to the
-     existing election
+     existing election on the WebForm pages
 
     Keyword Argument
     create_new_election -- default of True. used to indicate if the election has to use a value of "create_election"
@@ -60,9 +60,7 @@ def create_webform_submission_buttons_context(create_new_election=True):
     Return
     a dict that contains the following keys
     - input_redirect_election_submit__name
-    - save_election__button_id
     - input_redirect_election_submit__value
-    - save_new_election_and_continue_editing__button_id
     - input_redirect_election_submit_and_continue_editing__value
 
     """
