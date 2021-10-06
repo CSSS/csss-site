@@ -11,6 +11,7 @@ def display_current_json_election_json(request, election, context):
 
     Keyword Argument
     request -- django request object
+    election -- the election object for the election that has to be displayed
     context -- the context dictionary
 
     Return

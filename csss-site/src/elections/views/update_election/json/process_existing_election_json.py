@@ -31,6 +31,7 @@ def process_existing_election_information_from_json(request, election, context):
 
     Keyword Argument:
     request -- the django request object that the new election is contained in
+    election -- the election object for the election that has to be displayed
     context -- the dictionary that needs to be filled in with the user's input and the error message
      if there was an error
 

@@ -37,7 +37,7 @@ def create_context_for_update_election_nominee_links_html(
             (draft_nominee_links is None or len(draft_nominee_links) == 0)
     )
     create_context_for_display_errors_html(context, error_messages=error_messages)
-    context[CURRENT_ELECTION] = None if election is None else election
+    context[CURRENT_ELECTION] = election
     create_context_for_election_date_html(context, election_date=election_date)
     create_context_for_election_time_html(context, election_time=election_time)
     create_context_for_election_type_html(context, election_type=election_type)
@@ -73,7 +73,7 @@ def _create_context_for_draft_nominee_links_html(context, draft_nominee_links=No
     context[SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME] = SAVED_NOMINEE_LINK__NOMINEE
     context[NO_NOMINEE_LINKED__HTML_NAME] = NO_NOMINEE_LINKED
     context[TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME] = TOGGLE_NOMINEE_LINKS_TO_DELETE
-    context[CURRENT_ELECTION] = None if election is None else election
+    context[CURRENT_ELECTION] = election
     context[CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME] = \
         ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK
     context[NOMINEE_LINK_ID__HTML_NAME] = NOMINEE_LINK_ID

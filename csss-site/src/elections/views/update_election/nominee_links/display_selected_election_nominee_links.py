@@ -11,8 +11,8 @@ def display_selected_election_and_nominee_links(request, election, context):
 
     Keyword Argument
     request -- django request object
+    election -- the election object for the election that has to be displayed
     context -- the context dictionary
-    slug -- the slug of the election being displayed
 
     Return
     render object that direct the user to the page for updating an election in Nominee Link form

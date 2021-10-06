@@ -34,8 +34,8 @@ def process_existing_election_and_nominee_links(request, election, context):
 
     Keyword Argument
     request -- django request object
+    election -- the election object for the election that has to be displayed
     context -- the context dictionary
-    slug -- the slug associated with the election
 
     Return
     render object that directs the user to the page for updating the election and its nominee links

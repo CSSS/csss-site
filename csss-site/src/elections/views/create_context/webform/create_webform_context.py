@@ -138,11 +138,10 @@ def create_webform_election_context_from_db_election_obj(election):
     Returns information about the election
 
     Keyword Argument
-    election_id -- the id for the election to get information about
+    election -- the election whose information is used to populate the dict
 
     Return
-    a dict that contains either the error experienced when trying to access the election id
-    or the election itself in a format that is ready for the webform page to display
+    a dict that contains the election itself in a format that is ready for the webform page to display
     """
     context = {
         INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),

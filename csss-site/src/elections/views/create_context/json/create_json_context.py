@@ -22,7 +22,6 @@ def create_json_election_context_from_user_inputted_election_dict(
     Creating context for JSON pages for election creation or modification
 
     Keyword Argument
-    election_id - the ID to transfer to the context that is returned
     error_message - the error message to transfer to the context that is returned
     election_information - the election json that is transferred to the context that is returned
     create_new_election -- indicates whether the submission buttons should be saving key for creating election
@@ -69,7 +68,7 @@ def create_json_election_context_from_db_election_obj(election):
     Returns information about the election
 
     Keyword Argument
-    election_id -- the id for the election to get information about
+    election -- the election whose information is used to populate the dict
 
     Return
     a dict that contains the election itself in a format that is ready for the json page to display
