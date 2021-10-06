@@ -3,14 +3,14 @@ import logging
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
-from elections.views.Constants import INPUT_ELECTION_ID__NAME, INPUT_ELECTION_ID__VALUE, INPUT_DATE__NAME, \
+from elections.views.Constants import INPUT_DATE__NAME, \
     INPUT_DATE__VALUE, INPUT_TIME__NAME, INPUT_TIME__VALUE, SELECT_ELECTION_TYPE__NAME, \
     SELECTED_ELECTION_TYPE__HTML_NAME, CREATE_NEW_ELECTION__HTML_NAME, NOMINEES_HTML__NAME, CURRENT_WEBSURVEY_LINK, \
     NOMINEE_DIV__NAME, INPUT_NOMINEE_SPEECH__NAME, INPUT_NOMINEE_FACEBOOK__NAME, \
     INPUT_NOMINEE_LINKEDIN__NAME, INPUT_NOMINEE_EMAIL__NAME, INPUT_NOMINEE_DISCORD__NAME, \
     INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, INPUT_NOMINEE_POSITION_NAMES__NAME, CURRENT_ELECTION_TYPES, \
-    INPUT_WEBSURVEY__NAME, INPUT_NOMINEE_NAME__NAME, CURRENT_OFFICER_POSITIONS, ELECTION_ID, \
-    DATE_FORMAT, TIME_FORMAT, INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME
+    INPUT_WEBSURVEY__NAME, INPUT_NOMINEE_NAME__NAME, CURRENT_OFFICER_POSITIONS, DATE_FORMAT, TIME_FORMAT, \
+    INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES, \
     ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, \
@@ -19,7 +19,6 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELEC
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
-from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
 
 logger = logging.getLogger('csss_site')
 
@@ -118,9 +117,6 @@ def create_webform_election_context_from_user_inputted_election_dict(error_messa
         ERROR_MESSAGES_KEY: [error_message]
     }
     if election_dict is not None:
-        if ELECTION_ID in election_dict:
-            context[INPUT_ELECTION_ID__NAME] = ELECTION_ID
-            context[INPUT_ELECTION_ID__VALUE] = election_dict[ELECTION_ID]
         if ELECTION_JSON_KEY__DATE in election_dict:
             context[INPUT_DATE__VALUE] = election_dict[ELECTION_JSON_KEY__DATE]
         if ELECTION_JSON_WEBFORM_KEY__TIME in election_dict:
@@ -137,31 +133,23 @@ def create_webform_election_context_from_user_inputted_election_dict(error_messa
     return context
 
 
-def create_webform_election_context_from_db_election_obj(election_id):
+def create_webform_election_context_from_db_election_obj(election):
     """
     Returns information about the election
 
     Keyword Argument
-    election_id -- the id for the election to get information about
+    election -- the election whose information is used to populate the dict
 
     Return
-    a dict that contains either the error experienced when trying to access the election id
-    or the election itself in a format that is ready for the webform page to display
+    a dict that contains the election itself in a format that is ready for the webform page to display
     """
-    election = get_existing_election_by_id(election_id)
-    context = {}
-    if election is None:
-        context.update({ERROR_MESSAGES_KEY: ["No valid election found for given election id"]})
-    else:
-        context.update({
-            INPUT_ELECTION_ID__NAME: ELECTION_ID,
-            INPUT_ELECTION_ID__VALUE: election.id,
-            INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
-            INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
-            SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
-            CURRENT_WEBSURVEY_LINK: election.websurvey,
-            NOMINEES_HTML__NAME: get_election_nominees(election)
-        })
+    context = {
+        INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
+        INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
+        SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
+        CURRENT_WEBSURVEY_LINK: election.websurvey,
+        NOMINEES_HTML__NAME: get_election_nominees(election)
+    }
     logger.info("[elections/create_webform_context.py create_webform_election_context_from_db_election_obj()] "
                 f"created context of '{context}'")
     return context

@@ -4,11 +4,6 @@ TAB_STRING = 'elections'
 ID_KEY = 'id'
 
 ELECTION__HTML_NAME = 'election__html_name'
-BUTTON_MODIFY_ELECTION_ID__NAME = 'button_modify_election_id__name'
-ELECTION_ID = 'election_id'
-
-INPUT_ELECTION_ID__NAME = 'input_election_id__name'
-INPUT_ELECTION_ID__VALUE = 'input_election_id__value'
 
 NOMINEES_HTML__NAME = 'nominees__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
@@ -50,6 +45,7 @@ JS_FORMATTING_ERROR = 'js_formatting_error'
 USER_INPUTTED_ELECTION_JSON__KEY = 'election_input__html_name'
 USER_INPUTTED_ELECTION_JSON = 'election_input'
 
+INDICATE_IF_JSON_ELECTION_HTML = 'json_html'
 
 DATE_FORMAT = '%Y-%m-%d'
 TIME_FORMAT = '%H:%M'

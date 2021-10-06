@@ -4,13 +4,12 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from elections.views.Constants import ELECTION_JSON__KEY, ELECTION_ID, \
+from elections.views.Constants import ELECTION_JSON__KEY, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON, UPDATE_EXISTING_ELECTION__NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
     ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.json.create_json_context import \
     create_json_election_context_from_user_inputted_election_dict
-from elections.views.extractors.get_existing_election_by_id import get_existing_election_by_id
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
 from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \
     save_new_or_update_existing_nominees_jformat
@@ -26,19 +25,20 @@ from elections.views.validators.validate_user_command import validate_user_comma
 logger = logging.getLogger('csss_site')
 
 
-def process_existing_election_information_from_json(request, context):
+def process_existing_election_information_from_json(request, election, context):
     """
     Takes in the user's existing election input and validates it before having it saved
 
     Keyword Argument:
     request -- the django request object that the new election is contained in
+    election -- the election object for the election that has to be displayed
     context -- the dictionary that needs to be filled in with the user's input and the error message
      if there was an error
 
      Return
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
-    if not (ELECTION_ID in request.POST and ELECTION_JSON__KEY in request.POST):
+    if not (ELECTION_JSON__KEY in request.POST):
         error_message = "Could not find the json in the input"
         logger.info(
             f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
@@ -84,20 +84,6 @@ def process_existing_election_information_from_json(request, context):
             error_message=error_message, election_information=election_dict, create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
-    election_id = request.POST[ELECTION_ID]
-    election = get_existing_election_by_id(election_id)
-    if election is None:
-        error_message = f"The Selected election for date {election_dict[ELECTION_JSON_KEY__DATE]} " \
-                        f"does not exist"
-        logger.info(
-            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
-            f"{error_message}"
-        )
-        context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict,
-            create_new_election=False
-        ))
-        return render(request, 'elections/update_election/update_election_json.html', context)
     logger.info(
         f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
         f"election_dict={election_dict}")
@@ -109,7 +95,7 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict,
+            error_message=error_message, election_information=election_dict,
             create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -122,7 +108,7 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict,
+            error_message=error_message, election_information=election_dict,
             create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -148,7 +134,7 @@ def process_existing_election_information_from_json(request, context):
             f"{error_message}"
         )
         context.update(create_json_election_context_from_user_inputted_election_dict(
-            election_id=election_id, error_message=error_message, election_information=election_dict,
+            error_message=error_message, election_information=election_dict,
             create_new_election=False
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
@@ -160,9 +146,6 @@ def process_existing_election_information_from_json(request, context):
     )
     save_new_or_update_existing_nominees_jformat(election, election_dict)
     if request.POST[UPDATE_EXISTING_ELECTION__NAME] == SAVE_ELECTION__VALUE:
-        if ELECTION_ID in request.session:
-            del request.session[ELECTION_ID]
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
     else:
-        request.session[ELECTION_ID] = election.id
-        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{ENDPOINT_MODIFY_VIA_JSON}')
+        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/{ENDPOINT_MODIFY_VIA_JSON}')

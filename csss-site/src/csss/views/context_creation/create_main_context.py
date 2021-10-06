@@ -18,7 +18,7 @@ ROOT_USER = 'root_user'
 
 def create_main_context(request, tab=None, current_election_officer_sfuid=None,
                         sfuid_for_officer_in_past_5_terms=None, current_sys_admin_sfuid=None,
-                        current_webmaster_or_doa_sfuid=None, officers=None, naughty_officers=None,):
+                        current_webmaster_or_doa_sfuid=None, officers=None, naughty_officers=None):
     """
     creates the main context dictionary
 

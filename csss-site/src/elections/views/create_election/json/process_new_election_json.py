@@ -6,8 +6,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from elections.views.Constants import ELECTION_JSON__KEY, CREATE_NEW_ELECTION__NAME, \
-    SAVE_ELECTION__VALUE, ELECTION_ID, \
-    ENDPOINT_MODIFY_VIA_JSON
+    SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
     ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__NOMINEES
 from elections.views.save_election.save_new_election_from_jformat import save_new_election_from_jformat
@@ -127,5 +126,4 @@ def process_new_inputted_json_election(request, context):
     if request.POST[CREATE_NEW_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
     else:
-        request.session[ELECTION_ID] = election.id
-        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{ENDPOINT_MODIFY_VIA_JSON}')
+        return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}/{ENDPOINT_MODIFY_VIA_JSON}')

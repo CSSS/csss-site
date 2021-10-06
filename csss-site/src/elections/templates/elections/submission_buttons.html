@@ -10,4 +10,6 @@
 	<input type="submit" id="{{save_new_election_and_continue_editing__button_id}}" name="{{input_redirect_election_submit__name}}" value="{{ input_redirect_election_submit_and_continue_editing__value}}" />
 {%  endif %}
 
-<input type="button" value="Validate JSON" onclick="beautify();" />
+{%  if json_html %}
+	<input type="button" value="Validate JSON" onclick="beautify();" />
+{% endif %}

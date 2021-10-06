@@ -2,7 +2,7 @@ import json
 import logging
 
 from csss.views_helper import there_are_multiple_entries
-from elections.views.Constants import ID_KEY, ELECTION_ID
+from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
     ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
@@ -73,8 +73,6 @@ def transform_webform_to_json(election_dict):
         new_election_dict[ELECTION_JSON_KEY__ELECTION_TYPE] = election_dict[ELECTION_JSON_KEY__ELECTION_TYPE]
     if ELECTION_JSON_KEY__WEBSURVEY in election_dict:
         new_election_dict[ELECTION_JSON_KEY__WEBSURVEY] = election_dict[ELECTION_JSON_KEY__WEBSURVEY]
-    if ELECTION_ID in election_dict:
-        new_election_dict[ELECTION_ID] = election_dict[ELECTION_ID]
     logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] to")
     logger.info(json.dumps(new_election_dict, indent=3))
     return new_election_dict

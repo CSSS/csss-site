@@ -4,7 +4,6 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from elections.models import Election
 from elections.views.Constants import SAVED_NOMINEE_LINKS, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, SAVE_ELECTION__VALUE, UPDATE_EXISTING_ELECTION__NAME, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
@@ -29,19 +28,18 @@ from elections.views.validators.validate_user_input_has_required_fields import \
 logger = logging.getLogger('csss_site')
 
 
-def process_existing_election_and_nominee_links(request, context, slug):
+def process_existing_election_and_nominee_links(request, election, context):
     """
     Processes the user's input for modify the specified election and its nominee links
 
     Keyword Argument
     request -- django request object
+    election -- the election object for the election that has to be displayed
     context -- the context dictionary
-    slug -- the slug associated with the election
 
     Return
     render object that directs the user to the page for updating the election and its nominee links
     """
-    election = Election.objects.get(slug=slug)
     election_dict = transform_election_nominee_links_webform_to_json(request)
     fields = [
         ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,
@@ -54,7 +52,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             f" process_existing_election_and_nominee_links()] {error_message}"
         )
         create_context_for_update_election_nominee_links_html(
-            context, create_new_election=election is None, error_messages=[error_message], slug=slug
+            context, create_new_election=election is None, error_messages=[error_message], election=election
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -74,7 +72,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
-            slug=slug
+            election=election
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -96,7 +94,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
-            slug=slug
+            election=election
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -116,7 +114,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
-            slug=slug
+            election=election
         )
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
 
@@ -136,7 +134,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
             if SAVED_NOMINEE_LINKS in election_dict else None,
             new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
-            slug=slug
+            election=election
         )
 
         return render(request, 'elections/update_election/update_election_nominee_links.html', context)
@@ -156,7 +154,7 @@ def process_existing_election_and_nominee_links(request, context, slug):
                 draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS],
                 new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
                 if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
-                slug=slug
+                election=election
             )
             return render(request, 'elections/update_election/update_election_nominee_links.html', context)
     update_existing_election_obj_from_jformat(
