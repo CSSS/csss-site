@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from elections.models import NomineeLink, Election
+from elections.models import NomineeLink
 from elections.views.create_context.nominee_links.update_election_nominee_links_html import \
     create_context_for_update_election_nominee_links_html
 

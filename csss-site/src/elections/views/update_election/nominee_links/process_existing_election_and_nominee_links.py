@@ -4,7 +4,6 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from elections.models import Election
 from elections.views.Constants import SAVED_NOMINEE_LINKS, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, SAVE_ELECTION__VALUE, UPDATE_EXISTING_ELECTION__NAME, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS

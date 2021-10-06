@@ -1,7 +1,6 @@
 import json
 import logging
 
-from elections.models import Election
 from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, \
     TOGGLE_NOMINEE_LINKS_TO_DELETE, DRAFT_NOMINEE_LINKS, SAVED_NOMINEE_LINKS__HTML_NAME, DELETE__HTML_NAME, \
     SAVED_NOMINEE_LINK__ID__HTML_NAME, SAVED_NOMINEE_LINK__NAME__HTML_NAME, SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME, \
@@ -58,7 +57,8 @@ def create_context_for_update_election_nominee_links_html(
     logger.info(json.dumps(new_context, indent=3))
 
 
-def _create_context_for_nominee_links_table_html(context, draft_nominee_links=None, nominee_links=None, election=None):
+def _create_context_for_nominee_links_table_html(
+        context, draft_nominee_links=None, nominee_links=None, election=None):
     _create_context_for_draft_nominee_links_html(context, draft_nominee_links=draft_nominee_links, election=election)
     _create_context_for_final_nominee_links_html(context, nominee_links=nominee_links)
 
