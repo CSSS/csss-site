@@ -45,6 +45,7 @@ JS_FORMATTING_ERROR = 'js_formatting_error'
 USER_INPUTTED_ELECTION_JSON__KEY = 'election_input__html_name'
 USER_INPUTTED_ELECTION_JSON = 'election_input'
 
+INDICATE_IF_JSON_ELECTION_HTML = 'json_html'
 
 DATE_FORMAT = '%Y-%m-%d'
 TIME_FORMAT = '%H:%M'

@@ -10,7 +10,7 @@
 	{%  include 'elections/json/creating_election_errors.html' %}
 	<form method="post" class="form">
 		{% csrf_token %}
-		{%  include 'elections/create_election/submission_buttons.html' %}
+		{%  include 'elections/submission_buttons.html' %}
 		{%  include 'elections/json/json_instructions.html' %}
 		{%  include 'elections/json/input_election.html' %}
 	</form>

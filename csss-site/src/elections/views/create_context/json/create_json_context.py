@@ -6,7 +6,8 @@ from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, \
     FORMAT_ELECTION_JSON__DIV_ID_NAME, \
-    JS_FORMATTING_ERROR, USER_INPUTTED_ELECTION_JSON__KEY, ELECTION_JSON__KEY, DATE_AND_TIME_FORMAT
+    JS_FORMATTING_ERROR, USER_INPUTTED_ELECTION_JSON__KEY, ELECTION_JSON__KEY, DATE_AND_TIME_FORMAT, \
+    INDICATE_IF_JSON_ELECTION_HTML
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
     ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
@@ -50,7 +51,8 @@ def create_json_election_context_from_user_inputted_election_dict(
                             f"{', '.join(valid_election_type_choices)}",
         VALID_POSITION_NAMES: f"Valid Positions: {', '.join(current_positions)}",
         FORMAT_ELECTION_JSON__DIV_ID_NAME: JS_FORMATTING_ERROR,
-        USER_INPUTTED_ELECTION_JSON__KEY: ELECTION_JSON__KEY
+        USER_INPUTTED_ELECTION_JSON__KEY: ELECTION_JSON__KEY,
+        INDICATE_IF_JSON_ELECTION_HTML: True
     }
     if error_message is not None:
         context[ERROR_MESSAGES_KEY] = [error_message]

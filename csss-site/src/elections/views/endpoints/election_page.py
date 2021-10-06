@@ -4,7 +4,6 @@ import logging
 from django.shortcuts import render
 
 from csss.views.context_creation.create_election_page_context import create_election_page_context
-from csss.views.determine_user_role import user_is_current_election_officer
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
 from elections.views.Constants import TAB_STRING, ELECTION__HTML_NAME, \
@@ -15,12 +14,11 @@ logger = logging.getLogger('csss_site')
 
 
 def get_nominees(request, slug):
-    context = create_election_page_context(request, TAB_STRING)
+    context, user_is_election_officer = create_election_page_context(request, TAB_STRING)
     if not validate_election_slug(slug):
         context[ERROR_MESSAGES_KEY] = ["specified slug has an incorrect number of elections attached to it."]
         return render(request, 'elections/election_page.html', context)
     election_to_display = Election.objects.get(slug=slug)
-    user_is_election_officer = user_is_current_election_officer(request)
     if user_is_election_officer:
         privilege_message = "user does have election management privilege"
     else:
