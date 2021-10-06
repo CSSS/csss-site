@@ -59,7 +59,8 @@ urlpatterns = [
         r'^(?P<slug>[-\w]+)/delete/$', delete_selected_election, name="Delete Selected Election"
     ),
     url(
-        fr'^(?P<slug>[-\w]+)/{ENDPOINT_DELETE_NOMINEE_LINKS}/$', delete_selected_election__nominee_links, name="Delete Selected Election"
+        fr'^(?P<slug>[-\w]+)/{ENDPOINT_DELETE_NOMINEE_LINKS}/$', delete_selected_election__nominee_links,
+        name="Delete Selected Election's Nominee Links"
     ),
     url(
         fr'^{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK}/$',
