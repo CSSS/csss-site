@@ -6,6 +6,7 @@
 	{%  if error_messages is None or error_messages|length == 0 %}
 		{% load staticfiles %}
 			<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
+			<link rel="stylesheet" href="{% static 'elections_static/election_page.css' %}">
 			<section class="section">
 				<div class="container">
 					<div>
@@ -16,17 +17,17 @@
 						{% else %}
 
 							{% if current_election_officer %}
-								<table>
+								<table class="election_page_management_column_widths">
 									<tr>
-										<td style="width: 25%">
+										<td>
 											<h5 class="title is-5">Modify Via JSON</h5>
 											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_json">Link</a>
 										</td>
-										<td style="width: 25%">
+										<td>
 											<h5 class="title is-5">Modify Via Webform</h5>
 											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_webform">Link</a>
 										</td>
-										<td style="width: 25%">
+										<td>
 											<h5 class="title is-5">Modify Via Nominee Links</h5>
 											{%  if pre_existing_election is False %}
 												<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/election_modification_nominee_links">Link</a>
@@ -34,7 +35,7 @@
 												{{ delete_existing_nominee_links_message|safe }}
 											{%  endif %}
 										</td>
-										<td style="width: 25%">
+										<td>
 											<h5 class="title is-5">Delete Election</h5>
 											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/delete">Link</a>
 										</td>
