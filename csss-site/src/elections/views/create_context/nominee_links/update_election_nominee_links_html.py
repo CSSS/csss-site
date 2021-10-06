@@ -43,7 +43,7 @@ def create_context_for_update_election_nominee_links_html(
     create_context_for_election_type_html(context, election_type=election_type)
     create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
     _create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links,
-                                                 nominee_links=nominee_links)
+                                                 nominee_links=nominee_links, election=election)
     create_context_for_election_nominee_names_html(context, require_nominee_names=require_nominee_names,
                                                    nominee_names=new_nominee_names)
     create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
