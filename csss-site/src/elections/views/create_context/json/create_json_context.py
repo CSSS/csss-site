@@ -10,7 +10,7 @@ from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, 
     INDICATE_IF_JSON_ELECTION_HTML
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
     ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
-from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
+from elections.views.create_context.submission_buttons_context import create_json_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 
 logger = logging.getLogger('csss_site')
@@ -57,7 +57,7 @@ def create_json_election_context_from_user_inputted_election_dict(
         context[ERROR_MESSAGES_KEY] = [error_message]
     if election_information is not None:
         context[ELECTION_JSON__KEY] = json.dumps(election_information)
-    context.update(create_submission_buttons_context(create_new_election=create_new_election))
+    context.update(create_json_submission_buttons_context(create_new_election=create_new_election))
     logger.info("[elections/create_json_context.py create_json_election_context_from_user_inputted_election_dict()] "
                 f"created context of '{context}'")
     return context

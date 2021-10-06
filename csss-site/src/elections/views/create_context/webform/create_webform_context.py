@@ -17,7 +17,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELEC
     ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
-from elections.views.create_context.submission_buttons_context import create_submission_buttons_context
+from elections.views.create_context.submission_buttons_context import create_webform_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 
 logger = logging.getLogger('csss_site')
@@ -87,7 +87,7 @@ def create_webform_context(create_new_election=True):
         CREATE_NEW_ELECTION__HTML_NAME: create_new_election,
 
     }
-    context.update(create_submission_buttons_context(create_new_election=create_new_election))
+    context.update(create_webform_submission_buttons_context(create_new_election=create_new_election))
     logger.info("[elections/create_webform_context.py create_webform_context()] "
                 f"created context of '{context}'")
     return context
