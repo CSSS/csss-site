@@ -17,7 +17,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELEC
     ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
-from elections.views.create_context.submission_buttons_context import create_webform_submission_buttons_context
+from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 
 logger = logging.getLogger('csss_site')
@@ -153,3 +153,21 @@ def create_webform_election_context_from_db_election_obj(election):
     logger.info("[elections/create_webform_context.py create_webform_election_context_from_db_election_obj()] "
                 f"created context of '{context}'")
     return context
+
+
+def create_webform_submission_buttons_context(create_new_election=True):
+    """
+    creates the context keys needed to populate the button for saving a new election or modifications to the
+     existing election on the WebForm pages
+
+    Keyword Argument
+    create_new_election -- default of True. used to indicate if the election has to use a value of "create_election"
+     or "update_election"
+
+    Return
+    a dict that contains the following keys
+    - input_redirect_election_submit__name
+    - input_redirect_election_submit__value
+    - input_redirect_election_submit_and_continue_editing__value
+    """
+    return create_base_submission_buttons_context(create_new_election=create_new_election)
