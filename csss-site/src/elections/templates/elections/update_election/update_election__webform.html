@@ -3,7 +3,7 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 {% bootstrap_messages %}
-{%  load staticfiles %}
+{% load staticfiles %}
 
 {% block content %}
 	<link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
@@ -21,5 +21,7 @@
 		{%  include 'elections/webform/js_functions/add_blank_nominee.html' %}
 
 		{%  include 'elections/webform/js_functions/add_blank_speech.html' %}
+
+        {%  include 'elections/nominee_info.html' %}
 	</script>
 {% endblock %}
