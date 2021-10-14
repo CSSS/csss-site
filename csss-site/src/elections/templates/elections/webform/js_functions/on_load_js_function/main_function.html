@@ -30,7 +30,7 @@ $(document).ready(function () {
 			email="{{nominee.email}}";
 			discord="{{nominee.discord}}";
 			speech_parent_div_name = nominee_div_name + '_speeches';
-			{%  include 'elections/display_nominee_info.html' %}
+			{%  include 'elections/webform_format/display_nominee_info.html' %}
         {%  endfor %}
     {%  endif %}
 });
