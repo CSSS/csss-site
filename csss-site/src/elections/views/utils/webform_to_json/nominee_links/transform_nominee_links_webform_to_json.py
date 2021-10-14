@@ -27,7 +27,7 @@ def transform_nominee_links_webform_to_json(request):
     logger.info(json.dumps(nominee_dict, indent=3))
     new_nominee_dict = {}
     if ELECTION_JSON_KEY__NOMINEE in nominee_dict:
-        new_nominee_dict = nominee_dict[ELECTION_JSON_KEY__NOMINEE]
+        new_nominee_dict = nominee_dict[ELECTION_JSON_KEY__NOMINEE][0]
     transform_nominee_webform_to_json(new_nominee_dict)
     logger.info("[elections/transform_nominee_links_webform_to_json.py transform_nominee_links_webform_to_json()] to")
     logger.info(json.dumps(new_nominee_dict, indent=3))
