@@ -65,6 +65,7 @@ CURRENT_WEBSURVEY_LINK = 'current_websurvey_link'
 INPUT_NOMINEE_ID__NAME = 'input_nominee_id__name'
 
 CREATE_NEW_ELECTION__HTML_NAME = 'create_new_election__html_name'
+CREATE_OR_UPDATE_VIA_NOMINEE_LINK__HTML_NAME = 'create_or_update_via_nominee_link__html_name'
 
 NOMINEE_DIV__NAME = 'nominee_div__name'
 

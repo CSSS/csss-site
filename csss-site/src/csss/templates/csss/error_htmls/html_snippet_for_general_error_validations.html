@@ -1,5 +1,5 @@
 {% if error_messages|length > 0 %}
-	<h1 class="title is-size-1">Experienced Following Errors</h1>
+	<h3 class="title is-size-3">Experienced Following Errors</h3>
 	{% for error_message in error_messages %}
 		{{ error_message|safe}}<br><br>
 	{%  endfor %}

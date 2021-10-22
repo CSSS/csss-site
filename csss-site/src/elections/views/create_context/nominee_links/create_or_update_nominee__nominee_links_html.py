@@ -19,6 +19,8 @@ from elections.views.create_context.nominee_links.utils.display_errors_html impo
     create_context_for_display_errors_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
     make_json_serializable_context_dictionary
+from elections.views.create_context.webform_format.create_context_for_display_nominee_info_html import \
+    create_context_for_display_nominee_info_html
 from elections.views.extractors.get_nominee__nominee_link import get_election_nominees
 
 logger = logging.getLogger('csss_site')
@@ -100,6 +102,7 @@ def _create_context_for_main_function_html(
         )
     _create_context_for_new_nominee_html(context, nominee_info=nominee_info)
     _create_context_for_existing_nominee_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)
+    create_context_for_display_nominee_info_html(context, include_id_for_nominee=False)
 
 
 def __create_context_for_add_blank_speech_html(context):
