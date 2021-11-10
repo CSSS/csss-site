@@ -27,6 +27,7 @@ def transform_webform_to_json(election_dict):
     if ELECTION_JSON_KEY__NOMINEES in election_dict and type(election_dict[ELECTION_JSON_KEY__NOMINEES]) == dict:
         new_election_dict[ELECTION_JSON_KEY__NOMINEES] = list(election_dict[ELECTION_JSON_KEY__NOMINEES].values())
         for nominee in new_election_dict[ELECTION_JSON_KEY__NOMINEES]:
+            remove_id_if_invalid(nominee)
             if verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(nominee):
                 nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = list(
                     nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].values()
@@ -61,10 +62,7 @@ def transform_webform_to_json(election_dict):
                             else:
                                 position_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = \
                                     [position_info[0]]
-                    if ID_KEY in position_and_speech_pairing:
-                        if position_and_speech_pairing[ID_KEY] == "" or \
-                                not f"{position_and_speech_pairing[ID_KEY]}".isdigit():
-                            del position_and_speech_pairing[ID_KEY]
+                    remove_id_if_invalid(position_and_speech_pairing)
     if ELECTION_JSON_KEY__DATE in election_dict:
         new_election_dict[ELECTION_JSON_KEY__DATE] = election_dict[ELECTION_JSON_KEY__DATE]
     if ELECTION_JSON_WEBFORM_KEY__TIME in election_dict:
@@ -77,6 +75,11 @@ def transform_webform_to_json(election_dict):
     logger.info(json.dumps(new_election_dict, indent=3))
     return new_election_dict
 
+
+def remove_id_if_invalid(dict_obj):
+    if ID_KEY in dict_obj:
+        if dict_obj[ID_KEY] == "" or not f"{dict_obj[ID_KEY]}".isdigit():
+            del dict_obj[ID_KEY]
 
 def verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(nominee):
     return ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee and \

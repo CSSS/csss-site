@@ -9,7 +9,7 @@ if (add_blank_nominee == true){
 	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\"NONE\" required></p>";
 	new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord__name}}]\" value=\"NONE\" required></p>";
 }else{
-	{%  if create_new_election__html_name is not True and create_or_update_via_nominee_link__html_name is True %}
+	{%  if create_new_election__html_name is not True or create_or_update_via_nominee_link__html_name is True %}
 		new_nominee.innerHTML += "<input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_id__name}}]\" value=\""+id+"\" hidden readonly>";
 	{%  endif %}
 	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" value=\""+name+"\" required></p>";
