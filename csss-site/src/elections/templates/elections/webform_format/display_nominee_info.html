@@ -30,6 +30,7 @@ if (add_blank_nominee == false){
 	{% if create_new_election__html_name is True %}
 		{%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/new_election.html' %}
 	{%  else %}
-		{%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election.html' %}
+        {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/draft_nominee_pairings.html' %}
+        {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/nominee_pairings.html' %}
 	{%  endif %}
 }
