@@ -6,8 +6,8 @@ TAB = 'events'
 
 
 def mm2021_submissions(request):
-    path = 'mountain_madness/2021/mountain_madness2021_submissions.html'
-    return render(request, path, create_main_context(request, TAB))
+    return render(request,
+                  'mountain_madness/2021/mountain_madness2021_submissions.html', create_main_context(request, TAB))
 
 
 def mm2021(request):
