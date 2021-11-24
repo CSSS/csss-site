@@ -1,0 +1,8 @@
+.csss_fall_hacks_submission_row {
+    padding:0 15px 0 15px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
