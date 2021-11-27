@@ -11,7 +11,8 @@ from elections.views.Constants import FINAL_NOMINEE_HTML__NAME, SAVE_NEW_NOMINEE
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAME
-from elections.views.create_context.nominee_links.update_nominee.js_functions.on_load_js_functions.create_context_for_main_function_html import \
+from elections.views.create_context.nominee_links.update_nominee.js_functions.on_load_js_functions.\
+    create_context_for_main_function_html import \
     create_context_for_main_function_html
 from elections.views.create_context.nominee_links.utils.display_errors_html import \
     create_context_for_display_errors_html
