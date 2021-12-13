@@ -33,7 +33,7 @@ new_nominee.appendChild(nominee_speeches);
 
 if (draft_or_finalized_nominee_to_display == true){
 
-	{% if webform_election__html_name is True %}
+	{% if webform_election__html_name %}
         {%  if new_webform_election__html_name %}
             {%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
 {#                {%  include 'elections/webform_format/js_functions/on_load_js_function/position_names_and_speech_pairings/new_election_v2.html' %}#}

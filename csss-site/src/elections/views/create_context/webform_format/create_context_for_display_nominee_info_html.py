@@ -6,11 +6,15 @@ from elections.views.Constants import NOMINEE_DIV__NAME, \
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOMINEES
+from elections.views.create_context.webform_format.js_functions.on_load_js_function.position_names_and_speech_pairings.existing_election.create_context_for_position_names_and_speech_pairing_html import \
+    create_context_for_position_names_and_speech_pairing_html
 
 
 def create_context_for_display_nominee_info_html(
         context, draft_or_finalized_nominee_to_display=False, include_id_for_nominee=False,
-        webform_election=True, new_webform_election=True
+        webform_election=True, new_webform_election=True,
+        nominee_info_to_add_to_context=None, nominee_info=None
+        # nominee_info_to_add_to_context=None
         # nominee_info_for_context=None, nominee_obj=None, nominee_info=None,
         # , speech_ids=None,
         # nominee_info_position_and_speech_pairing=None
@@ -37,17 +41,12 @@ def create_context_for_display_nominee_info_html(
             ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME: webform_election,
             NEW_WEBFORM_ELECTION__HTML__NAME: new_webform_election
         })
-    if not draft_or_finalized_nominee_to_display:
-        if webform_election:
-            pass
-    else:
         if webform_election:
             if new_webform_election:
-                pass
-                # create_context_for_position_names_and_speech_pairing_html(
-                #     context, nominee_info=nominee_info, nominee_info_for_context=nominee_info_for_context,
-                #     nominee_info_position_and_speech_pairing=nominee_info_position_and_speech_pairing,
-                # )
+                create_context_for_position_names_and_speech_pairing_html(
+                    context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
+                    nominee_info=nominee_info,
+                )
                 # create_context_for_new_election_html(
                 #     context, nominee_info_for_context=nominee_info_for_context, nominee_info=nominee_info,
                 #     nominee_obj=nominee_obj
