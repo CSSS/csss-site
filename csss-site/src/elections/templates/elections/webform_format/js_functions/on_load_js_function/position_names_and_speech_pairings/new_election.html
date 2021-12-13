@@ -1,9 +1,12 @@
-{%  for position_names_and_speech_pairing in draft_nominee__html_name.position_names_and_speech_pairings %}
+{% load print_positions %}
+{#{%  print_position_names nominee %}#}
+{%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
     speech_index = nominee_speeches.childElementCount;
     speech_div_name = nominee_div_name + '_speech_' + speech_index;
     new_nominee_speech = document.createElement('div');
     new_nominee_speech.setAttribute('id',speech_div_name);
     new_nominee_speech.innerHTML += "<p>Positions:</p>";
+{#    {%  print_position_names position_names_and_speech_pairing %}#}
 
     {%  for position in current_officer_positions %}
         nominee_position = document.createElement('div');

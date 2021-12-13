@@ -35,7 +35,7 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
         context
     )
     create_context_for_main_function_html(
-        context, nominee_link_id=nominee_link_id, create_new_nominee=create_new_nominee, nominee_info=nominee_info
+        context, nominee_link_id=nominee_link_id, nominee_info=nominee_info
     )
     __create_context_for_add_blank_speech_html(context)
     _create_context_for_view_saved_nominee_info_html(context, nominee_link_id=nominee_link_id)

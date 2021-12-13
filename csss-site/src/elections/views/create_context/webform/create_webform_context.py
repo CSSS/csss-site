@@ -1,32 +1,94 @@
 import logging
 
 from about.models import OfficerEmailListAndPositionMapping
+from csss.views.context_creation.create_context_for_html_snippet_for_general_error_validations import \
+    create_context_for_html_snippet_for_general_error_validations_html
 from csss.views.views import ERROR_MESSAGES_KEY
-from elections.models import Election
+from elections.models import Election, Nominee
 from elections.views.Constants import INPUT_DATE__NAME, \
     INPUT_DATE__VALUE, INPUT_TIME__NAME, INPUT_TIME__VALUE, SELECT_ELECTION_TYPE__NAME, \
-    SELECTED_ELECTION_TYPE__HTML_NAME, CREATE_NEW_ELECTION__HTML_NAME, NOMINEES_HTML__NAME, CURRENT_WEBSURVEY_LINK, \
+    SELECTED_ELECTION_TYPE__HTML_NAME, NOMINEES_HTML__NAME, CURRENT_WEBSURVEY_LINK, \
     NOMINEE_DIV__NAME, INPUT_NOMINEE_SPEECH__NAME, INPUT_NOMINEE_FACEBOOK__NAME, \
     INPUT_NOMINEE_LINKEDIN__NAME, INPUT_NOMINEE_EMAIL__NAME, INPUT_NOMINEE_DISCORD__NAME, \
     INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, INPUT_NOMINEE_POSITION_NAMES__NAME, CURRENT_ELECTION_TYPES, \
     INPUT_WEBSURVEY__NAME, INPUT_NOMINEE_NAME__NAME, CURRENT_OFFICER_POSITIONS, DATE_FORMAT, TIME_FORMAT, \
-    INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME
+    INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME, DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME, \
+    ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME, FORMAT_ELECTION_JSON__DIV_ID_NAME, JS_FORMATTING_ERROR
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES, \
     ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, \
     ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
-    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOMINEE
+    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
+from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
+    create_context_for_submission_buttons_html
 from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
 from elections.views.create_context.webform_format.create_context_for_display_nominee_info_html import \
     create_context_for_display_nominee_info_html
-from elections.views.extractors.get_election_nominees import get_election_nominees
+from elections.views.create_context.webform_format.create_context_for_election_date_html import \
+    create_context_for_election_date_html
+from elections.views.create_context.webform_format.create_context_for_election_time_html import \
+    create_context_for_election_time_html
+from elections.views.create_context.webform_format.create_context_for_election_type_html import \
+    create_context_for_election_type_html
+from elections.views.create_context.webform_format.create_context_for_election_websurvey_html import \
+    create_context_for_election_websurvey_html
 
 logger = logging.getLogger('csss_site')
 
 
+def create_context_for_create_election__webform_html(
+        context, error_messages=None, election_dict=None, election_date=None,
+        election_time=None, election_type=None, websurvey_link=None, nominees_info=None,
+        create_new_election=True, include_id_for_nominee=False, webform_election=True,
+        draft_or_finalized_nominee_to_display=True, new_webform_election=True):
+    if election_dict is not None:
+        if election_date is None and ELECTION_JSON_KEY__DATE in election_dict:
+            election_date = election_dict[ELECTION_JSON_KEY__DATE]
+        if election_time is None and ELECTION_JSON_WEBFORM_KEY__TIME in election_dict:
+            election_time = election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
+        if election_type is None and ELECTION_JSON_KEY__ELECTION_TYPE in election_dict:
+            election_type = election_dict[ELECTION_JSON_KEY__ELECTION_TYPE]
+        if websurvey_link is None and ELECTION_JSON_KEY__WEBSURVEY in election_dict:
+            websurvey_link = election_dict[ELECTION_JSON_KEY__WEBSURVEY]
+        if (
+                nominees_info is None and ELECTION_JSON_KEY__NOMINEES in election_dict and
+                type(election_dict[ELECTION_JSON_KEY__NOMINEES]) is list):
+            nominees_info = election_dict[ELECTION_JSON_KEY__NOMINEES]
+    create_context_for_form__webform_html(
+        context, election_date=election_date,
+        election_time=election_time, election_type=election_type, websurvey_link=websurvey_link,
+        create_new_election=create_new_election
+    )
+    create_context_for_main_function_html(
+        context, nominees_info=nominees_info, include_id_for_nominee=include_id_for_nominee,
+        webform_election=webform_election, draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
+        new_webform_election=new_webform_election
+    )
+    create_context_for_add_blank_nominee_html(
+        context, include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
+        draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
+        new_webform_election=new_webform_election
+    )
+    create_context_for_add_blank_speech_html(context)
+
+
+def create_context_for_creating_election_errors_html(context, error_messages=None):
+    create_context_for_html_snippet_for_general_error_validations_html(context, error_messages=error_messages)
+    context[FORMAT_ELECTION_JSON__DIV_ID_NAME] = JS_FORMATTING_ERROR
+
+
+
+
+
+
+
+
+
+
 def create_webform_context(
-        create_new_election=True, nominee_obj=None, nominee_info=None, include_id_for_nominee=True):
+        context, nominee_obj=None, nominee_info=None, include_id_for_nominee=False, webform_election=True,
+        draft_or_finalized_nominee_to_display=False, new_webform_election=True):
     """
     Creating context for WebForm pages for election creation or modification
 
@@ -61,7 +123,7 @@ def create_webform_context(
 
     along with keys from create_submission_buttons_context(
     """
-    context = {
+    context.update({
         INPUT_DATE__NAME: ELECTION_JSON_KEY__DATE,
         INPUT_TIME__NAME: ELECTION_JSON_WEBFORM_KEY__TIME,
         SELECT_ELECTION_TYPE__NAME: ELECTION_JSON_KEY__ELECTION_TYPE,
@@ -87,23 +149,29 @@ def create_webform_context(
         INPUT_NOMINEE_SPEECH__NAME: ELECTION_JSON_KEY__NOM_SPEECH,
         INPUT_SPEECH_ID__NAME: ID_KEY,
 
-        CREATE_NEW_ELECTION__HTML_NAME: create_new_election,
+        ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME: webform_election,
 
-    }
-    context.update(create_webform_submission_buttons_context(create_new_election=create_new_election))
+    })
+    create_webform_submission_buttons_context(context, create_new_election=webform_election)
     create_context_for_main_function_html(
-        context, nominee_obj=nominee_obj, nominee_info=nominee_info, include_id_for_nominee=include_id_for_nominee,
-        create_new_election=create_new_election
+        context, nominees_info=nominee_info, include_id_for_nominee=include_id_for_nominee,
+        webform_election=webform_election,
+        draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
+        new_webform_election=new_webform_election
     )
-    create_context_for_add_blank_nominee_html(context)
+    # create_context_for_add_blank_nominee_html(
+    #     context, nominee_obj=nominee_obj, nominee_info=nominee_info, include_id_for_nominee=include_id_for_nominee,
+    #     create_new_election=create_new_election,
+    #     draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display
+    # )
     logger.info("[elections/create_webform_context.py create_webform_context()] "
                 f"created context of '{context}'")
     return context
 
 
 def create_webform_election_context_from_user_inputted_election_dict(
-        error_message, nominee_obj=None, nominee_info=None, include_id_for_nominee=True, create_new_election=None,
-        election_dict=None):
+        error_message, nominee_obj=None, nominees_info=None, include_id_for_nominee=True, webform_election=True,
+        election_dict=None, draft_or_finalized_nominee_to_display=True, new_webform_election=False):
     """
     Returns a dict that is populated with the error message as the sole entry under the key 'error_messages'
     along with the election data under the following keys
@@ -138,10 +206,14 @@ def create_webform_election_context_from_user_inputted_election_dict(
         if ELECTION_JSON_KEY__NOMINEES in election_dict:
             context[NOMINEES_HTML__NAME] = election_dict[ELECTION_JSON_KEY__NOMINEES]
     create_context_for_main_function_html(
-        context, nominee_obj=nominee_obj, nominee_info=nominee_info, include_id_for_nominee=include_id_for_nominee,
-        create_new_election=create_new_election
+        context, nominees_info=nominees_info, include_id_for_nominee=include_id_for_nominee,
+        webform_election=webform_election,
+        draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
+        new_webform_election=new_webform_election
     )
-    create_context_for_add_blank_nominee_html(context)
+    # create_context_for_add_blank_nominee_html(
+    #     context, draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display
+    # )
 
     logger.info("[elections/create_webform_context.py create_webform_election_context_"
                 "from_user_inputted_election_dict()] "
@@ -149,12 +221,10 @@ def create_webform_election_context_from_user_inputted_election_dict(
     return context
 
 
-def create_context_for_add_blank_nominee_html(context):
-    create_context_for_display_nominee_info_html(context)
-
 
 def create_webform_election_context_from_db_election_obj(
-        election, create_new_election=True, nominee_obj=None, nominee_info=None, include_id_for_nominee=True):
+        context, election=None, webform_election=True, nominee_obj=None, nominee_info=None,
+        include_id_for_nominee=True, draft_or_finalized_nominee_to_display=False, new_webform_election=False):
     """
     Returns information about the election
 
@@ -164,24 +234,26 @@ def create_webform_election_context_from_db_election_obj(
     Return
     a dict that contains the election itself in a format that is ready for the webform page to display
     """
-    context = {
-        INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
-        INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
-        SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
-        CURRENT_WEBSURVEY_LINK: election.websurvey,
-        NOMINEES_HTML__NAME: get_election_nominees(election)
-    }
-    create_context_for_add_blank_nominee_html(context)
+    if election is not None:
+        context.update({
+            INPUT_DATE__VALUE: election.date.strftime(DATE_FORMAT),
+            INPUT_TIME__VALUE: election.date.strftime(TIME_FORMAT),
+            SELECTED_ELECTION_TYPE__HTML_NAME: election.election_type,
+            CURRENT_WEBSURVEY_LINK: election.websurvey
+        })
+    # create_context_for_add_blank_nominee_html(context)
     create_context_for_main_function_html(
-        context, nominee_obj=nominee_obj, nominee_info=nominee_info, include_id_for_nominee=include_id_for_nominee,
-        create_new_election=create_new_election
+        context, nominees_info=nominee_info, include_id_for_nominee=include_id_for_nominee,
+        webform_election=webform_election,
+        draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display, election=election,
+        new_webform_election=new_webform_election
     )
     logger.info("[elections/create_webform_context.py create_webform_election_context_from_db_election_obj()] "
                 f"created context of '{context}'")
     return context
 
 
-def create_webform_submission_buttons_context(create_new_election=True):
+def create_webform_submission_buttons_context(context, create_new_election=True):
     """
     creates the context keys needed to populate the button for saving a new election or modifications to the
      existing election on the WebForm pages
@@ -196,15 +268,6 @@ def create_webform_submission_buttons_context(create_new_election=True):
     - input_redirect_election_submit__value
     - input_redirect_election_submit_and_continue_editing__value
     """
-    return create_base_submission_buttons_context(create_new_election=create_new_election)
+    create_base_submission_buttons_context(context, create_new_election=create_new_election)
 
 
-def create_context_for_main_function_html(
-        context, nominee_obj=None, nominee_info=None, include_id_for_nominee=True, create_new_election=None):
-    context.update({NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE})
-    if ELECTION_JSON_KEY__NOMINEES in nominee_info:
-        context[NOMINEES_HTML__NAME] = nominee_info[ELECTION_JSON_KEY__NOMINEES]
-    create_context_for_display_nominee_info_html(
-        context, nominee_obj=nominee_obj, nominee_info=nominee_info,
-        include_id_for_nominee=-include_id_for_nominee, create_new_election=create_new_election
-    )

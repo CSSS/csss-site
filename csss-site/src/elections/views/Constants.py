@@ -64,8 +64,11 @@ INPUT_WEBSURVEY__NAME = 'input_websurvey__name'
 CURRENT_WEBSURVEY_LINK = 'current_websurvey_link'
 INPUT_NOMINEE_ID__NAME = 'input_nominee_id__name'
 
-CREATE_NEW_ELECTION__HTML_NAME = 'create_new_election__html_name'
-CREATE_OR_UPDATE_VIA_NOMINEE_LINK__HTML_NAME = 'create_or_update_via_nominee_link__html_name'
+DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME = 'draft_or_finalized_nominee_to_display__html_name'
+
+ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME = 'webform_election__html_name'
+NEW_WEBFORM_ELECTION__HTML__NAME = 'new_webform_election__html_name'
+INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME = 'include_id_for_nominee_in_weform__html_name'
 
 NOMINEE_DIV__NAME = 'nominee_div__name'
 

@@ -2,14 +2,8 @@ new_nominee = document.createElement('div');
 new_nominee.setAttribute('id',nominee_div_name);
 new_nominee.setAttribute('class', 'csss_box_borders_new_entries');
 new_nominee.innerHTML += "<input type=\"button\" value=\"Remove Nominee\" onClick=\"removeDiv('#"+nominee_div_name+"');\">";
-if (add_blank_nominee == true){
-	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" required></p>";
-	new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\"NONE\" required></p>";
-	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\"NONE\" required></p>";
-	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\"NONE\" required></p>";
-	new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord__name}}]\" value=\"NONE\" required></p>";
-}else{
-	{%  if create_new_election__html_name is not True or create_or_update_via_nominee_link__html_name is True %}
+if (draft_or_finalized_nominee_to_display == true){
+	{%  if include_id_for_nominee_in_weform__html_name is True %}
 		new_nominee.innerHTML += "<input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_id__name}}]\" value=\""+id+"\" hidden readonly>";
 	{%  endif %}
 	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" value=\""+name+"\" required></p>";
@@ -17,6 +11,17 @@ if (add_blank_nominee == true){
 	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\""+linkedin+"\" required></p>";
 	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\""+email+"\" required></p>";
 	new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord__name}}]\" value=\""+discord+"\" required></p>";
+
+}else{
+    /*
+    if accessing via /elections/new_election_webform or /election/<election_slug>/election_modification_webform
+    and there are no nominees, will display a form to enter the first nominee
+    */
+	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" required></p>";
+	new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\"NONE\" required></p>";
+	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\"NONE\" required></p>";
+	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\"NONE\" required></p>";
+	new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord__name}}]\" value=\"NONE\" required></p>";
 
 }
 new_nominee.innerHTML += "<input type=\"button\" value=\"Add Another Speech\" onClick=\"addBlankSpeech('"+nominee_index+"');\">";
@@ -26,11 +31,26 @@ nominee_speeches = document.createElement('div');
 nominee_speeches.setAttribute('id',speech_parent_div_name);
 new_nominee.appendChild(nominee_speeches);
 
-if (add_blank_nominee == false){
-	{% if create_new_election__html_name is True %}
-		{%  include 'elections/webform_format/js_functions/on_load_js_function/position_names_and_speech_pairings/new_election.html' %}
+if (draft_or_finalized_nominee_to_display == true){
+
+	{% if webform_election__html_name is True %}
+        {%  if new_webform_election__html_name %}
+            {%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
+{#                {%  include 'elections/webform_format/js_functions/on_load_js_function/position_names_and_speech_pairings/new_election_v2.html' %}#}
+                {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html' %}
+            {%  endfor %}
+{#            {%  include 'elections/webform_format/js_functions/on_load_js_function/position_names_and_speech_pairings/new_election.html' %}#}
+        {%  else %}
+            {%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
+                {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html' %}
+            {%  endfor %}
+        {%  endif %}
 	{%  else %}
-        {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/draft_nominee_pairings.html' %}
-        {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/nominee_pairings.html' %}
+        {%  for position_names_and_speech_pairing in draft_nominee__html_name.position_names_and_speech_pairings %}
+            {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html' %}
+        {%  endfor %}
+        {%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
+            {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html' %}
+        {%  endfor %}
 	{%  endif %}
 }

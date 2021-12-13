@@ -1,4 +1,8 @@
 function addBlankNominee(nominees_div_name){
+    /*
+    if accessing via /elections/new_election_webform or /election/<election_slug>/election_modification_webform
+    and there are no nominees, will display a form to enter the first nominee
+    */
     let nominee_index;
 	let new_nominee;
     if (document.getElementById(nominees_div_name).lastChild === null){
@@ -9,7 +13,7 @@ function addBlankNominee(nominees_div_name){
     const nominee_div_name = 'nominee_' + nominee_index;
     const speech_parent_div_name = nominee_div_name + '_speeches';
 
-	let add_blank_nominee=true;
+	let draft_or_finalized_nominee_to_display=false;
     let nominee_speeches;
 	{% include 'elections/webform_format/display_nominee_info.html' %}
     addBlankSpeech(nominee_index);

@@ -8,8 +8,7 @@ from elections.views.create_context.webform_format.create_context_for_display_no
 
 
 def create_context_for_main_function_html(
-        context, nominee_link_id=None, create_new_nominee=False,
-        nominee_info=None):
+        context, nominee_link_id=None, nominee_info=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
     })
