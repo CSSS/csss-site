@@ -20,11 +20,15 @@ def create_context_for_display_nominee_info_html(
         # nominee_info_position_and_speech_pairing=None
 ):
     """
-    nominee_obj -- the nominee obj if there is saved nominee for webform
-    nominee_info -- the dict that contains the user input for nominee that hasn't been saved
-    include_id_for_nominee -- attaches the ID for a nominee to the webform
-    create_new_election -- True if nominee_link election and there is no saved nominees yet
+    populates the context dictionary that is used by elections/templates/elections/webform_format/display_nominee_info.html
+
+    context -- the context dictionary that has to be populated for the display_nominee_info.html
     draft_or_finalized_nominee_to_display -- no draft nominee from user's input or finalized nominee in DB to show
+    include_id_for_nominee -- attaches the ID for a nominee to the webform
+    webform_election -- bool to indicate if the election is a webform election
+    new_webform_election -- bool to indicate if the election is a new webform election
+    nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to be added to the context dictionary
+    nominees_info -- the nominee info that the user inputted, otherwise None
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES,

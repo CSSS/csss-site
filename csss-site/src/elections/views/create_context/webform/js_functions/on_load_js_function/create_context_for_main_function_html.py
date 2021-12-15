@@ -11,16 +11,18 @@ from elections.views.create_context.webform_format.create_context_for_display_no
 
 
 def create_context_for_main_function_html(
-        context,
-        nominees_info=None, include_id_for_nominee=False, webform_election=True, election=None,
+        context, nominees_info=None, include_id_for_nominee=False, webform_election=True,
         new_webform_election=True, draft_or_finalized_nominee_to_display=False):
     """
-    nominee_obj -- the nominee obj if there is saved nominee for webform
-    nominee_info -- the dict that contains the user input for nominee that hasn't been saved
-    include_id_for_nominee -- attaches the ID for a nominee to the webform
-    create_new_election -- True if nominee_link election and there is no saved nominees yet
-    draft_or_finalized_nominee_to_display -- no draft nominee from user's input or finalized nominee in DB to show
+    populates the context dictionary that is used by elections/templates/elections/webform/js_functions/on_load_js_function/main_function.html
 
+    Keyword Arguments
+    context -- the context dictionary that has to be populated for the main_function.html
+    nominees_info -- the list of nominee infos that the user inputted, otherwise None
+    include_id_for_nominee -- bool to indicate if the html page has to show the ID for any of the nominees. Happens with saved elections
+    webform_election -- bool to indicate if the election is a webform election
+    new_webform_election -- bool to indicate if the election is a new webform election
+    draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a draft or saved
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES
@@ -43,13 +45,6 @@ def create_context_for_main_function_html(
             if ID_KEY in nominee_info:
                 nominee_info_to_add_to_context[ID_KEY] = nominee_info[ID_KEY]
                 include_id_for_nominee = True
-            # create_context_for_display_nominee_info_html(
-            #     context, nominee_info_for_context, nominee_info=nominee_info,
-            #     include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
-            #     draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
-            #     new_webform_election=new_webform_election
-            # )
-
             create_context_for_display_nominee_info_html(
                 context, draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
                 include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
@@ -57,45 +52,45 @@ def create_context_for_main_function_html(
                 nominee_info=nominee_info
             )
             context[NOMINEES_HTML__NAME].append(nominee_info_to_add_to_context)
-    elif election is not None:
-        nominees_obj = [
-            nominee for nominee in Nominee.objects.all().filter(
-                election=election
-            ).order_by('nomineespeech__nomineeposition__position_index',
-                       'id')
-        ]
-        context[NOMINEES_HTML__NAME] = []
-        nominee_infos_for_context = {}
-        nominee_names = []
-        speech_ids = []
-        for nominee_obj in nominees_obj:
-            if nominee_obj.name not in nominee_names:
-                nominee_names.append(nominee_obj.name)
-                if nominee_obj.name not in nominee_infos_for_context:
-                    nominee_infos_for_context[nominee_obj.name] = {
-                        ID_KEY: nominee_obj.id,
-                        ELECTION_JSON_KEY__NOM_NAME: nominee_obj.name,
-                        ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
-                        ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
-                        ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,
-                        ELECTION_JSON_KEY__NOM_DISCORD: nominee_obj.discord
-                    }
-                    # create_context_for_display_nominee_info_html(
-                    #     context, nominee_info_for_context=nominee_infos_for_context, nominee_obj=nominee_obj,
-                    #     include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
-                    #     draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
-                    #     new_webform_election=new_webform_election, speech_ids=speech_ids
-                    # )
-                else:
-                    pass
-                    # create_context_for_display_nominee_info_html(
-                    #     context, nominee_info_for_context=nominee_infos_for_context, nominee_obj=nominee_obj,
-                    #     include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
-                    #     draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
-                    #     new_webform_election=new_webform_election, speech_ids=speech_ids
-                    # )
-        context[NOMINEES_HTML__NAME] = [nominee_info for nominee_info in nominee_infos_for_context.values()]
-        # context[NOMINEES_HTML__NAME] = get_election_nominees(election)
+    # elif election is not None:
+    #     nominees_obj = [
+    #         nominee for nominee in Nominee.objects.all().filter(
+    #             election=election
+    #         ).order_by('nomineespeech__nomineeposition__position_index',
+    #                    'id')
+    #     ]
+    #     context[NOMINEES_HTML__NAME] = []
+    #     nominee_infos_for_context = {}
+    #     nominee_names = []
+    #     speech_ids = []
+    #     for nominee_obj in nominees_obj:
+    #         if nominee_obj.name not in nominee_names:
+    #             nominee_names.append(nominee_obj.name)
+    #             if nominee_obj.name not in nominee_infos_for_context:
+    #                 nominee_infos_for_context[nominee_obj.name] = {
+    #                     ID_KEY: nominee_obj.id,
+    #                     ELECTION_JSON_KEY__NOM_NAME: nominee_obj.name,
+    #                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
+    #                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
+    #                     ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,
+    #                     ELECTION_JSON_KEY__NOM_DISCORD: nominee_obj.discord
+    #                 }
+    #                 # create_context_for_display_nominee_info_html(
+    #                 #     context, nominee_info_for_context=nominee_infos_for_context, nominee_obj=nominee_obj,
+    #                 #     include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
+    #                 #     draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
+    #                 #     new_webform_election=new_webform_election, speech_ids=speech_ids
+    #                 # )
+    #             else:
+    #                 pass
+    #                 # create_context_for_display_nominee_info_html(
+    #                 #     context, nominee_info_for_context=nominee_infos_for_context, nominee_obj=nominee_obj,
+    #                 #     include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
+    #                 #     draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
+    #                 #     new_webform_election=new_webform_election, speech_ids=speech_ids
+    #                 # )
+    #     context[NOMINEES_HTML__NAME] = [nominee_info for nominee_info in nominee_infos_for_context.values()]
+    #     # context[NOMINEES_HTML__NAME] = get_election_nominees(election)
     else:
         create_context_for_add_blank_nominee_html(
             context, webform_election=webform_election, new_webform_election=new_webform_election,

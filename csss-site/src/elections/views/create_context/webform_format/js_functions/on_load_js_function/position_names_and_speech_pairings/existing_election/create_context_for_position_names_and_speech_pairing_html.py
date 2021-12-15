@@ -14,6 +14,14 @@ def create_context_for_position_names_and_speech_pairing_html(
         nominee_info_for_context=None, nominee_info_position_and_speech_pairing=None,
         speech_obj=None, speech_ids=None,
         nominee_obj=None,new_webform_election=True):
+    """
+    populates the context dictionary that is used by elections/templates/elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html
+
+    context -- the context dictionary that has to be populated for the position_names_and_speech_pairing.html
+    nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to be added to the context dictionary
+    nominees_info -- the nominee info that the user inputted, otherwise None
+    new_webform_election -- bool to indicate if the election is a new webform election
+    """
     context.update({
         NEW_WEBFORM_ELECTION__HTML__NAME : new_webform_election,
         CURRENT_OFFICER_POSITIONS: [

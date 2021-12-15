@@ -17,6 +17,23 @@ def create_context_for_create_election__webform_html(
         websurvey_link=None, webform_election=True, new_webform_election=True,
         include_id_for_nominee=False, draft_or_finalized_nominee_to_display=False, nominees_info=None,
 ):
+    """
+    populates the context dictionary that is used by create_election__webform.html
+
+    Keyword Arguments
+    context -- the context dictionary that has to be populated for the create_election__webform.html
+    error_messages -- error message to display
+    election_dict -- the dict to check for election information in the event that not all relevant keys are present
+    election_date -- the date of the election that the user inputted, otherwise None
+    election_time -- the time of the election that the user inputted, otherwise None
+    election_type -- the election type that the user inputted, otherwise None
+    websurvey_link -- the websurvey link of the election that the user inputted, otherwise None
+    webform_election -- bool to indicate if the election is a webform election
+    new_webform_election -- bool to indicate if the election is a new webform election
+    include_id_for_nominee -- bool to indicate if the html page has to show the ID for any of the nominees. Happens with saved elections
+    draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a draft or saved
+    nominees_info -- the list of nominee infos that the user inputted, otherwise None
+    """
     if election_dict is not None:
         if election_date is None and ELECTION_JSON_KEY__DATE in election_dict:
             election_date = election_dict[ELECTION_JSON_KEY__DATE]
@@ -34,7 +51,7 @@ def create_context_for_create_election__webform_html(
     create_context_for_form__webform_html(
         context, election_date=election_date, election_time=election_time,
         election_type=election_type, websurvey_link=websurvey_link,
-        create_new_election=new_webform_election
+        new_webform_election=new_webform_election
     )
     create_context_for_main_function_html(
         context, webform_election=webform_election, new_webform_election=new_webform_election,

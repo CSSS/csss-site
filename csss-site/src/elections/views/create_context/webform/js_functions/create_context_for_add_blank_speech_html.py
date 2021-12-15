@@ -6,8 +6,13 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, 
     ELECTION_JSON_KEY__NOM_SPEECH
 
 
-def create_context_for_add_blank_speech_html(
-        context):
+def create_context_for_add_blank_speech_html(context):
+    """
+    populates the context dictionary that is used by elections/templates/elections/webform_format/js_functions/add_blank_speech.html
+
+    Keyword Arguments
+    context -- the context dictionary that has to be populated for the add_blank_speech.html
+    """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES,
         INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME: ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS,

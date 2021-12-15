@@ -4,7 +4,7 @@ from about.models import OfficerEmailListAndPositionMapping
 from csss.views.context_creation.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from csss.views.views import ERROR_MESSAGES_KEY
-from elections.models import Election, Nominee
+from elections.models import Election
 from elections.views.Constants import INPUT_DATE__NAME, \
     INPUT_DATE__VALUE, INPUT_TIME__NAME, INPUT_TIME__VALUE, SELECT_ELECTION_TYPE__NAME, \
     SELECTED_ELECTION_TYPE__HTML_NAME, NOMINEES_HTML__NAME, CURRENT_WEBSURVEY_LINK, \
@@ -12,27 +12,15 @@ from elections.views.Constants import INPUT_DATE__NAME, \
     INPUT_NOMINEE_LINKEDIN__NAME, INPUT_NOMINEE_EMAIL__NAME, INPUT_NOMINEE_DISCORD__NAME, \
     INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, INPUT_NOMINEE_POSITION_NAMES__NAME, CURRENT_ELECTION_TYPES, \
     INPUT_WEBSURVEY__NAME, INPUT_NOMINEE_NAME__NAME, CURRENT_OFFICER_POSITIONS, DATE_FORMAT, TIME_FORMAT, \
-    INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME, DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME, \
-    ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME, FORMAT_ELECTION_JSON__DIV_ID_NAME, JS_FORMATTING_ERROR
+    INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_SPEECH_ID__NAME, ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME, \
+    FORMAT_ELECTION_JSON__DIV_ID_NAME, JS_FORMATTING_ERROR
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES, \
     ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, \
     ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_SPEECH
-from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
-    create_context_for_submission_buttons_html
 from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
-from elections.views.create_context.webform_format.create_context_for_display_nominee_info_html import \
-    create_context_for_display_nominee_info_html
-from elections.views.create_context.webform_format.create_context_for_election_date_html import \
-    create_context_for_election_date_html
-from elections.views.create_context.webform_format.create_context_for_election_time_html import \
-    create_context_for_election_time_html
-from elections.views.create_context.webform_format.create_context_for_election_type_html import \
-    create_context_for_election_type_html
-from elections.views.create_context.webform_format.create_context_for_election_websurvey_html import \
-    create_context_for_election_websurvey_html
 
 logger = logging.getLogger('csss_site')
 
@@ -76,14 +64,6 @@ def create_context_for_create_election__webform_html(
 def create_context_for_creating_election_errors_html(context, error_messages=None):
     create_context_for_html_snippet_for_general_error_validations_html(context, error_messages=error_messages)
     context[FORMAT_ELECTION_JSON__DIV_ID_NAME] = JS_FORMATTING_ERROR
-
-
-
-
-
-
-
-
 
 
 def create_webform_context(
@@ -221,7 +201,6 @@ def create_webform_election_context_from_user_inputted_election_dict(
     return context
 
 
-
 def create_webform_election_context_from_db_election_obj(
         context, election=None, webform_election=True, nominee_obj=None, nominee_info=None,
         include_id_for_nominee=True, draft_or_finalized_nominee_to_display=False, new_webform_election=False):
@@ -269,5 +248,3 @@ def create_webform_submission_buttons_context(context, create_new_election=True)
     - input_redirect_election_submit_and_continue_editing__value
     """
     create_base_submission_buttons_context(context, create_new_election=create_new_election)
-
-
