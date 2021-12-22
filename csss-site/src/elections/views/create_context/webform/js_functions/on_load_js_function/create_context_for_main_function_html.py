@@ -15,15 +15,18 @@ def create_context_for_main_function_html(
         new_webform_election=True, draft_or_finalized_nominee_to_display=False, election=None,
         process_update_to_existing_election=False):
     """
-    populates the context dictionary that is used by elections/templates/elections/webform/js_functions/on_load_js_function/main_function.html
+    populates the context dictionary that is used by
+     elections/templates/elections/webform/js_functions/on_load_js_function/main_function.html
 
     Keyword Arguments
     context -- the context dictionary that has to be populated for the main_function.html
     nominees_info -- the list of nominee infos that the user inputted, otherwise None
-    include_id_for_nominee -- bool to indicate if the html page has to show the ID for any of the nominees. Happens with saved elections
+    include_id_for_nominee -- bool to indicate if the html page has to show the ID for any of the nominees.
+     Happens with saved elections
     webform_election -- bool to indicate if the election is a webform election
     new_webform_election -- bool to indicate if the election is a new webform election
-    draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a draft or saved
+    draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show,
+     either as a draft or saved
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES

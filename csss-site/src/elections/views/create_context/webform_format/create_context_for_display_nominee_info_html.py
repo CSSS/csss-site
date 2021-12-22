@@ -7,7 +7,9 @@ from elections.views.Constants import NOMINEE_DIV__NAME, \
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.webform_format.js_functions.on_load_js_function.position_names_and_speech_pairings.existing_election.create_context_for_position_names_and_speech_pairing_html import \
+from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
+    position_names_and_speech_pairings.existing_election.\
+    create_context_for_position_names_and_speech_pairing_html import \
     create_context_for_position_names_and_speech_pairing_html
 
 
@@ -23,14 +25,16 @@ def create_context_for_display_nominee_info_html(
         # nominee_info_position_and_speech_pairing=None
 ):
     """
-    populates the context dictionary that is used by elections/templates/elections/webform_format/display_nominee_info.html
+    populates the context dictionary that is used by
+     elections/templates/elections/webform_format/display_nominee_info.html
 
     context -- the context dictionary that has to be populated for the display_nominee_info.html
     draft_or_finalized_nominee_to_display -- no draft nominee from user's input or finalized nominee in DB to show
     include_id_for_nominee -- attaches the ID for a nominee to the webform
     webform_election -- bool to indicate if the election is a webform election
     new_webform_election -- bool to indicate if the election is a new webform election
-    nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to be added to the context dictionary
+    nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to
+     be added to the context dictionary
     nominees_info -- the nominee info that the user inputted, otherwise None
     """
     context.update({
@@ -64,8 +68,8 @@ def create_context_for_display_nominee_info_html(
                     )
                 else:
                     # GET /elections/<slug>/election_modification_webform/
-                    if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS not in nominee_info_to_add_to_context[nominee_obj.name]:
-                        nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
+                    if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS not in nominee_info_to_add_to_context[nominee_obj.name]:  # noqa: E501
+                        nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
                     speech_objs = NomineeSpeech.objects.all().filter(
                         nominee=nominee_obj
                     ).order_by('nomineeposition__position_index')

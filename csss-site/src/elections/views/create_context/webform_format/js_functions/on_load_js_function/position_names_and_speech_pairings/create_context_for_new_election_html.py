@@ -24,14 +24,12 @@ def create_context_for_new_election_html(context, nominee_info_for_context=None,
     if nominee_info is not None and nominee_info_for_context is not None:
         nominee_info_for_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
         if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info:
-            for position_names_and_speech_pairing in nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]:
+            for position_names_and_speech_pairing in nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]:  # noqa: E501
                 nominee_speech_position_pairing_for_context = {}
                 if ELECTION_JSON_KEY__NOM_SPEECH in position_names_and_speech_pairing:
-                    nominee_speech_position_pairing_for_context[ELECTION_JSON_KEY__NOM_SPEECH] = \
-                        position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_SPEECH]
+                    nominee_speech_position_pairing_for_context[ELECTION_JSON_KEY__NOM_SPEECH] = position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_SPEECH]  # noqa: E501
                 if ELECTION_JSON_KEY__NOM_POSITION_NAMES in position_names_and_speech_pairing:
-                    nominee_speech_position_pairing_for_context[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = \
-                        position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]
+                    nominee_speech_position_pairing_for_context[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]  # noqa: E501
                 nominee_info_for_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].append(
                     nominee_speech_position_pairing_for_context
                 )
@@ -51,13 +49,13 @@ def create_context_for_new_election_html(context, nominee_info_for_context=None,
                     if ELECTION_JSON_KEY__NOM_POSITION_NAMES not in speech_and_position_pairing:
                         speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = [{
                             ID_KEY: position_name.id,
-                            ELECTION_JSON_KEY__NOM_POSITION_NAMES:position_name.position_name
+                            ELECTION_JSON_KEY__NOM_POSITION_NAMES: position_name.position_name
                         }]
                     else:
                         speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES].append(
                             {
                                 ID_KEY: position_name.id,
-                                ELECTION_JSON_KEY__NOM_POSITION_NAME : position_name.position_name
+                                ELECTION_JSON_KEY__NOM_POSITION_NAME: position_name.position_name
                             }
                         )
                 speech_and_position_pairing[ID_KEY] = speech.id

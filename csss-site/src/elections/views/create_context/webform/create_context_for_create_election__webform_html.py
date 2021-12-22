@@ -8,8 +8,8 @@ from elections.views.create_context.webform.js_functions.create_context_for_add_
     create_context_for_add_blank_nominee_html
 from elections.views.create_context.webform.js_functions.create_context_for_add_blank_speech_html import \
     create_context_for_add_blank_speech_html
-from elections.views.create_context.webform.js_functions.on_load_js_function.create_context_for_main_function_html import \
-    create_context_for_main_function_html
+from elections.views.create_context.webform.js_functions.on_load_js_function.\
+    create_context_for_main_function_html import create_context_for_main_function_html
 
 
 def create_context_for_create_election__webform_html(
@@ -30,8 +30,10 @@ def create_context_for_create_election__webform_html(
     websurvey_link -- the websurvey link of the election that the user inputted, otherwise None
     webform_election -- bool to indicate if the election is a webform election
     new_webform_election -- bool to indicate if the election is a new webform election
-    include_id_for_nominee -- bool to indicate if the html page has to show the ID for any of the nominees. Happens with saved elections
-    draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a draft or saved
+    include_id_for_nominee -- bool to indicate if the html page has to show the ID for any of the nominees.
+     Happens with saved elections
+    draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a draft
+     or saved
     nominees_info -- the list of nominee infos that the user inputted, otherwise None
     """
     if election_dict is not None:
