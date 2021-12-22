@@ -34,17 +34,19 @@ def validate_nominees_for_existing_election_jformat(election_id, nominees):
                           f"{ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS}"
         if ID_KEY in nominee:
             if f"{nominee[ID_KEY]}".isdigit():
-                if int(nominee[ID_KEY]) in nominee_ids_so_far:
-                    return False, f" the ID of {nominee[ID_KEY]} is specified for more than one nominee"
-                nominee_ids_so_far.append(int(nominee[ID_KEY]))
                 matching_nominees_under_specified_election = Nominee.objects.all().filter(
                     id=int(nominee[ID_KEY]),
                     election_id=election_id
                 )
                 if len(matching_nominees_under_specified_election) == 0:
-                    return False, f"Invalid nominee id of {int(nominee[ID_KEY])} detected"
+                    del nominee[ID_KEY]
+                else:
+                    if int(nominee[ID_KEY]) in nominee_ids_so_far:
+                        del nominee[ID_KEY]
+                    else:
+                        nominee_ids_so_far.append(int(nominee[ID_KEY]))
             else:
-                return False, f"Invalid type detected for nominee id of {nominee[ID_KEY]}"
+                del nominee[ID_KEY]
         success, error_message = validate_existing_nominee_jformat(
             nominee_names_so_far, speech_ids_so_far, position_ids_so_far,
             nominee[ELECTION_JSON_KEY__NOM_NAME], nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],

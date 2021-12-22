@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from elections.views.create_context.webform.create_webform_context import \
-    create_webform_election_context_from_db_election_obj
+from elections.views.create_context.webform.create_context_update_election__webform_html import \
+    create_context_for_update_election__webform_html
 
 
 def display_current_webform_election(request, election, context):
@@ -18,5 +18,6 @@ def display_current_webform_election(request, election, context):
      error message
     """
 
-    context.update(create_webform_election_context_from_db_election_obj(election))
+    # context.update(create_webform_election_context_from_db_election_obj(election))
+    create_context_for_update_election__webform_html(context, election=election)
     return render(request, 'elections/update_election/update_election__webform.html', context)
