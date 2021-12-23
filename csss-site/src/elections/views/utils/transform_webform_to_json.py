@@ -26,7 +26,7 @@ def transform_webform_to_json(election_dict):
     new_election_dict = {}
     if ELECTION_JSON_KEY__NOMINEES in election_dict and type(election_dict[ELECTION_JSON_KEY__NOMINEES]) == dict:
         new_election_dict[ELECTION_JSON_KEY__NOMINEES] = list(election_dict[ELECTION_JSON_KEY__NOMINEES].values())
-        for nominee in new_election_dict[ELECTION_JSON_KEY__NOMINEES]:
+        for nominee in new_election_dict[ELECTION_JSON_KEY__NOMINEES]:  # type: list
             remove_id_if_invalid(nominee)
             if verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(nominee):
                 nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = list(

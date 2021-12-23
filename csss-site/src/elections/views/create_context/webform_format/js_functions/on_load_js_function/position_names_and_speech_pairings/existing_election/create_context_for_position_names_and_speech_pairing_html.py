@@ -18,7 +18,10 @@ def create_context_for_position_names_and_speech_pairing_html(
     context -- the context dictionary that has to be populated for the position_names_and_speech_pairing.html
     nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to be
      added to the context dictionary
-    nominees_info -- the nominee info that the user inputted, otherwise None
+    nominee_info -- the nominee info that the user inputted, otherwise None
+    speech_obj -- the object for the speech that has to be added to the context
+    speech_ids -- keeps tracks of the speech_ids attached to the context so far
+    nominee_obj -- the object that contains the saved nominee info
     new_webform_election -- bool to indicate if the election is a new webform election
     """
     context.update({

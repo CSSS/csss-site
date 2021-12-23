@@ -24,5 +24,5 @@ def get_position_id(position_name, position_infos):
     for position_info in position_infos:
         if ELECTION_JSON_KEY__NOM_POSITION_NAME in position_info:
             if position_info[ELECTION_JSON_KEY__NOM_POSITION_NAME] == position_name:
-                return position_info[ID_KEY]
+                return position_info[ID_KEY] if ID_KEY in position_info else None
     return None

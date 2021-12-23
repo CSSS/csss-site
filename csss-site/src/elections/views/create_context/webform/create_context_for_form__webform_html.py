@@ -14,7 +14,7 @@ from elections.views.create_context.webform_format.create_context_for_election_w
 
 def create_context_for_form__webform_html(context, election_date=None,
                                           election_time=None, election_type=None, websurvey_link=None,
-                                          new_webform_election=None):
+                                          new_webform_election=False):
     """
     Puts the included election info in the context dictionary
 

@@ -2,8 +2,7 @@ from elections.models import NomineeSpeech
 from elections.views.Constants import NOMINEE_DIV__NAME, \
     INPUT_NOMINEE_NAME__NAME, INPUT_NOMINEE_FACEBOOK__NAME, INPUT_NOMINEE_EMAIL__NAME, INPUT_NOMINEE_DISCORD__NAME, \
     INPUT_NOMINEE_ID__NAME, ID_KEY, INPUT_NOMINEE_LINKEDIN__NAME, \
-    INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME, ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME, \
-    NEW_WEBFORM_ELECTION__HTML__NAME
+    INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME, ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
@@ -18,11 +17,7 @@ def create_context_for_display_nominee_info_html(
         webform_election=True, new_webform_election=True,
         nominee_info_to_add_to_context=None, nominee_info=None, nominee_obj=None,
         speech_ids=None, populate_nominee_info=True,
-        process_update_to_existing_election=False
-        # nominee_info_to_add_to_context=None
-        # nominee_info_for_context=None, nominee_obj=None, nominee_info=None,
-        # , speech_ids=None,
-        # nominee_info_position_and_speech_pairing=None
+        create_context_for_updates_to_existing_election=False
 ):
     """
     populates the context dictionary that is used by
@@ -36,6 +31,12 @@ def create_context_for_display_nominee_info_html(
     nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to
      be added to the context dictionary
     nominees_info -- the nominee info that the user inputted, otherwise None
+    nominee_obj -- the object that contains the saved nominee info
+    speech_ids -- keeps tracks of the speech_ids attached to the context so far
+    populate_nominee_info -- flag to indicate whether or not to populate the nominee_info when being called via
+     create_context_for_update_election__webform_html context creator
+    create_context_for_updates_to_existing_election --flag to indicate if creating the context when the user
+     tried to update an existing election but there was an error
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES,
@@ -50,7 +51,6 @@ def create_context_for_display_nominee_info_html(
             INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME: include_id_for_nominee,
             INPUT_NOMINEE_ID__NAME: ID_KEY,
             ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME: webform_election,
-            NEW_WEBFORM_ELECTION__HTML__NAME: new_webform_election
         })
         if populate_nominee_info:
             if webform_election:
@@ -60,7 +60,7 @@ def create_context_for_display_nominee_info_html(
                         context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
                         nominee_info=nominee_info, new_webform_election=new_webform_election
                     )
-                elif process_update_to_existing_election:
+                elif create_context_for_updates_to_existing_election:
                     # POST /elections/<slug>/election_modification_webform/
                     create_context_for_position_names_and_speech_pairing_html(
                         context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,

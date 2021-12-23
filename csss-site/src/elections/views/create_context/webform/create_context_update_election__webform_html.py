@@ -17,8 +17,7 @@ def create_context_for_update_election__webform_html(
         context, error_messages=None, election_dict=None, election_date=None, election_time=None, election_type=None,
         websurvey_link=None, webform_election=True, new_webform_election=False,
         include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True, nominees_info=None,
-        election=None, process_update_to_existing_election=False
-):
+        election=None, create_context_for_updates_to_existing_election=False):
     """
     populates the context dictionary that is used by update_election__webform.html
 
@@ -37,6 +36,9 @@ def create_context_for_update_election__webform_html(
     draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a
      draft or saved
     nominees_info -- the list of nominee infos that the user inputted, otherwise None
+    election -- the election object that is needed for displaying the selected election's nominees
+    create_context_for_updates_to_existing_election -- used to indicate if context is being created
+     for user's unsaved changes to an existing election
     """
     if election_dict is not None:
         if election_date is None and ELECTION_JSON_KEY__DATE in election_dict:
@@ -70,7 +72,8 @@ def create_context_for_update_election__webform_html(
         context, webform_election=webform_election, new_webform_election=new_webform_election,
         include_id_for_nominee=include_id_for_nominee,
         draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display, nominees_info=nominees_info,
-        election=election, process_update_to_existing_election=process_update_to_existing_election
+        election=election,
+        create_context_for_updates_to_existing_election=create_context_for_updates_to_existing_election
     )
     create_context_for_add_blank_nominee_html(
         context, webform_election=webform_election, new_webform_election=new_webform_election,

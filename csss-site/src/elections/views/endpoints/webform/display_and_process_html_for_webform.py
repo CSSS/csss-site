@@ -27,14 +27,10 @@ def display_and_process_html_for_modification_of_webform_election(request, slug)
         context[ERROR_MESSAGES_KEY] = [f"Received invalid Election slug of {slug}"]
         return render(request, 'elections/update_election/update_election__webform.html', context)
 
-    process_election = (request.method == "POST") and (UPDATE_EXISTING_ELECTION__NAME in request.POST)
-
     election = Election.objects.get(slug=slug)
-    if not process_election:
-        create_context_for_update_election__webform_html(context, election=election)
-    # context.update(create_webform_context(create_new_election=False))
 
-    return process_existing_election_information_from_webform(request, election, context) \
-        if process_election else \
+    if not (request.method == "POST") and (UPDATE_EXISTING_ELECTION__NAME in request.POST):
+        create_context_for_update_election__webform_html(context, election=election)
         render(request, 'elections/update_election/update_election__webform.html', context)
-    # display_current_webform_election(request, election, context)
+    else:
+        return process_existing_election_information_from_webform(request, election, context)

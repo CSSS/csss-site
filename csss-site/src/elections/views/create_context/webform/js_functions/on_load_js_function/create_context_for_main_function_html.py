@@ -13,7 +13,7 @@ from elections.views.create_context.webform_format.create_context_for_display_no
 def create_context_for_main_function_html(
         context, nominees_info=None, include_id_for_nominee=False, webform_election=True,
         new_webform_election=True, draft_or_finalized_nominee_to_display=False, election=None,
-        process_update_to_existing_election=False):
+        create_context_for_updates_to_existing_election=False):
     """
     populates the context dictionary that is used by
      elections/templates/elections/webform/js_functions/on_load_js_function/main_function.html
@@ -87,7 +87,8 @@ def create_context_for_main_function_html(
                 include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
                 new_webform_election=new_webform_election,
                 nominee_info_to_add_to_context=nominee_info_to_add_to_context,
-                nominee_info=nominee_info, process_update_to_existing_election=process_update_to_existing_election
+                nominee_info=nominee_info,
+                create_context_for_updates_to_existing_election=create_context_for_updates_to_existing_election
             )
             context[NOMINEES_HTML__NAME].append(nominee_info_to_add_to_context)
     else:
