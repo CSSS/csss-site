@@ -71,7 +71,6 @@ def create_context_for_main_function_html(
                             populate_nominee_info=True, get_existing_election_webform=get_existing_election_webform
                         )
             context[NOMINEES_HTML__NAME] = [nominee_info for nominee_info in nominee_info_to_add_to_context.values()]
-            # context[NOMINEES_HTML__NAME] = get_election_nominees(election)
     elif create_or_update_webform_election:
         # POST /elections/new_election_webform
         # POST /elections/<slug>/election_modification_webform/
@@ -113,5 +112,3 @@ def create_context_for_main_function_html(
     context[DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME] = 'true'
     if NOMINEES_HTML__NAME not in context or len(context[NOMINEES_HTML__NAME]) == 0:
         context[DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME] = 'false'
-        # DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME:
-        #     'true' if draft_or_finalized_nominee_to_display else 'false'
