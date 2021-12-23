@@ -20,8 +20,6 @@ def create_context_for_add_blank_nominee_html(
     draft_or_finalized_nominee_to_display -- bool to indicate if there is any nominee to show, either as a
      draft or saved
     """
-
-    # look into ensuring that populate_nominee_info is being used correctly when trying to add a new webfoem election
     create_context_for_display_nominee_info_html(
         context, draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
         include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
