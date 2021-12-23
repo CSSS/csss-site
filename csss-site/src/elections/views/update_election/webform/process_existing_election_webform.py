@@ -52,7 +52,7 @@ def process_existing_election_information_from_webform(request, election, contex
         )
         create_context_for_update_election__webform_html(
             context, error_messages=[error_message], election_dict=election_dict,
-            create_context_for_updates_to_existing_election=True
+            create_or_update_webform_election=True
         )
         return render(request, 'elections/update_election/update_election__webform.html', context)
 
@@ -67,10 +67,8 @@ def process_existing_election_information_from_webform(request, election, contex
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            webform_election=True, new_webform_election=False,
-            include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True,
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
-            create_context_for_updates_to_existing_election=True
+            create_or_update_webform_election=True
         )
         return render(request, 'elections/update_election/update_election__webform.html', context)
 
@@ -85,10 +83,8 @@ def process_existing_election_information_from_webform(request, election, contex
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            webform_election=True, new_webform_election=False,
-            include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True,
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
-            create_context_for_updates_to_existing_election=True
+            create_or_update_webform_election=True
         )
         return render(request, 'elections/update_election/update_election__webform.html', context)
 
@@ -103,10 +99,8 @@ def process_existing_election_information_from_webform(request, election, contex
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            webform_election=True, new_webform_election=False,
-            include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True,
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
-            create_context_for_updates_to_existing_election=True
+            create_or_update_webform_election=True
         )
         return render(request, 'elections/update_election/update_election__webform.html', context)
 
@@ -123,10 +117,8 @@ def process_existing_election_information_from_webform(request, election, contex
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            webform_election=True, new_webform_election=False,
-            include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True,
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
-            create_context_for_updates_to_existing_election=True
+            create_or_update_webform_election=True
         )
         return render(request, 'elections/update_election/update_election__webform.html', context)
     success, error_message = validate_nominees_for_existing_election_jformat(
@@ -142,10 +134,8 @@ def process_existing_election_information_from_webform(request, election, contex
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            webform_election=True, new_webform_election=False,
-            include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True,
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
-            create_context_for_updates_to_existing_election=True
+            create_or_update_webform_election=True
         )
         return render(request, 'elections/update_election/update_election__webform.html', context)
 

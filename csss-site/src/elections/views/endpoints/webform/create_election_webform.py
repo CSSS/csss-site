@@ -23,10 +23,8 @@ def display_and_process_html_for_new_webform_election(request):
     logger.info(json.dumps(request.POST, indent=3))
     context = create_context_for_election_officer(request, tab=TAB_STRING)
 
-    process_election = request.method == "POST"
-    if not process_election:
+    if request.method == "POST":
+        return process_new_inputted_webform_election(request, context)
+    else:
         create_context_for_create_election__webform_html(context)
-
-    return process_new_inputted_webform_election(request, context) \
-        if process_election \
-        else render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/create_election/create_election__webform.html', context)

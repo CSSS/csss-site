@@ -17,7 +17,7 @@ def create_context_for_update_election__webform_html(
         context, error_messages=None, election_dict=None, election_date=None, election_time=None, election_type=None,
         websurvey_link=None, webform_election=True, new_webform_election=False,
         include_id_for_nominee=True, draft_or_finalized_nominee_to_display=True, nominees_info=None,
-        election=None, create_context_for_updates_to_existing_election=False):
+        election=None, get_existing_election_webform=False, create_or_update_webform_election=False):
     """
     populates the context dictionary that is used by update_election__webform.html
 
@@ -37,8 +37,9 @@ def create_context_for_update_election__webform_html(
      draft or saved
     nominees_info -- the list of nominee infos that the user inputted, otherwise None
     election -- the election object that is needed for displaying the selected election's nominees
-    create_context_for_updates_to_existing_election -- used to indicate if context is being created
-     for user's unsaved changes to an existing election
+    get_existing_election_webform -- boolean indicator of when the context is being creating for the page
+     that shows a saved election
+    create_or_update_webform_election -- boolean indicator when the user is trying to create or update an election
     """
     if election_dict is not None:
         if election_date is None and ELECTION_JSON_KEY__DATE in election_dict:
@@ -73,12 +74,12 @@ def create_context_for_update_election__webform_html(
         include_id_for_nominee=include_id_for_nominee,
         draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display, nominees_info=nominees_info,
         election=election,
-        create_context_for_updates_to_existing_election=create_context_for_updates_to_existing_election
+        get_existing_election_webform=get_existing_election_webform,
+        create_or_update_webform_election=create_or_update_webform_election
     )
     create_context_for_add_blank_nominee_html(
         context, webform_election=webform_election, new_webform_election=new_webform_election,
         include_id_for_nominee=include_id_for_nominee,
-        draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
-        populate_nominee_info=False
+        draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display
     )
     create_context_for_add_blank_speech_html(context)

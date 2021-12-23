@@ -29,8 +29,10 @@ def display_and_process_html_for_modification_of_webform_election(request, slug)
 
     election = Election.objects.get(slug=slug)
 
-    if not (request.method == "POST") and (UPDATE_EXISTING_ELECTION__NAME in request.POST):
-        create_context_for_update_election__webform_html(context, election=election)
-        render(request, 'elections/update_election/update_election__webform.html', context)
-    else:
+    if (request.method == "POST") and (UPDATE_EXISTING_ELECTION__NAME in request.POST):
         return process_existing_election_information_from_webform(request, election, context)
+    else:
+        create_context_for_update_election__webform_html(
+            context, election=election, get_existing_election_webform=True
+        )
+        return render(request, 'elections/update_election/update_election__webform.html', context)

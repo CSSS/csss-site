@@ -6,7 +6,7 @@ from elections.views.create_context.webform_format.create_context_for_display_no
 
 def create_context_for_add_blank_nominee_html(
         context, webform_election=True, new_webform_election=True, include_id_for_nominee=False,
-        draft_or_finalized_nominee_to_display=False, populate_nominee_info=True):
+        draft_or_finalized_nominee_to_display=False):
     """
     populates the context dictionary that is used by
      elections/templates/elections/webform/js_functions/add_blank_nominee.html
@@ -25,6 +25,6 @@ def create_context_for_add_blank_nominee_html(
     create_context_for_display_nominee_info_html(
         context, draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
         include_id_for_nominee=include_id_for_nominee, webform_election=webform_election,
-        new_webform_election=new_webform_election, populate_nominee_info=populate_nominee_info
+        new_webform_election=new_webform_election
     )
     create_context_for_add_blank_speech_html(context)

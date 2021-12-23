@@ -9,7 +9,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITI
 
 def create_context_for_position_names_and_speech_pairing_html(
         context, nominee_info_to_add_to_context=None, nominee_info=None, speech_obj=None,
-        speech_ids=None, nominee_obj=None, new_webform_election=True):
+        speech_ids=None, nominee_name=None, new_webform_election=True, populate_nominee_info=False):
     """
     populates the context dictionary that is used by
      elections/templates/elections/webform/js_functions/on_load_js_function/
@@ -21,8 +21,10 @@ def create_context_for_position_names_and_speech_pairing_html(
     nominee_info -- the nominee info that the user inputted, otherwise None
     speech_obj -- the object for the speech that has to be added to the context
     speech_ids -- keeps tracks of the speech_ids attached to the context so far
-    nominee_obj -- the object that contains the saved nominee info
+    nominee_name -- the saved nominee's name
     new_webform_election -- bool to indicate if the election is a new webform election
+    populate_nominee_info -- flag to indicate whether or not to populate the nominee_info when being called via
+     create_context_for_update_election__webform_html context creator
     """
     context.update({
         NEW_WEBFORM_ELECTION__HTML__NAME: new_webform_election,
@@ -38,21 +40,9 @@ def create_context_for_position_names_and_speech_pairing_html(
         INPUT_SPEECH_ID__NAME: ID_KEY,
 
     })
-    if nominee_info is not None and speech_obj is None:
-        if new_webform_election:
+    if populate_nominee_info:
+        if nominee_info is not None:
             # POST /elections/new_election_webform
-            nominee_info_to_add_to_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
-            if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info and type(nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) is list:  # noqa: E501
-                for speech_and_position_pairing in nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]:
-                    new_speech_and_position_pairing = {
-                        ELECTION_JSON_KEY__NOM_SPEECH: speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]
-                    }
-                    if ELECTION_JSON_KEY__NOM_POSITION_NAMES in speech_and_position_pairing:
-                        new_speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]  # noqa: E501
-                    nominee_info_to_add_to_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].append(
-                        new_speech_and_position_pairing
-                    )
-        else:
             # POST /elections/<slug>/election_modification_webform/
             nominee_info_to_add_to_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
             if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info and type(nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) is list:  # noqa: E501
@@ -67,31 +57,31 @@ def create_context_for_position_names_and_speech_pairing_html(
                     nominee_info_to_add_to_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].append(
                         new_speech_and_position_pairing
                     )
-    elif speech_obj is not None and nominee_info is None:
-        # GET /elections/<slug>/election_modification_webform/
-        if speech_ids is None:
-            speech_ids = []
-        if speech_obj.id not in speech_ids:
-            speech_and_position_pairings = []
-            speech_and_position_pairing = {}
-            speech_ids.append(speech_obj.id)
-            for nominee_position in speech_obj.nomineeposition_set.all():
-                if ELECTION_JSON_KEY__NOM_POSITION_NAMES not in speech_and_position_pairing:
-                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = [{
-                        ID_KEY: nominee_position.id,
-                        ELECTION_JSON_KEY__NOM_POSITION_NAME: nominee_position.position_name
-                    }]
-                else:
-                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES].append(
-                        {
+        elif speech_obj is not None:
+            # GET /elections/<slug>/election_modification_webform/
+            if speech_ids is None:
+                speech_ids = []
+            if speech_obj.id not in speech_ids:
+                speech_and_position_pairings = []
+                speech_and_position_pairing = {}
+                speech_ids.append(speech_obj.id)
+                for nominee_position in speech_obj.nomineeposition_set.all():
+                    if ELECTION_JSON_KEY__NOM_POSITION_NAMES not in speech_and_position_pairing:
+                        speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = [{
                             ID_KEY: nominee_position.id,
                             ELECTION_JSON_KEY__NOM_POSITION_NAME: nominee_position.position_name
-                        }
-                    )
-            speech_and_position_pairing[ID_KEY] = speech_obj.id
-            speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech_obj.speech
-            if speech_and_position_pairing is not None:
-                speech_and_position_pairings.append(speech_and_position_pairing)
-            nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].extend(  # noqa: E501
-                speech_and_position_pairings
-            )
+                        }]
+                    else:
+                        speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES].append(
+                            {
+                                ID_KEY: nominee_position.id,
+                                ELECTION_JSON_KEY__NOM_POSITION_NAME: nominee_position.position_name
+                            }
+                        )
+                speech_and_position_pairing[ID_KEY] = speech_obj.id
+                speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech_obj.speech
+                if speech_and_position_pairing is not None:
+                    speech_and_position_pairings.append(speech_and_position_pairing)
+                nominee_info_to_add_to_context[nominee_name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].extend(  # noqa: E501
+                    speech_and_position_pairings
+                )

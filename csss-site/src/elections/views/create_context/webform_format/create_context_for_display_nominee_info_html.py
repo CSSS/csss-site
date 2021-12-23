@@ -16,8 +16,9 @@ def create_context_for_display_nominee_info_html(
         context, draft_or_finalized_nominee_to_display=False, include_id_for_nominee=False,
         webform_election=True, new_webform_election=True,
         nominee_info_to_add_to_context=None, nominee_info=None, nominee_obj=None,
-        speech_ids=None, populate_nominee_info=True,
-        create_context_for_updates_to_existing_election=False
+        speech_ids=None, populate_nominee_info=False,
+        create_or_update_webform_election=False,
+        get_existing_election_webform=False
 ):
     """
     populates the context dictionary that is used by
@@ -35,8 +36,9 @@ def create_context_for_display_nominee_info_html(
     speech_ids -- keeps tracks of the speech_ids attached to the context so far
     populate_nominee_info -- flag to indicate whether or not to populate the nominee_info when being called via
      create_context_for_update_election__webform_html context creator
-    create_context_for_updates_to_existing_election --flag to indicate if creating the context when the user
-     tried to update an existing election but there was an error
+    get_existing_election_webform -- boolean indicator of when the context is being creating for the page
+     that shows a saved election
+    create_or_update_webform_election -- boolean indicator when the user is trying to create or update an election
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES,
@@ -52,40 +54,36 @@ def create_context_for_display_nominee_info_html(
             INPUT_NOMINEE_ID__NAME: ID_KEY,
             ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME: webform_election,
         })
-        if populate_nominee_info:
-            if webform_election:
-                if new_webform_election:
-                    # POST /elections/new_election_webform
+        if webform_election:
+            if create_or_update_webform_election:
+                # POST /elections/new_election_webform
+                # POST /elections/<slug>/election_modification_webform/
+                create_context_for_position_names_and_speech_pairing_html(
+                    context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
+                    nominee_info=nominee_info, new_webform_election=new_webform_election,
+                    populate_nominee_info=populate_nominee_info
+                )
+            elif get_existing_election_webform:
+                # GET /elections/<slug>/election_modification_webform/
+                if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS not in nominee_info_to_add_to_context[nominee_obj.name]:  # noqa: E501
+                    nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
+                speech_objs = NomineeSpeech.objects.all().filter(
+                    nominee=nominee_obj
+                ).order_by('nomineeposition__position_index')
+                for speech_obj in speech_objs:
                     create_context_for_position_names_and_speech_pairing_html(
                         context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
-                        nominee_info=nominee_info, new_webform_election=new_webform_election
+                        speech_obj=speech_obj, nominee_name=nominee_obj.name,
+                        new_webform_election=new_webform_election, speech_ids=speech_ids,
+                        populate_nominee_info=populate_nominee_info
                     )
-                elif create_context_for_updates_to_existing_election:
-                    # POST /elections/<slug>/election_modification_webform/
-                    create_context_for_position_names_and_speech_pairing_html(
-                        context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
-                        nominee_info=nominee_info, new_webform_election=new_webform_election
-                    )
-                else:
-                    # GET /elections/<slug>/election_modification_webform/
-                    if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS not in nominee_info_to_add_to_context[nominee_obj.name]:  # noqa: E501
-                        nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
-                    speech_objs = NomineeSpeech.objects.all().filter(
-                        nominee=nominee_obj
-                    ).order_by('nomineeposition__position_index')
-                    for speech_obj in speech_objs:
-                        create_context_for_position_names_and_speech_pairing_html(
-                            context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
-                            speech_obj=speech_obj, nominee_obj=nominee_obj,
-                            new_webform_election=new_webform_election, speech_ids=speech_ids
-                        )
-            else:
-                pass
-                # if nominee_info is not None and ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info:
-                #     position_and_speech_pairings = nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
-                #     create_context_for_position_names_and_speech_pairing_html(
-                #         context, nominee_info_position_and_speech_pairing=position_and_speech_pairings
-                #     )
-                #     create_context_for_position_names_and_speech_pairing_html(
-                #         context
-                #     )
+        else:
+            pass
+            # if nominee_info is not None and ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info:
+            #     position_and_speech_pairings = nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
+            #     create_context_for_position_names_and_speech_pairing_html(
+            #         context, nominee_info_position_and_speech_pairing=position_and_speech_pairings
+            #     )
+            #     create_context_for_position_names_and_speech_pairing_html(
+            #         context
+            #     )
