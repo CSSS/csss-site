@@ -7,10 +7,10 @@ from elections.views.create_context.webform.create_context_for_form__webform_htm
     create_context_for_form__webform_html
 from elections.views.create_context.webform.js_functions.create_context_for_add_blank_nominee_html import \
     create_context_for_add_blank_nominee_html
-from elections.views.create_context.webform.js_functions.create_context_for_add_blank_speech_html import \
-    create_context_for_add_blank_speech_html
 from elections.views.create_context.webform.js_functions.on_load_js_function.\
     create_context_for_main_function_html import create_context_for_main_function_html
+from elections.views.create_context.webform_format.js_functions.create_context_for_add_blank_speech_html import \
+    create_context_for_add_blank_speech_html
 
 
 def create_context_for_update_election__webform_html(
