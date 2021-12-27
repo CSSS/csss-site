@@ -5,7 +5,8 @@ from django.shortcuts import render
 
 from csss.views.context_creation.create_main_context import create_main_context
 from elections.models import NomineeLink
-from elections.views.Constants import TAB_STRING, CREATE_OR_UPDATE_NOMINEE__NAME, HTML_PASSPHRASE_GET_KEY
+from elections.views.Constants import TAB_STRING, CREATE_OR_UPDATE_NOMINEE__NAME, HTML_PASSPHRASE_GET_KEY, \
+    NOMINEE_LINK_ID
 from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
@@ -23,11 +24,9 @@ def display_and_process_html_for_nominee_modification_via_passphrase(request):
         "request.POST="
     )
     logger.info(json.dumps(request.POST, indent=3))
-
     context = create_main_context(request, TAB_STRING)
 
     nominee_link_passphrase = request.GET.get(HTML_PASSPHRASE_GET_KEY, None)
-
     nominee_links = NomineeLink.objects.all().filter(passphrase=nominee_link_passphrase)
     error_message = None
     if nominee_link_passphrase is None:
@@ -41,7 +40,9 @@ def display_and_process_html_for_nominee_modification_via_passphrase(request):
         return render(request,
                       'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
 
-    process_nominee = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
     nominee_link_id = nominee_links[0].id
-    return process_nominee__nominee_links(request, context, nominee_link_id) if process_nominee \
-        else display_current_nominee_link_election(request, context, nominee_link_id)
+
+    if (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST):
+        return process_nominee__nominee_links(request, context, nominee_link_id)
+    else:
+        return display_current_nominee_link_election(request, context, nominee_link_id)

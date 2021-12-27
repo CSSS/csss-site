@@ -1,10 +1,12 @@
 {% block content %}
 	{% load staticfiles %}
-	{%  if final_nominee__html_name|length > 0 %}
+	{%  if saved_nominee_speeches__html_name|length > 0 %}
+        <br><br>
+        <h3 class="title is-size-3">Current Saved Nominee Info</h3>
 		<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
-		{{final_nominee__html_name.0.social_media_html|safe}}
+		{{saved_nominee_speeches__html_name.0.social_media_html|safe}}
 		<br><br>
-		{% for nominee_speech in final_nominee__html_name %}
+		{% for nominee_speech in saved_nominee_speeches__html_name %}
 			<h4 class="title is-size-4">Position[s]: {{ nominee_speech.formatted_position_names_html }}</h4>
 			<br>
 			{%  if nominee_speech.speech != "NONE" %}

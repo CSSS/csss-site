@@ -17,5 +17,4 @@ def display_current_nominee_link_election(request, context, nominee_link_id):
     render object that directs the user to the page for updating a nominee via nominee link
     """
     create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=nominee_link_id)
-    return render(request,
-                  'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
+    return render(request, 'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)

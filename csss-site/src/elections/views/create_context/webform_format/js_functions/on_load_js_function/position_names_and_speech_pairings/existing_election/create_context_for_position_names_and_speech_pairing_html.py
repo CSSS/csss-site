@@ -1,7 +1,7 @@
 from about.models import OfficerEmailListAndPositionMapping
 from elections.views.Constants import NOMINEE_DIV__NAME, INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, \
     INPUT_NOMINEE_POSITION_NAMES__NAME, INPUT_SPEECH_ID__NAME, CURRENT_OFFICER_POSITIONS, \
-    INPUT_NOMINEE_SPEECH__NAME, ID_KEY, NEW_WEBFORM_ELECTION__HTML__NAME
+    INPUT_NOMINEE_SPEECH__NAME, ID_KEY, NEW_ELECTION_OR_NOMINEE__HTML__NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
     ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOMINEES
@@ -9,7 +9,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITI
 
 def create_context_for_position_names_and_speech_pairing_html(
         context, nominee_info_to_add_to_context=None, nominee_info=None, speech_obj=None,
-        speech_ids=None, nominee_name=None, new_webform_election=True, populate_nominee_info=False):
+        speech_ids=None, nominee_name=None, new_election_or_nominee=True, populate_nominee_info=False):
     """
     populates the context dictionary that is used by
      elections/templates/elections/webform/js_functions/on_load_js_function/
@@ -22,12 +22,13 @@ def create_context_for_position_names_and_speech_pairing_html(
     speech_obj -- the object for the speech that has to be added to the context
     speech_ids -- keeps tracks of the speech_ids attached to the context so far
     nominee_name -- the saved nominee's name
-    new_webform_election -- bool to indicate if the election is a new webform election
+    new_election_or_nominee -- bool to indicate if the election or nominee is new
     populate_nominee_info -- flag to indicate whether or not to populate the nominee_info when being called via
      create_context_for_update_election__webform_html context creator
     """
+
     context.update({
-        NEW_WEBFORM_ELECTION__HTML__NAME: new_webform_election,
+        NEW_ELECTION_OR_NOMINEE__HTML__NAME: new_election_or_nominee,
         CURRENT_OFFICER_POSITIONS: [
             position for position in OfficerEmailListAndPositionMapping.objects.all().filter(
                 marked_for_deletion=False, elected_via_election_officer=True
@@ -44,6 +45,7 @@ def create_context_for_position_names_and_speech_pairing_html(
         if nominee_info is not None:
             # POST /elections/new_election_webform
             # POST /elections/<slug>/election_modification_webform/
+            # POST /elections/create_or_update_via_nominee_links/?nominee_link_id=<nominee_link_id>
             nominee_info_to_add_to_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
             if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info and type(nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) is list:  # noqa: E501
                 for speech_and_position_pairing in nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]:
@@ -59,6 +61,7 @@ def create_context_for_position_names_and_speech_pairing_html(
                     )
         elif speech_obj is not None:
             # GET /elections/<slug>/election_modification_webform/
+            # GET /elections/create_or_update_via_nominee_links/?nominee_link_id=<nominee_link_id>
             if speech_ids is None:
                 speech_ids = []
             if speech_obj.id not in speech_ids:

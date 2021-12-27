@@ -6,8 +6,8 @@ from elections.views.Constants import NOMINEE_DIV__NAME, \
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
-    position_names_and_speech_pairings.existing_election.\
+from elections.views.create_context.webform_format.js_functions.on_load_js_function. \
+    position_names_and_speech_pairings.existing_election. \
     create_context_for_position_names_and_speech_pairing_html import \
     create_context_for_position_names_and_speech_pairing_html
 
@@ -60,7 +60,7 @@ def create_context_for_display_nominee_info_html(
                 # POST /elections/<slug>/election_modification_webform/
                 create_context_for_position_names_and_speech_pairing_html(
                     context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
-                    nominee_info=nominee_info, new_webform_election=new_webform_election,
+                    nominee_info=nominee_info, new_election_or_nominee=new_webform_election,
                     populate_nominee_info=populate_nominee_info
                 )
             elif get_existing_election_webform:
@@ -74,16 +74,26 @@ def create_context_for_display_nominee_info_html(
                     create_context_for_position_names_and_speech_pairing_html(
                         context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
                         speech_obj=speech_obj, nominee_name=nominee_obj.name,
-                        new_webform_election=new_webform_election, speech_ids=speech_ids,
+                        new_election_or_nominee=new_webform_election, speech_ids=speech_ids,
                         populate_nominee_info=populate_nominee_info
                     )
         else:
-            pass
-            # if nominee_info is not None and ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info:
-            #     position_and_speech_pairings = nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
-            #     create_context_for_position_names_and_speech_pairing_html(
-            #         context, nominee_info_position_and_speech_pairing=position_and_speech_pairings
-            #     )
-            #     create_context_for_position_names_and_speech_pairing_html(
-            #         context
-            #     )
+            if nominee_info is not None:
+                # POST /elections/create_or_update_via_nominee_links/?nominee_link_id=2
+                create_context_for_position_names_and_speech_pairing_html(
+                    context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
+                    nominee_info=nominee_info, populate_nominee_info=True, new_election_or_nominee=nominee_obj is None
+                )
+            elif nominee_obj is not None:
+                # GET /elections/create_or_update_via_nominee_links/?nominee_link_id=2
+                nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
+                speech_objs = NomineeSpeech.objects.all().filter(
+                    nominee=nominee_obj
+                ).order_by('nomineeposition__position_index')
+                speech_ids = []
+                for speech_obj in speech_objs:
+                    create_context_for_position_names_and_speech_pairing_html(
+                        context, nominee_info_to_add_to_context=nominee_info_to_add_to_context, speech_obj=speech_obj,
+                        populate_nominee_info=True, nominee_name=nominee_obj.name, new_election_or_nominee=False,
+                        speech_ids=speech_ids
+                    )

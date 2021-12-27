@@ -6,7 +6,11 @@ ELECTION__HTML_NAME = 'election__html_name'
 
 NOMINEES_HTML__NAME = 'nominees__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
-FINAL_NOMINEE_HTML__NAME = 'final_nominee__html_name'
+
+ELECTION_HUMAN_FRIENDLY_NAME__HTML_NAME = 'election_human_friendly_name__html_name'
+NOMINEE__NAME__HTML_NAME = 'nominee__name__html_name'
+
+SAVED_NOMINEE_SPEECHES__HTML_NAME = 'saved_nominee_speeches__html_name'
 
 INPUT_REDIRECT_ELECTION__NAME = 'input_redirect_election_submit__name'
 INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE = (
@@ -67,7 +71,7 @@ INPUT_NOMINEE_ID__NAME = 'input_nominee_id__name'
 DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME = 'draft_or_finalized_nominee_to_display__html_name'
 
 ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME = 'webform_election__html_name'
-NEW_WEBFORM_ELECTION__HTML__NAME = 'new_webform_election__html_name'
+NEW_ELECTION_OR_NOMINEE__HTML__NAME = 'new_election_or_nominee__html_name'
 INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME = 'include_id_for_nominee_in_weform__html_name'
 
 NOMINEE_DIV__NAME = 'nominee_div__name'

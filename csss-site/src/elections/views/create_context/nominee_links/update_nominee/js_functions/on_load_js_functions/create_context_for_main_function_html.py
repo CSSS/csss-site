@@ -1,4 +1,3 @@
-from elections.models import NomineeLink
 from elections.views.Constants import NOMINEE_DIV__NAME, DRAFT_NOMINEE_HTML__NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
@@ -7,30 +6,30 @@ from elections.views.create_context.webform_format.create_context_for_display_no
     create_context_for_display_nominee_info_html
 
 
-def create_context_for_main_function_html(
-        context, nominee_link_id=None, nominee_info=None):
+def create_context_for_main_function_html(context, nominee_info=None, nominee_obj=None):
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
     })
-    nominee_link = NomineeLink.objects.get(id=nominee_link_id)
-    nominee_obj = nominee_link.nominee if nominee_link.nominee is not None else None
-
-    if nominee_info is not None:
-        context.update(
-            {
-                DRAFT_NOMINEE_HTML__NAME: {
+    if nominee_info is not None or nominee_obj is not None:
+        if nominee_info is not None:
+            nominee_info_to_add_to_context = {
                     ELECTION_JSON_KEY__NOM_NAME: nominee_info[ELECTION_JSON_KEY__NOM_NAME],
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK],
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN],
                     ELECTION_JSON_KEY__NOM_EMAIL: nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
                     ELECTION_JSON_KEY__NOM_DISCORD: nominee_info[ELECTION_JSON_KEY__NOM_DISCORD]
-                }
             }
-        )
-    elif nominee_obj is not None:
-        context.update(
-            {
-                DRAFT_NOMINEE_HTML__NAME: {
+            create_context_for_display_nominee_info_html(
+                context, draft_or_finalized_nominee_to_display=True,
+                include_id_for_nominee=False, webform_election=False, new_webform_election=False,
+                nominee_info_to_add_to_context=nominee_info_to_add_to_context,
+                nominee_info=nominee_info, nominee_obj=nominee_obj,
+                populate_nominee_info=True
+            )
+            context[DRAFT_NOMINEE_HTML__NAME] = nominee_info_to_add_to_context
+        elif nominee_obj is not None:
+            nominee_info_to_add_to_context = {
+                nominee_obj.name: {
                     ELECTION_JSON_KEY__NOM_NAME: nominee_obj.name,
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
@@ -38,7 +37,15 @@ def create_context_for_main_function_html(
                     ELECTION_JSON_KEY__NOM_DISCORD: nominee_obj.discord
                 }
             }
+            create_context_for_display_nominee_info_html(
+                context, draft_or_finalized_nominee_to_display=True,
+                include_id_for_nominee=False, webform_election=False, new_webform_election=False,
+                nominee_info_to_add_to_context=nominee_info_to_add_to_context,
+                nominee_info=nominee_info, nominee_obj=nominee_obj,
+                populate_nominee_info=True
+            )
+            context[DRAFT_NOMINEE_HTML__NAME] = nominee_info_to_add_to_context[nominee_obj.name]
+    else:
+        create_context_for_display_nominee_info_html(
+            context, draft_or_finalized_nominee_to_display=False
         )
-    create_context_for_display_nominee_info_html(
-        context, nominee_obj=nominee_obj, nominee_info=nominee_info, include_id_for_nominee=False
-    )

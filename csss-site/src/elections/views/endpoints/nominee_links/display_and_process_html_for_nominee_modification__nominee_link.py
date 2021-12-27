@@ -39,7 +39,7 @@ def display_and_process_html_for_nominee_modification(request):
         return render(request,
                       'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
 
-    process_nominee = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
-
-    return process_nominee__nominee_links(request, context, nominee_link_id) if process_nominee \
-        else display_current_nominee_link_election(request, context, nominee_link_id)
+    if (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST):
+        return process_nominee__nominee_links(request, context, nominee_link_id)
+    else:
+        return display_current_nominee_link_election(request, context, nominee_link_id)
