@@ -14,15 +14,15 @@
 		<h2 class="title is-size-2">Create Nominee Info for election {{election_human_friendly_name}}</h2>
 	{%  endif %}
 	<form method="post" class="form">
-		{%  include 'elections/nominee_links/update_nominee/form__nominee_links.html' %}
+		{%  include 'elections/nominee_links/create_or_update_nominee/form__nominee_links.html' %}
 	</form>
 
 	<script>
 		function removeDiv(divName){$(divName).remove();}
 
-		{%  include 'elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html' %}
+		{%  include 'elections/nominee_links/create_or_update_nominee/js_functions/on_load_js_functions/main_function.html' %}
 		{%  include 'elections/webform_format/js_functions/add_blank_speech.html' %}
 	</script>
 
-	{%  include 'elections/nominee_links/update_nominee/view_saved_nominee_info.html' %}
+	{%  include 'elections/nominee_links/create_or_update_nominee/view_saved_nominee_info.html' %}
 {% endblock %}

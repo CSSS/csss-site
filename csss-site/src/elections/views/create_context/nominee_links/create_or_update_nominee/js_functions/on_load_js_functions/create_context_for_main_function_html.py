@@ -7,6 +7,15 @@ from elections.views.create_context.webform_format.create_context_for_display_no
 
 
 def create_context_for_main_function_html(context, nominee_info=None, nominee_obj=None):
+    """
+    populates the context dictionary that is used by
+     elections/nominee_links/update_nominee/js_functions/on_load_js_functions/main_function.html
+
+    Keyword Arguments
+    context -- the context dictionary that has to be populated for the main_function.html
+    nominees_info -- the list of nominee infos that the user inputted, otherwise None
+    nominee_obj -- the object that contains the saved nominee info
+    """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
     })

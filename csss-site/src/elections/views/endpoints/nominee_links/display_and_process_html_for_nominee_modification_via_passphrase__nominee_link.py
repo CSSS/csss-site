@@ -37,8 +37,10 @@ def display_and_process_html_for_nominee_modification_via_passphrase(request):
         error_message = [f"No election attached to Nominee Link {nominee_links[0]} detected in the request"]
     if error_message is not None:
         create_context_for_create_or_update_nominee__nominee_links_html(context, error_messages=[error_message])
-        return render(request,
-                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
+            context
+        )
 
     nominee_link_id = nominee_links[0].id
 

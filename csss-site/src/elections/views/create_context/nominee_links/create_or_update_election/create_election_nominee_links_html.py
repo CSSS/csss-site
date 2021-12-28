@@ -1,16 +1,14 @@
 import json
 import logging
 
+from csss.views.context_creation.create_context_for_html_snippet_for_general_error_validations import \
+    create_context_for_html_snippet_for_general_error_validations_html
 from elections.models import NomineeLink
 from elections.views.Constants import PRE_EXISTING_ELECTION
-from elections.views.create_context.nominee_links.utils.display_errors_html import \
-    create_context_for_display_errors_html
-from elections.views.create_context.nominee_links.utils.election_nominee_names_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.election_nominee_names_html import \
     create_context_for_election_nominee_names_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
     make_json_serializable_context_dictionary
-from elections.views.create_context.nominee_links.utils.submission_buttons_html import \
-    create_context_for_submission_buttons_html
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
     create_context_for_election_date_html
 from elections.views.create_context.webform_format.create_context_for_election_time_html import \
@@ -19,6 +17,8 @@ from elections.views.create_context.webform_format.create_context_for_election_t
     create_context_for_election_type_html
 from elections.views.create_context.webform_format.create_context_for_election_websurvey_html import \
     create_context_for_election_websurvey_html
+from elections.views.create_context.webform_format.submission_buttons_html import \
+    create_context_for_submission_buttons_html
 
 logger = logging.getLogger('csss_site')
 
@@ -36,7 +36,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
                 f"Please delete the nominee links for the {nominee_links[0].election.human_friendly_name} "
                 f"election before creating a new election via nominee link"
             )]
-    create_context_for_display_errors_html(context, error_messages)
+    create_context_for_html_snippet_for_general_error_validations_html(context, error_messages=error_messages)
     context[PRE_EXISTING_ELECTION] = pre_existing_election
     if pre_existing_election is False:
         create_context_for_election_date_html(context, election_date=election_date)

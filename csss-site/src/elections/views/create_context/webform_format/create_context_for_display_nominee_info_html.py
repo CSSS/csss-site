@@ -31,7 +31,7 @@ def create_context_for_display_nominee_info_html(
     new_webform_election -- bool to indicate if the election is a new webform election
     nominee_info_to_add_to_context -- the nominee info that is being constructed for current nominee that needs to
      be added to the context dictionary
-    nominees_info -- the nominee info that the user inputted, otherwise None
+    nominee_info -- the nominee info that the user inputted, otherwise None
     nominee_obj -- the object that contains the saved nominee info
     speech_ids -- keeps tracks of the speech_ids attached to the context so far
     populate_nominee_info -- flag to indicate whether or not to populate the nominee_info when being called via

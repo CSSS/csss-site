@@ -16,12 +16,12 @@
 			{%  include 'elections/webform_format/election_time.html' %}
 			{%  include 'elections/webform_format/election_type.html' %}
 			{%  include 'elections/webform_format/election_websurvey.html' %}
-			{%  include 'elections/nominee_links/nominee_links_table/nominee_links_table.html' %}
+			{%  include 'elections/nominee_links/create_or_update_election/update_election/nominee_links_table.html' %}
 		{%  if draft_nominee_links|length > 0 or nominee_links|length  > 0 %}
 			<input type="button" class="select_nominee_link_label" value="Select All Nominee Links" onclick="toggle_deletion()"><br>
 		{%  endif %}
-			{%  include 'elections/nominee_links/election_nominee_names.html' %}
-			{%  include 'elections/webform/submission_buttons.html' %}
+			{%  include 'elections/nominee_links/create_or_update_election/election_nominee_names.html' %}
+			{%  include 'elections/webform_format/submission_buttons.html' %}
 		</form>
 	<script>
 		function toggle_deletion() {

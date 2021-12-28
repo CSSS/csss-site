@@ -9,7 +9,7 @@ from elections.views.Constants import SAVED_NOMINEE_LINKS, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY
-from elections.views.create_context.nominee_links.update_election_nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.update_election_nominee_links_html import \
     create_context_for_update_election_nominee_links_html
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
 from elections.views.save_election.save_new_nominee_links_from_jformat import save_new_nominee_links_from_jformat
@@ -54,7 +54,10 @@ def process_existing_election_and_nominee_links(request, election, context):
         create_context_for_update_election_nominee_links_html(
             context, create_new_election=election is None, error_messages=[error_message], election=election
         )
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            context
+        )
 
     if not validate_user_command(request, create_new_election=False):
         error_message = "Unable to understand user command"
@@ -74,7 +77,10 @@ def process_existing_election_and_nominee_links(request, election, context):
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
             election=election
         )
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            context
+        )
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
@@ -96,7 +102,10 @@ def process_existing_election_and_nominee_links(request, election, context):
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
             election=election
         )
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            context
+        )
 
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
@@ -116,7 +125,10 @@ def process_existing_election_and_nominee_links(request, election, context):
             if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
             election=election
         )
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            context
+        )
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
@@ -137,7 +149,10 @@ def process_existing_election_and_nominee_links(request, election, context):
             election=election
         )
 
-        return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            context
+        )
     if SAVED_NOMINEE_LINKS in election_dict:
         success, error_message = validate_saved_nominee_links(election_dict[SAVED_NOMINEE_LINKS])
         if not success:
@@ -156,7 +171,10 @@ def process_existing_election_and_nominee_links(request, election, context):
                 if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
                 election=election
             )
-            return render(request, 'elections/update_election/update_election_nominee_links.html', context)
+            return render(
+                request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+                context
+            )
     update_existing_election_obj_from_jformat(
         election, f"{election_dict[ELECTION_JSON_KEY__DATE]} {election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]}",
         election_dict[ELECTION_JSON_KEY__ELECTION_TYPE], election_dict[ELECTION_JSON_KEY__WEBSURVEY]

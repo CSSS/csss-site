@@ -52,8 +52,10 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         create_context_for_create_or_update_nominee__nominee_links_html(
             context, nominee_link_id=nominee_link_id, error_messages=[error_message]
         )
-        return render(request,
-                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
+            context
+        )
 
     success, error_message = validate_existing_nominee__nominee_link(election_id, nominee_link_id, nominee_info)
     if not success:
@@ -64,8 +66,10 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         create_context_for_create_or_update_nominee__nominee_links_html(
             context, nominee_link_id=nominee_link_id, error_messages=[error_message], nominee_info=nominee_info
         )
-        return render(request,
-                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
+            context
+        )
     if nominee_link.nominee is None:
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],

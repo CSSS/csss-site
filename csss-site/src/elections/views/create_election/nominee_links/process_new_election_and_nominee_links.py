@@ -8,7 +8,7 @@ from elections.views.Constants import CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, \
     ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__DATE
-from elections.views.create_context.nominee_links.create_election_nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html
 from elections.views.save_election.save_new_election_and_nominee_links import save_new_election_and_nominee_links
 from elections.views.utils.webform_to_json.nominee_links.transform_election_nominee_links_webform_to_json import \
@@ -50,7 +50,10 @@ def process_new_election_and_nominee_links(request, context):
         create_context_for_create_election_nominee_links_html(
             context, create_new_election=True, error_messages=[error_message]
         )
-        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            context
+        )
     if not validate_user_command(request):
         error_message = "Unable to understand user command"
         logger.info(
@@ -65,7 +68,10 @@ def process_new_election_and_nominee_links(request, context):
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
-        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            context
+        )
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
@@ -81,7 +87,10 @@ def process_new_election_and_nominee_links(request, context):
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
-        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            context
+        )
 
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
@@ -97,7 +106,10 @@ def process_new_election_and_nominee_links(request, context):
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
-        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            context
+        )
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
@@ -115,7 +127,10 @@ def process_new_election_and_nominee_links(request, context):
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
-        return render(request, 'elections/create_election/create_election_nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            context
+        )
     election = save_new_election_and_nominee_links(election_dict)
     if request.POST[CREATE_NEW_ELECTION__NAME] == SAVE_ELECTION__VALUE:
         return HttpResponseRedirect(f'{settings.URL_ROOT}elections/{election.slug}')
