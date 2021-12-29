@@ -849,15 +849,17 @@ def create_term_context_variable():
     """
     context = {
         'terms': TERM_SEASONS,
-        'years': [year for year in reversed(list(range(1970, datetime.datetime.now().year + 1)))]
     }
     current_date = datetime.datetime.now()
     if int(current_date.month) <= 4:
         context['current_term'] = context['terms'][0]
+        context['years'] = [year for year in reversed(list(range(1970, datetime.datetime.now().year + 1)))]
     elif int(current_date.month) <= 8:
         context['current_term'] = context['terms'][1]
+        context['years'] = [year for year in reversed(list(range(1970, datetime.datetime.now().year + 1)))]
     else:
         context['current_term'] = context['terms'][2]
+        context['years'] = [year for year in reversed(list(range(1970, datetime.datetime.now().year + 2)))]
     context['current_year'] = current_date.year
     current_date = datetime.datetime.now()
     context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = current_date.strftime("%Y-%m-%d")
