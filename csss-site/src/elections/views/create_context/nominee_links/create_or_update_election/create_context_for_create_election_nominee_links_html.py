@@ -5,7 +5,7 @@ from csss.views.context_creation.create_context_for_html_snippet_for_general_err
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.models import NomineeLink
 from elections.views.Constants import PRE_EXISTING_ELECTION
-from elections.views.create_context.nominee_links.create_or_update_election.election_nominee_names_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.create_context_for_election_nominee_names_html import \
     create_context_for_election_nominee_names_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
     make_json_serializable_context_dictionary

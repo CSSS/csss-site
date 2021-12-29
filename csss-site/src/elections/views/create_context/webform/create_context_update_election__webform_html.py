@@ -8,7 +8,7 @@ from elections.views.create_context.webform.create_context_for_form__webform_htm
 from elections.views.create_context.webform.js_functions.create_context_for_add_blank_nominee_html import \
     create_context_for_add_blank_nominee_html
 from elections.views.create_context.webform.js_functions.on_load_js_function.\
-    create_context_for_main_function_html import create_context_for_main_function_html
+    create_context_for_main_function_html import create_context_for_main_function__webform_html
 from elections.views.create_context.webform_format.js_functions.create_context_for_add_blank_speech_html import \
     create_context_for_add_blank_speech_html
 
@@ -69,7 +69,7 @@ def create_context_for_update_election__webform_html(
         election_type=election_type, websurvey_link=websurvey_link,
         new_webform_election=new_webform_election
     )
-    create_context_for_main_function_html(
+    create_context_for_main_function__webform_html(
         context, webform_election=webform_election, new_webform_election=new_webform_election,
         include_id_for_nominee=include_id_for_nominee,
         draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display, nominees_info=nominees_info,

@@ -10,7 +10,7 @@ from elections.views.create_context.webform_format.create_context_for_display_no
     create_context_for_display_nominee_info_html
 
 
-def create_context_for_main_function_html(
+def create_context_for_main_function__webform_html(
         context, nominees_info=None, include_id_for_nominee=False, webform_election=True,
         new_webform_election=True, draft_or_finalized_nominee_to_display=False, election=None,
         get_existing_election_webform=False,

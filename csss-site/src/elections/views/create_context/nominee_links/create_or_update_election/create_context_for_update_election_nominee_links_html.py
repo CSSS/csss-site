@@ -5,7 +5,7 @@ from csss.views.context_creation.create_context_for_html_snippet_for_general_err
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, \
     TOGGLE_NOMINEE_LINKS_TO_DELETE
-from elections.views.create_context.nominee_links.create_or_update_election.election_nominee_names_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.create_context_for_election_nominee_names_html import \
     create_context_for_election_nominee_names_html
 from elections.views.create_context.nominee_links.create_or_update_election.update_election.create_context_for_nominee_links_table_html import \
     create_context_for_nominee_links_table_html
