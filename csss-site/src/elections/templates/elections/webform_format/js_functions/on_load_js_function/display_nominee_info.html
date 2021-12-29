@@ -37,11 +37,11 @@ if (draft_or_finalized_nominee_to_display == true){
 
 	{% if webform_election__html_name %}
         {%  for position_names_and_speech_pairing in nominee.position_names_and_speech_pairings %}
-            {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html' %}
+            {%  include 'elections/webform_format/js_functions/on_load_js_function/position_names_and_speech_pairing/position_names_and_speech_pairing.html' %}
         {%  endfor %}
 	{%  else %}
         {%  for position_names_and_speech_pairing in draft_nominee__html_name.position_names_and_speech_pairings %}
-            {%  include 'elections/webform/js_functions/on_load_js_function/position_names_and_speech_pairings/existing_election/position_names_and_speech_pairing.html' %}
+            {%  include 'elections/webform_format/js_functions/on_load_js_function/position_names_and_speech_pairing/position_names_and_speech_pairing.html' %}
         {%  endfor %}
 	{%  endif %}
 }

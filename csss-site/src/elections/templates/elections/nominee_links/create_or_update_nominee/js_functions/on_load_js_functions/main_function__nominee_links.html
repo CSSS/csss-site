@@ -18,7 +18,7 @@ $(document).ready(function () {
 		email="{{draft_nominee__html_name.email}}";
 		discord="{{draft_nominee__html_name.discord}}";
         let nominee_link_election_form=true;
-		{%  include 'elections/webform_format/display_nominee_info.html' %}
+		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
     {% else %}
         /* when there is no info regarding the nominee yet */
 		if (document.getElementById(nominees_div_name).lastChild === null){
@@ -31,7 +31,7 @@ $(document).ready(function () {
 
 		draft_or_finalized_nominee_to_display=false;
         let nominee_link_election_form=true;
-		{%  include 'elections/webform_format/display_nominee_info.html' %}
+		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
 		addBlankSpeech(nominee_index)
     {%  endif %}
 });
