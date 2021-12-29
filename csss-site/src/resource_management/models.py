@@ -25,7 +25,7 @@ class ProcessNewOfficer(models.Model):
     )
 
     year = models.IntegerField(
-        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 1)))],
+        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 2)))],
         default='2018',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
