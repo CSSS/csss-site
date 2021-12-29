@@ -27,6 +27,19 @@ def create_context_for_create_election_nominee_links_html(context, election_date
                                                           election_type=None, create_new_election=False,
                                                           websurvey_link=None, error_messages=None,
                                                           nominee_names=None):
+    """
+    populates the context dictionary that is used by
+     elections/templates/elections/nominee_links/create_or_update_election/create_election_nominee_links.html
+    Keyword Arguments
+    context -- the context dictionary that has to be populated for the create_election_nominee_links.html
+    election_date -- the date of the election that the user inputted, otherwise None
+    election_time -- the time of the election that the user inputted, otherwise None
+    election_type -- the election type that the user inputted, otherwise None
+    create_new_election -- boolean to indicate what the submission button should be labelled with
+    websurvey_link -- the websurvey link of the election that the user inputted, otherwise None
+    error_messages -- error message to display
+    nominee_names --the nominee names that the user inputted so far
+    """
     pre_existing_election = False
     if create_new_election:
         nominee_links = NomineeLink.objects.all()
@@ -46,7 +59,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
         create_context_for_election_nominee_names_html(context, nominee_names=nominee_names)
         create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
     logger.info(
-        "[elections/create_election_nominee_links_html.py"
+        "[elections/create_context_for_create_election_nominee_links_html.py"
         " create_context_for_create_election_nominee_links_html()] "
         "context="
     )

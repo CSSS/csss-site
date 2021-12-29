@@ -6,7 +6,7 @@ from elections.models import NomineeLink, Election, NomineeSpeech, NomineePositi
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_nominee.create_context_for_create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat

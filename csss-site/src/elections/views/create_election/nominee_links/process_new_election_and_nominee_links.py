@@ -8,7 +8,7 @@ from elections.views.Constants import CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, \
     ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__DATE
-from elections.views.create_context.nominee_links.create_or_update_election.create_election_nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.create_context_for_create_election_nominee_links_html import \
     create_context_for_create_election_nominee_links_html
 from elections.views.save_election.save_new_election_and_nominee_links import save_new_election_and_nominee_links
 from elections.views.utils.webform_to_json.nominee_links.transform_election_nominee_links_webform_to_json import \

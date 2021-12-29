@@ -7,7 +7,7 @@ from csss.views.context_creation.create_main_context import create_main_context
 from elections.models import NomineeLink
 from elections.views.Constants import TAB_STRING, CREATE_OR_UPDATE_NOMINEE__NAME, HTML_PASSPHRASE_GET_KEY, \
     NOMINEE_LINK_ID
-from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_nominee.create_context_for_create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
     display_current_nominee_link_election

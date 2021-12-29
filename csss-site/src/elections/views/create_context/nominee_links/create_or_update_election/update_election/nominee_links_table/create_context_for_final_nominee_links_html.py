@@ -8,6 +8,15 @@ from elections.views.Constants import NOMINEE_LINKS, SAVED_NOMINEE_LINKS__HTML_N
 
 
 def create_context_for_final_nominee_links_html(context, nominee_links=None):
+    """
+    populates the context dictionary that is used by
+     elections/templates/elections/nominee_links/create_or_update_election/
+     update_election/nominee_links_table/final_nominee_links.html
+
+    Keyword Arguments
+    context -- the context dictionary that has to be populated for the final_nominee_links.html
+    nominee_links -- finalized nominee links
+    """
     context[NOMINEE_LINKS] = nominee_links
     context[SAVED_NOMINEE_LINKS__HTML_NAME] = SAVED_NOMINEE_LINKS
     context[DELETE__HTML_NAME] = DELETE

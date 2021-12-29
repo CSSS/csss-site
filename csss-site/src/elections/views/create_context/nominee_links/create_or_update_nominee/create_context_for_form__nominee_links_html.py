@@ -7,10 +7,10 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE
 def create_context_for_form__nominee_links_html(context):
     """
     populates the context dictionary that is used by
-     elections/templates/elections/webform_format/js_functions/add_blank_speech.html
+     elections/templates/elections/nominee_links/create_or_update_nominee/form__nominee_links.html
 
     Keyword Arguments
-    context -- the context dictionary that has to be populated for the add_blank_speech.html
+    context -- the context dictionary that has to be populated for the form__nominee_links.html
     """
     context.update({
         SAVE_NEW_NOMINEE__BUTTON_ID: SAVE_NEW_NOMINEE__BUTTON_ID_VALUE,

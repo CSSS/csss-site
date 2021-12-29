@@ -30,7 +30,8 @@ def display_and_process_html_for_modification_of_election_and_nominee_links__nom
     if len(Election.objects.all().filter(slug=slug)) != 1:
         context[ERROR_MESSAGES_KEY] = [f"Received invalid Election slug of {slug}"]
         return render(
-            request, 'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            request,
+            'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
             context
         )
 
