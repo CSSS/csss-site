@@ -7,7 +7,7 @@ from csss.views.context_creation.create_authenticated_contexts import create_con
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TAB_STRING, UPDATE_EXISTING_ELECTION__NAME
-from elections.views.create_context.webform.create_context_update_election__webform_html import \
+from elections.views.create_context.webform.create_context_for_update_election__webform_html import \
     create_context_for_update_election__webform_html
 from elections.views.update_election.webform.process_existing_election_webform import \
     process_existing_election_information_from_webform
