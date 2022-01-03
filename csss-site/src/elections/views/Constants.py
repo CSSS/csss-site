@@ -25,7 +25,7 @@ SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
 
 INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE = 'input_redirect_nominee_submit__value'
 
-INPUT_REDIRECT_NOMINEE__NAME = 'input_redirect_nominee_submit__name'
+INPUT_REDIRECT_NOMINEE_SUBMIT__NAME = 'input_redirect_nominee_submit__name'
 
 SAVE_OR_UPDATE_NOMINEE__VALUE = 'Save/Update Nominee'
 
@@ -36,8 +36,8 @@ SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_electio
 
 DISPLAY_INSTRUCTIONS_TO_VALID_JSON__CLASS_NAME = 'validate_json__class_name'
 DISPLAY_INSTRUCTIONS_TO_VALID_JSON = 'validate_json'
-SAVE_NEW_NOMINEE__BUTTON_ID = 'save_nominee__button_id'
-SAVE_NEW_NOMINEE__BUTTON_ID_VALUE = 'save_nominee_button'
+SAVE_NOMINEE__BUTTON_ID = 'save_nominee__button_id'
+SAVE_NOMINEE__BUTTON_ID_VALUE = 'save_nominee_button'
 
 TYPES_OF_ELECTIONS = 'types_of_elections'
 VALID_POSITION_NAMES = 'valid_position_names'
