@@ -19,3 +19,5 @@ def create_context_for_view_saved_nominee_info_html(context, nominee_obj=None):
             ).order_by('nomineeposition__position_index')
         }.values()
     )
+    # this is done to ensure that the speeches are stored in descending order by the
+    # high position index assigned to them
