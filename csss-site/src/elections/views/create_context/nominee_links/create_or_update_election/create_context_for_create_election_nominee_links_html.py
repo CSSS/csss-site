@@ -31,6 +31,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     """
     populates the context dictionary that is used by
      elections/templates/elections/nominee_links/create_or_update_election/create_election_nominee_links.html
+
     Keyword Arguments
     context -- the context dictionary that has to be populated for the create_election_nominee_links.html
     election_date -- the date of the election that the user inputted, otherwise None
