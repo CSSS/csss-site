@@ -15,7 +15,7 @@
 			<input type="text" name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{ saved_nominee_link__name__html_name }}]" value="{{ draft_nominee_link.saved_nominee_link__name }}" required>
 		</td>
 		<td>
-			<select name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{saved_nominee_link__nominee__html_name}}]{{ draft_nominee_link.saved_nominee_link__nominee }}">
+			<select name="[{{saved_nominee_links__html_name}}][{{ draft_nominee_link.saved_nominee_link__id}}][{{saved_nominee_link__nominee__html_name}}]">
 				<option value="{{no_nominee_linked__html_name}}">No Nominee Linked</option>
 				{% for nominee in current_election.nominee_set.all %}
 					{% if draft_nominee_link.saved_nominee_link__nominee == nominee.id|stringformat:"i" %}

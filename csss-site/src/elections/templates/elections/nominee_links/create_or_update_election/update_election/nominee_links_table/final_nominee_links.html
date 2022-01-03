@@ -11,7 +11,7 @@
 				<input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{ saved_nominee_link__name__html_name }}]" value="{{ nominee_link.name }}" required>
 			</td>
 			<td>
-				<select name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{saved_nominee_link__nominee__html_name}}]{{ nominee_link.id }}">
+				<select name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{saved_nominee_link__nominee__html_name}}]">
 					<option value="{{no_nominee_linked__html_name}}">No Nominee Linked</option>
 					{% for nominee in nominee_link.election.nominee_set.all %}
 						{% if nominee_link.nominee == nominee %}
