@@ -4,7 +4,7 @@ import logging
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, \
-    TOGGLE_NOMINEE_LINKS_TO_DELETE
+    TOGGLE_NOMINEE_LINKS_TO_DELETE, DRAFT_NOMINEE_LINKS, NOMINEE_LINKS
 from elections.views.create_context.nominee_links.create_or_update_election.\
     create_context_for_election_nominee_names_html import \
     create_context_for_election_nominee_names_html
@@ -64,6 +64,9 @@ def create_context_for_update_election_nominee_links_html(
     create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
     create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links,
                                                 nominee_links=nominee_links, election_obj=election_obj)
+    if draft_nominee_links is not None:
+        context[DRAFT_NOMINEE_LINKS] = draft_nominee_links
+    context[NOMINEE_LINKS] = nominee_links
     create_context_for_election_nominee_names_html(context, require_nominee_names=require_nominee_names,
                                                    nominee_names=new_nominee_names)
     create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
