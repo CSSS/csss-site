@@ -9,4 +9,5 @@ def create_context_for_html_snippet_for_general_error_validations_html(context, 
     context -- the context dictionary that has to be populated for the html_snippet_for_general_error_validations.html
     error_messages -- error message to display
     """
-    context[ERROR_MESSAGES_KEY] = error_messages
+    if type(error_messages) is list:
+        context[ERROR_MESSAGES_KEY] = error_messages
