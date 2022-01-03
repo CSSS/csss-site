@@ -1,4 +1,4 @@
-from csss.views.context_creation.create_context_for_html_snippet_for_general_error_validations import \
+from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.views.Constants import DATE_FORMAT, TIME_FORMAT
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
