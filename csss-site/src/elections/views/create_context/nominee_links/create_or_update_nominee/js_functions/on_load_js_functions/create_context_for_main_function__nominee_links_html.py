@@ -2,7 +2,8 @@ from elections.views.Constants import NOMINEE_DIV__NAME, DRAFT_NOMINEE_HTML__NAM
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_DISCORD
-from elections.views.create_context.webform_format.create_context_for_display_nominee_info_html import \
+from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
+    create_context_for_display_nominee_info_html import \
     create_context_for_display_nominee_info_html
 
 

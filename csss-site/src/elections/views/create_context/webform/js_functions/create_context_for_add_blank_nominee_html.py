@@ -1,7 +1,8 @@
-from elections.views.create_context.webform_format.create_context_for_display_nominee_info_html import \
-    create_context_for_display_nominee_info_html
 from elections.views.create_context.webform_format.js_functions.create_context_for_add_blank_speech_html import \
     create_context_for_add_blank_speech_html
+from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
+    create_context_for_display_nominee_info_html import \
+    create_context_for_display_nominee_info_html
 
 
 def create_context_for_add_blank_nominee_html(
