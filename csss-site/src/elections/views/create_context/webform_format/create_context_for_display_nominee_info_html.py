@@ -6,9 +6,8 @@ from elections.views.Constants import NOMINEE_DIV__NAME, \
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.webform_format.js_functions.on_load_js_function. \
-    position_names_and_speech_pairings.existing_election. \
-    create_context_for_position_names_and_speech_pairing_html import \
+from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
+    position_names_and_speech_pairings.create_context_for_position_names_and_speech_pairing_html import \
     create_context_for_position_names_and_speech_pairing_html
 
 
