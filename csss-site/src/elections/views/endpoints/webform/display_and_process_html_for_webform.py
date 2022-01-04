@@ -25,7 +25,7 @@ def display_and_process_html_for_modification_of_webform_election(request, slug)
 
     if len(Election.objects.all().filter(slug=slug)) != 1:
         context[ERROR_MESSAGES_KEY] = [f"Received invalid Election slug of {slug}"]
-        return render(request, 'elections/update_election/update_election__webform.html', context)
+        return render(request, 'elections/webform/update_election__webform.html', context)
 
     election = Election.objects.get(slug=slug)
 
@@ -35,4 +35,4 @@ def display_and_process_html_for_modification_of_webform_election(request, slug)
         create_context_for_update_election__webform_html(
             context, election=election, get_existing_election_webform=True
         )
-        return render(request, 'elections/update_election/update_election__webform.html', context)
+        return render(request, 'elections/webform/update_election__webform.html', context)
