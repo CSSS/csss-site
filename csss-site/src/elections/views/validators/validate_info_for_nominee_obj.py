@@ -1,7 +1,7 @@
 import logging
 import re
 
-from elections.views.validators.validate_link import validate_http_link
+from elections.views.validators.validate_link import validate_link_for_nominee_social_media
 
 logger = logging.getLogger('csss_site')
 
@@ -41,13 +41,13 @@ def validate_nominee_obj_info(nominee_names_so_far, name, facebook_link, linkedi
     if len(facebook_link) == 0:
         return False, f"No valid facebook link detected for nominee" \
                       f" {name}, please set to \"NONE\" if there is no facebook link"
-    success, error_message = validate_http_link(facebook_link, "facebook", nom_name=name)
+    success, error_message = validate_link_for_nominee_social_media(facebook_link, "Facebook", name)
     if not success:
         return False, error_message
     if len(linkedin_link) == 0:
         return False, f"No valid linkedin link detected for nominee" \
                       f" {name}, please set to \"NONE\" if there is no linkedin link"
-    success, error_message = validate_http_link(linkedin_link, "linkedin", nom_name=name)
+    success, error_message = validate_link_for_nominee_social_media(linkedin_link, "LinkedIn", name)
     if not success:
         return False, error_message
     if len(email_address) == 0:

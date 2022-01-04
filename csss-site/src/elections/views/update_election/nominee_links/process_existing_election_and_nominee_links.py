@@ -19,7 +19,7 @@ from elections.views.utils.webform_to_json.nominee_links.transform_election_nomi
     transform_election_nominee_links_webform_to_json
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
-from elections.views.validators.validate_link import validate_http_link
+from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_saved_nominee_links import validate_saved_nominee_links
 from elections.views.validators.validate_user_command import validate_user_command
 from elections.views.validators.validate_user_input_has_required_fields import \
@@ -134,7 +134,7 @@ def process_existing_election_and_nominee_links(request, election, context):
             context
         )
 
-    success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
+    success, error_message = validate_websurvey_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY])
     if not success:
         logger.info(
             "[elections/process_existing_election_and_nominee_links.py"

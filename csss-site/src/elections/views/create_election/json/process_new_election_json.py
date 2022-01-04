@@ -15,7 +15,7 @@ from elections.views.update_election.json.process_existing_election_json import 
 from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
-from elections.views.validators.validate_link import validate_http_link
+from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_new_election_json_dict import all_relevant_election_json_keys_exist
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
@@ -88,7 +88,7 @@ def process_new_inputted_json_election(request, context):
         )
         return render(request, 'elections/create_election/create_election_json.html', context)
 
-    success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
+    success, error_message = validate_websurvey_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY])
     if not success:
         logger.info(
             f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
