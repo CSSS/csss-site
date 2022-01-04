@@ -12,7 +12,7 @@ NOMINEE__NAME__HTML_NAME = 'nominee__name__html_name'
 
 SAVED_NOMINEE_SPEECHES__HTML_NAME = 'saved_nominee_speeches__html_name'
 
-INPUT_REDIRECT_ELECTION__NAME = 'input_redirect_election_submit__name'
+INPUT_REDIRECT_ELECTION_SUBMIT__NAME = 'input_redirect_election_submit__name'
 INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE = (
     'input_redirect_election_submit_and_continue_editing__value'
 )
