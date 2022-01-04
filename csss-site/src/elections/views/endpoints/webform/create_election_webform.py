@@ -27,4 +27,4 @@ def display_and_process_html_for_new_webform_election(request):
         return process_new_inputted_webform_election(request, context)
     else:
         create_context_for_create_election__webform_html(context)
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)

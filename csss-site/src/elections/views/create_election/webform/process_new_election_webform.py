@@ -53,7 +53,7 @@ def process_new_inputted_webform_election(request, context):
             draft_or_finalized_nominee_to_display=True,
             create_or_update_webform_election=True
         )
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)
 
     if not validate_user_command(request):
         error_message = "Unable to understand user command"
@@ -70,7 +70,7 @@ def process_new_inputted_webform_election(request, context):
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
             create_or_update_webform_election=True
         )
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)
 
     success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
     if not success:
@@ -87,7 +87,7 @@ def process_new_inputted_webform_election(request, context):
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
             create_or_update_webform_election=True
         )
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)
 
     success, error_message = validate_election_type(election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
     if not success:
@@ -104,7 +104,7 @@ def process_new_inputted_webform_election(request, context):
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
             create_or_update_webform_election=True
         )
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)
 
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
@@ -123,7 +123,7 @@ def process_new_inputted_webform_election(request, context):
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
             create_or_update_webform_election=True
         )
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)
 
     success, error_message = validate_new_nominees_for_new_election(election_dict[ELECTION_JSON_KEY__NOMINEES])
     if not success:
@@ -140,7 +140,7 @@ def process_new_inputted_webform_election(request, context):
             nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
             create_or_update_webform_election=True
         )
-        return render(request, 'elections/create_election/create_election__webform.html', context)
+        return render(request, 'elections/webform/create_election__webform.html', context)
     election = save_new_election_from_jformat(
         election_dict, json=False
     )
