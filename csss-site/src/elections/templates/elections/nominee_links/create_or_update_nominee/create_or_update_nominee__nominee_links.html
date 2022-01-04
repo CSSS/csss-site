@@ -8,10 +8,10 @@
 {% block content %}
 	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
-	{% if nominee_name is not None %}
+	{% if nominee__name__html_name is not None %}
 		<h2 class="title is-size-2">Modify {{nominee__name__html_name }}'s info for {{ election_human_friendly_name__html_name }}</h2>
 	{%  else %}
-		<h2 class="title is-size-2">Create Nominee Info for election {{election_human_friendly_name}}</h2>
+		<h2 class="title is-size-2">Create Nominee Info for {{election_human_friendly_name__html_name}}</h2>
 	{%  endif %}
 	<form method="post" class="form">
 		{%  include 'elections/nominee_links/create_or_update_nominee/form__nominee_links.html' %}
