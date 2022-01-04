@@ -18,7 +18,7 @@ from elections.views.create_context.webform_format.create_context_for_election_t
     create_context_for_election_type_html
 from elections.views.create_context.webform_format.create_context_for_election_websurvey_html import \
     create_context_for_election_websurvey_html
-from elections.views.create_context.webform_format.submission_buttons_html import \
+from elections.views.create_context.webform_format.create_context_for_submission_buttons_html import \
     create_context_for_submission_buttons_html
 
 logger = logging.getLogger('csss_site')
