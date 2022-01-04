@@ -1,6 +1,9 @@
-from elections.views.create_context.nominee_links.create_or_update_election.update_election.nominee_links_table.create_context_for_draft_nominee_links_html import \
+from elections.views.Constants import DRAFT_NOMINEE_LINKS, NOMINEE_LINKS
+from elections.views.create_context.nominee_links.create_or_update_election.update_election.nominee_links_table.\
+    create_context_for_draft_nominee_links_html import \
     create_context_for_draft_nominee_links_html
-from elections.views.create_context.nominee_links.create_or_update_election.update_election.nominee_links_table.create_context_for_final_nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_election.update_election.nominee_links_table.\
+    create_context_for_final_nominee_links_html import \
     create_context_for_final_nominee_links_html
 
 
@@ -20,6 +23,11 @@ def create_context_for_nominee_links_table_html(
     election_obj -- the object for the current election to determine which saved nominee links map
      to which draft nominee links
     """
-    create_context_for_draft_nominee_links_html(context, draft_nominee_links=draft_nominee_links, election_obj=election_obj)
+    if draft_nominee_links is not None:
+        context[DRAFT_NOMINEE_LINKS] = draft_nominee_links
+    context[NOMINEE_LINKS] = nominee_links
+    create_context_for_draft_nominee_links_html(
+        context, draft_nominee_links=draft_nominee_links, election_obj=election_obj
+    )
     create_context_for_final_nominee_links_html(context, nominee_links=nominee_links)
 
