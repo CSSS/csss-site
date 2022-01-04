@@ -19,6 +19,7 @@ from elections.views.utils.webform_to_json.nominee_links.transform_election_nomi
     transform_election_nominee_links_webform_to_json
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
+from elections.views.validators.validate_election_uniqueness import validate_election_webform_format_uniqueness
 from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_saved_nominee_links import validate_saved_nominee_links
 from elections.views.validators.validate_user_command import validate_user_command
@@ -153,6 +154,30 @@ def process_existing_election_and_nominee_links(request, election, context):
             election_obj=election
         )
 
+        return render(
+            request,
+            'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',
+            context
+        )
+
+    success, error_message = validate_election_webform_format_uniqueness(election_dict)
+    if not success:
+        logger.info(
+            "[elections/process_existing_election_and_nominee_links.py"
+            f" process_existing_election_and_nominee_links()] {error_message}"
+        )
+        create_context_for_update_election_nominee_links_html(
+            context, create_new_election=election is None, error_messages=[error_message],
+            election_date=election_dict[ELECTION_JSON_KEY__DATE],
+            election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
+            election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
+            websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
+            draft_nominee_links=election_dict[SAVED_NOMINEE_LINKS]
+            if SAVED_NOMINEE_LINKS in election_dict else None,
+            new_nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
+            if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict else None,
+            election_obj=election
+        )
         return render(
             request,
             'elections/nominee_links/create_or_update_election/update_election_nominee_links.html',

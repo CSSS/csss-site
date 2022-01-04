@@ -16,6 +16,7 @@ from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat i
 from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
+from elections.views.validators.validate_election_uniqueness import validate_election_json_uniqueness
 from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_new_election_json_dict import all_relevant_election_json_keys_exist
 from elections.views.validators.validate_nominees_for_existing_election_jformat import \
@@ -102,6 +103,18 @@ def process_existing_election_information_from_json(request, election, context):
 
     success, error_message = validate_election_type(
         election_dict[ELECTION_JSON_KEY__ELECTION_TYPE])
+    if not success:
+        logger.info(
+            f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
+            f"{error_message}"
+        )
+        context.update(create_json_election_context_from_user_inputted_election_dict(
+            error_message=error_message, election_information=election_dict,
+            create_new_election=False
+        ))
+        return render(request, 'elections/update_election/update_election_json.html', context)
+
+    success, error_message = validate_election_json_uniqueness(election_dict)
     if not success:
         logger.info(
             f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "

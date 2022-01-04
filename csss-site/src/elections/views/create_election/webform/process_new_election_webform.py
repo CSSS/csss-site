@@ -15,6 +15,7 @@ from elections.views.save_election.save_new_election_from_jformat import save_ne
 from elections.views.utils.transform_webform_to_json import transform_webform_to_json
 from elections.views.validators.validate_election_date import validate_webform_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
+from elections.views.validators.validate_election_uniqueness import validate_election_webform_format_uniqueness
 from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
@@ -124,6 +125,24 @@ def process_new_inputted_webform_election(request, context):
             create_or_update_webform_election=True
         )
         return render(request, 'elections/webform/create_election__webform.html', context)
+
+    success, error_message = validate_election_webform_format_uniqueness(election_dict)
+    if not success:
+        logger.info(
+            f"[elections/process_new_election_webform.py process_new_inputted_webform_election()] {error_message}"
+        )
+        create_context_for_create_election__webform_html(
+            context, error_messages=[error_message],
+            draft_or_finalized_nominee_to_display=True,
+            election_date=election_dict[ELECTION_JSON_KEY__DATE],
+            election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
+            election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
+            websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
+            nominees_info=election_dict[ELECTION_JSON_KEY__NOMINEES],
+            create_or_update_webform_election=True
+        )
+        return render(request, 'elections/webform/create_election__webform.html', context)
+
 
     success, error_message = validate_new_nominees_for_new_election(election_dict[ELECTION_JSON_KEY__NOMINEES])
     if not success:
