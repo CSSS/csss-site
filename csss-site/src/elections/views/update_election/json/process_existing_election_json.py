@@ -114,7 +114,7 @@ def process_existing_election_information_from_json(request, election, context):
         ))
         return render(request, 'elections/update_election/update_election_json.html', context)
 
-    success, error_message = validate_election_json_uniqueness(election_dict)
+    success, error_message = validate_election_json_uniqueness(election_dict, election_obj=election)
     if not success:
         logger.info(
             f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "

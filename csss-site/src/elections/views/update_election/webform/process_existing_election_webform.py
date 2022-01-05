@@ -123,7 +123,7 @@ def process_existing_election_information_from_webform(request, election, contex
         )
         return render(request, 'elections/webform/update_election__webform.html', context)
 
-    success, error_message = validate_election_webform_format_uniqueness(election_dict)
+    success, error_message = validate_election_webform_format_uniqueness(election_dict, election_obj=election)
     if not success:
         logger.info(
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"

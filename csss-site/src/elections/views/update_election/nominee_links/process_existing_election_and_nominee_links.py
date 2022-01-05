@@ -160,7 +160,7 @@ def process_existing_election_and_nominee_links(request, election, context):
             context
         )
 
-    success, error_message = validate_election_webform_format_uniqueness(election_dict)
+    success, error_message = validate_election_webform_format_uniqueness(election_dict, election_obj=election)
     if not success:
         logger.info(
             "[elections/process_existing_election_and_nominee_links.py"
