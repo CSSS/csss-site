@@ -1,17 +1,19 @@
 import logging
 
+from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from elections.models import NomineeLink, Election, NomineeSpeech, NomineePosition
+from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.nominee_links.create_or_update_nominee.create_context_for_create_or_update_nominee__nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_nominee.\
+    create_context_for_create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
-from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
-    display_current_nominee_link_election
 from elections.views.utils.webform_to_json.nominee_links.transform_nominee_links_webform_to_json import \
     transform_nominee_links_webform_to_json
 from elections.views.validators.validate_existing_nominees__nominee_link import \
@@ -102,4 +104,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         ]
         for speech_id_to_delete in speech_ids_to_delete:
             NomineeSpeech.objects.all().get(id=speech_id_to_delete).delete()
-    return display_current_nominee_link_election(request, context, nominee_link_id)
+    return HttpResponseRedirect(
+        f'{settings.URL_ROOT}elections/{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK}?'
+        f'{NOMINEE_LINK_ID}={nominee_link_id}'
+    )
