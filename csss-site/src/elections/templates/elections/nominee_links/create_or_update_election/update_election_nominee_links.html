@@ -6,10 +6,10 @@
 {% load staticfiles %}
 
 {% block content %}
-	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<link rel="stylesheet" href="{% static 'csss_static/csss_custom.css' %}">
 	<div class="csss_box_borders_new_entries">
 		<h3 class="title is-size-3">Update {{ current_election.human_friendly_name }}</h3>
+    	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 		<form method="post" class="form">
 			{%  csrf_token %}
 			{%  include 'elections/webform_format/election_date.html' %}
