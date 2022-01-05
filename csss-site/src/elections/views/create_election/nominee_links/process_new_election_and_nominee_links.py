@@ -43,7 +43,7 @@ def process_new_election_and_nominee_links(request, context):
         ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_WEBFORM_KEY__TIME,
         ELECTION_JSON_KEY__DATE, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
     ]
-    error_message = verify_user_input_has_all_required_fields(election_dict, fields)
+    error_message = verify_user_input_has_all_required_fields(election_dict, fields=fields)
     if error_message != "":
         logger.info(
             "[elections/process_new_election_and_nominee_links.py process_new_election_and_nominee_links()]"

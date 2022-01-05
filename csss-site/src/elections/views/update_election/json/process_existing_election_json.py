@@ -22,6 +22,7 @@ from elections.views.validators.validate_new_election_json_dict import all_relev
 from elections.views.validators.validate_nominees_for_existing_election_jformat import \
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
+from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
@@ -39,8 +40,9 @@ def process_existing_election_information_from_json(request, election, context):
      Return
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
-    if not (ELECTION_JSON__KEY in request.POST):
-        error_message = "Could not find the json in the input"
+    fields = [ELECTION_JSON__KEY]
+    error_message = verify_user_input_has_all_required_fields(request.POST, fields=fields)
+    if error_message != "":
         logger.info(
             f"[elections/process_existing_election_json.py process_existing_election_information_from_json()] "
             f"{error_message}"

@@ -22,8 +22,7 @@ from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_nominees_for_existing_election_jformat import \
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.verify_that_all_relevant_election_webform_keys_exist import \
-    verify_that_all_relevant_election_webform_keys_exist
+from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
@@ -42,11 +41,12 @@ def process_existing_election_information_from_webform(request, election, contex
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
     election_dict = transform_webform_to_json(parser.parse(request.POST.urlencode()))
-    if not verify_that_all_relevant_election_webform_keys_exist(election_dict):
-        error_message = f"Did not find all of the following necessary keys in input: " \
-                        f"{ELECTION_JSON_KEY__DATE}, {ELECTION_JSON_WEBFORM_KEY__TIME}, " \
-                        f"{ELECTION_JSON_KEY__ELECTION_TYPE}, " \
-                        f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__NOMINEES}"
+    fields = [
+        ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,
+        ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
+    ]
+    error_message = verify_user_input_has_all_required_fields(election_dict, fields=fields)
+    if error_message != "":
         logger.info(
             f"[elections/process_existing_election_webform.py process_existing_election_information_from_webform()]"
             f" {error_message}"
