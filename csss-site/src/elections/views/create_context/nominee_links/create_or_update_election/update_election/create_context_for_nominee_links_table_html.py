@@ -30,4 +30,3 @@ def create_context_for_nominee_links_table_html(
         context, draft_nominee_links=draft_nominee_links, election_obj=election_obj
     )
     create_context_for_final_nominee_links_html(context, nominee_links=nominee_links)
-

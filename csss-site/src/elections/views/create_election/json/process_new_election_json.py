@@ -21,7 +21,8 @@ from elections.views.validators.validate_new_election_json_dict import all_relev
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
@@ -120,7 +121,6 @@ def process_new_inputted_json_election(request, context):
             error_message=error_message, election_information=election_dict)
         )
         return render(request, 'elections/create_election/create_election_json.html', context)
-
 
     success, error_message = validate_new_nominees_for_new_election(
         election_dict[ELECTION_JSON_KEY__NOMINEES]

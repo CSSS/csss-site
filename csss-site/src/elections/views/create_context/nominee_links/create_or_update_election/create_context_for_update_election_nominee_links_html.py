@@ -78,8 +78,3 @@ def create_context_for_update_election_nominee_links_html(
     )
     new_context = make_json_serializable_context_dictionary(context)
     logger.info(json.dumps(new_context, indent=3))
-
-
-
-
-

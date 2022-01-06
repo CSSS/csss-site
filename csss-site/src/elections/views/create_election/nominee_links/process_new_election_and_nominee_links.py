@@ -53,7 +53,7 @@ def process_new_election_and_nominee_links(request, context):
             context, create_new_election=True, error_messages=[error_message]
         )
         return render(
-            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
             context
         )
     if not validate_user_command(request):
@@ -71,7 +71,7 @@ def process_new_election_and_nominee_links(request, context):
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(
-            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
             context
         )
 
@@ -90,7 +90,7 @@ def process_new_election_and_nominee_links(request, context):
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(
-            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
             context
         )
 
@@ -109,7 +109,7 @@ def process_new_election_and_nominee_links(request, context):
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(
-            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
             context
         )
 
@@ -130,7 +130,7 @@ def process_new_election_and_nominee_links(request, context):
             nominee_names=election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
         )
         return render(
-            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html', 
+            request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
             context
         )
 

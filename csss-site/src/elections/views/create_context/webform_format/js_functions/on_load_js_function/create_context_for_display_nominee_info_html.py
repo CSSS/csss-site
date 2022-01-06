@@ -85,7 +85,7 @@ def create_context_for_display_nominee_info_html(
                 )
             elif nominee_obj is not None:
                 # GET /elections/create_or_update_via_nominee_links/?nominee_link_id=2
-                nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
+                nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
                 speech_objs = NomineeSpeech.objects.all().filter(
                     nominee=nominee_obj
                 ).order_by('nomineeposition__position_index')

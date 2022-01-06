@@ -20,7 +20,8 @@ from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
@@ -141,7 +142,6 @@ def process_new_inputted_webform_election(request, context):
             create_or_update_webform_election=True
         )
         return render(request, 'elections/webform/create_election__webform.html', context)
-
 
     success, error_message = validate_new_nominees_for_new_election(election_dict[ELECTION_JSON_KEY__NOMINEES])
     if not success:

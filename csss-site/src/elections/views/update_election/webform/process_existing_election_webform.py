@@ -22,7 +22,8 @@ from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_nominees_for_existing_election_jformat import \
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 

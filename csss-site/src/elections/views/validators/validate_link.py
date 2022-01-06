@@ -9,8 +9,10 @@ def validate_websurvey_link(link):
     Bool -- True or False
     error_message -- String or None
     """
-    return (True, None) if _validate_http_link(link) \
-        else (False, f"The websurvey link des not start with \"http://\" or \"https://\"")
+    if _validate_http_link(link):
+        return True, None
+    else:
+        return False, "The websurvey link des not start with \"http://\" or \"https://\""
 
 
 def validate_link_for_nominee_social_media(link, link_type, nom_name):
@@ -26,8 +28,10 @@ def validate_link_for_nominee_social_media(link, link_type, nom_name):
     Bool -- True or False
     error_message -- String or None
     """
-    return (True, None) if _validate_http_link(link) \
-        else (False, f"the {link_type} link for nominee {nom_name} does not start with \"http://\" or \"https://\"")
+    if _validate_http_link(link):
+        return True, None
+    else:
+        return False, f"the {link_type} link for nominee {nom_name} does not start with \"http://\" or \"https://\""
 
 
 def _validate_http_link(link):

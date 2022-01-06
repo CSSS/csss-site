@@ -51,4 +51,4 @@ def remove_id_if_invalid(dict_obj):
 
 
 def verify_that_position_and_speech_pairing_dict_is_in_nominee_dict(nominee):
-    return ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee and type(nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) == dict
+    return ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee and type(nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) == dict  # noqa: E501

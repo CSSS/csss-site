@@ -50,4 +50,3 @@ def display_and_process_html_for_nominee_modification_via_passphrase(request):
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
             context
         )
-
