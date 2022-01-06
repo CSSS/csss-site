@@ -6,10 +6,9 @@ from django.shortcuts import render
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from elections.models import NomineeLink
 from elections.views.Constants import TAB_STRING, NOMINEE_LINK_ID, CREATE_OR_UPDATE_NOMINEE__NAME
-from elections.views.create_context.nominee_links.create_or_update_nominee__nominee_links_html import \
+from elections.views.create_context.nominee_links.create_or_update_nominee.\
+    create_context_for_create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
-from elections.views.update_election.nominee_links.display_selected_nominee__nominee_links import \
-    display_current_nominee_link_election
 from elections.views.update_election.nominee_links.process_nominee__nominee_links import \
     process_nominee__nominee_links
 
@@ -36,10 +35,16 @@ def display_and_process_html_for_nominee_modification(request):
         error_message = [f"No election attached to Nominee Link {nominee_links[0]} detected in the request"]
     if error_message is not None:
         create_context_for_create_or_update_nominee__nominee_links_html(context, error_messages=[error_message])
-        return render(request,
-                      'elections/update_nominee/create_or_update_nominee__nominee_links.html', context)
+        return render(
+            request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
+            context
+        )
 
-    process_nominee = (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST)
-
-    return process_nominee__nominee_links(request, context, nominee_link_id) if process_nominee \
-        else display_current_nominee_link_election(request, context, nominee_link_id)
+    if (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST):
+        return process_nominee__nominee_links(request, context, nominee_link_id)
+    else:
+        create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=nominee_link_id)
+        return render(
+            request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
+            context
+        )

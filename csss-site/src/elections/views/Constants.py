@@ -6,9 +6,13 @@ ELECTION__HTML_NAME = 'election__html_name'
 
 NOMINEES_HTML__NAME = 'nominees__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
-FINAL_NOMINEE_HTML__NAME = 'final_nominee__html_name'
 
-INPUT_REDIRECT_ELECTION__NAME = 'input_redirect_election_submit__name'
+ELECTION_HUMAN_FRIENDLY_NAME__HTML_NAME = 'election_human_friendly_name__html_name'
+NOMINEE__NAME__HTML_NAME = 'nominee__name__html_name'
+
+SAVED_NOMINEE_SPEECHES__HTML_NAME = 'saved_nominee_speeches__html_name'
+
+INPUT_REDIRECT_ELECTION_SUBMIT__NAME = 'input_redirect_election_submit__name'
 INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE = (
     'input_redirect_election_submit_and_continue_editing__value'
 )
@@ -21,7 +25,7 @@ SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
 
 INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE = 'input_redirect_nominee_submit__value'
 
-INPUT_REDIRECT_NOMINEE__NAME = 'input_redirect_nominee_submit__name'
+INPUT_REDIRECT_NOMINEE_SUBMIT__NAME = 'input_redirect_nominee_submit__name'
 
 SAVE_OR_UPDATE_NOMINEE__VALUE = 'Save/Update Nominee'
 
@@ -32,8 +36,8 @@ SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE = 'save_new_electio
 
 DISPLAY_INSTRUCTIONS_TO_VALID_JSON__CLASS_NAME = 'validate_json__class_name'
 DISPLAY_INSTRUCTIONS_TO_VALID_JSON = 'validate_json'
-SAVE_NEW_NOMINEE__BUTTON_ID = 'save_nominee__button_id'
-SAVE_NEW_NOMINEE__BUTTON_ID_VALUE = 'save_nominee_button'
+SAVE_NOMINEE__BUTTON_ID = 'save_nominee__button_id'
+SAVE_NOMINEE__BUTTON_ID_VALUE = 'save_nominee_button'
 
 TYPES_OF_ELECTIONS = 'types_of_elections'
 VALID_POSITION_NAMES = 'valid_position_names'
@@ -54,7 +58,6 @@ INPUT_DATE__NAME = 'input_date__name'
 INPUT_DATE__VALUE = 'input_date__value'
 INPUT_TIME__NAME = 'input_time__name'
 INPUT_TIME__VALUE = 'input_time__value'
-POSITIONS_KEY = 'positions'
 SELECT_ELECTION_TYPE__NAME = 'select_election_type__name'
 SELECTED_ELECTION_TYPE = 'selected_election_type'
 CURRENT_ELECTION_TYPES = 'election_types'
@@ -64,7 +67,11 @@ INPUT_WEBSURVEY__NAME = 'input_websurvey__name'
 CURRENT_WEBSURVEY_LINK = 'current_websurvey_link'
 INPUT_NOMINEE_ID__NAME = 'input_nominee_id__name'
 
-CREATE_NEW_ELECTION__HTML_NAME = 'create_new_election__html_name'
+DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME = 'draft_or_finalized_nominee_to_display__html_name'
+
+ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME = 'webform_election__html_name'
+NEW_ELECTION_OR_NOMINEE__HTML__NAME = 'new_election_or_nominee__html_name'
+INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME = 'include_id_for_nominee_in_weform__html_name'
 
 NOMINEE_DIV__NAME = 'nominee_div__name'
 

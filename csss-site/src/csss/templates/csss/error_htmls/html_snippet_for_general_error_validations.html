@@ -1,6 +1,9 @@
+{% load staticfiles %}
+<link rel="stylesheet" href="{% static 'elections_static/json/error_styling.css' %}">
+
 {% if error_messages|length > 0 %}
-	<h1 class="title is-size-1">Experienced Following Errors</h1>
-	{% for error_message in error_messages %}
-		{{ error_message|safe}}<br><br>
-	{%  endfor %}
+    <h3 class="title is-size-3 csss_error_style">Experienced Following Errors</h3>
+    {% for error_message in error_messages %}
+        <div class="csss_error_style">{{ error_message|safe}}<br><br></div>
+    {%  endfor %}
 {%  endif %}

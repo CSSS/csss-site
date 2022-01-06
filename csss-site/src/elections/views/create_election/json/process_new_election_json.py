@@ -15,11 +15,14 @@ from elections.views.update_election.json.process_existing_election_json import 
 from elections.views.validators.json.validate_and_return_election_json import validate_and_return_election_json
 from elections.views.validators.validate_election_date import validate_json_election_date_and_time
 from elections.views.validators.validate_election_type import validate_election_type
-from elections.views.validators.validate_link import validate_http_link
+from elections.views.validators.validate_election_uniqueness import validate_election_json_uniqueness
+from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_new_election_json_dict import all_relevant_election_json_keys_exist
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
+from elections.views.validators.validate_user_input_has_required_fields import \
+    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
@@ -37,8 +40,9 @@ def process_new_inputted_json_election(request, context):
      either redirect user back to the page where they inputted the election info or direct them to the newly created
       election page
     """
-    if ELECTION_JSON__KEY not in request.POST:
-        error_message = "Could not find the json in the input"
+    fields = [ELECTION_JSON__KEY]
+    error_message = verify_user_input_has_all_required_fields(request.POST, fields=fields)
+    if error_message != "":
         logger.info(
             f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
         )
@@ -88,7 +92,7 @@ def process_new_inputted_json_election(request, context):
         )
         return render(request, 'elections/create_election/create_election_json.html', context)
 
-    success, error_message = validate_http_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY], "websurvey")
+    success, error_message = validate_websurvey_link(election_dict[ELECTION_JSON_KEY__WEBSURVEY])
     if not success:
         logger.info(
             f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
@@ -99,6 +103,16 @@ def process_new_inputted_json_election(request, context):
         return render(request, 'elections/create_election/create_election_json.html', context)
     success, error_message = validate_json_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE])
+    if not success:
+        logger.info(
+            f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"
+        )
+        context.update(create_json_election_context_from_user_inputted_election_dict(
+            error_message=error_message, election_information=election_dict)
+        )
+        return render(request, 'elections/create_election/create_election_json.html', context)\
+
+    success, error_message = validate_election_json_uniqueness(election_dict)
     if not success:
         logger.info(
             f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"

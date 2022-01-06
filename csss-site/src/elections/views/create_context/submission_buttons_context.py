@@ -1,9 +1,9 @@
 import logging
 
-from elections.views.Constants import INPUT_REDIRECT_ELECTION__NAME, CREATE_NEW_ELECTION__NAME, \
+from elections.views.Constants import CREATE_NEW_ELECTION__NAME, \
     INPUT_REDIRECT_ELECTION_SUBMIT__VALUE, SAVE_ELECTION__VALUE, \
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
-    UPDATE_EXISTING_ELECTION__NAME
+    UPDATE_EXISTING_ELECTION__NAME, INPUT_REDIRECT_ELECTION_SUBMIT__NAME
 
 logger = logging.getLogger('csss_site')
 
@@ -25,11 +25,11 @@ def create_base_submission_buttons_context(create_new_election=True):
     """
     if create_new_election:
         context = {
-            INPUT_REDIRECT_ELECTION__NAME: CREATE_NEW_ELECTION__NAME
+            INPUT_REDIRECT_ELECTION_SUBMIT__NAME: CREATE_NEW_ELECTION__NAME
         }
     else:
         context = {
-            INPUT_REDIRECT_ELECTION__NAME: UPDATE_EXISTING_ELECTION__NAME
+            INPUT_REDIRECT_ELECTION_SUBMIT__NAME: UPDATE_EXISTING_ELECTION__NAME
         }
     context.update({
         INPUT_REDIRECT_ELECTION_SUBMIT__VALUE: SAVE_ELECTION__VALUE,
