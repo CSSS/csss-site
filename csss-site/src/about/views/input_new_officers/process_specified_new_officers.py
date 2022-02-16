@@ -70,5 +70,5 @@ def process_specified_new_officers(request, context):
             draft_new_officers=new_officers_dict['new_officers']
         )
         return render(request, 'about/input_new_officers/specify_new_officers.html', context)
-    save_new_officers(new_officers_dict)
+    # save_new_officers(new_officers_dict)
     return HttpResponseRedirect(f'{URL_ROOT}about/specify_new_officers')

@@ -3,6 +3,8 @@ import datetime
 from about.models import Term, NewOfficer
 
 
+
+
 def validate_inputted_term_info(inputted_term, inputted_year):
     if inputted_term not in [term_choice[0] for term_choice in Term.term_choices]:
         return False, f"Invalid term [{inputted_term}] was specified"
