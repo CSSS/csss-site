@@ -19,8 +19,6 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
-from csss.views_helper import get_current_term_number, SUMMER_TERM_NUMBER, FALL_TERM_NUMBER, SPRING_TERM_NUMBER, \
-    get_last_summer_term, get_last_fall_term, get_last_spring_term
 from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
@@ -487,110 +485,6 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
         "display_page_for_officers_to_input_their_info_alongside_error_experienced()] context set to "
         f"{context}")
     return render(request, 'about/process_new_officer/add_officer.html', context)
-
-
-def determine_new_start_date_for_officer(process_new_officer, officer):
-    """
-    determine whether or not the officer's start date should be in the current term or previous term
-
-    Keyword Argument
-    process_new_officer -- the details for the officer who needs to be saved
-    officer -- the bio for the officer whose bio is being re-used
-
-    Return
-    start_date -- the start date that needs to be used as indicated by "use_new_start_date"
-    """
-    logger.info(
-        "[about/officer_creation_link_management.py "
-        "determine_new_start_date_for_officer()] process_new_officer.use_new_start_date="
-        f"{process_new_officer.use_new_start_date}"
-    )
-
-    if process_new_officer.use_new_start_date or officer is None:
-        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
-
-    officer_name = officer.name
-    position_name = process_new_officer.position_name
-    current_term_number = get_current_term_number()
-    logger.info(
-        "[about/officer_creation_link_management.py "
-        "determine_new_start_date_for_officer()] name of officer to find start date for ="
-        f"{officer.name}"
-    )
-    logger.info(
-        "[about/officer_creation_link_management.py "
-        "determine_new_start_date_for_officer()] position_name to find start_date for ="
-        f"{position_name}"
-    )
-    logger.info(
-        "[about/officer_creation_link_management.py "
-        "determine_new_start_date_for_officer()] current_term_number ="
-        f"{current_term_number}"
-    )
-    past_bios_for_officer = None
-    if (
-            position_name in YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING and
-            current_term_number in [SUMMER_TERM_NUMBER, FALL_TERM_NUMBER]):
-        start_date_for_last_spring_term = get_last_spring_term()
-        logger.info(
-            "[about/officer_creation_link_management.py "
-            "determine_new_start_date_for_officer()] start_date_for_last_spring_term="
-            f"{start_date_for_last_spring_term}"
-        )
-        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
-            name=officer_name, position_name=position_name,
-            start_date__gte=start_date_for_last_spring_term
-        )
-    elif (
-            position_name in YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER and
-            current_term_number in [FALL_TERM_NUMBER, SPRING_TERM_NUMBER]):
-        start_date_for_last_summer_term = get_last_summer_term()
-        logger.info(
-            "[about/officer_creation_link_management.py "
-            "determine_new_start_date_for_officer()] start_date_for_last_summer_term="
-            f"{start_date_for_last_summer_term}"
-        )
-        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
-            name=officer_name, position_name=position_name,
-            start_date__gte=start_date_for_last_summer_term
-        )
-    elif (
-            position_name in TWO_TERM_POSITIONS_START_IN_FALL
-            and current_term_number == SPRING_TERM_NUMBER):
-        start_date_for_last_fall_term = get_last_fall_term()
-        logger.info(
-            "[about/officer_creation_link_management.py "
-            "determine_new_start_date_for_officer()] start_date_for_last_fall_term="
-            f"{start_date_for_last_fall_term}"
-        )
-        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
-            name=officer_name, position_name=position_name,
-            start_date__gte=get_last_fall_term()
-        )
-    if past_bios_for_officer is None:
-        logger.info(
-            "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
-            "No queries were performed, will use a new start date"
-        )
-        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
-    logger.info(
-        "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
-        f"{len(past_bios_for_officer)} past bios for officer found with the specified constraints"
-    )
-    if len(past_bios_for_officer) == 0:
-        logger.info(
-            "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
-            "using new start date since no past bios for officer found with the specified constraints"
-        )
-        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
-    past_bio_for_officer = past_bios_for_officer[0]
-    logger.info(
-        "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
-        "using the start date attached to officer"
-        f"{past_bio_for_officer.position_name} for term {past_bio_for_officer.elected_term} which is "
-        f"{past_bio_for_officer.start_date.strftime('%A, %d %b %Y %I:%m %S %p')}"
-    )
-    return past_bio_for_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None):

@@ -1,18 +1,25 @@
+{% load set_variable %}
 function addNewOfficer(new_officers_div_name){
     let new_officer_index;
-    let new_officer;
+    let new_officer_dom_obj;
     if (document.getElementById(new_officers_div_name).lastChild === null){
         new_officer_index = document.getElementById(new_officers_div_name).childElementCount;
     }else{
         new_officer_index = parseInt(document.getElementById(new_officers_div_name).lastChild.id.replace('new_officer_',"")) + 1;
     }
 
-
     const new_officer_div_name = 'new_officer_' + new_officer_index;
-    const speech_parent_div_name = new_officer_div_name + '_speeches';
 
-	let draft_or_finalized_nominee_to_display=false;
-    let new_officer_speeches;
-    let nominee_link_election_form=false;
+	const draft_or_finalized_new_officer_to_display=false;
+    const discord_id="";
+    const sfu_computing_id="";
+    const full_name="";
+    const start_date="{{start_date}}";
+    const term="";
+
+    {% define "" as position_name %}
+    {% define "" as re_use_start_date %}
+    {% define "" as overwrite_current_officer %}
+    {% define "" as term %}
 	{% include 'about/input_new_officers/js_functions/on_load_js_functions/display_new_officer_info.html' %}
 }

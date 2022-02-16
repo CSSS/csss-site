@@ -32,41 +32,16 @@
 				{%  endif %}
 			{% endfor %}
 		</select>
-{#        <div id="new_officers">#}
-{#            <div id="new_officer_0" class="csss_box_borders_new_entries">#}
-{#                <p style="display:inline">#}
-{#                    Position:<div class="red_dot_mandatory" >*</div>#}
-{#                    <select name="[new_officers][0][selected_position]">#}
-{#                        {% for position in positions %}#}
-{#                            {%  if position == current_term__html_name  %}#}
-{#                                <option selected value="{{position}}">{{position}}</option>#}
-{#                            {%  else %}#}
-{#                                <option value="{{position}}">{{position}}</option>#}
-{#                            {%  endif %}#}
-{#                        {% endfor %}#}
-{#                    </select>#}
-{#                </p><br>#}
-{#                <p style="display:inline">#}
-{#                    Discord ID:<div class="red_dot_mandatory" >*</div>#}
-{#                    <input type="text" name="[new_officers][0][discord_id]" required>#}
-{#                    SFU computing ID:<div class="red_dot_mandatory" >*</div>#}
-{#                    <input type="text" name="[new_officers][0][sfu_computing_id]" required>#}
-{#                </p><br>#}
-{#                <p style="display:inline">Re-use from Previous Term:<div class="red_dot_mandatory" >*</div>#}
-{#                    <input type="checkbox" name="[new_officers][0][re_use_start_date]" onclick="$( '.enable_date' ).prop('disabled', !$( '.enable_date' ).prop('disabled'))">#}
-{#                    Start Date:<div class="red_dot_mandatory" >*</div>#}
-{#                    <input type="date" class="enable_date" value="{{ pre_populated_date }}" name="[new_officers][0][start_date]">#}
-{#                </p><br>#}
-{#                <p style="display:inline">Overwrite Current Officer:<div class="red_dot_mandatory" >*</div>#}
-{#                    <input type="checkbox" name="[new_officers][0][overwrite_current_officer]">#}
-{#                </p>#}
-{#            </div>#}
-{#        </div>#}
         <br>
-    <br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
+    <br><br><input type="submit" name="save_or_update_new_officers" value="Save/Create All The New Officers Informations" />
+    <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officer Informations</button>
+    <br><br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
+
     <div id="new_officers"></div>
+
     <input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
-    <br><br><input type="submit" name="da_name" value="Create New Officer Links" />
+    <br><br><input type="submit" name="save_or_update_new_officers" value="Save/Create All The New Officers Informations" />
+    <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officer Informations</button>
     </form>
     <script>
         function removeDiv(divName){$(divName).remove();}
