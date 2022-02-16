@@ -1,0 +1,77 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% load staticfiles %}
+{% block content %}
+	<link rel="stylesheet" href="{% static 'about_static/input_officer_info.css' %}">
+    <link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	<h2 class="title is-size-2">Create Links to Process New Officers</h2>
+    <br>
+	<form method="post" class="form">
+		{% csrf_token %}
+		Term <div class="red_dot_mandatory" >*</div>
+		<select name="term">
+			{% for term in terms__html_name %}
+				{%  if term == current_term__html_name  %}
+					<option selected value="{{term}}">{{term}}</option>
+				{%  else %}
+					<option value="{{term}}">{{term}}</option>
+				{%  endif %}
+			{% endfor %}
+		</select>
+		Year <div class="red_dot_mandatory">*</div>
+		<select name="year">
+			{% for year in years__html_name %}
+				{%  if year == current_year__html_name %}
+					<option selected value="{{year}}">{{year}}</option>
+				{%  else %}
+					<option value="{{ year }}">{{ year }}</option>
+				{%  endif %}
+			{% endfor %}
+		</select>
+{#        <div id="new_officers">#}
+{#            <div id="new_officer_0" class="csss_box_borders_new_entries">#}
+{#                <p style="display:inline">#}
+{#                    Position:<div class="red_dot_mandatory" >*</div>#}
+{#                    <select name="[new_officers][0][selected_position]">#}
+{#                        {% for position in positions %}#}
+{#                            {%  if position == current_term__html_name  %}#}
+{#                                <option selected value="{{position}}">{{position}}</option>#}
+{#                            {%  else %}#}
+{#                                <option value="{{position}}">{{position}}</option>#}
+{#                            {%  endif %}#}
+{#                        {% endfor %}#}
+{#                    </select>#}
+{#                </p><br>#}
+{#                <p style="display:inline">#}
+{#                    Discord ID:<div class="red_dot_mandatory" >*</div>#}
+{#                    <input type="text" name="[new_officers][0][discord_id]" required>#}
+{#                    SFU computing ID:<div class="red_dot_mandatory" >*</div>#}
+{#                    <input type="text" name="[new_officers][0][sfu_computing_id]" required>#}
+{#                </p><br>#}
+{#                <p style="display:inline">Re-use from Previous Term:<div class="red_dot_mandatory" >*</div>#}
+{#                    <input type="checkbox" name="[new_officers][0][re_use_start_date]" onclick="$( '.enable_date' ).prop('disabled', !$( '.enable_date' ).prop('disabled'))">#}
+{#                    Start Date:<div class="red_dot_mandatory" >*</div>#}
+{#                    <input type="date" class="enable_date" value="{{ pre_populated_date }}" name="[new_officers][0][start_date]">#}
+{#                </p><br>#}
+{#                <p style="display:inline">Overwrite Current Officer:<div class="red_dot_mandatory" >*</div>#}
+{#                    <input type="checkbox" name="[new_officers][0][overwrite_current_officer]">#}
+{#                </p>#}
+{#            </div>#}
+{#        </div>#}
+        <br>
+    <br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
+    <div id="new_officers"></div>
+    <input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
+    <br><br><input type="submit" name="da_name" value="Create New Officer Links" />
+    </form>
+    <script>
+        function removeDiv(divName){$(divName).remove();}
+
+        {%  include 'about/input_new_officers/js_functions/on_load_js_functions/main_function.html' %}
+        {%  include 'about/input_new_officers/js_functions/add_new_officer.html' %}
+    </script>
+{% endblock %}
