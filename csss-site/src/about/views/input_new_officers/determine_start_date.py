@@ -47,7 +47,7 @@ def determine_start_date(start_date, sfu_computing_id, position_name):
             f"is holding a position that has no end-date [{position_name}]. Will use their current start_date of"
             f" {officer.start_date}"
         )
-        return start_date
+        return officer.start_date
     """
     position_obj        current_term_number         use_previous_start_date(2 terms)
     1                   1                           no (0)

@@ -29,7 +29,6 @@ class Term(models.Model):
         return f"{self.term} {self.year}"
 
 
-
 class Officer(models.Model):
 
     def validate_unique(self, exclude=None):
@@ -174,11 +173,6 @@ class OfficerEmailListAndPositionMapping(models.Model):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"
 
 class NewOfficer(models.Model):
-
-    position_name = models.CharField(
-        max_length=300,
-        default="President"
-    )
     discord_id = models.CharField(
         max_length=20
     )
@@ -189,11 +183,12 @@ class NewOfficer(models.Model):
         max_length=100,
         default='NA'
     )
-    sfu_email_alias = models.CharField(
-        max_length=100
-    )
     start_date = models.DateTimeField(
         default=timezone.now
+    )
+    position_name = models.CharField(
+        max_length=300,
+        default="President"
     )
     re_use_start_date = models.BooleanField(
         default=True
