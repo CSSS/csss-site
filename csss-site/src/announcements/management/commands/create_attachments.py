@@ -1,6 +1,6 @@
 import logging
 import os
-import pathlib
+import pathlib2
 
 from django.conf import settings
 from django.core.management import BaseCommand
@@ -44,7 +44,7 @@ def _create_attachments(message):
         try:
             file_path = attachment_to_create.path
             file_path = file_path[:file_path.rfind("/"):]
-            pathlib.Path(file_path).mkdir(parents=True, exist_ok=True)
+            pathlib2.Path(file_path).mkdir(parents=True, exist_ok=True)
             open(attachment_to_create.path, 'w').close()
         except Exception:
             pass
