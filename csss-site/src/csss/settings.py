@@ -1,7 +1,6 @@
 import environ
 import os
 import tzlocal
-
 from csss.logger_setup import initialize_logger
 
 if 'BASE_DIR' in os.environ:

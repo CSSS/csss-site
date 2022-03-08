@@ -9,7 +9,7 @@ Django==2.2.24
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
-django-file-form==0.4.0
+django-file-form==3.3.0
 django-jinja==2.4.1
 django-mailbox==4.8.1
 django-pony-forms==0.6.0
@@ -18,7 +18,7 @@ gunicorn==19.9.0
 idna==2.8
 Jinja2==2.11.3
 MarkupSafe==1.1.0
-pathlib==1.0.1
+pathlib2==2.3.7
 pytz==2018.7
 six==1.12.0
 smmap2==2.0.5
@@ -67,4 +67,4 @@ markdown-link-attr-modifier==0.2.0
 Markdown==3.3.4
 
 # needed for logging in
-git+git://github.com/gregbaker/django-cas-ng.git@08509c3ad23f69d6d4e69a0a66453d0221023f3d # fix for session_key bug (PR #195), and duplicate session_key bug (PR #209)
+git+https://github.com/modernNeo/django-cas-ng.git@55341f6a73ee6d25793d5053d318b7a9bca1acac # fix for mysql indexing bug (PR #291)
