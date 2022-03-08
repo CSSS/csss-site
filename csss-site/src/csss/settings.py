@@ -1,6 +1,7 @@
 import environ
 import os
 import tzlocal
+from django_cas_ng.models import SESSION_KEY_MAXLENGTH
 
 from csss.logger_setup import initialize_logger
 
@@ -365,3 +366,5 @@ DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/'  # will be
 logger.info(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
 logger.info(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
 logger.info(f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}')
+
+SESSION_KEY_MAXLENGTH = 1024
