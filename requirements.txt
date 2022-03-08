@@ -18,7 +18,7 @@ gunicorn==19.9.0
 idna==2.8
 Jinja2==2.11.3
 MarkupSafe==1.1.0
-pathlib==1.0.1
+pathlib2==2.3.7
 pytz==2018.7
 six==1.12.0
 smmap2==2.0.5
