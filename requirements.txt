@@ -67,4 +67,4 @@ markdown-link-attr-modifier==0.2.0
 Markdown==3.3.4
 
 # needed for logging in
-git+https://github.com/gregbaker/django-cas-ng.git@132b2da79 # fix for mysql indexing bug (PR #291)
+git+https://github.com/modernNeo/django-cas-ng.git@55341f6a73ee6d25793d5053d318b7a9bca1acac # fix for mysql indexing bug (PR #291)
