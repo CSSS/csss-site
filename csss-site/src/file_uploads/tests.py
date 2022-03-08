@@ -3,7 +3,7 @@ import json
 
 import six
 
-from pathlib import Path
+from pathlib2 import Path
 
 from django.conf import settings
 from django.test import TestCase
