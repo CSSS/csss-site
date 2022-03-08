@@ -9,6 +9,7 @@ from csss.views.views import ERROR_MESSAGES_KEY
 
 logger = logging.getLogger('csss_site')
 
+
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         if isinstance(exception, InvalidPrivilege):
