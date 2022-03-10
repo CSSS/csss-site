@@ -200,4 +200,4 @@ class NewOfficer(models.Model):
     )
 
     def __str__(self):
-        return f"NewOfficer object for {self.full_name} for {self.position_name} for term {self.term}"
+        return f"NewOfficer for {self.full_name} for position {self.position_name} under term {self.term}"
