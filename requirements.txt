@@ -5,7 +5,7 @@ cffi==1.14.5
 chardet==3.0.4
 defusedxml==0.7.1
 Deprecated==1.2.12
-Django==2.2.24
+Django==2.2.27
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
@@ -30,7 +30,7 @@ django-markdown-app==0.9.6
 pandas==1.2.4
 tzlocal==2.1
 httplib2==0.19.1
-numpy==1.20.3
+numpy==1.21.0
 oauthlib==3.1.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
