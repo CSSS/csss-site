@@ -29,8 +29,10 @@ def download_or_create_announcement_attachments(download=False):
         os.system(
             "rm -fr ../../media_root || true; "
             "mkdir -p ../../media_root || true; "
-            f"wget -r -X '*' --no-host-directories {settings.STAGING_SERVER}mailbox_attachments/ -R '*html*' "
-            "-P ../../media_root/ || true"
+            f"wget -r -X '*' "
+            f"--no-host-directories {settings.STAGING_SERVER}dev_csss_website_media/mailbox_attachments/ -R '*html*' "
+            "-P ../../media_root/ || true;"
+            "mv ../../media_root/dev_csss_website_media/* ../../media_root/.;"
         )
     else:
         [
