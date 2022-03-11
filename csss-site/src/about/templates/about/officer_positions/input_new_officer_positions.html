@@ -60,7 +60,7 @@
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
         newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
-        newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label><br>";
+        newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label>";
 
         const true_option = document.createElement('option');
         true_option.value = 'True'
@@ -70,6 +70,7 @@
         false_option.innerHTML = 'False'
 
         const select_statement = document.createElement('select');
+        select_statement.setAttribute("size", '2');
         select_statement.setAttribute('name', 'elected_via_election_officer');
         select_statement.setAttribute('id', 'elected_via_election_officer');
         select_statement.setAttribute('required', '');
