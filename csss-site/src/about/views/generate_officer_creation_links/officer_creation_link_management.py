@@ -19,7 +19,6 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
-from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
@@ -121,23 +120,7 @@ def verify_passphrase_access_and_create_context(request, tab):
         return False, context, None, None
     context['HTML_PASSPHRASE_GET_KEY'] = HTML_PASSPHRASE_GET_KEY
     context[HTML_PASSPHRASE_GET_KEY] = passphrase
-
-    new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
-    logger.info(
-        "[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()] "
-        f"len(passphrase) = '{len(new_officer_details)}'"
-    )
-    if len(new_officer_details) != 1:
-        context[PASSPHRASE_ERROR_KEY] = "Passphrase is not attached to a record for a new Officer"
-        return False, context, None, passphrase
-    new_officer_detail = new_officer_details[0]
-    logger.info(
-        f"[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()]"
-        f" new_officer_detail.used = '{new_officer_detail.used}'")
-    if new_officer_detail.used:
-        context[PASSPHRASE_ERROR_KEY] = "the passphrase supplied has already been used"
-        return False, context, None, passphrase
-    return True, context, new_officer_detail, passphrase
+    return True, context, None, passphrase
 
 
 def show_create_link_page(request):
@@ -210,19 +193,6 @@ def show_page_with_creation_links(request):
             # creating the necessary passphrases and officer info for the user inputted position
             passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
             new_officers_to_process.append(
-                ProcessNewOfficer(
-                    passphrase=passphrase,
-                    term=term,
-                    year=year,
-                    position_name=position_name,
-                    position_index=officer_email_and_position_mapping.position_index,
-                    sfu_officer_mailing_list_email=officer_email_and_position_mapping.email,
-                    link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
-                    use_new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
-                    start_date=datetime.datetime.strptime(
-                        f"{request.POST[HTML_DATE_KEY]}",
-                        '%Y-%m-%d')
-                )
             )
             logger.info(
                 "[about/officer_creation_link_management.py show_page_with_creation_links()] "
@@ -294,9 +264,6 @@ def delete_officers_and_process_new_officer_models_under_specified_term(year, te
         officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
         for officer in officer_in_selected_term:
             officer.delete()
-    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term_season, year=year)
-    for new_officer in new_officer_details:
-        new_officer.delete()
 
 
 def get_next_position_number_for_term(position_name):
@@ -402,9 +369,6 @@ def display_page_for_officers_to_input_their_info(request):
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_name
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
-        context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = determine_new_start_date_for_officer(
-            new_officer_details, officer
-        )
         context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID_EMAIL_ALIAS] = "" if officer is None else officer.sfu_email_alias

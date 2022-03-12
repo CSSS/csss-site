@@ -7,7 +7,7 @@ from django.conf import settings
 from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
-from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, \
+from resource_management.models import GoogleMailAccountCredentials, \
     OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
@@ -244,8 +244,6 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
             if not success:
                 officer_obj.delete()
                 return success, error_message
-    if remove_from_naughty_list:
-        _remove_officer_from_naughty_list(sfuid)
     return True, None
 
 
@@ -354,27 +352,3 @@ def _save_officer_github_membership(officer):
             f"mapped officer {officer} to team {github_team_mapping.github_team.team_name}"
         )
     return True, None
-
-
-def _remove_officer_from_naughty_list(sfuid):
-    """
-    Removes the office form the naughty list so that their permissions remain
-    even after a validation
-
-    Keyword Argument
-    sfuid -- the sfuid of the officer
-    """
-    logger.info(f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] sfuid: [{sfuid}]")
-    naughty_officers = NaughtyOfficer.objects.all()
-    for naughty_officer in naughty_officers:
-        logger.info(
-            "[about/officer_management_helper.py _remove_officer_from_naughty_list()] will compare sfuid"
-            f" [{sfuid}] with naughty_officer.sfuid [{naughty_officer.sfuid}]"
-        )
-        if naughty_officer.sfuid == sfuid:
-            logger.info(
-                f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] deleting "
-                f"naughty_officer {naughty_officer.sfuid}"
-            )
-            naughty_officer.delete()
-            return
