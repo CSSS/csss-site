@@ -10,6 +10,8 @@
 				<th>Officer Position Names</th>
 				<th>Officer SFU Email-List Addresses</th>
 				<th>Elected Via Election Officer</th>
+				<th>Number of Relevant Terms</th>
+				<th>Starting Month</th>
 				<th>Will be Deleted</th>
 			</tr>
 			{%  for position in saved_officer_positions %}
@@ -29,6 +31,28 @@
 							{%  endif %}
 						</select>
 					</td>
+                    <td>
+                        <select name="[saved_officer_positions][{{ position.id }}][officer_email_list_and_position_mapping__number_of_terms]" required>
+                            {%  for number_of_term in NUMBER_OF_TERMS %}
+                                {%  if position.get_number_of_terms == number_of_term %}
+                                    <option selected value="{{ number_of_term }}">{{ number_of_term }}</option>
+                                {%  else %}
+                                    <option value="{{ number_of_term }}">{{ number_of_term }}</option>
+                                {%  endif %}
+                            {%  endfor %}
+                        </select>
+                    </td>
+                    <td>
+                        <select name="[saved_officer_positions][{{ position.id }}][officer_email_list_and_position_mapping__starting_month]" required>
+                            {%  for starting_month in STARTING_MONTHS %}
+                                {%  if position.get_starting_month == starting_month %}
+                                    <option selected value="{{ starting_month }}">{{ starting_month }}</option>
+                                {%  else %}
+                                    <option value="{{ starting_month }}">{{ starting_month }}</option>
+                                {%  endif %}
+                            {%  endfor %}
+                        </select>
+                    </td>
 					<td>
 						<select name="[saved_officer_positions][{{ position.id }}][officer_email_list_and_position_mapping__delete_status]" required size="2">
 							{%  if position.marked_for_deletion is True %}

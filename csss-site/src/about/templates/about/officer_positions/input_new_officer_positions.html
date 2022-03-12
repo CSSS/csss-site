@@ -23,6 +23,10 @@
                         <option value="False" selected>False</option>
                     {%  endif %}
                 </select>
+                <label for="number_of_terms">Number of Terms</label>
+                <input type="text" id="number_of_terms" name="number_of_terms" value="{{ unsaved_position_mapping.number_of_terms }}" required><br>
+                <label for="starting_month">Number of Terms</label>
+                <input type="text" id="starting_month" name="starting_month" value="{{ unsaved_position_mapping.starting_month }}" required><br>
             </div>
         {%  endfor %}
 
@@ -39,7 +43,11 @@
                 <select name="elected_via_election_officer" id="elected_via_election_officer" required size="2">
                         <option value="True">True</option>
                         <option value="False">False</option>
-                </select>
+                </select><br>
+                <label for="number_of_terms">Number of Terms</label>
+                <input type="text" id="number_of_terms" name="number_of_terms" required>
+                <label for="starting_month">Starting Month</label>
+                <input type="text" id="starting_month" name="starting_month" required><br>
             </div>
         {%  endif %}
     </div>
@@ -60,7 +68,7 @@
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_name\" name=\"position_name\" required><br>";
         newOfficerPosition.innerHTML += "<label for=\"position_email\">Officer Position Email</label>";
         newOfficerPosition.innerHTML += "<input type=\"text\" id=\"position_email\" name=\"position_email\" required><br>";
-        newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label><br>";
+        newOfficerPosition.innerHTML += "<label for=\"elected_via_election_officer\">Elected Via Election Officer</label>";
 
         const true_option = document.createElement('option');
         true_option.value = 'True'
@@ -70,6 +78,7 @@
         false_option.innerHTML = 'False'
 
         const select_statement = document.createElement('select');
+        select_statement.setAttribute("size", '2');
         select_statement.setAttribute('name', 'elected_via_election_officer');
         select_statement.setAttribute('id', 'elected_via_election_officer');
         select_statement.setAttribute('required', '');
@@ -77,6 +86,11 @@
         select_statement.appendChild(true_option);
         select_statement.appendChild(false_option);
         newOfficerPosition.appendChild(select_statement);
+
+        newOfficerPosition.innerHTML += "<br><label for=\"number_of_terms\">Number of Terms</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"number_of_terms\" name=\"number_of_terms\" required>";
+        newOfficerPosition.innerHTML += "<label for=\"starting_month\">Starting Month</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"starting_month\" name=\"starting_month\" required><br>";
         newOfficerPosition.innerHTML += "</div>";
         document.getElementById(divName).appendChild(newOfficerPosition);
     }

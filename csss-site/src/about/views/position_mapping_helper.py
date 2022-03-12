@@ -25,6 +25,9 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
     "officer_email_list_and_position_mapping__elected_position"
+
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS = 'officer_email_list_and_position_mapping__number_of_terms'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH = 'officer_email_list_and_position_mapping__starting_month'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
     "officer_email_list_and_position_mapping__delete_status"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
@@ -45,6 +48,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION,
         'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
         'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
+        'NUMBER_OF_TERMS': OfficerEmailListAndPositionMapping.number_of_terms_choices_to_display_on_html(),
+        'STARTING_MONTHS': OfficerEmailListAndPositionMapping.starting_month_choices_to_display_on_html()
     })
 
     position_mapping_for_selected_officer = \

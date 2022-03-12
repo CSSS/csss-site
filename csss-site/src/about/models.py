@@ -172,5 +172,71 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=False
     )
 
+    starting_month_choices = (
+        (None, "None"),
+        (1, 'Spring'),
+        (2, 'Summer'),
+        (3, 'Fall')
+    )
+
+    @classmethod
+    def starting_month_choices_to_display_on_html(cls):
+        return [
+            starting_month_choice[1]
+            for starting_month_choice in cls.starting_month_choices
+        ]
+
+    @classmethod
+    def starting_month_choices_dict(cls, front_end=True):
+        return {
+            starting_month_choice[0 if front_end else 1]: starting_month_choice[1 if front_end else 0]
+            for starting_month_choice in cls.starting_month_choices
+        }
+
+    starting_month = models.IntegerField(
+        choices=starting_month_choices,
+        default=3,
+        null=True
+    )
+
+    @property
+    def get_starting_month(self):
+        return OfficerEmailListAndPositionMapping.starting_month_choices_dict()[self.starting_month]
+
+    number_of_terms_choices = (
+        (None, "None"),
+        (1, "1"),
+        (2, "2"),
+        (3, "3"),
+    )
+
+    @classmethod
+    def number_of_terms_choices_dict(cls):
+        return {
+            number_of_terms_choice[1]: number_of_terms_choice[0]
+            for number_of_terms_choice in cls.number_of_terms_choices
+        }
+
+    @classmethod
+    def number_of_terms_choices_to_display_on_html(cls):
+        return [
+            number_of_terms_choice[1]
+            for number_of_terms_choice in cls.number_of_terms_choices
+        ]
+
+    number_of_terms = models.IntegerField(
+        choices=number_of_terms_choices,
+        default=3,
+        null=True
+    )
+
+    @property
+    def get_number_of_terms(self):
+        return str(self.number_of_terms)
+
+    executive_position = models.BooleanField(
+        default=False
+    )
+
     def __str__(self):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"

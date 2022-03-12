@@ -116,7 +116,11 @@ def _add_new_position_mapping(post_dict):
                 position_name=post_dict[POSITION_NAME_KEY],
                 position_index=post_dict[POSITION_INDEX_KEY],
                 email=post_dict[POSITION_EMAIL_KEY],
-                elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True'
+                elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
+                number_of_terms=OfficerEmailListAndPositionMapping.number_of_terms_choices_dict()[
+                    post_dict['number_of_terms']
+                ],
+                starting_month=OfficerEmailListAndPositionMapping.starting_month_choices_dict(front_end=False)[post_dict['starting_month']]
             ).save()
         else:
             logger.info(
@@ -126,7 +130,9 @@ def _add_new_position_mapping(post_dict):
             unsaved_position_mappings = [
                 {POSITION_NAME_KEY: post_dict[POSITION_NAME_KEY], POSITION_INDEX_KEY: post_dict[POSITION_INDEX_KEY],
                  POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY],
-                 ELECTED_VIA_ELECTION_OFFICER_KEY: post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True'
+                 ELECTED_VIA_ELECTION_OFFICER_KEY: post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
+                 "number_of_terms": post_dict['number_of_terms'],
+                 "starting_month": post_dict['starting_month']
                  }
             ]
             error_messages.append(error_message)

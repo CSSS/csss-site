@@ -9,7 +9,8 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_term, get_datetime_for_beginning_of_current_term
@@ -50,6 +51,7 @@ def _update_positions_mapping(positions):
     current_specified_position_indices = []
     positions_to_save = []
     nominees_to_save = []
+
     for position in positions:
         if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in position
                 and f"{position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
@@ -78,6 +80,14 @@ def _update_positions_mapping(positions):
             error_message = "No valid position elected status detected for position mapping"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS in position):
+            error_message = "No valid number of terms detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH in position):
+            error_message = "No valid starting month detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
 
         position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
             id=int(position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
@@ -95,11 +105,15 @@ def _update_positions_mapping(positions):
             position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS]
         elected_via_election_officer = \
             position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION]
+        number_of_terms = \
+            position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS]
+        starting_month = \
+            position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH]
 
         if officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_for_officer_position,
                                        new_position_index_for_officer_position,
                                        new_sfu_email_list_address_for_officer_position,
-                                       elected_via_election_officer):
+                                       elected_via_election_officer, number_of_terms, starting_month):
             continue
         logger.info(
             f"[about/update_saved_position_mappings.py _update_position_mapping()] the user's "
@@ -136,6 +150,10 @@ def _update_positions_mapping(positions):
             position_mapping_for_selected_officer.position_index = new_position_index_for_officer_position
             position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
             position_mapping_for_selected_officer.elected_via_election_officer = elected_via_election_officer
+            position_mapping_for_selected_officer.number_of_terms = \
+                OfficerEmailListAndPositionMapping.number_of_terms_choices_dict()[number_of_terms]
+            position_mapping_for_selected_officer.starting_month = \
+                OfficerEmailListAndPositionMapping.starting_month_choices_dict(front_end=False)[starting_month]
             position_mapping_for_selected_officer.save()
         else:
             logger.info(
@@ -153,7 +171,7 @@ def _update_positions_mapping(positions):
 def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_for_officer_position,
                                 new_position_index_for_officer_position,
                                 new_sfu_email_list_address_for_officer_position,
-                                elected_via_election_officer):
+                                elected_via_election_officer, number_of_terms, starting_month):
     """
     Returns a bool that indicates if the officer's info has been changed
 
@@ -171,9 +189,11 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
      bool -- true if a position_mapping_for_selected_officer has to be updated
     """
     return new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
-        and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
-        and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
-        and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer
+           and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
+           and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
+           and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer \
+           and number_of_terms == position_mapping_for_selected_officer.number_of_terms \
+           and starting_month == position_mapping_for_selected_officer.starting_month
 
 
 def update_current_officer(positions_to_save, position_mapping_for_selected_officer,
