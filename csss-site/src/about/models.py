@@ -20,12 +20,9 @@ class Term(models.Model):
         max_length=6,
         choices=term_choices,
         default='Fall',
-        help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
     year = models.IntegerField(
-        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 1)))],
-        default='2018',
-        help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
+        default='2022',
     )
 
     def __str__(self):
@@ -174,3 +171,32 @@ class OfficerEmailListAndPositionMapping(models.Model):
 
     def __str__(self):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"
+
+class NewOfficer(models.Model):
+    position_name = models.CharField(
+        max_length=300,
+        default="President"
+    )
+    discord_id = models.CharField(
+        max_length=20
+    )
+    sfu_computing_id = models.CharField(
+        max_length=10
+    )
+    sfu_email_alias = models.CharField(
+        max_length=100
+    )
+    start_date = models.DateTimeField(
+        default=timezone.now
+    )
+    overwrite_current_officer = models.BooleanField(
+        default=False
+    )
+
+    term = models.ForeignKey(
+        Term,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return f"NewOfficer object for {self.position_name} for term {self.term}"
