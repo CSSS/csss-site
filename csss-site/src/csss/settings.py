@@ -109,6 +109,8 @@ GDRIVE_ROOT_FOLDER_ID = None
 GDRIVE_TOKEN_LOCATION = None
 GITHUB_ACCESS_TOKEN = None
 GITLAB_PRIVATE_TOKEN = None
+SFU_ENDPOINT_TOKEN = None
+DISCORD_BOT_TOKEN = None
 
 if ENVIRONMENT == "LOCALHOST":
     if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
@@ -119,33 +121,49 @@ if ENVIRONMENT == "LOCALHOST":
         GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
     if 'GITLAB_PRIVATE_TOKEN' in os.environ:
         GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
+    if 'SFU_ENDPOINT_TOKEN' in os.environ:
+        SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
+    if 'DISCORD_BOT_TOKEN' in os.environ:
+        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
 
 elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
         exit(1)
-        logger.error(f"[settings.py] GDRIVE_ROOT_FOLDER_ID it not detected in ENVIRONMENT {ENVIRONMENT}")
+        logger.error(f"[settings.py] GDRIVE_ROOT_FOLDER_ID not detected in ENVIRONMENT {ENVIRONMENT}")
     else:
         GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
     if "GDRIVE_TOKEN_LOCATION" not in os.environ:
         exit(1)
-        logger.error(f"[settings.py] GDRIVE_TOKEN_LOCATION it not detected in ENVIRONMENT {ENVIRONMENT}")
+        logger.error(f"[settings.py] GDRIVE_TOKEN_LOCATION not detected in ENVIRONMENT {ENVIRONMENT}")
     else:
         GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
     if "GITHUB_ACCESS_TOKEN" not in os.environ:
         exit(1)
-        logger.error(f"[settings.py] GITHUB_ACCESS_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
+        logger.error(f"[settings.py] GITHUB_ACCESS_TOKEN not detected in ENVIRONMENT {ENVIRONMENT}")
     else:
         GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
     if "GITLAB_PRIVATE_TOKEN" not in os.environ:
         exit(1)
-        logger.error(f"[settings.py] GITLAB_PRIVATE_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
+        logger.error(f"[settings.py] GITLAB_PRIVATE_TOKEN not detected in ENVIRONMENT {ENVIRONMENT}")
     else:
         GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
+    if "SFU_ENDPOINT_TOKEN" not in os.environ:
+        exit(1)
+        logger.error(f"[settings.py] SFU_ENDPOINT_TOKEN not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
+    if "DISCORD_BOT_TOKEN" not in os.environ:
+        exit(1)
+        logger.error(f"[settings.py] DISCORD_BOT_TOKEN not detected in ENVIRONMENT {ENVIRONMENT}")
+    else:
+        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
 
 logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
 logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
 logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
 logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={GITLAB_PRIVATE_TOKEN}")
+logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={SFU_ENDPOINT_TOKEN}")
+logger.info(f"[settings.py] DISCORD_BOT_TOKEN={DISCORD_BOT_TOKEN}")
 
 if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
     logger.error("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
@@ -161,6 +179,14 @@ if GITHUB_ACCESS_TOKEN is not None and not GITHUB_ACCESS_TOKEN != "":
 
 if GITLAB_PRIVATE_TOKEN is not None and not GITLAB_PRIVATE_TOKEN != "":
     logger.error("[settings.py] empty value for GITLAB_PRIVATE_TOKEN")
+    exit(1)
+
+if SFU_ENDPOINT_TOKEN is not None and not SFU_ENDPOINT_TOKEN != "":
+    logger.error("[settings.py] empty value for SFU_ENDPOINT_TOKEN")
+    exit(1)
+
+if DISCORD_BOT_TOKEN is not None and not DISCORD_BOT_TOKEN != "":
+    logger.error("[settings.py] empty value for DISCORD_BOT_TOKEN")
     exit(1)
 
 # Application definition

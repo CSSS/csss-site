@@ -2,7 +2,7 @@ import requests
 from django.conf import settings
 
 
-def validate_sfu_id(cls, sfu_computing_id):
+def validate_sfu_id(sfu_computing_id):
     if settings.SFU_ENDPOINT_TOKEN is None:
         return True
     resp = requests.get(

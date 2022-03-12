@@ -13,21 +13,26 @@ def validate_inputted_new_officers(new_officers_dict):
         selected_position = new_officer['selected_position']
         if selected_position in selected_positions:
             return False, f"You cannot have more than 1 {selected_position}"
-        if positions.filter(position_name=selected_position).first() is None:
+        selected_position = positions.filter(position_name=selected_position).first()
+        if selected_position is None:
             return False, f"Invalid position of {selected_position} specified"
-        if len(new_officer['discord_id'].strip()) == 0:
+        selected_positions.append(selected_position)
+        if len(new_officer['discord_id'].strip()) > 0:
             discord_id = new_officer['discord_id']
             valid, error_message = validate_discord_id(discord_id)
             if not valid:
                 return False, f"invalid error of {error_message} with Discord ID of {discord_id}"
-            if discord_id in discord_ids:
-                return False, f"the discord ID of {discord_id} was entered more than once"
+            if selected_position.executive_position:
+                if discord_id in discord_ids:
+                    return False, f"the discord ID of {discord_id} was entered more than once"
+                discord_ids.append(discord_id)
         sfu_computing_id = new_officer['sfu_computing_id']
         if not validate_sfu_id(sfu_computing_id):
             return False, f"Invalid SFUId of {sfu_computing_id} was entered"
-        if sfu_computing_id in sfu_computing_ids:
-            return False, f"the discord ID of {sfu_computing_id} was entered more than once"
-        sfu_computing_ids.append(sfu_computing_id)
+        if selected_position.executive_position:
+            if sfu_computing_id in sfu_computing_ids:
+                return False, f"the discord ID of {sfu_computing_id} was entered more than once"
+            sfu_computing_ids.append(sfu_computing_id)
         if 're_use_start_date' in new_officer and 'start_date' in new_officer:
             return False, "One of the position is both specifying a new date and is set to re-use a previous date"
         if not ('re_use_start_date' in new_officer or 'start_date' in new_officer):

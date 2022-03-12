@@ -1,14 +1,14 @@
 import datetime
 import logging
 
-from elections.views.Constants import DATE_AND_TIME_FORMAT
+from elections.views.Constants import DATE_FORMAT
 
 logger = logging.getLogger('csss_site')
 
 
 def validate_start_date(start_date):
     try:
-        datetime.datetime.strptime(f"{start_date}", DATE_AND_TIME_FORMAT)
+        datetime.datetime.strptime(f"{start_date}", DATE_FORMAT)
     except ValueError:
         error_message = f" given date of {start_date} is not in the valid format"
         logger.error(
