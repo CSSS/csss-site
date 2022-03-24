@@ -6,7 +6,8 @@ from querystring_parser import parser
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
-    POSITION_INDEX_KEY, validate_elected_via_election_officer_status, validate_number_of_terms, validate_starting_month
+    POSITION_INDEX_KEY, validate_elected_via_election_officer_status, validate_number_of_terms, \
+    validate_starting_month
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
@@ -28,8 +29,6 @@ def input_new_officer_positions(request):
     context[ERROR_MESSAGES_KEY] = []
     if request.method == "POST":
         post_dict = parser.parse(request.POST.urlencode())
-        # post_dict = "csrfmiddlewaretoken=7pAiE4edkmud1Uvm8rLyVppfSQ1Wz0Eo2m6em3Hlf76F5wg6cL76k3vzYDVxlU2w&position_index=19&position_index=20&position_name=Pee-pee&position_name=Poo-poo&position_email=pee-pee%40sfu.ca&position_email=poo-poo%40sfu.ca&elected_via_election_officer=True&elected_via_election_officer=False&number_of_terms=1&number_of_terms=None&starting_month=Summer&starting_month=Fall&add_new_position_mapping=Submit"
-        # post_dict = "csrfmiddlewaretoken=7pAiE4edkmud1Uvm8rLyVppfSQ1Wz0Eo2m6em3Hlf76F5wg6cL76k3vzYDVxlU2w&position_index=19&position_index=20&position_name=Pee-pee&position_name=Poo-poo&position_email=pee-pee%40sfu.ca&position_email=poo-poo%40sfu.ca&elected_via_election_officer=True&elected_via_election_officer=False&number_of_terms=1&number_of_terms=4&starting_month=Summer&starting_month=Fall&add_new_position_mapping=Submit"
         if 'add_new_position_mapping' in post_dict:
             success, context[ERROR_MESSAGES_KEY], context[UNSAVED_POSITION_MAPPINGS_KEY] = \
                 _add_new_position_mapping(post_dict)
@@ -70,8 +69,10 @@ def _add_new_position_mapping(post_dict):
             position_name = post_dict[POSITION_NAME_KEY][index]
             position_index = post_dict[POSITION_INDEX_KEY][index]
             position_email = post_dict[POSITION_EMAIL_KEY][index]
-            number_of_terms = int(post_dict[NUMBER_OF_TERMS_KEY][index]) if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None
-            starting_month = starting_months[post_dict[STARTING_MONTH_KEY][index]] if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
+            number_of_terms = int(post_dict[NUMBER_OF_TERMS_KEY][index]) \
+                if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None
+            starting_month = starting_months[post_dict[STARTING_MONTH_KEY][index]] \
+                if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
             elected_via_election_officer = post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index]
             unsaved_position_mappings.append(
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
@@ -110,15 +111,19 @@ def _add_new_position_mapping(post_dict):
                     position_index=post_dict[POSITION_INDEX_KEY][index],
                     email=post_dict[POSITION_EMAIL_KEY][index],
                     elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True',
-                    number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY][index]) if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None,
-                    starting_month=starting_months[post_dict[STARTING_MONTH_KEY][index]] if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
+                    number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY][index])
+                    if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None,
+                    starting_month=starting_months[post_dict[STARTING_MONTH_KEY][index]]
+                    if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
                 ).save()
     else:
         success, error_message = \
             _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY],
                                         post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY],
-                                        int(post_dict[NUMBER_OF_TERMS_KEY]) if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
-                                        starting_months[post_dict[STARTING_MONTH_KEY]] if post_dict[STARTING_MONTH_KEY] in starting_months else None
+                                        int(post_dict[NUMBER_OF_TERMS_KEY])
+                                        if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
+                                        starting_months[post_dict[STARTING_MONTH_KEY]]
+                                        if post_dict[STARTING_MONTH_KEY] in starting_months else None
                                         )
         if success:
             logger.info(
@@ -131,8 +136,10 @@ def _add_new_position_mapping(post_dict):
                 position_index=post_dict[POSITION_INDEX_KEY],
                 email=post_dict[POSITION_EMAIL_KEY],
                 elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
-                number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY]) if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
-                starting_month=starting_months[post_dict[STARTING_MONTH_KEY]] if post_dict[STARTING_MONTH_KEY] in starting_months else None
+                number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY])
+                if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
+                starting_month=starting_months[post_dict[STARTING_MONTH_KEY]]
+                if post_dict[STARTING_MONTH_KEY] in starting_months else None
             ).save()
         else:
             logger.info(

@@ -189,11 +189,11 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
      bool -- true if a position_mapping_for_selected_officer has to be updated
     """
     return new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
-           and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
-           and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
-           and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer \
-           and number_of_terms == position_mapping_for_selected_officer.number_of_terms \
-           and starting_month == position_mapping_for_selected_officer.starting_month
+        and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
+        and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
+        and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer \
+        and number_of_terms == position_mapping_for_selected_officer.number_of_terms \
+        and starting_month == position_mapping_for_selected_officer.starting_month
 
 
 def update_current_officer(positions_to_save, position_mapping_for_selected_officer,
