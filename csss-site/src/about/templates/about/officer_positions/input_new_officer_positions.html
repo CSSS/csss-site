@@ -22,12 +22,27 @@
                         <option value="True">True</option>
                         <option value="False" selected>False</option>
                     {%  endif %}
-                </select>
+                </select><br>
                 <label for="number_of_terms">Number of Terms</label>
-                <input type="text" id="number_of_terms" name="number_of_terms" value="{{ unsaved_position_mapping.number_of_terms }}" required><br>
-                <label for="starting_month">Number of Terms</label>
-                <input type="text" id="starting_month" name="starting_month" value="{{ unsaved_position_mapping.starting_month }}" required><br>
-            </div>
+                <select id="number_of_terms" name="number_of_terms" required>
+                    {%  for number_of_term in NUMBER_OF_TERMS %}
+                        {%  if unsaved_position_mapping.number_of_terms == number_of_term %}
+                            <option selected value="{{ number_of_term }}">{{ number_of_term }}</option>
+                        {%  else %}
+                            <option value="{{ number_of_term }}">{{ number_of_term }}</option>
+                        {%  endif %}
+                    {%  endfor %}
+                </select>
+                <label for="starting_month">Starting Month</label>
+                <select id="starting_month" name="starting_month" required>
+                    {%  for starting_month in STARTING_MONTHS %}
+                        {%  if unsaved_position_mapping.starting_month == starting_month %}
+                            <option selected value="{{ starting_month }}">{{ starting_month }}</option>
+                        {%  else %}
+                            <option value="{{ starting_month }}">{{ starting_month }}</option>
+                        {%  endif %}
+                    {%  endfor %}
+                </select>
         {%  endfor %}
 
         <!-- if there are no position mappings that are unsaved, shows just one blank entry for the user to enter a new position mapping -->
@@ -44,10 +59,20 @@
                         <option value="True">True</option>
                         <option value="False">False</option>
                 </select><br>
+
                 <label for="number_of_terms">Number of Terms</label>
-                <input type="text" id="number_of_terms" name="number_of_terms" required>
+                <select id="number_of_terms" name="number_of_terms" required>
+                    {%  for number_of_term in NUMBER_OF_TERMS %}
+                        <option value="{{ number_of_term }}">{{ number_of_term }}</option>
+                    {%  endfor %}
+                </select>
                 <label for="starting_month">Starting Month</label>
-                <input type="text" id="starting_month" name="starting_month" required><br>
+                <select id="starting_month" name="starting_month" required>
+                    {%  for starting_month in STARTING_MONTHS %}
+                        <option value="{{ starting_month }}">{{ starting_month }}</option>
+                    {%  endfor %}
+                </select>
+
             </div>
         {%  endif %}
     </div>
@@ -77,20 +102,42 @@
         false_option.value = 'False'
         false_option.innerHTML = 'False'
 
-        const select_statement = document.createElement('select');
-        select_statement.setAttribute("size", '2');
-        select_statement.setAttribute('name', 'elected_via_election_officer');
-        select_statement.setAttribute('id', 'elected_via_election_officer');
-        select_statement.setAttribute('required', '');
+        const select_statement_elected_via_officer = document.createElement('select');
+        select_statement_elected_via_officer.setAttribute("size", '2');
+        select_statement_elected_via_officer.setAttribute('name', 'elected_via_election_officer');
+        select_statement_elected_via_officer.setAttribute('id', 'elected_via_election_officer');
+        select_statement_elected_via_officer.setAttribute('required', '');
 
-        select_statement.appendChild(true_option);
-        select_statement.appendChild(false_option);
-        newOfficerPosition.appendChild(select_statement);
+        select_statement_elected_via_officer.appendChild(true_option);
+        select_statement_elected_via_officer.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_elected_via_officer);
 
         newOfficerPosition.innerHTML += "<br><label for=\"number_of_terms\">Number of Terms</label>";
-        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"number_of_terms\" name=\"number_of_terms\" required>";
+        const select_statement_number_of_terms = document.createElement('select');
+        select_statement_number_of_terms.setAttribute('name', 'number_of_terms');
+        select_statement_number_of_terms.setAttribute('required', '');
+        let number_of_terms_option;
+        {%  for number_of_term in NUMBER_OF_TERMS %}
+            number_of_terms_option = document.createElement('option');
+            number_of_terms_option.value = '{{number_of_term}}'
+            number_of_terms_option.innerHTML = '{{number_of_term}}'
+            select_statement_number_of_terms.appendChild(number_of_terms_option);
+        {%  endfor %}
+        newOfficerPosition.appendChild(select_statement_number_of_terms);
+
+
         newOfficerPosition.innerHTML += "<label for=\"starting_month\">Starting Month</label>";
-        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"starting_month\" name=\"starting_month\" required><br>";
+        const select_statement_starting_month = document.createElement('select');
+        select_statement_starting_month.setAttribute('name', 'starting_month');
+        select_statement_starting_month.setAttribute('required', '');
+        let starting_month_option;
+        {%  for starting_month in STARTING_MONTHS %}
+            starting_month_option = document.createElement('option');
+            starting_month_option.value = '{{starting_month}}'
+            starting_month_option.innerHTML = '{{starting_month}}'
+            select_statement_starting_month.appendChild(starting_month_option);
+        {%  endfor %}
+        newOfficerPosition.appendChild(select_statement_starting_month);
         newOfficerPosition.innerHTML += "</div>";
         document.getElementById(divName).appendChild(newOfficerPosition);
     }

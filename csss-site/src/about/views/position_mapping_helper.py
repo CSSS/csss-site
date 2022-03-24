@@ -246,3 +246,25 @@ def validate_position_names_for_github_team(officer_position_names):
             )
             return False, error_message
     return True, None
+
+
+def validate_number_of_terms(number_of_terms):
+    if number_of_terms not in OfficerEmailListAndPositionMapping.number_of_terms_choices_dict(front_end=False):
+        error_message = f"Invalid number of terms of {number_of_terms} specified"
+        logger.info(
+            "[about/position_mapping_helper.py "
+            f"validate_number_of_terms()] {error_message}"
+        )
+        return False, error_message
+    return True, None
+
+
+def validate_starting_month(starting_month):
+    if starting_month not in OfficerEmailListAndPositionMapping.starting_month_choices_dict():
+        error_message = f"Invalid starting month of {starting_month} specified"
+        logger.info(
+            "[about/position_mapping_helper.py "
+            f"validate_starting_month()] {error_message}"
+        )
+        return False, error_message
+    return True, None
