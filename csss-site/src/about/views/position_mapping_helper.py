@@ -249,7 +249,7 @@ def validate_position_names_for_github_team(officer_position_names):
 
 
 def validate_number_of_terms(number_of_terms):
-    if number_of_terms not in OfficerEmailListAndPositionMapping.number_of_terms_choices_dict(front_end=False):
+    if number_of_terms not in OfficerEmailListAndPositionMapping.number_of_terms_choices_dict():
         error_message = f"Invalid number of terms of {number_of_terms} specified"
         logger.info(
             "[about/position_mapping_helper.py "

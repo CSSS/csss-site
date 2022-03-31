@@ -151,7 +151,7 @@ def _update_positions_mapping(positions):
             position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
             position_mapping_for_selected_officer.elected_via_election_officer = elected_via_election_officer
             position_mapping_for_selected_officer.number_of_terms = \
-                OfficerEmailListAndPositionMapping.number_of_terms_choices_dict()[number_of_terms]
+                OfficerEmailListAndPositionMapping.number_of_terms_choices_dict(front_end=False)[number_of_terms]
             position_mapping_for_selected_officer.starting_month = \
                 OfficerEmailListAndPositionMapping.starting_month_choices_dict(front_end=False)[starting_month]
             position_mapping_for_selected_officer.save()

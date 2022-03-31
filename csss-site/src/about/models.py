@@ -213,7 +213,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
     @classmethod
     def number_of_terms_choices_dict(cls, front_end=True):
         return {
-            number_of_terms_choice[1 if front_end else 0]: number_of_terms_choice[0 if front_end else 1]
+            number_of_terms_choice[0 if front_end else 1]: number_of_terms_choice[1 if front_end else 0]
             for number_of_terms_choice in cls.number_of_terms_choices
         }
 
