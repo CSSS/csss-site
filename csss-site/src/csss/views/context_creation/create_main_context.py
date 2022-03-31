@@ -49,23 +49,23 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
         if current_election_officer_sfuid is None:
             current_election_officer_sfuid = get_current_election_officer_sfuid(naughty_officers=naughty_officers,
                                                                                 officers=officers)
-            context[CURRENT_ELECTION_OFFICER] = request.user.username == current_election_officer_sfuid
+        context[CURRENT_ELECTION_OFFICER] = request.user.username == current_election_officer_sfuid
 
         if sfuid_for_officer_in_past_5_terms is None:
             sfuid_for_officer_in_past_5_terms = get_sfuid_for_officer_in_past_5_terms(
                 naughty_officers=naughty_officers,
                 officers=officers)
-            context[OFFICER_IN_PAST_5_TERMS] = request.user.username in sfuid_for_officer_in_past_5_terms
+        context[OFFICER_IN_PAST_5_TERMS] = request.user.username in sfuid_for_officer_in_past_5_terms
 
         if current_sys_admin_sfuid is None:
             current_sys_admin_sfuid = get_current_sys_admin_sfuid(naughty_officers=naughty_officers,
                                                                   officers=officers)
-            context[CURRENT_SYS_ADMIN] = request.user.username == current_sys_admin_sfuid
+        context[CURRENT_SYS_ADMIN] = request.user.username == current_sys_admin_sfuid
 
         if current_webmaster_or_doa_sfuid is None:
             current_webmaster_or_doa_sfuid = get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
                                                                                 officers=officers)
-            context[CURRENT_WEBMASTER_OR_DOA] = request.user.username in current_webmaster_or_doa_sfuid
+        context[CURRENT_WEBMASTER_OR_DOA] = request.user.username in current_webmaster_or_doa_sfuid
 
     request_path = f"http://{settings.HOST_ADDRESS}"
     if settings.PORT is not None:
