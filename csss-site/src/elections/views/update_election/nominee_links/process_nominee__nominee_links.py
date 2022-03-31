@@ -6,7 +6,7 @@ from django.shortcuts import render
 
 from elections.models import NomineeLink, Election, NomineeSpeech, NomineePosition
 from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, \
-    HTML_PASSPHRASE_GET_KEY
+    HTML_PASSPHRASE_GET_KEY, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
@@ -25,7 +25,7 @@ from elections.views.validators.validate_user_input_has_required_fields import \
 logger = logging.getLogger('csss_site')
 
 
-def process_nominee__nominee_links(request, context, nominee_link_id):
+def process_nominee__nominee_links(request, context, nominee_link=None, passphrase=False):
     """
     Processes the user's input for modify the specified election
 
@@ -39,7 +39,6 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
     """
     nominee_info = transform_nominee_links_webform_to_json(request)
 
-    nominee_link = NomineeLink.objects.all().get(id=nominee_link_id)
     election_id = nominee_link.election.id
     fields = [
         ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN,
@@ -53,21 +52,21 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
             f"{error_message}"
         )
         create_context_for_create_or_update_nominee__nominee_links_html(
-            context, nominee_link_id=nominee_link_id, error_messages=[error_message]
+            context, nominee_link_id=nominee_link.id, error_messages=[error_message]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
             context
         )
 
-    success, error_message = validate_existing_nominee__nominee_link(election_id, nominee_link_id, nominee_info)
+    success, error_message = validate_existing_nominee__nominee_link(election_id, nominee_link.id, nominee_info)
     if not success:
         logger.info(
             f"[elections/process_nominee__nominee_links.py process_nominee__nominee_links()] "
             f"{error_message}"
         )
         create_context_for_create_or_update_nominee__nominee_links_html(
-            context, nominee_link_id=nominee_link_id, error_messages=[error_message], nominee_info=nominee_info
+            context, nominee_link_id=nominee_link.id, error_messages=[error_message], nominee_info=nominee_info
         )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
@@ -86,7 +85,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
 
         current_nominee_position_ids_under_election = [
             speech.id for speech in NomineePosition.objects.all().filter(
-                nominee_speech__nominee__nomineelink__id=nominee_link_id)
+                nominee_speech__nominee__nomineelink__id=nominee_link.id)
         ]
         position_ids_to_delete = [
             position_id for position_id in current_nominee_position_ids_under_election
@@ -97,7 +96,7 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
 
         current_nominee_speech_ids_under_election = [
             speech.id for speech in NomineeSpeech.objects.all().filter(
-                nominee__nomineelink__id=nominee_link_id)
+                nominee__nomineelink__id=nominee_link.id)
         ]
         speech_ids_to_delete = [
             speech_id for speech_id in current_nominee_speech_ids_under_election
@@ -105,7 +104,11 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         ]
         for speech_id_to_delete in speech_ids_to_delete:
             NomineeSpeech.objects.all().get(id=speech_id_to_delete).delete()
-    return HttpResponseRedirect(
+    url = (
         f'{settings.URL_ROOT}elections/{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK}?'
-        f'{HTML_PASSPHRASE_GET_KEY}={request.GET.get(HTML_PASSPHRASE_GET_KEY, None)}'
+        f'{HTML_PASSPHRASE_GET_KEY}={nominee_link.passphrase}'
+    ) if passphrase else (
+        f'{settings.URL_ROOT}elections/{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK}?'
+        f'{NOMINEE_LINK_ID}={nominee_link.id}'
     )
+    return HttpResponseRedirect(url)
