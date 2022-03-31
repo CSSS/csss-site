@@ -168,6 +168,9 @@ def _validate_position_mappings(position_index, position_name, elected_via_elect
     Keyword Argument
     position_index -- the new position index
     position_name -- the new position name
+    elected_via_election_officer -- indicator of whether the position's election is done by the election officer
+    number_of_terms -- the number of terms that the position would normally last for
+    starting_month -- the month when a new person normally starts in the position
     submitted_position_names -- other names specified by the user so far if they are
      submitting multiple positions at once
     submitted_position_indices -- other indexes specified by the user so far if they are submitting

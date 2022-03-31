@@ -249,6 +249,16 @@ def validate_position_names_for_github_team(officer_position_names):
 
 
 def validate_number_of_terms(number_of_terms):
+    """
+    Validates the number of terms that were specified in the user's POST call
+
+    Keyword Argument
+    number_of_terms -- the number of terms that are in the user's POST call
+
+    Return
+    success -- bool that is true or false depending on if all the number of terms are valid
+    error_message -- an error message if one of the number of terms are invalid
+    """
     if number_of_terms not in OfficerEmailListAndPositionMapping.number_of_terms_choices_dict():
         error_message = f"Invalid number of terms of {number_of_terms} specified"
         logger.info(
@@ -260,6 +270,16 @@ def validate_number_of_terms(number_of_terms):
 
 
 def validate_starting_month(starting_month):
+    """
+    Validates the starting months that were specified in the user's POST call
+
+    Keyword Argument
+    starting_month -- the starting months that are in the user's POST call
+
+    Return
+    success -- bool that is true or false depending on if all the starting months are valid
+    error_message -- an error message if one of the starting months are invalid
+    """
     if starting_month not in OfficerEmailListAndPositionMapping.starting_month_choices_dict():
         error_message = f"Invalid starting month of {starting_month} specified"
         logger.info(

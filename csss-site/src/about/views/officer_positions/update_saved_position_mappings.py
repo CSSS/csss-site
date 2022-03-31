@@ -184,6 +184,8 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
      that may need to be updated
     elected_via_election_officer -- the new status of whether a position is elected via election officer for
      the position mapping that may need to be updated
+    number_of_terms -- the number of terms that a person generally has the position for
+    starting_month -- the month when a new person is generally elected to the position
 
      Return
      bool -- true if a position_mapping_for_selected_officer has to be updated
