@@ -25,6 +25,9 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
     "officer_email_list_and_position_mapping__elected_position"
+
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS = 'officer_email_list_and_position_mapping__number_of_terms'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH = 'officer_email_list_and_position_mapping__starting_month'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
     "officer_email_list_and_position_mapping__delete_status"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
@@ -45,6 +48,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION,
         'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
         'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
+        'NUMBER_OF_TERMS': OfficerEmailListAndPositionMapping.number_of_terms_choices_to_display_on_html(),
+        'STARTING_MONTHS': OfficerEmailListAndPositionMapping.starting_month_choices_to_display_on_html()
     })
 
     position_mapping_for_selected_officer = \
@@ -240,4 +245,46 @@ def validate_position_names_for_github_team(officer_position_names):
                 f"_validate_position_names_and_team_name_for_new_github_team()] {error_message}"
             )
             return False, error_message
+    return True, None
+
+
+def validate_number_of_terms(number_of_terms):
+    """
+    Validates the number of terms that were specified in the user's POST call
+
+    Keyword Argument
+    number_of_terms -- the number of terms that are in the user's POST call
+
+    Return
+    success -- bool that is true or false depending on if all the number of terms are valid
+    error_message -- an error message if one of the number of terms are invalid
+    """
+    if number_of_terms not in OfficerEmailListAndPositionMapping.number_of_terms_choices_dict():
+        error_message = f"Invalid number of terms of {number_of_terms} specified"
+        logger.info(
+            "[about/position_mapping_helper.py "
+            f"validate_number_of_terms()] {error_message}"
+        )
+        return False, error_message
+    return True, None
+
+
+def validate_starting_month(starting_month):
+    """
+    Validates the starting months that were specified in the user's POST call
+
+    Keyword Argument
+    starting_month -- the starting months that are in the user's POST call
+
+    Return
+    success -- bool that is true or false depending on if all the starting months are valid
+    error_message -- an error message if one of the starting months are invalid
+    """
+    if starting_month not in OfficerEmailListAndPositionMapping.starting_month_choices_dict():
+        error_message = f"Invalid starting month of {starting_month} specified"
+        logger.info(
+            "[about/position_mapping_helper.py "
+            f"validate_starting_month()] {error_message}"
+        )
+        return False, error_message
     return True, None
