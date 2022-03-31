@@ -5,12 +5,12 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from elections.models import NomineeLink, Election, NomineeSpeech, NomineePosition
-from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID, \
-    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, HTML_PASSPHRASE_GET_KEY
+from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, \
+    HTML_PASSPHRASE_GET_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
-from elections.views.create_context.nominee_links.create_or_update_nominee.\
+from elections.views.create_context.nominee_links.create_or_update_nominee. \
     create_context_for_create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
