@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from elections.models import NomineeLink, Election, NomineeSpeech, NomineePosition
-from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID
+from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID, \
+    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, HTML_PASSPHRASE_GET_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
@@ -105,6 +106,6 @@ def process_nominee__nominee_links(request, context, nominee_link_id):
         for speech_id_to_delete in speech_ids_to_delete:
             NomineeSpeech.objects.all().get(id=speech_id_to_delete).delete()
     return HttpResponseRedirect(
-        f'{settings.URL_ROOT}elections/{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK}?'
-        f'{NOMINEE_LINK_ID}={nominee_link_id}'
+        f'{settings.URL_ROOT}elections/{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK}?'
+        f'{HTML_PASSPHRASE_GET_KEY}={request.GET.get(HTML_PASSPHRASE_GET_KEY, None)}'
     )
