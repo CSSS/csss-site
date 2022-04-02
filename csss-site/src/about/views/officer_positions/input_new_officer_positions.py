@@ -6,7 +6,8 @@ from querystring_parser import parser
 from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
-    POSITION_INDEX_KEY, validate_elected_via_election_officer_status
+    POSITION_INDEX_KEY, validate_elected_via_election_officer_status, validate_number_of_terms, \
+    validate_starting_month
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
@@ -16,7 +17,8 @@ logger = logging.getLogger('csss_site')
 POSITION_NAME_KEY = 'position_name'
 POSITION_EMAIL_KEY = 'position_email'
 ELECTED_VIA_ELECTION_OFFICER_KEY = 'elected_via_election_officer'
-
+NUMBER_OF_TERMS_KEY = 'number_of_terms'
+STARTING_MONTH_KEY = 'starting_month'
 UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 
 
@@ -47,6 +49,7 @@ def _add_new_position_mapping(post_dict):
      and position names if one of them was invalid
     """
     error_messages = []
+    starting_months = OfficerEmailListAndPositionMapping.starting_month_choices_dict(front_end=False)
     if there_are_multiple_entries(post_dict, POSITION_NAME_KEY):
         logger.info(
             "[about/input_new_officer_positions.py _add_new_position_mapping()] it appears "
@@ -66,16 +69,23 @@ def _add_new_position_mapping(post_dict):
             position_name = post_dict[POSITION_NAME_KEY][index]
             position_index = post_dict[POSITION_INDEX_KEY][index]
             position_email = post_dict[POSITION_EMAIL_KEY][index]
+            number_of_terms = int(post_dict[NUMBER_OF_TERMS_KEY][index]) \
+                if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None
+            starting_month = starting_months[post_dict[STARTING_MONTH_KEY][index]] \
+                if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
             elected_via_election_officer = post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index]
             unsaved_position_mappings.append(
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
                  POSITION_EMAIL_KEY: position_email,
-                 ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer == 'True'
+                 ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer == 'True',
+                 NUMBER_OF_TERMS_KEY: post_dict[NUMBER_OF_TERMS_KEY][index],
+                 STARTING_MONTH_KEY: post_dict[STARTING_MONTH_KEY][index]
                  }
             )
             success, error_message = _validate_position_mappings(
                 position_index, position_name,
                 elected_via_election_officer,
+                number_of_terms, starting_month,
                 submitted_position_names=submitted_position_names,
                 submitted_position_indices=submitted_position_indices
             )
@@ -100,12 +110,21 @@ def _add_new_position_mapping(post_dict):
                     position_name=post_dict[POSITION_NAME_KEY][index],
                     position_index=post_dict[POSITION_INDEX_KEY][index],
                     email=post_dict[POSITION_EMAIL_KEY][index],
-                    elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True'
+                    elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True',
+                    number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY][index])
+                    if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None,
+                    starting_month=starting_months[post_dict[STARTING_MONTH_KEY][index]]
+                    if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
                 ).save()
     else:
         success, error_message = \
             _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY],
-                                        post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY])
+                                        post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY],
+                                        int(post_dict[NUMBER_OF_TERMS_KEY])
+                                        if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
+                                        starting_months[post_dict[STARTING_MONTH_KEY]]
+                                        if post_dict[STARTING_MONTH_KEY] in starting_months else None
+                                        )
         if success:
             logger.info(
                 f"[about/input_new_officer_positions.py _add_new_position_mapping()] "
@@ -117,10 +136,10 @@ def _add_new_position_mapping(post_dict):
                 position_index=post_dict[POSITION_INDEX_KEY],
                 email=post_dict[POSITION_EMAIL_KEY],
                 elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
-                number_of_terms=OfficerEmailListAndPositionMapping.number_of_terms_choices_dict()[
-                    post_dict['number_of_terms']
-                ],
-                starting_month=OfficerEmailListAndPositionMapping.starting_month_choices_dict(front_end=False)[post_dict['starting_month']]
+                number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY])
+                if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
+                starting_month=starting_months[post_dict[STARTING_MONTH_KEY]]
+                if post_dict[STARTING_MONTH_KEY] in starting_months else None
             ).save()
         else:
             logger.info(
@@ -131,8 +150,8 @@ def _add_new_position_mapping(post_dict):
                 {POSITION_NAME_KEY: post_dict[POSITION_NAME_KEY], POSITION_INDEX_KEY: post_dict[POSITION_INDEX_KEY],
                  POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY],
                  ELECTED_VIA_ELECTION_OFFICER_KEY: post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
-                 "number_of_terms": post_dict['number_of_terms'],
-                 "starting_month": post_dict['starting_month']
+                 NUMBER_OF_TERMS_KEY: post_dict[NUMBER_OF_TERMS_KEY],
+                 STARTING_MONTH_KEY: post_dict[STARTING_MONTH_KEY],
                  }
             ]
             error_messages.append(error_message)
@@ -141,6 +160,7 @@ def _add_new_position_mapping(post_dict):
 
 
 def _validate_position_mappings(position_index, position_name, elected_via_election_officer,
+                                number_of_terms, starting_month,
                                 submitted_position_names=None, submitted_position_indices=None):
     """
     Validates the new inputted position name and index
@@ -148,6 +168,9 @@ def _validate_position_mappings(position_index, position_name, elected_via_elect
     Keyword Argument
     position_index -- the new position index
     position_name -- the new position name
+    elected_via_election_officer -- indicator of whether the position's election is done by the election officer
+    number_of_terms -- the number of terms that the position would normally last for
+    starting_month -- the month when a new person normally starts in the position
     submitted_position_names -- other names specified by the user so far if they are
      submitting multiple positions at once
     submitted_position_indices -- other indexes specified by the user so far if they are submitting
@@ -161,6 +184,12 @@ def _validate_position_mappings(position_index, position_name, elected_via_elect
     if not success:
         return success, error_message
     success, error_message = validate_position_name(position_name, submitted_position_names)
+    if not success:
+        return success, error_message
+    success, error_message = validate_number_of_terms(number_of_terms)
+    if not success:
+        return success, error_message
+    success, error_message = validate_starting_month(starting_month)
     if not success:
         return success, error_message
     return validate_elected_via_election_officer_status(elected_via_election_officer)

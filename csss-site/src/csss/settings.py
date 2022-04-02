@@ -1,7 +1,6 @@
 import environ
 import os
 import tzlocal
-
 from csss.logger_setup import initialize_logger
 
 if 'BASE_DIR' in os.environ:
@@ -229,8 +228,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'csss.views.error_handlers.HandleBusinessExceptionMiddleware',
 ]
+
+if not DEBUG:
+    MIDDLEWARE.append(
+        'csss.views.error_handlers.HandleBusinessExceptionMiddleware',
+    )
 
 ROOT_URLCONF = 'csss.urls'
 

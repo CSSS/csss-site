@@ -31,7 +31,7 @@ function applying_master_db_migrations {
   python3 manage.py migrate
   rm *.json* || true
   if [ -z "${CHANGE_ID}" ]; then
-    wget -r --no-parent -nd https://dev.sfucsss.org/fixtures/ -A 'json'
+    wget -r --no-parent -nd https://dev.sfucsss.org/dev_csss_website_media/fixtures/ -A 'json'
   else
     cp /mnt/dev_csss_website_media/fixtures/* .
   fi

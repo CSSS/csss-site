@@ -5,11 +5,11 @@ cffi==1.14.5
 chardet==3.0.4
 defusedxml==0.7.1
 Deprecated==1.2.12
-Django==2.2.24
+Django==2.2.27
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
-django-file-form==0.4.0
+django-file-form==3.3.0
 django-jinja==2.4.1
 django-mailbox==4.8.1
 django-pony-forms==0.6.0
@@ -18,7 +18,7 @@ gunicorn==19.9.0
 idna==2.8
 Jinja2==2.11.3
 MarkupSafe==1.1.0
-pathlib==1.0.1
+pathlib2==2.3.7
 pytz==2018.7
 six==1.12.0
 smmap2==2.0.5
@@ -30,7 +30,7 @@ django-markdown-app==0.9.6
 pandas==1.2.4
 tzlocal==2.1
 httplib2==0.19.1
-numpy==1.20.3
+numpy==1.21.0
 oauthlib==3.1.0
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
@@ -67,4 +67,4 @@ markdown-link-attr-modifier==0.2.0
 Markdown==3.3.4
 
 # needed for logging in
-git+git://github.com/gregbaker/django-cas-ng.git@08509c3ad23f69d6d4e69a0a66453d0221023f3d # fix for session_key bug (PR #195), and duplicate session_key bug (PR #209)
+git+https://github.com/gregbaker/django-cas-ng.git@4f4a82e07eb624ffa53446a4f6806383c6c3b338
