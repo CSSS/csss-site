@@ -31,8 +31,7 @@ def download_or_create_announcement_attachments(download=False):
             "mkdir -p ../../media_root || true; "
             f"wget -r -X '*' "
             f"--no-host-directories {settings.STAGING_SERVER}dev_csss_website_media/mailbox_attachments/ -R '*html*' "
-            "-P ../../media_root/ || true;"
-            "mv ../../media_root/dev_csss_website_media/* ../../media_root/.;"
+            " --cut-dirs=1 -P ../../media_root/ || true;"
         )
     else:
         [
