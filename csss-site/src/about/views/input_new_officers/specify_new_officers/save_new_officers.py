@@ -1,8 +1,7 @@
-import datetime
 import logging
 
 from about.models import Term, NewOfficer
-from about.views.input_new_officers.determine_start_date import determine_start_date
+from about.views.input_new_officers.specify_new_officers.determine_start_date import determine_start_date
 
 logger = logging.getLogger('csss_site')
 
@@ -21,9 +20,11 @@ def save_new_officers(new_officers_dict):
         sfu_computing_id = new_officer['sfu_computing_id'].strip()
         full_name = new_officer['full_name'].strip()
         position_name = new_officer['position_name'].strip()
-        start_date = new_officer['start_date'].strip()
-        start_date = determine_start_date(start_date, sfu_computing_id, position_name) \
-            if 're_use_start_date' in new_officer else start_date
+        start_date = determine_start_date(
+            're_use_start_date' in new_officer,
+            new_officer['start_date'].strip(),
+            sfu_computing_id, position_name
+        )
         logger.info(
             f"[about/save_new_officers.py save_new_officers()] saving officer with the following details:"
             f"\n\tposition_name={position_name}"

@@ -5,7 +5,9 @@ from .views.generate_officer_creation_links import officer_creation_link_managem
 from .views.github_position_mapping.github_mapping import github_mapping
 from .views.github_position_mapping.save_new_github_officer_team_mapping import save_new_github_officer_team_mapping
 from .views.github_position_mapping.update_saved_github_mappings import update_saved_github_mappings
-from .views.input_new_officers.specify_new_officers import specify_new_officers
+from .views.input_new_officers.delete_new_office_links import delete_new_office_links
+from .views.input_new_officers.enter_officer_info.enter_officer_info import enter_officer_info
+from .views.input_new_officers.specify_new_officers.specify_new_officers import specify_new_officers
 from .views.officer_positions.input_new_officer_positions import input_new_officer_positions
 from .views.officer_positions.officer_positions import officer_positions
 from .views.officer_positions.update_saved_position_mappings import update_saved_position_mappings
@@ -14,11 +16,23 @@ urlpatterns = [
     url(
         r'^specify_new_officers$',
         specify_new_officers,
-        name='Show Page For Creating Links for Officer Information Input'),
+        name='Specify Positions for New Officers'
+    ),
+    url(
+        r'^enter_info$',
+        enter_officer_info,
+        name='Allow an Officer to enter their info'
+    ),
+    url(
+        r'^specify_new_officers/delete$',
+        delete_new_office_links,
+        name='Show Page For Creating Links for Officer Information Input'
+    ),
     url(
         r'^show_create_link_page$',
         officer_creation_link_management.show_create_link_page,
-        name='Show Page For Creating Links for Officer Information Input'),
+        name='Show Page For Creating Links for Officer Information Input'
+    ),
     url(
         r'^officer_position$', officer_positions,
         name="Officer Position Mapping"

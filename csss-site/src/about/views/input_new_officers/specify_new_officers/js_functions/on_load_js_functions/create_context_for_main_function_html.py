@@ -1,18 +1,19 @@
-import datetime
-
 from django.forms import model_to_dict
 
 from about.models import NewOfficer
-from about.views.input_new_officers.js_functions.on_load_js_functions. \
-    create_context_for_display_new_officer_info_html import \
+from about.views.input_new_officers.specify_new_officers.js_functions.on_load_js_functions.create_context_for_display_new_officer_info_html import \
     create_context_for_display_new_officer_info_html, detected_draft_or_finalized_new_officers
 
 
 def create_context_for_main_function_html(context, current_date=None, draft_new_officers=None):
+    saved_nominees_exist = False
     if draft_new_officers is None:
+        new_officers = NewOfficer.objects.all()
+        saved_nominees_exist = len(new_officers) > 0
         draft_new_officers = [
-            create_new_officer_model(draft_new_officer) for draft_new_officer in NewOfficer.objects.all()
+            create_new_officer_model(draft_new_officer) for draft_new_officer in new_officers
         ]
+
     else:
         draft_new_officers = [
             {
@@ -42,6 +43,7 @@ def create_context_for_main_function_html(context, current_date=None, draft_new_
             for draft_new_officer in draft_new_officers
         ]
     context['draft_or_finalized_new_officer_to_display__html_name'] = 'false'
+    context['saved_nominees_exist'] = saved_nominees_exist
     if detected_draft_or_finalized_new_officers(draft_new_officers):
         context['new_officers__html_name'] = draft_new_officers
         context['draft_or_finalized_new_officer_to_display__html_name'] = 'true'

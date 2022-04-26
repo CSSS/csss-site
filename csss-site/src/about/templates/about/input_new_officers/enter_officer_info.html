@@ -1,0 +1,50 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+    {{ block.super }}
+    {% load static %}
+    {% load staticfiles %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+    {%  if not not_affiliated_user %}
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <b>Term</b>: <input type="text" name="term" value="{{term_value}}" readonly size="6" >
+                <b>Year</b>: <input type="text" name="year" value="{{year_value}}" readonly size="4" ><br>
+                <b>Position</b>: <input type="text" name="term_position" value="{{term_position_value}}" readonly size="25" ><br>
+                <b>Start Date</b>: <input type="text" name="date" value="{{date_value}}" readonly size="25" >
+            </p>
+            <input hidden type="text" name="position_index" value="{{term_position_number_value}}" >
+            <input hidden type="text" name="sfu_email_list_address" value="{{sfu_email_list_address_value}}" >
+            <p><b>Name</b>: <input type="text" name="name" value="{{name_value}}" required ></p>
+            <p><b>SFUID</b>: <input type="text" name="sfuid" value="{{sfuid_value}}" readonly required >@sfu.ca</p>
+            <p><b>SFUID Email alias</b>: <input type="text" name="sfuid_email_alias" value="{{sfuid_email_alias_value}}" required readonly >@sfu.ca</p>
+            <p>
+                <b>Additional email addresses you may use to send emails to the CSSS student body</b><br>
+                <i>use commas to separate multiple emails</i>:<br>
+                <textarea name="announcement_emails" cols="80" rows="2">{{email_value}}</textarea>
+            </p>
+            {%  if term_position_value != "By-Election Officer" and term_position_value != "General Election Officer" and term_position_value != "SFSS Council-Representative"%}
+                <p><b>Gmail</b>: <input type="text" name="gmail" value="{{ gmail_value }}" required></p>
+            {%  endif %}
+            <b>Phone Number</b>:<br>
+            <i>if you are comfortable with the CSSS having it</i><br>
+            <input type="number" name="phone_number" required value="{{phone_number_value}}">
+            {%  if term_position_value != "SFSS Council-Representative"%}
+                <p><b>Github Username</b>: <input type="text" name="github_username" value="{{ github_username_value }}" required></p>
+            {%  endif %}
+            <b>Your 2 Favorite SFU Course</b>:<br>
+            <i>preferably comp sci related</i><br>
+            <input type="text" name="course1" value="{{ course1_value }}" required > & <input type="text" name="course2" value="{{ course2_value }}" required><br>
+            <b>Your 2 Favorite Computer Science programming languages of choice</b>:<br>
+            <input type="text" name="language1" value="{{ language1_value }}" required> & <input type="text" name="language2" value="{{ language2_value }}" required><br>
+            <b>Bio</b>:
+            <i>
+                needs to already be in <a href="{{ URL_ROOT }}markdown/" target="_blank">Markdown format</a><br>
+                For examples look at <a href="http://sfucsss.org/about/list_of_past_officers" target="_blank"> Past Bios</a>
+            </i><br>
+            <textarea name="bio" cols="40" rows="5" required>{{bio_value}}</textarea><br>
+            <input type="submit" value="Submit">
+        </form>
+    {%  endif %}
+{% endblock %}

@@ -1,7 +1,6 @@
 import datetime
 
-from about.views.input_new_officers.js_functions.on_load_js_functions.\
-    create_context_for_display_new_officer_info_html import \
+from about.views.input_new_officers.specify_new_officers.js_functions.on_load_js_functions.create_context_for_display_new_officer_info_html import \
     create_context_for_display_new_officer_info_html
 
 

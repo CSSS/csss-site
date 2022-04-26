@@ -34,14 +34,18 @@
 		</select>
         <br>
     <br><br><input type="submit" name="save_or_update_new_officers" value="Save/Create All The New Officers Informations" />
-    <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officer Informations</button>
+    {%  if saved_nominees_exist %}
+        <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officers Information</button>
+    {%  endif %}
     <br><br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
 
     <div id="new_officers"></div>
 
     <input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
     <br><br><input type="submit" name="save_or_update_new_officers" value="Save/Create All The New Officers Informations" />
-    <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officer Informations</button>
+    {%  if saved_nominees_exist %}
+        <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officers Information</button>
+    {%  endif %}
     </form>
     <script>
         function removeDiv(divName){$(divName).remove();}

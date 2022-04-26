@@ -6,7 +6,7 @@ from django.conf import settings
 
 def validate_sfu_id(sfu_computing_id):
     if settings.SFU_ENDPOINT_TOKEN is None:
-        return True
+        return True, None
     resp = requests.get(
         f"https://rest.its.sfu.ca/cgi-bin/WebObjects/AOBRestServer.woa/rest/amaint/namespace.json?"
         f"id={sfu_computing_id}&art={settings.SFU_ENDPOINT_TOKEN}"

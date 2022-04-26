@@ -196,7 +196,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
 
     @property
     def get_starting_month(self):
-        return OfficerEmailListAndPositionMapping.starting_month_choices_dict()[self.starting_month]
+        return self.starting_month_choices_dict()[self.starting_month]
 
     number_of_terms_choices = (
         (None, "None"),
@@ -227,7 +227,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
 
     @property
     def get_number_of_terms(self):
-        return str(self.number_of_terms)
+        return self.number_of_terms_choices_dict()[self.number_of_terms]
 
     executive_position = models.BooleanField(
         default=False
@@ -259,6 +259,12 @@ class NewOfficer(models.Model):
     )
     overwrite_current_officer = models.BooleanField(
         default=False
+    )
+
+    verification_code = models.CharField(
+        max_length=5,
+        unique=True,
+        null=True,
     )
     term = models.ForeignKey(
         Term,

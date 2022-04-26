@@ -1,8 +1,10 @@
 import datetime
 
-from about.views.input_new_officers.js_functions.create_context_for_add_new_officer_html import \
+from about.views.input_new_officers.specify_new_officers.js_functions.\
+    create_context_for_add_new_officer_html import \
     create_context_for_add_new_officer_html
-from about.views.input_new_officers.js_functions.on_load_js_functions.create_context_for_main_function_html import \
+from about.views.input_new_officers.specify_new_officers.js_functions.on_load_js_functions.\
+    create_context_for_main_function_html import \
     create_context_for_main_function_html
 from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \

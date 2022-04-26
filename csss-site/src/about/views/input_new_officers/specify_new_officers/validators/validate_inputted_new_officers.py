@@ -1,7 +1,7 @@
 from about.models import OfficerEmailListAndPositionMapping, NewOfficer
-from about.views.input_new_officers.validators.validate_discord_id import validate_discord_id
-from about.views.input_new_officers.validators.validate_sfu_id import validate_sfu_id
-from about.views.input_new_officers.validators.validate_start_date import validate_start_date
+from about.views.input_new_officers.specify_new_officers.validators.validate_discord_id import validate_discord_id
+from about.views.input_new_officers.specify_new_officers.validators.validate_sfu_id import validate_sfu_id
+from about.views.input_new_officers.specify_new_officers.validators.validate_start_date import validate_start_date
 
 
 def validate_inputted_new_officers(new_officers_dict):
@@ -35,9 +35,9 @@ def validate_inputted_new_officers(new_officers_dict):
                     return False, f"the discord ID of {discord_id} was entered more than once"
                 discord_ids.append(discord_id)
         sfu_computing_id = new_officer['sfu_computing_id'].strip()
-        # success, error_message = validate_sfu_id(sfu_computing_id)
-        # if not success:
-        #     return False, error_message
+        success, error_message = validate_sfu_id(sfu_computing_id)
+        if not success:
+            return False, error_message
         if selected_position.executive_position:
             if sfu_computing_id in sfu_computing_ids:
                 return False, f"the discord ID of {sfu_computing_id} was entered more than once"
