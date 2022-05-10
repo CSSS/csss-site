@@ -1,6 +1,7 @@
 import logging
 
 from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from about.views.create_context.enter_officer_info.create_context_for_enter_officer_info_html import \
@@ -102,5 +103,5 @@ def process_specified_new_officer_info(request, context, new_officer=None):
             request, context, new_officer=new_officer, new_officer_info=new_officer_info
         )
         return render(request, 'about/input_new_officers/enter_officer_info.html', context)
-    save_new_officer(new_officer_info)
+    save_new_officer(new_officer_info, new_officer)
     return HttpResponseRedirect(f"{settings.URL_ROOT}about/list_of_current_officers")

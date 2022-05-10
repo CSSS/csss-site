@@ -19,6 +19,9 @@ from about.views.officer_position_and_github_mapping.officer_management_helper i
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
+from csss.views_helper import get_current_term_number, SUMMER_TERM_NUMBER, FALL_TERM_NUMBER, SPRING_TERM_NUMBER, \
+    get_last_summer_term, get_last_fall_term, get_last_spring_term
+from resource_management.models import ProcessNewOfficer
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 from resource_management.views.resource_apis.gitlab.gitlab_api import GitLabAPI
@@ -120,7 +123,23 @@ def verify_passphrase_access_and_create_context(request, tab):
         return False, context, None, None
     context['HTML_PASSPHRASE_GET_KEY'] = HTML_PASSPHRASE_GET_KEY
     context[HTML_PASSPHRASE_GET_KEY] = passphrase
-    return True, context, None, passphrase
+
+    new_officer_details = ProcessNewOfficer.objects.all().filter(passphrase=passphrase)
+    logger.info(
+        "[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()] "
+        f"len(passphrase) = '{len(new_officer_details)}'"
+    )
+    if len(new_officer_details) != 1:
+        context[PASSPHRASE_ERROR_KEY] = "Passphrase is not attached to a record for a new Officer"
+        return False, context, None, passphrase
+    new_officer_detail = new_officer_details[0]
+    logger.info(
+        f"[about/officer_creation_link_management.py verify_passphrase_access_and_create_context()]"
+        f" new_officer_detail.used = '{new_officer_detail.used}'")
+    if new_officer_detail.used:
+        context[PASSPHRASE_ERROR_KEY] = "the passphrase supplied has already been used"
+        return False, context, None, passphrase
+    return True, context, new_officer_detail, passphrase
 
 
 def show_create_link_page(request):
@@ -193,6 +212,19 @@ def show_page_with_creation_links(request):
             # creating the necessary passphrases and officer info for the user inputted position
             passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
             new_officers_to_process.append(
+                ProcessNewOfficer(
+                    passphrase=passphrase,
+                    term=term,
+                    year=year,
+                    position_name=position_name,
+                    position_index=officer_email_and_position_mapping.position_index,
+                    sfu_officer_mailing_list_email=officer_email_and_position_mapping.email,
+                    link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
+                    use_new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
+                    start_date=datetime.datetime.strptime(
+                        f"{request.POST[HTML_DATE_KEY]}",
+                        '%Y-%m-%d')
+                )
             )
             logger.info(
                 "[about/officer_creation_link_management.py show_page_with_creation_links()] "
@@ -264,6 +296,9 @@ def delete_officers_and_process_new_officer_models_under_specified_term(year, te
         officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
         for officer in officer_in_selected_term:
             officer.delete()
+    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term_season, year=year)
+    for new_officer in new_officer_details:
+        new_officer.delete()
 
 
 def get_next_position_number_for_term(position_name):
@@ -369,6 +404,9 @@ def display_page_for_officers_to_input_their_info(request):
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION] = new_officer_details.position_name
         context[HTML_VALUE_ATTRIBUTE_FOR_TERM_POSITION_NUMBER] = new_officer_details.position_index
         context[HTML_VALUE_ATTRIBUTE_FOR_OFFICER_EMAIL_CONTACT] = new_officer_details.sfu_officer_mailing_list_email
+        context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = determine_new_start_date_for_officer(
+            new_officer_details, officer
+        )
         context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID_EMAIL_ALIAS] = "" if officer is None else officer.sfu_email_alias
@@ -449,6 +487,110 @@ def display_page_for_officers_to_input_their_info_alongside_error_experienced(re
         "display_page_for_officers_to_input_their_info_alongside_error_experienced()] context set to "
         f"{context}")
     return render(request, 'about/process_new_officer/add_officer.html', context)
+
+
+def determine_new_start_date_for_officer(process_new_officer, officer):
+    """
+    determine whether or not the officer's start date should be in the current term or previous term
+
+    Keyword Argument
+    process_new_officer -- the details for the officer who needs to be saved
+    officer -- the bio for the officer whose bio is being re-used
+
+    Return
+    start_date -- the start date that needs to be used as indicated by "use_new_start_date"
+    """
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] process_new_officer.use_new_start_date="
+        f"{process_new_officer.use_new_start_date}"
+    )
+
+    if process_new_officer.use_new_start_date or officer is None:
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+
+    officer_name = officer.name
+    position_name = process_new_officer.position_name
+    current_term_number = get_current_term_number()
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] name of officer to find start date for ="
+        f"{officer.name}"
+    )
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] position_name to find start_date for ="
+        f"{position_name}"
+    )
+    logger.info(
+        "[about/officer_creation_link_management.py "
+        "determine_new_start_date_for_officer()] current_term_number ="
+        f"{current_term_number}"
+    )
+    past_bios_for_officer = None
+    if (
+            position_name in YEAR_LONG_OFFICER_POSITIONS_START_IN_SPRING and
+            current_term_number in [SUMMER_TERM_NUMBER, FALL_TERM_NUMBER]):
+        start_date_for_last_spring_term = get_last_spring_term()
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] start_date_for_last_spring_term="
+            f"{start_date_for_last_spring_term}"
+        )
+        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
+            name=officer_name, position_name=position_name,
+            start_date__gte=start_date_for_last_spring_term
+        )
+    elif (
+            position_name in YEAR_LONG_OFFICER_POSITION_START_IN_SUMMER and
+            current_term_number in [FALL_TERM_NUMBER, SPRING_TERM_NUMBER]):
+        start_date_for_last_summer_term = get_last_summer_term()
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] start_date_for_last_summer_term="
+            f"{start_date_for_last_summer_term}"
+        )
+        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
+            name=officer_name, position_name=position_name,
+            start_date__gte=start_date_for_last_summer_term
+        )
+    elif (
+            position_name in TWO_TERM_POSITIONS_START_IN_FALL
+            and current_term_number == SPRING_TERM_NUMBER):
+        start_date_for_last_fall_term = get_last_fall_term()
+        logger.info(
+            "[about/officer_creation_link_management.py "
+            "determine_new_start_date_for_officer()] start_date_for_last_fall_term="
+            f"{start_date_for_last_fall_term}"
+        )
+        past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
+            name=officer_name, position_name=position_name,
+            start_date__gte=get_last_fall_term()
+        )
+    if past_bios_for_officer is None:
+        logger.info(
+            "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+            "No queries were performed, will use a new start date"
+        )
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    logger.info(
+        "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+        f"{len(past_bios_for_officer)} past bios for officer found with the specified constraints"
+    )
+    if len(past_bios_for_officer) == 0:
+        logger.info(
+            "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+            "using new start date since no past bios for officer found with the specified constraints"
+        )
+        return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
+    past_bio_for_officer = past_bios_for_officer[0]
+    logger.info(
+        "[about/officer_creation_link_management.py determine_new_start_date_for_officer()] "
+        "using the start date attached to officer"
+        f"{past_bio_for_officer.position_name} for term {past_bio_for_officer.elected_term} which is "
+        f"{past_bio_for_officer.start_date.strftime('%A, %d %b %Y %I:%m %S %p')}"
+    )
+    return past_bio_for_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
 def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None):

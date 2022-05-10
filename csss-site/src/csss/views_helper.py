@@ -119,6 +119,11 @@ def get_previous_term():
     return get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
 
 
+def get_starting_month_for_position(position_obj):
+    current_date = datetime.datetime.now() - datetime.timedelta(days=(30 * 4))
+    curent_term_start_date =  get_datetime_for_beginning_of_specified_term(current_date.year, current_date.month, current_date.day)
+
+
 def get_current_term_obj():
     """
     Get the term object that corresponds to current term
