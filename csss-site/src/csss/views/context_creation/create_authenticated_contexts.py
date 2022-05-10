@@ -6,6 +6,7 @@ from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
     get_sfuid_for_officer_in_past_5_terms, get_current_election_officer_sfuid
+from resource_management.models import NaughtyOfficer
 
 
 def create_context_for_officer_creation_links(request, tab=None):
@@ -28,7 +29,7 @@ def create_context_for_officer_creation_links(request, tab=None):
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
@@ -56,7 +57,7 @@ def create_context_for_uploading_and_download_officer_lists(request, tab=None):
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
@@ -84,7 +85,7 @@ def create_context_for_updating_position_mappings(request, tab=None):
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
@@ -112,7 +113,7 @@ def create_context_for_updating_github_mappings_and_permissions(request, tab=Non
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_sys_admin, tab=tab,
@@ -140,7 +141,7 @@ def create_context_for_current_and_past_officers_details(request, tab=None):
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_officer_in_past_5_terms, tab=tab,
@@ -168,7 +169,7 @@ def create_context_for_google_drive_permissions(request, tab=None):
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_officer_in_past_5_terms, tab=tab,
@@ -196,7 +197,7 @@ def create_context_for_election_officer(request, tab=None):
     naughty_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = []
+        naughty_officers = NaughtyOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_election_officer, tab=tab,

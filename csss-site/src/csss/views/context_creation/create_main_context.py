@@ -6,6 +6,7 @@ from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_t
     get_current_election_officer_sfuid, get_current_sys_admin_sfuid, \
     get_current_webmaster_or_doa_sfuid, get_sfuid_for_officer_in_past_5_terms
 from elections.models import Election
+from resource_management.models import NaughtyOfficer
 
 CURRENT_WEBMASTER_OR_DOA = 'current_webmaster_or_doa'
 CURRENT_SYS_ADMIN = 'current_sys_admin'
@@ -41,7 +42,7 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
         if current_election_officer_sfuid is None or sfuid_for_officer_in_past_5_terms is None or \
                 current_sys_admin_sfuid is None or current_webmaster_or_doa_sfuid is None:
             if naughty_officers is None:
-                naughty_officers = []
+                naughty_officers = NaughtyOfficer.objects.all()
             if officers is None:
                 officers = Officer.objects.all().order_by('-start_date')
 
