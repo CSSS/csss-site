@@ -26,10 +26,4 @@ def validate_inputted_term_info(inputted_term, inputted_year):
 
     if int(inputted_year) not in valid_years:
         return False, f"Invalid year of {inputted_year} was specified"
-    terms = Term.objects.all().exclude(term=inputted_term, year=int(inputted_year))
-    if len(NewOfficer.objects.all().filter(term__in=terms)) > 0:
-        return False, (
-            "Unable to save the new officers since it seems there are already officers"
-            " from another term that have not been saved"
-        )
     return True, None

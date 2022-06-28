@@ -13,7 +13,7 @@ logger = logging.getLogger('csss_site')
 
 def specify_new_officers(request):
     """
-    Shows the page where the user can select the year, term and positions for whom to create the generation links
+    Shows the page where the user can select the year, term and positions for whom to create input info links
     """
     logger.info(f"[about/specify_new_officers.py specify_new_officers()] "
                 f"request.POST={request.POST}")

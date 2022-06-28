@@ -4,7 +4,9 @@ from about.views.input_new_officers.specify_new_officers.validators.validate_sfu
 from about.views.input_new_officers.specify_new_officers.validators.validate_start_date import validate_start_date
 
 
-def validate_inputted_new_officers(new_officers_dict):
+def validate_inputted_new_officers(new_officers_dict=None):
+    if new_officers_dict is None:
+        return True, None
     selected_positions = []
     discord_ids = []
     sfu_computing_ids = []

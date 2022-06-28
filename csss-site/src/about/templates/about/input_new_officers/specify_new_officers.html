@@ -13,7 +13,7 @@
 	<form method="post" class="form">
 		{% csrf_token %}
 		Term <div class="red_dot_mandatory" >*</div>
-		<select name="term">
+		<select name="{{ term__html_name }}">
 			{% for term in terms__html_name %}
 				{%  if term == current_term__html_name  %}
 					<option selected value="{{term}}">{{term}}</option>
@@ -23,7 +23,7 @@
 			{% endfor %}
 		</select>
 		Year <div class="red_dot_mandatory">*</div>
-		<select name="year">
+		<select name="{{year__html_name}}">
 			{% for year in years__html_name %}
 				{%  if year == current_year__html_name %}
 					<option selected value="{{year}}">{{year}}</option>

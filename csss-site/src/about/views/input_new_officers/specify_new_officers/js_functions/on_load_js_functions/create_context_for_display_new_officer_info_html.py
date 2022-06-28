@@ -1,4 +1,6 @@
 from about.models import OfficerEmailListAndPositionMapping
+from about.views.Constant_v2 import INPUT_NEW_OFFICER_ID__NAME, INCLUDE_ID_FOR_NEW_OFFICER_IN_WEBFORM_HTML_NAME, \
+    POSITIONS_NAME_KEY, ID_KEY, NEW_OFFICERS__HTML__NAME, NEW_OFFICERS__HTML_VALUE
 
 
 def create_context_for_display_new_officer_info_html(context, draft_new_officers=None):
@@ -10,10 +12,10 @@ def create_context_for_display_new_officer_info_html(context, draft_new_officers
     # selected_position
 
     if detected_draft_or_finalized_new_officers(draft_new_officers) and some_new_officers_already_saved(draft_new_officers):
-        context['input_new_officer_id__name'] = 'id'
-        context['include_id_for_new_officer_in_weform__html_name'] = True
-
-    context['positions'] = [
+        context[INPUT_NEW_OFFICER_ID__NAME] = ID_KEY
+        context[INCLUDE_ID_FOR_NEW_OFFICER_IN_WEBFORM_HTML_NAME] = True
+    context[NEW_OFFICERS__HTML__NAME] = NEW_OFFICERS__HTML_VALUE
+    context[POSITIONS_NAME_KEY] = [
         position.position_name
         for position in OfficerEmailListAndPositionMapping.objects.all().filter(
             marked_for_deletion=False).order_by(

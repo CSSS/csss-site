@@ -3,11 +3,11 @@ new_officer_dom_obj.setAttribute('id',new_officer_div_name);
 new_officer_dom_obj.setAttribute('class', 'csss_box_borders_new_entries');
 new_officer_dom_obj.innerHTML += `<input type="button" value="Remove New Officer" onClick="removeDiv('#${new_officer_div_name}');"><br><br>`;
 var position_menu = document.createElement("SELECT");
-position_menu.setAttribute("name", `[new_officers][${new_officer_index}][position_name]`);
+position_menu.setAttribute("name", `[{{new_officers__html_dict_key}}][${new_officer_index}][position_name]`);
 new_officer_dom_obj.innerHTML += `<p style="display:inline">Position:<div class="red_dot_mandatory" >*</div>`;
 if (draft_or_finalized_new_officer_to_display == true){
 	{%  if include_id_for_new_officer_in_weform__html_name is True %}
-		new_officer_dom_obj.innerHTML += `<input type="text" name="[new_officers][${new_officer_index}][{{input_new_officer_id__name}}]" value="${id}" hidden readonly>`;
+		new_officer_dom_obj.innerHTML += `<input type="text" name="[{{new_officers__html_dict_key}}][${new_officer_index}][{{input_new_officer_id__name}}]" value="${id}" hidden readonly>`;
 	{%  endif %}
 }
 {%  for position in positions %}
@@ -22,9 +22,9 @@ if (draft_or_finalized_new_officer_to_display == true){
 
 new_officer_dom_obj.appendChild(position_menu);
 new_officer_dom_obj.innerHTML += `</p><br>`;
-new_officer_dom_obj.innerHTML += `<p style="display:inline">Full Name:<div class="red_dot_mandatory" >*</div><input type="text" name="[new_officers][${new_officer_index}][full_name]" value="${full_name}" required>Discord ID:<input type="text" name="[new_officers][${new_officer_index}][discord_id]" value="${discord_id}">SFU computing ID:<div class="red_dot_mandatory" >*</div><input type="text" name="[new_officers][${new_officer_index}][sfu_computing_id]" value="${sfu_computing_id}" required></p><br>`;
-new_officer_dom_obj.innerHTML += `<p style="display:inline">Start Date that will be used: <input type="date" value="${start_date}"><ol><li>Officer did not have to be voted into position again this term:<div class="red_dot_mandatory" >*</div><input type="checkbox" name="[new_officers][${new_officer_index}][re_use_start_date]" {{ re_use_start_date }} onclick="$('.enable_date_${new_officer_index}').prop('hidden', !$('.enable_date_${new_officer_index}').prop('hidden'))"></li><li>or specify the date that the officer was voted into the position this term :<div class="red_dot_mandatory" >*</div><input type="date" class="enable_date_${new_officer_index}" {% if re_use_start_date == "checked" %} hidden {% endif %} value="${start_date}" name="[new_officers][${new_officer_index}][start_date]"></li></ol><br><br>`;
-new_officer_dom_obj.innerHTML += `<p style="display:inline">Overwrite Current Officer:<div class="red_dot_mandatory" >*</div><input type="checkbox" name="[new_officers][${new_officer_index}][overwrite_current_officer]" {{  overwrite_current_officer }} ></p>`;
+new_officer_dom_obj.innerHTML += `<p style="display:inline">Full Name:<div class="red_dot_mandatory" >*</div><input type="text" name="[{{new_officers__html_dict_key}}][${new_officer_index}][full_name]" value="${full_name}" required>Discord ID:<input type="text" name="[{{new_officers__html_dict_key}}][${new_officer_index}][discord_id]" value="${discord_id}">SFU computing ID:<div class="red_dot_mandatory" >*</div><input type="text" name="[{{new_officers__html_dict_key}}][${new_officer_index}][sfu_computing_id]" value="${sfu_computing_id}" required></p><br>`;
+new_officer_dom_obj.innerHTML += `<p style="display:inline">Start Date that will be used: <input type="date" value="${start_date}" readonly><ol><li>Officer did not have to be voted into position again this term:<div class="red_dot_mandatory" >*</div><input type="checkbox" name="[{{new_officers__html_dict_key}}][${new_officer_index}][re_use_start_date]" {{ re_use_start_date }} onclick="$('.enable_date_${new_officer_index}').prop('hidden', !$('.enable_date_${new_officer_index}').prop('hidden'))"></li><li>or specify the date that the officer was voted into the position this term :<div class="red_dot_mandatory" >*</div><input type="date" class="enable_date_${new_officer_index}" {% if re_use_start_date == "checked" %} hidden {% endif %} value="${start_date}" name="[{{new_officers__html_dict_key}}][${new_officer_index}][start_date]"></li></ol><br><br>`;
+new_officer_dom_obj.innerHTML += `<p style="display:inline">Overwrite Current Officer:<div class="red_dot_mandatory" >*</div><input type="checkbox" name="[{{new_officers__html_dict_key}}][${new_officer_index}][overwrite_current_officer]" {{  overwrite_current_officer }} ></p>`;
 
 {%  if term != "" %}
     new_officer_dom_obj.innerHTML += `<p style="display:inline">Term: {{ term }}</p><br>`;

@@ -60,7 +60,7 @@ def process_specified_new_officer_info(request, context, new_officer=None):
             f"[about/process_specified_new_officer_info.py process_specified_new_officer_info()] {error_message}"
         )
         create_context_for_enter_officer_info_html(
-            request, context, new_officer=new_officer, new_officer_info=new_officer_info
+            request, context, officer_from_previous_term=new_officer, new_officer_info_from_form=new_officer_info
         )
         return render(request, 'about/input_new_officers/enter_officer_info.html', context)
     success, error_message = validate_gmail(new_officer_info['gmail'])
@@ -70,7 +70,7 @@ def process_specified_new_officer_info(request, context, new_officer=None):
             f"[about/process_specified_new_officer_info.py process_specified_new_officer_info()] {error_message}"
         )
         create_context_for_enter_officer_info_html(
-            request, context, new_officer=new_officer, new_officer_info=new_officer_info
+            request, context, officer_from_previous_term=new_officer, new_officer_info_from_form=new_officer_info
         )
         return render(request, 'about/input_new_officers/enter_officer_info.html', context)
     success, error_message = validate_gmail_code(new_officer_info['gmail_code'], new_officer=new_officer)
@@ -80,7 +80,7 @@ def process_specified_new_officer_info(request, context, new_officer=None):
             f"[about/process_specified_new_officer_info.py process_specified_new_officer_info()] {error_message}"
         )
         create_context_for_enter_officer_info_html(
-            request, context, new_officer=new_officer, new_officer_info=new_officer_info
+            request, context, officer_from_previous_term=new_officer, new_officer_info_from_form=new_officer_info
         )
         return render(request, 'about/input_new_officers/enter_officer_info.html', context)
     success, error_message = validate_phone_number(new_officer_info['phone_number'])
@@ -90,7 +90,7 @@ def process_specified_new_officer_info(request, context, new_officer=None):
             f"[about/process_specified_new_officer_info.py process_specified_new_officer_info()] {error_message}"
         )
         create_context_for_enter_officer_info_html(
-            request, context, new_officer=new_officer, new_officer_info=new_officer_info
+            request, context, officer_from_previous_term=new_officer, new_officer_info_from_form=new_officer_info
         )
         return render(request, 'about/input_new_officers/enter_officer_info.html', context)
     success, error_message = validate_github_username(new_officer_info['github_username'])
@@ -100,7 +100,7 @@ def process_specified_new_officer_info(request, context, new_officer=None):
             f"[about/process_specified_new_officer_info.py process_specified_new_officer_info()] {error_message}"
         )
         create_context_for_enter_officer_info_html(
-            request, context, new_officer=new_officer, new_officer_info=new_officer_info
+            request, context, officer_from_previous_term=new_officer, new_officer_info_from_form=new_officer_info
         )
         return render(request, 'about/input_new_officers/enter_officer_info.html', context)
     save_new_officer(new_officer_info, new_officer)
