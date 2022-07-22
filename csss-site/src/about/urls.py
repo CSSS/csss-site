@@ -23,10 +23,6 @@ urlpatterns = [
         name='Specify Positions for New Officers'
     ),
     url(
-        r'^show_create_link_page$',
-        officer_creation_link_management.show_create_link_page,
-        name='Show Page For Creating Links for Officer Information Input'),
-    url(
         r'^officer_position$', officer_positions,
         name="Officer Position Mapping"
     ),
@@ -61,12 +57,6 @@ urlpatterns = [
     ),
     url(r'^list_of_past_officers$', officer_management.list_of_past_officers, name='CSSS List of Past Officers'),
     url(r'^who_we_are$', officer_management.who_we_are, name='Who We Are'),
-
-
-    url(
-        r'^show_page_with_creation_links$',
-        officer_creation_link_management.show_page_with_creation_links,
-        name="Create and display links that are used by officer to input their information"),
     url(
         r'^allow_officer_to_choose_name$',
         officer_creation_link_management.allow_officer_to_choose_name,

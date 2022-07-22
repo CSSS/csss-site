@@ -1,8 +1,6 @@
 import csv
 import datetime
 import logging
-import random
-import string
 from io import StringIO
 
 from django.conf import settings
@@ -10,13 +8,11 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
-from about.models import OfficerEmailListAndPositionMapping, Term, Officer, AnnouncementEmailAddress
-from about.views.officer_position_and_github_mapping.officer_management_helper import get_term_number, \
-    save_new_term, save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
+from about.models import Officer, AnnouncementEmailAddress
+from about.views.officer_position_and_github_mapping.officer_management_helper import save_new_term, \
+    save_officer_and_grant_digital_resources, TAB_STRING, HTML_VALUE_ATTRIBUTE_FOR_DATE, \
     ELECTION_OFFICER_POSITIONS, OFFICER_WITH_NO_ACCESS_TO_CSSS_DIGITAL_RESOURCES, \
-    OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS, \
-    HTML_VALUE_ATTRIBUTE_FOR_START_DATE, TERM_SEASONS
-from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
+    OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE, TERM_SEASONS
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_term_number, SUMMER_TERM_NUMBER, FALL_TERM_NUMBER, SPRING_TERM_NUMBER, \
@@ -140,186 +136,6 @@ def verify_passphrase_access_and_create_context(request, tab):
         context[PASSPHRASE_ERROR_KEY] = "the passphrase supplied has already been used"
         return False, context, None, passphrase
     return True, context, new_officer_detail, passphrase
-
-
-def show_create_link_page(request):
-    """
-    Shows the page where the user can select the year, term and positions for whom to create the generation links
-    """
-    logger.info(f"[about/officer_creation_link_management.py show_create_link_page()] "
-                f"request.POST={request.POST}")
-    context = create_context_for_officer_creation_links(request, tab=TAB_STRING)
-    context.update(create_term_context_variable())
-    context['positions'] = "\n".join(
-        [position.position_name
-         for position in OfficerEmailListAndPositionMapping.objects.all().filter(
-            marked_for_deletion=False).order_by(
-            'position_index')
-         ]
-    )
-    return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
-
-
-def show_page_with_creation_links(request):
-    """
-    Will generate passphrase objects for the positions the user specified and display them
-    """
-    logger.info(
-        f"[about/officer_creation_link_management.py show_page_with_creation_links()] request.POST={request.POST}")
-    logger.info(
-        f"[about/officer_creation_link_management.py show_page_with_creation_links()] request.GET={request.GET}")
-
-    context = create_context_for_officer_creation_links(request, tab=TAB_STRING)
-    post_keys = [HTML_TERM_KEY, HTML_YEAR_KEY, HTML_POSITION_KEY, HTML_OVERWRITE_KEY, HTML_NEW_START_DATE_KEY,
-                 HTML_DATE_KEY]
-    if len(set(post_keys).intersection(request.POST.keys())) != len(post_keys):
-        error_messages = "Invalid number of POST keys detected"
-        logger.info(f"[about/officer_creation_link_management.py show_page_with_creation_links()] {error_messages}")
-        return redirect_user_to_create_link_page(request, context, [error_messages])
-
-    if not f"{request.POST[HTML_YEAR_KEY]}".isdigit():
-        error_messages = "Specified year is not a number"
-        logger.info(f"[about/officer_creation_link_management.py show_page_with_creation_links()] {error_messages}")
-        return redirect_user_to_create_link_page(request, context, [error_messages])
-
-    base_url = f"{settings.HOST_ADDRESS}"
-    # this is necessary if the user is testing the site locally and therefore is using the port to access the
-    # browser
-    if settings.PORT is not None:
-        base_url += f":{settings.PORT}"
-    base_url += f"{settings.URL_ROOT}about/allow_officer_to_choose_name?"
-
-    year = int(request.POST[HTML_YEAR_KEY])
-    term = request.POST[HTML_TERM_KEY]
-
-    if request.POST[HTML_OVERWRITE_KEY] == "true":
-        delete_officers_and_process_new_officer_models_under_specified_term(year, term)
-
-    user_specified_positions = request.POST[HTML_POSITION_KEY].splitlines()
-    new_officers_to_process = []
-    error_messages = []
-    validation_for_user_inputted_positions_is_successful = True
-    for position_name in user_specified_positions:
-        success, officer_email_and_position_mapping, error_message = get_next_position_number_for_term(position_name)
-        if not success:
-            validation_for_user_inputted_positions_is_successful = False
-            error_messages.append(error_message)
-            logger.info(
-                "[about/officer_creation_link_management.py show_page_with_creation_links()] "
-                f"encountered error {error_messages} when processing position {position_name}"
-            )
-        else:
-            # creating the necessary passphrases and officer info for the user inputted position
-            passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-            new_officers_to_process.append(
-                ProcessNewOfficer(
-                    passphrase=passphrase,
-                    term=term,
-                    year=year,
-                    position_name=position_name,
-                    position_index=officer_email_and_position_mapping.position_index,
-                    sfu_officer_mailing_list_email=officer_email_and_position_mapping.email,
-                    link=f"{base_url}{HTML_PASSPHRASE_GET_KEY}={passphrase}",
-                    use_new_start_date=request.POST[HTML_NEW_START_DATE_KEY] == "true",
-                    start_date=datetime.datetime.strptime(
-                        f"{request.POST[HTML_DATE_KEY]}",
-                        '%Y-%m-%d')
-                )
-            )
-            logger.info(
-                "[about/officer_creation_link_management.py show_page_with_creation_links()] "
-                f"processed position {position_name}"
-            )
-    if validation_for_user_inputted_positions_is_successful:
-        logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] all requested"
-                    " position were determined to be valid")
-        officer_creation_links = []
-        for new_officer_to_process in new_officers_to_process:
-            new_officer_to_process.save()
-            officer_creation_links.append(
-                (new_officer_to_process.position_name, new_officer_to_process.link.replace(" ", "%20"))
-            )
-        context[HTML_OFFICER_CREATION_LINKS_KEY] = officer_creation_links
-        return render(request, 'about/process_new_officer/show_generated_officer_links.html', context)
-    else:
-        logger.info("[about/officer_creation_link_management.py show_page_with_creation_links()] at least one "
-                    "of the requested position were determined to be not valid")
-        return redirect_user_to_create_link_page(request, context, error_messages)
-
-
-def redirect_user_to_create_link_page(request, context, error_messages):
-    """
-    directs the user back to the page where they get asked what officers need to be created for the specified term
-
-    Keyword Argument
-    request -- the django request object
-    context -- the context to pass to the html
-    error_messages -- a list of all pertinent error messages
-
-    Return
-    render -- redirects user to create links page
-    """
-    context.update(create_term_context_variable())
-
-    # ensure that the user inputted choices for the term, year and positions
-    # are when the page loads
-    if HTML_TERM_KEY in request.POST:
-        context['current_term'] = request.POST[HTML_TERM_KEY]
-    if HTML_YEAR_KEY in request.POST:
-        context['current_year'] = int(request.POST[HTML_YEAR_KEY])
-    if HTML_POSITION_KEY in request.POST:
-        context['positions'] = "\n".join(request.POST[HTML_POSITION_KEY].splitlines())
-    if HTML_DATE_KEY in request.POST:
-        context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = request.POST[HTML_DATE_KEY]
-    if HTML_OVERWRITE_KEY in request.POST:
-        context[HTML_VALUE_ATTRIBUTE_FOR_OVERWRITING_OFFICERS] = request.POST[HTML_OVERWRITE_KEY]
-    if HTML_NEW_START_DATE_KEY in request.POST:
-        context[HTML_VALUE_ATTRIBUTE_FOR_START_DATE] = request.POST[HTML_NEW_START_DATE_KEY]
-    context[ERROR_MESSAGES_KEY] = error_messages
-    return render(request, 'about/process_new_officer/show_create_link_for_officer_page.html', context)
-
-
-def delete_officers_and_process_new_officer_models_under_specified_term(year, term_season):
-    """
-    Deletes all Officer and ProcessNewOfficer under the specified term
-
-    Keyword Argument
-    year -- the year for the term to delete
-    term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
-    """
-    term_number = get_term_number(year, term_season)
-    term_obj = Term.objects.all().filter(term=term_season, term_number=term_number, year=year)
-    logger.info(f"[about/officer_creation_link_management.py delete_current_term()] deleting all officers under term"
-                f"{year} {term_season}, for which there are {len(term_obj)} existent term[S] ")
-    if len(term_obj) > 0:
-        term_obj = term_obj[0]
-        officer_in_selected_term = Officer.objects.all().filter(elected_term=term_obj)
-        for officer in officer_in_selected_term:
-            officer.delete()
-    new_officer_details = ProcessNewOfficer.objects.all().filter(term=term_season, year=year)
-    for new_officer in new_officer_details:
-        new_officer.delete()
-
-
-def get_next_position_number_for_term(position_name):
-    """
-    Get the next term position number that is available for a term with the specified officer_position
-
-    Keyword Arguments
-    position_name -- the position of the officer that needs to be added to the term
-
-    Return
-    success - True or False
-    officer_email_and_position_mapping -- the information to assign to user
-    error_message -- error message if position does not exist
-    """
-    officer_email_and_position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
-        position_name=position_name, marked_for_deletion=False
-    )
-    if len(officer_email_and_position_mapping) == 0:
-        return False, None, f"position '{position_name} is not valid"
-    return True, officer_email_and_position_mapping[0], None
-
 
 def allow_officer_to_choose_name(request):
     """
@@ -838,30 +654,3 @@ def redirect_back_to_input_page_with_error_message(request, passphrase, error_me
     request.session[HTML_OFFICER_EMAIL_CONTACT_KEY] = request.POST[HTML_OFFICER_EMAIL_CONTACT_KEY]
     request.session[HTML_EMAIL_KEY] = request.POST[HTML_EMAIL_KEY]
     return HttpResponseRedirect(f"{settings.URL_ROOT}about/display_page_for_officer_to_input_info")
-
-
-def create_term_context_variable():
-    """
-    create the context dictionary for the page where the user can generate officer creation links
-
-    return
-    the context dictionary
-    """
-    context = {
-        'terms': TERM_SEASONS,
-    }
-    current_date = datetime.datetime.now()
-    if int(current_date.month) <= 4:
-        context['current_term'] = context['terms'][0]
-        context['years'] = [year for year in reversed(list(range(1970, datetime.datetime.now().year + 1)))]
-    elif int(current_date.month) <= 8:
-        context['current_term'] = context['terms'][1]
-        context['years'] = [year for year in reversed(list(range(1970, datetime.datetime.now().year + 1)))]
-    else:
-        context['current_term'] = context['terms'][2]
-        context['years'] = [year for year in reversed(list(range(1970, datetime.datetime.now().year + 2)))]
-    context['current_year'] = current_date.year
-    current_date = datetime.datetime.now()
-    context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = current_date.strftime("%Y-%m-%d")
-    context[HTML_VALUE_ATTRIBUTE_FOR_TIME] = current_date.strftime("%H:%M")
-    return context
