@@ -121,7 +121,7 @@ def validate_position_index(position_index, submitted_position_indices=None):
     if submitted_position_indices is None:
         submitted_position_indices = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
-        position_index=position_index)) > 0 or position_index in submitted_position_indices:
+            position_index=position_index)) > 0 or position_index in submitted_position_indices:
         logger.info(f"[about/position_mapping_helper.py validate_position_index()] validate for position index "
                     f"{position_index} was unsuccessful")
         return False, f"Another Position already has an index of {position_index}"
@@ -146,7 +146,7 @@ def validate_position_name(position_name, submitted_position_names=None):
     if submitted_position_names is None:
         submitted_position_names = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
-        position_name=position_name)) > 0 or position_name in submitted_position_names:
+            position_name=position_name)) > 0 or position_name in submitted_position_names:
         logger.info(f"[about/position_mapping_helper.py validate_position_name()] validate for position name "
                     f"{position_name} was unsuccessful")
         return False, f"the position of {position_name} already exists"
