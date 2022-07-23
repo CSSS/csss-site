@@ -7,7 +7,7 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status, validate_number_of_terms, \
-    validate_starting_month
+    validate_starting_month, validate_github_access, validate_google_drive_access
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
@@ -17,6 +17,8 @@ logger = logging.getLogger('csss_site')
 POSITION_NAME_KEY = 'position_name'
 POSITION_EMAIL_KEY = 'position_email'
 ELECTED_VIA_ELECTION_OFFICER_KEY = 'elected_via_election_officer'
+GITHUB_ACCESS__KEY = 'github'
+GOOGLE_DRIVE_ACCESS__KEY = 'google_drive'
 NUMBER_OF_TERMS_KEY = 'number_of_terms'
 STARTING_MONTH_KEY = 'starting_month'
 UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
@@ -74,10 +76,14 @@ def _add_new_position_mapping(post_dict):
             starting_month = starting_months[post_dict[STARTING_MONTH_KEY][index]] \
                 if post_dict[STARTING_MONTH_KEY][index] in starting_months else None
             elected_via_election_officer = post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index]
+            guthub_access = post_dict[GITHUB_ACCESS__KEY][index]
+            google_drive_access = post_dict[GOOGLE_DRIVE_ACCESS__KEY][index]
             unsaved_position_mappings.append(
                 {POSITION_NAME_KEY: position_name, POSITION_INDEX_KEY: position_index,
                  POSITION_EMAIL_KEY: position_email,
                  ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer == 'True',
+                 GITHUB_ACCESS__KEY: guthub_access == 'True',
+                 GOOGLE_DRIVE_ACCESS__KEY: google_drive_access == 'True',
                  NUMBER_OF_TERMS_KEY: post_dict[NUMBER_OF_TERMS_KEY][index],
                  STARTING_MONTH_KEY: post_dict[STARTING_MONTH_KEY][index]
                  }
@@ -85,6 +91,7 @@ def _add_new_position_mapping(post_dict):
             success, error_message = _validate_position_mappings(
                 position_index, position_name,
                 elected_via_election_officer,
+                guthub_access, google_drive_access,
                 number_of_terms, starting_month,
                 submitted_position_names=submitted_position_names,
                 submitted_position_indices=submitted_position_indices
@@ -111,6 +118,8 @@ def _add_new_position_mapping(post_dict):
                     position_index=post_dict[POSITION_INDEX_KEY][index],
                     email=post_dict[POSITION_EMAIL_KEY][index],
                     elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True',
+                    github=post_dict[GITHUB_ACCESS__KEY][index] == 'True',
+                    google_drive=post_dict[GOOGLE_DRIVE_ACCESS__KEY][index] == 'True',
                     number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY][index])
                     if f"{post_dict[NUMBER_OF_TERMS_KEY][index]}".isdigit() else None,
                     starting_month=starting_months[post_dict[STARTING_MONTH_KEY][index]]
@@ -120,6 +129,8 @@ def _add_new_position_mapping(post_dict):
         success, error_message = \
             _validate_position_mappings(post_dict[POSITION_INDEX_KEY], post_dict[POSITION_NAME_KEY],
                                         post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY],
+                                        post_dict[GITHUB_ACCESS__KEY],
+                                        post_dict[GOOGLE_DRIVE_ACCESS__KEY],
                                         int(post_dict[NUMBER_OF_TERMS_KEY])
                                         if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
                                         starting_months[post_dict[STARTING_MONTH_KEY]]
@@ -136,6 +147,8 @@ def _add_new_position_mapping(post_dict):
                 position_index=post_dict[POSITION_INDEX_KEY],
                 email=post_dict[POSITION_EMAIL_KEY],
                 elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
+                github=post_dict[GITHUB_ACCESS__KEY] == 'True',
+                google_drive=post_dict[GOOGLE_DRIVE_ACCESS__KEY] == 'True',
                 number_of_terms=int(post_dict[NUMBER_OF_TERMS_KEY])
                 if f"{post_dict[NUMBER_OF_TERMS_KEY]}".isdigit() else None,
                 starting_month=starting_months[post_dict[STARTING_MONTH_KEY]]
@@ -150,6 +163,8 @@ def _add_new_position_mapping(post_dict):
                 {POSITION_NAME_KEY: post_dict[POSITION_NAME_KEY], POSITION_INDEX_KEY: post_dict[POSITION_INDEX_KEY],
                  POSITION_EMAIL_KEY: post_dict[POSITION_EMAIL_KEY],
                  ELECTED_VIA_ELECTION_OFFICER_KEY: post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
+                 GITHUB_ACCESS__KEY: post_dict[GITHUB_ACCESS__KEY] == 'True',
+                 GOOGLE_DRIVE_ACCESS__KEY: post_dict[GOOGLE_DRIVE_ACCESS__KEY] == 'True',
                  NUMBER_OF_TERMS_KEY: post_dict[NUMBER_OF_TERMS_KEY],
                  STARTING_MONTH_KEY: post_dict[STARTING_MONTH_KEY],
                  }
@@ -160,6 +175,7 @@ def _add_new_position_mapping(post_dict):
 
 
 def _validate_position_mappings(position_index, position_name, elected_via_election_officer,
+                                github_access, google_drive_access,
                                 number_of_terms, starting_month,
                                 submitted_position_names=None, submitted_position_indices=None):
     """
@@ -192,4 +208,10 @@ def _validate_position_mappings(position_index, position_name, elected_via_elect
     success, error_message = validate_starting_month(starting_month)
     if not success:
         return success, error_message
-    return validate_elected_via_election_officer_status(elected_via_election_officer)
+    sucess, error_message = validate_elected_via_election_officer_status(elected_via_election_officer)
+    if not sucess:
+        return success, error_message
+    success, error_message = validate_github_access(github_access)
+    if not success:
+        return success, error_message
+    return validate_google_drive_access(google_drive_access)

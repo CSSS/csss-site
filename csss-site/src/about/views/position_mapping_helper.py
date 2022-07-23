@@ -28,6 +28,9 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
 
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS = 'officer_email_list_and_position_mapping__number_of_terms'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH = 'officer_email_list_and_position_mapping__starting_month'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS = 'officer_email_list_and_position_mapping__github_access'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS = \
+    'officer_email_list_and_position_mapping__google_drive_access'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
     "officer_email_list_and_position_mapping__delete_status"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
@@ -169,6 +172,46 @@ def validate_elected_via_election_officer_status(elected_via_election_officer_st
                     f"{elected_via_election_officer_status} was unsuccessful")
         return False, f"the option of elected_via_election_officer which is set to" \
                       f" {elected_via_election_officer_status} is invalid"
+    return True, None
+
+
+def validate_github_access(github_access):
+    """
+    Validates the status selected for the attribute of github access
+
+    Keyword Argument
+    github_access -- the atribute that indicates if the position has github access
+
+    Return
+    success -- True or False if the attribute of github access is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (github_access == 'True' or github_access == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_github_access()] "
+                    "validating for if the position has github access "
+                    f"{github_access} was unsuccessful")
+        return False, f"the option of github access which is set to" \
+                      f" {github_access} is invalid"
+    return True, None
+
+
+def validate_google_drive_access(google_drive_access):
+    """
+    Validates the status selected for the attribute of google drive access
+
+    Keyword Argument
+    google_drive_access -- the atribute that indicates if the position has google drive access
+
+    Return
+    success -- True or False if the attribute of google drive access is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (google_drive_access == 'True' or google_drive_access == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_google_drive_access()] "
+                    "validating for if the position has google drive access "
+                    f"{google_drive_access} was unsuccessful")
+        return False, f"the option of google drive access which is set to" \
+                      f" {google_drive_access} is invalid"
     return True, None
 
 
