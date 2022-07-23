@@ -31,7 +31,7 @@ admin.site.register(AnnouncementEmailAddress, AnnouncementEmailAdmin)
 
 class OfficerEmailListAndPositionMappingAdmin(admin.ModelAdmin):
     list_display = (
-        'position_index', 'position_name', 'email', 'marked_for_deletion', 'elected_via_election_officer',
+        'position_index', 'position_name', 'email', 'github', 'google_drive', 'marked_for_deletion', 'elected_via_election_officer',
         'starting_month', 'number_of_terms', 'executive_position'
     )
 

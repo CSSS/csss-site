@@ -164,6 +164,14 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default="NA"
     )
 
+    github = models.BooleanField(
+        default=True
+    )
+
+    google_drive = models.BooleanField(
+        default=True
+    )
+
     marked_for_deletion = models.BooleanField(
         default=False
     )
