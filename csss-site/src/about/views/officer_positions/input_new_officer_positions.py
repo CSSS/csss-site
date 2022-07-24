@@ -7,8 +7,9 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status, validate_number_of_terms, \
-    validate_starting_month, validate_github_access, validate_google_drive_access, validate_executive_officer_status, \
-    validate_election_officer_status, validate_sfss_council_representative_status, validate_frosh_week_chair_status, \
+    validate_starting_month, validate_github_access, validate_google_drive_access, \
+    validate_executive_officer_status, validate_election_officer_status, \
+    validate_sfss_council_representative_status, validate_frosh_week_chair_status, \
     validate_discord_manager_status
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
