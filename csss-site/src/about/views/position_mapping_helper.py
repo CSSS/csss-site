@@ -23,14 +23,25 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX = "officer_email_list_an
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME = "officer_email_list_and_position_mapping__position_name"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS = \
     "officer_email_list_and_position_mapping__email_list_address"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION = \
-    "officer_email_list_and_position_mapping__elected_position"
-
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS = 'officer_email_list_and_position_mapping__number_of_terms'
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH = 'officer_email_list_and_position_mapping__starting_month'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_ROLE_NAME = \
+    "officer_email_list_and_position_mapping__discord_role_name"
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS = 'officer_email_list_and_position_mapping__github_access'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS = \
     'officer_email_list_and_position_mapping__google_drive_access'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER = \
+    "officer_email_list_and_position_mapping__elected_via_election_officer"
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER = \
+    'officer_email_list_and_position_mapping__executive_officer'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER = \
+    'officer_email_list_and_position_mapping__election_officer'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP = \
+    'officer_email_list_and_position_mapping__sfss_council_representative'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR = \
+    'officer_email_list_and_position_mapping__frosh_week_chair'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER = 'officer_email_list_and_position_mapping__discord_manager'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS = 'officer_email_list_and_position_mapping__number_of_terms'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH = 'officer_email_list_and_position_mapping__starting_month'
+
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
     "officer_email_list_and_position_mapping__delete_status"
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
@@ -47,8 +58,8 @@ def update_context(context):
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME,
         'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS':
             OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS,
-        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION':
-            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION,
+        'OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER':
+            OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER,
         'GITHUB_TEAM__ID_KEY': GITHUB_TEAM__ID_KEY,
         'GITHUB_TEAM__TEAM_NAME_KEY': GITHUB_TEAM__TEAM_NAME_KEY,
         'NUMBER_OF_TERMS': OfficerEmailListAndPositionMapping.number_of_terms_choices_to_display_on_html(),
@@ -172,6 +183,107 @@ def validate_elected_via_election_officer_status(elected_via_election_officer_st
                     f"{elected_via_election_officer_status} was unsuccessful")
         return False, f"the option of elected_via_election_officer which is set to" \
                       f" {elected_via_election_officer_status} is invalid"
+    return True, None
+
+
+def validate_executive_officer_status(executive_officer_status):
+    """
+    Validates the status selected for the attribute of whether the officer is an executive officer
+
+    Keyword Argument
+    executive_officer_status -- the attribute that indicates if the position is an executive position
+
+    Return
+    success -- True or False if the attribute of whether the officer is an executive officer is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (executive_officer_status == 'True' or executive_officer_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_executive_status()] "
+                    "validating for if the position is for an executive officer "
+                    f"{executive_officer_status} was unsuccessful")
+        return False, f"the option of executive_officer_status which is set to" \
+                      f" {executive_officer_status} is invalid"
+    return True, None
+
+
+def validate_election_officer_status(election_officer_status):
+    """
+    Validates the status selected for the attribute of whether the officer is an election officer
+
+    Keyword Argument
+    election_officer_status -- the attribute that indicates if the position is an election officer position
+
+    Return
+    success -- True or False if the attribute of whether the officer is an election officer is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (election_officer_status == 'True' or election_officer_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_election_officer_status()] "
+                    "validating for if the position is for an election officer "
+                    f"{election_officer_status} was unsuccessful")
+        return False, f"the option of election_officer_status which is set to" \
+                      f" {election_officer_status} is invalid"
+    return True, None
+
+
+def validate_sfss_council_representative_status(sfss_council_representative_status):
+    """
+    Validates the status selected for the attribute of whether the officer is the SFSS Council Representative
+
+    Keyword Argument
+    sfss_council_representative_status -- the attribute that indicates if the position is an SFSS Council
+     Representative
+
+    Return
+    success -- True or False if the attribute of whether the officer is an SFSS Council Representative is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (sfss_council_representative_status == 'True' or sfss_council_representative_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_sfss_council_representative_status()] "
+                    "validating for if the position is for an SFSS Council Representative "
+                    f"{sfss_council_representative_status} was unsuccessful")
+        return False, f"the option of sfss_council_representative_status which is set to" \
+                      f" {sfss_council_representative_status} is invalid"
+    return True, None
+
+
+def validate_frosh_week_chair_status(frosh_week_chair_status):
+    """
+    Validates the status selected for the attribute of whether the officer is the frosh week chair
+
+    Keyword Argument
+    frosh_week_chair_status -- the attribute that indicates if the position is the frosh week chair position
+
+    Return
+    success -- True or False if the attribute of whether the officer is the frosh week chair is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (frosh_week_chair_status == 'True' or frosh_week_chair_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_frosh_week_chair_status()] "
+                    "validating for if the position is for the frosh week chair "
+                    f"{frosh_week_chair_status} was unsuccessful")
+        return False, f"the option of frosh_week_chair_status which is set to" \
+                      f" {frosh_week_chair_status} is invalid"
+    return True, None
+
+
+def validate_discord_manager_status(discord_manager_status):
+    """
+    Validates the status selected for the attribute of whether the officer is the discord manager
+
+    Keyword Argument
+    discord_manager_status -- the attribute that indicates if the position is for the discord manager
+
+    Return
+    success -- True or False if the attribute of whether the officer is the discord manager is valid
+    error_message -- an error_message if the attribute is not one of the valid options
+    """
+    if not (discord_manager_status == 'True' or discord_manager_status == 'False'):
+        logger.info("[about/position_mapping_helper.py validate_discord_manager_status()] "
+                    "validating for if the position is for the discord manager "
+                    f"{discord_manager_status} was unsuccessful")
+        return False, f"the option of discord_manager_status which is set to" \
+                      f" {discord_manager_status} is invalid"
     return True, None
 
 
