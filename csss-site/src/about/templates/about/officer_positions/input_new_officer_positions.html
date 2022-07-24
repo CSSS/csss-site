@@ -44,12 +44,12 @@
                     {%  endif %}
                 </select><br>
 
-                <label for="executive">Executive</label>
-                <select name="executive" id="executive" required size="2">
-                    {%  if unsaved_position_mapping.executive_position is True %}
+                <label for="executive_officer">Executive</label>
+                <select name="executive_officer" id="executive_officer" required size="2">
+                    {%  if unsaved_position_mapping.executive_officer is True %}
                         <option value="True" selected>True</option>
                         <option value="False">False</option>
-                    {%  elif unsaved_position_mapping.executive_position is False %}
+                    {%  elif unsaved_position_mapping.executive_officer is False %}
                         <option value="True">True</option>
                         <option value="False" selected>False</option>
                     {%  endif %}
@@ -145,8 +145,8 @@
                         <option value="False">False</option>
                 </select><br>
 
-                <label for="executive">Executive</label>
-                <select name="executive" id="executive" required size="2">
+                <label for="executive_officer">Executive</label>
+                <select name="executive_officer" id="executive_officer" required size="2">
                         <option value="True">True</option>
                         <option value="False">False</option>
                 </select><br>
@@ -251,17 +251,17 @@
         newOfficerPosition.appendChild(select_statement_google_drive_access);
 
 
-        newOfficerPosition.innerHTML += "<label for=\"executive\">Executive</label>";
+        newOfficerPosition.innerHTML += "<label for=\"executive_officer\">Executive</label>";
 
-        const select_statement_executive_bool = document.createElement('select');
-        select_statement_executive_bool.setAttribute("size", '2');
-        select_statement_executive_bool.setAttribute('name', 'executive');
-        select_statement_executive_bool.setAttribute('id', 'executive');
-        select_statement_executive_bool.setAttribute('required', '');
+        const select_statement_executive_officer_bool = document.createElement('select');
+        select_statement_executive_officer_bool.setAttribute("size", '2');
+        select_statement_executive_officer_bool.setAttribute('name', 'executive_officer');
+        select_statement_executive_officer_bool.setAttribute('id', 'executive_officer');
+        select_statement_executive_officer_bool.setAttribute('required', '');
 
-        select_statement_executive_bool.appendChild(true_option);
-        select_statement_executive_bool.appendChild(false_option);
-        newOfficerPosition.appendChild(select_statement_executive_bool);
+        select_statement_executive_officer_bool.appendChild(true_option);
+        select_statement_executive_officer_bool.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_executive_officer_bool);
 
         newOfficerPosition.innerHTML += "<label for=\"election_officer\">Election Officer</label>";
 

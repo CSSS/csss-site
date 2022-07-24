@@ -7,7 +7,7 @@ from about.models import OfficerEmailListAndPositionMapping
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, validate_position_index, validate_position_name, \
     POSITION_INDEX_KEY, validate_elected_via_election_officer_status, validate_number_of_terms, \
-    validate_starting_month, validate_github_access, validate_google_drive_access, validate_executive_status, \
+    validate_starting_month, validate_github_access, validate_google_drive_access, validate_executive_officer_status, \
     validate_election_officer_status, validate_sfss_council_representative_status, validate_frosh_week_chair_status, \
     validate_discord_manager_status
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
@@ -21,7 +21,7 @@ POSITION_EMAIL_KEY = 'position_email'
 ELECTED_VIA_ELECTION_OFFICER_KEY = 'elected_via_election_officer'
 GITHUB_ACCESS__KEY = 'github'
 GOOGLE_DRIVE_ACCESS__KEY = 'google_drive'
-EXECUTIVE_POSITION_KEY = 'executive'
+EXECUTIVE_OFFICER_KEY = 'executive_officer'
 ELECTION_OFFICER_KEY = 'election_officer'
 SFSS_COUNCIL_REPRESENTATIVE_KEY = 'sfss_council_rep'
 FROSH_WEEK_CHAIR_KEY = 'frosh_week_chair'
@@ -86,7 +86,7 @@ def _add_new_position_mapping(post_dict):
             elected_via_election_officer = post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index]
             github_access = post_dict[GITHUB_ACCESS__KEY][index]
             google_drive_access = post_dict[GOOGLE_DRIVE_ACCESS__KEY][index]
-            executive = post_dict[EXECUTIVE_POSITION_KEY][index]
+            executive_officer = post_dict[EXECUTIVE_OFFICER_KEY][index]
             election_officer = post_dict[ELECTION_OFFICER_KEY][index]
             sfss_council_representative = post_dict[SFSS_COUNCIL_REPRESENTATIVE_KEY][index]
             frosh_week_chair = post_dict[FROSH_WEEK_CHAIR_KEY][index]
@@ -99,7 +99,7 @@ def _add_new_position_mapping(post_dict):
                  GITHUB_ACCESS__KEY: github_access == 'True',
                  GOOGLE_DRIVE_ACCESS__KEY: google_drive_access == 'True',
                  ELECTED_VIA_ELECTION_OFFICER_KEY: elected_via_election_officer == 'True',
-                 EXECUTIVE_POSITION_KEY: executive == 'True',
+                 EXECUTIVE_OFFICER_KEY: executive_officer == 'True',
                  ELECTION_OFFICER_KEY: election_officer == 'True',
                  SFSS_COUNCIL_REPRESENTATIVE_KEY: sfss_council_representative == 'True',
                  FROSH_WEEK_CHAIR_KEY: frosh_week_chair == 'True',
@@ -110,7 +110,7 @@ def _add_new_position_mapping(post_dict):
             )
             success, error_message = _validate_position_mappings(
                 position_index, position_name, github_access, google_drive_access, elected_via_election_officer,
-                executive, election_officer, sfss_council_representative, frosh_week_chair, discord_manager,
+                executive_officer, election_officer, sfss_council_representative, frosh_week_chair, discord_manager,
                 number_of_terms, starting_month,
                 submitted_position_names=submitted_position_names,
                 submitted_position_indices=submitted_position_indices
@@ -140,7 +140,7 @@ def _add_new_position_mapping(post_dict):
                     github=post_dict[GITHUB_ACCESS__KEY][index] == 'True',
                     google_drive=post_dict[GOOGLE_DRIVE_ACCESS__KEY][index] == 'True',
                     elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY][index] == 'True',
-                    executive_position=post_dict[EXECUTIVE_POSITION_KEY][index] == 'True',
+                    executive_officer=post_dict[EXECUTIVE_OFFICER_KEY][index] == 'True',
                     election_officer=post_dict[ELECTION_OFFICER_KEY][index] == 'True',
                     sfss_council_rep=post_dict[SFSS_COUNCIL_REPRESENTATIVE_KEY][index] == 'True',
                     frosh_week_chair=post_dict[FROSH_WEEK_CHAIR_KEY][index] == 'True',
@@ -156,7 +156,7 @@ def _add_new_position_mapping(post_dict):
                                         post_dict[GITHUB_ACCESS__KEY],
                                         post_dict[GOOGLE_DRIVE_ACCESS__KEY],
                                         post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY],
-                                        post_dict[EXECUTIVE_POSITION_KEY],
+                                        post_dict[EXECUTIVE_OFFICER_KEY],
                                         post_dict[ELECTION_OFFICER_KEY],
                                         post_dict[SFSS_COUNCIL_REPRESENTATIVE_KEY],
                                         post_dict[FROSH_WEEK_CHAIR_KEY],
@@ -180,7 +180,7 @@ def _add_new_position_mapping(post_dict):
                 github=post_dict[GITHUB_ACCESS__KEY] == 'True',
                 google_drive=post_dict[GOOGLE_DRIVE_ACCESS__KEY] == 'True',
                 elected_via_election_officer=post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
-                executive_position=post_dict[EXECUTIVE_POSITION_KEY] == 'True',
+                executive_officer=post_dict[EXECUTIVE_OFFICER_KEY] == 'True',
                 election_officer=post_dict[ELECTION_OFFICER_KEY] == 'True',
                 sfss_council_rep=post_dict[SFSS_COUNCIL_REPRESENTATIVE_KEY] == 'True',
                 frosh_week_chair=post_dict[FROSH_WEEK_CHAIR_KEY] == 'True',
@@ -202,7 +202,7 @@ def _add_new_position_mapping(post_dict):
                  GITHUB_ACCESS__KEY: post_dict[GITHUB_ACCESS__KEY] == 'True',
                  GOOGLE_DRIVE_ACCESS__KEY: post_dict[GOOGLE_DRIVE_ACCESS__KEY] == 'True',
                  ELECTED_VIA_ELECTION_OFFICER_KEY: post_dict[ELECTED_VIA_ELECTION_OFFICER_KEY] == 'True',
-                 EXECUTIVE_POSITION_KEY: post_dict[EXECUTIVE_POSITION_KEY] == 'True',
+                 EXECUTIVE_OFFICER_KEY: post_dict[EXECUTIVE_OFFICER_KEY] == 'True',
                  ELECTION_OFFICER_KEY: post_dict[ELECTION_OFFICER_KEY] == 'True',
                  SFSS_COUNCIL_REPRESENTATIVE_KEY: post_dict[SFSS_COUNCIL_REPRESENTATIVE_KEY] == 'True',
                  FROSH_WEEK_CHAIR_KEY: post_dict[FROSH_WEEK_CHAIR_KEY] == 'True',
@@ -217,7 +217,7 @@ def _add_new_position_mapping(post_dict):
 
 
 def _validate_position_mappings(position_index, position_name, github_access, google_drive_access,
-                                elected_via_election_officer, executive, election_officer,
+                                elected_via_election_officer, executive_officer, election_officer,
                                 sfss_council_representative, frosh_week_chair, discord_manager,
                                 number_of_terms, starting_month,
                                 submitted_position_names=None, submitted_position_indices=None):
@@ -255,7 +255,7 @@ def _validate_position_mappings(position_index, position_name, github_access, go
     if not success:
         return success, error_message
 
-    success, error_message = validate_executive_status(executive)
+    success, error_message = validate_executive_officer_status(executive_officer)
     if not success:
         return success, error_message
     success, error_message = validate_election_officer_status(election_officer)

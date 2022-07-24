@@ -30,8 +30,8 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS = \
     'officer_email_list_and_position_mapping__google_drive_access'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER = \
     "officer_email_list_and_position_mapping__elected_via_election_officer"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION = \
-    'officer_email_list_and_position_mapping__executive_position'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER = \
+    'officer_email_list_and_position_mapping__executive_officer'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER = \
     'officer_email_list_and_position_mapping__election_officer'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP = \
@@ -186,23 +186,23 @@ def validate_elected_via_election_officer_status(elected_via_election_officer_st
     return True, None
 
 
-def validate_executive_status(executive_status):
+def validate_executive_officer_status(executive_officer_status):
     """
     Validates the status selected for the attribute of whether the officer is an executive officer
 
     Keyword Argument
-    executive_status -- the attribute that indicates if the position is an executive position
+    executive_officer_status -- the attribute that indicates if the position is an executive position
 
     Return
     success -- True or False if the attribute of whether the officer is an executive officer is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
-    if not (executive_status == 'True' or executive_status == 'False'):
+    if not (executive_officer_status == 'True' or executive_officer_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_executive_status()] "
                     "validating for if the position is for an executive officer "
-                    f"{executive_status} was unsuccessful")
-        return False, f"the option of executive_status which is set to" \
-                      f" {executive_status} is invalid"
+                    f"{executive_officer_status} was unsuccessful")
+        return False, f"the option of executive_officer_status which is set to" \
+                      f" {executive_officer_status} is invalid"
     return True, None
 
 

@@ -185,7 +185,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=False
     )
 
-    executive_position = models.BooleanField(
+    executive_officer = models.BooleanField(
         default=True
     )
 

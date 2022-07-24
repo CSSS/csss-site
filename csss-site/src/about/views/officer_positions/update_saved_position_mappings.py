@@ -14,7 +14,7 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_ROLE_NAME, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR, \
@@ -99,8 +99,8 @@ def _update_positions_mapping(positions):
             error_message = "No valid position elected status detected for position mapping"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
-        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION in position):
-            error_message = "No valid indicator of whether position is an executive position" \
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER in position):
+            error_message = "No valid indicator of whether position is an executive officer" \
                             " detected for position mapping"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
@@ -152,7 +152,7 @@ def _update_positions_mapping(positions):
         google_drive_access = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS]
         elected_via_election_officer = \
             position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER]
-        executive_position = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION]
+        executive_officer = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER]
         election_officer = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER]
         sfss_council_rep = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP]
         frosh_week_chair = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR]
@@ -170,7 +170,7 @@ def _update_positions_mapping(positions):
                                        github_access,
                                        google_drive_access,
                                        elected_via_election_officer,
-                                       executive_position,
+                                       executive_officer,
                                        election_officer,
                                        sfss_council_rep,
                                        frosh_week_chair,
@@ -217,7 +217,7 @@ def _update_positions_mapping(positions):
             position_mapping_for_selected_officer.github = github_access
             position_mapping_for_selected_officer.google_drive = google_drive_access
             position_mapping_for_selected_officer.elected_via_election_officer = elected_via_election_officer
-            position_mapping_for_selected_officer.executive_position = executive_position
+            position_mapping_for_selected_officer.executive_officer = executive_officer
             position_mapping_for_selected_officer.election_officer = election_officer
             position_mapping_for_selected_officer.sfss_council_rep = sfss_council_rep
             position_mapping_for_selected_officer.frosh_week_chair = frosh_week_chair
@@ -247,7 +247,7 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_posit
                                 github_access,
                                 google_drive_access,
                                 elected_via_election_officer,
-                                executive_position,
+                                executive_officer,
                                 election_officer,
                                 sfss_council_rep,
                                 frosh_week_chair,
@@ -279,7 +279,7 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_posit
         and github_access == position_mapping_for_selected_officer.github \
         and google_drive_access == position_mapping_for_selected_officer.google_drive \
         and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer \
-        and executive_position == position_mapping_for_selected_officer.executive_position \
+        and executive_officer == position_mapping_for_selected_officer.executive_officer \
         and election_officer == position_mapping_for_selected_officer.election_officer \
         and sfss_council_rep == position_mapping_for_selected_officer.sfss_council_rep \
         and frosh_week_chair == position_mapping_for_selected_officer.frosh_week_chair \
