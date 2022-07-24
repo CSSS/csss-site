@@ -30,10 +30,14 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS = \
     'officer_email_list_and_position_mapping__google_drive_access'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER = \
     "officer_email_list_and_position_mapping__elected_via_election_officer"
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION = 'officer_email_list_and_position_mapping__executive_position'
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER = 'officer_email_list_and_position_mapping__election_officer'
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP = 'officer_email_list_and_position_mapping__sfss_council_rep'
-OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR = 'officer_email_list_and_position_mapping__frosh_week_chair'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION = \
+    'officer_email_list_and_position_mapping__executive_position'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER = \
+    'officer_email_list_and_position_mapping__election_officer'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP = \
+    'officer_email_list_and_position_mapping__sfss_council_representative'
+OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR = \
+    'officer_email_list_and_position_mapping__frosh_week_chair'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER = 'officer_email_list_and_position_mapping__discord_manager'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS = 'officer_email_list_and_position_mapping__number_of_terms'
 OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH = 'officer_email_list_and_position_mapping__starting_month'
@@ -128,7 +132,7 @@ def validate_position_index(position_index, submitted_position_indices=None):
     if submitted_position_indices is None:
         submitted_position_indices = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
-        position_index=position_index)) > 0 or position_index in submitted_position_indices:
+            position_index=position_index)) > 0 or position_index in submitted_position_indices:
         logger.info(f"[about/position_mapping_helper.py validate_position_index()] validate for position index "
                     f"{position_index} was unsuccessful")
         return False, f"Another Position already has an index of {position_index}"
@@ -153,7 +157,7 @@ def validate_position_name(position_name, submitted_position_names=None):
     if submitted_position_names is None:
         submitted_position_names = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
-        position_name=position_name)) > 0 or position_name in submitted_position_names:
+            position_name=position_name)) > 0 or position_name in submitted_position_names:
         logger.info(f"[about/position_mapping_helper.py validate_position_name()] validate for position name "
                     f"{position_name} was unsuccessful")
         return False, f"the position of {position_name} already exists"
@@ -182,8 +186,6 @@ def validate_elected_via_election_officer_status(elected_via_election_officer_st
     return True, None
 
 
-
-
 def validate_executive_status(executive_status):
     """
     Validates the status selected for the attribute of whether the officer is an executive officer
@@ -202,6 +204,7 @@ def validate_executive_status(executive_status):
         return False, f"the option of executive_status which is set to" \
                       f" {executive_status} is invalid"
     return True, None
+
 
 def validate_election_officer_status(election_officer_status):
     """
@@ -222,12 +225,14 @@ def validate_election_officer_status(election_officer_status):
                       f" {election_officer_status} is invalid"
     return True, None
 
+
 def validate_sfss_council_representative_status(sfss_council_representative_status):
     """
     Validates the status selected for the attribute of whether the officer is the SFSS Council Representative
 
     Keyword Argument
-    sfss_council_representative_status -- the attribute that indicates if the position is an SFSS Council Representative
+    sfss_council_representative_status -- the attribute that indicates if the position is an SFSS Council
+     Representative
 
     Return
     success -- True or False if the attribute of whether the officer is an SFSS Council Representative is valid
@@ -240,6 +245,7 @@ def validate_sfss_council_representative_status(sfss_council_representative_stat
         return False, f"the option of sfss_council_representative_status which is set to" \
                       f" {sfss_council_representative_status} is invalid"
     return True, None
+
 
 def validate_frosh_week_chair_status(frosh_week_chair_status):
     """
@@ -279,17 +285,6 @@ def validate_discord_manager_status(discord_manager_status):
         return False, f"the option of discord_manager_status which is set to" \
                       f" {discord_manager_status} is invalid"
     return True, None
-
-
-
-
-
-
-
-
-
-
-
 
 
 def validate_github_access(github_access):

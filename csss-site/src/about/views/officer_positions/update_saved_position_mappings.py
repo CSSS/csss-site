@@ -9,14 +9,16 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_ROLE_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_POSITION, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_term, get_datetime_for_beginning_of_current_term
@@ -62,10 +64,9 @@ def _update_positions_mapping(positions):
         if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in position
                 and f"{position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
                 and len(
-                    OfficerEmailListAndPositionMapping.objects.all().filter(
-                        id=int(position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
-                    )
-                ) > 0):
+                OfficerEmailListAndPositionMapping.objects.all().filter(
+                    id=int(position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
+                )) > 0):
             error_message = "No valid position mapping id detected"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
@@ -131,7 +132,6 @@ def _update_positions_mapping(positions):
             error_message = "No valid starting month detected for position mapping"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
-
 
         position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.get(
             id=int(position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
@@ -285,7 +285,7 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_posit
         and frosh_week_chair == position_mapping_for_selected_officer.frosh_week_chair \
         and discord_manager == position_mapping_for_selected_officer.discord_manager \
         and number_of_terms == position_mapping_for_selected_officer.number_of_terms \
-        and starting_month == position_mapping_for_selected_officer.starting_month \
+        and starting_month == position_mapping_for_selected_officer.starting_month
 
 
 def update_current_officer(positions_to_save, position_mapping_for_selected_officer,
