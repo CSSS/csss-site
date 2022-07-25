@@ -11,6 +11,13 @@ class InvalidPrivilege(Exception):
         self.render = render(request, 'csss/error_htmls/access_not_allowed.html', context)
 
 
+class UnProcessedNotDetected(Exception):
+    def __init__(self, request, tab=None):
+        context = create_main_context(request, tab=tab)
+        context[ERROR_MESSAGES_KEY] = [f"Could not find an unprocessed officer slot for {request.user.username}"]
+        self.render = render(request, 'csss/error_htmls/access_not_allowed.html', context)
+
+
 class NoAuthenticationMethod(Exception):
     def __init__(self, request, tab=None):
         context = create_main_context(request, tab=tab)

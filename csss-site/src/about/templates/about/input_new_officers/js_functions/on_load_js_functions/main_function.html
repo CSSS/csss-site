@@ -1,6 +1,6 @@
 {% load set_variable %}
 $(document).ready(function () {
-	let new_officers_div_name = 'new_officers';
+	let new_officers_div_name = '{{new_officers_div_id__html_name}}';
     {%  if new_officers__html_name is None or new_officers__html_name|length == 0 %}
         /* if accessing via /elections/new_election_webform or /election/<election_slug>/election_modification_webform
         and there are no new_officers, will display a form to enter the first new_officer
@@ -21,6 +21,7 @@ $(document).ready(function () {
 
         let id;
 		let start_date;
+        let number_of_nags;
 		let overwrite_current_officer;
         let term;
         link_dom_obj = document.createElement('div');
@@ -34,6 +35,7 @@ $(document).ready(function () {
 			sfu_computing_id="{{new_officer.sfu_computing_id}}";
             full_name="{{new_officer.full_name}}";
 			start_date="{{new_officer.start_date}}";
+            number_of_nags="{{new_officer.number_of_nags}}";
 
             {% define new_officer.position_name as position_name %}
             {% define new_officer.re_use_start_date as re_use_start_date %}

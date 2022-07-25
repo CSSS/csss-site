@@ -1,7 +1,8 @@
 import json
 
 import requests
-from django.conf import settings
+
+from csss.settings import discord_header
 
 
 def validate_discord_id(discord_id):
@@ -15,13 +16,9 @@ def validate_discord_id(discord_id):
     bool -- true or false depending on if the discord_id belongs to a user that can be DMed
     error_message -- returns the error message from the discord API, if there was any. otherwise None
     """
-    headers = {
-        "Authorization": f"Bot {settings.DISCORD_BOT_TOKEN}",
-        "Content-Type": "application/json"
-    }
     resp = requests.post(
         "https://discord.com/api/users/@me/channels",
-        headers=headers,
+        headers=discord_header,
         data=json.dumps(
             {"recipient_id": discord_id}
         )

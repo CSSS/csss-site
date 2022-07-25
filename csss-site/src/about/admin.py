@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 # Register your models here.
-from about.models import Officer, Term, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping, NewOfficer
+from about.models import Officer, Term, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping, UnProcessedOfficer
 
 
 class TermAdmin(admin.ModelAdmin):
@@ -39,11 +39,11 @@ class OfficerEmailListAndPositionMappingAdmin(admin.ModelAdmin):
 admin.site.register(OfficerEmailListAndPositionMapping, OfficerEmailListAndPositionMappingAdmin)
 
 
-class NewOfficerAdmin(admin.ModelAdmin):
+class UnProcessedOfficerAdmin(admin.ModelAdmin):
     list_display = (
         'id', 'discord_id', 'sfu_computing_id', 'full_name', 'start_date', 'position_name', 're_use_start_date',
         'overwrite_current_officer', 'gmail_verification_code', 'term'
     )
 
 
-admin.site.register(NewOfficer, NewOfficerAdmin)
+admin.site.register(UnProcessedOfficer, UnProcessedOfficerAdmin)

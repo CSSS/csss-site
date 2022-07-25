@@ -8,6 +8,7 @@ logger = logging.getLogger('csss_site')
 SPRING_TERM_NUMBER = 1
 SUMMER_TERM_NUMBER = 2
 FALL_TERM_NUMBER = 3
+TERM_SEASONS = [term_choice[0] for term_choice in Term.term_choices]
 
 
 def there_are_multiple_entries(post_dict, key_to_read):
@@ -36,6 +37,27 @@ def get_current_term():
     """
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
+
+
+def get_latest_term():
+    """
+    Get the term number for the latest term
+
+    Return
+    the term_number that fits the convention YYYY<1/2/3>
+    """
+    date_for_next_month = datetime.datetime.now()
+    term_number_for_current_term = get_term_number_for_specified_year_and_month(
+        date_for_next_month.month, date_for_next_month.year
+    )
+    term_number_for_next_term = get_term_number_for_specified_year_and_month(
+        date_for_next_month.month, date_for_next_month.year
+    )
+    while term_number_for_current_term == term_number_for_next_term:
+        date_for_next_month = date_for_next_month + datetime.timedelta(days=30)
+        term_number_for_next_term = get_term_number_for_specified_year_and_month(
+            date_for_next_month.month, date_for_next_month.year
+        )
 
 
 def get_last_summer_term():
@@ -173,3 +195,24 @@ def date_is_first_day_of_term(current_date):
     bool
     """
     return (current_date.month == 1 or current_date.month == 5 or current_date.month == 9) and current_date.day == 1
+
+
+def determine_if_specified_term_obj_is_for_current_term(term_obj):
+    """
+    Returns a bool that indicates if the specified term obj points to the current term
+
+    Keyword Argument
+    term_obj -- the specified term obj
+
+    Return
+    Bool -- true if the term obj points to the current term, otherwise False
+    """
+    current_date = datetime.datetime.now()
+    if int(current_date.month) <= 4:
+        term_season_index = 0
+    elif int(current_date.month) <= 8:
+        term_season_index = 1
+    else:
+        term_season_index = 2
+    current_season = TERM_SEASONS[term_season_index]
+    return term_obj.year == current_date.year and term_obj.term == current_season

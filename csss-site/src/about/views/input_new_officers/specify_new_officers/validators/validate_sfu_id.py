@@ -24,5 +24,5 @@ def validate_sfu_id(sfu_computing_id):
     if resp.status_code != 200:
         return False, f"Encountered error message of '{resp.reason}'"
     if not (json.loads(resp.text)['type'] == "username" and json.loads(resp.text)['username'] == sfu_computing_id):
-        return False, f"{sfu_computing_id} is not a valid sfuid"
+        return False, f"{sfu_computing_id} is not a valid sfu_computing_id"
     return True, None

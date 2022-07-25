@@ -286,7 +286,7 @@ class OfficerEmailListAndPositionMapping(models.Model):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"
 
 
-class NewOfficer(models.Model):
+class UnProcessedOfficer(models.Model):
     discord_id = models.CharField(
         max_length=20
     )
@@ -321,5 +321,9 @@ class NewOfficer(models.Model):
         on_delete=models.CASCADE,
     )
 
+    number_of_nags = models.IntegerField(
+        default=0
+    )
+
     def __str__(self):
-        return f"NewOfficer for {self.full_name} for position {self.position_name} under term {self.term}"
+        return f"UnProcessedOfficer for {self.full_name} for position {self.position_name} under term {self.term}"

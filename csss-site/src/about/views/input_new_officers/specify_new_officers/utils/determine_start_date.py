@@ -50,6 +50,9 @@ def determine_start_date(officers, officer_email_list_and_position_mapping, re_u
     start_date -- the start date that the user has entered for the New_Officer
     sfu_computing_id -- the sfu computing ID of the New_Officer
     position_name -- the name of the position that the New_Officer has been elected to
+
+    Return
+    start_date -- the start date to use for the UnProcessed Officer
     """
     if not re_use_start_date:
         return start_date
@@ -79,18 +82,18 @@ def determine_start_date(officers, officer_email_list_and_position_mapping, re_u
         )
         return start_date
     officer = officers.filter(
-        sfuid=sfu_computing_id, position_name=position_name, elected_term=get_current_term_obj()
+        sfu_computing_id=sfu_computing_id, position_name=position_name, elected_term=get_current_term_obj()
     ).order_by('-id').first()
     if officer is None:
         logger.info(
-            f"[about/determine_start_date.py determine_start_date()] the officer with sfuid {sfu_computing_id} "
+            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id {sfu_computing_id} "
             f"did not hold the position of {position_name} on any date after {get_current_term_obj()}."
             f" Reverting to start_date {start_date}"
         )
         return start_date
     if position_obj.number_of_terms is None:  # for positions that are never ending like Sys Admin
         logger.info(
-            f"[about/determine_start_date.py determine_start_date()] the officer with sfuid {sfu_computing_id} "
+            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id {sfu_computing_id} "
             f"is holding a position that has no end-date [{position_name}]. Will use their current start_date of"
             f" {officer.start_date}"
         )

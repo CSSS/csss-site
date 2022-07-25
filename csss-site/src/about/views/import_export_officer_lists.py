@@ -10,12 +10,15 @@ from django.core.files.storage import FileSystemStorage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from about.models import Term, Officer
-from about.views.officer_position_and_github_mapping.officer_management_helper import TERM_SEASONS, \
-    TAB_STRING, save_new_term, save_officer_and_grant_digital_resources, get_term_number
+from about.models import Term, Officer, OfficerEmailListAndPositionMapping, UnProcessedOfficer
+from about.views.Constants import TAB_STRING
+from about.views.input_new_officers.enter_new_officer_info.save_officer_and_grant_digital_resources import \
+    save_officer_and_grant_digital_resources
+from about.views.utils.get_term_season_number import get_term_season_number
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_uploading_and_download_officer_lists
 from csss.views.views import ERROR_MESSAGES_KEY
+from csss.views_helper import TERM_SEASONS
 
 YEAR_AND_TERM_COLUMN = 0
 POSITION_COLUMN = 0
@@ -256,11 +259,14 @@ def iterate_through_officers_for_term(overwrite, year, term, officers_in_term):
         term = save_new_term(year, term)
     position_index = -1
     previous_position = ""
+    officer_emaillist_and_position_mappings = OfficerEmailListAndPositionMapping.objects.all()
     for officer in officers_in_term:
         if officer['officer_position'] != previous_position:
             position_index += 1
         previous_position = officer['officer_position']
-        success, error_message = extract_and_save_officer_info(term, officer, position_index)
+        success, error_message = extract_and_save_officer_info(
+            officer_emaillist_and_position_mappings, term, officer, position_index
+        )
         if not success:
             return error_message
     return None
@@ -294,7 +300,7 @@ def create_new_term(year, term):
     return term_obj
 
 
-def extract_and_save_officer_info(term_obj, officer, position_index):
+def extract_and_save_officer_info(officer_emaillist_and_position_mappings, term_obj, officer, position_index):
     """
     saves the officer specified in the officer dictionary
 
@@ -307,27 +313,54 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     success -- True or False
     error_message - error message if not successful, otherwise None
     """
-    phone_number = officer['phone_number']
     position_name = officer['officer_position']
-    full_name = officer['name']
     sfu_computing_id = officer['sfu_computing_id']
-    sfu_email_alias = officer['sfu_email_alias']
-    announcement_emails = officer['announcement_emails']
-    github_username = officer['github_username']
-    gmail = officer['gmail']
     start_date = datetime.datetime.strptime(officer['start_date'], "%Y-%m-%d")
-    fav_course_1 = officer['fav_course_1']
-    fav_course_2 = officer['fav_course_2']
-    fav_language_1 = officer['fav_language_1']
-    fav_language_2 = officer['fav_language_2']
-    bio = officer['bio']
-    sfu_officer_mailing_list_email = "NONE"
-    # github_teams = officer['github_teams']
+    unprocessed_officer = UnProcessedOfficer(
+        position_name=position_name, sfu_computing_id=sfu_computing_id, start_date=start_date,
+        term=term_obj, discord_id='1234'
+    )
     success, error_message = save_officer_and_grant_digital_resources(
-        phone_number, full_name, sfu_computing_id, sfu_email_alias, announcement_emails, github_username,
-        gmail, start_date, fav_course_1, fav_course_2, fav_language_1,
-        fav_language_2, bio, position_name, position_index, term_obj,
-        sfu_officer_mailing_list_email,
-        apply_github_team_memberships=False
+        officer_emaillist_and_position_mappings, unprocessed_officer, officer
     )
     return success, error_message
+
+
+def save_new_term(year, term_season):
+    """
+    either saves a new term with the given year and term or just returns an existing term that matches that given
+    year and term
+
+    Keyword Arguments
+    year -- the year in YYYY format
+    term -- the season that the term takes place in, e.g. Spring, Summer or Fall
+
+    Return
+    term_obj -- the term object that corresponds to given year and term
+     or None if proper term year and season not specified
+    """
+    term_number = get_term_number(year, term_season)
+    if term_number is None:
+        return None
+    term_obj, created = Term.objects.get_or_create(
+        term=term_season,
+        term_number=term_number,
+        year=int(year)
+    )
+    return term_obj
+
+
+def get_term_number(year, term_season):
+    """
+    gets the term number using the year and term
+
+    Keyword Arguments
+    year -- the current year in YYYY format
+    term_season -- the season that the term takes place in, e.g. Spring, Summer or Fall
+
+    returns the term_number, which is in the format YYYY<1/2/3>, or None if year is not a number
+     or specified season does not exist
+    """
+    return None \
+        if ((not f"{year}".isdigit()) or term_season not in TERM_SEASONS) \
+        else int(year) * 10 + get_term_season_number(term_season)

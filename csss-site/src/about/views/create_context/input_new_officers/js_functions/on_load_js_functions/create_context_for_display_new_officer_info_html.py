@@ -1,4 +1,3 @@
-from about.models import OfficerEmailListAndPositionMapping
 from about.views.Constants import INPUT_NEW_OFFICER_ID__NAME, INCLUDE_ID_FOR_NEW_OFFICER_IN_WEBFORM_HTML_NAME, \
     POSITIONS_NAME_KEY, ID_KEY, NEW_OFFICERS__HTML__NAME, NEW_OFFICERS__HTML_VALUE, \
     INPUT_RESEND_LINK_TO_OFFICER__HTML_VALUE, INPUT_RESEND_LINK_TO_OFFICER__HTML_NAME
@@ -6,13 +5,15 @@ from about.views.create_context.input_new_officers.js_functions.on_load_js_funct
     variable_is_non_empty_list
 
 
-def create_context_for_display_new_officer_info_html(context, draft_new_officers=None):
+def create_context_for_display_new_officer_info_html(context, officer_emaillist_and_position_mappings,
+                                                     draft_new_officers=None):
     """
     Populates the context dictionary that will be used by
     about/templates/about/input_new_officers/js_functions/on_load_js_functions/display_new_officer_info.html
 
     Keyword Argyments
     context -- the context dictionary that has to be populated for display_new_officer_info.html
+    officer_emaillist_and_position_mappings -- the queryset of currently saved position infos
     draft_new_officers -- the draft of the new officers that the user is trying to save or the saved officers
     """
     # defined in
@@ -38,7 +39,7 @@ def create_context_for_display_new_officer_info_html(context, draft_new_officers
         context[INCLUDE_ID_FOR_NEW_OFFICER_IN_WEBFORM_HTML_NAME] = True
     context[POSITIONS_NAME_KEY] = [
         position.position_name
-        for position in OfficerEmailListAndPositionMapping.objects.all().filter(
+        for position in officer_emaillist_and_position_mappings.filter(
             marked_for_deletion=False).order_by(
             'position_index')
     ]

@@ -5,9 +5,9 @@ from django.shortcuts import render
 import markdown
 
 from about.models import Officer, Term
-from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views_helper import get_current_term, get_previous_term
+from documents.views import TAB_STRING
 
 logger = logging.getLogger('csss_site')
 

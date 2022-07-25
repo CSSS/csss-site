@@ -37,12 +37,12 @@
     {%  if saved_nominees_exist %}
         <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officers Information</button>
     {%  endif %}
-    <br><br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
+    <br><br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('{{new_officers_div_id__html_name}}');">
 
-    <div id="new_officers"></div>
+    <div id="{{new_officers_div_id__html_name}}"></div>
 
     {% if new_officers__html_name is not None and new_officers__html_name|length > 1 %}
-        <input type="button" value="Add Another New Officer" onClick="addNewOfficer('new_officers');">
+        <input type="button" value="Add Another New Officer" onClick="addNewOfficer('{{new_officers_div_id__html_name}}');">
         <br><br><input type="submit" name="{{input_redirect_save_or_update_new_officers_submit_name}}" value="{{input_redirect_save_or_update_new_officers_submit_and_continue_editing_value}}" />
         {%  if saved_nominees_exist %}
             <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officers Information</button>
