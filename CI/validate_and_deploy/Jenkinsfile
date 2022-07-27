@@ -37,7 +37,9 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_SECRET_KEY', variable: 'WEBSITE_DEV_STRIPE_SECRET_KEY'),
                         string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
                         string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
-                        string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
+                        string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY'),
+                        string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
+                        string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME')
                     ]
                 ) {
                       timeout(5) {
@@ -54,6 +56,8 @@ pipeline {
                             export GDRIVE_TOKEN_LOCATION="'"/home/csss/credentials/token.pickle"'";
                             export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                             export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
+                            export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
+                            export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
 
                             export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
 
@@ -78,7 +82,9 @@ pipeline {
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_SECRET_KEY', variable: 'WEBSITE_PROD_STRIPE_SECRET_KEY'),
                         string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
                         string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
-                        string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY')
+                        string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY'),
+                        string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
+                        string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME')
                     ]
                 ) {
                     sh label: '', script: """bash -c \'
@@ -93,6 +99,8 @@ pipeline {
                         export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                         export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
+                        export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
+                        export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
 
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
