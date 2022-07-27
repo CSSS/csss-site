@@ -284,3 +284,42 @@ class OfficerEmailListAndPositionMapping(models.Model):
 
     def __str__(self):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"
+
+
+class NewOfficer(models.Model):
+    discord_id = models.CharField(
+        max_length=20
+    )
+    sfu_computing_id = models.CharField(
+        max_length=10
+    )
+    full_name = models.CharField(
+        max_length=100,
+        default='NA'
+    )
+    start_date = models.DateTimeField(
+        default=timezone.now
+    )
+    position_name = models.CharField(
+        max_length=300,
+        default="President"
+    )
+    re_use_start_date = models.BooleanField(
+        default=True
+    )
+    overwrite_current_officer = models.BooleanField(
+        default=False
+    )
+
+    gmail_verification_code = models.CharField(
+        max_length=5,
+        unique=True,
+        null=True,
+    )
+    term = models.ForeignKey(
+        Term,
+        on_delete=models.CASCADE,
+    )
+
+    def __str__(self):
+        return f"NewOfficer for {self.full_name} for position {self.position_name} under term {self.term}"

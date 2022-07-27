@@ -5,11 +5,23 @@ from .views.generate_officer_creation_links import officer_creation_link_managem
 from .views.github_position_mapping.github_mapping import github_mapping
 from .views.github_position_mapping.save_new_github_officer_team_mapping import save_new_github_officer_team_mapping
 from .views.github_position_mapping.update_saved_github_mappings import update_saved_github_mappings
+from .views.input_new_officers.specify_new_officers.delete_new_officers import delete_new_officers
+from .views.input_new_officers.specify_new_officers.specify_new_officers import specify_new_officers
 from .views.officer_positions.input_new_officer_positions import input_new_officer_positions
 from .views.officer_positions.officer_positions import officer_positions
 from .views.officer_positions.update_saved_position_mappings import update_saved_position_mappings
 
 urlpatterns = [
+    url(
+        r'^specify_new_officers$',
+        specify_new_officers,
+        name='Specify Positions for New Officers'
+    ),
+    url(
+        r'^specify_new_officers/delete$',
+        delete_new_officers,
+        name='Specify Positions for New Officers'
+    ),
     url(
         r'^show_create_link_page$',
         officer_creation_link_management.show_create_link_page,

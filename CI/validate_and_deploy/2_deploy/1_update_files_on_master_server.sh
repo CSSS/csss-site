@@ -52,6 +52,8 @@ function transfer_env_variables_to_server {
   echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> site_envs
   echo 'GUILD_ID='"'"${GUILD_ID}"'" >> site_envs
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn  
+  echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> site_envs
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/backup_script"'" > site_envs_backup_script
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/create_fixtures"'" > site_envs_create_fixtures
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin

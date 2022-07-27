@@ -112,6 +112,7 @@ SFU_CSSS_GMAIL_USERNAME = None
 SFU_CSSS_GMAIL_PASSWORD = None
 DISCORD_BOT_TOKEN = None
 GUILD_ID = None
+SFU_ENDPOINT_TOKEN = None
 
 if ENVIRONMENT == "LOCALHOST":
     if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
@@ -130,6 +131,10 @@ if ENVIRONMENT == "LOCALHOST":
         DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
     if 'GUILD_ID' in os.environ:
         GUILD_ID = os.environ['GUILD_ID']
+    if 'SFU_ENDPOINT_TOKEN' in os.environ:
+        SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
+    if 'DISCORD_BOT_TOKEN' in os.environ:
+        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
 
 elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
@@ -162,6 +167,11 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
         exit(1)
     else:
         SFU_CSSS_GMAIL_PASSWORD = os.environ['SFU_CSSS_GMAIL_PASSWORD']
+    if "SFU_ENDPOINT_TOKEN" not in os.environ:
+        logger.error(f"[settings.py] SFU_ENDPOINT_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
+        exit(1)
+    else:
+        SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
     if "DISCORD_BOT_TOKEN" not in os.environ:
         logger.error(f"[settings.py] DISCORD_BOT_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
         exit(1)
@@ -181,6 +191,7 @@ logger.info(f"[settings.py] SFU_CSSS_GMAIL_USERNAME={SFU_CSSS_GMAIL_USERNAME}")
 logger.info(f"[settings.py] SFU_CSSS_GMAIL_PASSWORD={SFU_CSSS_GMAIL_PASSWORD}")
 logger.info(f"[settings.py] DISCORD_BOT_TOKEN={DISCORD_BOT_TOKEN}")
 logger.info(f"[settings.py] GUILD_ID={GUILD_ID}")
+logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={SFU_ENDPOINT_TOKEN}")
 
 if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
     logger.error("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
@@ -204,6 +215,10 @@ if SFU_CSSS_GMAIL_USERNAME is not None and not SFU_CSSS_GMAIL_USERNAME != "":
 
 if SFU_CSSS_GMAIL_PASSWORD is not None and not SFU_CSSS_GMAIL_PASSWORD != "":
     logger.error("[settings.py] empty value for SFU_CSSS_GMAIL_PASSWORD")
+    exit(1)
+
+if SFU_ENDPOINT_TOKEN is not None and not SFU_ENDPOINT_TOKEN != "":
+    logger.error("[settings.py] empty value for SFU_ENDPOINT_TOKEN")
     exit(1)
 
 if DISCORD_BOT_TOKEN is not None and not DISCORD_BOT_TOKEN != "":
