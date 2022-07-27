@@ -92,6 +92,7 @@ class OfficerPositionGithubTeamMapping(models.Model):
         return f"officer position mapping for {self.officer_position_mapping} to" \
                f" github team {self.github_team.team_name}"
 
+
 class NonOfficerGoogleDriveUser(models.Model):
     gmail = models.CharField(
         max_length=300
