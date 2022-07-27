@@ -1,6 +1,5 @@
 import logging
 
-from django.conf import settings
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -201,7 +200,7 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
         logger.info("[about/save_new_github_officer_team_mapping.py _save_new_github_team_mapping()] "
                     f"OfficerPositionGithubTeamMapping object saved for team {team_name} and officer "
                     f"{position_mapping_obj}")
-    github = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+    github = GitHubAPI()
     success, error_message = github.create_team(team_name)
     if not success:
         return [error_message]

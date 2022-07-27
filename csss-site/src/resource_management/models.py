@@ -92,19 +92,6 @@ class OfficerPositionGithubTeamMapping(models.Model):
         return f"officer position mapping for {self.officer_position_mapping} to" \
                f" github team {self.github_team.team_name}"
 
-
-class GoogleMailAccountCredentials(models.Model):
-    username = models.CharField(
-        max_length=300
-    )
-    password = models.CharField(
-        max_length=300
-    )
-
-    def __str__(self):
-        return f"credentials for gmail {self.username}"
-
-
 class NonOfficerGoogleDriveUser(models.Model):
     gmail = models.CharField(
         max_length=300

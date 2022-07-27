@@ -1,6 +1,5 @@
 import logging
 
-from django.conf import settings
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -122,7 +121,7 @@ def _update_github_mapping(github_mapping):
     )
 
     github_team_db_obj = OfficerPositionGithubTeam.objects.get(id=int(github_mapping[GITHUB_TEAM__ID_KEY]))
-    github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+    github_api = GitHubAPI()
     if github_mapping[DELETE_GITHUB_MAPPING] == 'True':
         return [_delete_github_mapping(github_team_db_obj, github_api)]
 

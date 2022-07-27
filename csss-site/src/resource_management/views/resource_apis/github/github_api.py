@@ -2,6 +2,7 @@ import logging
 from time import sleep
 
 import github
+from django.conf import settings
 from github import Github
 
 from github.GithubException import RateLimitExceededException, GithubException
@@ -16,24 +17,23 @@ time_to_wait_due_to_github_rate_limit = 60
 
 class GitHubAPI:
 
-    def __init__(self, access_token):
+    def __init__(self, access_token=None):
         self.connection_successful = False
         self.error_message = None
         if access_token is None:
-            self.error_message = "access_token is not valid"
-            logger.error(self.error_message)
-        else:
-            try:
-                self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
-                self.org = self.git.get_organization(
-                    CSSS_GITHUB_ORG_NAME)
-                # https://pygithub.readthedocs.io/en/latest/github_objects/Organization.html
-                # #github.Organization.Organization
-                self.connection_successful = True
-            except Exception as e:
-                self.error_message = f"experienced following error when trying to" \
-                                     f" connect to Github and get Org \"{CSSS_GITHUB_ORG_NAME}\":\n{e}"
-                logger.error(f"[GitHubAPI __init__()] {self.error_message}")
+            access_token = settings.GITHUB_ACCESS_TOKEN
+
+        try:
+            self.git = Github(access_token)  # https://pygithub.readthedocs.io/en/latest/github.html
+            self.org = self.git.get_organization(
+                CSSS_GITHUB_ORG_NAME)
+            # https://pygithub.readthedocs.io/en/latest/github_objects/Organization.html
+            # #github.Organization.Organization
+            self.connection_successful = True
+        except Exception as e:
+            self.error_message = f"experienced following error when trying to" \
+                                 f" connect to Github and get Org \"{CSSS_GITHUB_ORG_NAME}\":\n{e}"
+            logger.error(f"[GitHubAPI __init__()] {self.error_message}")
 
     def validate_user(self, user_name):
         """

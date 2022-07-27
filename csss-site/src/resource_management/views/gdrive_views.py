@@ -85,7 +85,7 @@ def add_users_to_gdrive(request):
     """
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
+    gdrive = GoogleDrive()
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
         if there_are_multiple_entries(post_dict, GOOGLE_DRIVE_USERS_NAME_KEY):
@@ -173,7 +173,7 @@ def update_permissions_for_existing_gdrive_user(request):
         f"request.POST={request.POST}"
     )
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
+    gdrive = GoogleDrive()
     if gdrive.connection_successful:
         if 'action' in request.POST:
             if request.POST['action'] == 'update':
@@ -247,7 +247,7 @@ def make_folders_public_gdrive(request):
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
+    gdrive = GoogleDrive()
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
         if there_are_multiple_entries(post_dict, GOOGLE_DRIVE_USERS_FILE_ID_KEY):
@@ -314,7 +314,7 @@ def update_gdrive_public_links(request):
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
+    gdrive = GoogleDrive()
     if gdrive.connection_successful:
         if 'action' in request.POST:
             if request.POST['action'] == 'update':

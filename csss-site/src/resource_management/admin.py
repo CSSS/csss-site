@@ -3,8 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from resource_management.models import ProcessNewOfficer, NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
-    NaughtyOfficer, OfficerPositionGithubTeam, GoogleMailAccountCredentials, \
-    OfficerPositionGithubTeamMapping
+    NaughtyOfficer, OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 
 
 class ProcessNewOfficerAdmin(admin.ModelAdmin):
@@ -15,13 +14,6 @@ class ProcessNewOfficerAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ProcessNewOfficer, ProcessNewOfficerAdmin)
-
-
-class GoogleMailAccountCredentialsAdmin(admin.ModelAdmin):
-    list_display = ('username', 'password')
-
-
-admin.site.register(GoogleMailAccountCredentials, GoogleMailAccountCredentialsAdmin)
 
 
 class NonOfficerGoogleDriveUserAdmin(admin.ModelAdmin):
