@@ -618,7 +618,7 @@ def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None)
             if not success:
                 error_messages.append(error_message)
     if github_username is not None:
-        github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+        github_api = GitHubAPI()
         success, error_message = github_api.validate_user(github_username)
         if not success:
             error_messages.append(error_message)
@@ -702,7 +702,7 @@ def process_information_entered_by_officer(request):
         ]
         success = False
         if position_name not in OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE:
-            gdrive = GoogleDrive(settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID)
+            gdrive = GoogleDrive()
             if gdrive.connection_successful is False:
                 logger.info("[about/officer_creation_link_management.py process_information_entered_by_officer()]"
                             f" {gdrive.error_message}")

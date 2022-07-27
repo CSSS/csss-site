@@ -3,12 +3,14 @@ import logging
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from django.conf import settings
+
 logger = logging.getLogger('csss_site')
 
 
 class Gmail:
 
-    def __init__(self, from_email, password, smtp='smtp.gmail.com', port=587, max_number_of_retries=5):
+    def __init__(self, from_email=None, password=None, smtp='smtp.gmail.com', port=587, max_number_of_retries=5):
         """
         initialized the gmail object for a gmail account
 
@@ -22,6 +24,10 @@ class Gmail:
         """
         self.connection_successful = False
         number_of_retries = 0
+        if from_email is None:
+            from_email = settings.SFU_CSSS_GMAIL_USERNAME
+        if password is None:
+            password = settings.SFU_CSSS_GMAIL_PASSWORD
         self.from_email = from_email
         self.max_number_of_retries = max_number_of_retries
         while not self.connection_successful and number_of_retries < max_number_of_retries:
