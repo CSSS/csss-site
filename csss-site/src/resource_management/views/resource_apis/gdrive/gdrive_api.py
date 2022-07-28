@@ -58,6 +58,7 @@ class GoogleDrive:
     def __init__(self, token_location=None, root_file_id=None):
         creds = None
         self.error_message = None
+        self.root_file_id = None
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
