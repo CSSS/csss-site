@@ -79,18 +79,14 @@ def validate_google_drive():
     """
     calls functions for validating google drive permissions
     """
-    GoogleDrive(
-        settings.GDRIVE_TOKEN_LOCATION, settings.GDRIVE_ROOT_FOLDER_ID
-    ).validate_ownerships_and_permissions(create_google_drive_perms())
+    GoogleDrive().validate_ownerships_and_permissions(create_google_drive_perms())
 
 
 def validate_github():
     """
     calls the functions for validating the github permissions
     """
-    GitHubAPI(
-        settings.GITHUB_ACCESS_TOKEN
-    ).ensure_proper_membership(create_github_perms())
+    GitHubAPI().ensure_proper_membership(create_github_perms())
 
 
 def validate_sfu_gitlab():

@@ -6,11 +6,19 @@ from querystring_parser import parser
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
 from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
 from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION, \
-    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_ROLE_NAME, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR, \
+    OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_term, get_datetime_for_beginning_of_current_term
@@ -56,10 +64,9 @@ def _update_positions_mapping(positions):
         if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID in position
                 and f"{position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID]}".isdigit()
                 and len(
-                    OfficerEmailListAndPositionMapping.objects.all().filter(
-                        id=int(position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
-                    )
-                ) > 0):
+                OfficerEmailListAndPositionMapping.objects.all().filter(
+                    id=int(position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID])
+                )) > 0):
             error_message = "No valid position mapping id detected"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
@@ -76,8 +83,45 @@ def _update_positions_mapping(positions):
             error_message = "No valid position email list detected for position mapping"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
-        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION in position):
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_ROLE_NAME in position):
+            error_message = "No valid position discord role name detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS in position):
+            error_message = "No valid github access detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS in position):
+            error_message = "No valid google drive access detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER in position):
             error_message = "No valid position elected status detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER in position):
+            error_message = "No valid indicator of whether position is an executive officer" \
+                            " detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER in position):
+            error_message = "No valid indicator of whether position is for an election officer " \
+                            "detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP in position):
+            error_message = "No valid indicator of whether position is for the SFSS council Rep " \
+                            "detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR in position):
+            error_message = "No valid indicator of whether position is for the Frosh Week Chair " \
+                            "detected for position mapping"
+            logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
+            return [error_message]
+        if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER in position):
+            error_message = "No valid indicator of whether position is for the Discord Manager " \
+                            "detected for position mapping"
             logger.info(f"[about/update_saved_position_mappings.py _update_position_mapping()] {error_message}")
             return [error_message]
         if not (OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS in position):
@@ -103,17 +147,37 @@ def _update_positions_mapping(positions):
         new_name_for_officer_position = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME]
         new_sfu_email_list_address_for_officer_position = \
             position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS]
+        discord_role_name = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_ROLE_NAME]
+        github_access = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GITHUB_ACCESS]
+        google_drive_access = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__GOOGLE_DRIVE_ACCESS]
         elected_via_election_officer = \
-            position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_POSITION]
+            position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTED_VIA_ELECTION_OFFICER]
+        executive_officer = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EXECUTIVE_OFFICER]
+        election_officer = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ELECTION_OFFICER]
+        sfss_council_rep = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP]
+        frosh_week_chair = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR]
+        discord_manager = position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER]
         number_of_terms = \
             position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__NUMBER_OF_TERMS]
         starting_month = \
             position[OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__STARTING_MONTH]
 
-        if officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_for_officer_position,
+        if officer_info_is_not_changed(position_mapping_for_selected_officer,
                                        new_position_index_for_officer_position,
+                                       new_name_for_officer_position,
                                        new_sfu_email_list_address_for_officer_position,
-                                       elected_via_election_officer, number_of_terms, starting_month):
+                                       discord_role_name,
+                                       github_access,
+                                       google_drive_access,
+                                       elected_via_election_officer,
+                                       executive_officer,
+                                       election_officer,
+                                       sfss_council_rep,
+                                       frosh_week_chair,
+                                       discord_manager,
+                                       number_of_terms,
+                                       starting_month,
+                                       ):
             continue
         logger.info(
             f"[about/update_saved_position_mappings.py _update_position_mapping()] the user's "
@@ -146,10 +210,18 @@ def _update_positions_mapping(positions):
                                              new_position_index_for_officer_position,
                                              new_name_for_officer_position
                                              )
-            position_mapping_for_selected_officer.position_name = new_name_for_officer_position
             position_mapping_for_selected_officer.position_index = new_position_index_for_officer_position
+            position_mapping_for_selected_officer.position_name = new_name_for_officer_position
             position_mapping_for_selected_officer.email = new_sfu_email_list_address_for_officer_position
+            position_mapping_for_selected_officer.discord_role_name = discord_role_name
+            position_mapping_for_selected_officer.github = github_access
+            position_mapping_for_selected_officer.google_drive = google_drive_access
             position_mapping_for_selected_officer.elected_via_election_officer = elected_via_election_officer
+            position_mapping_for_selected_officer.executive_officer = executive_officer
+            position_mapping_for_selected_officer.election_officer = election_officer
+            position_mapping_for_selected_officer.sfss_council_rep = sfss_council_rep
+            position_mapping_for_selected_officer.frosh_week_chair = frosh_week_chair
+            position_mapping_for_selected_officer.discord_manager = discord_manager
             position_mapping_for_selected_officer.number_of_terms = \
                 OfficerEmailListAndPositionMapping.number_of_terms_choices_dict(front_end=False)[number_of_terms]
             position_mapping_for_selected_officer.starting_month = \
@@ -168,10 +240,20 @@ def _update_positions_mapping(positions):
     return []
 
 
-def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_for_officer_position,
-                                new_position_index_for_officer_position,
+def officer_info_is_not_changed(position_mapping_for_selected_officer, new_position_index_for_officer_position,
+                                new_name_for_officer_position,
                                 new_sfu_email_list_address_for_officer_position,
-                                elected_via_election_officer, number_of_terms, starting_month):
+                                discord_role_name,
+                                github_access,
+                                google_drive_access,
+                                elected_via_election_officer,
+                                executive_officer,
+                                election_officer,
+                                sfss_council_rep,
+                                frosh_week_chair,
+                                discord_manager,
+                                number_of_terms, starting_month
+                                ):
     """
     Returns a bool that indicates if the officer's info has been changed
 
@@ -190,10 +272,18 @@ def officer_info_is_not_changed(position_mapping_for_selected_officer, new_name_
      Return
      bool -- true if a position_mapping_for_selected_officer has to be updated
     """
-    return new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
-        and new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
+    return new_position_index_for_officer_position == position_mapping_for_selected_officer.position_index \
+        and new_name_for_officer_position == position_mapping_for_selected_officer.position_name \
         and new_sfu_email_list_address_for_officer_position == position_mapping_for_selected_officer.email \
+        and discord_role_name == position_mapping_for_selected_officer.discord_role_name \
+        and github_access == position_mapping_for_selected_officer.github \
+        and google_drive_access == position_mapping_for_selected_officer.google_drive \
         and elected_via_election_officer == position_mapping_for_selected_officer.elected_via_election_officer \
+        and executive_officer == position_mapping_for_selected_officer.executive_officer \
+        and election_officer == position_mapping_for_selected_officer.election_officer \
+        and sfss_council_rep == position_mapping_for_selected_officer.sfss_council_rep \
+        and frosh_week_chair == position_mapping_for_selected_officer.frosh_week_chair \
+        and discord_manager == position_mapping_for_selected_officer.discord_manager \
         and number_of_terms == position_mapping_for_selected_officer.number_of_terms \
         and starting_month == position_mapping_for_selected_officer.starting_month
 

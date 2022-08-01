@@ -23,6 +23,80 @@
                         <option value="False" selected>False</option>
                     {%  endif %}
                 </select><br>
+                <label for="github">GitHub Access</label>
+                <select name="github" id="github" required size="2">
+                    {%  if unsaved_position_mapping.github is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.github is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+                <label for="google_drive">Google Drive Access</label>
+                <select name="google_drive" id="google_drive" required size="2">
+                    {%  if unsaved_position_mapping.google_drive is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.google_drive is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+
+                <label for="executive_officer">Executive</label>
+                <select name="executive_officer" id="executive_officer" required size="2">
+                    {%  if unsaved_position_mapping.executive_officer is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.executive_officer is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+                <label for="election_officer">Election Officer</label>
+                <select name="election_officer" id="election_officer" required size="2">
+                    {%  if unsaved_position_mapping.election_officer is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.election_officer is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+                <label for="sfss_council_rep">SFSS Council Representative</label>
+                <select name="sfss_council_rep" id="sfss_council_rep" required size="2">
+                    {%  if unsaved_position_mapping.sfss_council_rep is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.sfss_council_rep is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+                <label for="frosh_week_chair">Frosh Week Chair</label>
+                <select name="frosh_week_chair" id="frosh_week_chair" required size="2">
+                    {%  if unsaved_position_mapping.frosh_week_chair is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.frosh_week_chair is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+                <label for="discord_manager">Discord Manager</label>
+                <select name="discord_manager" id="discord_manager" required size="2">
+                    {%  if unsaved_position_mapping.discord_manager is True %}
+                        <option value="True" selected>True</option>
+                        <option value="False">False</option>
+                    {%  elif unsaved_position_mapping.discord_manager is False %}
+                        <option value="True">True</option>
+                        <option value="False" selected>False</option>
+                    {%  endif %}
+                </select><br>
+                <label for="discord_role_name">Discord Role Name</label>
+                <input type="text" id="discord_role_name" name="discord_role_name" value="{{ unsaved_position_mapping.discord_role_name }}" required><br>
+
                 <label for="number_of_terms">Number of Terms</label>
                 <select id="number_of_terms" name="number_of_terms" required>
                     {%  for number_of_term in NUMBER_OF_TERMS %}
@@ -59,7 +133,45 @@
                 <select name="elected_via_election_officer" id="elected_via_election_officer" required size="2">
                         <option value="True">True</option>
                         <option value="False">False</option>
+                </select>
+                <label for="github">GitHub Access</label>
+                <select name="github" id="github" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select>
+                <label for="google_drive">Google Drive Access</label>
+                <select name="google_drive" id="google_drive" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
                 </select><br>
+
+                <label for="executive_officer">Executive</label>
+                <select name="executive_officer" id="executive_officer" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select><br>
+                <label for="election_officer">Election Officer</label>
+                <select name="election_officer" id="election_officer" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select><br>
+                <label for="sfss_council_rep">SFSS Council Representative</label>
+                <select name="sfss_council_rep" id="sfss_council_rep" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select><br>
+                <label for="frosh_week_chair">Frosh Week Chair</label>
+                <select name="frosh_week_chair" id="frosh_week_chair" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select><br>
+                <label for="discord_manager">Discord Manager</label>
+                <select name="discord_manager" id="discord_manager" required size="2">
+                        <option value="True">True</option>
+                        <option value="False">False</option>
+                </select><br>
+                <label for="discord_role_name">Discord Role Name</label>
+                <input type="text" id="discord_role_name" name="discord_role_name" required><br>
 
                 <label for="number_of_terms">Number of Terms</label>
                 <select id="number_of_terms" name="number_of_terms" required>
@@ -111,6 +223,99 @@
         select_statement_elected_via_officer.appendChild(true_option);
         select_statement_elected_via_officer.appendChild(false_option);
         newOfficerPosition.appendChild(select_statement_elected_via_officer);
+
+
+
+       newOfficerPosition.innerHTML += "<label for=\"github\">GitHub Access</label>";
+
+        const select_statement_github_access = document.createElement('select');
+        select_statement_github_access.setAttribute("size", '2');
+        select_statement_github_access.setAttribute('name', 'github');
+        select_statement_github_access.setAttribute('id', 'github');
+        select_statement_github_access.setAttribute('required', '');
+
+        select_statement_github_access.appendChild(true_option);
+        select_statement_github_access.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_github_access);
+
+        newOfficerPosition.innerHTML += "<label for=\"google_drive\">Google Drive Access</label>";
+
+        const select_statement_google_drive_access = document.createElement('select');
+        select_statement_google_drive_access.setAttribute("size", '2');
+        select_statement_google_drive_access.setAttribute('name', 'google_drive');
+        select_statement_google_drive_access.setAttribute('id', 'google_drive');
+        select_statement_google_drive_access.setAttribute('required', '');
+
+        select_statement_google_drive_access.appendChild(true_option);
+        select_statement_google_drive_access.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_google_drive_access);
+
+
+        newOfficerPosition.innerHTML += "<label for=\"executive_officer\">Executive</label>";
+
+        const select_statement_executive_officer_bool = document.createElement('select');
+        select_statement_executive_officer_bool.setAttribute("size", '2');
+        select_statement_executive_officer_bool.setAttribute('name', 'executive_officer');
+        select_statement_executive_officer_bool.setAttribute('id', 'executive_officer');
+        select_statement_executive_officer_bool.setAttribute('required', '');
+
+        select_statement_executive_officer_bool.appendChild(true_option);
+        select_statement_executive_officer_bool.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_executive_officer_bool);
+
+        newOfficerPosition.innerHTML += "<label for=\"election_officer\">Election Officer</label>";
+
+        const select_statement_election_officer_bool = document.createElement('select');
+        select_statement_election_officer_bool.setAttribute("size", '2');
+        select_statement_election_officer_bool.setAttribute('name', 'election_officer');
+        select_statement_election_officer_bool.setAttribute('id', 'election_officer');
+        select_statement_election_officer_bool.setAttribute('required', '');
+
+        select_statement_election_officer_bool.appendChild(true_option);
+        select_statement_election_officer_bool.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_election_officer_bool);
+
+        newOfficerPosition.innerHTML += "<label for=\"sfss_council_rep\">SFSS Council Representative</label>";
+
+        const select_statement_sfss_council_rep_bool = document.createElement('select');
+        select_statement_sfss_council_rep_bool.setAttribute("size", '2');
+        select_statement_sfss_council_rep_bool.setAttribute('name', 'sfss_council_rep');
+        select_statement_sfss_council_rep_bool.setAttribute('id', 'sfss_council_rep');
+        select_statement_sfss_council_rep_bool.setAttribute('required', '');
+
+        select_statement_sfss_council_rep_bool.appendChild(true_option);
+        select_statement_sfss_council_rep_bool.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_sfss_council_rep_bool);
+
+        newOfficerPosition.innerHTML += "<label for=\"frosh_week_chair\">Frosh Week Chair</label>";
+
+        const select_statement_frosh_week_chair_bool = document.createElement('select');
+        select_statement_frosh_week_chair_bool.setAttribute("size", '2');
+        select_statement_frosh_week_chair_bool.setAttribute('name', 'frosh_week_chair');
+        select_statement_frosh_week_chair_bool.setAttribute('id', 'frosh_week_chair');
+        select_statement_frosh_week_chair_bool.setAttribute('required', '');
+
+        select_statement_frosh_week_chair_bool.appendChild(true_option);
+        select_statement_frosh_week_chair_bool.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_frosh_week_chair_bool);
+
+
+        newOfficerPosition.innerHTML += "<label for=\"discord_manager\">Discord Manager</label>";
+
+        const select_statement_discord_manager_bool = document.createElement('select');
+        select_statement_discord_manager_bool.setAttribute("size", '2');
+        select_statement_discord_manager_bool.setAttribute('name', 'discord_manager');
+        select_statement_discord_manager_bool.setAttribute('id', 'discord_manager');
+        select_statement_discord_manager_bool.setAttribute('required', '');
+
+        select_statement_discord_manager_bool.appendChild(true_option);
+        select_statement_discord_manager_bool.appendChild(false_option);
+        newOfficerPosition.appendChild(select_statement_discord_manager_bool);
+
+
+        newOfficerPosition.innerHTML += "<label for=\"discord_role_name\">Discord Role Name</label>";
+        newOfficerPosition.innerHTML += "<input type=\"text\" id=\"discord_role_name\" name=\"discord_role_name\" required><br>";
+
 
         newOfficerPosition.innerHTML += "<br><label for=\"number_of_terms\">Number of Terms</label>";
         const select_statement_number_of_terms = document.createElement('select');

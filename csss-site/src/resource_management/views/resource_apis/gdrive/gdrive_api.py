@@ -6,13 +6,11 @@ import time
 
 import googleapiclient
 from django.conf import settings
-
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
 from csss.Gmail import Gmail
-from resource_management.models import GoogleMailAccountCredentials
 
 logger = logging.getLogger('csss_site')
 
@@ -57,13 +55,20 @@ class GoogleDriveTokenCreator:
 
 class GoogleDrive:
 
-    def __init__(self, token_location, root_file_id):
+    def __init__(self, token_location=None, root_file_id=None):
         creds = None
         self.error_message = None
+        self.root_file_id = None
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
         self.connection_successful = False
+        if token_location is None:
+            token_location = settings.GDRIVE_TOKEN_LOCATION
+        if root_file_id is not None:
+            self.root_file_id = root_file_id
+        if self.root_file_id is None:
+            self.root_file_id = settings.GDRIVE_ROOT_FOLDER_ID
         try:
             if os.path.exists(token_location):
                 with open(token_location, 'rb') as token:
@@ -94,7 +99,6 @@ class GoogleDrive:
                     pickle.dump(creds, token)
 
         self.gdrive = build('drive', 'v3', credentials=creds)
-        self.root_file_id = root_file_id
         self.connection_successful = True
 
     def add_users_gdrive(self, users, file_id=None):
@@ -697,15 +701,9 @@ class GoogleDrive:
         files_to_email_owner_about -- a dictionary that contains a list of all the emails and their corresponding
             files that they need to be made aware of that have to have their ownership changed
         """
-        gmail_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")
-        if len(gmail_credentials) == 0:
-            logger.error("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
-                         "Could not find any credentials for the gmail "
-                         "sfucsss@gmail.com account in order to send notification email")
-        sfu_csss_credentials = gmail_credentials[0]
         logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
                     " to setup connection to gmail server")
-        gmail = Gmail(sfu_csss_credentials.username, sfu_csss_credentials.password)
+        gmail = Gmail()
         subject = "SFU CSSS Google Drive Folder ownership change"
         body_template = (
             "Please change owner of the following folders and forms to sfucsss@gmail.com.\n"

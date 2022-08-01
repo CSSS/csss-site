@@ -7,7 +7,7 @@ from django.conf import settings
 from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from csss.Gmail import Gmail
 from csss.settings import ENVIRONMENT, STATIC_ROOT
-from resource_management.models import GoogleMailAccountCredentials, NaughtyOfficer, \
+from resource_management.models import NaughtyOfficer, \
     OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
@@ -226,13 +226,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
         if body is not None:
             # only sending an email if the new officer got a body which only happens if the user was granted access
             # to any csss digital resources
-            gmail_credentials = GoogleMailAccountCredentials.objects.all().filter(username="sfucsss@gmail.com")
-            if len(gmail_credentials) == 0:
-                officer_obj.delete()
-                return False, ("Could not find any credentials for the gmail sfucsss@gmail.com account "
-                               "in order to send notification email")
-            sfu_csss_credentials = gmail_credentials[0]
-            gmail = Gmail(sfu_csss_credentials.username, sfu_csss_credentials.password)
+            gmail = Gmail()
             if not gmail.connection_successful:
                 return False, gmail.error_message
             success, error_message = gmail.send_email(
@@ -329,7 +323,7 @@ def _save_officer_github_membership(officer):
         logger.info(f"[about/officer_management_helper.py _save_officer_github_membership()] {error_message}")
         return False, error_message
 
-    github_api = GitHubAPI(settings.GITHUB_ACCESS_TOKEN)
+    github_api = GitHubAPI()
     if github_api.connection_successful is False:
         logger.info("[about/officer_management_helper.py _save_officer_github_membership()]"
                     f" {github_api.error_message}")
