@@ -50,5 +50,6 @@ class Command(BaseCommand):
         for officer in officers_to_change:
             officer.discord_id = discord_info_maps[officer.sfu_computing_id]['officers_discord_id']
             officer.discord_username = discord_info_maps[officer.sfu_computing_id]['discord_username']
-            officer.discord_nickname = discord_info_maps[officer.sfu_computing_id]['discord_nickname']
+            nickname = discord_info_maps[officer.sfu_computing_id]['discord_nickname']
+            officer.discord_nickname = nickname if nickname is not None else "NA"
         Officer.objects.bulk_update(officers_to_change, ['discord_id', 'discord_username', 'discord_nickname'])
