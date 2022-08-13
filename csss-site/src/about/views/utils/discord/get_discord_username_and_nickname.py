@@ -1,7 +1,12 @@
 import json
+import logging
+from time import sleep
 
 import requests
 from django.conf import settings
+logger = logging.getLogger('csss_site')
+
+from csss.settings import discord_header
 
 
 def get_discord_username_and_nickname(discord_id):
@@ -19,8 +24,18 @@ def get_discord_username_and_nickname(discord_id):
     """
     resp = requests.get(
         f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id}",
-        headers=settings.discord_header,
+        headers=discord_header,
     )
+    while resp.status_code == 429:
+        logger.info(
+            "[about/get_discord_username_and_nickname.py()] going to bed before asking again since "
+            f"I got the error of {resp.reason} with status_code of {resp.status_code}"
+        )
+        sleep(10)
+        resp = requests.get(
+            f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id}",
+            headers=discord_header,
+        )
     if resp.status_code != 200:
         return False, f"Encountered error message of '{resp.reason}'", None, None
     user_info = json.loads(resp.text)

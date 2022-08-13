@@ -1,7 +1,12 @@
+import logging
+from time import sleep
+
 from django.core.management import BaseCommand
 
 from about.models import Officer
 from about.views.utils.discord.get_discord_username_and_nickname import get_discord_username_and_nickname
+
+logger = logging.getLogger('csss_site')
 
 
 class Command(BaseCommand):
@@ -15,16 +20,20 @@ class Command(BaseCommand):
             success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(
                 officers_discord_id
             )
+            officer = officers.filter(discord_id=officers_discord_id).first()
             if success:
-                officer = officers.filter(discord_id=officers_discord_id).first()
-                if officer.discord_nickname != discord_nickname or officer.discord_username != discord_username:
-                    discord_info_maps[officers_discord_id] = {
-                        'discord_username': discord_username,
-                        'discord_nickname': discord_nickname
-                    }
+                logger.info(f"[about/update_discord_details.py()] the nickname or username for {officer.full_name} was update since last time")
+                discord_info_maps[officer.sfu_computing_id] = {
+                    'officers_discord_id': officers_discord_id,
+                    'discord_username': discord_username,
+                    'discord_nickname': discord_nickname
+                }
+            else:
+                logger.info(f"[about/update_discord_details.py()] unable to get the discord username and nickname for {officer.full_name}")
         officers_to_change = officers.filter(discord_id__in=discord_info_maps.keys())
 
         for officer in officers_to_change:
+            officer.discord_id = discord_info_maps[officer.sfu_computing_id]['officers_discord_id']
             officer.discord_username = discord_info_maps[officer.discord_id]['discord_username']
             officer.discord_nickname = discord_info_maps[officer.discord_id]['discord_nickname']
-        Officer.objects.bulk_update(officers_to_change, ['discord_username', 'discord_nickname'])
+        Officer.objects.bulk_update(officers_to_change, ['discord_id', 'discord_username', 'discord_nickname'])
