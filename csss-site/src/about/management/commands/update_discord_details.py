@@ -13,7 +13,8 @@ class Command(BaseCommand):
     help = "get the latest discord name and nicknames for the officers"
 
     def handle(self, *args, **options):
-        officers = Officer.objects.all().exclude(discord_id="NA")
+        all_officers = Officer.objects.all()
+        officers = all_officers.exclude(discord_id="NA")
         officers_discord_ids = list(set(list(officers.values_list('discord_id', flat=True))))
         discord_info_maps = {}
         max_retries = 5
@@ -44,7 +45,7 @@ class Command(BaseCommand):
                     f"[about/update_discord_details.py()] unable to get the discord username and nickname for "
                     f"{officer.full_name} due to error {error_message}"
                 )
-        officers_to_change = officers.filter(sfu_computing_id__in=list(discord_info_maps.keys()))
+        officers_to_change = all_officers.filter(sfu_computing_id__in=list(discord_info_maps.keys()))
 
         for officer in officers_to_change:
             officer.discord_id = discord_info_maps[officer.sfu_computing_id]['officers_discord_id']
