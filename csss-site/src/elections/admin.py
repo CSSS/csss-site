@@ -21,7 +21,7 @@ admin.site.register(Election, ElectionAdmin)
 class NomineeLinkAdmin(admin.ModelAdmin):
     list_display = (
         'id',
-        'name',
+        'full_name',
         'election',
         'nominee'
     )
@@ -34,7 +34,7 @@ class NomineeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'election',
-        'name',
+        'full_name',
         'facebook',
         'linkedin',
         'email',

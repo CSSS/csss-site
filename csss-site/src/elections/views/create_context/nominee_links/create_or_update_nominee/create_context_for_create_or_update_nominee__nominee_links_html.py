@@ -43,7 +43,7 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
         context[ELECTION_HUMAN_FRIENDLY_NAME__HTML_NAME] = nominee_link.election.human_friendly_name
         nominee_obj = nominee_link.nominee
         if nominee_obj is not None:
-            context[NOMINEE__NAME__HTML_NAME] = nominee_obj.name
+            context[NOMINEE__NAME__HTML_NAME] = nominee_obj.full_name
 
     create_context_for_form__nominee_links_html(context)
     create_context_for_main_function__nominee_links_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)

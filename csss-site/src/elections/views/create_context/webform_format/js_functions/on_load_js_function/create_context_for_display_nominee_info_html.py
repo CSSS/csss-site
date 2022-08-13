@@ -64,15 +64,15 @@ def create_context_for_display_nominee_info_html(
                 )
             elif get_existing_election_webform:
                 # GET /elections/<slug>/election_modification_webform/
-                if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS not in nominee_info_to_add_to_context[nominee_obj.name]:  # noqa: E501
-                    nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
+                if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS not in nominee_info_to_add_to_context[nominee_obj.full_name]:  # noqa: E501
+                    nominee_info_to_add_to_context[nominee_obj.full_name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
                 speech_objs = NomineeSpeech.objects.all().filter(
                     nominee=nominee_obj
                 ).order_by('nomineeposition__position_index')
                 for speech_obj in speech_objs:
                     create_context_for_position_names_and_speech_pairing_html(
                         context, nominee_info_to_add_to_context=nominee_info_to_add_to_context,
-                        speech_obj=speech_obj, nominee_name=nominee_obj.name,
+                        speech_obj=speech_obj, nominee_name=nominee_obj.full_name,
                         new_election_or_nominee=new_webform_election, speech_ids=speech_ids,
                         populate_nominee_info=populate_nominee_info
                     )
@@ -85,7 +85,7 @@ def create_context_for_display_nominee_info_html(
                 )
             elif nominee_obj is not None:
                 # GET /elections/create_or_update_via_nominee_links/?nominee_link_id=2
-                nominee_info_to_add_to_context[nominee_obj.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
+                nominee_info_to_add_to_context[nominee_obj.full_name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []  # noqa: E501
                 speech_objs = NomineeSpeech.objects.all().filter(
                     nominee=nominee_obj
                 ).order_by('nomineeposition__position_index')
@@ -93,6 +93,6 @@ def create_context_for_display_nominee_info_html(
                 for speech_obj in speech_objs:
                     create_context_for_position_names_and_speech_pairing_html(
                         context, nominee_info_to_add_to_context=nominee_info_to_add_to_context, speech_obj=speech_obj,
-                        populate_nominee_info=True, nominee_name=nominee_obj.name, new_election_or_nominee=False,
+                        populate_nominee_info=True, nominee_name=nominee_obj.full_name, new_election_or_nominee=False,
                         speech_ids=speech_ids
                     )

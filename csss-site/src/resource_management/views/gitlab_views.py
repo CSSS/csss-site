@@ -13,7 +13,7 @@ def create_gitlab_perms():
     Return
     officer -- Example < sfuid1, sfuid2, sfuid3, sfuid3 >
     """
-    sfuids = [officer.sfuid.lower() for officer in get_list_of_officer_details_from_past_specified_terms()]
+    sfuids = [officer.sfu_computing_id.lower() for officer in get_list_of_officer_details_from_past_specified_terms()]
     gitlab_perms = []
     for item in sfuids:
         if item not in gitlab_perms:

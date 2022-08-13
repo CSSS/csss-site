@@ -19,9 +19,9 @@
 				<option value="{{no_nominee_linked__html_name}}">No Nominee Linked</option>
 				{% for nominee in current_election.nominee_set.all %}
 					{% if draft_nominee_link.saved_nominee_link__nominee == nominee.id|stringformat:"i" %}
-						<option selected value="{{ nominee.id }}">{{ nominee.name }}</option>
+						<option selected value="{{ nominee.id }}">{{ nominee.full_name }}</option>
 					{%  else %}
-						<option value="{{ nominee.id }}">{{ nominee.name }}</option>
+						<option value="{{ nominee.id }}">{{ nominee.full_name }}</option>
 					{%  endif %}
 				{%  endfor %}
 
