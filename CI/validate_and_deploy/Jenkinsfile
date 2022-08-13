@@ -60,6 +60,7 @@ pipeline {
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                             export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
                             export DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
+                            export GUILD_ID="'"228761314644852736"'";
 
                             export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
 
@@ -105,6 +106,7 @@ pipeline {
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
                         export DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
+                        export GUILD_ID="'"228761314644852736"'";
 
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
