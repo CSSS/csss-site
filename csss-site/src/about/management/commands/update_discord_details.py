@@ -1,5 +1,4 @@
 import logging
-from time import sleep
 
 from django.core.management import BaseCommand
 
@@ -22,14 +21,20 @@ class Command(BaseCommand):
             )
             officer = officers.filter(discord_id=officers_discord_id).first()
             if success:
-                logger.info(f"[about/update_discord_details.py()] the nickname or username for {officer.full_name} was update since last time")
+                logger.info(
+                    f"[about/update_discord_details.py()] the nickname or username for {officer.full_name} "
+                    f"was update since last time"
+                )
                 discord_info_maps[officer.sfu_computing_id] = {
                     'officers_discord_id': officers_discord_id,
                     'discord_username': discord_username,
                     'discord_nickname': discord_nickname
                 }
             else:
-                logger.info(f"[about/update_discord_details.py()] unable to get the discord username and nickname for {officer.full_name}")
+                logger.info(
+                    f"[about/update_discord_details.py()] unable to get the discord username and nickname for "
+                    f"{officer.full_name}"
+                )
         officers_to_change = officers.filter(discord_id__in=discord_info_maps.keys())
 
         for officer in officers_to_change:
