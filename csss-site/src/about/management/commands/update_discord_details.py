@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from django.core.management import BaseCommand
 
@@ -22,6 +23,7 @@ class Command(BaseCommand):
             )
             retries = 0
             while not success and retries < max_retries:
+                sleep(10)
                 success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(
                     officers_discord_id
                 )
