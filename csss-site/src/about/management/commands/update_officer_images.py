@@ -45,7 +45,7 @@ def _fix_image_for_officer(officer):
     Keyword Argument
     officer -- officer whose image needs to be changed
     """
-    officer.image = get_officer_image_path(officer.elected_term, officer.name)
+    officer.image = get_officer_image_path(officer.elected_term, officer.full_name)
     logger.info("[about/update_officer_images.py fix_image_for_officer()] "
                 f"officer_image_path = {officer.image}")
     officer.save()

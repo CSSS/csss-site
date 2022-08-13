@@ -48,7 +48,7 @@ class Election(models.Model):
 class Nominee(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=140)
+    full_name = models.CharField(max_length=140)
 
     facebook = models.CharField(
         _(u'Facebook Link'),
@@ -68,7 +68,7 @@ class Nominee(models.Model):
     )
 
     def __str__(self):
-        return f"Nominee {self.name} for Election {self.election}"
+        return f"Nominee {self.full_name} for Election {self.election}"
 
 
 class NomineeLink(models.Model):
@@ -76,7 +76,7 @@ class NomineeLink(models.Model):
 
     nominee = models.ForeignKey(Nominee, null=True, on_delete=models.SET_NULL)
 
-    name = models.CharField(max_length=140)
+    full_name = models.CharField(max_length=140)
 
     passphrase = models.CharField(
         max_length=300,
@@ -95,7 +95,7 @@ class NomineeLink(models.Model):
         return f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={self.passphrase}"
 
     def __str__(self):
-        return f"passphrase for nominee {self.name} for election {self.election}"
+        return f"passphrase for nominee {self.full_name} for election {self.election}"
 
 
 class NomineeSpeech(models.Model):
@@ -151,7 +151,7 @@ class NomineeSpeech(models.Model):
         return ", ".join([position.position_name for position in self.nomineeposition_set.all()])
 
     def __str__(self):
-        return f"speech for Nominee {self.nominee.name} for Election {self.nominee.election}"
+        return f"speech for Nominee {self.nominee.full_name} for Election {self.nominee.election}"
 
 
 class NomineePosition(models.Model):
@@ -167,5 +167,5 @@ class NomineePosition(models.Model):
     )
 
     def __str__(self):
-        return f"Nominee {self.nominee_speech.nominee.name} for Position {self.position_name} " \
+        return f"Nominee {self.nominee_speech.nominee.full_name} for Position {self.position_name} " \
                f"for Election {self.nominee_speech.nominee.election}"

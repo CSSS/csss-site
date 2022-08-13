@@ -36,7 +36,9 @@ def get_list_of_officer_details_from_past_specified_terms(
         f" filter_by_github: {filter_by_github}, filter_by_sfuid: {filter_by_sfuid}"
     )
     if naughty_officers is None:
-        naughty_officers = [naughty_officer.sfuid.strip() for naughty_officer in NaughtyOfficer.objects.all()]
+        naughty_officers = [
+            naughty_officer.sfu_computing_id.strip() for naughty_officer in NaughtyOfficer.objects.all()
+        ]
     if all_officers_in_relevant_terms is None:
         all_officers_in_relevant_terms = Officer.objects.all().filter(
             elected_term__in=Term.objects.all().filter(
@@ -68,7 +70,7 @@ def _validate__officer(officer, position_names, naughty_officers):
     Return
     Bool -- True if the officer validates the contraints
     """
-    return (officer.sfuid not in naughty_officers) and \
+    return (officer.sfu_computing_id not in naughty_officers) and \
            ((position_names is not None and officer.position_name in position_names) or position_names is None)
 
 
@@ -87,7 +89,7 @@ def _extract_specified_info(officer, filter_by_github, filter_by_sfuid):
     if filter_by_github:
         return officer.github_username
     elif filter_by_sfuid:
-        return officer.sfuid
+        return officer.sfu_computing_id
     else:
         return officer
 

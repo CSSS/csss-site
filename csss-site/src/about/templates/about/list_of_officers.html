@@ -59,10 +59,10 @@
 									{%  if prev_position != officer.position_name or officer_in_past_5_terms is True or root_user is True  %}
 										{% if officer.elected_term == term %}
 											<div class="col-md-4">
-												<img class="officer-photos" src="{% static officer.image %}" alt ="{{ officer.name }} photo for term {{term_active}}">
+												<img class="officer-photos" src="{% static officer.image %}" alt ="{{ officer.full_name }} photo for term {{term_active}}">
 											</div>
 											<div class="col-md-6">
-												<p class="lead">{{officer.position_name}} - <b>{{officer.name}}</b></p>
+												<p class="lead">{{officer.position_name}} - <b>{{officer.full_name}}</b></p>
 												<p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
 												{% if officer_in_past_5_terms or root_user %}
 													<p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
@@ -71,7 +71,11 @@
 												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
 												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
 												{% if term_active == term.term_number %}
-													<p class="lead">Contact - <a href="mailto:{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
+													<p class="lead">
+                                                        Contact -
+                                                        SFU Email: <a href="mailto:{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br>
+                                                        Discord Username: {{officer.discord_username}} | Discord Nickname: {{officer.discord_nickname}} <br>
+                                                    </p>
 												{% endif %}
 												<div class="lead"><p>Bio -</p>
 													<div class="csss_markdown">

@@ -27,5 +27,5 @@ def save_new_election_and_nominee_links(election_dict):
         passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
         while len(NomineeLink.objects.all().filter(passphrase=passphrase)) > 0:
             passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-        NomineeLink(election=election, name=nominee_link, passphrase=passphrase).save()
+        NomineeLink(election=election, full_name=nominee_link, passphrase=passphrase).save()
     return election

@@ -110,6 +110,8 @@ GITHUB_ACCESS_TOKEN = None
 GITLAB_PRIVATE_TOKEN = None
 SFU_CSSS_GMAIL_USERNAME = None
 SFU_CSSS_GMAIL_PASSWORD = None
+DISCORD_BOT_TOKEN = None
+GUILD_ID = None
 
 if ENVIRONMENT == "LOCALHOST":
     if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
@@ -124,6 +126,10 @@ if ENVIRONMENT == "LOCALHOST":
         SFU_CSSS_GMAIL_USERNAME = os.environ['SFU_CSSS_GMAIL_USERNAME']
     if 'SFU_CSSS_GMAIL_PASSWORD' in os.environ:
         SFU_CSSS_GMAIL_PASSWORD = os.environ['SFU_CSSS_GMAIL_PASSWORD']
+    if 'DISCORD_BOT_TOKEN' in os.environ:
+        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
+    if 'GUILD_ID' in os.environ:
+        GUILD_ID = os.environ['GUILD_ID']
 
 elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
@@ -156,13 +162,25 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
         exit(1)
     else:
         SFU_CSSS_GMAIL_PASSWORD = os.environ['SFU_CSSS_GMAIL_PASSWORD']
+    if "DISCORD_BOT_TOKEN" not in os.environ:
+        logger.error(f"[settings.py] DISCORD_BOT_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
+        exit(1)
+    else:
+        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
+    if "GUILD_ID" not in os.environ:
+        logger.error(f"[settings.py] GUILD_ID it not detected in ENVIRONMENT {ENVIRONMENT}")
+        exit(1)
+    else:
+        GUILD_ID = os.environ['GUILD_ID']
 
 logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
 logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
 logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
 logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={GITLAB_PRIVATE_TOKEN}")
-logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={SFU_CSSS_GMAIL_USERNAME}")
-logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={SFU_CSSS_GMAIL_PASSWORD}")
+logger.info(f"[settings.py] SFU_CSSS_GMAIL_USERNAME={SFU_CSSS_GMAIL_USERNAME}")
+logger.info(f"[settings.py] SFU_CSSS_GMAIL_PASSWORD={SFU_CSSS_GMAIL_PASSWORD}")
+logger.info(f"[settings.py] DISCORD_BOT_TOKEN={DISCORD_BOT_TOKEN}")
+logger.info(f"[settings.py] GUILD_ID={GUILD_ID}")
 
 if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
     logger.error("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
@@ -188,7 +206,20 @@ if SFU_CSSS_GMAIL_PASSWORD is not None and not SFU_CSSS_GMAIL_PASSWORD != "":
     logger.error("[settings.py] empty value for SFU_CSSS_GMAIL_PASSWORD")
     exit(1)
 
+if DISCORD_BOT_TOKEN is not None and not DISCORD_BOT_TOKEN != "":
+    logger.error("[settings.py] empty value for DISCORD_BOT_TOKEN")
+    exit(1)
+
+if GUILD_ID is not None and not GUILD_ID != "":
+    logger.error("[settings.py] empty value for GUILD_ID")
+    exit(1)
+
 # Application definition
+
+discord_header = {
+    "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
+    'Content-Type': 'application/json'
+}
 
 INSTALLED_APPS = [
     'csss',
