@@ -19,7 +19,7 @@ def validate_existing_nominee__nominee_link(election_id, nominee_link_id, nomine
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    nominee_names_so_far = [nominee.name for nominee in Nominee.objects.all().filter(
+    nominee_names_so_far = [nominee.full_name for nominee in Nominee.objects.all().filter(
         election_id=election_id).exclude(nomineelink__id=nominee_link_id)
                             ]
     speech_ids_so_far = []

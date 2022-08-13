@@ -120,9 +120,9 @@ def _get_sfuids_for_specified_position_in_specified_terms(
     the list of SFUIDs or the sole applicable SFUID based on the parameters
     """
     if naughty_officers is None:
-        naughty_officers = [naughty_officer.sfuid.strip() for naughty_officer in NaughtyOfficer.objects.all()]
+        naughty_officers = [naughty_officer.sfu_computing_id.strip() for naughty_officer in NaughtyOfficer.objects.all()]
     else:
-        naughty_officers = [naughty_officer.sfuid.strip() for naughty_officer in naughty_officers]
+        naughty_officers = [naughty_officer.sfu_computing_id.strip() for naughty_officer in naughty_officers]
     if officers is None:
         all_officers_in_past_term = Officer.objects.all().filter(
             elected_term__in=Term.objects.all().filter(term_number__in=get_relevant_terms(relevant_previous_terms))

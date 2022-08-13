@@ -103,7 +103,7 @@ def save_new_term(year, term_season):
     return term_obj
 
 
-def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu_email_alias,
+def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_computing_id, sfu_email_alias,
                                              announcement_emails, github_username, gmail, start_date, fav_course_1,
                                              fav_course_2, fav_language_1, fav_language_2, bio, position_name,
                                              position_index, term_obj, sfu_officer_mailing_list_email,
@@ -118,7 +118,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
     Keyword Argument
     phone_number -- officer's phone number
     full_name -- the officer's full name
-    sfuid -- the officer's SFUID
+    sfu_computing_id -- the officer's SFUID
     sfu_email_alias -- the officer's sfu email alias
     announcement_emails -- all the emails that the officer may use for sending out SFU CSSS emails to the students
     github_username -- the officer's github username
@@ -155,7 +155,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
         start_date = datetime.datetime.strptime(start_date, "%A, %d %b %Y %I:%m %S %p")
 
     officer_obj = Officer(position_name=position_name, position_index=position_index, name=full_name,
-                          sfuid=sfuid, sfu_email_alias=sfu_email_alias, phone_number=phone_number,
+                          sfu_computing_id=sfu_computing_id, sfu_email_alias=sfu_email_alias, phone_number=phone_number,
                           github_username=github_username, gmail=gmail, course1=fav_course_1,
                           course2=fav_course_2, language1=fav_language_1, language2=fav_language_2, bio=bio,
                           image=pic_path, elected_term=term_obj,
@@ -186,7 +186,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
                 "[about/officer_management_helper.py save_officer_and_grant_digital_resources()] "
                 f"giving user {officer_obj} access to SFU CSSS Gitlab"
             )
-            success, error_message = gitlab_api.add_officer_to_csss_group([sfuid])
+            success, error_message = gitlab_api.add_officer_to_csss_group([sfu_computing_id])
             if not success:
                 officer_obj.delete()
                 return success, error_message
@@ -230,7 +230,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
             if not gmail.connection_successful:
                 return False, gmail.error_message
             success, error_message = gmail.send_email(
-                subject, body, f"{sfuid}@sfu.ca", full_name, "SFU CSSS Website"
+                subject, body, f"{sfu_computing_id}@sfu.ca", full_name, "SFU CSSS Website"
             )
             if not success:
                 return False, error_message
@@ -239,7 +239,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfuid, sfu
                 officer_obj.delete()
                 return success, error_message
     if remove_from_naughty_list:
-        _remove_officer_from_naughty_list(sfuid)
+        _remove_officer_from_naughty_list(sfu_computing_id)
     return True, None
 
 
@@ -350,25 +350,25 @@ def _save_officer_github_membership(officer):
     return True, None
 
 
-def _remove_officer_from_naughty_list(sfuid):
+def _remove_officer_from_naughty_list(sfu_computing_id):
     """
     Removes the office form the naughty list so that their permissions remain
     even after a validation
 
     Keyword Argument
-    sfuid -- the sfuid of the officer
+    sfu_computing_id -- the sfu_computing_id of the officer
     """
-    logger.info(f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] sfuid: [{sfuid}]")
+    logger.info(f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] sfu_computing_id: [{sfu_computing_id}]")
     naughty_officers = NaughtyOfficer.objects.all()
     for naughty_officer in naughty_officers:
         logger.info(
-            "[about/officer_management_helper.py _remove_officer_from_naughty_list()] will compare sfuid"
-            f" [{sfuid}] with naughty_officer.sfuid [{naughty_officer.sfuid}]"
+            "[about/officer_management_helper.py _remove_officer_from_naughty_list()] will compare sfu_computing_id"
+            f" [{sfu_computing_id}] with naughty_officer.sfu_computing_id [{naughty_officer.sfu_computing_id}]"
         )
-        if naughty_officer.sfuid == sfuid:
+        if naughty_officer.sfu_computing_id == sfu_computing_id:
             logger.info(
                 f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] deleting "
-                f"naughty_officer {naughty_officer.sfuid}"
+                f"naughty_officer {naughty_officer.sfu_computing_id}"
             )
             naughty_officer.delete()
             return

@@ -55,7 +55,7 @@ HTML_OFFICER_EMAIL_CONTACT_KEY = 'sfu_email_list_address'
 HTML_VALUE_ATTRIBUTE_FOR_NAME = 'name_value'
 HTML_NAME_KEY = 'name'
 HTML_VALUE_ATTRIBUTE_FOR_SFUID = 'sfuid_value'
-HTML_SFUID_KEY = 'sfuid'
+HTML_SFUID_KEY = 'sfu_computing_id'
 HTML_VALUE_ATTRIBUTE_FOR_SFUID_EMAIL_ALIAS = 'sfuid_email_alias_value'
 HTML_SFUID_EMAIL_ALIAS_KEY = 'sfuid_email_alias'
 HTML_VALUE_ATTRIBUTE_FOR_EMAIL = 'email_value'
@@ -407,8 +407,8 @@ def display_page_for_officers_to_input_their_info(request):
         context[HTML_VALUE_ATTRIBUTE_FOR_DATE] = determine_new_start_date_for_officer(
             new_officer_details, officer
         )
-        context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.name
-        context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfuid
+        context[HTML_VALUE_ATTRIBUTE_FOR_NAME] = "" if officer is None else officer.full_name
+        context[HTML_VALUE_ATTRIBUTE_FOR_SFUID] = "" if officer is None else officer.sfu_computing_id
         context[HTML_VALUE_ATTRIBUTE_FOR_SFUID_EMAIL_ALIAS] = "" if officer is None else officer.sfu_email_alias
         context[HTML_VALUE_ATTRIBUTE_FOR_EMAIL] = ", ".join(
             [email.email for email in AnnouncementEmailAddress.objects.filter(officer=officer)]
@@ -509,13 +509,13 @@ def determine_new_start_date_for_officer(process_new_officer, officer):
     if process_new_officer.use_new_start_date or officer is None:
         return process_new_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
-    officer_name = officer.name
+    officer_name = officer.full_name
     position_name = process_new_officer.position_name
     current_term_number = get_current_term_number()
     logger.info(
         "[about/officer_creation_link_management.py "
         "determine_new_start_date_for_officer()] name of officer to find start date for ="
-        f"{officer.name}"
+        f"{officer.full_name}"
     )
     logger.info(
         "[about/officer_creation_link_management.py "
@@ -593,14 +593,14 @@ def determine_new_start_date_for_officer(process_new_officer, officer):
     return past_bio_for_officer.start_date.strftime("%A, %d %b %Y %I:%m %S %p")
 
 
-def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None):
+def validate_sfuid_and_github(gitlab_api=None, sfu_computing_id=None, github_username=None):
     """
-    Verify that the given sfuid has access to gitlab, the given github_username exists and
+    Verify that the given sfu_computing_id has access to gitlab, the given github_username exists and
      is in the SFU CSSS Github org
 
     Keyword Argument
     gitlab -- the gitlab api
-    sfuid -- the sfuid to validate
+    sfu_computing_id -- the sfu_computing_id to validate
     github_username -- the github username to validate
 
     Return
@@ -608,13 +608,13 @@ def validate_sfuid_and_github(gitlab_api=None, sfuid=None, github_username=None)
     """
     error_messages = []
     if gitlab_api is not None:
-        if sfuid is None:
+        if sfu_computing_id is None:
             error_messages.append("No SFU ID is provided")
             logger.info(
                 f"[about/officer_creation_link_management.py validate_sfuid_and_github()] {error_messages}"
             )
         else:
-            success, error_message = gitlab_api.validate_username(sfuid)
+            success, error_message = gitlab_api.validate_username(sfu_computing_id)
             if not success:
                 error_messages.append(error_message)
     if github_username is not None:
@@ -680,7 +680,7 @@ def process_information_entered_by_officer(request):
             0 if request.POST[HTML_TERM_POSITION_NUMBER_KEY] == '' \
             else int(request.POST[HTML_TERM_POSITION_NUMBER_KEY])
         full_name = request.POST[HTML_NAME_KEY].strip()
-        sfuid = request.POST[HTML_SFUID_KEY].strip()
+        sfu_computing_id = request.POST[HTML_SFUID_KEY].strip()
         sfu_email_alias = request.POST[HTML_SFUID_EMAIL_ALIAS_KEY].strip()
         start_date = request.POST[HTML_DATE_KEY].strip()
         github_username = request.POST[HTML_GITHUB_USERNAME_KEY].strip() \
@@ -720,7 +720,7 @@ def process_information_entered_by_officer(request):
                     new_officer_details.passphrase,
                     error_message=gitlab_api.error_message
                 )
-            error_messages = validate_sfuid_and_github(gitlab_api=gitlab_api, sfuid=sfuid,
+            error_messages = validate_sfuid_and_github(gitlab_api=gitlab_api, sfu_computing_id=sfu_computing_id,
                                                        github_username=github_username)
             if len(error_messages) > 0:
                 return redirect_back_to_input_page_with_error_message(
@@ -731,7 +731,7 @@ def process_information_entered_by_officer(request):
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
-                sfuid, sfu_email_alias,
+                sfu_computing_id, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
                 start_date, course1, course2,
@@ -754,7 +754,7 @@ def process_information_entered_by_officer(request):
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
-                sfuid, sfu_email_alias,
+                sfu_computing_id, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
                 start_date, course1, course2,
@@ -768,7 +768,7 @@ def process_information_entered_by_officer(request):
             success, error_message = save_officer_and_grant_digital_resources(
                 phone_number,
                 full_name,
-                sfuid, sfu_email_alias,
+                sfu_computing_id, sfu_email_alias,
                 announcement_email,
                 github_username, gmail,
                 start_date, course1, course2,

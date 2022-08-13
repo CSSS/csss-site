@@ -40,8 +40,8 @@ def create_context_for_main_function__nominee_links_html(context, nominee_info=N
             context[DRAFT_NOMINEE_HTML__NAME] = nominee_info_to_add_to_context
         elif nominee_obj is not None:
             nominee_info_to_add_to_context = {
-                nominee_obj.name: {
-                    ELECTION_JSON_KEY__NOM_NAME: nominee_obj.name,
+                nominee_obj.full_name: {
+                    ELECTION_JSON_KEY__NOM_NAME: nominee_obj.full_name,
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
                     ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,
@@ -55,7 +55,7 @@ def create_context_for_main_function__nominee_links_html(context, nominee_info=N
                 nominee_info=nominee_info, nominee_obj=nominee_obj,
                 populate_nominee_info=True
             )
-            context[DRAFT_NOMINEE_HTML__NAME] = nominee_info_to_add_to_context[nominee_obj.name]
+            context[DRAFT_NOMINEE_HTML__NAME] = nominee_info_to_add_to_context[nominee_obj.full_name]
     else:
         create_context_for_display_nominee_info_html(
             context, draft_or_finalized_nominee_to_display=False
