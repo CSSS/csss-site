@@ -39,7 +39,8 @@ pipeline {
                         string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
-                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD')
+                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
+                        string(credentialsId: 'CSSS_DISCORD_BOT_TOKEN', variable: 'CSSS_DISCORD_BOT_TOKEN')
                     ]
                 ) {
                       timeout(5) {
@@ -58,6 +59,7 @@ pipeline {
                             export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                             export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
+                            export CSSS_DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
 
                             export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
 
@@ -84,7 +86,8 @@ pipeline {
                         string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
-                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD')
+                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
+                        string(credentialsId: 'CSSS_DISCORD_BOT_TOKEN', variable: 'CSSS_DISCORD_BOT_TOKEN')
                     ]
                 ) {
                     sh label: '', script: """bash -c \'
@@ -101,6 +104,7 @@ pipeline {
                         export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
+                        export CSSS_DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
 
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
