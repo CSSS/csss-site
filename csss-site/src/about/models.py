@@ -40,8 +40,8 @@ class Officer(models.Model):
                 elected_term__term_number=self.elected_term.term_number,
                 start_date=self.start_date).exclude(id=self.id).exists():
             raise ValidationError(
-                f"There is already an officer saved for term {self.elected_term.term_number} for officer {self.full_name} "
-                f"and position name {self.position_name} under start_date {self.start_date}"
+                f"There is already an officer saved for term {self.elected_term.term_number} for officer "
+                f"{self.full_name} and position name {self.position_name} under start_date {self.start_date}"
             )
 
     def save(self, *args, **kwargs):

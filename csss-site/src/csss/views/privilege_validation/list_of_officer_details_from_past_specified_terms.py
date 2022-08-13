@@ -36,7 +36,9 @@ def get_list_of_officer_details_from_past_specified_terms(
         f" filter_by_github: {filter_by_github}, filter_by_sfuid: {filter_by_sfuid}"
     )
     if naughty_officers is None:
-        naughty_officers = [naughty_officer.sfu_computing_id.strip() for naughty_officer in NaughtyOfficer.objects.all()]
+        naughty_officers = [
+            naughty_officer.sfu_computing_id.strip() for naughty_officer in NaughtyOfficer.objects.all()
+        ]
     if all_officers_in_relevant_terms is None:
         all_officers_in_relevant_terms = Officer.objects.all().filter(
             elected_term__in=Term.objects.all().filter(
