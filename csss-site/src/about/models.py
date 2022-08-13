@@ -36,7 +36,7 @@ class Officer(models.Model):
 
     def validate_unique(self, exclude=None):
         if Officer.objects.filter(
-                position_name=self.position_name, name=self.full_name,
+                position_name=self.position_name, full_name=self.full_name,
                 elected_term__term_number=self.elected_term.term_number,
                 start_date=self.start_date).exclude(id=self.id).exists():
             raise ValidationError(
