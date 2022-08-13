@@ -126,7 +126,7 @@ if ENVIRONMENT == "LOCALHOST":
     if 'SFU_CSSS_GMAIL_PASSWORD' in os.environ:
         SFU_CSSS_GMAIL_PASSWORD = os.environ['SFU_CSSS_GMAIL_PASSWORD']
     if 'DISCORD_BOT_TOKEN' in os.environ:
-            DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
+        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
 
 elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
