@@ -67,8 +67,10 @@
 												{% if officer_in_past_5_terms or root_user %}
 													<p class="lead">SFUID - <b>{{ officer.sfu_computing_id }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
 													<p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
-                                                    <p class="lead">Discord Username: {{officer.discord_username}}<</p>
-                                                    <p class="lead">Discord Nickname: {{officer.discord_nickname}}</p>
+												{%  endif %}
+												{% if officer_in_past_5_terms or root_user or term_active == term.term_number  %}
+													<p class="lead">Discord Nickname: {{officer.discord_nickname}}</p>
+													<p class="lead">Discord Username: {{officer.discord_username}}</p>
 												{%  endif %}
 												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
 												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
