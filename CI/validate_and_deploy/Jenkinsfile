@@ -59,7 +59,7 @@ pipeline {
                             export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                             export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
-                            export CSSS_DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
+                            export DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
 
                             export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
 
@@ -104,7 +104,7 @@ pipeline {
                         export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
-                        export CSSS_DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
+                        export DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
 
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
