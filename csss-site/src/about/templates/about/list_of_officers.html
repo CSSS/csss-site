@@ -65,16 +65,17 @@
 												<p class="lead">{{officer.position_name}} - <b>{{officer.full_name}}</b></p>
 												<p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
 												{% if officer_in_past_5_terms or root_user %}
-													<p class="lead">SFUID - <b>{{ officer.sfuid }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
+													<p class="lead">SFUID - <b>{{ officer.sfu_computing_id }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
 													<p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
 												{%  endif %}
 												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
 												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
 												{% if term_active == term.term_number %}
 													<p class="lead">
-                                                        Contact - <br>
+                                                        Contact -<br>
                                                         SFU Email: <a href="mailto:{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br>
-                                                        Discord Username: {{officer.discord_username}} | Discord Nickname: {{officer.discord_nickname}} <br>
+                                                        Discord Username: {{officer.discord_username}}<br>
+                                                        Discord Nickname: {{officer.discord_nickname}} <br>
                                                     </p>
 												{% endif %}
 												<div class="lead"><p>Bio -</p>

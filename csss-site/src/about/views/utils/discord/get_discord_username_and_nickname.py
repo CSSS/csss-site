@@ -37,6 +37,6 @@ def get_discord_username_and_nickname(discord_id):
             headers=discord_header,
         )
     if resp.status_code != 200:
-        return False, f"Encountered error message of '{resp.reason}'", None, None
+        return False, f"Encountered error message of '{resp.reason}' with status code {resp.status_code}", None, None
     user_info = json.loads(resp.text)
     return True, None, user_info['user']['username'], user_info['nick']
