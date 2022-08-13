@@ -155,11 +155,11 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
         start_date = datetime.datetime.strptime(start_date, "%A, %d %b %Y %I:%m %S %p")
 
     officer_obj = Officer(
-        position_name=position_name, position_index=position_index, full_name=full_name, sfu_computing_id=sfu_computing_id,
-        sfu_email_alias=sfu_email_alias, phone_number=phone_number, github_username=github_username, gmail=gmail,
-        course1=fav_course_1, course2=fav_course_2, language1=fav_language_1, language2=fav_language_2, bio=bio,
-        image=pic_path, elected_term=term_obj, sfu_officer_mailing_list_email=sfu_officer_mailing_list_email,
-        start_date=start_date
+        position_name=position_name, position_index=position_index, full_name=full_name,
+        sfu_computing_id=sfu_computing_id, sfu_email_alias=sfu_email_alias, phone_number=phone_number,
+        github_username=github_username, gmail=gmail, course1=fav_course_1, course2=fav_course_2,
+        language1=fav_language_1, language2=fav_language_2, bio=bio, image=pic_path, elected_term=term_obj,
+        sfu_officer_mailing_list_email=sfu_officer_mailing_list_email, start_date=start_date
     )
 
     logger.info(

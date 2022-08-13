@@ -25,8 +25,8 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, li
     """
     logger.info(
         f"[elections/validate_info_for_nominee_obj.py validate_nominee_obj_info()] "
-        f"name={full_name}, facebook_link={facebook_link}, linkedin_link={linkedin_link}, email_address={email_address}, "
-        f"discord_username={discord_username}"
+        f"name={full_name}, facebook_link={facebook_link}, linkedin_link={linkedin_link}, "
+        f"email_address={email_address}, discord_username={discord_username}"
     )
     full_name = full_name.strip()
     facebook_link = facebook_link.strip()

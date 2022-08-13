@@ -5,8 +5,8 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITI
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 
 
-def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_speech_pairings, facebook_link, linkedin_link,
-                         email_address, discord_username):
+def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_speech_pairings, facebook_link,
+                         linkedin_link, email_address, discord_username):
     """
     validates the nominee info to validate it
 
