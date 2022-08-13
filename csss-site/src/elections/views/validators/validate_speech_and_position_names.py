@@ -6,7 +6,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME
 
 
-def validate_speech_in_pairing(speech_ids_so_far, speech_and_position_pairing, election_id, name):
+def validate_speech_in_pairing(speech_ids_so_far, speech_and_position_pairing, election_id, full_name):
     """
     Ensures that the pairing has a speeh and if there is an ID, it does belong to ths specified election
 
@@ -20,10 +20,10 @@ def validate_speech_in_pairing(speech_ids_so_far, speech_and_position_pairing, e
     error_message -- an error message if the validation failed, or None otherwise
     """
     if not (ELECTION_JSON_KEY__NOM_SPEECH in speech_and_position_pairing):
-        return False, f"one of the speech/position pairings is missing a speech for nominee {name}"
+        return False, f"one of the speech/position pairings is missing a speech for nominee {full_name}"
     if not (ELECTION_JSON_KEY__NOM_SPEECH in speech_and_position_pairing and
             len(speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
-        return False, f"one of the speeches specified for {name} is invalid"
+        return False, f"one of the speeches specified for {full_name} is invalid"
     if ID_KEY in speech_and_position_pairing:
         validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairing, election_id)
     return True, None
@@ -53,7 +53,7 @@ def validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairin
 
 
 def validate_position_in_pairing(position_ids_so_far, speech_and_position_pairing, specified_position_names,
-                                 election_id, name):
+                                 election_id, full_name):
     """
     Ensures that the position is valid
 
@@ -68,23 +68,23 @@ def validate_position_in_pairing(position_ids_so_far, speech_and_position_pairin
     error_message -- error message if the validation is False, None otherwise
     """
     if ELECTION_JSON_KEY__NOM_POSITION_NAMES not in speech_and_position_pairing:
-        return False, f"positions are not specified for one of the speeches for nominee {name}"
+        return False, f"positions are not specified for one of the speeches for nominee {full_name}"
     if not there_are_multiple_entries(speech_and_position_pairing, ELECTION_JSON_KEY__NOM_POSITION_NAMES):
-        return False, f"It seems that the nominee {name} does not have a list of positions " \
+        return False, f"It seems that the nominee {full_name} does not have a list of positions " \
                       f"for one of the positions they are running for"
     for position in speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
         if type(position) is dict:
             if ID_KEY in position:
                 validate_id_for_position_pairing(position_ids_so_far, position, election_id)
             if not (ELECTION_JSON_KEY__NOM_POSITION_NAME in position):
-                return False, f"No position name[s] found for one of the speeches for nominee {name}"
+                return False, f"No position name[s] found for one of the speeches for nominee {full_name}"
             position_name = position[ELECTION_JSON_KEY__NOM_POSITION_NAME]
         else:
             position_name = position
         if not validate_position_name(position_name):
-            return False, f"Detected invalid position of {position_name} for nominee {name}"
+            return False, f"Detected invalid position of {position_name} for nominee {full_name}"
         if position_name in specified_position_names:
-            return False, f"the nominee {name} has the position {position_name} specified more than once"
+            return False, f"the nominee {full_name} has the position {position_name} specified more than once"
         specified_position_names.append(position_name)
     return True, None
 

@@ -142,7 +142,7 @@ def return_member_json(row):
     member = {
         "officer_position": row[POSITION_COLUMN],
         "name": row[NAME_COLUMN],
-        "sfuid": row[SFU_ID_COLUMN],
+        "sfu_computing_id": row[SFU_ID_COLUMN],
         "sfu_email_alias": row[SFU_EMAIL_ALIAS_COLUMN],
         "phone_number": int(0 if row[PHONE_NUMBER_COLUMN] == "" else row[PHONE_NUMBER_COLUMN]),
         'github_username': row[GITHUB_USER_NAME_COLUMN],
@@ -310,7 +310,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     phone_number = officer['phone_number']
     position_name = officer['officer_position']
     full_name = officer['name']
-    sfuid = officer['sfuid']
+    sfu_computing_id = officer['sfu_computing_id']
     sfu_email_alias = officer['sfu_email_alias']
     announcement_emails = officer['announcement_emails']
     github_username = officer['github_username']
@@ -324,7 +324,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     sfu_officer_mailing_list_email = "NONE"
     # github_teams = officer['github_teams']
     success, error_message = save_officer_and_grant_digital_resources(
-        phone_number, full_name, sfuid, sfu_email_alias, announcement_emails, github_username,
+        phone_number, full_name, sfu_computing_id, sfu_email_alias, announcement_emails, github_username,
         gmail, start_date, fav_course_1, fav_course_2, fav_language_1,
         fav_language_2, bio, position_name, position_index, term_obj,
         sfu_officer_mailing_list_email,

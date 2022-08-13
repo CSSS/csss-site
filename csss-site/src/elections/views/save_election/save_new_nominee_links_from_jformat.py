@@ -19,4 +19,4 @@ def save_new_nominee_links_from_jformat(election, new_nominee_names):
                 passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
                 while len(NomineeLink.objects.all().filter(passphrase=passphrase)) > 0:
                     passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-                NomineeLink(election=election, name=new_nominee_name, passphrase=passphrase).save()
+                NomineeLink(election=election, full_name=new_nominee_name, passphrase=passphrase).save()

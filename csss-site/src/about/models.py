@@ -36,12 +36,12 @@ class Officer(models.Model):
 
     def validate_unique(self, exclude=None):
         if Officer.objects.filter(
-                position_name=self.position_name, name=self.name,
+                position_name=self.position_name, full_name=self.full_name,
                 elected_term__term_number=self.elected_term.term_number,
                 start_date=self.start_date).exclude(id=self.id).exists():
             raise ValidationError(
-                f"There is already an officer saved for term {self.elected_term.term_number} for officer {self.name} "
-                f"and position name {self.position_name} under start_date {self.start_date}"
+                f"There is already an officer saved for term {self.elected_term.term_number} for officer "
+                f"{self.full_name} and position name {self.position_name} under start_date {self.start_date}"
             )
 
     def save(self, *args, **kwargs):
@@ -56,7 +56,7 @@ class Officer(models.Model):
     position_index = models.IntegerField(
         default=0,
     )
-    name = models.CharField(
+    full_name = models.CharField(
         max_length=140,
         default="NA"
     )
@@ -65,7 +65,7 @@ class Officer(models.Model):
         default=timezone.now
     )
 
-    sfuid = models.CharField(
+    sfu_computing_id = models.CharField(
         max_length=140,
         default="NA"
     )
@@ -87,6 +87,21 @@ class Officer(models.Model):
     gmail = models.CharField(
         max_length=140,
         default="NA"
+    )
+
+    discord_id = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
+    discord_username = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
+    discord_nickname = models.CharField(
+        max_length=200,
+        default='NA'
     )
 
     course1 = models.CharField(
@@ -134,7 +149,7 @@ class Officer(models.Model):
     )
 
     def __str__(self):
-        return f" {self.elected_term} {self.name}"
+        return f" {self.elected_term} {self.full_name}"
 
 
 class AnnouncementEmailAddress(models.Model):
@@ -148,7 +163,7 @@ class AnnouncementEmailAddress(models.Model):
     )
 
     def __str__(self):
-        return f"{self.officer.name} {self.email} {self.officer.elected_term}"
+        return f"{self.officer.full_name} {self.email} {self.officer.elected_term}"
 
 
 class OfficerEmailListAndPositionMapping(models.Model):
