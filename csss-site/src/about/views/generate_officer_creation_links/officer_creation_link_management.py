@@ -538,7 +538,7 @@ def determine_new_start_date_for_officer(process_new_officer, officer):
             f"{start_date_for_last_spring_term}"
         )
         past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
-            name=officer_name, position_name=position_name,
+            full_name=officer_name, position_name=position_name,
             start_date__gte=start_date_for_last_spring_term
         )
     elif (
@@ -551,7 +551,7 @@ def determine_new_start_date_for_officer(process_new_officer, officer):
             f"{start_date_for_last_summer_term}"
         )
         past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
-            name=officer_name, position_name=position_name,
+            full_name=officer_name, position_name=position_name,
             start_date__gte=start_date_for_last_summer_term
         )
     elif (
@@ -564,7 +564,7 @@ def determine_new_start_date_for_officer(process_new_officer, officer):
             f"{start_date_for_last_fall_term}"
         )
         past_bios_for_officer = Officer.objects.all().order_by('-start_date').filter(
-            name=officer_name, position_name=position_name,
+            full_name=officer_name, position_name=position_name,
             start_date__gte=get_last_fall_term()
         )
     if past_bios_for_officer is None:
