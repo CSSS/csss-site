@@ -1,0 +1,11 @@
+h1 {
+    color: black;
+}
+
+.timer_box {
+    text-shadow: none !important;
+}
+
+.timer_box p {
+    color: black;
+}
