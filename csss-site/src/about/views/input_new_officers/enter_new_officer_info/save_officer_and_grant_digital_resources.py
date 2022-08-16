@@ -16,6 +16,8 @@ from about.views.input_new_officers.enter_new_officer_info.grant_digital_resourc
     grant_google_drive_access
 from about.views.input_new_officers.enter_new_officer_info.notifications.send_notifications_with_documentation_links import \
     send_notifications_with_documentation_links
+from about.views.input_new_officers.enter_new_officer_info.utils.alert_sys_admin_to_update_email_list import \
+    alert_sys_admin_to_update_email_list
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
 from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_email_alias import get_sfu_email_alias
@@ -169,6 +171,9 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
         officer_obj, officer_is_executive_officer, officer_is_election_officer, officer_is_council_representative,
         officer_is_frosh_week_chair, officer_is_discord_manager
     )
+    if not success:
+        return success, error_message
+    alert_sys_admin_to_update_email_list(sfu_officer_mailing_list_email)
     if not success:
         return success, error_message
     officer_obj.save()

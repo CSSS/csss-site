@@ -228,6 +228,18 @@ def create_context_for_election_officer(request, tab=None):
     )
 
 
+def create_context_for_officer_email_mappings(request, tab=None):
+    officers = None
+    unprocessed_officers = None
+    if request.user.username != "root":
+        unprocessed_officers = UnProcessedOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_sys_admin, tab=tab,
+        unprocessed_officers=unprocessed_officers, officers=officers
+    )
+
+
 def _create_context_for_authenticated_user(request, authentication_method=None, tab=None, unprocessed_officers=None,
                                            officers=None):
     """
