@@ -6,7 +6,7 @@ from about.views.input_new_officers.utils.send_gmail_to_new_officer import send_
 
 def send_notifications_with_documentation_links(officer_obj,
                                                 officer_is_executive_officer, officer_is_election_officer,
-                                                officer_is_council_representative,officer_is_frosh_week_chair,
+                                                officer_is_council_representative, officer_is_frosh_week_chair,
                                                 officer_is_discord_manager):
     """
     Creates and send the intro to CSSS notification via the relevant channel
@@ -28,7 +28,8 @@ def send_notifications_with_documentation_links(officer_obj,
         officer_is_council_representative, officer_is_frosh_week_chair, officer_is_discord_manager
     )
     subject = "Welcome to the CSSS"
-    success, error_message = send_gmail_to_new_officer(subject, email_body, officer_obj.sfu_computing_id, officer_obj.full_name)
+    success, error_message = send_gmail_to_new_officer(subject, email_body, officer_obj.sfu_computing_id,
+                                                       officer_obj.full_name)
     if not success:
         return success, error_message
     return dm_new_officers_on_discord(officer_obj.discord_id, subject, discord_body)

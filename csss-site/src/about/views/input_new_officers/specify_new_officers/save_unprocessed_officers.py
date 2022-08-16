@@ -3,7 +3,8 @@ import logging
 from about.models import Term, UnProcessedOfficer
 from about.views.Constants import DISCORD_ID_KEY, SFU_COMPUTING_ID_KEY, FULL_NAME_KEY, \
     RE_USE_START_DATE_KEY, START_DATE_KEY, POSITION_NAME_KEY, OVERWRITE_CURRENT_OFFICER_KEY, ID_KEY
-from about.views.input_new_officers.specify_new_officers.notifications.send_notification_asking_officer_to_fill_in_form import \
+from about.views.input_new_officers.specify_new_officers.notifications.\
+    send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
 from about.views.input_new_officers.specify_new_officers.utils.determine_start_date import determine_start_date
 
@@ -40,7 +41,8 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
         unprocessed_officer.id: unprocessed_officer for unprocessed_officer in saved_unprocessed_officers
     }
     saved_unprocessed_officers_sfu_computer_ids = [
-        saved_unprocessed_officer.sfu_computing_id for saved_unprocessed_officer in saved_unprocessed_officers_dict.values()
+        saved_unprocessed_officer.sfu_computing_id
+        for saved_unprocessed_officer in saved_unprocessed_officers_dict.values()
     ]
     logger.info(
         f"[about/save_unprocessed_officers.py save_unprocessed_officers()] "
@@ -90,7 +92,9 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
                 "from the map of unprocessed officers to delete"
             )
         if will_be_new_unprocessed_officer_obj:
-            success, error_message = send_notification_asking_officer_to_fill_in_form(discord_id, full_name, first_time_officer)
+            success, error_message = send_notification_asking_officer_to_fill_in_form(
+                discord_id, full_name, first_time_officer
+            )
             if not success:
                 return success, error_message
     for unprocessed_officer in saved_unprocessed_officers_dict.values():

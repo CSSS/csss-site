@@ -7,7 +7,7 @@ from about.views.input_new_officers.specify_new_officers.validators.validate_sta
 
 def validate_inputted_unprocessed_officers(
     saved_unprocessed_officers, officer_emaillist_and_position_mappings, officers, terms, inputted_term,
-    inputted_year, unprocessed_officers=None):
+        inputted_year, unprocessed_officers=None):
     """
     validates the inputted unprocessed officers position_names, full_name, discord_id, sfu_computing_id, start_date
     and ensures that any officer is not being used for more than 1 executive officer in any given term
@@ -39,7 +39,9 @@ def validate_inputted_unprocessed_officers(
     if term is not None:
         current_officers_in_selected_term = officers.filter(elected_term=term).order_by(START_DATE_KEY)
         for current_officer_in_selected_term in current_officers_in_selected_term:
-            selected_position = officer_emaillist_and_position_mappings.filter(position_name=current_officer_in_selected_term.position_name).first()
+            selected_position = officer_emaillist_and_position_mappings.filter(
+                position_name=current_officer_in_selected_term.position_name
+            ).first()
             if selected_position is not None and selected_position.executive_officer:
                 currently_held_executive_positions[current_officer_in_selected_term.position_name] = \
                     current_officer_in_selected_term
@@ -55,7 +57,9 @@ def validate_inputted_unprocessed_officers(
         selected_position_name = unprocessed_officer[POSITION_NAME_KEY].strip()
         if selected_position_name in selected_positions:
             return False, f"You cannot have more than 1 {selected_position_name}"
-        selected_position = officer_emaillist_and_position_mappings.filter(position_name=selected_position_name).first()
+        selected_position = officer_emaillist_and_position_mappings.filter(
+            position_name=selected_position_name
+        ).first()
         if selected_position is None:
             return False, f"Invalid position of {selected_position} specified"
         officer_name = unprocessed_officer[FULL_NAME_KEY].strip()
@@ -76,7 +80,7 @@ def validate_inputted_unprocessed_officers(
             return False, error_message
         if selected_position.executive_officer:
             if sfu_computing_id in unprocessed_officers_sfu_computing_ids:
-                return False, f"Someone cannot hold 2+ executive position in a given term"
+                return False, "Someone cannot hold 2+ executive position in a given term"
             unprocessed_officers_sfu_computing_ids.append(sfu_computing_id)
         if not (RE_USE_START_DATE_KEY in unprocessed_officer or START_DATE_KEY in unprocessed_officer):
             return False, "One of the position does not have a new date and is not re-using a previous date"

@@ -1,13 +1,15 @@
 import datetime
 
 from about.views.Constants import START_DATE_VALUE, YEAR_MONTH_DAY_FORMAT
-from about.views.create_context.input_new_officers.js_functions.on_load_js_functions.create_context_for_display_new_officer_info_html import \
+from about.views.create_context.input_new_officers.js_functions.on_load_js_functions.\
+    create_context_for_display_new_officer_info_html import \
     create_context_for_display_new_officer_info_html
 
-# about/templates/about/input_new_officers/js_functions/add_new_officer.html
+
 def create_context_for_add_new_officer_html(context, officer_emaillist_and_position_mappings, current_date=None):
     """
-    Populates the context dictionary that is used by about/templates/about/input_new_officers/js_functions/add_new_officer.html
+    Populates the context dictionary that is used by
+     about/templates/about/input_new_officers/js_functions/add_new_officer.html
 
     Keyword Arguments
     context -- the context dictionary that has to be populated for the add_new_officer.html

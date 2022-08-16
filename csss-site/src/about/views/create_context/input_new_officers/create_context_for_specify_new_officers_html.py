@@ -8,7 +8,8 @@ from about.views.Constants import TERMS__HTML_NAME, YEARS__HTML_NAME, CURRENT_TE
     NEW_OFFICERS_DIV_ID__HTML_NAME, NEW_OFFICERS_DIV_ID
 from about.views.create_context.input_new_officers.js_functions.create_context_for_add_new_officer_html import \
     create_context_for_add_new_officer_html
-from about.views.create_context.input_new_officers.js_functions.on_load_js_functions.create_context_for_main_function_html import \
+from about.views.create_context.input_new_officers.js_functions.on_load_js_functions.\
+    create_context_for_main_function_html import \
     create_context_for_main_function_html
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
@@ -17,7 +18,7 @@ from csss.views_helper import TERM_SEASONS
 
 def create_context_for_specify_new_officers_html(
     context, saved_unprocessed_officers, officer_emaillist_and_position_mappings, error_messages=None, term=None,
-    year=None, draft_new_officers=None):
+        year=None, draft_new_officers=None):
     """
     Populate the context dictionary that is used by
     about/templates/about/input_new_officers/specify_new_officers.html
@@ -73,4 +74,6 @@ def create_context_for_specify_new_officers_html(
         draft_new_officers=draft_new_officers
     )
     context[NEW_OFFICERS__HTML_NAME] = new_officer_infos_to_display
-    create_context_for_add_new_officer_html(context, officer_emaillist_and_position_mappings, current_date=current_date)
+    create_context_for_add_new_officer_html(
+        context, officer_emaillist_and_position_mappings, current_date=current_date
+    )

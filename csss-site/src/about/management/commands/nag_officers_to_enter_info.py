@@ -3,7 +3,8 @@ import logging
 from django.core.management import BaseCommand
 
 from about.models import UnProcessedOfficer, Officer
-from about.views.input_new_officers.specify_new_officers.notifications.send_notification_asking_officer_to_fill_in_form import \
+from about.views.input_new_officers.specify_new_officers.notifications. \
+    send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
 from about.views.input_new_officers.utils.dm_new_officers_on_discord import dm_new_officers_on_discord
 
@@ -30,6 +31,7 @@ class Command(BaseCommand):
                     f"{unprocessed_officer.full_name} still has not filled in their data..."
                 )
             logger.info(
-                f"[about/nag_officers_to_enter_info.py()] {'nagged ' if success else 'was not able to nag '}{unprocessed_officer.full_name} "
-                f"to fill in their info{'' if success else f' due to error {error_message}'}."
+                f"[about/nag_officers_to_enter_info.py()] {'nagged ' if success else 'was not able to nag '}"
+                f"{unprocessed_officer.full_name} to fill in their info"
+                f"{'' if success else f' due to error {error_message}'}."
             )

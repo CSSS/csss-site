@@ -39,7 +39,9 @@ webmaster
 """
 
 
-def determine_start_date(officers, officer_email_list_and_position_mapping, re_use_start_date, start_date, sfu_computing_id, position_name):
+def determine_start_date(
+        officers, officer_email_list_and_position_mapping, re_use_start_date, start_date, sfu_computing_id,
+        position_name):
     """
     Determines the start date to use for a New_Officer
 
@@ -86,16 +88,16 @@ def determine_start_date(officers, officer_email_list_and_position_mapping, re_u
     ).order_by('-id').first()
     if officer is None:
         logger.info(
-            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id {sfu_computing_id} "
-            f"did not hold the position of {position_name} on any date after {get_current_term_obj()}."
-            f" Reverting to start_date {start_date}"
+            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id "
+            f"{sfu_computing_id} did not hold the position of {position_name} on any date after "
+            f"{get_current_term_obj()}. Reverting to start_date {start_date}"
         )
         return start_date
     if position_obj.number_of_terms is None:  # for positions that are never ending like Sys Admin
         logger.info(
-            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id {sfu_computing_id} "
-            f"is holding a position that has no end-date [{position_name}]. Will use their current start_date of"
-            f" {officer.start_date}"
+            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id "
+            f"{sfu_computing_id} is holding a position that has no end-date [{position_name}]. "
+            f"Will use their current start_date of {officer.start_date}"
         )
         return officer.start_date
     if position_obj.number_of_terms == 3:

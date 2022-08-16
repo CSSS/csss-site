@@ -10,7 +10,8 @@ from about.views.Constants import UNPROCESSED_OFFICER_NAME__KEY, UNPROCESSED_OFF
     UNPROCESSED_OFFICER_BIO__KEY, UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY, UNPROCESSED_OFFICER_GMAIL__KEY, \
     UNPROCESSED_OFFICER_GMAIL_VERIFICATION_CODE__HTML_VALUE, \
     RE_SEND_GMAIL_VERIFICATION_CODE
-from about.views.create_context.input_new_officers.enter_new_officer_info.create_context_for_enter_new_officer_info_html import \
+from about.views.create_context.input_new_officers.enter_new_officer_info.\
+    create_context_for_enter_new_officer_info_html import \
     create_context_for_enter_new_officer_info_html
 from about.views.input_new_officers.enter_new_officer_info.save_officer_and_grant_digital_resources import \
     save_officer_and_grant_digital_resources
@@ -46,8 +47,10 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
 
     officer_info = transform_webform_to_json(request.POST)
     fields = [
-        UNPROCESSED_OFFICER_NAME__KEY, UNPROCESSED_OFFICER_ANNOUNCEMENT_EMAILS__KEY, UNPROCESSED_OFFICER_PHONE_NUMBER_KEY, UNPROCESSED_OFFICER_COURSE_1__KEY,
-        UNPROCESSED_OFFICER_COURSE_2__KEY, UNPROCESSED_OFFICER_LANGUAGE_1__KEY, UNPROCESSED_OFFICER_LANGUAGE_2__KEY, UNPROCESSED_OFFICER_BIO__KEY
+        UNPROCESSED_OFFICER_NAME__KEY, UNPROCESSED_OFFICER_ANNOUNCEMENT_EMAILS__KEY,
+        UNPROCESSED_OFFICER_PHONE_NUMBER_KEY, UNPROCESSED_OFFICER_COURSE_1__KEY,
+        UNPROCESSED_OFFICER_COURSE_2__KEY, UNPROCESSED_OFFICER_LANGUAGE_1__KEY, UNPROCESSED_OFFICER_LANGUAGE_2__KEY,
+        UNPROCESSED_OFFICER_BIO__KEY
     ]
 
     if len(github_team_to_add) > 0:
@@ -111,7 +114,7 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
         )
         create_context_for_enter_new_officer_info_html(
             context, request.user.username, officer_emaillist_and_position_mappings, unprocessed_officers,
-            officer_info=officer_info,error_messages=[error_message],position_info=position_info
+            officer_info=officer_info, error_messages=[error_message], position_info=position_info
         )
         return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html', context)
     return HttpResponseRedirect(f"{URL_ROOT}about/list_of_current_officers")

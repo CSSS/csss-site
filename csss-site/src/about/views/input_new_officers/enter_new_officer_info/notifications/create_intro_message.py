@@ -32,7 +32,9 @@ def create_intro_message(officer_obj, officer_is_executive_officer,
         f"sending email and discord notification to user {officer_obj} who is in the officer position "
         f"{position_name}"
     )
-    first_time_officer = Officer.objects.all().filter(sfu_computing_id=sfu_computing_id, position_name=position_name).first() is None
+    first_time_officer = (
+        Officer.objects.all().filter(sfu_computing_id=sfu_computing_id, position_name=position_name).first() is None
+    )
     discord_body = email_body = f"Hello {full_name},\n\n"
     if officer_is_executive_officer:
         if first_time_officer:
@@ -82,16 +84,19 @@ def create_intro_message(officer_obj, officer_is_executive_officer,
             )
             discord_body += (
                 f"Congrats on becoming a CSSS {position_name}.\n\n"
-                "Please read the [following documentation](https://github.com/CSSS/elections-documentation) :smiley: \n\n"
+                "Please read the [following documentation]"
+                "(https://github.com/CSSS/elections-documentation) :smiley: \n\n"
             )
         else:
             email_body += (
                 f"Seems like you are a repeat {position_name}.\n\n"
-                "Forgive this reminder about the election documentation: https://github.com/CSSS/elections-documentation"
+                "Forgive this reminder about the election documentation: https://"
+                "github.com/CSSS/elections-documentation"
             )
             discord_body += (
                 f"Seems like you are a repeat {position_name}.\n\n"
-                "Forgive this reminder about the [election documentation](https://github.com/CSSS/elections-documentation) :smiley: \n\n"
+                "Forgive this reminder about the [election documentation]"
+                "(https://github.com/CSSS/elections-documentation) :smiley: \n\n"
             )
     elif officer_is_council_representative:
         if first_time_officer:

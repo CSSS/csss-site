@@ -7,7 +7,7 @@ from django.core.management import BaseCommand
 
 from about.models import Officer, OfficerEmailListAndPositionMapping
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
-    EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
+    EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles
 from csss.settings import discord_header
 from csss.views_helper import get_current_term_obj
 
@@ -77,11 +77,11 @@ def get_all_users():
     user_id_map = {}
     while after is not None or first:
         first = False
-        baseUrl = f"https://discord.com/api/guilds/{settings.GUILD_ID}/members?limit=1000"
+        base_url = f"https://discord.com/api/guilds/{settings.GUILD_ID}/members?limit=1000"
         if after is not None:
-            url = f"{baseUrl}&after={after}"
+            url = f"{base_url}&after={after}"
         else:
-            url = baseUrl
+            url = base_url
         resp = requests.get(url, headers=discord_header)
         if resp.status_code == 200:
             users = json.loads(resp.text)
@@ -97,13 +97,13 @@ def get_all_users():
             else:
                 after = None
         else:
-            return False, f"Unable to get the users with the following url [{baseUrl}]", user_in_roles, user_id_map
+            return False, f"Unable to get the users with the following url [{base_url}]", user_in_roles, user_id_map
     return True, None, user_in_roles, user_id_map
 
 
 def determine_changes_for_position_specific_discord_role_validation(
     user_id_map, user_in_roles, members_id__role_ids, discord_id_for_users_that_should_be_in_exec_discord_group_role,
-    position_infos, matching_executive_roles, current_officers):
+        position_infos, matching_executive_roles, current_officers):
     """
     Populates members_id__role_ids, discord_id_for_users_that_should_be_in_exec_discord_group_role
     with the dictionary where the key is the discord user id and the value is the list of roles they need to have
@@ -183,7 +183,7 @@ def determine_changes_for_position_specific_discord_role_validation(
 
 def determine_changes_for_exec_discord_group_role_validation(
     user_id_map, user_in_roles, members_id__role_ids, discord_id_for_users_that_should_be_in_exec_discord_group_role,
-    exec_discord_role_id):
+        exec_discord_role_id):
     """
     Populates/Updates members_id__role_ids to reflect the changes needed to ensure only the current officers have
      the Execs discord group role
@@ -221,7 +221,8 @@ def determine_changes_for_exec_discord_group_role_validation(
         discord_ids_for_users_in_executive_role = [user['user']['id'] for user in users_in_executive_role]
         if user_that_should_be_in_discord_role not in discord_ids_for_users_in_executive_role:
             if user_that_should_be_in_discord_role not in members_id__role_ids:
-                members_id__role_ids[user_that_should_be_in_discord_role] = user_id_map[user_that_should_be_in_discord_role]['roles']
+                members_id__role_ids[user_that_should_be_in_discord_role] = \
+                    user_id_map[user_that_should_be_in_discord_role]['roles']
             members_id__role_ids[user_that_should_be_in_discord_role].append(exec_discord_role_id)
             logger.info(
                 "[about/determine_changes_for_exec_discord_group_role_validation.py() ] add role "

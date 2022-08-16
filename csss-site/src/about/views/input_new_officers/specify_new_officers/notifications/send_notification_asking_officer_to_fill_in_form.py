@@ -1,4 +1,5 @@
-from about.views.input_new_officers.specify_new_officers.notifications.create_message_for_inputting_officer_info import \
+from about.views.input_new_officers.specify_new_officers.notifications.\
+    create_message_for_inputting_officer_info import \
     create_message_for_inputting_officer_info
 from about.views.input_new_officers.utils.dm_new_officers_on_discord import dm_new_officers_on_discord
 

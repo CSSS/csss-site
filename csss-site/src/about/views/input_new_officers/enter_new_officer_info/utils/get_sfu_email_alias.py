@@ -27,6 +27,6 @@ def get_sfu_email_alias(sfu_computing_id):
     if (
         'aliases' not in json.loads(resp.text) or
         type(json.loads(resp.text)['aliases']) is not list or
-        len(json.loads(resp.text)['aliases']) <= 0):
+            len(json.loads(resp.text)['aliases']) <= 0):
         return False, f"Could not detect email alias for {sfu_computing_id}", None
     return True, None, json.loads(resp.text)['aliases'][0]

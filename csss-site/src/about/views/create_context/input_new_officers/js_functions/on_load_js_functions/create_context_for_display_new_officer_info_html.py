@@ -1,7 +1,8 @@
 from about.views.Constants import INPUT_NEW_OFFICER_ID__NAME, INCLUDE_ID_FOR_NEW_OFFICER_IN_WEBFORM_HTML_NAME, \
     POSITIONS_NAME_KEY, ID_KEY, NEW_OFFICERS__HTML__NAME, NEW_OFFICERS__HTML_VALUE, \
     INPUT_RESEND_LINK_TO_OFFICER__HTML_VALUE, INPUT_RESEND_LINK_TO_OFFICER__HTML_NAME
-from about.views.create_context.input_new_officers.js_functions.on_load_js_functions.variable_is_non_empty_list import \
+from about.views.create_context.input_new_officers.js_functions.on_load_js_functions.\
+    variable_is_non_empty_list import \
     variable_is_non_empty_list
 
 
@@ -26,7 +27,8 @@ def create_context_for_display_new_officer_info_html(context, officer_emaillist_
     # position_name
 
     # defined in
-    # about/views/input_new_officers/specify_new_officers/js_functions/on_load_js_functions/create_context_for_main_function_html.py or
+    # about/views/input_new_officers/specify_new_officers/js_functions/on_load_js_functions/
+    #  create_context_for_main_function_html.py or
     # about/views/create_context/specify_new_officers/create_context_for_specify_new_officers_html.py
     # term
     context[NEW_OFFICERS__HTML__NAME] = NEW_OFFICERS__HTML_VALUE

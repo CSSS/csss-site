@@ -12,9 +12,11 @@ from about.views.input_new_officers.enter_new_officer_info.grant_digital_resourc
     assign_discord_roles
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.grant_github_access import \
     grant_github_access
-from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.grant_google_drive_access import \
+from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.\
+    grant_google_drive_access import \
     grant_google_drive_access
-from about.views.input_new_officers.enter_new_officer_info.notifications.send_notifications_with_documentation_links import \
+from about.views.input_new_officers.enter_new_officer_info.notifications.\
+    send_notifications_with_documentation_links import \
     send_notifications_with_documentation_links
 from about.views.input_new_officers.enter_new_officer_info.utils.alert_sys_admin_to_update_email_list import \
     alert_sys_admin_to_update_email_list
@@ -83,7 +85,9 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
         f"{position_name} {'has' if officer_has_google_drive_access else 'does not have' } access to "
         f"google drive"
     )
-    officer_is_executive_officer = position_name in get_position_names(current_positions.filter(executive_officer=True))
+    officer_is_executive_officer = position_name in get_position_names(
+        current_positions.filter(executive_officer=True)
+    )
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
         f"{position_name} is {'' if officer_is_executive_officer else 'not ' }an executive officer"
@@ -136,11 +140,13 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
         f"discord_username={discord_username}\n\tdiscord_nickname={discord_nickname}"
     )
     officer_obj = Officer(
-        position_name=position_name, position_index=position_index, full_name=full_name, sfu_computing_id=sfu_computing_id,
-        sfu_email_alias=sfu_email_alias, phone_number=phone_number, github_username=github_username, gmail=gmail,
-        course1=course1, course2=course2, language1=language1, language2=language2, bio=bio, image=pic_path,
-        elected_term=term_obj, sfu_officer_mailing_list_email=sfu_officer_mailing_list_email, start_date=start_date,
-        discord_id=unprocessed_officer.discord_id, discord_username=discord_username, discord_nickname=discord_nickname
+        position_name=position_name, position_index=position_index, full_name=full_name,
+        sfu_computing_id=sfu_computing_id, sfu_email_alias=sfu_email_alias, phone_number=phone_number,
+        github_username=github_username, gmail=gmail, course1=course1, course2=course2, language1=language1,
+        language2=language2, bio=bio, image=pic_path, elected_term=term_obj,
+        sfu_officer_mailing_list_email=sfu_officer_mailing_list_email, start_date=start_date,
+        discord_id=unprocessed_officer.discord_id, discord_username=discord_username,
+        discord_nickname=discord_nickname
     )
 
     success, error_message = grant_google_drive_access(officer_has_google_drive_access, gmail)

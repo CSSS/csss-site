@@ -22,11 +22,13 @@ def create_message_for_inputting_officer_info(full_name, first_time_officer):
     if first_time_officer:
         message = (
             f"Hello {full_name},\n\nCongrats on becoming a CSSS officer. :smiley:\n\n[Click on this link to"
-            f" complete the process of becoming a new officer for the CSSS]({url})"
+            f" complete the process of becoming a new officer for the CSSS]({url})."
         )
     else:
         message = (
             f"Hello {full_name},\n\nLooks like you're a repeat officer :smiley:\n\n[Please fill out this"
-            f" form to get access to all the things a CSSS Officer would need]({url})"
+            f" form to get access to all the things a CSSS Officer would need]({url})."
         )
+    message += "\n\nThis includes:\n - Being placed in the SFU Email-list for your position\n" \
+               " - Access to our documentation\n - Being assigned the necessary discord roles"
     return message

@@ -25,7 +25,9 @@ def validate_gmail(unprocessed_officers, new_officer, gmail, gmail_verification_
         if gmail_verification_code is None:
             gmail_verification_code = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(5))
             while len(unprocessed_officers.filter(gmail_verification_code=gmail_verification_code)) > 0:
-                gmail_verification_code = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(5))
+                gmail_verification_code = ''.join(
+                    random.choice(string.ascii_letters + string.digits) for i in range(5)
+                )
             new_officer.gmail_verification_code = gmail_verification_code
             new_officer.save()
         gmail_api = Gmail()

@@ -46,8 +46,9 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
                 officers = Officer.objects.all().order_by('-start_date')
 
         if current_election_officer_sfuid is None:
-            current_election_officer_sfuid = get_current_election_officer_sfuid(unprocessed_officers=unprocessed_officers,
-                                                                                officers=officers)
+            current_election_officer_sfuid = get_current_election_officer_sfuid(
+                unprocessed_officers=unprocessed_officers, officers=officers
+            )
         context[CURRENT_ELECTION_OFFICER] = request.user.username == current_election_officer_sfuid
 
         if sfuid_for_officer_in_past_5_terms is None:
@@ -62,8 +63,9 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
         context[CURRENT_SYS_ADMIN] = request.user.username == current_sys_admin_sfuid
 
         if current_webmaster_or_doa_sfuid is None:
-            current_webmaster_or_doa_sfuid = get_current_webmaster_or_doa_sfuid(unprocessed_officers=unprocessed_officers,
-                                                                                officers=officers)
+            current_webmaster_or_doa_sfuid = get_current_webmaster_or_doa_sfuid(
+                unprocessed_officers=unprocessed_officers, officers=officers
+            )
         context[CURRENT_WEBMASTER_OR_DOA] = request.user.username in current_webmaster_or_doa_sfuid
 
     request_path = f"http://{settings.HOST_ADDRESS}"

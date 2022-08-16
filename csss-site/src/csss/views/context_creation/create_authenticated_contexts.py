@@ -274,8 +274,10 @@ def _create_context_for_authenticated_user(request, authentication_method=None, 
         request, tab,
         current_election_officer_sfuid=get_current_election_officer_sfuid(officers=officers,
                                                                           unprocessed_officers=unprocessed_officers),
-        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(officers=officers,
-                                                                                unprocessed_officers=unprocessed_officers),
+        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
+            officers=officers,
+            unprocessed_officers=unprocessed_officers
+        ),
         current_sys_admin_sfuid=get_current_sys_admin_sfuid(officers=officers,
                                                             unprocessed_officers=unprocessed_officers),
         current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(officers=officers,
