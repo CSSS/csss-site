@@ -1,7 +1,7 @@
 import datetime
 import logging
 
-from elections.views.Constants import DATE_FORMAT
+from csss.views_helper import DATE_FORMAT
 
 logger = logging.getLogger('csss_site')
 

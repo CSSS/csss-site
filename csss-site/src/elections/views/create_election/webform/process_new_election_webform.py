@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
+from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import CREATE_NEW_ELECTION__NAME, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_WEBFORM
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__ELECTION_TYPE, \
@@ -20,8 +21,6 @@ from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import \
-    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 

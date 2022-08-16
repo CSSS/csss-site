@@ -1,6 +1,7 @@
 import datetime
 
-from elections.views.Constants import INPUT_DATE__NAME, INPUT_DATE__VALUE, DATE_FORMAT
+from csss.views_helper import DATE_FORMAT
+from elections.views.Constants import INPUT_DATE__NAME, INPUT_DATE__VALUE
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE
 
 

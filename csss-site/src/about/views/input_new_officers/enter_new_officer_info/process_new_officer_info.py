@@ -19,7 +19,7 @@ from about.views.input_new_officers.enter_new_officer_info.utils.transform_webfo
 from about.views.input_new_officers.enter_new_officer_info.validators.validate_gmail import validate_gmail
 from about.views.input_new_officers.enter_new_officer_info.validators.validate_user_info import validate_user_info
 from csss.settings import URL_ROOT
-from elections.views.validators.validate_user_input_has_required_fields import verify_user_input_has_all_required_fields
+from csss.views_helper import verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 

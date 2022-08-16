@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__VALUE, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, \
@@ -19,8 +20,6 @@ from elections.views.validators.validate_election_type import validate_election_
 from elections.views.validators.validate_election_uniqueness import validate_election_webform_format_uniqueness
 from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import \
-    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
