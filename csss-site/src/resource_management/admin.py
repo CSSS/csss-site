@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from resource_management.models import ProcessNewOfficer, NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
-    NaughtyOfficer, OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
+    OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 
 
 class ProcessNewOfficerAdmin(admin.ModelAdmin):
@@ -49,10 +49,3 @@ class NonOfficerGithubMemberAdmin(admin.ModelAdmin):
 
 
 admin.site.register(NonOfficerGithubMember, NonOfficerGithubMemberAdmin)
-
-
-class NaughtyOfficerAdmin(admin.ModelAdmin):
-    list_display = ('sfu_computing_id',)
-
-
-admin.site.register(NaughtyOfficer, NaughtyOfficerAdmin)

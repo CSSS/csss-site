@@ -144,13 +144,3 @@ class NonOfficerGithubMember(models.Model):
 
     def __str__(self):
         return f"Non Officer {self.legal_name} access to github team {self.team_name}"
-
-
-class NaughtyOfficer(models.Model):
-    sfu_computing_id = models.CharField(
-        max_length=300,
-        default="NA"
-    )
-
-    def __str__(self):
-        return f"Naughty Officer {self.sfu_computing_id}"
