@@ -117,4 +117,5 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
             officer_info=officer_info, error_messages=[error_message], position_info=position_info
         )
         return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html', context)
+    unprocessed_officer.delete()
     return HttpResponseRedirect(f"{URL_ROOT}about/list_of_current_officers")
