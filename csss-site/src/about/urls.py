@@ -18,7 +18,7 @@ urlpatterns = [
     url(r'^specify_new_officers$', specify_new_officers, name='Specify Positions for New Officers'),
     url(fr'^{ENTER_NEW_OFFICER_INFO_URL}$', enter_new_officer_info, name='Allow officer to enter their info'),
     url(r'^specify_new_officers/delete$', delete_new_officers, name='Specify Positions for New Officers'),
-    url(Fr'^{CURRENT_EMAIL_MAPPINGS_URL}$', current_email_mapping, name="Get the current mapping workflow"),
+    url(fr'^{CURRENT_EMAIL_MAPPINGS_URL}$', current_email_mapping, name="Get the current mapping workflow"),
     url(r'^officer_position$', officer_positions, name="Officer Position Mapping"),
     url(
         r'^officer_position/update_saved_position_mappings$',
