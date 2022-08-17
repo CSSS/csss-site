@@ -10,16 +10,13 @@ from csss.views.request_validation import validate_request_to_update_digital_res
 from csss.views_helper import there_are_multiple_entries
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
-from .gitlab_views import create_gitlab_perms
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 from .resource_apis.github.github_api import GitHubAPI
-from .resource_apis.gitlab.gitlab_api import GitLabAPI
 
 logger = logging.getLogger('csss_site')
 
 GOOGLE_DRIVE_KEY = 'gdrive'
 GITHUB_KEY = 'github'
-SFU_GITLAB_KEY = 'gitlab'
 RESOURCES_KEY = 'resource'
 TAB_STRING = 'administration'
 
@@ -69,11 +66,6 @@ def determine_resource_to_validate(selected_resource_to_validate):
         logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
                     " to validate the access to the google drive")
         validate_github()
-    if SFU_GITLAB_KEY == selected_resource_to_validate:
-        logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
-                    " to validate the access to the SFU Gitlab")
-        validate_sfu_gitlab()
-
 
 def validate_google_drive():
     """
@@ -87,12 +79,3 @@ def validate_github():
     calls the functions for validating the github permissions
     """
     GitHubAPI().ensure_proper_membership(create_github_perms())
-
-
-def validate_sfu_gitlab():
-    """
-    calls the functions for validating the sfu gitlab permissions
-    """
-    GitLabAPI(
-        settings.GITLAB_PRIVATE_TOKEN
-    ).ensure_proper_membership(create_gitlab_perms())

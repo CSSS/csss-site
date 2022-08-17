@@ -107,7 +107,6 @@ GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 GDRIVE_ROOT_FOLDER_ID = None
 GDRIVE_TOKEN_LOCATION = None
 GITHUB_ACCESS_TOKEN = None
-GITLAB_PRIVATE_TOKEN = None
 SFU_CSSS_GMAIL_USERNAME = None
 SFU_CSSS_GMAIL_PASSWORD = None
 DISCORD_BOT_TOKEN = None
@@ -122,8 +121,6 @@ if ENVIRONMENT == "LOCALHOST":
         GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
     if 'GITHUB_ACCESS_TOKEN' in os.environ:
         GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
-    if 'GITLAB_PRIVATE_TOKEN' in os.environ:
-        GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
     if 'SFU_CSSS_GMAIL_USERNAME' in os.environ:
         SFU_CSSS_GMAIL_USERNAME = os.environ['SFU_CSSS_GMAIL_USERNAME']
     if 'SFU_CSSS_GMAIL_PASSWORD' in os.environ:
@@ -153,11 +150,6 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
         exit(1)
     else:
         GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
-    if "GITLAB_PRIVATE_TOKEN" not in os.environ:
-        logger.error(f"[settings.py] GITLAB_PRIVATE_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
-        exit(1)
-    else:
-        GITLAB_PRIVATE_TOKEN = os.environ['GITLAB_PRIVATE_TOKEN']
     if "SFU_CSSS_GMAIL_USERNAME" not in os.environ:
         logger.error(f"[settings.py] SFU_CSSS_GMAIL_USERNAME it not detected in ENVIRONMENT {ENVIRONMENT}")
         exit(1)
@@ -187,7 +179,6 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
 logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
 logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
 logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
-logger.info(f"[settings.py] GITLAB_PRIVATE_TOKEN={GITLAB_PRIVATE_TOKEN}")
 logger.info(f"[settings.py] SFU_CSSS_GMAIL_USERNAME={SFU_CSSS_GMAIL_USERNAME}")
 logger.info(f"[settings.py] SFU_CSSS_GMAIL_PASSWORD={SFU_CSSS_GMAIL_PASSWORD}")
 logger.info(f"[settings.py] DISCORD_BOT_TOKEN={DISCORD_BOT_TOKEN}")
@@ -205,10 +196,6 @@ if GDRIVE_TOKEN_LOCATION is not None and not os.path.isfile(GDRIVE_TOKEN_LOCATIO
 
 if GITHUB_ACCESS_TOKEN is not None and not GITHUB_ACCESS_TOKEN != "":
     logger.error("[settings.py] empty value for GITHUB_ACCESS_TOKEN")
-    exit(1)
-
-if GITLAB_PRIVATE_TOKEN is not None and not GITLAB_PRIVATE_TOKEN != "":
-    logger.error("[settings.py] empty value for GITLAB_PRIVATE_TOKEN")
     exit(1)
 
 if SFU_CSSS_GMAIL_USERNAME is not None and not SFU_CSSS_GMAIL_USERNAME != "":
