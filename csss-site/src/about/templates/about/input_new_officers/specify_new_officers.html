@@ -1,0 +1,58 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+{% load staticfiles %}
+{% block content %}
+	<link rel="stylesheet" href="{% static 'about_static/input_officer_info.css' %}">
+    <link rel="stylesheet" href="{%  static 'csss_static/csss_custom.css' %}">
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	<h2 class="title is-size-2">Create Links to Process New Officers</h2>
+    <br>
+	<form method="post" class="form">
+		{% csrf_token %}
+		Term <div class="red_dot_mandatory" >*</div>
+		<select name="{{ term__html_name }}">
+			{% for term in terms__html_name %}
+				{%  if term == current_term__html_name  %}
+					<option selected value="{{term}}">{{term}}</option>
+				{%  else %}
+					<option value="{{term}}">{{term}}</option>
+				{%  endif %}
+			{% endfor %}
+		</select>
+		Year <div class="red_dot_mandatory">*</div>
+		<select name="{{year__html_name}}">
+			{% for year in years__html_name %}
+				{%  if year == current_year__html_name %}
+					<option selected value="{{year}}">{{year}}</option>
+				{%  else %}
+					<option value="{{ year }}">{{ year }}</option>
+				{%  endif %}
+			{% endfor %}
+		</select>
+        <br>
+    <br><br><input type="submit" name="{{input_redirect_save_or_update_new_officers_submit_name}}" value="{{input_redirect_save_or_update_new_officers_submit_and_continue_editing_value}}" />
+    {%  if saved_nominees_exist %}
+        <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officers Information</button>
+    {%  endif %}
+    <br><br><input type="button" value="Add Another New Officer" onClick="addNewOfficer('{{new_officers_div_id__html_name}}');">
+
+    <div id="{{new_officers_div_id__html_name}}"></div>
+
+    {% if new_officers__html_name is not None and new_officers__html_name|length > 1 %}
+        <input type="button" value="Add Another New Officer" onClick="addNewOfficer('{{new_officers_div_id__html_name}}');">
+        <br><br><input type="submit" name="{{input_redirect_save_or_update_new_officers_submit_name}}" value="{{input_redirect_save_or_update_new_officers_submit_and_continue_editing_value}}" />
+        {%  if saved_nominees_exist %}
+            <button type="submit" formaction="{{ URL_ROOT }}about/specify_new_officers/delete">Delete All The New Officers Information</button>
+        {%  endif %}
+    {% endif %}
+    </form>
+    <script>
+        function removeDiv(divName){$(divName).remove();}
+
+        {%  include 'about/input_new_officers/js_functions/on_load_js_functions/main_function.html' %}
+        {%  include 'about/input_new_officers/js_functions/add_new_officer.html' %}
+    </script>
+{% endblock %}

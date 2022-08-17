@@ -8,6 +8,9 @@ logger = logging.getLogger('csss_site')
 SPRING_TERM_NUMBER = 1
 SUMMER_TERM_NUMBER = 2
 FALL_TERM_NUMBER = 3
+DATE_FORMAT = '%Y-%m-%d'
+
+TERM_SEASONS = [term_choice[0] for term_choice in Term.term_choices]
 
 
 def there_are_multiple_entries(post_dict, key_to_read):
