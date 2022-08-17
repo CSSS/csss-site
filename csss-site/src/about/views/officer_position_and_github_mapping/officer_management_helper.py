@@ -89,7 +89,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
                                              position_index, term_obj, sfu_officer_mailing_list_email,
                                              remove_from_naughty_list=False,
                                              apply_github_team_memberships=True,
-                                             gdrive_api=None, gitlab_api=None,
+                                             gdrive_api=None,
                                              send_email_notification=False):
     """
     Saves the officer with all the necessary info and gives them access to digital resources
@@ -159,15 +159,6 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
                 f"giving user {officer_obj} access to CSSS google drive"
             )
             success, file_name, error_message = gdrive_api.add_users_gdrive([gmail])
-            if not success:
-                officer_obj.delete()
-                return success, error_message
-        if gitlab_api is not None:
-            logger.info(
-                "[about/officer_management_helper.py save_officer_and_grant_digital_resources()] "
-                f"giving user {officer_obj} access to SFU CSSS Gitlab"
-            )
-            success, error_message = gitlab_api.add_officer_to_csss_group([sfu_computing_id])
             if not success:
                 officer_obj.delete()
                 return success, error_message
