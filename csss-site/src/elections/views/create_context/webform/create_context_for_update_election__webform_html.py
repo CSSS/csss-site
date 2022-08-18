@@ -1,6 +1,7 @@
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
-from elections.views.Constants import DATE_FORMAT, TIME_FORMAT
+from csss.views_helper import DATE_FORMAT
+from elections.views.Constants import TIME_FORMAT
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.webform.create_context_for_form__webform_html import \

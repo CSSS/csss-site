@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.models import Election, NomineeSpeech, NomineePosition
 from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, \
     HTML_PASSPHRASE_GET_KEY, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID
@@ -19,8 +20,6 @@ from elections.views.utils.webform_to_json.nominee_links.transform_nominee_links
     transform_nominee_links_webform_to_json
 from elections.views.validators.validate_existing_nominees__nominee_link import \
     validate_existing_nominee__nominee_link
-from elections.views.validators.validate_user_input_has_required_fields import \
-    verify_user_input_has_all_required_fields
 
 logger = logging.getLogger('csss_site')
 
