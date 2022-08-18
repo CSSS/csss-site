@@ -1,8 +1,4 @@
 from django.db import models
-import datetime
-
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 from about.models import OfficerEmailListAndPositionMapping
 
