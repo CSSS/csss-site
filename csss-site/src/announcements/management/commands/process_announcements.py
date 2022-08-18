@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from django_mailbox.models import Message
 from django_mailbox.models import Mailbox
 
-from about.models import Officer, Term, AnnouncementEmailAddress
+from about.models import Officer, Term, AnnouncementEmailAddress, UnProcessedOfficer
 from announcements.models import Announcement, ManualAnnouncement
 from csss.views_helper import get_term_number_for_specified_year_and_month
 
@@ -46,6 +46,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info(options)
+        if len(UnProcessedOfficer.objects.all()) > 0:
+            return
         if options['poll_email']:
             django_mailbox_handle()
 
