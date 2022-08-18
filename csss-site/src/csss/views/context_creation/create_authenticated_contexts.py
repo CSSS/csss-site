@@ -1,8 +1,8 @@
-from about.models import Officer
+from about.models import Officer, UnProcessedOfficer
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.determine_user_role import user_is_current_webmaster_or_doa, user_is_current_sys_admin, \
     user_is_officer_in_past_5_terms, user_is_current_election_officer
-from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod
+from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod, UnProcessedNotDetected
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
     get_sfuid_for_officer_in_past_5_terms, get_current_election_officer_sfuid
@@ -244,3 +244,25 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
             current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
                                                                               officers=officers)
         )
+
+
+def create_context_for_processing_unprocessed_officer(request, tab=None):
+    if request.user.username == "root":
+        raise UnProcessedNotDetected(request, tab=tab)
+    new_officer = UnProcessedOfficer.objects.all().filter(sfu_computing_id=request.user.username).first()
+    if new_officer is None:
+        raise UnProcessedNotDetected(request, tab=tab)
+    unprocessed_officers = UnProcessedOfficer.objects.all()
+    officers = Officer.objects.all().order_by('-start_date')
+    return create_main_context(
+        request, tab,
+        current_election_officer_sfuid=get_current_election_officer_sfuid(unprocessed_officers=unprocessed_officers,
+                                                                          officers=officers),
+        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
+            unprocessed_officers=unprocessed_officers,
+            officers=officers),
+        current_sys_admin_sfuid=get_current_sys_admin_sfuid(unprocessed_officers=unprocessed_officers,
+                                                            officers=officers),
+        current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(unprocessed_officers=unprocessed_officers,
+                                                                          officers=officers)
+    )

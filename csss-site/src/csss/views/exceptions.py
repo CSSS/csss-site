@@ -26,3 +26,10 @@ class CASAuthenticationMethod(Exception):
         else:
             context[ERROR_MESSAGES_KEY] = [error_message]
         self.render = render(request, 'csss/error_htmls/login_errors.html', context)
+
+
+class UnProcessedNotDetected(Exception):
+    def __init__(self, request, tab=None):
+        context = create_main_context(request, tab=tab)
+        context[ERROR_MESSAGES_KEY] = [f"Could not find an unprocessed officer slot for {request.user.username}"]
+        self.render = render(request, 'csss/error_htmls/access_not_allowed.html', context)

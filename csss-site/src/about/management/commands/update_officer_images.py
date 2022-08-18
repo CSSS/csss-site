@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 
 from about.models import Officer
-from about.views.officer_position_and_github_mapping.officer_management_helper import get_officer_image_path
+from about.views.utils.get_officer_image_path import get_officer_image_path
 
 logger = logging.getLogger('csss_site')
 
