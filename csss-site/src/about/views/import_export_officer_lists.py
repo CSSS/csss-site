@@ -341,6 +341,7 @@ def extract_and_save_officer_info(term_obj, officer, position_index):
     )
     return success, error_message
 
+
 def get_term_number(year, term_season):
     """
     gets the term number using the year and term
@@ -355,6 +356,7 @@ def get_term_number(year, term_season):
     return None \
         if ((not f"{year}".isdigit()) or term_season not in TERM_SEASONS) \
         else int(year) * 10 + _get_term_season_number(term_season)
+
 
 def _get_term_season_number(term_season):
     """
@@ -395,6 +397,7 @@ def save_new_term(year, term_season):
         year=int(year)
     )
     return term_obj
+
 
 def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_computing_id, sfu_email_alias,
                                              announcement_emails, github_username, gmail, start_date, fav_course_1,
@@ -523,6 +526,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
                 officer_obj.delete()
                 return success, error_message
     return True, None
+
 
 def _save_officer_github_membership(officer):
     """
