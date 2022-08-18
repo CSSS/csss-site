@@ -155,3 +155,22 @@ def verify_user_input_has_all_required_fields(election_dict, fields=None):
     if error_message != "":
         error_message = "It seems that the following field[s] are missing: " + error_message
     return error_message
+
+def get_latest_term():
+    """
+    Get the term number for the latest term
+    Return
+    the term_number that fits the convention YYYY<1/2/3>
+    """
+    date_for_next_month = datetime.datetime.now()
+    term_number_for_current_term = get_term_number_for_specified_year_and_month(
+        date_for_next_month.month, date_for_next_month.year
+    )
+    term_number_for_next_term = get_term_number_for_specified_year_and_month(
+        date_for_next_month.month, date_for_next_month.year
+    )
+    while term_number_for_current_term == term_number_for_next_term:
+        date_for_next_month = date_for_next_month + datetime.timedelta(days=30)
+        term_number_for_next_term = get_term_number_for_specified_year_and_month(
+            date_for_next_month.month, date_for_next_month.year
+        )
