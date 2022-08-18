@@ -176,3 +176,49 @@ def date_is_first_day_of_term(current_date):
     bool
     """
     return (current_date.month == 1 or current_date.month == 5 or current_date.month == 9) and current_date.day == 1
+
+
+def determine_if_specified_term_obj_is_for_current_term(term_obj):
+    """
+    Returns a bool that indicates if the specified term obj points to the current term
+    Keyword Argument
+    term_obj -- the specified term obj
+    Return
+    Bool -- true if the term obj points to the current term, otherwise False
+    """
+    current_date = datetime.datetime.now()
+    if int(current_date.month) <= 4:
+        term_season_index = 0
+    elif int(current_date.month) <= 8:
+        term_season_index = 1
+    else:
+        term_season_index = 2
+    current_season = TERM_SEASONS[term_season_index]
+    return term_obj.year == current_date.year and term_obj.term == current_season
+
+
+def verify_user_input_has_all_required_fields(election_dict, fields=None):
+    """
+    Create the error message for indicating if a field is missing
+    Keyword Argument
+    election_dict -- the dictionary that contains all the user inputs
+    fields -- the list of field that need to exist in the dictionary. If there are 2 fields where at least one
+     is needed, add them to via a list under one element in fields
+    Return
+    the error message -- just "" if there are no errors
+    """
+    error_message = ""
+    if fields is not None and type(fields) == list:
+        field_exists = False
+        for field in fields:
+            if type(field) is list:
+                number_of_field_options_found = [1 for field_option in field if field_option in election_dict]
+                if len(number_of_field_options_found) == 0:
+                    error_message += f", {' or '.join(field)}" if field_exists else f"{' or '.join(field)}"
+                    field_exists = True
+            elif field not in election_dict:
+                error_message += f", {field}" if field_exists else f"{field}"
+                field_exists = True
+    if error_message != "":
+        error_message = "It seems that the following field[s] are missing: " + error_message
+    return error_message

@@ -1,0 +1,55 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+    {{ block.super }}
+    {% load static %}
+    {% load staticfiles %}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	<form method="post" name="enter_officer_info_form" class="form">
+		{% csrf_token %}
+		<p>
+			<b>Term</b>: {{unprocessed_officer_term}} <b>Year</b>: {{unprocessed_officer_year}}<br>
+			<b>Position</b>: {{unprocessed_officer_position_name}} <br>
+			<b>Start Date</b>: {{unprocessed_officer_start_date}}
+		</p>
+		<p><b>Name</b>: <input type="text" name="{{input_unprocessed_officer_name__name}}" value="{{input_unprocessed_officer_name__value}}" required ></p>
+		<p>
+			<b>Additional email addresses you may use to send emails to the CSSS student body</b><br>
+			<i>use commas to separate multiple emails</i>:<br>
+			<textarea name="{{input_unprocessed_officer_announcement_emails__name}}" cols="80" rows="2">{{input_unprocessed_officer_announcement_emails__value}}</textarea>
+		</p>
+		{%  if officer_position_has_google_drive_access %}
+			<p><b>Gmail</b>: <input type="text" name="{{input_unprocessed_officer_gmail__name}}" value="{{ input_unprocessed_officer_gmail__value }}" required></p>
+            {%  if take_in_unprocessed_officer_gmail_verification_code__html_value %}
+                <b>Verification Code: <i>Please check your gmail for the code</i></b>: <input type="text" name="{{input_unprocessed_officer_gmail_verification_code__name}}" value="" ><br>
+                <input type="submit" name="{{input_unprocessed_officer_resend_gmail_verification_code__name}}" value="{{input_unprocessed_officer_resend_verification_code__value}}"><br>
+            {%  endif %}
+		{%  endif %}
+		<b>Phone Number</b>:<br>
+		<input type="number" name="{{input_officer_phone_number__name}}" required value="{{input_officer_phone_number__value}}">
+		{%  if positions_has_github_access %}
+			<p><b>Github Username</b>: <input type="text" name="{{input_officer_github_username__name}}" value="{{input_officer_github_username__value}}" required></p>
+		{%  endif %}
+		<b>Your 2 Favorite SFU Course</b>:<br>
+		<i>preferably comp sci related</i><br>
+		<input type="text" name="{{input_officer_course1__name}}" value="{{input_officer_course1__value}}" required > & <input type="text" name="{{input_officer_course2__name}}" value="{{input_officer_course2__value}}" required><br>
+		<b>Your 2 Favorite Computer Science programming languages of choice</b>:<br>
+		<input type="text" name="{{input_officer_language1__name}}" value="{{input_officer_language1__value}}" required> & <input type="text" name="{{input_officer_language2__name}}" value="{{input_officer_language2__value}}" required><br>
+		<b>Bio</b>:
+		<i>
+			needs to already be in <a href="{{ URL_ROOT }}markdown/">Markdown format</a><br>
+			For examples look at <a href="http://sfucsss.org/about/list_of_past_officers"> Past Bios</a>
+		</i><br>
+		<textarea name="{{input_officer_bio__name}}" cols="40" rows="5" required>{{input_officer_bio__value}}</textarea><br>
+		<input id="submit_button" type="submit" value="Submit" onclick="disableSubmit()">
+	</form>
+
+    <script>
+    function disableSubmit(){
+        submit_button = document.getElementById("submit_button");
+        submit_button.setAttribute("disabled", "");
+        submit_button.value = "Processing...This may take a minute. Do not close the tab yet."
+        enter_officer_info_form.submit();
+    }
+    </script>
+{% endblock %}
