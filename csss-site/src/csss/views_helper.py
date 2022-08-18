@@ -154,6 +154,7 @@ def verify_user_input_has_all_required_fields(election_dict, fields=None):
         error_message = "It seems that the following field[s] are missing: " + error_message
     return error_message
 
+
 def get_latest_term():
     """
     Get the term number for the latest term

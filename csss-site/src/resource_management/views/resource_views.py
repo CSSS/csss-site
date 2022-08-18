@@ -67,6 +67,7 @@ def determine_resource_to_validate(selected_resource_to_validate):
                     " to validate the access to the google drive")
         validate_github()
 
+
 def validate_google_drive():
     """
     calls functions for validating google drive permissions
