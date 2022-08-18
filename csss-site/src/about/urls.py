@@ -1,6 +1,6 @@
 from django.conf.urls import url
 
-from .views import officer_management, import_export_officer_lists
+from .views import import_export_officer_lists
 from .views.Constants import ENTER_NEW_OFFICER_INFO_URL, CURRENT_EMAIL_MAPPINGS_URL
 from .views.github_position_mapping.github_mapping import github_mapping
 from .views.github_position_mapping.save_new_github_officer_team_mapping import save_new_github_officer_team_mapping
@@ -8,10 +8,13 @@ from .views.github_position_mapping.update_saved_github_mappings import update_s
 from .views.input_new_officers.delete_new_officers.delete_new_officers import delete_new_officers
 from .views.input_new_officers.enter_new_officer_info.enter_new_officer_info import enter_new_officer_info
 from .views.input_new_officers.specify_new_officers.specify_new_officers import specify_new_officers
+from .views.list_of_officers.list_of_current_officers import list_of_current_officers
+from .views.list_of_officers.list_of_past_officers import list_of_past_officers
 from .views.officer_positions.current_email_mapping import current_email_mapping
 from .views.officer_positions.input_new_officer_positions import input_new_officer_positions
 from .views.officer_positions.officer_positions import officer_positions
 from .views.officer_positions.update_saved_position_mappings import update_saved_position_mappings
+from .views.who_we_are import who_we_are
 
 urlpatterns = [
     url(r'^specify_new_officers$', specify_new_officers, name='Specify Positions for New Officers'),
@@ -48,11 +51,11 @@ urlpatterns = [
     ),
     url(
         r'^list_of_current_officers$',
-        officer_management.list_of_current_officers,
+        list_of_current_officers,
         name='CSSS List of Current Officers'
     ),
-    url(r'^list_of_past_officers$', officer_management.list_of_past_officers, name='CSSS List of Past Officers'),
-    url(r'^who_we_are$', officer_management.who_we_are, name='Who We Are'),
+    url(r'^list_of_past_officers$', list_of_past_officers, name='CSSS List of Past Officers'),
+    url(r'^who_we_are$', who_we_are, name='Who We Are'),
 
 
     url(
