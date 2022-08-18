@@ -1,7 +1,7 @@
 import logging
 
 from about.models import Officer, Term, UnProcessedOfficer
-from csss.views_helper import get_current_term
+from csss.views_helper import get_current_term, get_latest_term
 
 logger = logging.getLogger('csss_site')
 
@@ -106,7 +106,10 @@ def get_relevant_terms(relevant_previous_terms=5):
     """
     relevant_previous_terms += 1
     term_active = get_current_term()
+    latest_term = get_latest_term()
     active_terms = []
+    if term_active != latest_term:
+        active_terms.append(latest_term)
     for index in range(0, relevant_previous_terms):
         active_terms.append(term_active)
         if (term_active % 10) == 3:
