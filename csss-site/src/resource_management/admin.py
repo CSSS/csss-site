@@ -1,19 +1,9 @@
 from django.contrib import admin
 
 # Register your models here.
-from resource_management.models import ProcessNewOfficer, NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
+from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
     NaughtyOfficer, OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
-
-
-class ProcessNewOfficerAdmin(admin.ModelAdmin):
-    list_display = (
-        'passphrase', 'start_date', 'use_new_start_date', 'term', 'year', 'position_name', 'used',
-        'position_index'
-    )
-
-
-admin.site.register(ProcessNewOfficer, ProcessNewOfficerAdmin)
 
 
 class NonOfficerGoogleDriveUserAdmin(admin.ModelAdmin):
