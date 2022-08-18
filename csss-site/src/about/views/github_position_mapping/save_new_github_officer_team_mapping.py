@@ -4,7 +4,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping
-from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
+from about.views.Constants import TAB_STRING
 from about.views.position_mapping_helper import update_context, POSITION_INDEX_KEY, \
     extract_valid_officers_positions_selected_for_github_team, \
     GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY, GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, \
