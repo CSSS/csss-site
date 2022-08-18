@@ -106,6 +106,13 @@ INPUT_UNPROCESSED_OFFICER_BIO__VALUE = 'input_officer_bio__value'
 # csss-site/src/about/views/input_new_officers/enter_new_officer_info/save_officer_and_grant_digital_resources.py
 OFFICER_START_DATE_FORMAT = '%A, %d %b %Y %I:%m %S %p'
 
+# csss-site/src/about/views/create_context/officer_positions/create_context_for_current_email_mappings_html.py
+EMAIL_LIST_MAPPINGS = 'email_list_mappings'
+SFU_EMAIL_LIST = 'sfu_email_list'
+SFU_COMPUTING_IDS = 'sfu_computing_ids'
+CURRENT_EXEC_EMAIL_LIST = 'csss-execs-current'
+CURRENT_AND_PAST_MINUS_1_EXEC_EMAIL_LIST = 'csss-execs'
+
 # urls
 ENTER_NEW_OFFICER_INFO_URL = 'enter_new_officer_info'
 CURRENT_EMAIL_MAPPINGS_URL = 'current_email_mappings'

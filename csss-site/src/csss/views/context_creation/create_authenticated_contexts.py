@@ -266,3 +266,14 @@ def create_context_for_processing_unprocessed_officer(request, tab=None):
         current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(unprocessed_officers=unprocessed_officers,
                                                                           officers=officers)
     )
+
+def create_context_for_officer_email_mappings(request, tab=None):
+    officers = None
+    unprocessed_officers = None
+    if request.user.username != "root":
+        unprocessed_officers = UnProcessedOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_sys_admin, tab=tab,
+        unprocessed_officers=unprocessed_officers, officers=officers
+    )
