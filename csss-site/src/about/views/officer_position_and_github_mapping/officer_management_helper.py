@@ -4,8 +4,7 @@ import logging
 from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailListAndPositionMapping
 from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.Gmail import Gmail
-from resource_management.models import NaughtyOfficer, \
-    OfficerPositionGithubTeamMapping
+from resource_management.models import OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 TAB_STRING = 'about'
@@ -87,7 +86,6 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
                                              announcement_emails, github_username, gmail, start_date, fav_course_1,
                                              fav_course_2, fav_language_1, fav_language_2, bio, position_name,
                                              position_index, term_obj, sfu_officer_mailing_list_email,
-                                             remove_from_naughty_list=False,
                                              apply_github_team_memberships=True,
                                              gdrive_api=None,
                                              send_email_notification=False):
@@ -210,8 +208,6 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
             if not success:
                 officer_obj.delete()
                 return success, error_message
-    if remove_from_naughty_list:
-        _remove_officer_from_naughty_list(sfu_computing_id)
     return True, None
 
 
@@ -259,30 +255,3 @@ def _save_officer_github_membership(officer):
             f"mapped officer {officer} to team {github_team_mapping.github_team.team_name}"
         )
     return True, None
-
-
-def _remove_officer_from_naughty_list(sfu_computing_id):
-    """
-    Removes the office form the naughty list so that their permissions remain
-    even after a validation
-
-    Keyword Argument
-    sfu_computing_id -- the sfu_computing_id of the officer
-    """
-    logger.info(
-        "[about/officer_management_helper.py _remove_officer_from_naughty_list()] "
-        f"sfu_computing_id: [{sfu_computing_id}]"
-    )
-    naughty_officers = NaughtyOfficer.objects.all()
-    for naughty_officer in naughty_officers:
-        logger.info(
-            "[about/officer_management_helper.py _remove_officer_from_naughty_list()] will compare sfu_computing_id"
-            f" [{sfu_computing_id}] with naughty_officer.sfu_computing_id [{naughty_officer.sfu_computing_id}]"
-        )
-        if naughty_officer.sfu_computing_id == sfu_computing_id:
-            logger.info(
-                f"[about/officer_management_helper.py _remove_officer_from_naughty_list()] deleting "
-                f"naughty_officer {naughty_officer.sfu_computing_id}"
-            )
-            naughty_officer.delete()
-            return
