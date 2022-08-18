@@ -6,7 +6,6 @@ from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod, UnPr
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
     get_sfuid_for_officer_in_past_5_terms, get_current_election_officer_sfuid
-from resource_management.models import NaughtyOfficer
 
 
 def create_context_for_officer_creation_links(request, tab=None):
@@ -26,14 +25,14 @@ def create_context_for_officer_creation_links(request, tab=None):
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
@@ -54,14 +53,14 @@ def create_context_for_uploading_and_download_officer_lists(request, tab=None):
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
@@ -82,14 +81,14 @@ def create_context_for_updating_position_mappings(request, tab=None):
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
@@ -110,14 +109,14 @@ def create_context_for_updating_github_mappings_and_permissions(request, tab=Non
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_sys_admin, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
@@ -138,14 +137,14 @@ def create_context_for_current_and_past_officers_details(request, tab=None):
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_officer_in_past_5_terms, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
@@ -166,14 +165,14 @@ def create_context_for_google_drive_permissions(request, tab=None):
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_officer_in_past_5_terms, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
@@ -194,19 +193,19 @@ def create_context_for_election_officer(request, tab=None):
     throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
      or the user is trying to access a page they are not allowed to
     """
-    naughty_officers = None
+    unprocessed_officers = None
     officers = None
     if request.user.username != "root":
-        naughty_officers = NaughtyOfficer.objects.all()
+        unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all().order_by('-start_date')
     return _create_context_for_authenticated_user(
         request, authentication_method=user_is_current_election_officer, tab=tab,
-        naughty_officers=naughty_officers, officers=officers
+        unprocessed_officers=unprocessed_officers, officers=officers
     )
 
 
 def _create_context_for_authenticated_user(request, authentication_method=None,
-                                           tab=None, naughty_officers=None, officers=None):
+                                           tab=None, unprocessed_officers=None, officers=None):
     """
     Makes sure that the context is only read for user who pass the authentication and method and that either the
     endpoint or html is specified
@@ -217,7 +216,7 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
     tab -- the tab for the page that the user is on
         endpoint -- the endpoint to redirect to if an error is experienced
     html -- the html page to redirect to if an error is experienced
-    naughty_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    unprocessed_officers -- the list of SFUIDs for officer who have not yet added their latest bio
     officers -- all current and past officers
 
     Return
@@ -231,18 +230,23 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
         raise NoAuthenticationMethod(
             request, tab=tab
         )
-    if not authentication_method(request, naughty_officers=naughty_officers, officers=officers):
+    if not authentication_method(request, unprocessed_officers=unprocessed_officers, officers=officers):
         raise InvalidPrivilege(request, tab=tab)
 
     return create_main_context(
             request, tab,
-            current_election_officer_sfuid=get_current_election_officer_sfuid(naughty_officers=naughty_officers,
-                                                                              officers=officers),
-            sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(naughty_officers=naughty_officers,
-                                                                                    officers=officers),
-            current_sys_admin_sfuid=get_current_sys_admin_sfuid(naughty_officers=naughty_officers, officers=officers),
-            current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(naughty_officers=naughty_officers,
-                                                                              officers=officers)
+            current_election_officer_sfuid=get_current_election_officer_sfuid(
+                unprocessed_officers=unprocessed_officers, officers=officers
+            ),
+            sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
+                unprocessed_officers=unprocessed_officers, officers=officers
+            ),
+            current_sys_admin_sfuid=get_current_sys_admin_sfuid(
+                unprocessed_officers=unprocessed_officers, officers=officers
+            ),
+            current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(
+                unprocessed_officers=unprocessed_officers, officers=officers
+            )
         )
 
 
@@ -266,6 +270,7 @@ def create_context_for_processing_unprocessed_officer(request, tab=None):
         current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(unprocessed_officers=unprocessed_officers,
                                                                           officers=officers)
     )
+
 
 def create_context_for_officer_email_mappings(request, tab=None):
     officers = None
