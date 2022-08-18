@@ -1,3 +1,5 @@
+from csss.views_helper import DATE_FORMAT
+
 TAB_STRING = 'elections'
 
 ID_KEY = 'id'
@@ -50,7 +52,6 @@ JS_FORMATTING_ERROR = 'js_formatting_error'
 USER_INPUTTED_ELECTION_JSON__KEY = 'election_input__html_name'
 USER_INPUTTED_ELECTION_JSON = 'election_input'
 
-DATE_FORMAT = '%Y-%m-%d'
 TIME_FORMAT = '%H:%M'
 DATE_AND_TIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"
 
