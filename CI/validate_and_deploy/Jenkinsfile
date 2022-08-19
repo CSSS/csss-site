@@ -39,7 +39,7 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
-                        string(credentialsId: 'CSSS_DISCORD_BOT_TOKEN', variable: 'CSSS_DISCORD_BOT_TOKEN'),
+                        string(credentialsId: 'CSSS_WEBSITE_DISCORD_BOT_TOKEN', variable: 'CSSS_WEBSITE_DISCORD_BOT_TOKEN'),
                         string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
                     ]
                 ) {
@@ -58,7 +58,7 @@ pipeline {
                             export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                             export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
-                            export DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
+                            export DISCORD_BOT_TOKEN="'"${CSSS_WEBSITE_DISCORD_BOT_TOKEN}"'";
                             export GUILD_ID="'"228761314644852736"'";
                             export SFU_ENDPOINT_TOKEN="'"${SFU_ENDPOINT_TOKEN}"'";
 
@@ -87,7 +87,7 @@ pipeline {
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
-                        string(credentialsId: 'CSSS_DISCORD_BOT_TOKEN', variable: 'CSSS_DISCORD_BOT_TOKEN'),
+                        string(credentialsId: 'CSSS_WEBSITE_DISCORD_BOT_TOKEN', variable: 'CSSS_WEBSITE_DISCORD_BOT_TOKEN'),
                         string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
                     ]
                 ) {
@@ -104,7 +104,7 @@ pipeline {
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
-                        export DISCORD_BOT_TOKEN="'"${CSSS_DISCORD_BOT_TOKEN}"'";
+                        export DISCORD_BOT_TOKEN="'"${CSSS_WEBSITE_DISCORD_BOT_TOKEN}"'";
                         export GUILD_ID="'"228761314644852736"'";
                         export SFU_ENDPOINT_TOKEN="'"${SFU_ENDPOINT_TOKEN}"'";
 
