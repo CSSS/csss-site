@@ -1,4 +1,5 @@
 import json
+from time import sleep
 
 import requests
 from django.conf import settings
@@ -29,6 +30,7 @@ def dm_new_officers_on_discord(recipient_id, title, message):
         headers=discord_header
     )
     if response.status_code == 200:
+        sleep(1)
         response = requests.post(
             f"https://discord.com/api/channels/{response.json()['id']}/messages",
             data=json.dumps(

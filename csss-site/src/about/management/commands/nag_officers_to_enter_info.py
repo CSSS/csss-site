@@ -1,4 +1,5 @@
 import logging
+from time import sleep
 
 from django.core.management import BaseCommand
 
@@ -18,6 +19,7 @@ class Command(BaseCommand):
         unprocessed_officers = UnProcessedOfficer.objects.all()
         officers = Officer.objects.all()
         for unprocessed_officer in unprocessed_officers:
+            sleep(1)
             success, error_message = send_notification_asking_officer_to_fill_in_form(
                 unprocessed_officer.discord_id,
                 unprocessed_officer.full_name,

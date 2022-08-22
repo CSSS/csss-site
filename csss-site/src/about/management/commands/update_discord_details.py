@@ -19,6 +19,7 @@ class Command(BaseCommand):
         discord_info_maps = {}
         max_retries = 5
         for officers_discord_id in officers_discord_ids:
+            sleep(1)
             success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(
                 officers_discord_id
             )
