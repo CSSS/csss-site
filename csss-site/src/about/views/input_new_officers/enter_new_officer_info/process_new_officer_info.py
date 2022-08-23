@@ -53,7 +53,9 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
         UNPROCESSED_OFFICER_BIO__KEY
     ]
 
+    validate_github = False
     if len(github_team_to_add) > 0:
+        validate_github = True
         fields.append(UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY)
     if position_info.google_drive:
         fields.append(UNPROCESSED_OFFICER_GMAIL__KEY)
@@ -69,7 +71,7 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
             position_info=position_info
         )
         return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html', context)
-    success, error_message = validate_user_info(officer_info)
+    success, error_message = validate_user_info(officer_info, validate_github=validate_github)
     if not success:
         logger.info(
             "[about/process_new_officer_info.py"
