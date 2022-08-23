@@ -45,7 +45,7 @@ def create_context_for_main_function_html(context, saved_unprocessed_officers,
                 ID_KEY: draft_new_officer.get(ID_KEY, ""),
                 DISCORD_ID_KEY: draft_new_officer[DISCORD_ID_KEY],
                 SFU_COMPUTING_ID_KEY: draft_new_officer[SFU_COMPUTING_ID_KEY],
-                NUMBER_OF_NAGS_KEY: draft_new_officer[NUMBER_OF_NAGS_KEY],
+                NUMBER_OF_NAGS_KEY: draft_new_officer.get(NUMBER_OF_NAGS_KEY, 0),
                 FULL_NAME_KEY: draft_new_officer[FULL_NAME_KEY],
 
                 START_DATE_KEY: draft_new_officer.get(START_DATE_KEY, current_date.strftime(YEAR_MONTH_DAY_FORMAT)),
