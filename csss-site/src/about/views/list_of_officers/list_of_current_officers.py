@@ -23,6 +23,7 @@ def list_of_current_officers(request):
             )
         ),
         'term_active': get_current_term(),
-        'terms': [Term.objects.all().order_by('-term_number')[0]],
+        'terms': [Term.objects.all().filter(term_number=get_current_term()).first()],
     })
+
     return render(request, 'about/list_of_officers.html', context)

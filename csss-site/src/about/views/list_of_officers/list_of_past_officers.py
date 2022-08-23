@@ -18,12 +18,12 @@ def list_of_past_officers(request):
             map(
                 fix_start_date_and_bio_for_officer,
                 Officer.objects.all().exclude(
-                    elected_term=get_current_term()).order_by(
+                    elected_term__term_number__gte=get_current_term()).order_by(
                     'elected_term__term_number', 'position_index', '-start_date'
                 )
             )
         ),
         'term_active': get_previous_term(),
-        'terms': Term.objects.all().exclude(term_number=get_current_term()).order_by('-term_number'),
+        'terms': Term.objects.all().exclude(term_number__gte=get_current_term()).order_by('-term_number'),
     })
     return render(request, 'about/list_of_officers.html', context)
