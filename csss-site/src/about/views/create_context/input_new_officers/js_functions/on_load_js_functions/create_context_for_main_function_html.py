@@ -35,8 +35,14 @@ def create_context_for_main_function_html(context, saved_unprocessed_officers,
     context[OFFICER_ENTER_INFO_URL] = url
 
     if draft_new_officers is None or len(draft_new_officers) == 0:
+        ordered_positions = officer_emaillist_and_position_mappings.order_by('position_index')
+        draft_saved_unprocessed_officers = []
+        for ordered_position in ordered_positions:
+            officer = saved_unprocessed_officers.filter(position_name=ordered_position.position_name).first()
+            if officer is not None:
+                draft_saved_unprocessed_officers.append(officer)
         draft_new_officers = [
-            create_new_officer_model(draft_new_officer) for draft_new_officer in saved_unprocessed_officers
+            create_new_officer_model(draft_new_officer) for draft_new_officer in draft_saved_unprocessed_officers
         ]
 
     else:
