@@ -49,5 +49,5 @@ def dm_new_officers_on_discord(recipient_id, title, message):
         error_message = (
             f"Unable to send message to officer {recipient_id} due to reason '{response.reason}' with "
             f"an error message of '{json.loads(response.text)['message']}'"
-        )   
+        )
         return False, error_message
