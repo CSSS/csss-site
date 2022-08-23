@@ -5,7 +5,7 @@ import requests
 from django.conf import settings
 from django.core.management import BaseCommand
 
-from about.models import Officer, OfficerEmailListAndPositionMapping
+from about.models import Officer, OfficerEmailListAndPositionMapping, UnProcessedOfficer
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
     EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
 from csss.settings import discord_header
@@ -19,7 +19,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        current_officers = Officer.objects.all().filter(elected_term=get_current_term_obj())
+        current_officers = Officer.objects.all().filter(
+            elected_term=get_current_term_obj()
+        ).exclude(
+            sfu_computing_id__in=list(UnProcessedOfficer.objects.all().values_list('sfu_computing_id', flat=True))
+        )
         officer_discord_id__officer_full_name = {
             officer.discord_id: officer.full_name for officer in current_officers
         }
