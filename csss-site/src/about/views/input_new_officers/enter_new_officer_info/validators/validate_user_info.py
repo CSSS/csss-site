@@ -24,10 +24,13 @@ def validate_user_info(new_officer_info):
         announcement_emails = new_officer_info[UNPROCESSED_OFFICER_ANNOUNCEMENT_EMAILS__KEY].split(",")
         for announcement_email in announcement_emails:
             announcement_email = announcement_email.strip()
-            if not re.match(r"^\w+@(gmail|hotmail|protonmail|sfu|outlook|icloud|me)\.(com|ca)+$", announcement_email):
+            valid_email = re.match(
+                r"^[\w.]+@(gmail|hotmail|protonmail|sfu|outlook|icloud|me)\.(com|ca)+$", announcement_email
+            )
+            if not valid_email:
                 return False, f"Email \"{announcement_email}\" not recognized as a valid email"
     gmail = new_officer_info[UNPROCESSED_OFFICER_GMAIL__KEY]
-    if not re.match(r"^\w+@(gmail)\.(com|ca)+$", gmail):
+    if not re.match(r"^[\w.]+@(gmail)\.(com|ca)+$", gmail):
         return False, f"Email \"{gmail}\" not recognized as a valid gmail"
     phone_number = new_officer_info[UNPROCESSED_OFFICER_PHONE_NUMBER_KEY]
     if not ((f"{phone_number}".isdigit() and len(phone_number) == 10) or int(phone_number) == 0):
