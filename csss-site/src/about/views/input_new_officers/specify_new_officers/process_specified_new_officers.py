@@ -75,12 +75,13 @@ def process_specified_new_officers(
             success, error_message = send_notification_asking_officer_to_fill_in_form(
                 new_officer_to_dm.discord_id, new_officer_to_dm.full_name, first_time_officer
             )
+            error_messages = [error_message] if not success else None
 
             # below logic is here so that if the user hit the button mid-draft, the DM get sent but the
             # draft is preserved
             create_context_for_specify_new_officers_html(
                 context, saved_unprocessed_officers, officer_emaillist_and_position_mappings,
-                error_messages=[error_message], term=inputted_term, year=inputted_year,
+                error_messages=error_messages, term=inputted_term, year=inputted_year,
                 draft_new_officers=unprocessed_officers
             )
             return render(request, 'about/input_new_officers/specify_new_officers.html', context)
