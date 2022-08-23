@@ -11,6 +11,11 @@ class Term(models.Model):
         primary_key=True,
         default=0,
     )
+
+    def save(self, *args, **kwargs):
+        self.term_number = self.get_term_number()
+        super(Term, self).save(*args, **kwargs)
+
     term_choices = (
         ('Spring', 'Spring'),
         ('Summer', 'Summer'),
@@ -27,6 +32,33 @@ class Term(models.Model):
         default='2018',
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
+
+    def get_term_number(self):
+        """
+        Get the term number for the term
+
+        Return
+        term_number -- the term number for the term, or None
+        """
+        index = 1
+        for term_starting_month in Term.term_choices:
+            if term_starting_month[0] == self.term:
+                if int(index) <= 4:
+                    return (self.year * 10) + 1
+                elif int(index) <= 8:
+                    return (self.year * 10) + 2
+                else:
+                    return (self.year * 10) + 3
+            index += 4
+        return None
+
+    def get_term_month_number(self):
+        """
+        Returns the term month number for the specified term
+        """
+        for (index, term) in enumerate(Term.term_choices):
+            if term[0] == self.term:
+                return index + 1
 
     def __str__(self):
         return f"{self.term} {self.year}"
@@ -277,6 +309,9 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=3,
         null=True
     )
+
+    def get_term_month_number(self):
+        return self.starting_month
 
     @property
     def get_starting_month(self):

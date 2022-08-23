@@ -33,9 +33,9 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
         unprocessed_officers = []
     if len(unprocessed_officers) == 0:
         return False, "No officers detected in response"
-    term = terms.filter(term=inputted_term, year=inputted_year).first()
+    term = terms.filter(term=inputted_term, year=int(inputted_year)).first()
     if term is None:
-        term = Term(term=inputted_term, year=inputted_year)
+        term = Term(term=inputted_term, year=int(inputted_year))
         term.save()
     saved_unprocessed_officers_dict = {
         unprocessed_officer.id: unprocessed_officer for unprocessed_officer in saved_unprocessed_officers
@@ -60,7 +60,7 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
             officer_emaillist_and_position_mappings,
             RE_USE_START_DATE_KEY in unprocessed_officer,
             unprocessed_officer[START_DATE_KEY].strip(),
-            sfu_computing_id, position_name
+            sfu_computing_id, position_name, term
         )
         first_time_officer = officers.filter(sfu_computing_id=sfu_computing_id).first() is None
         logger.info(
