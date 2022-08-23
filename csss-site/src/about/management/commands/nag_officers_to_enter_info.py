@@ -23,7 +23,7 @@ class Command(BaseCommand):
             success, error_message = send_notification_asking_officer_to_fill_in_form(
                 unprocessed_officer.discord_id,
                 unprocessed_officer.full_name,
-                officers.filter(sfuid=unprocessed_officer.sfu_computing_id).first() is None
+                officers.filter(sfu_computing_id=unprocessed_officer.sfu_computing_id).first() is None
             )
             unprocessed_officer.number_of_nags += 1
             unprocessed_officer.save()
