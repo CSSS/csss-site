@@ -46,4 +46,8 @@ def dm_new_officers_on_discord(recipient_id, title, message):
     if response.status_code == 200:
         return True, None
     else:
-        return False, f"Encountered error message of '{response.reason}'"
+        error_message = (
+            f"Unable to send message to officer {recipient_id} due to reason '{response.reason}' with "
+            f"an error message of '{json.loads(response.text)['message']}'"
+        )   
+        return False, error_message
