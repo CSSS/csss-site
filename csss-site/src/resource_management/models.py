@@ -30,6 +30,9 @@ class OfficerPositionGithubTeamMapping(models.Model):
         on_delete=models.CASCADE
     )
 
+    def get_team_name(self):
+        return self.github_team.team_name
+
     def __str__(self):
         return f"officer position mapping for {self.officer_position_mapping} to" \
                f" github team {self.github_team.team_name}"
