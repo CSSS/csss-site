@@ -1,6 +1,6 @@
 import logging
 
-from csss.views_helper import get_current_term_number, get_current_term_obj
+from csss.views_helper import get_current_term_obj
 
 logger = logging.getLogger('csss_site')
 
@@ -41,7 +41,7 @@ webmaster
 
 def determine_start_date(
         officers, officer_email_list_and_position_mapping, re_use_start_date, start_date, sfu_computing_id,
-        position_name):
+        position_name, target_term):
     """
     Determines the start date to use for a New_Officer
 
@@ -52,6 +52,7 @@ def determine_start_date(
     start_date -- the start date that the user has entered for the New_Officer
     sfu_computing_id -- the sfu computing ID of the New_Officer
     position_name -- the name of the position that the New_Officer has been elected to
+    target_term -- the term that the new officer will be saved under
 
     Return
     start_date -- the start date to use for the UnProcessed Officer
@@ -65,7 +66,7 @@ def determine_start_date(
             f"since the number of terms for the position {position_name} is 1"
         )
         return start_date
-    if position_obj.starting_month is None and position_obj.number_of_terms is not None:
+    if position_obj.get_term_month_number() is None and position_obj.number_of_terms is not None:
         # for position like By-Election Officer which have no real start-month and may sometimes cover 1 or 2 terms,
         # depending on when they are elected. Like if they are elected at the very end of a term
         logger.info(
@@ -73,11 +74,11 @@ def determine_start_date(
             f"{position_name}, will revert to using start_date {start_date}"
         )
         return start_date
-    current_term_number = get_current_term_number()
     logger.info(
-        f"[about/determine_start_date.py determine_start_date()] current_term_number={current_term_number} "
+        f"[about/determine_start_date.py determine_start_date()] target_term.get_term_month_number()="
+        f"{target_term.get_term_month_number()} "
     )
-    if position_obj.starting_month == current_term_number:
+    if position_obj.get_term_month_number() == target_term.get_term_month_number():
         logger.info(
             f"[about/determine_start_date.py determine_start_date()] the current term is the term that the position"
             f" {position_name} starts in....will revert to using the new start_date of {start_date} as a result"
@@ -107,12 +108,12 @@ def determine_start_date(
     if (
         position_obj.number_of_terms == 2 and
         (
-            current_term_number - position_obj.starting_month == 1 or
-            current_term_number - position_obj.starting_month == -2
+            target_term.get_term_month_number() - position_obj.get_term_month_number() == 1 or
+            target_term.get_term_month_number() - position_obj.get_term_month_number() == -2
         )
     ):
         """
-        starting_month
+        target_term_number
         1
             shares starting_date: 2             [2-1] = 1
             does not share starting_date: 1, 3  [1-1] = 0 && [3-1] = 2
@@ -127,10 +128,10 @@ def determine_start_date(
             "[about/determine_start_date.py determine_start_date()]  using the officer's current start_date "
             f"{officer.start_date}"
             " since it seems they were holding this position last month and its not a cut-off time yet"
-            "\n(position_obj.starting_month - current_term_number) ="
-            f"{(position_obj.starting_month - current_term_number)}"
-            "\n(position_obj.starting_month - current_term_number)="
-            f"{(position_obj.starting_month - current_term_number)}"
+            "\n(position_obj.starting_month - target_term.get_term_month_number()) ="
+            f"{(position_obj.get_term_month_number() - target_term.get_term_month_number())}"
+            "\n(position_obj.starting_month - target_term.get_term_month_number())="
+            f"{(position_obj.get_term_month_number() - target_term.get_term_month_number())}"
         )
         start_date = officer.start_date
     else:

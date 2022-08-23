@@ -38,16 +38,6 @@ def get_current_term():
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
-def get_current_term_number():
-    """
-    Get the term number for the current term
-
-    Return
-    the term_number that is either <1/2/3>
-    """
-    return get_current_term() % 10
-
-
 def get_previous_term():
     current_date = datetime.datetime.now()
     return get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
