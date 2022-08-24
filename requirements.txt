@@ -60,9 +60,6 @@ oauth2client==3.0.0
 # github management
 PyGithub==1.55
 
-# gitlab management
-python-gitlab==2.3.1
-
 markdown-link-attr-modifier==0.2.0
 Markdown==3.3.4
 beautifulsoup4==4.11.1
