@@ -4,6 +4,7 @@
     {{ block.super }}
     {% load static %}
     {% load staticfiles %}
+    {% include 'csss/on_submission_message.html' %}
 	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
 	<form method="post" name="enter_officer_info_form" class="form">
 		{% csrf_token %}
@@ -46,11 +47,6 @@
 	</form>
 
     <script>
-    function disableSubmit(){
-        submit_button = document.getElementById("submit_button");
-        submit_button.setAttribute("disabled", "");
-        submit_button.value = "Processing...This may take a minute. Do not close the tab yet."
-        enter_officer_info_form.submit();
-    }
+        {%  include 'csss/disable_submission_js_function.html' %}
     </script>
 {% endblock %}
