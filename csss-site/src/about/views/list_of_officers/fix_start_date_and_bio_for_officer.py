@@ -1,6 +1,6 @@
 import datetime
 
-import markdown
+from csss.views_helper import markdown_message
 
 
 def fix_start_date_and_bio_for_officer(officer):
@@ -15,12 +15,5 @@ def fix_start_date_and_bio_for_officer(officer):
     officer -- the officer whose start date's time was removed
     """
     officer.start_date = datetime.datetime.strftime(officer.start_date, "%d %b %Y")
-    officer.bio = markdown.markdown(
-        officer.bio, extensions=['sane_lists', 'markdown_link_attr_modifier'],
-        extension_configs={
-            'markdown_link_attr_modifier': {
-                'new_tab': 'on',
-            },
-        }
-    )
+    officer.bio = markdown_message(officer.bio)
     return officer

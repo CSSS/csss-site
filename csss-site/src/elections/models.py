@@ -1,12 +1,11 @@
-import markdown
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from datetime import datetime
-
-
 # Create your models here.
+from csss.views_helper import markdown_message
 from elections.views.Constants import HTML_PASSPHRASE_GET_KEY
 
 
@@ -107,6 +106,18 @@ class NomineeSpeech(models.Model):
     )
 
     @property
+    def formatted_speech(self):
+        return markdown_message(self.speech)
+
+    @property
+    def speech_for_editing(self):
+        return self.format_speech_for_editing(self.speech)
+
+    @staticmethod
+    def format_speech_for_editing(speech):
+        return speech.replace("`", r'\`')
+
+    @property
     def social_media_html(self):
         social_media = None
         barrier_needed = False
@@ -134,17 +145,6 @@ class NomineeSpeech(models.Model):
                 social_media = ""
             social_media += f'Discord Username: {self.nominee.discord}'
         return "" if social_media is None else "<p> Contact/Social Media: " + social_media + "</p>"
-
-    @property
-    def formatted_speech(self):
-        return markdown.markdown(
-            self.speech, extensions=['sane_lists', 'markdown_link_attr_modifier'],
-            extension_configs={
-                'markdown_link_attr_modifier': {
-                    'new_tab': 'on',
-                },
-            }
-        )
 
     @property
     def formatted_position_names_html(self):
