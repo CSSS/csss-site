@@ -90,7 +90,8 @@ def create_context_for_enter_new_officer_info_html(context, username, officer_em
         officer_language2 = officer_info.get(UNPROCESSED_OFFICER_LANGUAGE_2__KEY, officer_language2)
         officer_bio = officer_info.get(UNPROCESSED_OFFICER_BIO__KEY, officer_bio)
     else:
-        officer = Officer.objects.all().filter(sfu_computing_id=username).order_by('-start_date').first()
+        officers = Officer.objects.all()
+        officer = officers.filter(sfu_computing_id=username).order_by('-start_date').first()
         if officer is not None:
             officer_name = officer.full_name
             officer_announcement_emails = ", ".join(
@@ -102,7 +103,11 @@ def create_context_for_enter_new_officer_info_html(context, username, officer_em
             officer_course2 = officer.course2
             officer_language1 = officer.language1
             officer_language2 = officer.language2
-            officer_bio = officer.bio
+        officer_in_same_position = officers.filter(
+            sfu_computing_id=username, position_name=new_officer.position_name
+        ).order_by('-start_date').first()
+        if officer_in_same_position is not None:
+            officer_bio = officer_in_same_position.bio
 
     context[UNPROCESSED_OFFICER_TERM] = new_officer.term.term
     context[UNPROCESSED_OFFICER_YEAR] = new_officer.term.year
