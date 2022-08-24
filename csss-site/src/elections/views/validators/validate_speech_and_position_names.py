@@ -1,5 +1,5 @@
 from about.models import OfficerEmailListAndPositionMapping
-from csss.views_helper import there_are_multiple_entries
+from csss.views_helper import there_are_multiple_entries, validate_markdown
 from elections.models import NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH, \
@@ -24,6 +24,11 @@ def validate_speech_in_pairing(speech_ids_so_far, speech_and_position_pairing, e
     if not (ELECTION_JSON_KEY__NOM_SPEECH in speech_and_position_pairing and
             len(speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
         return False, f"one of the speeches specified for {full_name} is invalid"
+    sucess, error_message = validate_markdown(
+        speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]
+    )
+    if not sucess:
+        return sucess, error_message
     if ID_KEY in speech_and_position_pairing:
         validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairing, election_id)
     return True, None
@@ -39,9 +44,9 @@ def validate_id_for_speech_pairing(speech_ids_so_far, speech_and_position_pairin
     election_id -- the Id for the election to check if the speech belongs to it
     """
     if len(
-            NomineeSpeech.objects.all().filter(
-                id=int(speech_and_position_pairing[ID_KEY]), nominee__election_id=election_id
-            )
+        NomineeSpeech.objects.all().filter(
+            id=int(speech_and_position_pairing[ID_KEY]), nominee__election_id=election_id
+        )
     ) != 1:
         # if the ID does not map to a current Speech object
         del speech_and_position_pairing[ID_KEY]
@@ -102,9 +107,9 @@ def validate_id_for_position_pairing(position_ids_so_far, position_dict, electio
         del position_dict[ID_KEY]
     else:
         if len(
-                NomineePosition.objects.all().filter(
-                    id=int(position_dict[ID_KEY]), nominee_speech__nominee__election_id=election_id
-                )
+            NomineePosition.objects.all().filter(
+                id=int(position_dict[ID_KEY]), nominee_speech__nominee__election_id=election_id
+            )
         ) != 1:
             del position_dict[ID_KEY]
         else:

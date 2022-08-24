@@ -2,7 +2,8 @@ import re
 
 from about.views.Constants import UNPROCESSED_OFFICER_NAME__KEY, UNPROCESSED_OFFICER_ANNOUNCEMENT_EMAILS__KEY, \
     UNPROCESSED_OFFICER_GMAIL__KEY, \
-    UNPROCESSED_OFFICER_PHONE_NUMBER_KEY, UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY
+    UNPROCESSED_OFFICER_PHONE_NUMBER_KEY, UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY, UNPROCESSED_OFFICER_BIO__KEY
+from csss.views_helper import validate_markdown
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 
@@ -36,6 +37,9 @@ def validate_user_info(new_officer_info, validate_github=True):
     phone_number = new_officer_info[UNPROCESSED_OFFICER_PHONE_NUMBER_KEY]
     if not (f"{phone_number}".isdigit() and len(phone_number) == 10):
         return False, "Invalid phone number specified, please specify all 10 digits [area code and 7 digit number]"
+    success, error_message = validate_markdown(new_officer_info[UNPROCESSED_OFFICER_BIO__KEY])
+    if not success:
+        return success, error_message
     if validate_github:
         github_username = new_officer_info[UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY]
         github_api = GitHubAPI()

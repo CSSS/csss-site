@@ -73,7 +73,7 @@ def get_election_nominees(election):
                                 }
                             )
                     speech_and_position_pairing[ID_KEY] = speech.id
-                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech.speech
+                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech.formatted_speech
                     if speech_and_position_pairing is not None:
                         speech_and_position_pairings.append(speech_and_position_pairing)
 

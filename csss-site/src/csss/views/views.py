@@ -1,7 +1,6 @@
 import logging
 import os
 
-import markdown
 from django.conf import settings
 from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
@@ -9,6 +8,7 @@ from django.shortcuts import render
 
 from announcements.models import Announcement
 from csss.views.context_creation.create_main_context import create_main_context
+from csss.views_helper import markdown_message, validate_markdown
 
 logger = logging.getLogger('csss_site')
 
@@ -79,16 +79,8 @@ def index(request):
 def md(request):
     context = create_main_context(request, 'index')
     if 'message' in request.POST:
-        context['md'] = markdown.markdown(
-            request.POST['message'], extensions=[
-                'sane_lists', 'markdown_link_attr_modifier'
-            ],
-            extension_configs={
-                'markdown_link_attr_modifier': {
-                    'new_tab': 'on',
-                },
-            }
-        )
         context['message'] = request.POST['message']
+        success, error_message = validate_markdown(request.POST['message'])
+        context['md'] = error_message if not success else markdown_message(request.POST['message'])
 
     return render(request, 'csss/markdown_preview.html', context)

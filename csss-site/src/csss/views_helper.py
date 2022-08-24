@@ -1,5 +1,9 @@
 import datetime
 import logging
+import re
+
+import markdown
+from bs4 import BeautifulSoup
 
 from about.models import Term
 
@@ -163,3 +167,51 @@ def get_latest_term():
         term_number_for_next_term = get_term_number_for_specified_year_and_month(
             date_for_next_month.month, date_for_next_month.year
         )
+
+
+def markdown_message(message):
+    """
+    Marks down the given message using the markdown module
+
+    Keyword Argument
+    message -- the message to mark down
+
+    Return
+    message - the marked down message
+    """
+    return markdown.markdown(
+        message, extensions=[
+            'sane_lists', 'markdown_link_attr_modifier'
+        ],
+        extension_configs={
+            'markdown_link_attr_modifier': {
+                'new_tab': 'on',
+            },
+        }
+    )
+
+
+def validate_markdown(message):
+    """
+    Indicates if the given message has any HTML/JS code that will be parsed by the browser
+
+    Keyword Argument
+    message -- the message to determine if it has HTML/JS code that is not escaped
+
+    Return
+    bool -- True if the message has no HTML/JS that is unescaped, False otherwise
+    error_message -- the error message if message has unescaped HTML/JS text, None otherwise
+    """
+    unescaped_input_in_message = re.sub(
+        "(    |\t).*",  # removes the string that is enclosed in code-blocks
+        "",
+        re.sub(
+            "`([^\r\n]*|(\r\n))*`",  # removes the string that is enclosed in backticks
+            "",
+            message
+        )
+    )
+    if not bool(BeautifulSoup(unescaped_input_in_message, "html.parser").find()):
+        return True, None
+    else:
+        return False, "seems you tried to enter some un-escaped html/js code"
