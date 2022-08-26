@@ -144,11 +144,12 @@
 
 
 							<!-- Resource Management -->
-							{% if officer_in_past_5_terms or root_user%}
+							{% if officer_in_past_5_terms or root_user %}
 								<div class="navbar-item">Resource Management</div>
 								<a class="navbar-item csss_header_more_sub_items_indent" href="{{ URL_ROOT }}resource_management/show_resources_for_validation" >Validate Access On All Resources</a>
 								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/gdrive' >Modify Google Drive Access</a>
 								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/github' >Modify SFU Github Access</a>
+								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/nags' >Nags</a>
 							{% endif %}
 						</div>
 					</div>

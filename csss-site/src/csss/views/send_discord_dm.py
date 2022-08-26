@@ -7,7 +7,7 @@ from django.conf import settings
 from csss.settings import discord_header
 
 
-def dm_new_officers_on_discord(recipient_id, title, message):
+def send_discord_dm(recipient_id, title, message):
     """
     Will DM the user to alert or remind them to fill in the New_Officer forms
 

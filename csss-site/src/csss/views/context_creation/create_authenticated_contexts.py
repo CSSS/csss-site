@@ -92,6 +92,34 @@ def create_context_for_updating_position_mappings(request, tab=None):
     )
 
 
+def create_context_for_checking_google_drive_nags(request, tab=None):
+    """
+    Create the context for the page that displays the number of nags
+
+    Keyword Arguments
+    request -- the django request object
+    tab -- the tab for the page that the user is on
+    endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    unprocessed_officers = None
+    officers = None
+    if request.user.username != "root":
+        unprocessed_officers = UnProcessedOfficer.objects.all()
+        officers = Officer.objects.all().order_by('-start_date')
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_current_webmaster_or_doa, tab=tab,
+        unprocessed_officers=unprocessed_officers, officers=officers
+    )
+
+
 def create_context_for_updating_github_mappings_and_permissions(request, tab=None):
     """
     Create the context for the pages where github mappings and permissions are set
@@ -234,20 +262,20 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
         raise InvalidPrivilege(request, tab=tab)
 
     return create_main_context(
-            request, tab,
-            current_election_officer_sfuid=get_current_election_officer_sfuid(
-                unprocessed_officers=unprocessed_officers, officers=officers
-            ),
-            sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
-                unprocessed_officers=unprocessed_officers, officers=officers
-            ),
-            current_sys_admin_sfuid=get_current_sys_admin_sfuid(
-                unprocessed_officers=unprocessed_officers, officers=officers
-            ),
-            current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(
-                unprocessed_officers=unprocessed_officers, officers=officers
-            )
+        request, tab,
+        current_election_officer_sfuid=get_current_election_officer_sfuid(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        ),
+        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        ),
+        current_sys_admin_sfuid=get_current_sys_admin_sfuid(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        ),
+        current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(
+            unprocessed_officers=unprocessed_officers, officers=officers
         )
+    )
 
 
 def create_context_for_processing_unprocessed_officer(request, tab=None):

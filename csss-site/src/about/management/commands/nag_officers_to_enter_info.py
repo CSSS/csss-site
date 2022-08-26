@@ -7,7 +7,7 @@ from about.models import UnProcessedOfficer, Officer
 from about.views.input_new_officers.specify_new_officers.notifications. \
     send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
-from about.views.input_new_officers.utils.dm_new_officers_on_discord import dm_new_officers_on_discord
+from csss.views.send_discord_dm import send_discord_dm
 
 logger = logging.getLogger('csss_site')
 
@@ -28,7 +28,7 @@ class Command(BaseCommand):
             unprocessed_officer.number_of_nags += 1
             unprocessed_officer.save()
             if (unprocessed_officer.number_of_nags % 3) == 0:
-                dm_new_officers_on_discord(
+                send_discord_dm(
                     '288148680479997963', "unfilled in officer data",
                     f"{unprocessed_officer.full_name} still has not filled in their data..."
                 )
