@@ -1,5 +1,7 @@
 import smtplib
 import logging
+from email import encoders
+from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
@@ -50,7 +52,7 @@ class Gmail:
                 logger.error(f"[Gmail __init__()] experienced following error when initializing.\n{e}")
                 self.error_message = f"{e}"
 
-    def send_email(self, subject, body, to_email, to_name, from_name="SFU CSSS"):
+    def send_email(self, subject, body, to_email, to_name, from_name="SFU CSSS", attachment=None):
         """
         send email to the specified email address
 
@@ -60,6 +62,7 @@ class Gmail:
         to_email -- the email address to send the email to
         to_name -- the name of the person to send the email to
         from_name -- the name to assign to the from name field
+        attachment -- the logs to attach to the email if applicable
 
         Return
         Bool -- true or false to indicate if email was sent successfully
@@ -74,6 +77,19 @@ class Gmail:
                     msg['To'] = to_name + " <" + to_email + ">"
                     msg['Subject'] = subject
                     msg.attach(MIMEText(body))
+
+                    if attachment is not None:
+                        try:
+                            package = open(attachment, 'rb')
+                            payload = MIMEBase('application', 'octet-stream')
+                            payload.set_payload(package.read())
+                            encoders.encode_base64(payload)
+                            payload.add_header('Content-Disposition', "attachment; filename={}".format(attachment))
+                            msg.attach(payload)
+                            logger.info("{} has been attached".format(attachment))
+                        except Exception as e:
+                            logger.info(f"{attachment} could not be attached. Error: {e}")
+
                     logger.info(f"[Gmail send_email()] sending email to {to_email}")
                     self.server.send_message(from_addr=self.from_email, to_addrs=to_email, msg=msg)
                     return True, None

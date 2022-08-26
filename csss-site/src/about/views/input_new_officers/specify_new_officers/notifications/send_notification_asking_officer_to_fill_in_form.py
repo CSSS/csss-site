@@ -1,7 +1,7 @@
 from about.views.input_new_officers.specify_new_officers.notifications.\
     create_message_for_inputting_officer_info import \
     create_message_for_inputting_officer_info
-from about.views.input_new_officers.utils.dm_new_officers_on_discord import dm_new_officers_on_discord
+from csss.views.send_discord_dm import send_discord_dm
 
 
 def send_notification_asking_officer_to_fill_in_form(recipient_id, full_name, first_time_officer):
@@ -17,7 +17,7 @@ def send_notification_asking_officer_to_fill_in_form(recipient_id, full_name, fi
     bool -- indicate if DM was successfully sent
     error_message -- error message to indicate why the DM was not successfully sent
     """
-    return dm_new_officers_on_discord(
+    return send_discord_dm(
         recipient_id,
         "Enter Information",
         create_message_for_inputting_officer_info(full_name, first_time_officer)

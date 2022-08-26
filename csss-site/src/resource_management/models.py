@@ -86,3 +86,45 @@ class NonOfficerGithubMember(models.Model):
 
     def __str__(self):
         return f"Non Officer {self.legal_name} access to github team {self.team_name}"
+
+
+class GoogleDriveFileAwaitingOwnershipChange(models.Model):
+    file_id = models.CharField(
+        max_length=5000
+    )
+    file_name = models.CharField(
+        max_length=5000
+    )
+    web_link = models.CharField(
+        max_length=5000
+    )
+    file_owner = models.CharField(
+        max_length=5000
+    )
+    number_of_nags = models.IntegerField(
+        default=0
+    )
+    latest_date_check = models.DateTimeField(
+
+    )
+
+    def __str__(self):
+        return f"{self.file_id} owned by {self.file_owner}"
+
+
+class GoogleDriveRootFolderBadAccess(models.Model):
+    file_id = models.CharField(
+        max_length=5000
+    )
+    user = models.CharField(
+        max_length=5000
+    )
+    number_of_nags = models.IntegerField(
+        default=0
+    )
+    latest_date_check = models.DateTimeField(
+
+    )
+
+    def __str__(self):
+        return f"{self.user} invalid access to root Google Drive"
