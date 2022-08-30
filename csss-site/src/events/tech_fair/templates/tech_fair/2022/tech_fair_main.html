@@ -1,0 +1,265 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+/* Add a black background color to the top navigation */
+.topnav {
+  background-color: #bcf5bc;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+  float: left;
+  color: #000000;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+  background-color: #88ed88;
+  color: black;
+}
+
+
+.logo {
+    display: inline-block;
+    vertical-align: top;
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+}
+
+.styled-table thead tr {
+    background-color: #bcf5bc;
+    color: #000000;
+    text-align: left;
+}
+
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border: none;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+    border: none;
+}
+
+h1 {text-align: center;}
+</style>
+
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="style.css"/>
+	<title>SFU Tech Fair 2022</title>
+  <script>
+    // Resize the frame bounds to show all its contents on the current page without scrolling.
+    window.addEventListener('load', () => {
+        const frame = document.getElementById("schedule-frame");
+        frame.style.height = `${frame.contentWindow.document.body.offsetHeight}px`;
+    })
+  </script>
+</head>
+
+<body>
+
+ 
+ <div class="topnav">
+  <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Soicety Logo">
+  <a href="#">Home</a>
+  <a href="#schedule">Schedule</a>
+  <a href="#booths">Booths</a>
+  <a href="#interview_workshop">Interview Workshops</a>
+  <a href="#resume_workshop">Resume Workshops</a>
+  <a href="#career_talks">Career Talks</a>
+  <a href="#interview_workshop">Interview Workshop</a>
+  <a href="#ExhibitorPackages">Exhibitor Packages</a>
+</div>
+
+<div style="width: 750px; margin: auto">
+</div>
+<div style="padding-left: 100px; padding-right: 100px; padding-bottom: 100px">
+
+<br><br>
+
+<h1 style="text-align: center;">What is Tech Fair?</h1>
+
+Tech Fair is a career fair located in Burnaby, British Columbia, were various tech companies are invited to come in and set up a booth for 1-2 days to advertise their company. This is a great oppurtinity to expand the name recognition of your company! There are over 2700 Computing Science majors at SFU who will be invited to check out your company at the booth! The booths are set up between <b>September 26th and September 28th</b>. 
+
+More details about events taking place, the schedule and packages can be found below!
+
+<br><br>
+<h2 style="text-align: center;">
+ <b>Schedule</b>
+</h2>
+
+<div id="schedule" style="text-align: center">
+
+<div class="mxgraph" style="margin-left: auto; margin-right: auto" data-mxgraph="{&quot;lightbox&quot;:false,&quot;nav&quot;:true,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2022-08-30T06:41:01.772Z\&quot; agent=\&quot;5.0 (X11)\&quot; etag=\&quot;VdR6Xa6OOjckAksqjSX5\&quot; compressed=\&quot;false\&quot; version=\&quot;20.2.7\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;v2s5x8OJGLoDd5lz0log\&quot; name=\&quot;Page-1\&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
+<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+
+
+</div>
+
+<h2 style="text-align: center;">
+Why your company should come to Tech Fair
+</h2>
+Tech Fair 2022 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students that could become potential stars in your company. Find talent and show our students why they should work for you.
+
+Reach out to hundreds of passionate Computing Science students at various points throughout their degree.
+
+Let students learn about you, your culture, and your opportunities - so you’re first in mind when they start their career journeys.
+
+Attend TechFair 2022 - our students might meet their next co-op, and you might meet your next full-time employee.
+
+
+<br><br>
+
+<h2 id= "booths" style="text-align: center;">
+ <b>Booths</b>
+</h2>
+This is the core part of Tech Fair, it is where you as a company can come in and set up a booth and advertise to students. Bring some slides, a project demo, some merch, company banner and whatever else you want! You'll be set up with a table, chairs and power outlets.  
+
+This is where you get to highlight why students should be  joining your company. Students will be coming throughout the days you are in attendance to learn about you and your company.
+
+<br><br>
+
+
+<h2 id="interview_workshop" style="text-align: center;">
+ <b>Interview Workshop</b>
+</h2>
+We are looking for volunteers who regularly participate in technical interviews to give a technical interview in front of a group of students. Questions asked to these students would be similar to ones they might see in a technical interview, with programming and problem solving problems.
+
+<br><br>
+
+<h2 id="" style="text-align: center;">
+ <b>Interview Tips and Tricks</b>
+</h2>
+We are looking for a volunteer who regularly participates in parts of the interview process for candidates. This will be a place to highlight common mistakes made during interviews and how to fix them. Also an opportunity for students to ask questions about interviews.
+
+<br><br>
+
+
+<h2 id="resume_workshop" style="text-align: center;">
+ <b>Resume Workshop</b>
+</h2>
+We are looking for  volunteers who regularly review resumes to review selected resumes in front of a group of students. The resumes would be ranging from first time co-op seeker to full-time. Students would learn from the constructive comments made and apply those changes to their own resumes.
+
+<br><br>
+
+<h2 id="career_talks" style="text-align: center;">
+ <b>Career Talks</b>
+</h2>
+We are looking for Computing Science or Computer Science graduates who have worked in a variety of companies to come in and speak about their journey. This is an opportunity for students to learn what various careers are like and to answer any questions they may have before beginning their careers.
+
+<br><br>
+
+<h2 id="" style="text-align: center;">
+ <b>Mock Interviews</b>
+</h2>
+We are looking for several volunteers to conduct 15-minute mock interviews with students and provide feedback. Feedback is meant to provide students with information they usually wouldn't get from an interview. Breaks would be provided and would only be asked to commit to one of the two time blocks in the above schedule.
+
+<br><br>
+
+
+<h2 id="photography" style="text-align: center;">
+ <b>Photography</b>
+</h2>
+We are having a photographer come in and take photos of students they can use for LinkedIn.
+
+<br><br>
+
+<h2 id="ExhibitorPackages" style="text-align: center;">
+ <b>Exhibitor Packages</b>
+</h2>
+
+<table class="styled-table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Silver</th>
+            <th>Gold</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Price</td>
+            <td>$600.00</td>
+            <td>$1000.00</td>
+        </tr>
+        <tr>
+            <td>Company Booth</td>
+            <td>1 Day</td>
+            <td>2 Days</td>
+        </tr>
+        <tr>
+            <td>Logo on website</td>
+            <td>Medium</td>
+            <td>Large</td>
+        </tr>
+        <tr>
+            <td>Email shoutout</td>
+            <td>Yes</td>
+            <td>Yes, with optional custom blurb</td>
+        </tr>
+        <tr>
+            <td>Have job postings emailed to our students</td>
+            <td>Up to 1</td>
+            <td>Up to 2</td>
+        </tr>
+        <tr>
+            <td>Get resumes of many of our co-op and full-time seeking students</td>
+            <td>Yes</td>
+            <td>Yes</td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+<br><br>
+Please reach out to <b>csss-techfair@sfu.ca</b> with any questions!
+
+
+</div> 
+
+</body>
+</html>
