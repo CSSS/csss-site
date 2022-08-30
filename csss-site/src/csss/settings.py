@@ -237,6 +237,7 @@ INSTALLED_APPS = [
     'events.frosh',
     'events.mountain_madness',
     'events.fall_hacks',
+    'events.tech_fair',
     'resource_management',
     'static_pages',
     'django_mailbox',
