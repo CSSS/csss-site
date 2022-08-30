@@ -2,7 +2,7 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from resource_management.views.resource_views import validate_google_drive, validate_github, validate_sfu_gitlab
+from resource_management.views.resource_views import validate_google_drive, validate_github
 
 logger = logging.getLogger('csss_site')
 
@@ -23,12 +23,6 @@ class Command(BaseCommand):
             default=False,
             help="validates the access to the SFU CSSS GitHub "
         )
-        parser.add_argument(
-            "--gitlab",
-            action="store_true",
-            default=False,
-            help="validate the access to the SFU Gitlab CSSS team"
-        )
 
     def handle(self, *args, **options):
         logger.info(options)
@@ -40,7 +34,3 @@ class Command(BaseCommand):
             logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
                         "to Github")
             validate_github()
-        if options['gitlab']:
-            logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
-                        "to the SFU Gitlab")
-            validate_sfu_gitlab()

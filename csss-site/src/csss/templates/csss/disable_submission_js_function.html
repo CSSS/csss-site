@@ -1,0 +1,10 @@
+function disableSubmit(){
+    submit_button = document.getElementById("submit_button");
+    submit_button.setAttribute("disabled", "");
+    submit_button.value = "Processing...This may take a minute. Do not close the tab yet."
+
+    on_submission_message = document.getElementById("on_submission_message");
+    on_submission_message.removeAttribute('hidden');
+
+    enter_officer_info_form.submit();
+}

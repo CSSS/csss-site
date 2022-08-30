@@ -1,4 +1,5 @@
 from about.models import OfficerEmailListAndPositionMapping
+from elections.models import NomineeSpeech
 from elections.views.Constants import NOMINEE_DIV__NAME, INPUT_NOMINEE_SPEECH_AND_POSITION_PAIRING__NAME, \
     INPUT_NOMINEE_POSITION_NAMES__NAME, INPUT_SPEECH_ID__NAME, CURRENT_OFFICER_POSITIONS, \
     INPUT_NOMINEE_SPEECH__NAME, ID_KEY, NEW_ELECTION_OR_NOMINEE__HTML__NAME
@@ -49,8 +50,11 @@ def create_context_for_position_names_and_speech_pairing_html(
             nominee_info_to_add_to_context[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS] = []
             if ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS in nominee_info and type(nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]) is list:  # noqa: E501
                 for speech_and_position_pairing in nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]:
+
                     new_speech_and_position_pairing = {
-                        ELECTION_JSON_KEY__NOM_SPEECH: speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]
+                        ELECTION_JSON_KEY__NOM_SPEECH: NomineeSpeech.format_speech_for_editing(
+                            speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH]
+                        )
                     }
                     if ID_KEY in speech_and_position_pairing:
                         new_speech_and_position_pairing[ID_KEY] = speech_and_position_pairing[ID_KEY]
@@ -82,7 +86,7 @@ def create_context_for_position_names_and_speech_pairing_html(
                             }
                         )
                 speech_and_position_pairing[ID_KEY] = speech_obj.id
-                speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech_obj.speech
+                speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech_obj.speech_for_editing
                 if speech_and_position_pairing is not None:
                     speech_and_position_pairings.append(speech_and_position_pairing)
                 nominee_info_to_add_to_context[nominee_name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].extend(  # noqa: E501

@@ -1,12 +1,11 @@
-import markdown
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from datetime import datetime
-
-
 # Create your models here.
+from csss.views_helper import markdown_message
 from elections.views.Constants import HTML_PASSPHRASE_GET_KEY
 
 
@@ -48,7 +47,7 @@ class Election(models.Model):
 class Nominee(models.Model):
     election = models.ForeignKey(Election, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=140)
+    full_name = models.CharField(max_length=140)
 
     facebook = models.CharField(
         _(u'Facebook Link'),
@@ -68,7 +67,7 @@ class Nominee(models.Model):
     )
 
     def __str__(self):
-        return f"Nominee {self.name} for Election {self.election}"
+        return f"Nominee {self.full_name} for Election {self.election}"
 
 
 class NomineeLink(models.Model):
@@ -76,7 +75,7 @@ class NomineeLink(models.Model):
 
     nominee = models.ForeignKey(Nominee, null=True, on_delete=models.SET_NULL)
 
-    name = models.CharField(max_length=140)
+    full_name = models.CharField(max_length=140)
 
     passphrase = models.CharField(
         max_length=300,
@@ -95,7 +94,7 @@ class NomineeLink(models.Model):
         return f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={self.passphrase}"
 
     def __str__(self):
-        return f"passphrase for nominee {self.name} for election {self.election}"
+        return f"passphrase for nominee {self.full_name} for election {self.election}"
 
 
 class NomineeSpeech(models.Model):
@@ -105,6 +104,18 @@ class NomineeSpeech(models.Model):
         max_length=30000,
         default='NA'
     )
+
+    @property
+    def formatted_speech(self):
+        return markdown_message(self.speech)
+
+    @property
+    def speech_for_editing(self):
+        return self.format_speech_for_editing(self.speech)
+
+    @staticmethod
+    def format_speech_for_editing(speech):
+        return speech.replace("`", r'\`')
 
     @property
     def social_media_html(self):
@@ -136,22 +147,11 @@ class NomineeSpeech(models.Model):
         return "" if social_media is None else "<p> Contact/Social Media: " + social_media + "</p>"
 
     @property
-    def formatted_speech(self):
-        return markdown.markdown(
-            self.speech, extensions=['sane_lists', 'markdown_link_attr_modifier'],
-            extension_configs={
-                'markdown_link_attr_modifier': {
-                    'new_tab': 'on',
-                },
-            }
-        )
-
-    @property
     def formatted_position_names_html(self):
         return ", ".join([position.position_name for position in self.nomineeposition_set.all()])
 
     def __str__(self):
-        return f"speech for Nominee {self.nominee.name} for Election {self.nominee.election}"
+        return f"speech for Nominee {self.nominee.full_name} for Election {self.nominee.election}"
 
 
 class NomineePosition(models.Model):
@@ -167,5 +167,5 @@ class NomineePosition(models.Model):
     )
 
     def __str__(self):
-        return f"Nominee {self.nominee_speech.nominee.name} for Position {self.position_name} " \
+        return f"Nominee {self.nominee_speech.nominee.full_name} for Position {self.position_name} " \
                f"for Election {self.nominee_speech.nominee.election}"

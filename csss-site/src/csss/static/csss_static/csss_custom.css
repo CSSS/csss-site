@@ -30,4 +30,6 @@
     margin-left: 10px
 }
 
-
+.on_submission_message {
+    color: red;
+}

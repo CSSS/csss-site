@@ -26,7 +26,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     """
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []
-    nominee_obj.name = nominee_dict[ELECTION_JSON_KEY__NOM_NAME].strip()
+    nominee_obj.full_name = nominee_dict[ELECTION_JSON_KEY__NOM_NAME].strip()
     nominee_obj.facebook = nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip()
     nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
@@ -35,7 +35,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     logger.info(
         "[elections/update_existing_nominees_jformat.py update_existing_nominee_jformat()]"
         "updating a nominee obj with the following details ")
-    logger.info(f"name = {nominee_obj.name}")
+    logger.info(f"name = {nominee_obj.full_name}")
     logger.info(f"facebook = {nominee_obj.facebook}")
     logger.info(f"linkedin = {nominee_obj.linkedin}")
     logger.info(f"email = {nominee_obj.email}")

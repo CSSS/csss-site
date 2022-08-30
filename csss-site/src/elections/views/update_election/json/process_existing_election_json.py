@@ -4,6 +4,7 @@ from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import ELECTION_JSON__KEY, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON, UPDATE_EXISTING_ELECTION__NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
@@ -22,8 +23,7 @@ from elections.views.validators.validate_new_election_json_dict import all_relev
 from elections.views.validators.validate_nominees_for_existing_election_jformat import \
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
-from elections.views.validators.validate_user_input_has_required_fields import \
-    verify_user_input_has_all_required_fields
+
 
 logger = logging.getLogger('csss_site')
 

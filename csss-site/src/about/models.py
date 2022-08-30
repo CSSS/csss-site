@@ -11,6 +11,11 @@ class Term(models.Model):
         primary_key=True,
         default=0,
     )
+
+    def save(self, *args, **kwargs):
+        self.term_number = self.get_term_number()
+        super(Term, self).save(*args, **kwargs)
+
     term_choices = (
         ('Spring', 'Spring'),
         ('Summer', 'Summer'),
@@ -28,6 +33,33 @@ class Term(models.Model):
         help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
     )
 
+    def get_term_number(self):
+        """
+        Get the term number for the term
+
+        Return
+        term_number -- the term number for the term, or None
+        """
+        index = 1
+        for term_starting_month in Term.term_choices:
+            if term_starting_month[0] == self.term:
+                if int(index) <= 4:
+                    return (self.year * 10) + 1
+                elif int(index) <= 8:
+                    return (self.year * 10) + 2
+                else:
+                    return (self.year * 10) + 3
+            index += 4
+        return None
+
+    def get_term_month_number(self):
+        """
+        Returns the term month number for the specified term
+        """
+        for (index, term) in enumerate(Term.term_choices):
+            if term[0] == self.term:
+                return index + 1
+
     def __str__(self):
         return f"{self.term} {self.year}"
 
@@ -36,12 +68,12 @@ class Officer(models.Model):
 
     def validate_unique(self, exclude=None):
         if Officer.objects.filter(
-                position_name=self.position_name, name=self.name,
+                position_name=self.position_name, full_name=self.full_name,
                 elected_term__term_number=self.elected_term.term_number,
                 start_date=self.start_date).exclude(id=self.id).exists():
             raise ValidationError(
-                f"There is already an officer saved for term {self.elected_term.term_number} for officer {self.name} "
-                f"and position name {self.position_name} under start_date {self.start_date}"
+                f"There is already an officer saved for term {self.elected_term.term_number} for officer "
+                f"{self.full_name} and position name {self.position_name} under start_date {self.start_date}"
             )
 
     def save(self, *args, **kwargs):
@@ -56,7 +88,7 @@ class Officer(models.Model):
     position_index = models.IntegerField(
         default=0,
     )
-    name = models.CharField(
+    full_name = models.CharField(
         max_length=140,
         default="NA"
     )
@@ -65,7 +97,7 @@ class Officer(models.Model):
         default=timezone.now
     )
 
-    sfuid = models.CharField(
+    sfu_computing_id = models.CharField(
         max_length=140,
         default="NA"
     )
@@ -87,6 +119,21 @@ class Officer(models.Model):
     gmail = models.CharField(
         max_length=140,
         default="NA"
+    )
+
+    discord_id = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
+    discord_username = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
+    discord_nickname = models.CharField(
+        max_length=200,
+        default='NA'
     )
 
     course1 = models.CharField(
@@ -134,7 +181,7 @@ class Officer(models.Model):
     )
 
     def __str__(self):
-        return f" {self.elected_term} {self.name}"
+        return f" {self.elected_term} {self.full_name}"
 
 
 class AnnouncementEmailAddress(models.Model):
@@ -148,7 +195,7 @@ class AnnouncementEmailAddress(models.Model):
     )
 
     def __str__(self):
-        return f"{self.officer.name} {self.email} {self.officer.elected_term}"
+        return f"{self.officer.full_name} {self.email} {self.officer.elected_term}"
 
 
 class OfficerEmailListAndPositionMapping(models.Model):
@@ -263,9 +310,55 @@ class OfficerEmailListAndPositionMapping(models.Model):
         null=True
     )
 
+    def get_term_month_number(self):
+        return self.starting_month
+
     @property
     def get_starting_month(self):
         return OfficerEmailListAndPositionMapping.starting_month_choices_dict()[self.starting_month]
 
     def __str__(self):
         return f"OfficerEmailListAndPositionMapping: {self.position_index}, {self.position_name}, {self.email}"
+
+
+class UnProcessedOfficer(models.Model):
+    discord_id = models.CharField(
+        max_length=20
+    )
+    sfu_computing_id = models.CharField(
+        max_length=10
+    )
+    full_name = models.CharField(
+        max_length=100,
+        default='NA'
+    )
+    start_date = models.DateTimeField(
+        default=timezone.now
+    )
+    position_name = models.CharField(
+        max_length=300,
+        default="President"
+    )
+    re_use_start_date = models.BooleanField(
+        default=True
+    )
+    overwrite_current_officer = models.BooleanField(
+        default=False
+    )
+
+    gmail_verification_code = models.CharField(
+        max_length=5,
+        unique=True,
+        null=True,
+    )
+    term = models.ForeignKey(
+        Term,
+        on_delete=models.CASCADE,
+    )
+
+    number_of_nags = models.IntegerField(
+        default=0
+    )
+
+    def __str__(self):
+        return f"UnProcessedOfficer for {self.full_name} for position {self.position_name} under term {self.term}"

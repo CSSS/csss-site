@@ -51,7 +51,7 @@
 								{% ifchanged nominee.position_name %}
 									<h3 class="title is-size-3">Position: {{nominee.position_name}}</h3>
 								{% endifchanged %}
-								<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.name}}</b></p>
+								<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.full_name}}</b></p>
 								{{nominee.nominee_speech.social_media_html|safe}}
 								<br>
 								{%  if nominee.nominee_speech.speech != "NONE" %}

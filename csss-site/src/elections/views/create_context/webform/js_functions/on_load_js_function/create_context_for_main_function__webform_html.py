@@ -52,12 +52,12 @@ def create_context_for_main_function__webform_html(
             nominee_names = []
             speech_ids = []
             for nominee_obj in nominees_obj:
-                if nominee_obj.name not in nominee_names:
-                    nominee_names.append(nominee_obj.name)
-                    if nominee_obj.name not in nominee_info_to_add_to_context:
-                        nominee_info_to_add_to_context[nominee_obj.name] = {
+                if nominee_obj.full_name not in nominee_names:
+                    nominee_names.append(nominee_obj.full_name)
+                    if nominee_obj.full_name not in nominee_info_to_add_to_context:
+                        nominee_info_to_add_to_context[nominee_obj.full_name] = {
                             ID_KEY: nominee_obj.id,
-                            ELECTION_JSON_KEY__NOM_NAME: nominee_obj.name,
+                            ELECTION_JSON_KEY__NOM_NAME: nominee_obj.full_name,
                             ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
                             ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
                             ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,

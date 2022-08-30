@@ -4,7 +4,7 @@ from django.shortcuts import render
 from querystring_parser import parser
 
 from about.models import OfficerEmailListAndPositionMapping, Term, Officer
-from about.views.officer_position_and_github_mapping.officer_management_helper import TAB_STRING
+from about.views.Constants import TAB_STRING
 from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__ID, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_INDEX, OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__POSITION_NAME, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__EMAIL_LIST_ADDRESS, \
