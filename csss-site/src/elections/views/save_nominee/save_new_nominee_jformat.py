@@ -8,7 +8,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH
 logger = logging.getLogger('csss_site')
 
 
-def save_new_nominee_jformat(election, name, speech_and_position_pairings, facebook_link, linkedin_link,
+def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, facebook_link, linkedin_link,
                              email_address, discord_username, nominee_link=None):
     """
     Saves the given nominees and the relevant NomineeSpeech and NomineePosition objects with the given values
@@ -28,12 +28,12 @@ def save_new_nominee_jformat(election, name, speech_and_position_pairings, faceb
     position_ids -- the position IDs that was saved for the nominee
     speech_ids -- the speech IDs that were saved for the nominee
     """
-    name = name.strip()
+    full_name = full_name.strip()
     facebook_link = facebook_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
     discord_username = discord_username.strip()
-    nominee = Nominee(election=election, name=name, facebook=facebook_link,
+    nominee = Nominee(election=election, full_name=full_name, facebook=facebook_link,
                       linkedin=linkedin_link, email=email_address, discord=discord_username)
     nominee.save()
     logger.info("[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"

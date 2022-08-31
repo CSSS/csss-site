@@ -1,0 +1,26 @@
+{% extends "csss/header.html" %}
+
+{% load static %}
+{% load staticfiles %}
+{% block content %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'about_static/current_email_mappings.css' %}">
+    <table class="current_email_mappings">
+    <tr>
+        <th>Email-list</th>
+        <th>Members</th>
+    </tr>
+    {%  for email_list_mapping in email_list_mappings %}
+        <tr>
+            <td>{{ email_list_mapping.sfu_email_list }}</td>
+            <td>
+                <ul>
+                    {%  for sfu_computing_id in email_list_mapping.sfu_computing_ids  %}
+                        <li>{{ sfu_computing_id }}</li>
+                    {%  endfor %}
+                </ul>
+            </td>
+        </tr>
+    {%  endfor %}
+    </table>
+{% endblock %}

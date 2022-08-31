@@ -1,64 +1,6 @@
 from django.db import models
-import datetime
-
-from django.utils import timezone
-from django.utils.translation import ugettext_lazy as _
 
 from about.models import OfficerEmailListAndPositionMapping
-
-
-class ProcessNewOfficer(models.Model):
-    passphrase = models.CharField(
-        max_length=300,
-        primary_key=True,
-    )
-    term_choices = (
-        ('Spring', 'Spring'),
-        ('Summer', 'Summer'),
-        ('Fall', 'Fall'),
-    )
-    term = models.CharField(
-        max_length=6,
-        choices=term_choices,
-        default='Fall',
-        help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
-    )
-
-    year = models.IntegerField(
-        choices=[(b, b) for b in list(reversed(range(1970, datetime.datetime.now().year + 2)))],
-        default='2018',
-        help_text=_("You need to click on the dropbox above in order for the slug field to get populated"),
-    )
-    position_name = models.CharField(
-        max_length=300,
-        default='President',
-    )
-    position_index = models.IntegerField(
-        default=0,
-    )
-
-    link = models.CharField(
-        max_length=300
-    )
-    used = models.BooleanField(
-        default=False,
-    )
-
-    start_date = models.DateTimeField(
-        default=timezone.now
-    )
-
-    use_new_start_date = models.BooleanField(
-        default=True
-    )
-
-    sfu_officer_mailing_list_email = models.CharField(
-        max_length=140,
-        default="NA"
-    )
-
-    def __str__(self):
-        return f"Processing object for new officer {self.position_name} for term {self.year} {self.term}"
 
 
 class OfficerPositionGithubTeam(models.Model):
@@ -87,6 +29,9 @@ class OfficerPositionGithubTeamMapping(models.Model):
         OfficerEmailListAndPositionMapping,
         on_delete=models.CASCADE
     )
+
+    def get_team_name(self):
+        return self.github_team.team_name
 
     def __str__(self):
         return f"officer position mapping for {self.officer_position_mapping} to" \
@@ -143,11 +88,43 @@ class NonOfficerGithubMember(models.Model):
         return f"Non Officer {self.legal_name} access to github team {self.team_name}"
 
 
-class NaughtyOfficer(models.Model):
-    sfuid = models.CharField(
-        max_length=300,
-        default="NA"
+class GoogleDriveFileAwaitingOwnershipChange(models.Model):
+    file_id = models.CharField(
+        max_length=5000
+    )
+    file_name = models.CharField(
+        max_length=5000
+    )
+    web_link = models.CharField(
+        max_length=5000
+    )
+    file_owner = models.CharField(
+        max_length=5000
+    )
+    number_of_nags = models.IntegerField(
+        default=0
+    )
+    latest_date_check = models.DateTimeField(
+
     )
 
     def __str__(self):
-        return f"Naughty Officer {self.sfuid}"
+        return f"{self.file_id} owned by {self.file_owner}"
+
+
+class GoogleDriveRootFolderBadAccess(models.Model):
+    file_id = models.CharField(
+        max_length=5000
+    )
+    user = models.CharField(
+        max_length=5000
+    )
+    number_of_nags = models.IntegerField(
+        default=0
+    )
+    latest_date_check = models.DateTimeField(
+
+    )
+
+    def __str__(self):
+        return f"{self.user} invalid access to root Google Drive"

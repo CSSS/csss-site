@@ -36,10 +36,10 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_DB_PASSWORD', variable: 'WEBSITE_DEV_DB_PASSWORD'),
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_SECRET_KEY', variable: 'WEBSITE_DEV_STRIPE_SECRET_KEY'),
                         string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
-                        string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
-                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD')
+                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
+                        string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
                     ]
                 ) {
                       timeout(5) {
@@ -55,9 +55,11 @@ pipeline {
                             export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
                             export GDRIVE_TOKEN_LOCATION="'"/home/csss/credentials/token.pickle"'";
                             export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
-                            export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                             export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
+                            export DISCORD_BOT_TOKEN="'"DISCORD_BOT_TOKEN"'";
+                            export GUILD_ID="'"228761314644852736"'";
+                            export SFU_ENDPOINT_TOKEN="'"${SFU_ENDPOINT_TOKEN}"'";
 
                             export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
 
@@ -81,10 +83,11 @@ pipeline {
                         string(credentialsId: 'WEBSITE_PROD_DB_PASSWORD', variable: 'WEBSITE_PROD_DB_PASSWORD'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_SECRET_KEY', variable: 'WEBSITE_PROD_STRIPE_SECRET_KEY'),
                         string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
-                        string(credentialsId: 'GITLAB_PRIVATE_TOKEN', variable: 'GITLAB_PRIVATE_TOKEN'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
-                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD')
+                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
+                        string(credentialsId: 'CSSS_WEBSITE_PROD_DISCORD_BOT_TOKEN', variable: 'CSSS_WEBSITE_PROD_DISCORD_BOT_TOKEN'),
+                        string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
                     ]
                 ) {
                     sh label: '', script: """bash -c \'
@@ -98,9 +101,11 @@ pipeline {
                         export GDRIVE_TOKEN_LOCATION="/home/csss/google_drive_api_token/token.pickle";
                         export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
-                        export GITLAB_PRIVATE_TOKEN="'"${GITLAB_PRIVATE_TOKEN}"'";
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
+                        export DISCORD_BOT_TOKEN="'"${CSSS_WEBSITE_PROD_DISCORD_BOT_TOKEN}"'";
+                        export GUILD_ID="'"228761314644852736"'";
+                        export SFU_ENDPOINT_TOKEN="'"${SFU_ENDPOINT_TOKEN}"'";
 
                         export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
                         export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";

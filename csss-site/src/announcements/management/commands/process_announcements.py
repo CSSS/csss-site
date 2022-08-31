@@ -9,7 +9,7 @@ from django.core.management.base import BaseCommand
 from django_mailbox.models import Message
 from django_mailbox.models import Mailbox
 
-from about.models import Officer, Term, AnnouncementEmailAddress
+from about.models import Officer, Term, AnnouncementEmailAddress, UnProcessedOfficer
 from announcements.models import Announcement, ManualAnnouncement
 from csss.views_helper import get_term_number_for_specified_year_and_month
 
@@ -46,6 +46,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info(options)
+        if len(UnProcessedOfficer.objects.all()) > 0:
+            return
         if options['poll_email']:
             django_mailbox_handle()
 
@@ -211,10 +213,17 @@ def get_officer_term_mapping():
         for officer in Officer.objects.all().filter(elected_term=term):
             if term_number not in officer_mapping:
                 officer_mapping[term_number] = []
-            if len(officer.sfuid) > 0 and f"{officer.sfuid}@sfu.ca" not in officer_mapping[term_number]:
-                officer_mapping[term_number].append(f"{officer.sfuid}@sfu.ca")
-            if len(officer.sfu_email_alias) > 0 and \
-                    f"{officer.sfu_email_alias}@sfu.ca" not in officer_mapping[term_number]:
+            officer_sfu_computing_id_not_in_mapping = (
+                len(officer.sfu_computing_id) > 0 and
+                f"{officer.sfu_computing_id}@sfu.ca" not in officer_mapping[term_number]
+            )
+            if officer_sfu_computing_id_not_in_mapping:
+                officer_mapping[term_number].append(f"{officer.sfu_computing_id}@sfu.ca")
+            officer_email_alias_not_in_mapping = (
+                len(officer.sfu_email_alias) > 0 and
+                f"{officer.sfu_email_alias}@sfu.ca" not in officer_mapping[term_number]
+            )
+            if officer_email_alias_not_in_mapping:
                 officer_mapping[term_number].append(f"{officer.sfu_email_alias}@sfu.ca")
             for announcement_emails in AnnouncementEmailAddress.objects.all().filter(officer=officer):
                 if announcement_emails.email not in officer_mapping[term_number]:

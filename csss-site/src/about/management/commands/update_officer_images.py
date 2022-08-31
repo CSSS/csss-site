@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 
 from about.models import Officer
-from about.views.officer_position_and_github_mapping.officer_management_helper import get_officer_image_path
+from about.views.utils.get_officer_image_path import get_officer_image_path
 
 logger = logging.getLogger('csss_site')
 
@@ -45,7 +45,7 @@ def _fix_image_for_officer(officer):
     Keyword Argument
     officer -- officer whose image needs to be changed
     """
-    officer.image = get_officer_image_path(officer.elected_term, officer.name)
+    officer.image = get_officer_image_path(officer.elected_term, officer.full_name)
     logger.info("[about/update_officer_images.py fix_image_for_officer()] "
                 f"officer_image_path = {officer.image}")
     officer.save()

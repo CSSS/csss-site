@@ -5,8 +5,8 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITI
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 
 
-def validate_new_nominee(nominee_names_so_far, name, position_names_and_speech_pairings, facebook_link, linkedin_link,
-                         email_address, discord_username):
+def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_speech_pairings, facebook_link,
+                         linkedin_link, email_address, discord_username):
     """
     validates the nominee info to validate it
 
@@ -23,7 +23,7 @@ def validate_new_nominee(nominee_names_so_far, name, position_names_and_speech_p
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    success, error_message = validate_nominee_obj_info(nominee_names_so_far, name, facebook_link, linkedin_link,
+    success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, linkedin_link,
                                                        email_address, discord_username)
     if not success:
         return success, error_message
@@ -31,19 +31,19 @@ def validate_new_nominee(nominee_names_so_far, name, position_names_and_speech_p
     for position_names_and_speech_pairing in position_names_and_speech_pairings:
         if not all_relevant_position_names_and_speech_pairing_keys_exist(position_names_and_speech_pairing):
             return False, f"It seems that one of speech/position pairings for nominee" \
-                          f" {name} has a missing position name or position speech"
+                          f" {full_name} has a missing position name or position speech"
         if not there_are_multiple_entries(position_names_and_speech_pairing, ELECTION_JSON_KEY__NOM_POSITION_NAMES):
-            return False, f"It seems that the nominee {name}" \
+            return False, f"It seems that the nominee {full_name}" \
                           f" does not have a list of positions they are running for"
         for position_name in position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES]:
             if not validate_position_name(position_name):
-                return False, f"Detected invalid position of {position_name} for nominee {name}"
+                return False, f"Detected invalid position of {position_name} for nominee {full_name}"
             if position_name in specified_position_names:
-                return False, f"the nominee {name} has the position {position_name} specified more than once"
+                return False, f"the nominee {full_name} has the position {position_name} specified more than once"
             specified_position_names.append(position_name)
         if not (len(position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
             return False, f"No valid speech detected for nominee" \
-                          f" {name}, please set to \"NONE\" if there is no speech"
+                          f" {full_name}, please set to \"NONE\" if there is no speech"
 
     return True, None
 

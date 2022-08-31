@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from resource_management.views import github_views, gdrive_views, resource_views
+from resource_management.views.nags import nags
 
 urlpatterns = [
     url(
@@ -49,5 +50,9 @@ urlpatterns = [
         r'^github/update_github_non_officer',
         github_views.update_github_non_officer,
         name="Update Non Officer"
+    ),
+    url(
+        r'^nags',
+        nags
     )
 ]

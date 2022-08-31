@@ -1,3 +1,4 @@
+import datetime
 import json
 import logging
 import os
@@ -10,7 +11,11 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
+from about.models import Officer
 from csss.Gmail import Gmail
+from csss.views.send_discord_dm import send_discord_dm
+from csss.views.send_email import send_email
+from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
 
 logger = logging.getLogger('csss_site')
 
@@ -56,6 +61,8 @@ class GoogleDriveTokenCreator:
 class GoogleDrive:
 
     def __init__(self, token_location=None, root_file_id=None):
+        self.make_changes = True
+        self.latest_date_check = datetime.datetime.now()
         creds = None
         self.error_message = None
         self.root_file_id = None
@@ -144,13 +151,14 @@ class GoogleDrive:
                         f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
                         "permission to access the sfu csss google drive"
                     )
-                    self.gdrive.permissions().create(
-                        fileId=file_id,
-                        emailMessage=email_message,
-                        sendNotificationEmail=True,
-                        body=body
-                    ).execute()
-                    time.sleep(30)
+                    if self.make_changes:
+                        self.gdrive.permissions().create(
+                            fileId=file_id,
+                            emailMessage=email_message,
+                            sendNotificationEmail=True,
+                            body=body
+                        ).execute()
+                        time.sleep(30)
                     logger.info(
                         f"[GoogleDrive add_users_gdrive()] email sent to {user.lower()} "
                         "regarding their access to the sfu google drive"
@@ -196,9 +204,21 @@ class GoogleDrive:
                                     f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
                                     f"access to file with id {file_id}"
                                 )
-                                self.gdrive.permissions().delete(fileId=file_id,
-                                                                 permissionId=permission['id']).execute()
-                                time.sleep(30)
+                                if self.make_changes:
+                                    resp = self.gdrive.permissions().delete(fileId=file_id,
+                                                                            permissionId=permission['id']).execute()
+                                    if resp != "":
+                                        google_drive_bad_access = GoogleDriveRootFolderBadAccess.objects.all.filter(
+                                            file_id=file_id
+                                        ).first()
+                                        if google_drive_bad_access is None:
+                                            google_drive_bad_access = GoogleDriveRootFolderBadAccess(
+                                                user=user, file_id=file_id
+                                            )
+                                        google_drive_bad_access.number_of_nags += 1
+                                        google_drive_bad_access.latest_date_check = self.latest_date_check
+                                        google_drive_bad_access.save()
+                                    time.sleep(30)
                                 logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
                                 logger.error(
@@ -267,11 +287,12 @@ class GoogleDrive:
         Keyword Argument
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
+        self.latest_date_check = datetime.datetime.now()
         self._ensure_root_permissions_are_correct(google_drive_perms)
         files_to_email_owner_about = self._validate_individual_file_and_folder_ownership_and_permissions(
             google_drive_perms
         )
-        self._send_email_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
+        self._send_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
 
     def _ensure_root_permissions_are_correct(self, google_drive_perms):
         """Attempts to make sure that only officers [and other necessary individuals] have access to the CSSS root folder
@@ -405,8 +426,7 @@ class GoogleDrive:
                     )
                     self.remove_public_link_gdrive(file['id'])
                 else:
-                    if set(google_drive_perms['anyoneWithLink']).intersection(
-                            parent_id + [file['id']]) == 0:
+                    if set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']]) == 0:
                         # check to see if this particular file has not been link-share enabled or
                         # one of this particular file's parent folders have also not been link-share enabled
                         logger.info(
@@ -423,17 +443,16 @@ class GoogleDrive:
                         "[GoogleDrive _validate_permissions_for_file()] remove "
                         f"{email_address}'s access to file {file['name']}"
                     )
-                    self.remove_users_gdrive(email_address, file['id'])
+                    self.remove_users_gdrive([email_address], file['id'])
                 else:
-                    if set(google_drive_perms[email_address]).intersection(
-                            parent_id + [file['id']]) == 0:
+                    if set(google_drive_perms[email_address]).intersection(parent_id + [file['id']]) == 0:
                         # checks to see if this email is supposed to have access to either this file or
                         # one of its parent folders
                         logger.info(
                             "[GoogleDrive _validate_permissions_for_file()] remove "
                             f"{email_address}'s access to file {file['name']}"
                         )
-                        self.remove_users_gdrive(email_address, file['id'])
+                        self.remove_users_gdrive([email_address], file['id'])
 
     def _validate_owner_for_file(self, google_drive_perms, parent_id, files_to_email_owner_about, file):
         """
@@ -456,6 +475,17 @@ class GoogleDrive:
             f"will {'not ' if valid_ownership_for_file else ''}have its owner be alerted."
         )
         if not valid_ownership_for_file:
+            google_drive_file = GoogleDriveFileAwaitingOwnershipChange.objects.all().filter(
+                file_id=file['id']
+            ).first()
+            if google_drive_file is None:
+                google_drive_file = GoogleDriveFileAwaitingOwnershipChange(
+                    file_id=file['id'], file_owner=file['owners'][0]['emailAddress'],
+                    file_name=file['name'], web_link=file['webViewLink']
+                )
+            google_drive_file.number_of_nags += 1
+            google_drive_file.latest_date_check = self.latest_date_check
+            google_drive_file.save()
             logger.info(
                 "[GoogleDrive _validate_owner_for_file()] file/folder "
                 f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
@@ -503,6 +533,8 @@ class GoogleDrive:
                 )
                 if self._duplicate_file(file):
                     self._alert_user_to_delete_file(file)
+        else:
+            self._remove_outdated_comments(file)
         if self._determine_if_file_info_belongs_to_gdrive_folder(file):
             # this is a folder so we have to check to see if any of its files have a bad permission set
             return self._validate_individual_file_and_folder_ownership_and_permissions(
@@ -617,15 +649,48 @@ class GoogleDrive:
             )}
             logger.info(f"[GoogleDrive _alert_user_to_change_owner()] attempting to add a comment added "
                         f"to file {file_info['name']}")
-            response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
-            if response['content'] == body['content']:
-                logger.info(f"[GoogleDrive _alert_user_to_change_owner()] comment added to file {file_info['name']}")
-            else:
-                logger.error(f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
-                             f" to file {file_info['name']}")
+            if self.make_changes:
+                response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+                if response['content'] == body['content']:
+                    logger.info(
+                        f"[GoogleDrive _alert_user_to_change_owner()] "
+                        f"comment added to file {file_info['name']}"
+                    )
+                else:
+                    logger.error(f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
+                                 f" to file {file_info['name']}")
         except Exception as e:
             logger.error(
                 f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
+                f"of type {file_info['mimeType']} due to following error.\n{e}"
+            )
+
+    def _remove_outdated_comments(self, file_info):
+        """
+        removes any comments made by sfucsss@gmail.com from any files whose permissions has been successfully
+         transferred over to sfucsss@gmail.com
+
+        Keyword Argument
+        file_info -- the file that needs to have its comments deleted
+        """
+        try:
+            logger.info(f"[GoogleDrive _remove_outdated_comments()] attempting to remove any comments that "
+                        f"sfucsss@gmail.com made on file {file_info['name']}")
+            response = self.gdrive.comments().list(fileId=file_info['id'], fields="*").execute()
+            for comment in response['comments']:
+                if comment['author']['me']:
+                    if self.make_changes:
+                        comment_response = self.gdrive.comments().delete(
+                            commentId=comment['id'], fileId=file_info['id']
+                        ).execute()
+                        if comment_response != "":
+                            logger.error(
+                                f"[GoogleDrive _remove_outdated_comments()] unable to delete outdated comment"
+                                f" on file {file_info['name']}"
+                            )
+        except Exception as e:
+            logger.error(
+                f"[GoogleDrive _remove_outdated_comments()] unable to remove comments on file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
 
@@ -645,11 +710,12 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
-                self.gdrive.files().copy(
-                    fileId=file_info['id'],
-                    fields='*',
-                    body={'name': file_info['name']}
-                ).execute()
+                if self.make_changes:
+                    self.gdrive.files().copy(
+                        fileId=file_info['id'],
+                        fields='*',
+                        body={'name': file_info['name']}
+                    ).execute()
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['name']} with id {file_info['id']} successfully duplicated")
@@ -657,7 +723,8 @@ class GoogleDrive:
                 logger.info(
                     f"[GoogleDrive _duplicate_file()]  attempting to set the body "
                     f"for file {file_info['name']} with id {file_info['id']} to {body}")
-                self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                if self.make_changes:
+                    self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
                 logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
@@ -680,19 +747,25 @@ class GoogleDrive:
             body = {'content': (
                 "Please delete this file as it has been duplicated and is no longer the latest version of this file"
             )}
-            response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
-            if response['content'] == body['content']:
-                logger.info(f"[GoogleDrive _alert_user_to_delete_file()] comment added to file {file_info['name']}")
-            else:
-                logger.error(
-                    f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']}")
+            if self.make_changes:
+                response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+                if response['content'] == body['content']:
+                    logger.info(
+                        f"[GoogleDrive _alert_user_to_delete_file()] "
+                        f"comment added to file {file_info['name']}"
+                    )
+                else:
+                    logger.error(
+                        "[GoogleDrive _alert_user_to_delete_file()] "
+                        f"unable to add comment to file {file_info['name']}"
+                    )
         except Exception as e:
             logger.error(
                 f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
 
-    def _send_email_notifications_for_files_with_incorrect_ownership(self, files_to_email_owner_about):
+    def _send_notifications_for_files_with_incorrect_ownership(self, files_to_email_owner_about):
         """
         will email all the relevant owners of the folders that they are owners of that need to have
         their ownership changed
@@ -703,7 +776,6 @@ class GoogleDrive:
         """
         logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
                     " to setup connection to gmail server")
-        gmail = Gmail()
         subject = "SFU CSSS Google Drive Folder ownership change"
         body_template = (
             "Please change owner of the following folders and forms to sfucsss@gmail.com.\n"
@@ -711,6 +783,8 @@ class GoogleDrive:
             "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
             "to be changed:\n"
         )
+        officers = Officer.objects.all()
+        gmail = Gmail()
         for to_email in files_to_email_owner_about:
             body = body_template + "".join(
                 [
@@ -722,5 +796,54 @@ class GoogleDrive:
             to_name = files_to_email_owner_about[to_email]['full_name']
             logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
                         f"send email to {to_email} about files {files_names}")
-            gmail.send_email(subject, body, to_email, to_name)
+            officer = officers.filter(gmail=to_email).order_by('-start_date').first()
+            if officer is not None:
+                # send_email(
+                #     subject, body, f"{officer.sfu_computing_id}@sfu.ca", officer.full_name, gmail=gmail
+                # )
+                send_discord_dm(officer.discord_id, subject, body)
+            if self.make_changes:
+                send_email(subject, body, to_email, to_name, gmail=gmail)
+
+        pending_ownership_changes = GoogleDriveFileAwaitingOwnershipChange.objects.all()
+        pending_ownership_changes.filter(latest_date_check__lt=self.latest_date_check).delete()
+        pending_ownership_changes = pending_ownership_changes.filter(
+            number_of_nags__gte=6
+        ).order_by('file_owner')
+        overall_body = ""
+        if len(pending_ownership_changes) > 1:
+            overall_body += "Pending Ownership Changes\n\n"
+        users_added_so_far = []
+        for pending_ownership_change in pending_ownership_changes:
+            if pending_ownership_change.file_owner not in users_added_so_far:
+                overall_body += f"Owner: {pending_ownership_change.file_owner}:\n"
+                users_added_so_far.append(pending_ownership_change.file_owner)
+            overall_body += (
+                f"\tFile ID: {pending_ownership_change.file_id}\n"
+                f"\tFile Name: {pending_ownership_change.file_name}\n"
+                f"\tFile Web Link: {pending_ownership_change.web_link}\n"
+                f"\tNumber of Nags: {pending_ownership_change.number_of_nags}\n"
+            )
+
+        pending_bad_accesses = GoogleDriveRootFolderBadAccess.objects.all()
+        pending_bad_accesses.filter(latest_date_check__lt=self.latest_date_check).delete()
+        pending_bad_accesses = GoogleDriveRootFolderBadAccess.objects.all().filter(
+            number_of_nags__gte=6
+        ).order_by('user')
+        if len(pending_bad_accesses) > 1:
+            overall_body += "\nPending Bad Access\n\n"
+        users_added_so_far = []
+        for pending_bad_access in pending_bad_accesses:
+            if pending_bad_access.user not in users_added_so_far:
+                overall_body += f"User: {pending_bad_access.user}:\n"
+                users_added_so_far.append(pending_bad_access.user)
+            overall_body += (
+                f"\tFileID: {pending_bad_access.file_id} && Number of Nags: {pending_bad_access.number_of_nags}\n"
+            )
+        if len(overall_body) > 0:
+            send_email(
+                subject,
+                "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
+                "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=logger.handlers[1].baseFilename
+            )
         gmail.close_connection()

@@ -50,10 +50,11 @@
 						{% endif %}
 						<div class="navbar-dropdown">
 							{%  if current_webmaster_or_doa is True or root_user is True %}
-								<a href="{{ URL_ROOT }}about/show_create_link_page" class="navbar-item">Generate Officer Creation Links</a>
+                                <a href="{{ URL_ROOT }}about/specify_new_officers" class="navbar-item">New Officer Links</a>
 								<a href="{{ URL_ROOT }}about/show_page_for_inputting_officer_info" class="navbar-item">Upload Officer List</a>
 								<a href="{{ URL_ROOT }}about/officer_position" class="navbar-item">Officer Positions</a>
-							{%  endif %}
+							    <a href="{{ URL_ROOT }}about/current_email_mappings" class="navbar-item">Current Email Mappings</a>
+                            {%  endif %}
 							{%  if current_sys_admin is True or root_user is True %}
 								<a href="{{ URL_ROOT }}about/github_mapping" class="navbar-item">Officer Github Mapping</a>
 							{%  endif %}
@@ -144,11 +145,12 @@
 
 
 							<!-- Resource Management -->
-							{% if officer_in_past_5_terms or root_user%}
+							{% if officer_in_past_5_terms or root_user %}
 								<div class="navbar-item">Resource Management</div>
 								<a class="navbar-item csss_header_more_sub_items_indent" href="{{ URL_ROOT }}resource_management/show_resources_for_validation" >Validate Access On All Resources</a>
 								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/gdrive' >Modify Google Drive Access</a>
 								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/github' >Modify SFU Github Access</a>
+								<a class="navbar-item csss_header_more_sub_items_indent" href='{{ URL_ROOT }}resource_management/nags' >Nags</a>
 							{% endif %}
 						</div>
 					</div>

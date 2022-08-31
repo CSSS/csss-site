@@ -1,0 +1,45 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+    {%  if ownership_changes|length > 0 %}
+        <h2 class="title is-size-2">Waiting for owner to transfer access to CSSS</h2>
+        Last time Google Drive Files were checked: <b>{{ ownership_changes.0.latest_date_check }}</b><br>
+        <table>
+        <tr>
+            <th>File ID</th>
+            <th>Owner</th>
+            <th>Number of Nags</th>
+        </tr>
+        {%  for ownership_change in ownership_changes %}
+            <tr>
+                <td>{{ ownership_change.file_id }}</td>
+                <td>{{ ownership_change.file_owner }}</td>
+                <td>{{ ownership_change.number_of_nags }}</td>
+            </tr>
+        {%  endfor %}
+        </table>
+    {%  endif %}
+
+    {% if bad_accesses|length > 0 %}
+        <h2 class="title is-size-2">Bad Access</h2>
+        Last time Google Drive Files were checked: <b>{{ bad_accesses.0.latest_date_check }}</b><br>
+        <table>
+        <tr>
+            <th>File ID</th>
+            <th>User</th>
+            <th>Number of Nags</th>
+        </tr>
+        {%  for bad_access in bad_accesses %}
+            <tr>
+                <td>{{ bad_access.file_id }}</td>
+                <td>{{ bad_access.user }}</td>
+                <td>{{ bad_access.number_of_nags }}</td>
+            </tr>
+        {%  endfor %}
+        </table>
+    {%  endif %}
+{% endblock %}

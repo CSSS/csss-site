@@ -23,7 +23,7 @@ def get_election_nominees(election):
     {
         [
             'id' : 'nominee.id' ,
-            'name' : 'nominee.name' ,
+            'name' : 'nominee.full_name' ,
             'position_names_and_speech_pairings' : {
                 [
                     {
@@ -48,17 +48,17 @@ def get_election_nominees(election):
     nominees_dict_to_display = {}
     nominee_names = []
     for nominee in nominees:
-        if nominee.name not in nominee_names:
+        if nominee.full_name not in nominee_names:
             speech_and_position_pairings = []
             speech_ids = []
             for speech in NomineeSpeech.objects.all().filter(nominee=nominee).order_by(
-                    'nomineeposition__position_index'
+                'nomineeposition__position_index'
             ):
                 speech_and_position_pairing = {}
                 if speech.id not in speech_ids:
                     speech_ids.append(speech.id)
                     for position_name in NomineePosition.objects.all().filter(nominee_speech=speech).order_by(
-                            'position_index'
+                        'position_index'
                     ):
                         if ELECTION_JSON_KEY__NOM_POSITION_NAMES not in speech_and_position_pairing:
                             speech_and_position_pairing[ELECTION_JSON_KEY__NOM_POSITION_NAMES] = [{
@@ -73,14 +73,14 @@ def get_election_nominees(election):
                                 }
                             )
                     speech_and_position_pairing[ID_KEY] = speech.id
-                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech.speech
+                    speech_and_position_pairing[ELECTION_JSON_KEY__NOM_SPEECH] = speech.formatted_speech
                     if speech_and_position_pairing is not None:
                         speech_and_position_pairings.append(speech_and_position_pairing)
 
-            if nominee.name not in nominees_dict_to_display:
-                nominees_dict_to_display[nominee.name] = {
+            if nominee.full_name not in nominees_dict_to_display:
+                nominees_dict_to_display[nominee.full_name] = {
                     ID_KEY: nominee.id,
-                    ELECTION_JSON_KEY__NOM_NAME: nominee.name,
+                    ELECTION_JSON_KEY__NOM_NAME: nominee.full_name,
                     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS: speech_and_position_pairings,
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee.facebook,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee.linkedin,
@@ -88,10 +88,10 @@ def get_election_nominees(election):
                     ELECTION_JSON_KEY__NOM_DISCORD: nominee.discord
                 }
             else:
-                nominees_dict_to_display[nominee.name][ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS].extend(
-                    speech_and_position_pairings
-                )
-            nominee_names.append(nominee.name)
+                nominees_dict_to_display[nominee.full_name][
+                    ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
+                ].extend(speech_and_position_pairings)
+            nominee_names.append(nominee.full_name)
     nominees = [nominee_info for nominee_info in nominees_dict_to_display.values()]
     logger.info("[elections/get_election_nominees.py get_election_nominees()] nominees=")
     logger.info(json.dumps(nominees, indent=3))
