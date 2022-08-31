@@ -3,92 +3,13 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<style>
-table, th, td {
-  border: 1px solid black;
-  border-collapse: collapse;
-}
-
-/* Add a black background color to the top navigation */
-.topnav {
-  background-color: #bcf5bc;
-  overflow: hidden;
-}
-
-/* Style the links inside the navigation bar */
-.topnav a {
-  float: left;
-  color: #000000;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-}
-
-/* Change the color of links on hover */
-.topnav a:hover {
-  background-color: #88ed88;
-  color: black;
-}
-
-
-.logo {
-    display: inline-block;
-    vertical-align: top;
-    float: left;
-    width: 40px;
-    height: 40px;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-}
-
-.styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    margin-left: auto;
-    margin-right: auto;
-    border: none;
-}
-
-.styled-table thead tr {
-    background-color: #bcf5bc;
-    color: #000000;
-    text-align: left;
-}
-
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-    border: none;
-}
-
-.styled-table tbody tr {
-    border-bottom: 1px solid #dddddd;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
-.styled-table tbody tr:last-of-type {
-    border-bottom: 2px solid #009879;
-    border: none;
-}
-
-h1 {text-align: center;}
-</style>
 
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" type="text/css" href="{% static 'tech_fair_css.css' %}"/>
 	<title>SFU Tech Fair 2022</title>
+
+
   <script>
     // Resize the frame bounds to show all its contents on the current page without scrolling.
     window.addEventListener('load', () => {
