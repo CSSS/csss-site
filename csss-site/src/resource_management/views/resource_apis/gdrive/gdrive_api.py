@@ -15,7 +15,8 @@ from about.models import Officer
 from csss.Gmail import Gmail
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views.send_email import send_email
-from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
+from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess, \
+    GoogleDriveNonMediaFileType, MediaToBeMoved
 
 logger = logging.getLogger('csss_site')
 
@@ -61,11 +62,14 @@ class GoogleDriveTokenCreator:
 class GoogleDrive:
 
     def __init__(self, token_location=None, root_file_id=None):
+        self.non_media_mimeTypes = None
+        self.file_types = None
         self.make_changes = True
         self.latest_date_check = datetime.datetime.now()
         creds = None
         self.error_message = None
         self.root_file_id = None
+
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
@@ -288,6 +292,11 @@ class GoogleDrive:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
         self.latest_date_check = datetime.datetime.now()
+        self.file_types = GoogleDriveNonMediaFileType.objects.all()
+        self.non_media_mimeTypes = [
+            file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
+        ]
+        MediaToBeMoved.objects.all().delete()
         self._ensure_root_permissions_are_correct(google_drive_perms)
         files_to_email_owner_about = self._validate_individual_file_and_folder_ownership_and_permissions(
             google_drive_perms
@@ -415,6 +424,18 @@ class GoogleDrive:
             "[GoogleDrive _validate_permissions_for_file()] ensuring that the permissions for file "
             f"{file['name']} are correct"
         )
+        file_mime_type_and_extension_not_for_image = False
+        for file_type in self.file_types.exclude(file_extension=""):
+            file_mime_type_and_extension_not_for_image = file_mime_type_and_extension_not_for_image or (
+                file['mimeType'] == file_type.mime_type and
+                'fileExtension' in file and file['fileExtension'] == file_type.file_extension
+            )
+        file_does_not_have_to_be_moved = (
+            file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
+        )
+        if not file_does_not_have_to_be_moved:
+            MediaToBeMoved(file_name=file['name'], file_id=file['id'], parent_folder_id=file['parents'][0]).save()
+            return
         for permission in file['permissions']:
             if permission['id'] == 'anyoneWithLink':
                 # check files that are link-share enabled
@@ -845,5 +866,11 @@ class GoogleDrive:
                 subject,
                 "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
                 "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=logger.handlers[1].baseFilename
+            )
+        if len(MediaToBeMoved.objects.all()) > 0:
+            send_email(
+                "Media has been upload to the Google Drive that has to be moved",
+                "http://sfucsss.org/resource_management/media_to_be_moved\n\n",
+                "csss-sysadmin@sfu.ca", "jace", gmail=gmail
             )
         gmail.close_connection()
