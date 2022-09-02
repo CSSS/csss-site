@@ -81,7 +81,9 @@ class Command(BaseCommand):
             f"{json.dumps(members_id__role_ids, indent=3)}"
         )
         for discord_id, roles in members_id__role_ids.items():
-            assign_roles_to_officer(discord_id, roles)
+            success, error_message = assign_roles_to_officer(discord_id, roles)
+            if not success:
+                logger.info(error_message)
 
 
 def get_all_user_dictionaries():
@@ -341,7 +343,9 @@ def determine_changes_for_exec_discord_group_role_validation(
                     del members_id__role_ids[user_in_executive_discord_group_role_id]['roles'][role_name]
                     logger.info(
                         "[about/determine_changes_for_exec_discord_group_role_validation.py() ] removing role "
-                        f"{exec_discord_role_id} from user {user_in_executive_discord_group_role_id}"
+                        f"{role_name}({exec_discord_role_id}) from user "
+                        f"{user_id__user_obj[user_in_executive_discord_group_role_id]}"
+                        f"({user_in_executive_discord_group_role_id})"
                     )
     for user_that_should_be_in_discord_role in discord_id_for_users_that_should_be_in_exec_discord_group_role:
         discord_ids_for_users_in_executive_role = [
