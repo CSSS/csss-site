@@ -105,6 +105,8 @@ def assign_roles_to_officer(discord_id_of_new_officer_with_role, discord_role_id
     error_message -- the error message if the roles could not be assigned to the user, or None
     """
     url = f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id_of_new_officer_with_role}"
+    discord_role_ids = list(set(discord_role_ids))  # if there are any duplicate IDs in this, it results
+    # in the dumbest and most vague error response to walk this earth
     body = {'roles': discord_role_ids}
     logger.info(
         f"[about/assign_discord_roles.py() assign_roles_to_officer() ] calling url={url} with body {body}"
