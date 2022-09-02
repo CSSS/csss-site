@@ -80,10 +80,13 @@ class Command(BaseCommand):
             "[about/validate_discord_roles_members.py() Command() ] final permission change of "
             f"{json.dumps(members_id__role_ids, indent=3)}"
         )
-        for discord_id, roles in members_id__role_ids.items():
-            success, error_message = assign_roles_to_officer(discord_id, roles)
+        for discord_id, user_role_info in members_id__role_ids.items():
+            success, error_message = assign_roles_to_officer(
+                discord_id,
+                [role_id for role_name, role_id in user_role_info['roles'].items()]
+            )
             if not success:
-                logger.info(error_message)
+                logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
 
 
 def get_all_user_dictionaries():
