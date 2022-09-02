@@ -213,7 +213,7 @@ def determine_changes_for_position_specific_discord_role_validation(
                         users_current_roles.remove(executive_discord_role_obj['id'])
                         users_roles = {
                             role_id__role[role]['name']: role
-                            for role in user_currently_in_executive_discord_role['roles']
+                            for role in users_current_roles
                         }
                         members_id__role_ids[discord_id_for_user_currently_in_executive_discord_role] = {
                             "username": user_currently_in_executive_discord_role['user']['username'],
@@ -236,7 +236,8 @@ def determine_changes_for_position_specific_discord_role_validation(
                         logger.info(
                             "[about/validate_discord_roles_members.py() ] removing the role "
                             f"{executive_discord_role_name} from user "
-                            f"{officer_full_name}("
+                            f"{officer_full_name} with discord profile "
+                            f"{user_currently_in_executive_discord_role['user']['username']}("
                             f"{discord_id_for_user_currently_in_executive_discord_role})"
                         )
                     else:
@@ -254,7 +255,9 @@ def determine_changes_for_position_specific_discord_role_validation(
                             logger.info(
                                 "[about/validate_discord_roles_members.py() ] removing the role "
                                 f"{executive_discord_role_name} from user "
-                                f"{username}({discord_id_for_user_currently_in_executive_discord_role})"
+                                f"{username} with discord profile "
+                                f"{user_currently_in_executive_discord_role['user']['username']}"
+                                f"({discord_id_for_user_currently_in_executive_discord_role})"
                             )
             for user_that_should_be_in_discord_role in officers_that_should_be_in_discord_role:
                 discord_ids_for_users_currently_in_executive_role = [
@@ -347,7 +350,7 @@ def determine_changes_for_exec_discord_group_role_validation(
                     logger.info(
                         "[about/determine_changes_for_exec_discord_group_role_validation.py() ] removing role "
                         f"{role_name}({exec_discord_role_id}) from user "
-                        f"{user_id__user_obj[user_in_executive_discord_group_role_id]}"
+                        f"{user_id__user_obj[user_in_executive_discord_group_role_id]['user']['username']}"
                         f"({user_in_executive_discord_group_role_id})"
                     )
     for user_that_should_be_in_discord_role in discord_id_for_users_that_should_be_in_exec_discord_group_role:
