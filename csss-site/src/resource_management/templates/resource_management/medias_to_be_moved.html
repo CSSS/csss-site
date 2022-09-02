@@ -1,0 +1,27 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+    {%  if medias_to_be_moved|length > 0 %}
+        <h2 class="title is-size-2">Media that has to be moved to SFU Vault</h2>
+        <table>
+        <tr>
+            <th>File ID</th>
+            <th>File Name</th>
+            <th>Parent Folder ID</th>
+            <th>Parent Folder Link</th>
+        </tr>
+        {%  for medias_to_be_move in medias_to_be_moved %}
+            <tr>
+                <td>{{ medias_to_be_move.file_id }}</td>
+                <td>{{ medias_to_be_move.file_name }}</td>
+                <td>{{ medias_to_be_move.parent_folder_id }}</td>
+                <td><a href="{{ medias_to_be_move.parent_folder_link }}">Link</a></td>
+            </tr>
+        {%  endfor %}
+        </table>
+    {%  endif %}
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.conf.urls import url
 
 from resource_management.views import github_views, gdrive_views, resource_views
+from resource_management.views.media_to_be_moved import media_to_be_moved
 from resource_management.views.nags import nags
 
 urlpatterns = [
@@ -54,5 +55,9 @@ urlpatterns = [
     url(
         r'^nags',
         nags
+    ),
+    url(
+        r'^media_to_be_moved',
+        media_to_be_moved
     )
 ]
