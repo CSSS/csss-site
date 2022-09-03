@@ -50,7 +50,7 @@ admin.site.register(GoogleDriveNonMediaFileType, GoogleDriveFileTypeAdmin)
 
 
 class MediaToBeMovedAdmin(admin.ModelAdmin):
-    list_display = ('file_id', 'file_name', 'parent_folder_link')
+    list_display = ('file_path', 'file_name')
 
 
 admin.site.register(MediaToBeMoved, MediaToBeMovedAdmin)

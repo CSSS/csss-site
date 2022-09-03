@@ -147,23 +147,15 @@ class GoogleDriveNonMediaFileType(models.Model):
 
 
 class MediaToBeMoved(models.Model):
-    file_id = models.CharField(
-        max_length=500
-    )
     file_name = models.CharField(
         max_length=500
+    )
+    file_path = models.CharField(
+        max_length=5000
     )
     parent_folder_link = models.CharField(
         max_length=1000
     )
 
-    parent_folder_id = models.CharField(
-        max_length=500
-    )
-
-    def save(self, *args, **kwargs):
-        self.parent_folder_link = f"https://drive.google.com/drive/u/2/folders/{self.parent_folder_id}"
-        super(MediaToBeMoved, self).save(*args, **kwargs)
-
     def __str__(self):
-        return f"Movie Media {self.file_name}"
+        return f"Media to Move: {self.file_name}"
