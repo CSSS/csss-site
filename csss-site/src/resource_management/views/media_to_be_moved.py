@@ -17,7 +17,5 @@ def media_to_be_moved(request):
     logger.info(f"[administration/nags.py nags()] request.POST={request.POST}")
     context = create_context_for_checking_media_that_has_to_be_moved(request, tab=TAB_STRING)
 
-    context.update({
-        'medias_to_be_moved': MediaToBeMoved.objects.all()
-    })
+    context['medias_to_be_moved'] = MediaToBeMoved.objects.all()
     return render(request, 'resource_management/medias_to_be_moved.html', context)
