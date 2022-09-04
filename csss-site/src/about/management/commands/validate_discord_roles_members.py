@@ -9,7 +9,7 @@ from about.models import Officer, OfficerEmailListAndPositionMapping, UnProcesse
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
     EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
 from csss.settings import discord_header
-from csss.views_helper import get_current_term_obj
+from csss.views_helper import get_current_term_obj, get_previous_term_obj
 
 logger = logging.getLogger('csss_site')
 
@@ -21,9 +21,23 @@ class Command(BaseCommand):
 
         current_officers = Officer.objects.all().filter(
             elected_term=get_current_term_obj()
-        ).exclude(
+        )
+        exec_from_last_term = None
+        if len((current_officers.filter(position_name__contains="Executive at Large"))) == 0:
+            exec_from_last_term = Officer.objects.all().filter(
+                elected_term=get_previous_term_obj(), position_name__contains="Executive at Large"
+            ).exclude(
+                sfu_computing_id__in=list(
+                    UnProcessedOfficer.objects.all().values_list(
+                        'sfu_computing_id', flat=True
+                    )
+                )
+            )
+        current_officers = current_officers.exclude(
             sfu_computing_id__in=list(UnProcessedOfficer.objects.all().values_list('sfu_computing_id', flat=True))
         )
+        if exec_from_last_term is not None:
+            current_officers = current_officers.union(exec_from_last_term)
         officer_discord_id__officer_full_name = {
             officer.discord_id: officer.full_name for officer in current_officers
         }
