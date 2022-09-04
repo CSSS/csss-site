@@ -62,6 +62,7 @@ function transfer_env_variables_to_server {
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/nag_officers_to_enter_info"'" > site_envs_nag_officers_to_enter_info
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_discord_details"'" > site_envs_update_discord_details
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/validate_discord_roles_members"'" > site_envs_validate_discord_roles_members
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/csss_website_cron_job"'" > site_envs_csss_website_cron_job
   echo 'DB_NAME='"'postgres'" >> site_envs
 
   cat site_envs >> site_envs_gunicorn
@@ -75,6 +76,7 @@ function transfer_env_variables_to_server {
   cat site_envs >> site_envs_nag_officers_to_enter_info
   cat site_envs >> site_envs_update_discord_details
   cat site_envs >> site_envs_validate_discord_roles_members
+  cat site_envs >> site_envs_csss_website_cron_job
 
   scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
   scp site_envs_backup_script csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_backup_script"
@@ -87,6 +89,7 @@ function transfer_env_variables_to_server {
   scp site_envs_nag_officers_to_enter_info csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_nag_officers_to_enter_info"
   scp site_envs_update_discord_details csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_update_discord_details"
   scp site_envs_validate_discord_roles_members csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_validate_discord_roles_members"
+  scp site_envs_csss_website_cron_job csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_csss_website_cron_job"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 

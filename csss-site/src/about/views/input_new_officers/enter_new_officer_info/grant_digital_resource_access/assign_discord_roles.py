@@ -1,4 +1,5 @@
 import json
+import logging
 
 import requests
 from django.conf import settings
@@ -7,6 +8,8 @@ from csss.settings import discord_header
 from csss.views_helper import determine_if_specified_term_obj_is_for_current_term
 
 EXEC_DISCORD_ROLE_NAME = 'Execs'
+
+logger = logging.getLogger('csss_site')
 
 
 def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj):
@@ -101,11 +104,21 @@ def assign_roles_to_officer(discord_id_of_new_officer_with_role, discord_role_id
     bool -- true or false if the roles for the specified officer's discord user profile was updated
     error_message -- the error message if the roles could not be assigned to the user, or None
     """
+    url = f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id_of_new_officer_with_role}"
+    discord_role_ids = list(set(discord_role_ids))  # if there are any duplicate IDs in this, it results
+    # in the dumbest and most vague error response to walk this earth
+    body = {'roles': discord_role_ids}
+    logger.info(
+        f"[about/assign_discord_roles.py() assign_roles_to_officer() ] calling url={url} with body {body}"
+    )
     response = requests.patch(
-        f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id_of_new_officer_with_role}",
+        url,
         headers=discord_header,
-        json={'roles': discord_role_ids}
+        json=body
     )
     if response.status_code not in [200, 204]:
-        return False, f"Unable to assign discord role due to {response.reason}"
+        return False, (
+            f"Unable to assign discord role due to reason '{response.reason}' with "
+            f"an error message of '{json.loads(response.text)['message']}'"
+        )
     return True, None

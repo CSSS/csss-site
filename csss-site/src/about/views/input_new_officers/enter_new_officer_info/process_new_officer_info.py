@@ -57,8 +57,10 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
     if len(github_team_to_add) > 0:
         validate_github = True
         fields.append(UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY)
+    validate_google_drive = False
     if position_info.google_drive:
         fields.append(UNPROCESSED_OFFICER_GMAIL__KEY)
+        validate_google_drive = True
     error_message = verify_user_input_has_all_required_fields(officer_info, fields)
     if error_message != "":
         logger.info(
@@ -71,7 +73,9 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
             position_info=position_info
         )
         return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html', context)
-    success, error_message = validate_user_info(officer_info, validate_github=validate_github)
+    success, error_message = validate_user_info(
+        officer_info, validate_github=validate_github, validate_google_drive=validate_google_drive
+    )
     if not success:
         logger.info(
             "[about/process_new_officer_info.py"
@@ -83,29 +87,30 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
             position_info=position_info
         )
         return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html', context)
-    success, error_message = validate_gmail(
-        unprocessed_officers, unprocessed_officer, officer_info[UNPROCESSED_OFFICER_GMAIL__KEY],
-        officer_info[UNPROCESSED_OFFICER_GMAIL_VERIFICATION_CODE__HTML_VALUE],
-        resend_verification_code=officer_info[RE_SEND_GMAIL_VERIFICATION_CODE]
-    )
-    if not success:
-        if error_message is None:
-            create_context_for_enter_new_officer_info_html(
-                context, request.user.username, officer_emaillist_and_position_mappings, unprocessed_officers,
-                officer_info=officer_info, position_info=position_info
-            )
-        else:
-            logger.info(
-                "[about/process_new_officer_info.py"
-                f" process_new_officer_info()] {error_message}"
-            )
-            create_context_for_enter_new_officer_info_html(
-                context, request.user.username, officer_emaillist_and_position_mappings, unprocessed_officers,
-                officer_info=officer_info, error_messages=[error_message],
-                position_info=position_info
-            )
-        return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html',
-                      context)
+    if validate_google_drive:
+        success, error_message = validate_gmail(
+            unprocessed_officers, unprocessed_officer, officer_info[UNPROCESSED_OFFICER_GMAIL__KEY],
+            officer_info[UNPROCESSED_OFFICER_GMAIL_VERIFICATION_CODE__HTML_VALUE],
+            resend_verification_code=officer_info[RE_SEND_GMAIL_VERIFICATION_CODE]
+        )
+        if not success:
+            if error_message is None:
+                create_context_for_enter_new_officer_info_html(
+                    context, request.user.username, officer_emaillist_and_position_mappings, unprocessed_officers,
+                    officer_info=officer_info, position_info=position_info
+                )
+            else:
+                logger.info(
+                    "[about/process_new_officer_info.py"
+                    f" process_new_officer_info()] {error_message}"
+                )
+                create_context_for_enter_new_officer_info_html(
+                    context, request.user.username, officer_emaillist_and_position_mappings, unprocessed_officers,
+                    officer_info=officer_info, error_messages=[error_message],
+                    position_info=position_info
+                )
+            return render(request, 'about/input_new_officers/enter_new_officer_info/enter_new_officer_info.html',
+                          context)
     success, error_message = save_officer_and_grant_digital_resources(
         officer_emaillist_and_position_mappings, unprocessed_officer, officer_info
     )

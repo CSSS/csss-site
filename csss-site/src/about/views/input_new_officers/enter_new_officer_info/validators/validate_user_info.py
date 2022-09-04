@@ -7,13 +7,14 @@ from csss.views_helper import validate_markdown
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
 
-def validate_user_info(new_officer_info, validate_github=True):
+def validate_user_info(new_officer_info, validate_github=True, validate_google_drive=True):
     """
     Ensures that the given name, announcement emails, gmail, phone number, gmail and github usernames are valid
 
     Keyword Arguments
     new_officer_info -- the info that the new officer has inputted about themselves
     validate_github -- indicates if the user's github has to be validated
+    validate_google_drive -- indicates if the user's gmail has to be validated
 
     Return
     bool -- True or False depending on if the inputted information failed validation
@@ -31,9 +32,10 @@ def validate_user_info(new_officer_info, validate_github=True):
             )
             if not valid_email:
                 return False, f"Email \"{announcement_email}\" not recognized as a valid email"
-    gmail = new_officer_info[UNPROCESSED_OFFICER_GMAIL__KEY]
-    if not re.match(r"^[\w.]+@(gmail)\.(com|ca)+$", gmail):
-        return False, f"Email \"{gmail}\" not recognized as a valid gmail"
+    if validate_google_drive:
+        gmail = new_officer_info[UNPROCESSED_OFFICER_GMAIL__KEY]
+        if not re.match(r"^[\w.]+@(gmail)\.(com|ca)+$", gmail):
+            return False, f"Email \"{gmail}\" not recognized as a valid gmail"
     phone_number = new_officer_info[UNPROCESSED_OFFICER_PHONE_NUMBER_KEY]
     if not (f"{phone_number}".isdigit() and len(phone_number) == 10):
         return False, "Invalid phone number specified, please specify all 10 digits [area code and 7 digit number]"

@@ -3,7 +3,8 @@ from django.contrib import admin
 # Register your models here.
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
-    OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
+    OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping, \
+    GoogleDriveNonMediaFileType, MediaToBeMoved
 
 
 class NonOfficerGoogleDriveUserAdmin(admin.ModelAdmin):
@@ -39,3 +40,17 @@ class NonOfficerGithubMemberAdmin(admin.ModelAdmin):
 
 
 admin.site.register(NonOfficerGithubMember, NonOfficerGithubMemberAdmin)
+
+
+class GoogleDriveFileTypeAdmin(admin.ModelAdmin):
+    list_display = ('mime_type', 'file_extension', 'note')
+
+
+admin.site.register(GoogleDriveNonMediaFileType, GoogleDriveFileTypeAdmin)
+
+
+class MediaToBeMovedAdmin(admin.ModelAdmin):
+    list_display = ('file_path', 'file_name')
+
+
+admin.site.register(MediaToBeMoved, MediaToBeMovedAdmin)

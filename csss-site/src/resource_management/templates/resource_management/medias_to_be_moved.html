@@ -1,0 +1,13 @@
+{% extends "csss/header.html" %}
+{% load staticfiles %}
+{% block content %}
+    {%  if medias_to_be_moved|length > 0 %}
+        <link href="{% static 'csss_static/csss_custom.css' %}" rel="stylesheet">
+        <h2 class="title is-size-2">Media that has to be moved to SFU Vault</h2>
+        <ol class="csss_order_list" >
+            {%  for media_to_be_move in medias_to_be_moved %}
+                <li><a href="{{ media_to_be_move.parent_folder_link }}">{{ media_to_be_move.file_path }}/{{ media_to_be_move.file_name }}</a></li>
+            {%  endfor %}
+        </ol>
+    {%  endif %}
+{% endblock %}

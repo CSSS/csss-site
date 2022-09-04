@@ -10,20 +10,13 @@
 	<title>SFU Tech Fair 2022</title>
 
 
-  <script>
-    // Resize the frame bounds to show all its contents on the current page without scrolling.
-    window.addEventListener('load', () => {
-        const frame = document.getElementById("schedule-frame");
-        frame.style.height = `${frame.contentWindow.document.body.offsetHeight}px`;
-    })
-  </script>
 </head>
 
 <body>
 
  
  <div class="topnav">
-  <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Soicety Logo">
+  <a href="{{URL_ROOT}}"><img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
   <a href="#">Home</a>
   <a href="#schedule">Schedule</a>
   <a href="#booths">Booths</a>
@@ -54,7 +47,7 @@ More details about events taking place, the schedule and packages can be found b
 <div id="schedule" style="text-align: center">
 
 <div class="mxgraph" style="margin-left: auto; margin-right: auto" data-mxgraph="{&quot;lightbox&quot;:false,&quot;nav&quot;:true,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2022-08-30T06:41:01.772Z\&quot; agent=\&quot;5.0 (X11)\&quot; etag=\&quot;VdR6Xa6OOjckAksqjSX5\&quot; compressed=\&quot;false\&quot; version=\&quot;20.2.7\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;v2s5x8OJGLoDd5lz0log\&quot; name=\&quot;Page-1\&quot;&gt;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&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
-<script type="text/javascript" src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
+<script src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
 
 
 </div>

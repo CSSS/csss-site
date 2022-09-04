@@ -128,3 +128,34 @@ class GoogleDriveRootFolderBadAccess(models.Model):
 
     def __str__(self):
         return f"{self.user} invalid access to root Google Drive"
+
+
+class GoogleDriveNonMediaFileType(models.Model):
+    mime_type = models.CharField(
+        max_length=500
+    )
+    file_extension = models.CharField(
+        max_length=500,
+        blank=True,
+    )
+    note = models.CharField(
+        max_length=500
+    )
+
+    def __str__(self):
+        return f"tracking file type {self.mime_type} with note {self.note}"
+
+
+class MediaToBeMoved(models.Model):
+    file_name = models.CharField(
+        max_length=500
+    )
+    file_path = models.CharField(
+        max_length=5000
+    )
+    parent_folder_link = models.CharField(
+        max_length=1000
+    )
+
+    def __str__(self):
+        return f"Media to Move: {self.file_name}"
