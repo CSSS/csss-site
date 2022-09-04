@@ -10,15 +10,15 @@
         Last time Google Drive Files were checked: <b>{{ ownership_changes.0.latest_date_check }}</b><br>
         <table>
         <tr>
-            <th>File ID</th>
             <th>Owner</th>
             <th>Number of Nags</th>
+            <th>File</th>
         </tr>
         {%  for ownership_change in ownership_changes %}
             <tr>
-                <td>{{ ownership_change.file_id }}</td>
-                <td>{{ ownership_change.file_owner }}</td>
-                <td>{{ ownership_change.number_of_nags }}</td>
+            <td>{{ ownership_change.file_owner }}</td>
+            <td>{{ ownership_change.number_of_nags }}</td>
+            <td><a href="{{ ownership_change.parent_folder_link }}">{{ ownership_change.file_path }}/{{ ownership_change.file_name }}</a></td>
             </tr>
         {%  endfor %}
         </table>

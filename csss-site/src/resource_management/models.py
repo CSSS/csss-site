@@ -95,7 +95,10 @@ class GoogleDriveFileAwaitingOwnershipChange(models.Model):
     file_name = models.CharField(
         max_length=5000
     )
-    web_link = models.CharField(
+    file_path = models.CharField(
+        max_length=5000
+    )
+    parent_folder_link = models.CharField(
         max_length=5000
     )
     file_owner = models.CharField(
@@ -109,7 +112,7 @@ class GoogleDriveFileAwaitingOwnershipChange(models.Model):
     )
 
     def __str__(self):
-        return f"{self.file_id} owned by {self.file_owner}"
+        return f"{self.file_name} owned by {self.file_owner}"
 
 
 class GoogleDriveRootFolderBadAccess(models.Model):
