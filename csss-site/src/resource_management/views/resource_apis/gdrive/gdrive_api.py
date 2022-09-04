@@ -518,10 +518,15 @@ class GoogleDrive:
             google_drive_file = GoogleDriveFileAwaitingOwnershipChange.objects.all().filter(
                 file_id=file['id']
             ).first()
+            parent_folder_link = (
+                self.gdrive.files().get(fileId=file['parents'][0], fields='webViewLink').execute()[
+                    'webViewLink']
+            )
             if google_drive_file is None:
                 google_drive_file = GoogleDriveFileAwaitingOwnershipChange(
-                    file_id=file['id'], file_owner=file['owners'][0]['emailAddress'],
-                    file_name=file['name'], web_link=file['webViewLink']
+                    file_id=file['id'], file_name=file['name'], file_path=parent_folder,
+                    parent_folder_link=parent_folder_link,
+                    file_owner=file['owners'][0]['emailAddress'],
                 )
             google_drive_file.number_of_nags += 1
             google_drive_file.latest_date_check = self.latest_date_check
@@ -545,10 +550,6 @@ class GoogleDrive:
                 )
                 for owner in file['owners']:
                     owner_email = owner['emailAddress'].lower()
-                    parent_folder_link = (
-                        self.gdrive.files().get(fileId=file['parents'][0], fields='webViewLink').execute()[
-                            'webViewLink']
-                    )
                     logger.info(
                         f"[GoogleDrive _validate_owner_for_file()] adding {owner_email} "
                         f"to the list of people who need to be alerted about changing "
@@ -863,9 +864,8 @@ class GoogleDrive:
                 overall_body += f"Owner: {pending_ownership_change.file_owner}:\n"
                 users_added_so_far.append(pending_ownership_change.file_owner)
             overall_body += (
-                f"\tFile ID: {pending_ownership_change.file_id}\n"
-                f"\tFile Name: {pending_ownership_change.file_name}\n"
-                f"\tFile Web Link: {pending_ownership_change.web_link}\n"
+                f"\tFile: {pending_ownership_change.file_path}/{pending_ownership_change.file_name}\n"
+                f"\tFolder Link: {pending_ownership_change.parent_folder_link}\n"
                 f"\tNumber of Nags: {pending_ownership_change.number_of_nags}\n"
             )
 
