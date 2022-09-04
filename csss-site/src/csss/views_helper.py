@@ -58,6 +58,17 @@ def get_current_term_obj():
     return None if len(terms) == 0 else terms[0]
 
 
+def get_previous_term_obj():
+    """
+    Get the term object that corresponds to previous term
+
+    Return
+    term -- either the term object if it exists or None
+    """
+    terms = Term.objects.all().filter(term_number=get_previous_term())
+    return None if len(terms) == 0 else terms[0]
+
+
 def get_term_number_for_specified_year_and_month(month, year):
     """
     get the term_number for the term that maps to the specified month and year
