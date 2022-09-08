@@ -19,7 +19,7 @@ docker build --no-cache -t ${docker_test_image_lower_case} \
     --build-arg TEST_RESULT_FILE_NAME=${TEST_RESULT_FILE_NAME} .
 
 docker run -d --name ${DOCKER_TEST_CONTAINER} ${docker_test_image_lower_case}
-sleep 20
+sleep 50
 docker cp ${DOCKER_TEST_CONTAINER}:${CONTAINER_TEST_DIR}/${TEST_RESULT_FILE_NAME} \
     ${LOCALHOST_TEST_DIR}/${TEST_RESULT_FILE_NAME}
 
