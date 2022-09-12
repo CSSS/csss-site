@@ -1,3 +1,9 @@
+
+video {
+  width: 100% !important;
+  height: auto !important;
+}
+
 .stack {
   display: flex;
   flex-direction: column;
