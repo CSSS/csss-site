@@ -1,7 +1,11 @@
 
-video {
-  width: 100% !important;
-  height: auto !important;
+#video-frame {
+  width: max(80%, 300px);
+}
+
+.video {
+  aspect-ratio: 16 / 9;
+  width: 100%;
 }
 
 .stack {
@@ -184,7 +188,8 @@ padding-bottom: 56.25%; /* 16:9 */
 padding-top: 25px;
 height: 0;
 }
-.responsive-frame iframe {
+.responsive-frame iframe,
+.video-frame iframe {
 position: absolute;
 top: 0;
 left: 0;

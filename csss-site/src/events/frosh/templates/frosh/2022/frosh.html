@@ -48,11 +48,8 @@
     <p>Something sweet is coming!</p>
     <img src="{% static 'frosh_static/2022/images/frosh2022_logo_1000x1000.png' %}" alt="Frosh 2022 Logo" id="logo" class="center"/> 
 </section>
-<div class="center">
-    <video controls preload="metadata">
-        <!-- Need to use SFU Vault because of GitHub 100 MB file size limit. This link currently points to a file hosted in Oliver's (Liversticks) SFU account. -->
-        <source src="http://vault.sfu.ca/index.php/s/cRoboB5qowvz6uk/download" type="video/mp4"/>
-    </video>
+<div class="center" id="video-frame">
+    <iframe class="video" src="https://www.youtube.com/embed/kCjToAoN0fA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 </div>
 <div class="center">
   <ul class="signup-list">
