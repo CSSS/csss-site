@@ -21,7 +21,7 @@ def validate_sfu_id(sfu_computing_id):
     connection_reset = False
     first_try = True
     number_of_tries = 0
-    while connection_reset or first_try and number_of_tries < 5:
+    while (connection_reset or first_try) and number_of_tries < 5:
         if connection_reset:
             sleep(1)
         connection_reset = False
