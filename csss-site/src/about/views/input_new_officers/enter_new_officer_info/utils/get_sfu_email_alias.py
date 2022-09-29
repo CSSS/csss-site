@@ -1,4 +1,5 @@
 import json
+from time import sleep
 
 import requests
 from django.conf import settings
@@ -18,10 +19,25 @@ def get_sfu_email_alias(sfu_computing_id):
     """
     if settings.SFU_ENDPOINT_TOKEN is None:
         return True, None, None
-    resp = requests.get(
-        f"https://rest.its.sfu.ca/cgi-bin/WebObjects/AOBRestServer.woa/rest/datastore2/global/accountInfo.js?"
-        f"username={sfu_computing_id}&art={settings.SFU_ENDPOINT_TOKEN}"
-    )
+    connection_reset = False
+    first_try = True
+    number_of_tries = 0
+    while (connection_reset or first_try) and number_of_tries < 5:
+        if connection_reset:
+            sleep(1)
+        connection_reset = False
+        first_try = False
+        try:
+            number_of_tries += 1
+            resp = requests.get(
+                f"https://rest.its.sfu.ca/cgi-bin/WebObjects/AOBRestServer.woa/rest/datastore2/global/accountInfo.js?"
+                f"username={sfu_computing_id}&art={settings.SFU_ENDPOINT_TOKEN}"
+            )
+        except Exception as e:
+            if len(e.args) > 0 and len(e.args[0].args) > 1 and len(e.args[0].args[1].args) > 1:
+                connection_reset = e.args[0].args[1].args[1] == 'Connection reset by peer'
+    if number_of_tries == 5:
+        return False, f"Unable to get the email alias for SFU ID {sfu_computing_id} as connection keeps getting reset"
     if resp.status_code != 200:
         return False, f"Encountered error message of '{resp.reason}'", None
     if (
