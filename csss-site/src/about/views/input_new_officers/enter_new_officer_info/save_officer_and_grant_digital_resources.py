@@ -126,6 +126,7 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
     success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(
         unprocessed_officer.discord_id
     )
+    discord_nickname = discord_nickname if discord_nickname is not None else "NA"
     if not success:
         return success, error_message
     logger.info(
