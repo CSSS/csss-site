@@ -1,15 +1,15 @@
 import json
-import logging
 
 import requests
 from django.conf import settings
 
 from csss.settings import discord_header
+from csss.setup_logger import get_logger
 from csss.views_helper import determine_if_specified_term_obj_is_for_current_term
 
 EXEC_DISCORD_ROLE_NAME = 'Execs'
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj):

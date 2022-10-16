@@ -1,8 +1,7 @@
-import logging
-
+from csss.setup_logger import get_logger
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def grant_github_access(officer_obj, github_teams_to_add):

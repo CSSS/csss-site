@@ -1,5 +1,3 @@
-import logging
-
 from django.shortcuts import render
 
 from about.models import UnProcessedOfficer, OfficerEmailListAndPositionMapping
@@ -8,9 +6,10 @@ from about.views.create_context.input_new_officers.create_context_for_specify_ne
     create_context_for_specify_new_officers_html
 from about.views.input_new_officers.specify_new_officers.process_specified_new_officers import \
     process_specified_new_officers
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def specify_new_officers(request):

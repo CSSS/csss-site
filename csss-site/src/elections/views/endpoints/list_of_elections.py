@@ -1,12 +1,11 @@
-import logging
-
 from django.shortcuts import render
 
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.views.Constants import TAB_STRING
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def list_of_elections(request):

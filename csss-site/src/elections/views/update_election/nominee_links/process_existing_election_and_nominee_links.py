@@ -1,16 +1,15 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import get_logger
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import SAVED_NOMINEE_LINKS, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, SAVE_ELECTION__VALUE, UPDATE_EXISTING_ELECTION__NAME, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, \
     ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY
-from elections.views.create_context.nominee_links.create_or_update_election.\
+from elections.views.create_context.nominee_links.create_or_update_election. \
     create_context_for_update_election_nominee_links_html import \
     create_context_for_update_election_nominee_links_html
 from elections.views.save_election.save_existing_election_obj_jformat import update_existing_election_obj_from_jformat
@@ -26,8 +25,7 @@ from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_saved_nominee_links import validate_saved_nominee_links
 from elections.views.validators.validate_user_command import validate_user_command
 
-
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def process_existing_election_and_nominee_links(request, election, context):

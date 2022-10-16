@@ -1,5 +1,4 @@
-import logging
-
+from csss.setup_logger import get_logger
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_NAME, \
@@ -9,7 +8,7 @@ from elections.views.extractors.get_existing_nominee import get_exist_nominee
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def save_new_or_update_existing_nominees_jformat(election, election_information):

@@ -1,5 +1,3 @@
-import logging
-
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -11,11 +9,10 @@ from about.views.position_mapping_helper import update_context, validate_positio
     validate_executive_officer_status, validate_election_officer_status, \
     validate_sfss_council_representative_status, validate_frosh_week_chair_status, \
     validate_discord_manager_status
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
-
-logger = logging.getLogger('csss_site')
 
 POSITION_NAME_KEY = 'position_name'
 POSITION_EMAIL_KEY = 'position_email'
@@ -31,6 +28,8 @@ DISCORD_ROLE_NAME_KEY = 'discord_role_name'
 NUMBER_OF_TERMS_KEY = 'number_of_terms'
 STARTING_MONTH_KEY = 'starting_month'
 UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
+
+logger = get_logger()
 
 
 def input_new_officer_positions(request):

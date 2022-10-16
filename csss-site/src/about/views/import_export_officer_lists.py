@@ -2,7 +2,6 @@ import collections
 import csv
 import datetime
 import json
-import logging
 import re
 
 from django.conf import settings
@@ -14,6 +13,7 @@ from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailLi
 from about.views.Constants import TAB_STRING
 from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.Gmail import Gmail
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_uploading_and_download_officer_lists
 from csss.views.views import ERROR_MESSAGES_KEY
@@ -41,7 +41,7 @@ ELECTION_OFFICER_POSITIONS = ["By-Election Officer", "General Election Officer"]
 OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE = ["SFSS Council-Representative"]
 OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE.extend(ELECTION_OFFICER_POSITIONS.copy())
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def show_page_for_uploading_officer_list(request):

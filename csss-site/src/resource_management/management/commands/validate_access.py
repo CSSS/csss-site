@@ -1,10 +1,9 @@
-import logging
-
 from django.core.management.base import BaseCommand
 
+from csss.setup_logger import get_logger
 from resource_management.views.resource_views import validate_google_drive, validate_github
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 class Command(BaseCommand):

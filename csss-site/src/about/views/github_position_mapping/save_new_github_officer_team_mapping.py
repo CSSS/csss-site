@@ -1,5 +1,3 @@
-import logging
-
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -9,6 +7,7 @@ from about.views.position_mapping_helper import update_context, POSITION_INDEX_K
     extract_valid_officers_positions_selected_for_github_team, \
     GITHUB_TEAM__TEAM_NAME_KEY, TEAM_NAME_KEY, GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, \
     validate_position_names_for_github_team
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
 from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
@@ -20,7 +19,7 @@ from resource_management.views.resource_apis.github.github_api import GitHubAPI
 UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY = 'unsaved_github_officer_team_name_mapping'
 OFFICER_POSITIONS = 'officer_positions'
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def save_new_github_officer_team_mapping(request):
@@ -62,8 +61,8 @@ def _create_new_github_mapping(post_dict):
     )
 
     if not (
-            GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY in post_dict and
-            f"{post_dict[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}".lstrip('-').isdigit()
+        GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY in post_dict and
+        f"{post_dict[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}".lstrip('-').isdigit()
     ):
         error_message = "No valid relevant previous terms detected"
         logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")

@@ -1,11 +1,9 @@
-import logging
-
 from about.models import OfficerEmailListAndPositionMapping
+from csss.setup_logger import get_logger
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
 from resource_management.models import OfficerPositionGithubTeam
 
-logger = logging.getLogger('csss_site')
 
 GITHUB_TEAM__ID_KEY = "github_mapping__id"
 SAVED_GITHUB_MAPPINGS = 'github_teams'
@@ -47,6 +45,8 @@ OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS = \
 GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'
+
+logger = get_logger()
 
 
 def update_context(context):

@@ -1,9 +1,9 @@
 import datetime
-import logging
 
+from csss.setup_logger import get_logger
 from elections.views.Constants import DATE_AND_TIME_FORMAT
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def validate_json_election_date_and_time(date_and_time):

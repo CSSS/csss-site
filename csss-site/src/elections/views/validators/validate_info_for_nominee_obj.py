@@ -1,9 +1,9 @@
-import logging
 import re
 
+from csss.setup_logger import get_logger
 from elections.views.validators.validate_link import validate_link_for_nominee_social_media
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, linkedin_link, email_address,

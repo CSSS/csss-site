@@ -1,10 +1,9 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
+from csss.setup_logger import get_logger
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import UPDATE_EXISTING_ELECTION__NAME, SAVE_ELECTION__VALUE, \
     ENDPOINT_MODIFY_VIA_WEBFORM
@@ -24,7 +23,7 @@ from elections.views.validators.validate_nominees_for_existing_election_jformat 
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def process_existing_election_information_from_webform(request, election, context):

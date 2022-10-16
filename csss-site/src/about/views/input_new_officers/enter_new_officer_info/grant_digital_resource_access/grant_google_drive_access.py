@@ -1,8 +1,7 @@
-import logging
-
+from csss.setup_logger import get_logger
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def grant_google_drive_access(grant_gdrive_access, gmail):

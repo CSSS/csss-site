@@ -1,17 +1,21 @@
 # Register your models here.
-from django.contrib import admin
-from documents.models import Repo, Media, Picture, Video, Album, Event, SubCategory
-from django.utils.translation import ugettext_lazy as _
-import subprocess
-import os
 import datetime
-import logging
+import os
+import subprocess
+
+from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
+
+from csss.setup_logger import get_logger
+from documents.models import Repo, Media, Picture, Video, Album, Event, SubCategory
 
 # Register your models here.
-logger = logging.getLogger('csss_site')
+
 
 subcategories = []
 path_to_file = ['documents_static', 'event-photos']
+
+logger = get_logger()
 
 
 def go_through_youtube_links(album_path, event_name, album_date, album_name):
@@ -46,11 +50,11 @@ def go_through_youtube_links(album_path, event_name, album_date, album_name):
                 if len(
                     SubCategory.objects.all().filter(
                         media=item_instance,
-                        level=lvl+1,
+                        level=lvl + 1,
                         name=item_sub_category[0]
                     )
                 ) == 0:
-                    sub_category_instance = SubCategory(media=item_instance, level=lvl+1, name=item_sub_category[0])
+                    sub_category_instance = SubCategory(media=item_instance, level=lvl + 1, name=item_sub_category[0])
                     sub_category_instance.save()
                 item_sub_category.pop(0)
                 lvl += 1
@@ -61,11 +65,11 @@ def iterate_through_media_for_specific_album(path_to_file, album_path, event_nam
     album_contents = os.listdir(album_path)
     for media in album_contents:
         path_to_file.append(media)
-        if os.path.isdir(album_path+'/'+media):
+        if os.path.isdir(album_path + '/' + media):
             subcategories.append(media)
             iterate_through_media_for_specific_album(
                 path_to_file,
-                album_path+'/'+media,
+                album_path + '/' + media,
                 event_name,
                 album_date,
                 album_name
@@ -73,9 +77,9 @@ def iterate_through_media_for_specific_album(path_to_file, album_path, event_nam
             subcategories.pop()
         else:
             if media == 'videos.txt':
-                go_through_youtube_links(album_path+'/'+media, event_name, album_date, album_name)
+                go_through_youtube_links(album_path + '/' + media, event_name, album_date, album_name)
             elif media[0] != '.':
-                file_location = album_path+'/'+media
+                file_location = album_path + '/' + media
                 event_key = Event.objects.get(event_name=event_name)
                 album_key = Album.objects.get(date=album_date, name=album_name)
                 retrieved_objects = Picture.objects.all().filter(
@@ -109,13 +113,13 @@ def iterate_through_media_for_specific_album(path_to_file, album_path, event_nam
                 while len(item_sub_category) != 0:
                     if len(SubCategory.objects.all().filter(
                         media=item_instance,
-                        level=lvl+1,
+                        level=lvl + 1,
                         name=item_sub_category[0]
-                        )
+                    )
                     ) == 0:
                         sub_category_instance = SubCategory(
                             media=item_instance,
-                            level=lvl+1,
+                            level=lvl + 1,
                             name=item_sub_category[0]
                         )
                         sub_category_instance.save()
@@ -127,7 +131,7 @@ def iterate_through_media_for_specific_album(path_to_file, album_path, event_nam
 def create_pictures_from_repo(repo_dir):
     folder_contents = os.listdir(repo_dir)
     for event_name in folder_contents:
-        event_path = repo_dir+event_name
+        event_path = repo_dir + event_name
         if os.path.isdir(event_path) and event_name[0] != '.':
             path_to_file.append(event_name)
             event_name = event_name
@@ -149,13 +153,13 @@ def create_pictures_from_repo(repo_dir):
                         if '-' in date_of_file:  # in this case,
                             # the album_name has the following format "YYYY-MM-DDD <album_name>"
                             first_dash = date_of_file.find('-')
-                            second_dash = date_of_file.find('-', first_dash+1)
+                            second_dash = date_of_file.find('-', first_dash + 1)
                             date_of_file = datetime.datetime(
                                 int(date_of_file[0:first_dash]),
-                                int(date_of_file[first_dash+1:second_dash]),
-                                int(date_of_file[second_dash+1:])
+                                int(date_of_file[first_dash + 1:second_dash]),
+                                int(date_of_file[second_dash + 1:])
                             )
-                            album_name = album[index_of_space+1:]
+                            album_name = album[index_of_space + 1:]
                             album_date = date_of_file
                             album_name = album_name
                             if len(Album.objects.all().filter(date=date_of_file, name=album_name, event=event)) == 0:
@@ -163,7 +167,7 @@ def create_pictures_from_repo(repo_dir):
                                 album_instance.save()
                         else:  # in this case, the album_name has the following format "YYYY <album_name>"
                             date_of_file = datetime.datetime(int(date_of_file), 1, 1)
-                            album_name = album[index_of_space+1:]
+                            album_name = album[index_of_space + 1:]
                             album_date = date_of_file
                             album_name = album_name
                             if len(Album.objects.all().filter(date=date_of_file, name=album_name, event=event)) == 0:
@@ -172,11 +176,11 @@ def create_pictures_from_repo(repo_dir):
                     else:  # there is no name in the album folder
                         if '-' in album:  # in this case, the album_name has the following format "YYYY-MM-DDD"
                             first_dash = album.find('-')
-                            second_dash = album.find('-', first_dash+1)
+                            second_dash = album.find('-', first_dash + 1)
                             date_of_file = datetime.datetime(
                                 int(album[0:first_dash]),
-                                int(album[first_dash+1:second_dash]),
-                                int(album[second_dash+1:])
+                                int(album[first_dash + 1:second_dash]),
+                                int(album[second_dash + 1:])
                             )
                             album_date = date_of_file
                             if len(Album.objects.all().filter(date=date_of_file, event=event)) == 0:

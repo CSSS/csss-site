@@ -1,7 +1,7 @@
 import json
-import logging
 
 from about.models import OfficerEmailListAndPositionMapping
+from csss.setup_logger import get_logger
 from elections.models import NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
@@ -9,7 +9,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, 
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def update_existing_nominee_jformat(nominee_obj, nominee_dict):

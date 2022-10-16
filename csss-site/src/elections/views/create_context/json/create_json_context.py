@@ -1,7 +1,7 @@
 import json
-import logging
 
 from about.models import OfficerEmailListAndPositionMapping
+from csss.setup_logger import get_logger
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, \
@@ -16,7 +16,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_T
 from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def create_json_election_context_from_user_inputted_election_dict(

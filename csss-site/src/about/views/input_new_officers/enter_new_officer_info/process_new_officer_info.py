@@ -1,5 +1,3 @@
-import logging
-
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
@@ -10,7 +8,7 @@ from about.views.Constants import UNPROCESSED_OFFICER_NAME__KEY, UNPROCESSED_OFF
     UNPROCESSED_OFFICER_BIO__KEY, UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY, UNPROCESSED_OFFICER_GMAIL__KEY, \
     UNPROCESSED_OFFICER_GMAIL_VERIFICATION_CODE__HTML_VALUE, \
     RE_SEND_GMAIL_VERIFICATION_CODE
-from about.views.create_context.input_new_officers.enter_new_officer_info.\
+from about.views.create_context.input_new_officers.enter_new_officer_info. \
     create_context_for_enter_new_officer_info_html import \
     create_context_for_enter_new_officer_info_html
 from about.views.input_new_officers.enter_new_officer_info.save_officer_and_grant_digital_resources import \
@@ -20,9 +18,10 @@ from about.views.input_new_officers.enter_new_officer_info.utils.transform_webfo
 from about.views.input_new_officers.enter_new_officer_info.validators.validate_gmail import validate_gmail
 from about.views.input_new_officers.enter_new_officer_info.validators.validate_user_info import validate_user_info
 from csss.settings import URL_ROOT
+from csss.setup_logger import get_logger
 from csss.views_helper import verify_user_input_has_all_required_fields
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def process_new_officer_info(request, context, officer_emaillist_and_position_mappings, unprocessed_officers):

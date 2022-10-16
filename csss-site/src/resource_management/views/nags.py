@@ -1,14 +1,14 @@
 import datetime
-import logging
 
 from django.shortcuts import render
 
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_checking_google_drive_nags
 from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
 from resource_management.views.gdrive_views import TAB_STRING
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def nags(request):

@@ -1,18 +1,18 @@
-import logging
 from time import sleep
 
 import github
 from django.conf import settings
 from github import Github
-
 from github.GithubException import RateLimitExceededException, GithubException
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import get_logger
 
 CSSS_GITHUB_ORG_NAME = 'CSSS'
 CSS_GITHUB_ORG_PRIVACY = 'closed'
 github_exception_team_name_not_unique = 422
 time_to_wait_due_to_github_rate_limit = 60
+
+logger = get_logger()
 
 
 class GitHubAPI:

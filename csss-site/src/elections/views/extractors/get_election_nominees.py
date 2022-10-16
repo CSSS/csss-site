@@ -1,6 +1,6 @@
 import json
-import logging
 
+from csss.setup_logger import get_logger
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
@@ -8,7 +8,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITI
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def get_election_nominees(election):

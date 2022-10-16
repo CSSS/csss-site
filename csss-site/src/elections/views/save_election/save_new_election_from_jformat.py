@@ -1,6 +1,6 @@
 import datetime
-import logging
 
+from csss.setup_logger import get_logger
 from elections.views.Constants import DATE_AND_TIME_FORMAT
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
     ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME
@@ -9,7 +9,7 @@ from elections.views.save_election.save_new_election_obj_jformat import create_a
 from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \
     save_new_or_update_existing_nominees_jformat
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def save_new_election_from_jformat(updated_elections_information, json=True):

@@ -1,11 +1,10 @@
-import logging
-
 from about.models import OfficerEmailListAndPositionMapping
+from csss.setup_logger import get_logger
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, facebook_link, linkedin_link,

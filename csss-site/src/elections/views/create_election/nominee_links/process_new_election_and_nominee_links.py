@@ -1,9 +1,8 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import get_logger
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__VALUE, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
@@ -21,8 +20,7 @@ from elections.views.validators.validate_election_uniqueness import validate_ele
 from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_user_command import validate_user_command
 
-
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def process_new_election_and_nominee_links(request, context):

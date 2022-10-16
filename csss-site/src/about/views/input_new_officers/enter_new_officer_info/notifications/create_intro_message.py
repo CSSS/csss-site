@@ -1,8 +1,7 @@
-import logging
-
 from about.models import Officer
+from csss.setup_logger import get_logger
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def create_intro_message(officer_obj, officer_is_executive_officer,

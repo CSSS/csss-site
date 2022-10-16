@@ -1,9 +1,10 @@
-import logging
 import os
 
 from django.conf import settings
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import get_logger
+
+logger = get_logger()
 
 
 def get_officer_image_path(term_obj, full_name):

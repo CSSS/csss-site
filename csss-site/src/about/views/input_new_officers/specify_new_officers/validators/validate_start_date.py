@@ -1,9 +1,9 @@
 import datetime
-import logging
 
+from csss.setup_logger import get_logger
 from csss.views_helper import DATE_FORMAT
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def validate_start_date(start_date):

@@ -1,5 +1,3 @@
-import logging
-
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -9,6 +7,7 @@ from about.views.position_mapping_helper import update_context, GITHUB_TEAM__ID_
     GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS, GITHUB_MAPPING_SELECTED_OFFICER_POSITIONS, \
     DELETE_GITHUB_MAPPING, GITHUB_TEAM__TEAM_NAME_KEY
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
 from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
@@ -17,7 +16,7 @@ from csss.views.views import ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def update_saved_github_mappings(request):
@@ -47,7 +46,7 @@ def _update_github_mapping(github_mapping):
     error_messages -- the list of possible error messages
     """
     if not (
-            GITHUB_TEAM__ID_KEY in github_mapping and f"{github_mapping[GITHUB_TEAM__ID_KEY]}".isdigit() and
+        GITHUB_TEAM__ID_KEY in github_mapping and f"{github_mapping[GITHUB_TEAM__ID_KEY]}".isdigit() and
             len(OfficerPositionGithubTeam.objects.all().filter(id=int(github_mapping[GITHUB_TEAM__ID_KEY]))) == 1):
         error_message = "No valid team id detected"
         logger.info(f"[about/update_saved_github_mappings.py _update_github_mapping()] {error_message}")
@@ -59,8 +58,8 @@ def _update_github_mapping(github_mapping):
         return [error_message]
 
     if not (
-            GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY in github_mapping and
-            f"{github_mapping[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}".lstrip('-').isdigit()
+        GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY in github_mapping and
+        f"{github_mapping[GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY]}".lstrip('-').isdigit()
     ):
         error_message = "No valid relevant previous terms detected"
         logger.info(f"[about/update_saved_github_mappings.py _update_github_mapping()] {error_message}")

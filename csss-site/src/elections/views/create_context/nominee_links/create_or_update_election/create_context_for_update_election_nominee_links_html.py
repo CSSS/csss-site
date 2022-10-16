@@ -1,14 +1,14 @@
 import json
-import logging
 
+from csss.setup_logger import get_logger
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, \
     TOGGLE_NOMINEE_LINKS_TO_DELETE, DRAFT_NOMINEE_LINKS, NOMINEE_LINKS
-from elections.views.create_context.nominee_links.create_or_update_election.\
+from elections.views.create_context.nominee_links.create_or_update_election. \
     create_context_for_election_nominee_names_html import \
     create_context_for_election_nominee_names_html
-from elections.views.create_context.nominee_links.create_or_update_election.update_election.\
+from elections.views.create_context.nominee_links.create_or_update_election.update_election. \
     create_context_for_nominee_links_table_html import \
     create_context_for_nominee_links_table_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
@@ -24,12 +24,12 @@ from elections.views.create_context.webform_format.create_context_for_election_w
 from elections.views.create_context.webform_format.create_context_for_submission_buttons_html import \
     create_context_for_submission_buttons_html
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def create_context_for_update_election_nominee_links_html(
-        context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
-        websurvey_link=None, create_new_election=False, draft_nominee_links=None,
+    context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
+    websurvey_link=None, create_new_election=False, draft_nominee_links=None,
         new_nominee_names=None, election_obj=None):
     """
     populates the context dictionary that is used by
@@ -53,8 +53,8 @@ def create_context_for_update_election_nominee_links_html(
      to which draft nominee links
     """
     require_nominee_names = (
-            (nominee_links is None or len(nominee_links) == 0) and
-            (draft_nominee_links is None or len(draft_nominee_links) == 0)
+        (nominee_links is None or len(nominee_links) == 0) and
+        (draft_nominee_links is None or len(draft_nominee_links) == 0)
     )
     create_context_for_html_snippet_for_general_error_validations_html(context, error_messages=error_messages)
     context[CURRENT_ELECTION] = election_obj

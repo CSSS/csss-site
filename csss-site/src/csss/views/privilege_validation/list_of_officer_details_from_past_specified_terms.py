@@ -1,14 +1,13 @@
-import logging
-
 from about.models import Officer, Term, UnProcessedOfficer
+from csss.setup_logger import get_logger
 from csss.views_helper import get_current_term, get_latest_term
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def get_list_of_officer_details_from_past_specified_terms(
-        relevant_previous_terms=5, position_names=None, filter_by_github=False, filter_by_sfuid=False,
-        unprocessed_officers=None, all_officers_in_relevant_terms=None, current_officer_only=False
+    relevant_previous_terms=5, position_names=None, filter_by_github=False, filter_by_sfuid=False,
+    unprocessed_officers=None, all_officers_in_relevant_terms=None, current_officer_only=False
 ):
     """
     Returns the list of users who match the specified position_names and relevant_previous_terms

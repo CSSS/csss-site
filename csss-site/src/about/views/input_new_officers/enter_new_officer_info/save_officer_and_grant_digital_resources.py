@@ -1,5 +1,4 @@
 import datetime
-import logging
 
 from about.models import OfficerEmailListAndPositionMapping, Officer, AnnouncementEmailAddress
 from about.views.Constants import UNPROCESSED_OFFICER_PHONE_NUMBER_KEY, UNPROCESSED_OFFICER_NAME__KEY, \
@@ -12,10 +11,10 @@ from about.views.input_new_officers.enter_new_officer_info.grant_digital_resourc
     assign_discord_roles
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.grant_github_access import \
     grant_github_access
-from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.\
+from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access. \
     grant_google_drive_access import \
     grant_google_drive_access
-from about.views.input_new_officers.enter_new_officer_info.notifications.\
+from about.views.input_new_officers.enter_new_officer_info.notifications. \
     send_notifications_with_documentation_links import \
     send_notifications_with_documentation_links
 from about.views.input_new_officers.enter_new_officer_info.utils.alert_sys_admin_to_update_email_list import \
@@ -24,8 +23,9 @@ from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_use
     get_discord_username_and_nickname
 from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_email_alias import get_sfu_email_alias
 from about.views.utils.get_officer_image_path import get_officer_image_path
+from csss.setup_logger import get_logger
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mappings, unprocessed_officer,
@@ -82,7 +82,7 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
     officer_has_google_drive_access = position_name in get_position_names(current_positions.filter(google_drive=True))
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
-        f"{position_name} {'has' if officer_has_google_drive_access else 'does not have' } access to "
+        f"{position_name} {'has' if officer_has_google_drive_access else 'does not have'} access to "
         f"google drive"
     )
     officer_is_executive_officer = position_name in get_position_names(
@@ -90,28 +90,28 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
     )
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
-        f"{position_name} is {'' if officer_is_executive_officer else 'not ' }an executive officer"
+        f"{position_name} is {'' if officer_is_executive_officer else 'not '}an executive officer"
     )
     officer_is_election_officer = position_name in get_position_names(current_positions.filter(election_officer=True))
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
-        f"{position_name} is {'' if officer_is_election_officer else 'not ' }an election officer"
+        f"{position_name} is {'' if officer_is_election_officer else 'not '}an election officer"
     )
     officer_is_council_representative = position_name in get_position_names(
         current_positions.filter(sfss_council_rep=True))
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
-        f"{position_name} is {'' if officer_is_council_representative else 'not ' }the council rep"
+        f"{position_name} is {'' if officer_is_council_representative else 'not '}the council rep"
     )
     officer_is_frosh_week_chair = position_name in get_position_names(current_positions.filter(frosh_week_chair=True))
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
-        f"{position_name} is {'' if officer_is_frosh_week_chair else 'not ' }the frosh week chair"
+        f"{position_name} is {'' if officer_is_frosh_week_chair else 'not '}the frosh week chair"
     )
     officer_is_discord_manager = position_name in get_position_names(current_positions.filter(discord_manager=True))
     logger.info(
         f"[about/save_officer_and_grant_digital_resources.py save_officer_and_grant_digital_resources()] "
-        f"{position_name} is {'' if officer_is_discord_manager else 'not ' }the discord manager"
+        f"{position_name} is {'' if officer_is_discord_manager else 'not '}the discord manager"
     )
 
     pic_path = get_officer_image_path(term_obj, full_name)

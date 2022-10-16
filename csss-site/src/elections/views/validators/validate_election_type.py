@@ -1,8 +1,7 @@
-import logging
-
+from csss.setup_logger import get_logger
 from elections.models import Election
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def validate_election_type(election_type):

@@ -1,10 +1,10 @@
 import json
-import logging
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import get_logger
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import ELECTION_JSON__KEY, CREATE_NEW_ELECTION__NAME, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON
@@ -23,7 +23,7 @@ from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def process_new_inputted_json_election(request, context):
@@ -109,8 +109,7 @@ def process_new_inputted_json_election(request, context):
         context.update(create_json_election_context_from_user_inputted_election_dict(
             error_message=error_message, election_information=election_dict)
         )
-        return render(request, 'elections/create_election/create_election_json.html', context)\
-
+        return render(request, 'elections/create_election/create_election_json.html', context)
     success, error_message = validate_election_json_uniqueness(election_dict)
     if not success:
         logger.info(

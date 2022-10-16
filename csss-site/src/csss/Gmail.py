@@ -1,5 +1,4 @@
 import smtplib
-import logging
 from email import encoders
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
@@ -7,7 +6,9 @@ from email.mime.text import MIMEText
 
 from django.conf import settings
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import get_logger
+
+logger = get_logger()
 
 
 class Gmail:

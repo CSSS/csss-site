@@ -1,8 +1,7 @@
-import logging
-
+from csss.setup_logger import get_logger
 from elections.models import Nominee
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def get_exist_nominee(nominee_id, election_id):

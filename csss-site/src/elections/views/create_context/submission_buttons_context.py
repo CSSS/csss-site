@@ -1,11 +1,10 @@
-import logging
-
+from csss.setup_logger import get_logger
 from elections.views.Constants import CREATE_NEW_ELECTION__NAME, \
     INPUT_REDIRECT_ELECTION_SUBMIT__VALUE, SAVE_ELECTION__VALUE, \
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
     UPDATE_EXISTING_ELECTION__NAME, INPUT_REDIRECT_ELECTION_SUBMIT__NAME
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def create_base_submission_buttons_context(create_new_election=True):

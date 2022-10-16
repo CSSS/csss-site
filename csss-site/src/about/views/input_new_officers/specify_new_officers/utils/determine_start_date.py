@@ -1,8 +1,5 @@
-import logging
-
+from csss.setup_logger import get_logger
 from csss.views_helper import get_current_term_obj
-
-logger = logging.getLogger('csss_site')
 
 """
 Determine Start Date Logic
@@ -38,9 +35,11 @@ Systems Administrator
 webmaster
 """
 
+logger = get_logger()
+
 
 def determine_start_date(
-        officers, officer_email_list_and_position_mapping, re_use_start_date, start_date, sfu_computing_id,
+    officers, officer_email_list_and_position_mapping, re_use_start_date, start_date, sfu_computing_id,
         position_name, target_term):
     """
     Determines the start date to use for a New_Officer

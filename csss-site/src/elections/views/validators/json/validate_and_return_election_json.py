@@ -1,9 +1,9 @@
 import json
-import logging
 
+from csss.setup_logger import get_logger
 from elections.views.utils.prepare_json_for_html import prepare_json_for_html
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def validate_and_return_election_json(input_json):

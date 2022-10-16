@@ -1,12 +1,13 @@
-import logging
 import os
-import pathlib2
 
+import pathlib2
 from django.conf import settings
 from django.core.management import BaseCommand
 from django_mailbox.models import Message
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import get_logger
+
+logger = get_logger()
 
 
 class Command(BaseCommand):

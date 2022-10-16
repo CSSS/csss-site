@@ -1,6 +1,5 @@
 import datetime
 import json
-import logging
 from urllib.error import HTTPError
 from xml.etree.ElementTree import ParseError
 
@@ -16,8 +15,6 @@ from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_t
     get_current_sys_admin_or_webmaster_sfuid
 
 CAS_GROUP_NAME = 'CAS_users'
-
-logger = logging.getLogger('csss_site')
 
 
 class UserEncoder(json.JSONEncoder):

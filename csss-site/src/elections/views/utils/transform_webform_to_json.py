@@ -1,12 +1,12 @@
 import json
-import logging
 
+from csss.setup_logger import get_logger
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES
 from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_json import \
     copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_nominee_webform_to_json import transform_nominee_webform_to_json
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def transform_webform_to_json(election_dict):

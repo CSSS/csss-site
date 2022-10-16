@@ -1,8 +1,8 @@
 import json
-import logging
 
 from django.shortcuts import render
 
+from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
@@ -12,7 +12,7 @@ from elections.views.update_election.json.display_json_for_selected_election_jso
 from elections.views.update_election.json.process_existing_election_json import \
     process_existing_election_information_from_json
 
-logger = logging.getLogger('csss_site')
+logger = get_logger()
 
 
 def display_and_process_html_for_modification_of_json_election(request, slug):
