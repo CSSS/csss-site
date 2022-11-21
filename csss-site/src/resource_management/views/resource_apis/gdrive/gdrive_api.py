@@ -830,6 +830,11 @@ class GoogleDrive:
         )
         officers = Officer.objects.all()
         gmail = Gmail()
+        logger.info(
+            "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
+            "files_to_email_owner_about="
+        )
+        logger.info(json.dumps(files_to_email_owner_about, indent=3))
         for to_email in files_to_email_owner_about:
             body = body_template + "".join(
                 [
@@ -841,7 +846,15 @@ class GoogleDrive:
             to_name = files_to_email_owner_about[to_email]['full_name']
             logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
                         f"send email to {to_email} about files {files_names}")
+            logger.info(
+                "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
+                f"retrieving officer with gmail [{to_email}]"
+            )
             officer = officers.filter(gmail=to_email).order_by('-start_date').first()
+            logger.info(
+                "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] officer is "
+                f"{'' if officer is None else 'not '}None"
+            )
             if officer is not None:
                 # send_email(
                 #     subject, body, f"{officer.sfu_computing_id}@sfu.ca", officer.full_name, gmail=gmail
