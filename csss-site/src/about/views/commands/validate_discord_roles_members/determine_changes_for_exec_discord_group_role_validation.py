@@ -1,7 +1,5 @@
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 def determine_changes_for_exec_discord_group_role_validation(
     user_id__user_obj, role_id__list_of_users, role_id__role, members_id__role_ids,
@@ -22,6 +20,8 @@ def determine_changes_for_exec_discord_group_role_validation(
      to have the Execs discord group role
     exec_discord_role_id -- the role id for the discord Execs role
     """
+    logger = get_logger()
+
     users_in_executive_discord_group_role = role_id__list_of_users[exec_discord_role_id]
     for user_in_executive_discord_group_role in users_in_executive_discord_group_role:
         user_in_executive_discord_group_role_id = user_in_executive_discord_group_role['user']['id']

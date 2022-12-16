@@ -2,8 +2,6 @@ from about.models import Officer, Term, UnProcessedOfficer
 from csss.setup_logger import get_logger
 from csss.views_helper import get_current_term, get_latest_term
 
-logger = get_logger()
-
 
 def get_list_of_officer_details_from_past_specified_terms(
     relevant_previous_terms=5, position_names=None, filter_by_github=False, filter_by_sfuid=False,
@@ -28,8 +26,9 @@ def get_list_of_officer_details_from_past_specified_terms(
     else
         list of recent officer's bio, github usernames or SFUIDS that match the specified condition
     """
+    logger = get_logger()
     logger.info(
-        f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
+        f"[csss/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
         f" called with relevant_previous_terms: {relevant_previous_terms}, position_names: {position_names},"
         f" filter_by_github: {filter_by_github}, filter_by_sfuid: {filter_by_sfuid}"
     )

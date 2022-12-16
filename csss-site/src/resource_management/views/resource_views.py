@@ -17,14 +17,13 @@ GITHUB_KEY = 'github'
 RESOURCES_KEY = 'resource'
 TAB_STRING = 'administration'
 
-logger = get_logger()
-
 
 def show_resources_to_validate(request):
     """
     Displays the resources that the user can validate
     """
-    logger.info(f"[administration/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
+    logger = get_logger()
+    logger.info(f"[resource_management/resource_views.py show_resources_to_validate()] request.POST={request.POST}")
     return render(
         request,
         'resource_management/show_resources_for_validation.html',
@@ -36,7 +35,8 @@ def validate_access(request):
     """
     takes in the inputs from the user on what resources to validate
     """
-    logger.info(f"[administration/resource_views.py validate_access()] request.POST={request.POST}")
+    logger = get_logger()
+    logger.info(f"[resource_management/resource_views.py validate_access()] request.POST={request.POST}")
     validate_request_to_update_digital_resource_permissions(request)
     if there_are_multiple_entries(request.POST, RESOURCES_KEY):
         for resource in request.POST[RESOURCES_KEY]:
@@ -55,14 +55,15 @@ def determine_resource_to_validate(selected_resource_to_validate):
     selected_resource_to_validate -- the resource the user has requested to validate
 
     """
-    logger.info("[administration/resource_views.py determine_resource_to_validate()] interpreting resource"
+    logger = get_logger()
+    logger.info("[resource_management/resource_views.py determine_resource_to_validate()] interpreting resource"
                 f" {selected_resource_to_validate}")
     if GOOGLE_DRIVE_KEY == selected_resource_to_validate:
-        logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
+        logger.info("[resource_management/resource_views.py determine_resource_to_validate()] user has selected"
                     " to validate the access to the google drive")
         validate_google_drive()
     if GITHUB_KEY == selected_resource_to_validate:
-        logger.info("[administration/resource_views.py determine_resource_to_validate()] user has selected"
+        logger.info("[resource_management/resource_views.py determine_resource_to_validate()] user has selected"
                     " to validate the access to the google drive")
         validate_github()
 

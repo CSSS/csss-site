@@ -20,8 +20,6 @@ from elections.views.validators.validate_election_uniqueness import validate_ele
 from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_user_command import validate_user_command
 
-logger = get_logger()
-
 
 def process_new_election_and_nominee_links(request, context):
     """
@@ -36,6 +34,7 @@ def process_new_election_and_nominee_links(request, context):
      either redirect user back to the page where they inputted the election info or direct them to the newly created
       election page along with nominee links
     """
+    logger = get_logger()
     election_dict = transform_election_nominee_links_webform_to_json(request)
     fields = [
         ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_WEBFORM_KEY__TIME,

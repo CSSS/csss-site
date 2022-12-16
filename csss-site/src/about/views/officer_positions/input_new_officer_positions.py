@@ -29,10 +29,9 @@ NUMBER_OF_TERMS_KEY = 'number_of_terms'
 STARTING_MONTH_KEY = 'starting_month'
 UNSAVED_POSITION_MAPPINGS_KEY = 'unsaved_position_mappings'
 
-logger = get_logger()
-
 
 def input_new_officer_positions(request):
+    logger = get_logger()
     logger.info("[about/input_new_officer_positions.py input_new_officer_positions()]"
                 f" request.POST={request.POST}")
     context = create_context_for_updating_position_mappings(request, tab=TAB_STRING)
@@ -58,6 +57,7 @@ def _add_new_position_mapping(post_dict):
     unsaved_position_mappings -- a dict that contains the unsaved position index
      and position names if one of them was invalid
     """
+    logger = get_logger()
     error_messages = []
     starting_months = OfficerEmailListAndPositionMapping.starting_month_choices_dict(front_end=False)
     if there_are_multiple_entries(post_dict, POSITION_NAME_KEY):

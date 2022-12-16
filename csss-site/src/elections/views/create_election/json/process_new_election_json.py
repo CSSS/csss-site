@@ -23,8 +23,6 @@ from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
 
-logger = get_logger()
-
 
 def process_new_inputted_json_election(request, context):
     """
@@ -39,6 +37,7 @@ def process_new_inputted_json_election(request, context):
      either redirect user back to the page where they inputted the election info or direct them to the newly created
       election page
     """
+    logger = get_logger()
     fields = [ELECTION_JSON__KEY]
     error_message = verify_user_input_has_all_required_fields(request.POST, fields=fields)
     if error_message != "":

@@ -1,9 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from csss.setup_logger import get_logger
+from csss.setup_logger import get_or_setup_logger
 from resource_management.views.resource_views import validate_google_drive, validate_github
-
-logger = get_logger()
 
 
 class Command(BaseCommand):
@@ -24,6 +22,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        logger = get_or_setup_logger(logger_name="admin_commands_validate_access")
         logger.info(options)
         if options['google_drive']:
             logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "

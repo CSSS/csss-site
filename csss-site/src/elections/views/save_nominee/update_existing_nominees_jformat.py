@@ -9,8 +9,6 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, 
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME
 
-logger = get_logger()
-
 
 def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     """
@@ -24,6 +22,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     position_ids -- the position IDs that was saved for the nominee
     speech_ids -- the speech IDs that were saved for the nominee
     """
+    logger = get_logger()
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []
     nominee_obj.full_name = nominee_dict[ELECTION_JSON_KEY__NOM_NAME].strip()

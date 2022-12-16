@@ -9,13 +9,12 @@ from about.views.input_new_officers.specify_new_officers.process_specified_new_o
 from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_officer_creation_links
 
-logger = get_logger()
-
 
 def specify_new_officers(request):
     """
     Shows the page where the user can select the year, term and positions for whom to create input info links
     """
+    logger = get_logger()
     logger.info(f"[about/specify_new_officers.py specify_new_officers()] "
                 f"request.POST={request.POST}")
     context = create_context_for_officer_creation_links(request, tab=TAB_STRING)

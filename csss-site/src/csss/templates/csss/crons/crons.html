@@ -17,8 +17,7 @@
                     <td>{{ cron_mapping.job_name }}</td>
                     <td><input type="text" name="[cron_schedules][{{ cron_mapping.job_name }}]" value="{{ cron_mapping.schedule }}"></td>
                     <td><button name="job_to_run" value="{{ cron_mapping.job_name }}">Run Job</button></td>
-                    <td><input type="button" value="Run"></td>
-                    <td>Logs</td>
+                    <td><a href="/cron_logs/{{ cron_mapping.job_name }}">Logs</a></td>
                 </tr>
             {%  endfor %}
         </table>

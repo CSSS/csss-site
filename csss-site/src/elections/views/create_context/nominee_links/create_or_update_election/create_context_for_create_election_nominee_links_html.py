@@ -21,8 +21,6 @@ from elections.views.create_context.webform_format.create_context_for_election_w
 from elections.views.create_context.webform_format.create_context_for_submission_buttons_html import \
     create_context_for_submission_buttons_html
 
-logger = get_logger()
-
 
 def create_context_for_create_election_nominee_links_html(context, election_date=None, election_time=None,
                                                           election_type=None, create_new_election=False,
@@ -42,6 +40,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     error_messages -- error message to display
     nominee_names --the nominee names that the user inputted so far
     """
+    logger = get_logger()
     pre_existing_election = False
     if create_new_election:
         nominee_links = NomineeLink.objects.all()

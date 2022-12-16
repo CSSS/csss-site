@@ -10,13 +10,12 @@ from csss.setup_logger import get_logger
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_processing_unprocessed_officer
 
-logger = get_logger()
-
 
 def enter_new_officer_info(request):
     """
     Shows the page where the user can enter their info
     """
+    logger = get_logger()
     logger.info(f"[about/enter_new_officer_info.py enter_new_officer_info()] "
                 f"request.post_dict={request.POST}")
     context = create_context_for_processing_unprocessed_officer(request, tab=TAB_STRING)

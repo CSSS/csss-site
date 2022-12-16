@@ -23,8 +23,6 @@ from elections.views.validators.validate_nominees_for_existing_election_jformat 
     validate_nominees_for_existing_election_jformat
 from elections.views.validators.validate_user_command import validate_user_command
 
-logger = get_logger()
-
 
 def process_existing_election_information_from_webform(request, election, context):
     """
@@ -39,6 +37,7 @@ def process_existing_election_information_from_webform(request, election, contex
      Return
      either redirect user back to the page where they inputted the election info or direct them to the election page
     """
+    logger = get_logger()
     election_dict = transform_webform_to_json(parser.parse(request.POST.urlencode()))
     fields = [
         ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,

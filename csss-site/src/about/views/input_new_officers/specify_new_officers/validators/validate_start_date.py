@@ -3,8 +3,6 @@ import datetime
 from csss.setup_logger import get_logger
 from csss.views_helper import DATE_FORMAT
 
-logger = get_logger()
-
 
 def validate_start_date(start_date):
     """
@@ -17,6 +15,7 @@ def validate_start_date(start_date):
     bool -- indicator of whether the validation was successful
     error_message -- whatever error message there was as a result of the validation, or None
     """
+    logger = get_logger()
     try:
         datetime.datetime.strptime(f"{start_date}", DATE_FORMAT)
     except ValueError:

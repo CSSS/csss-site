@@ -25,8 +25,6 @@ from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_email_a
 from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mappings, unprocessed_officer,
                                              officer_info):
@@ -44,6 +42,7 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
      or sending them their notifications in  gmail or discord DM
     error_message -- the error message if there was a problemw with any of the above
     """
+    logger = get_logger()
     position_name = unprocessed_officer.position_name
     phone_number = officer_info[UNPROCESSED_OFFICER_PHONE_NUMBER_KEY]
     full_name = officer_info[UNPROCESSED_OFFICER_NAME__KEY]

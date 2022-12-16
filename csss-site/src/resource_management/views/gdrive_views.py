@@ -25,8 +25,6 @@ TAB_STRING = 'administration'
 
 ERROR_MESSAGE_KEY = 'error_message'
 
-logger = get_logger()
-
 
 def user_does_not_have_access_to_file(gmail, file_id):
     """
@@ -83,6 +81,7 @@ def add_users_to_gdrive(request):
     """
     Takes in the users who need to be given access to the SFU CSSS Google Drive
     """
+    logger = get_logger()
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
     gdrive = GoogleDrive()
@@ -139,6 +138,7 @@ def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inpu
         access to the file
     error_message -- error if unable to give the user access to the file or None otherwise
    """
+    logger = get_logger()
     file_id = settings.GDRIVE_ROOT_FOLDER_ID \
         if user_inputted_file_id == "" \
         else user_inputted_file_id
@@ -168,6 +168,7 @@ def update_permissions_for_existing_gdrive_user(request):
     """
     updates the permission for an existing google drive user
     """
+    logger = get_logger()
     logger.info(
         "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
         f"request.POST={request.POST}"
@@ -244,6 +245,7 @@ def make_folders_public_gdrive(request):
     """
     makes a list of requested google drive folders publicly available
     """
+    logger = get_logger()
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
@@ -285,6 +287,7 @@ def make_folder_public_gdrive(gdrive, user_inputted_file_id):
     Bool -- true or false
     error_message -- None if successful and error_message if not successful
     """
+    logger = get_logger()
     if not google_drive_file_is_publicly_available(user_inputted_file_id):
         success, file_name, file_link, error_message = gdrive.make_public_link_gdrive(user_inputted_file_id)
         if success:
@@ -311,6 +314,7 @@ def update_gdrive_public_links(request):
     """
     updates an existing google drive public file
     """
+    logger = get_logger()
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
@@ -366,6 +370,7 @@ def create_google_drive_perms():
         ],
     }
     """
+    logger = get_logger()
     officer_list = get_list_of_officer_details_from_past_specified_terms()
     logger.info(
         "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "

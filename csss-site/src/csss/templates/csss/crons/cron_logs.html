@@ -1,0 +1,8 @@
+{%  extends "csss/header.html" %}
+{%  block content %}
+    {%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+    <a href="{{ parent_directory }}">..</a><br><br>
+    {%  for log in logs %}
+        <a href="/cron_logs{{ log }}">{{ log }}</a><br>
+    {%  endfor %}
+{%  endblock %}

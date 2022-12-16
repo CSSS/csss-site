@@ -6,8 +6,6 @@ from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_js
     copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
 
-logger = get_logger()
-
 
 def transform_election_nominee_links_webform_to_json(request):
     """
@@ -21,6 +19,7 @@ def transform_election_nominee_links_webform_to_json(request):
     Return
     new_nominee_dict -- the dictionary format that the process_existing_election_and_nominee_links function takes in
     """
+    logger = get_logger()
     logger.info(
         "[elections/transform_election_nominee_links_webform_to_json.py "
         "transform_election_nominee_links_webform_to_json()] "

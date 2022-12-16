@@ -19,10 +19,9 @@ from resource_management.views.resource_apis.github.github_api import GitHubAPI
 UNSAVED_GITHUB_OFFICER_TEAM_NAME_MAPPINGS_KEY = 'unsaved_github_officer_team_name_mapping'
 OFFICER_POSITIONS = 'officer_positions'
 
-logger = get_logger()
-
 
 def save_new_github_officer_team_mapping(request):
+    logger = get_logger()
     logger.info(f"[about/save_new_github_officer_team_mapping.py save_new_github_officer_team_mapping()] "
                 f"request.POST={request.POST}")
     context = create_context_for_updating_github_mappings_and_permissions(request, tab=TAB_STRING)
@@ -50,6 +49,7 @@ def _create_new_github_mapping(post_dict):
     error_messages -- a list of possible error_messages
 
     """
+    logger = get_logger()
     if not (GITHUB_TEAM__TEAM_NAME_KEY in post_dict):
         error_message = "No team name detected"
         logger.info(f"[about/save_new_github_officer_team_mapping.py create_new_github_mapping()] {error_message}")
@@ -116,6 +116,7 @@ def _create_unsaved_github_officer_team_name_mappings(
     officer_position_names -- the officer position names that the user selected
     relevant_previous_terms -- how many previous terms apply to the github team
     """
+    logger = get_logger()
     if officer_position_names is None:
         officer_position_names = []
     position_mapping_for_selected_officer = OfficerEmailListAndPositionMapping.objects.all().order_by(
@@ -154,6 +155,7 @@ def _validate_position_names_and_team_name_for_new_github_team(officer_position_
     Success -- Bool to indicate if the team name and position_names are validated
     error_message -- the error message
     """
+    logger = get_logger()
     success, error_message = validate_position_names_for_github_team(officer_position_names)
     if not success:
         return success, error_message
@@ -183,6 +185,7 @@ def _save_new_github_team_mapping(officer_position_names, team_name, relevant_pr
     Return
     error_messages -- the list of possible error messages
     """
+    logger = get_logger()
     success, error_message, officer_position_mappings = \
         _get_position_mappings_assigned_to_specified_positions_names(officer_position_names)
     if not success:
@@ -234,6 +237,7 @@ def _get_position_mappings_assigned_to_specified_positions_names(officer_positio
     officer_position_and_github_mapping -- the OfficerEmailListAndPositionMapping object that maps
      to the specified officer position names
     """
+    logger = get_logger()
     officer_position_mappings = []
     for officer_position_name in officer_position_names:
         officer_position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(

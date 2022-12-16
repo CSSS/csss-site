@@ -27,8 +27,6 @@ DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
 UN_DELETED_POSITION_MAPPING_KEY = 'un_delete_position_mapping'
 UPDATE_POSITION_MAPPING_KEY = 'update_position_mapping'
 
-logger = get_logger()
-
 
 def update_saved_position_mappings(request):
     context = create_context_for_updating_position_mappings(request, tab=TAB_STRING)
@@ -54,6 +52,7 @@ def _update_positions_mapping(positions):
     Return
     error_messages -- a list of all the possible error messages
     """
+    logger = get_logger()
     current_specified_position_names = []
     current_specified_position_indices = []
     positions_to_save = []
@@ -302,6 +301,7 @@ def update_current_officer(positions_to_save, position_mapping_for_selected_offi
     new_sfu_email_list_address_for_officer_position -- the new sfu email list address for the officer position
      that need to be updated
     """
+    logger = get_logger()
     terms = Term.objects.all().filter(term_number=get_current_term())
     if len(terms) == 1:
         term = terms[0]

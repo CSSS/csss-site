@@ -7,8 +7,6 @@ from about.views.input_new_officers.specify_new_officers.notifications. \
 from about.views.input_new_officers.specify_new_officers.utils.determine_start_date import determine_start_date
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_position_mappings, officers, terms,
                               inputted_term, inputted_year, unprocessed_officers=None):
@@ -28,6 +26,7 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
     bool -- indicates if the unprocessed officers were all successfully DMed
     error_message - the relevant error message if any of the unprocessed officers could not be DMed
     """
+    logger = get_logger()
     if unprocessed_officers is None:
         unprocessed_officers = []
     if len(unprocessed_officers) == 0:

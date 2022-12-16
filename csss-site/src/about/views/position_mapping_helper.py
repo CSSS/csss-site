@@ -46,8 +46,6 @@ GITHUB_TEAM__TEAM_NAME_KEY = "github_mapping__team_name"
 GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY = "github_mapping__relevant_previous_terms"
 TEAM_NAME_KEY = 'team_name'
 
-logger = get_logger()
-
 
 def update_context(context):
     context.update({
@@ -129,6 +127,7 @@ def validate_position_index(position_index, submitted_position_indices=None):
     success -- True or False if the new position index is not already used
     error_message -- an error_message if the index was already used
     """
+    logger = get_logger()
     if submitted_position_indices is None:
         submitted_position_indices = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
@@ -154,6 +153,7 @@ def validate_position_name(position_name, submitted_position_names=None):
     success -- True or False if the new position name is not already used
     error_message -- an error_message if the name was already used
     """
+    logger = get_logger()
     if submitted_position_names is None:
         submitted_position_names = []
     if len(OfficerEmailListAndPositionMapping.objects.all().filter(
@@ -177,6 +177,7 @@ def validate_elected_via_election_officer_status(elected_via_election_officer_st
     success -- True or False if the attribute of elected via election officer is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (elected_via_election_officer_status == 'True' or elected_via_election_officer_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_elected_via_election_officer_status()] "
                     "validating for if the position is elected via election officer "
@@ -197,6 +198,7 @@ def validate_executive_officer_status(executive_officer_status):
     success -- True or False if the attribute of whether the officer is an executive officer is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (executive_officer_status == 'True' or executive_officer_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_executive_status()] "
                     "validating for if the position is for an executive officer "
@@ -217,6 +219,7 @@ def validate_election_officer_status(election_officer_status):
     success -- True or False if the attribute of whether the officer is an election officer is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (election_officer_status == 'True' or election_officer_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_election_officer_status()] "
                     "validating for if the position is for an election officer "
@@ -238,6 +241,7 @@ def validate_sfss_council_representative_status(sfss_council_representative_stat
     success -- True or False if the attribute of whether the officer is an SFSS Council Representative is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (sfss_council_representative_status == 'True' or sfss_council_representative_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_sfss_council_representative_status()] "
                     "validating for if the position is for an SFSS Council Representative "
@@ -258,6 +262,7 @@ def validate_frosh_week_chair_status(frosh_week_chair_status):
     success -- True or False if the attribute of whether the officer is the frosh week chair is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (frosh_week_chair_status == 'True' or frosh_week_chair_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_frosh_week_chair_status()] "
                     "validating for if the position is for the frosh week chair "
@@ -278,6 +283,7 @@ def validate_discord_manager_status(discord_manager_status):
     success -- True or False if the attribute of whether the officer is the discord manager is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (discord_manager_status == 'True' or discord_manager_status == 'False'):
         logger.info("[about/position_mapping_helper.py validate_discord_manager_status()] "
                     "validating for if the position is for the discord manager "
@@ -298,6 +304,7 @@ def validate_github_access(github_access):
     success -- True or False if the attribute of github access is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (github_access == 'True' or github_access == 'False'):
         logger.info("[about/position_mapping_helper.py validate_github_access()] "
                     "validating for if the position has github access "
@@ -318,6 +325,7 @@ def validate_google_drive_access(google_drive_access):
     success -- True or False if the attribute of google drive access is valid
     error_message -- an error_message if the attribute is not one of the valid options
     """
+    logger = get_logger()
     if not (google_drive_access == 'True' or google_drive_access == 'False'):
         logger.info("[about/position_mapping_helper.py validate_google_drive_access()] "
                     "validating for if the position has google drive access "
@@ -343,6 +351,7 @@ def extract_valid_officers_positions_selected_for_github_team(post_dict):
     error_message -- the error message if not successful, otherwise None
     officer_position_indices -- an int list of officer position indices that have been selected, if any were selected
     """
+    logger = get_logger()
     if not (GITHUB_MAPPING_SELECTED_OFFICER_POSITION_KEY in post_dict):
         error_message = "Did not find any positions that were selected"
         logger.info("[about/position_mapping_helper.py extract_valid_officers_positions_selected_for_github_team()]"
@@ -392,6 +401,7 @@ def validate_position_names_for_github_team(officer_position_names):
     success -- bool that is true or false depending on if all the officer position names are valid
     error_message -- an error message if one of the position names are invalid
     """
+    logger = get_logger()
     for officer_position_name in officer_position_names:
         if len(OfficerEmailListAndPositionMapping.objects.all().filter(position_name=officer_position_name)) == 0:
             error_message = f"There is no position mapped to the position name of {officer_position_name}"
@@ -414,6 +424,7 @@ def validate_number_of_terms(number_of_terms):
     success -- bool that is true or false depending on if all the number of terms are valid
     error_message -- an error message if one of the number of terms are invalid
     """
+    logger = get_logger()
     if number_of_terms not in OfficerEmailListAndPositionMapping.number_of_terms_choices_dict():
         error_message = f"Invalid number of terms of {number_of_terms} specified"
         logger.info(
@@ -435,6 +446,7 @@ def validate_starting_month(starting_month):
     success -- bool that is true or false depending on if all the starting months are valid
     error_message -- an error message if one of the starting months are invalid
     """
+    logger = get_logger()
     if starting_month not in OfficerEmailListAndPositionMapping.starting_month_choices_dict():
         error_message = f"Invalid starting month of {starting_month} specified"
         logger.info(

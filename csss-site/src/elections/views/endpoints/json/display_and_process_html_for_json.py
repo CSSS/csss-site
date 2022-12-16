@@ -12,13 +12,12 @@ from elections.views.update_election.json.display_json_for_selected_election_jso
 from elections.views.update_election.json.process_existing_election_json import \
     process_existing_election_information_from_json
 
-logger = get_logger()
-
 
 def display_and_process_html_for_modification_of_json_election(request, slug):
     """
     Shows the requested election to the user in JSON format
     """
+    logger = get_logger()
     logger.info(
         "[elections/display_and_process_html_for_json.py "
         "display_and_process_html_for_modification_of_json_election()] request.POST="

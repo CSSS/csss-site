@@ -8,10 +8,9 @@ from csss.views.request_validation import validate_request_to_delete_election
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 
-logger = get_logger()
-
 
 def delete_selected_election(request, slug):
+    logger = get_logger()
     logger.info("[administration/delete_selected_election.py delete_selected_election()] request.POST=")
     logger.info(json.dumps(request.POST, indent=3))
     validate_request_to_delete_election(request)

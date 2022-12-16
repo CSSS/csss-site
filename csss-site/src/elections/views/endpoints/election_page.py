@@ -12,10 +12,9 @@ from elections.views.Constants import TAB_STRING, ELECTION__HTML_NAME, \
     ENDPOINT_DELETE_NOMINEE_LINKS, DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY
 from elections.views.validators.validate_election_slug import validate_election_slug
 
-logger = get_logger()
-
 
 def get_nominees(request, slug):
+    logger = get_logger()
     context, user_is_election_officer = create_election_page_context(request, TAB_STRING)
     if not validate_election_slug(slug):
         context[ERROR_MESSAGES_KEY] = ["specified slug has an incorrect number of elections attached to it."]

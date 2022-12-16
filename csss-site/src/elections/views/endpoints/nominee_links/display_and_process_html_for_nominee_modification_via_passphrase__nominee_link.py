@@ -12,10 +12,9 @@ from elections.views.create_context.nominee_links.create_or_update_nominee. \
 from elections.views.update_election.nominee_links.process_nominee__nominee_links import \
     process_nominee__nominee_links
 
-logger = get_logger()
-
 
 def display_and_process_html_for_nominee_modification_via_passphrase(request):
+    logger = get_logger()
     logger.info(
         "[elections/display_and_process_html_for_nominee_modification_via_passphrase__nominee_link.py"
         " display_and_process_html_for_nominee_modification_via_passphrase()] "

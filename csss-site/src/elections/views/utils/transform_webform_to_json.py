@@ -6,8 +6,6 @@ from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_js
     copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_nominee_webform_to_json import transform_nominee_webform_to_json
 
-logger = get_logger()
-
 
 def transform_webform_to_json(election_dict):
     """
@@ -19,6 +17,7 @@ def transform_webform_to_json(election_dict):
     Return
     new_election_dict -- the dictionary format that the JSON pages create
     """
+    logger = get_logger()
     logger.info("[elections/transform_webform_to_json.py transform_webform_to_json()] transforming")
     logger.info(json.dumps(election_dict, indent=3))
     new_election_dict = {}

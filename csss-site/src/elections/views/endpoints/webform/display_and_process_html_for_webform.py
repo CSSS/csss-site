@@ -12,11 +12,10 @@ from elections.views.create_context.webform.create_context_for_update_election__
 from elections.views.update_election.webform.process_existing_election_webform import \
     process_existing_election_information_from_webform
 
-logger = get_logger()
-
 
 def display_and_process_html_for_modification_of_webform_election(request, slug):
     """Shows the request election to the user in WebForm format"""
+    logger = get_logger()
     logger.info("[elections/display_and_process_html_for_webform.py "
                 "display_and_process_html_for_modification_of_webform_election()] request.POST=")
     logger.info(json.dumps(request.POST, indent=3))

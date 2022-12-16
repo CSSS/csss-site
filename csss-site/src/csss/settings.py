@@ -1,5 +1,5 @@
 import datetime
-import sys
+import logging
 
 import environ
 import os
@@ -7,7 +7,9 @@ import os
 import pytz
 import tzlocal
 
-from csss.setup_logger import SettingsLogger
+SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
+
+from csss.setup_logger import get_or_setup_logger, Loggers
 
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
@@ -20,23 +22,15 @@ if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
 
-stdout_fileno = sys.stdout
-stderr_fileno = sys.stderr
-cron_module = 'csss_site_settings'
-date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")
-settings_file_path = f"{LOG_LOCATION}/{cron_module}"
-settings_file_name = f"{date}_csss_site.log"
-settings_error_file_name = f"{date}_csss_site_error.log"
-SETTINGS_LOG_LOCATION = f"{settings_file_path}/{settings_file_name}"
-SETTINGS_ERROR_LOG_LOCATION = f"{settings_file_path}/{settings_error_file_name}"
+csss_site_logger = get_or_setup_logger()
+Loggers.get_logger(get_latest_logs=True)
 
-if not os.path.exists(LOG_LOCATION):
-    raise Exception(f"Unable to find '{LOG_LOCATION}'")
-if not os.path.exists(f"{settings_file_path}"):
-    os.mkdir(f"{settings_file_path}")
-sys.stdout = SettingsLogger(sys.stdout, SETTINGS_LOG_LOCATION)
-sys.stderr = SettingsLogger(sys.stderr, SETTINGS_ERROR_LOG_LOCATION)
-
+debug_file_path_and_name = [
+    logger.baseFilename
+    for logger in csss_site_logger.handlers
+    if type(logger) == logging.FileHandler and logger.level == logging.DEBUG
+][0]
+DEBUG_LOG_LOCATION = debug_file_path_and_name
 print(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 print(f'[settings.py] LOG_LOCATION set to {LOG_LOCATION}')
 
@@ -54,7 +48,6 @@ SESSION_COOKIE_AGE = 3600  # one hour in seconds
 if 'WEBSITE_SECRET_KEY' not in os.environ:
     raise Exception("[settings.py] NO WEBSITE_SECRET_KEY was detected")
 
-SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 if "DEBUG" not in os.environ:
@@ -428,6 +421,3 @@ DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/'  # will be
 print(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
 print(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
 print(f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}')
-
-sys.stdout = stdout_fileno
-sys.stderr = stderr_fileno

@@ -8,8 +8,6 @@ from django.conf import settings
 
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 class Gmail:
 
@@ -25,6 +23,7 @@ class Gmail:
         max_number_of_retries -- the maximum number of times to try opening and closing the connection to the smptlib
          server as well as sending the email
         """
+        self.logger = get_logger()
         self.connection_successful = False
         number_of_retries = 0
         if from_email is None:
@@ -36,21 +35,21 @@ class Gmail:
         while not self.connection_successful and number_of_retries < max_number_of_retries:
             try:
                 self.server = smtplib.SMTP(f'{smtp}:{port}')
-                logger.info(f"[Gmail __init__()] setup smptlib server connection to {smtp}:{port}")
+                self.logger.info(f"[Gmail __init__()] setup smptlib server connection to {smtp}:{port}")
                 self.server.connect(f'{smtp}:{port}')
-                logger.info("[Gmail __init__()] smptlib server connected")
+                self.logger.info("[Gmail __init__()] smptlib server connected")
                 self.server.ehlo()
-                logger.info("[Gmail __init__()] smptlib server ehlo() successful")
+                self.logger.info("[Gmail __init__()] smptlib server ehlo() successful")
                 self.server.starttls()
-                logger.info("[Gmail __init__()] smptlib server ttls started")
-                logger.info(f"[Gmail __init__()] Logging into account {from_email}")
+                self.logger.info("[Gmail __init__()] smptlib server ttls started")
+                self.logger.info(f"[Gmail __init__()] Logging into account {from_email}")
                 self.server.login(from_email, password)
-                logger.info(f"[Gmail __init__()] login to email {from_email} successful")
+                self.logger.info(f"[Gmail __init__()] login to email {from_email} successful")
                 self.connection_successful = True
                 self.error_message = None
             except Exception as e:
                 number_of_retries += 1
-                logger.error(f"[Gmail __init__()] experienced following error when initializing.\n{e}")
+                self.logger.error(f"[Gmail __init__()] experienced following error when initializing.\n{e}")
                 self.error_message = f"{e}"
 
     def send_email(self, subject, body, to_email, to_name, from_name="SFU CSSS", attachment=None):
@@ -87,15 +86,15 @@ class Gmail:
                             encoders.encode_base64(payload)
                             payload.add_header('Content-Disposition', "attachment; filename={}".format(attachment))
                             msg.attach(payload)
-                            logger.info("{} has been attached".format(attachment))
+                            self.logger.info("{} has been attached".format(attachment))
                         except Exception as e:
-                            logger.info(f"{attachment} could not be attached. Error: {e}")
+                            self.logger.info(f"{attachment} could not be attached. Error: {e}")
 
-                    logger.info(f"[Gmail send_email()] sending email to {to_email}")
+                    self.logger.info(f"[Gmail send_email()] sending email to {to_email}")
                     self.server.send_message(from_addr=self.from_email, to_addrs=to_email, msg=msg)
                     return True, None
                 except Exception as e:
-                    logger.info(f"[Gmail send_email()] unable to send email to {to_email} due to error.\n{e}")
+                    self.logger.info(f"[Gmail send_email()] unable to send email to {to_email} due to error.\n{e}")
                     number_of_retries += 1
                     self.error_message = f"{e}"
         return False, self.error_message
@@ -112,12 +111,12 @@ class Gmail:
             number_of_retries = 0
             while number_of_retries < self.max_number_of_retries:
                 try:
-                    logger.info("[Gmail close_connection()] closing connection to smtplib server")
+                    self.logger.info("[Gmail close_connection()] closing connection to smtplib server")
                     self.server.close()
-                    logger.info("[Gmail close_connection()] connection to smtplib server closed")
+                    self.logger.info("[Gmail close_connection()] connection to smtplib server closed")
                     return True, None
                 except Exception as e:
-                    logger.error(
+                    self.logger.error(
                         "[Gmail close_connection()] experienced following error when attempting "
                         f"to close connection to smtplib server.\n{e}"
                     )

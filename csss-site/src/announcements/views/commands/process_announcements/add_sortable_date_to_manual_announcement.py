@@ -5,8 +5,6 @@ from django.conf import settings
 
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 def add_sortable_date_to_manual_announcement(timezone_difference, manual_announcement):
     """
@@ -18,6 +16,7 @@ def add_sortable_date_to_manual_announcement(timezone_difference, manual_announc
     Return
     manual_announcement -- a manual announcement with an additional sortable_date property
     """
+    logger = get_logger()
     manual_announcement.sortable_date = \
         pytz.timezone(settings.WEBSITE_TIME_ZONE).localize(
             manual_announcement.date + datetime.timedelta(hours=timezone_difference)

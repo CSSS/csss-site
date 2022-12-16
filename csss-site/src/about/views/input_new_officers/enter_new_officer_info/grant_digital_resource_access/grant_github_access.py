@@ -1,8 +1,6 @@
 from csss.setup_logger import get_logger
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
-logger = get_logger()
-
 
 def grant_github_access(officer_obj, github_teams_to_add):
     """
@@ -16,6 +14,7 @@ def grant_github_access(officer_obj, github_teams_to_add):
     bool -- True or false depending on if there was an issue with talking to the github API
     error_message -- the message received alongside the error
     """
+    logger = get_logger()
     if len(github_teams_to_add) > 0 and officer_obj.github_username is not None:
         github_api = GitHubAPI()
         if not github_api.connection_successful:

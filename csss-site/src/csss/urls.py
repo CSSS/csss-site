@@ -5,6 +5,7 @@ from django.contrib import admin
 
 from .views import views
 from .views.crons.cron import cron
+from .views.crons.cron_logs import cron_logs
 from .views.login import LoginView, LogoutView
 
 urlpatterns = [
@@ -17,7 +18,8 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
-    url(r'^' + settings.URL_PATTERN + 'cron', cron, name="cron"),
+    url(r'^' + settings.URL_PATTERN + 'cron_logs(?P<log_location>.+)', cron_logs, name="cron_logs"),
+    url(r'^' + settings.URL_PATTERN + 'cron$', cron, name="cron"),
     url(r'^' + settings.URL_PATTERN + 'login', LoginView.as_view(), name='login'),
     url(r'^' + settings.URL_PATTERN + 'logout', LogoutView.as_view(), name='logout'),
 ]

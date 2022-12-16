@@ -1,84 +1,149 @@
 import datetime
 import logging
 import os
+import re
 import shutil
-
-import pytz
 import sys
 
+import pytz
 from django.conf import settings
 
-
-class SettingsLogger(object):
-    def __init__(self, std_terminal, filename):
-        self.terminal = std_terminal
-        self.log = open(filename, "w")
-
-    def write(self, message):
-        self.terminal.write(message)
-        self.log.write(message)
-
-    def flush(self):
-        pass
+formatting = logging.Formatter('%(asctime)s = %(name)s = %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
 
-def get_logger(cron_module=None, use_existing_logging=True):
-    if use_existing_logging:
-        loggers = [
-            logging.getLogger(logger) for logger in logging.root.manager.loggerDict
-            if "command_logs_" in logger or "csss_site_settings" == logger
-        ]
-        if len(loggers) > 1:
-            raise Exception("There seems to be more than 1 logger setup..")
-        if len(loggers) == 1:
-            return loggers[0]
+def get_logger():
+    return Loggers.get_logger()
 
-    if cron_module is not None:
-        logger_name = f"command_logs_{cron_module}"
+
+class Loggers:
+    loggers = None
+
+    @classmethod
+    def get_logger(cls, get_latest_logs=False):
+        if get_latest_logs or cls.loggers is None:
+            cls.loggers = [
+                logging.getLogger(logger) for logger in logging.root.manager.loggerDict
+                if "command_logs_" in logger or "std_stream" == logger
+            ]
+        if len(cls.loggers) == 0:
+            raise Exception("Could not find a logger")
+        if len(cls.loggers) == 1:
+            return cls.loggers[0]
+        else:
+            raise Exception("Found a logger both for a command and runserver")
+
+
+def setup_std_stream_logger():
+    stream_name = "std_stream"
+    sys_stream_logger = logging.getLogger(stream_name)
+    sys_stream_logger.setLevel(logging.DEBUG)
+
+    date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d")
+    if not os.path.exists(settings.LOG_LOCATION):
+        exit(f"Unable to find '{settings.LOG_LOCATION}'")
+    if not os.path.exists(f"{settings.LOG_LOCATION}/{stream_name}"):
+        os.mkdir(f"{settings.LOG_LOCATION}/{stream_name}")
+
+    # ensures that anything printed to this logger from level DEBUG or above goes to the sys.__stdout__
+    sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
+    sys_stdout_stream_handler.setFormatter(formatting)
+    sys_stdout_stream_handler.setLevel(logging.DEBUG)
+    sys_stream_logger.addHandler(sys_stdout_stream_handler)
+
+    # ensures that anything printed to this logger at level DEBUR or above goes to the specified file
+    debug_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_debugs.log")
+    debug_filehandler.setLevel(logging.DEBUG)
+    debug_filehandler.setFormatter(formatting)
+    sys_stream_logger.addHandler(debug_filehandler)
+
+    # ensures that anything printed to sys.stdout goes to the INFO level of logger sys_stream_logger
+    sys.stdout = LoggerWriter(sys_stream_logger.info)
+
+    # ensures that anything printed to this logger from level ERROR or above goes to the sys.__stderr__
+    sys_sterr_stream_handler = logging.StreamHandler(sys.stderr)
+    sys_sterr_stream_handler.setFormatter(formatting)
+    sys_sterr_stream_handler.setLevel(logging.ERROR)
+    sys_stream_logger.addHandler(sys_sterr_stream_handler)
+
+    # ensures that anything printed to this logger at level ERROR or above goes to the specified file
+    error_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_errors.log")
+    error_filehandler.setFormatter(formatting)
+    error_filehandler.setLevel(logging.ERROR)
+    sys_stream_logger.addHandler(error_filehandler)
+
+    # ensures that anything printed to sys.stderr goes to the ERROR level of logger sys_stream_logger
+    sys.stderr = LoggerWriter(sys_stream_logger.error)
+
+
+def setup_std_stream_logger_v2():
+    stream_name = "std_stream"
+    date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")
+    if not os.path.exists(settings.LOG_LOCATION):
+        exit(f"Unable to find '{settings.LOG_LOCATION}'")
+    if not os.path.exists(f"{settings.LOG_LOCATION}/{stream_name}"):
+        os.mkdir(f"{settings.LOG_LOCATION}/{stream_name}")
+
+    sys_logger = logging.getLogger(stream_name)
+    sys_logger.setLevel(logging.DEBUG)
+
+    # ensures that anything printed to this logger at level DEBUG or above goes to the specified file
+    debug_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_debugs.log")
+    debug_filehandler.setLevel(logging.DEBUG)
+    debug_filehandler.setFormatter(formatting)
+    sys_logger.addHandler(debug_filehandler)
+
+    # ensures that anything printed to this logger at level ERROR or above goes to the specified file
+    error_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_errors.log")
+    error_filehandler.setLevel(logging.ERROR)
+    error_filehandler.setFormatter(formatting)
+    sys_logger.addHandler(error_filehandler)
+
+    # ensures that anything from the log goes to the stdout
+    sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
+    sys_stdout_stream_handler.setFormatter(formatting)
+    sys_stdout_stream_handler.setLevel(logging.DEBUG)
+    sys_logger.addHandler(sys_stdout_stream_handler)
+
+    # ensures that anything that goes to stdout also goes to the logger which is directed back to the console
+    # thanks to the sys_stdout_stream_handler
+    sys.stdout = LoggerWriter(sys_logger.debug)
+
+    # ensures that anything that goes to stderr also goes to the logger which is directed back to the console
+    # thanks to the sys_stdout_stream_handler
+    sys.stderr = LoggerWriter(sys_logger.error)
+
+
+def get_or_setup_logger(logger_name=None):
+    if sys.stdout == sys.__stdout__:
+        setup_std_stream_logger_v2()
+    if logger_name is not None:
+        logger_name = f"command_logs_{logger_name}"
     else:
-        logger_name = "csss_site_settings"
+        logger_name = "std_stream"
     loggers = [
         logging.getLogger(logger) for logger in logging.root.manager.loggerDict
         if logger_name == logger
     ]
     if len(loggers) > 1:
         raise Exception("There seems to be more than 1 logger setup..")
-
-    return loggers[0] if len(loggers) == 1 else _setup_logger(cron_module=cron_module)
-
-
-def _setup_logger(cron_module=None):
-    if cron_module is None:
-        cron_module = "csss_site_settings"
-    else:
-        cron_module = f"command_logs_{cron_module}"
+    if len(loggers) == 1:
+        return loggers[0]
 
     date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")
     if not os.path.exists(settings.LOG_LOCATION):
         exit(f"Unable to find '{settings.LOG_LOCATION}'")
-    if not os.path.exists(f"{settings.LOG_LOCATION}/{cron_module}"):
-        os.mkdir(f"{settings.LOG_LOCATION}/{cron_module}")
-    debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{cron_module}/{date}_csss_site.log"
-    error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{cron_module}/{date}_csss_site_errors.log"
+    if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
+        os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
+    debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_csss_site_debugs.log"
+    error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_csss_site_errors.log"
 
-    if os.path.exists(settings.SETTINGS_ERROR_LOG_LOCATION):
-        # this is here just so the prints in settings.py also go to the individual log files
-        try:
-            shutil.move(settings.SETTINGS_ERROR_LOG_LOCATION, f"{error_log_file_absolute_path}")
-        except Exception as e:
-            print(e)
+    try:
+        shutil.copy(settings.DEBUG_LOG_LOCATION, f"{debug_log_file_absolute_path}")
+    except Exception as e:
+        print(e)
 
-    if os.path.exists(settings.SETTINGS_LOG_LOCATION):
-        # this is here just so the prints in settings.py also go to the individual log files
-        try:
-            shutil.move(settings.SETTINGS_LOG_LOCATION, f"{debug_log_file_absolute_path}")
-        except Exception as e:
-            print(e)
-
-    logger = logging.getLogger(cron_module)
+    logger = logging.getLogger(logger_name)
     logger.setLevel(logging.DEBUG)
-
-    formatting = logging.Formatter('%(asctime)s = %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
 
     debug_filehandler = logging.FileHandler(debug_log_file_absolute_path)
     debug_filehandler.setLevel(logging.DEBUG)
@@ -90,17 +155,15 @@ def _setup_logger(cron_module=None):
     error_filehandler.setLevel(logging.ERROR)
     logger.addHandler(error_filehandler)
 
-    stream_handler = logging.StreamHandler()
-    stream_handler.setFormatter(formatting)
-    stream_handler.setLevel(logging.DEBUG)
-    logger.addHandler(stream_handler)
+    sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
+    sys_stdout_stream_handler.setFormatter(formatting)
+    sys_stdout_stream_handler.setLevel(logging.DEBUG)
+    logger.addHandler(sys_stdout_stream_handler)
 
     # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or exception
     # use logging.exception("message")
     # also remove logs from more than a month ago
 
-    sys.stdout = LoggerWriter(logger.info)
-    sys.stderr = LoggerWriter(logger.error)
     return logger
 
 

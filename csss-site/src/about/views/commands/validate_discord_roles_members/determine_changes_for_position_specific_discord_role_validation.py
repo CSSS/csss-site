@@ -1,8 +1,5 @@
-from csss.setup_logger import get_logger
-
-
 from about.models import Officer
-logger = get_logger()
+from csss.setup_logger import get_logger
 
 
 def determine_changes_for_position_specific_discord_role_validation(
@@ -29,6 +26,7 @@ def determine_changes_for_position_specific_discord_role_validation(
     current_officers -- a queryset of officers in the current term
 
     """
+    logger = get_logger()
     for (executive_discord_role_name, executive_discord_role_obj) in matching_executive_roles.items():
         positions_that_map_to_the_discord_role = position_infos.filter(
             discord_role_name=executive_discord_role_name

@@ -8,12 +8,12 @@ def create_context_for_crons_html(context, cron_jobs, error_messages=None, draft
     cron_mappings = {
         cron_job_name:
             {
-                **cron_mapping,
+                "job_name": cron_job_name,
                 'active': cron_job_name in list(cron_jobs.keys()),
                 "schedule": cron_jobs[cron_job_name].schedule
                 if cron_job_name in cron_jobs else ""
             }
-        for (cron_job_name, cron_mapping) in CRON_JOB_MAPPING.items()
+        for cron_job_name in CRON_JOB_MAPPING.keys()
     }
     if draft_cron_jobs is not None and type(draft_cron_jobs) is dict:
         for (job_name, schedule) in draft_cron_jobs.items():

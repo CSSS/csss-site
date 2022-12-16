@@ -21,8 +21,6 @@ from about.views.input_new_officers.specify_new_officers.validators.validate_use
 from csss.settings import URL_ROOT
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 def process_specified_new_officers(
         request, context, saved_unprocessed_officers, officer_emaillist_and_position_mappings):
@@ -41,6 +39,7 @@ def process_specified_new_officers(
     either redirect the user back to tha page where they entered the new officers infos, either asking for a
      correction or just to display the saved data
     """
+    logger = get_logger()
     values = transform_webform_to_json(parser.parse(request.POST.urlencode()))
     officers = Officer.objects.all()
     terms = Term.objects.all()

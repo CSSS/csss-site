@@ -35,8 +35,6 @@ Systems Administrator
 webmaster
 """
 
-logger = get_logger()
-
 
 def determine_start_date(
     officers, officer_email_list_and_position_mapping, re_use_start_date, start_date, sfu_computing_id,
@@ -56,6 +54,7 @@ def determine_start_date(
     Return
     start_date -- the start date to use for the UnProcessed Officer
     """
+    logger = get_logger()
     if not re_use_start_date:
         return start_date
     position_obj = officer_email_list_and_position_mapping.filter(position_name=position_name).first()

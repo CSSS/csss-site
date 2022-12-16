@@ -15,8 +15,6 @@ from documents.models import Repo, Media, Picture, Video, Album, Event, SubCateg
 subcategories = []
 path_to_file = ['documents_static', 'event-photos']
 
-logger = get_logger()
-
 
 def go_through_youtube_links(album_path, event_name, album_date, album_name):
     file = open(album_path, "r")
@@ -207,6 +205,7 @@ def create_pictures_from_repo(repo_dir):
 
 
 def clone_repos(repo_admin, request, queryset):
+    logger = get_logger()
     for repo in queryset.all():
         logger.info(f"[documents/admin.py clone_repos()] doing a git pull inside of {repo.url}")
         commands = f'cd {repo.absolute_path}; git pull'

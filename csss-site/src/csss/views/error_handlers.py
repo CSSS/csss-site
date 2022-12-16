@@ -8,11 +8,10 @@ from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod, CASAuthenticationMethod
 from csss.views.views import ERROR_MESSAGES_KEY
 
-logger = get_logger()
-
 
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
+        logger = get_logger()
         if isinstance(exception, InvalidPrivilege):
             return exception.render
         if isinstance(exception, NoAuthenticationMethod):
@@ -20,6 +19,6 @@ class HandleBusinessExceptionMiddleware(MiddlewareMixin):
         if isinstance(exception, CASAuthenticationMethod):
             return exception.render
         context = create_main_context(request, 'index')
-        logger.info(traceback.format_exc())
+        logger.error(traceback.format_exc())
         context[ERROR_MESSAGES_KEY] = [f"Encountered an unexpected exception of: {exception}"]
         return render(request, 'csss/error_htmls/unknown_error.html', context)

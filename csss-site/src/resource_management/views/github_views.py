@@ -22,8 +22,6 @@ GITHUB_TEAM_KEY = 'github_team'
 
 TAB_STRING = 'administration'
 
-logger = get_logger()
-
 
 def index(request):
     """
@@ -46,6 +44,7 @@ def add_non_officer_to_github_team(request):
     takes in the specified user and team from the user and attempts to give them the request github team
     membership
     """
+    logger = get_logger()
     logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] request.POST={request.POST}")
     validate_request_to_update_github_permissions(request)
     github = GitHubAPI()
@@ -123,6 +122,7 @@ def update_github_non_officer(request):
     updates the specified github team membership, either changes the username or the team name that is associated
     with the membership
     """
+    logger = get_logger()
     logger.info(f"[resource_management/github_views.py update_github_non_officer()] request.POST={request.POST}")
     validate_request_to_update_github_permissions(request)
     github = GitHubAPI()
@@ -196,6 +196,7 @@ def create_github_perms():
         ],
     }
     """
+    logger = get_logger()
     users_to_grant_permission_to_github_officers_team = {
         'team_names': []
     }

@@ -4,8 +4,6 @@ from elections.views.Constants import CREATE_NEW_ELECTION__NAME, \
     INPUT_REDIRECT_ELECTION_SUBMIT_AND_CONTINUE_EDITING__VALUE, SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE, \
     UPDATE_EXISTING_ELECTION__NAME, INPUT_REDIRECT_ELECTION_SUBMIT__NAME
 
-logger = get_logger()
-
 
 def create_base_submission_buttons_context(create_new_election=True):
     """
@@ -22,6 +20,7 @@ def create_base_submission_buttons_context(create_new_election=True):
     - input_redirect_election_submit__value
     - input_redirect_election_submit_and_continue_editing__value
     """
+    logger = get_logger()
     if create_new_election:
         context = {
             INPUT_REDIRECT_ELECTION_SUBMIT__NAME: CREATE_NEW_ELECTION__NAME

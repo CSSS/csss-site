@@ -9,10 +9,9 @@ from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineeLink
 from elections.views.Constants import DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY
 
-logger = get_logger()
-
 
 def delete_selected_election__nominee_links(request, slug):
+    logger = get_logger()
     logger.info("[administration/delete_selected_election_nominee_links.py "
                 "delete_selected_election__nominee_links()] request.POST=")
     logger.info(json.dumps(request.POST, indent=3))

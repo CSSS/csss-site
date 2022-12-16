@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 
 from about.views.commands import update_officer_images
 from announcements.management.commands.create_attachments import download_or_create_announcement_attachments
-from csss.setup_logger import get_logger
+from csss.setup_logger import get_or_setup_logger
 
 
 class Command(BaseCommand):
@@ -22,7 +22,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        logger = get_logger()
+        logger = get_or_setup_logger(logger_name="setup_website")
         logger.info(options)
         download_or_create_announcement_attachments(options['download__attachments'])
         update_officer_images.run_job(download=options['download'])

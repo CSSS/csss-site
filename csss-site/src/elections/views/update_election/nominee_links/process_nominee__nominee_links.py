@@ -20,8 +20,6 @@ from elections.views.utils.webform_to_json.nominee_links.transform_nominee_links
 from elections.views.validators.validate_existing_nominees__nominee_link import \
     validate_existing_nominee__nominee_link
 
-logger = get_logger()
-
 
 def process_nominee__nominee_links(request, context, nominee_link=None, passphrase=False):
     """
@@ -35,6 +33,7 @@ def process_nominee__nominee_links(request, context, nominee_link=None, passphra
     Return
     render object that directs the user to the page for updating a nominee via nominee link
     """
+    logger = get_logger()
     nominee_info = transform_nominee_links_webform_to_json(request)
 
     election_id = nominee_link.election.id

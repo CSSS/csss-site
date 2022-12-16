@@ -3,8 +3,6 @@ import re
 from csss.setup_logger import get_logger
 from elections.views.validators.validate_link import validate_link_for_nominee_social_media
 
-logger = get_logger()
-
 
 def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, linkedin_link, email_address,
                               discord_username):
@@ -23,6 +21,7 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, li
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
+    logger = get_logger()
     logger.info(
         f"[elections/validate_info_for_nominee_obj.py validate_nominee_obj_info()] "
         f"name={full_name}, facebook_link={facebook_link}, linkedin_link={linkedin_link}, "

@@ -1,8 +1,6 @@
 from about.models import Officer
 from csss.setup_logger import get_logger
 
-logger = get_logger()
-
 
 def create_intro_message(officer_obj, officer_is_executive_officer,
                          officer_is_election_officer, officer_is_council_representative,
@@ -23,6 +21,7 @@ def create_intro_message(officer_obj, officer_is_executive_officer,
     discord_body -- the intro message to send to the user, formatted for discord markdown
     email_body -- the intro message to send to the user, formatted for email
     """
+    logger = get_logger()
     full_name = officer_obj.full_name
     sfu_computing_id = officer_obj.sfu_computing_id
     position_name = officer_obj.position_name

@@ -13,13 +13,12 @@ from elections.views.create_context.nominee_links.create_or_update_election. \
 from elections.views.update_election.nominee_links.process_existing_election_and_nominee_links import \
     process_existing_election_and_nominee_links
 
-logger = get_logger()
-
 
 def display_and_process_html_for_modification_of_election_and_nominee_links__nominee_links(request, slug):
     """
     Shows the page where the webform is displayed so that the user inputs the data needed to create a new election
     """
+    logger = get_logger()
     logger.info(
         "[elections/display_and_process_html_for_nominee_links.py "
         "display_and_process_html_for_modification_of_election_and_nominee_links__nominee_links()] "

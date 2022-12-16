@@ -1,5 +1,4 @@
 import importlib
-import logging
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
@@ -17,7 +16,7 @@ def process_specified_cron_request(request, cron_jobs, context):
     job_to_run = request.POST['job_to_run'] if 'job_to_run' in request.POST else None
     if job_to_run:
         job_config = CRON_JOB_MAPPING[job_to_run]
-        importlib.import_module(f"{job_config['path']}{job_to_run}").run_job(logging.getLogger('csss_site'))
+        importlib.import_module(f"{job_config['path']}{job_to_run}").run_job()
         create_context_for_crons_html(
             context, cron_jobs, draft_cron_jobs=draft_cron_jobs
         )
@@ -30,18 +29,4 @@ def process_specified_cron_request(request, cron_jobs, context):
             )
             return render(request, 'csss/crons/crons.html', context)
         save_or_update_cron_jobs(cron_jobs, draft_cron_jobs)
-    success, error_message = validate_specified_cron_schedule(draft_cron_jobs)
-    if not success:
-        create_context_for_crons_html(
-            context, cron_jobs, error_messages=[error_message], draft_cron_jobs=draft_cron_jobs
-        )
-        return render(request, 'csss/crons/crons.html', context)
-    else:
-        success, error_message = validate_specified_cron_schedule(draft_cron_jobs)
-        if not success:
-            create_context_for_crons_html(
-                context, cron_jobs, error_messages=[error_message], draft_cron_jobs=draft_cron_jobs
-            )
-            return render(request, 'csss/crons/crons.html', context)
-        save_or_update_cron_jobs(cron_jobs, draft_cron_jobs)
-    return HttpResponseRedirect(f"{URL_ROOT}cron")
+        return HttpResponseRedirect(f"{URL_ROOT}cron")

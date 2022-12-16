@@ -9,13 +9,12 @@ from elections.views.create_context.webform.create_context_for_create_election__
     create_context_for_create_election__webform_html
 from elections.views.create_election.webform.process_new_election_webform import process_new_inputted_webform_election
 
-logger = get_logger()
-
 
 def display_and_process_html_for_new_webform_election(request):
     """
     Shows the page where the webform is displayed so that the user inputs the data needed to create a new election
     """
+    logger = get_logger()
     logger.info(
         "[elections/create_election_webform.py display_and_process_html_for_new_webform_election()] "
         "request.POST"

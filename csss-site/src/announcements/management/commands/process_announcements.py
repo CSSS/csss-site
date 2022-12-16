@@ -1,9 +1,7 @@
 from django.core.management.base import BaseCommand
 
 from announcements.views.commands.process_announcements import process_announcements
-from csss.setup_logger import get_logger
-
-logger = get_logger()
+from csss.setup_logger import get_or_setup_logger
 
 
 class Command(BaseCommand):
@@ -18,5 +16,6 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        logger = get_or_setup_logger(logger_name="process_announcements")
         logger.info(options)
         process_announcements.run_job(poll_email=options['poll_email'])

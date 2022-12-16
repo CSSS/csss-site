@@ -8,14 +8,13 @@ from csss.views.context_creation.create_authenticated_contexts import \
 from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
 from resource_management.views.gdrive_views import TAB_STRING
 
-logger = get_logger()
-
 
 def nags(request):
     """
     Displays the nags that have been done for the Google Drive files
     """
-    logger.info(f"[administration/nags.py nags()] request.POST={request.POST}")
+    logger = get_logger()
+    logger.info(f"[resource_management/nags.py nags()] request.POST={request.POST}")
     context = create_context_for_checking_google_drive_nags(request, tab=TAB_STRING)
     current_date = datetime.datetime.now() - datetime.timedelta(days=1)
 

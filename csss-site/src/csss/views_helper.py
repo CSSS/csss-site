@@ -5,13 +5,10 @@ import markdown
 from bs4 import BeautifulSoup
 
 from about.models import Term
-from csss.setup_logger import get_logger
 
 DATE_FORMAT = '%Y-%m-%d'
 
 TERM_SEASONS = [term_choice[0] for term_choice in Term.term_choices]
-
-logger = get_logger()
 
 
 def there_are_multiple_entries(post_dict, key_to_read):

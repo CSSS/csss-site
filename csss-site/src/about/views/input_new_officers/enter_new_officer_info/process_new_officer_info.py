@@ -21,8 +21,6 @@ from csss.settings import URL_ROOT
 from csss.setup_logger import get_logger
 from csss.views_helper import verify_user_input_has_all_required_fields
 
-logger = get_logger()
-
 
 def process_new_officer_info(request, context, officer_emaillist_and_position_mappings, unprocessed_officers):
     """
@@ -38,6 +36,7 @@ def process_new_officer_info(request, context, officer_emaillist_and_position_ma
     render object that either directs user back to the page for entering their info if there was an error or
      just to the index page
     """
+    logger = get_logger()
     unprocessed_officer = unprocessed_officers.filter(sfu_computing_id=request.user.username).first()
     position_info = officer_emaillist_and_position_mappings.filter(
         position_name=unprocessed_officer.position_name

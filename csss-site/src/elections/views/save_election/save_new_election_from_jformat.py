@@ -9,8 +9,6 @@ from elections.views.save_election.save_new_election_obj_jformat import create_a
 from elections.views.save_nominee.save_new_or_update_existing_nominees_jformat import \
     save_new_or_update_existing_nominees_jformat
 
-logger = get_logger()
-
 
 def save_new_election_from_jformat(updated_elections_information, json=True):
     """
@@ -26,6 +24,7 @@ def save_new_election_from_jformat(updated_elections_information, json=True):
     Return
     the election obj
     """
+    logger = get_logger()
     election_type = updated_elections_information[ELECTION_JSON_KEY__ELECTION_TYPE]
     election_websurvey = updated_elections_information[ELECTION_JSON_KEY__WEBSURVEY]
     if json:
