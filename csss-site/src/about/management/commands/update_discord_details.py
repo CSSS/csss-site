@@ -1,10 +1,10 @@
 from django.core.management import BaseCommand
 
-from about.views.commands import update_discord_details
+from about.views.commands.update_discord_details import run_job
 
 
 class Command(BaseCommand):
     help = "get the latest discord name and nicknames for the officers"
 
     def handle(self, *args, **options):
-        update_discord_details.run_job()
+        run_job(use_cron_logger=False)

@@ -1,10 +1,10 @@
 from django.core.management import BaseCommand
 
-from about.views.commands.validate_discord_roles_members import validate_discord_roles_members
+from about.views.commands.validate_discord_roles_members.validate_discord_roles_members import run_job
 
 
 class Command(BaseCommand):
     help = "Ensure that the Discord Roles associated with the Officers have valid members"
 
     def handle(self, *args, **options):
-        validate_discord_roles_members.run_job()
+        run_job(use_cron_logger=False)

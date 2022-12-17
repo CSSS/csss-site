@@ -1,6 +1,6 @@
 from django.core.management import BaseCommand
 
-from about.views.commands import update_officer_images
+from about.views.commands.update_officer_images import run_job
 
 
 class Command(BaseCommand):
@@ -15,4 +15,4 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        update_officer_images.run_job(download=options['download'])
+        run_job(download=options['download'], use_cron_logger=False)

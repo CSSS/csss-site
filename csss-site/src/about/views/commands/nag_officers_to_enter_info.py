@@ -6,8 +6,8 @@ from csss.setup_logger import Loggers
 from csss.views.send_discord_dm import send_discord_dm
 
 
-def run_job():
-    logger = Loggers.get_logger(logger_name="nag_officers_to_enter_info", use_cron_logger=True)
+def run_job(use_cron_logger=True):
+    logger = Loggers.get_logger(logger_name="nag_officers_to_enter_info", use_cron_logger=use_cron_logger)
     unprocessed_officers = UnProcessedOfficer.objects.all()
     officers = Officer.objects.all()
     for unprocessed_officer in unprocessed_officers:

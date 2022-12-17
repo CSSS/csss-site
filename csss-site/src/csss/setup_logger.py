@@ -12,7 +12,7 @@ date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
 formatting = logging.Formatter('%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log)
 date_timezone = pytz.timezone('US/Pacific')
-
+modular_log_prefix = "cmd_"
 
 def get_logger():
     return Loggers.get_logger()
@@ -31,10 +31,12 @@ class Loggers:
             return cls.loggers[0]
         else:
             if use_cron_logger:
-                # assumes that the cron logger is the first in the list
-                return cls.loggers[0]
+                cron_logger_name = f"{modular_log_prefix}cron_service"
+                if cron_logger_name in cls.logger_list_indices:
+                    return cls.loggers[cls.logger_list_indices[cron_logger_name]]
+                raise Exception("Could not find cron logger")
             if logger_name != settings.SYS_STREAM_LOG_HANDLER_NAME:
-                logger_name = f"command_logs_{logger_name}"
+                logger_name = f"{modular_log_prefix}{logger_name}"
                 if logger_name in cls.logger_list_indices:
                     return cls.loggers[cls.logger_list_indices[logger_name]]
             return cls._add_logger(cls._setup_logger(logger_name=logger_name))
@@ -149,11 +151,13 @@ class LoggerWriter:
 
     def write(self, message):
         if message != '\n':
-            # this bit a hack logic it just a way to transform a line of log from
-            # 2022-12-16 19:24:36 = INFO = std_stream = 2022-12-16 19:24:36 = INFO = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
-            # to
-            # 2022-12-16 19:24:36 = INFO = std_stream = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
-            # not perfect but best way I could think of to reduce the redundacies and line length while also not creating confusion as to which logger the line originated from
+            """
+            this bit a hack logic it just a way to transform a line of log from
+            2022-12-16 19:24:36 = INFO = std_stream = 2022-12-16 19:24:36 = INFO = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
+            to
+            2022-12-16 19:24:36 = INFO = std_stream = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
+            not perfect but best way I could think of to reduce the redundacies and line length while also not creating confusion as to which logger the line originated from
+            """
             pattern_match = self.pattern_for_message_with_formatting.match(message)
             if pattern_match is not None:
                 pattern_match_lower_bound = pattern_match.regs[0][0]
@@ -161,7 +165,6 @@ class LoggerWriter:
                 level = message[pattern_match_lower_bound:pattern_match_upper_bound].split(" = ")[1]
                 logger_name = message[pattern_match_lower_bound:pattern_match_upper_bound].split(" = ")[2]
                 message = f"{level} = {logger_name} = {message[pattern_match_upper_bound:]}"
-
             # lines from `logger.level` seem to get a newline added on that is then duplicated with the call to self.level
             # so remove that newline before another one gets added on
             if len(message) > 0 and message[-1:] == "\n":

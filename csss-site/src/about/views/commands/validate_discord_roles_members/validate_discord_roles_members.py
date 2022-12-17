@@ -15,8 +15,8 @@ from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term_obj, get_previous_term_obj
 
 
-def run_job():
-    logger = Loggers.get_logger(logger_name="validate_discord_roles_members", use_cron_logger=True)
+def run_job(use_cron_logger=True):
+    logger = Loggers.get_logger(logger_name="validate_discord_roles_members", use_cron_logger=use_cron_logger)
     current_officers = Officer.objects.all().filter(
         elected_term=get_current_term_obj()
     )

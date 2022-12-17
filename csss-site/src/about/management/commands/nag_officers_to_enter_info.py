@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = "nag any officers who have not entered their info"
 
     def handle(self, *args, **options):
-        run_job()
+        run_job(use_cron_logger=False)

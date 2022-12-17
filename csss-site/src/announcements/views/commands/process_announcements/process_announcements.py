@@ -34,8 +34,8 @@ def django_mailbox_handle():
             )
 
 
-def run_job(poll_email=True):
-    logger = Loggers.get_logger(logger_name="process_announcements", use_cron_logger=True)
+def run_job(poll_email=True, use_cron_logger=True):
+    logger = Loggers.get_logger(logger_name="process_announcements", use_cron_logger=use_cron_logger)
     if len(UnProcessedOfficer.objects.all()) > 0:
         return
     if poll_email:

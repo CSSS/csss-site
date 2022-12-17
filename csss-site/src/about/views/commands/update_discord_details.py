@@ -6,8 +6,8 @@ from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_use
 from csss.setup_logger import Loggers
 
 
-def run_job():
-    logger = Loggers.get_logger(logger_name="update_discord_details", use_cron_logger=True)
+def run_job(use_cron_logger=True):
+    logger = Loggers.get_logger(logger_name="update_discord_details", use_cron_logger=use_cron_logger)
     all_officers = Officer.objects.all()
     officers = all_officers.exclude(discord_id="NA")
     officers_discord_ids = list(set(list(officers.values_list('discord_id', flat=True))))
