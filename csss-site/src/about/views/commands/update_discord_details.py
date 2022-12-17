@@ -27,15 +27,21 @@ def run_job():
             retries += 1
         officer = officers.filter(discord_id=officers_discord_id).first()
         if success:
-            logger.info(
-                f"[about/update_discord_details.py()] the nickname or username for {officer.full_name} "
-                f"was update since last time"
-            )
-            discord_info_maps[officer.sfu_computing_id] = {
-                'officers_discord_id': officers_discord_id,
-                'discord_username': discord_username,
-                'discord_nickname': discord_nickname
-            }
+            if discord_username != officer.discord_username or discord_nickname != officer.discord_nickname:
+                logger.info(
+                    f"[about/update_discord_details.py()] the nickname or username for {officer.full_name} "
+                    f"was update since last time"
+                )
+                discord_info_maps[officer.sfu_computing_id] = {
+                    'officers_discord_id': officers_discord_id,
+                    'discord_username': discord_username,
+                    'discord_nickname': discord_nickname
+                }
+            else:
+                logger.info(
+                    f"[about/update_discord_details.py()] the nickname or username for {officer.full_name} "
+                    f"was not updated since last time"
+                )
         else:
             logger.info(
                 f"[about/update_discord_details.py()] unable to get the discord username and nickname for "
