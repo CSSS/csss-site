@@ -11,12 +11,12 @@ from about.views.commands.validate_discord_roles_members.get_all_user_dictionari
 from about.views.commands.validate_discord_roles_members.get_role_dictionary import get_role_dictionary
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
     EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
-from csss.setup_logger import get_or_setup_logger
+from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term_obj, get_previous_term_obj
 
 
 def run_job():
-    logger = get_or_setup_logger(logger_name="validate_discord_roles_members")
+    logger = Loggers.get_logger(logger_name="validate_discord_roles_members", use_cron_logger=True)
     current_officers = Officer.objects.all().filter(
         elected_term=get_current_term_obj()
     )
@@ -99,3 +99,4 @@ def run_job():
         )
         if not success:
             logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
+    Loggers.remove_logger(logger_name="validate_discord_roles_members")

@@ -8,7 +8,10 @@ import sys
 import pytz
 from django.conf import settings
 
-formatting = logging.Formatter('%(asctime)s = %(name)s = %(levelname)s - %(message)s', '%Y-%m-%d %H:%M:%S')
+date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
+date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
+formatting = logging.Formatter('%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log)
+date_timezone = pytz.timezone('US/Pacific')
 
 
 def get_logger():
@@ -16,163 +19,153 @@ def get_logger():
 
 
 class Loggers:
-    loggers = None
+    loggers = []
+    logger_list_indices = {}
+    debug_file_path_and_name = None
 
     @classmethod
-    def get_logger(cls, get_latest_logs=False):
-        if get_latest_logs or cls.loggers is None:
-            cls.loggers = [
-                logging.getLogger(logger) for logger in logging.root.manager.loggerDict
-                if "command_logs_" in logger or "std_stream" == logger
-            ]
-        if len(cls.loggers) == 0:
-            raise Exception("Could not find a logger")
-        if len(cls.loggers) == 1:
+    def get_logger(cls, logger_name=None, use_cron_logger=False):
+        if logger_name is None:
+            if len(cls.loggers) == 0:
+                raise Exception("Could not find a logger")
             return cls.loggers[0]
         else:
-            raise Exception("Found a logger both for a command and runserver")
+            if use_cron_logger:
+                # assumes that the cron logger is the first in the list
+                return cls.loggers[0]
+            if logger_name != settings.SYS_STREAM_LOG_HANDLER_NAME:
+                logger_name = f"command_logs_{logger_name}"
+                if logger_name in cls.logger_list_indices:
+                    return cls.loggers[cls.logger_list_indices[logger_name]]
+            return cls._add_logger(cls._setup_logger(logger_name=logger_name))
 
+    @classmethod
+    def _setup_logger(cls, logger_name=None):
+        if logger_name == settings.SYS_STREAM_LOG_HANDLER_NAME:
+            return cls._setup_sys_stream_logger()
+        if len(cls.loggers) == 0:
+            raise Exception("There is no base logger")
+        if logger_name is None:
+            raise Exception("Did not get a logger_name")
 
-def setup_std_stream_logger():
-    stream_name = "std_stream"
-    sys_stream_logger = logging.getLogger(stream_name)
-    sys_stream_logger.setLevel(logging.DEBUG)
+        date = datetime.datetime.now(date_timezone).strftime(date_formatting_in_filename)
+        if not os.path.exists(settings.LOG_LOCATION):
+            exit(f"Unable to find '{settings.LOG_LOCATION}'")
+        if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
+            os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
+        debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
+        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_err.log"
 
-    date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d")
-    if not os.path.exists(settings.LOG_LOCATION):
-        exit(f"Unable to find '{settings.LOG_LOCATION}'")
-    if not os.path.exists(f"{settings.LOG_LOCATION}/{stream_name}"):
-        os.mkdir(f"{settings.LOG_LOCATION}/{stream_name}")
+        try:
+            shutil.copy(cls.debug_file_path_and_name, f"{debug_log_file_absolute_path}")
+        except Exception as e:
+            print(e)
 
-    # ensures that anything printed to this logger from level DEBUG or above goes to the sys.__stdout__
-    sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
-    sys_stdout_stream_handler.setFormatter(formatting)
-    sys_stdout_stream_handler.setLevel(logging.DEBUG)
-    sys_stream_logger.addHandler(sys_stdout_stream_handler)
+        logger = logging.getLogger(logger_name)
+        logger.setLevel(logging.DEBUG)
 
-    # ensures that anything printed to this logger at level DEBUR or above goes to the specified file
-    debug_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_debugs.log")
-    debug_filehandler.setLevel(logging.DEBUG)
-    debug_filehandler.setFormatter(formatting)
-    sys_stream_logger.addHandler(debug_filehandler)
+        debug_filehandler = logging.FileHandler(debug_log_file_absolute_path)
+        debug_filehandler.setLevel(logging.DEBUG)
+        debug_filehandler.setFormatter(formatting)
+        logger.addHandler(debug_filehandler)
 
-    # ensures that anything printed to sys.stdout goes to the INFO level of logger sys_stream_logger
-    sys.stdout = LoggerWriter(sys_stream_logger.info)
+        error_filehandler = logging.FileHandler(error_log_file_absolute_path)
+        error_filehandler.setFormatter(formatting)
+        error_filehandler.setLevel(logging.ERROR)
+        logger.addHandler(error_filehandler)
 
-    # ensures that anything printed to this logger from level ERROR or above goes to the sys.__stderr__
-    sys_sterr_stream_handler = logging.StreamHandler(sys.stderr)
-    sys_sterr_stream_handler.setFormatter(formatting)
-    sys_sterr_stream_handler.setLevel(logging.ERROR)
-    sys_stream_logger.addHandler(sys_sterr_stream_handler)
+        sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
+        sys_stdout_stream_handler.setFormatter(formatting)
+        sys_stdout_stream_handler.setLevel(logging.DEBUG)
+        logger.addHandler(sys_stdout_stream_handler)
 
-    # ensures that anything printed to this logger at level ERROR or above goes to the specified file
-    error_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_errors.log")
-    error_filehandler.setFormatter(formatting)
-    error_filehandler.setLevel(logging.ERROR)
-    sys_stream_logger.addHandler(error_filehandler)
+        # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or exception
+        # use logging.exception("message")
+        # also remove logs from more than a month ago
 
-    # ensures that anything printed to sys.stderr goes to the ERROR level of logger sys_stream_logger
-    sys.stderr = LoggerWriter(sys_stream_logger.error)
+        return logger
 
+    @classmethod
+    def _setup_sys_stream_logger(cls):
+        date = datetime.datetime.now(date_timezone).strftime(date_formatting_in_filename)
+        if not os.path.exists(settings.LOG_LOCATION):
+            exit(f"Unable to find '{settings.LOG_LOCATION}'")
+        if not os.path.exists(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}"):
+            os.mkdir(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}")
 
-def setup_std_stream_logger_v2():
-    stream_name = "std_stream"
-    date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")
-    if not os.path.exists(settings.LOG_LOCATION):
-        exit(f"Unable to find '{settings.LOG_LOCATION}'")
-    if not os.path.exists(f"{settings.LOG_LOCATION}/{stream_name}"):
-        os.mkdir(f"{settings.LOG_LOCATION}/{stream_name}")
+        sys_logger = logging.getLogger(settings.SYS_STREAM_LOG_HANDLER_NAME)
+        sys_logger.setLevel(logging.DEBUG)
 
-    sys_logger = logging.getLogger(stream_name)
-    sys_logger.setLevel(logging.DEBUG)
+        # ensures that anything printed to this logger at level DEBUG or above goes to the specified file
+        cls.debug_file_path_and_name = f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_debug.log"
+        debug_filehandler = logging.FileHandler(cls.debug_file_path_and_name)
+        debug_filehandler.setLevel(logging.DEBUG)
+        debug_filehandler.setFormatter(formatting)
+        sys_logger.addHandler(debug_filehandler)
 
-    # ensures that anything printed to this logger at level DEBUG or above goes to the specified file
-    debug_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_debugs.log")
-    debug_filehandler.setLevel(logging.DEBUG)
-    debug_filehandler.setFormatter(formatting)
-    sys_logger.addHandler(debug_filehandler)
+        # ensures that anything printed to this logger at level ERROR or above goes to the specified file
+        error_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_err.log")
+        error_filehandler.setLevel(logging.ERROR)
+        error_filehandler.setFormatter(formatting)
+        sys_logger.addHandler(error_filehandler)
 
-    # ensures that anything printed to this logger at level ERROR or above goes to the specified file
-    error_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{stream_name}/{date}_csss_site_errors.log")
-    error_filehandler.setLevel(logging.ERROR)
-    error_filehandler.setFormatter(formatting)
-    sys_logger.addHandler(error_filehandler)
+        # ensures that anything from the log goes to the stdout
+        sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
+        sys_stdout_stream_handler.setFormatter(formatting)
+        sys_stdout_stream_handler.setLevel(logging.DEBUG)
+        sys_logger.addHandler(sys_stdout_stream_handler)
 
-    # ensures that anything from the log goes to the stdout
-    sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
-    sys_stdout_stream_handler.setFormatter(formatting)
-    sys_stdout_stream_handler.setLevel(logging.DEBUG)
-    sys_logger.addHandler(sys_stdout_stream_handler)
+        # ensures that anything that goes to stdout also goes to the logger which is directed back to the console
+        # thanks to the sys_stdout_stream_handler
+        sys.stdout = LoggerWriter(sys_logger.info)
 
-    # ensures that anything that goes to stdout also goes to the logger which is directed back to the console
-    # thanks to the sys_stdout_stream_handler
-    sys.stdout = LoggerWriter(sys_logger.debug)
+        # ensures that anything that goes to stderr also goes to the logger which is directed back to the console
+        # thanks to the sys_stdout_stream_handler
+        sys.stderr = LoggerWriter(sys_logger.error)
+        return sys_logger
 
-    # ensures that anything that goes to stderr also goes to the logger which is directed back to the console
-    # thanks to the sys_stdout_stream_handler
-    sys.stderr = LoggerWriter(sys_logger.error)
+    @classmethod
+    def _add_logger(cls, logger):
+        cls.loggers.insert(0, logger)
+        for (index, saved_logger) in enumerate(cls.loggers):
+            cls.logger_list_indices[saved_logger.name] = index
+        return logger
 
-
-def get_or_setup_logger(logger_name=None):
-    if sys.stdout == sys.__stdout__:
-        setup_std_stream_logger_v2()
-    if logger_name is not None:
-        logger_name = f"command_logs_{logger_name}"
-    else:
-        logger_name = "std_stream"
-    loggers = [
-        logging.getLogger(logger) for logger in logging.root.manager.loggerDict
-        if logger_name == logger
-    ]
-    if len(loggers) > 1:
-        raise Exception("There seems to be more than 1 logger setup..")
-    if len(loggers) == 1:
-        return loggers[0]
-
-    date = datetime.datetime.now(pytz.timezone('US/Pacific')).strftime("%Y_%m_%d_%H_%M_%S")
-    if not os.path.exists(settings.LOG_LOCATION):
-        exit(f"Unable to find '{settings.LOG_LOCATION}'")
-    if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
-        os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
-    debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_csss_site_debugs.log"
-    error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_csss_site_errors.log"
-
-    try:
-        shutil.copy(settings.DEBUG_LOG_LOCATION, f"{debug_log_file_absolute_path}")
-    except Exception as e:
-        print(e)
-
-    logger = logging.getLogger(logger_name)
-    logger.setLevel(logging.DEBUG)
-
-    debug_filehandler = logging.FileHandler(debug_log_file_absolute_path)
-    debug_filehandler.setLevel(logging.DEBUG)
-    debug_filehandler.setFormatter(formatting)
-    logger.addHandler(debug_filehandler)
-
-    error_filehandler = logging.FileHandler(error_log_file_absolute_path)
-    error_filehandler.setFormatter(formatting)
-    error_filehandler.setLevel(logging.ERROR)
-    logger.addHandler(error_filehandler)
-
-    sys_stdout_stream_handler = logging.StreamHandler(sys.stdout)
-    sys_stdout_stream_handler.setFormatter(formatting)
-    sys_stdout_stream_handler.setLevel(logging.DEBUG)
-    logger.addHandler(sys_stdout_stream_handler)
-
-    # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or exception
-    # use logging.exception("message")
-    # also remove logs from more than a month ago
-
-    return logger
+    @classmethod
+    def remove_logger(cls, logger_name):
+        cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
+        for (index, saved_logger) in enumerate(cls.loggers):
+            cls.logger_list_indices[saved_logger.name] = index
 
 
 class LoggerWriter:
     def __init__(self, level):
         self.level = level
+        self.pattern_for_message_with_formatting = re.compile(
+            "^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2} = (" +
+            ("|".join(list(logging._nameToLevel.keys()))) +
+            ") = \w+ = "
+        )
 
     def write(self, message):
         if message != '\n':
+            # this bit a hack logic it just a way to transform a line of log from
+            # 2022-12-16 19:24:36 = INFO = std_stream = 2022-12-16 19:24:36 = INFO = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
+            # to
+            # 2022-12-16 19:24:36 = INFO = std_stream = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
+            # not perfect but best way I could think of to reduce the redundacies and line length while also not creating confusion as to which logger the line originated from
+            pattern_match = self.pattern_for_message_with_formatting.match(message)
+            if pattern_match is not None:
+                pattern_match_lower_bound = pattern_match.regs[0][0]
+                pattern_match_upper_bound = pattern_match.regs[0][1]
+                level = message[pattern_match_lower_bound:pattern_match_upper_bound].split(" = ")[1]
+                logger_name = message[pattern_match_lower_bound:pattern_match_upper_bound].split(" = ")[2]
+                message = f"{level} = {logger_name} = {message[pattern_match_upper_bound:]}"
+
+            # lines from `logger.level` seem to get a newline added on that is then duplicated with the call to self.level
+            # so remove that newline before another one gets added on
+            if len(message) > 0 and message[-1:] == "\n":
+                message = message[:-1]
             self.level(message)
 
     def flush(self):

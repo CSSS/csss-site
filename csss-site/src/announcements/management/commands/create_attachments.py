@@ -5,7 +5,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django_mailbox.models import Message
 
-from csss.setup_logger import get_or_setup_logger
+from csss.setup_logger import Loggers
 
 
 class Command(BaseCommand):
@@ -19,9 +19,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        logger = get_or_setup_logger(logger_name="create_attachments")
+        logger = Loggers.get_logger(logger_name="create_attachments")
         logger.info(options)
         download_or_create_announcement_attachments(options['download'])
+        Loggers.remove_logger(logger_name="create_attachments")
 
 
 def download_or_create_announcement_attachments(download=False):

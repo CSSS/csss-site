@@ -5,14 +5,14 @@ from apscheduler.triggers.cron import CronTrigger
 from django.core.management import BaseCommand
 
 from csss.models import CronJob
-from csss.setup_logger import get_or_setup_logger
+from csss.setup_logger import Loggers
 from csss.views.crons.Constants import CRON_JOB_MAPPING
 
 
 class Command(BaseCommand):
 
     def handle(self, **options):
-        logger = get_or_setup_logger("cron_service")
+        logger = Loggers.get_logger(logger_name="cron_service")
         logger.info("[csss/cron_service.py cron()] setting up cron service")
         scheduler = BlockingScheduler()
         cron_jobs = CronJob.objects.all()

@@ -9,7 +9,7 @@ import tzlocal
 
 SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
-from csss.setup_logger import get_or_setup_logger, Loggers
+from csss.setup_logger import Loggers
 
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
@@ -22,15 +22,9 @@ if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
 
-csss_site_logger = get_or_setup_logger()
-Loggers.get_logger(get_latest_logs=True)
+SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
+Loggers.get_logger(logger_name=SYS_STREAM_LOG_HANDLER_NAME)
 
-debug_file_path_and_name = [
-    logger.baseFilename
-    for logger in csss_site_logger.handlers
-    if type(logger) == logging.FileHandler and logger.level == logging.DEBUG
-][0]
-DEBUG_LOG_LOCATION = debug_file_path_and_name
 print(f'[settings.py] BASE_DIR set to {BASE_DIR}')
 print(f'[settings.py] LOG_LOCATION set to {LOG_LOCATION}')
 

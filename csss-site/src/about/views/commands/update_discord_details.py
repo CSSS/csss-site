@@ -3,11 +3,11 @@ from time import sleep
 from about.models import Officer
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
-from csss.setup_logger import get_or_setup_logger
+from csss.setup_logger import Loggers
 
 
 def run_job():
-    logger = get_or_setup_logger("update_discord_details")
+    logger = Loggers.get_logger(logger_name="update_discord_details", use_cron_logger=True)
     all_officers = Officer.objects.all()
     officers = all_officers.exclude(discord_id="NA")
     officers_discord_ids = list(set(list(officers.values_list('discord_id', flat=True))))
@@ -49,3 +49,4 @@ def run_job():
         nickname = discord_info_maps[officer.sfu_computing_id]['discord_nickname']
         officer.discord_nickname = nickname if nickname is not None else "NA"
     Officer.objects.bulk_update(officers_to_change, ['discord_id', 'discord_username', 'discord_nickname'])
+    Loggers.remove_logger("update_discord_details")

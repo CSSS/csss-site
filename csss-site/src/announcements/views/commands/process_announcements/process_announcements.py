@@ -12,7 +12,7 @@ from announcements.views.commands.process_announcements.add_sortable_date_to_man
     add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
-from csss.setup_logger import get_logger, get_or_setup_logger
+from csss.setup_logger import get_logger, Loggers
 from csss.views_helper import get_term_number_for_specified_year_and_month
 
 
@@ -35,7 +35,7 @@ def django_mailbox_handle():
 
 
 def run_job(poll_email=True):
-    logger = get_or_setup_logger(logger_name="process_announcements")
+    logger = Loggers.get_logger(logger_name="process_announcements", use_cron_logger=True)
     if len(UnProcessedOfficer.objects.all()) > 0:
         return
     if poll_email:
@@ -103,3 +103,4 @@ def run_job(poll_email=True):
             logger.info("[process_announcements handle()] saved post from"
                         f" {message.author} with date {announcement_datetime} "
                         f"for term {term}")
+    Loggers.remove_logger(logger_name="process_announcements")
