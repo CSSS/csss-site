@@ -1,4 +1,6 @@
 import os
+import subprocess
+import traceback
 
 from django.conf import settings
 
@@ -7,29 +9,33 @@ from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.setup_logger import Loggers
 
 
-def run_job(download=False, use_cron_logger=True):
+def run_job(download=False, use_cron_logger=True, setup_website=False):
+    remove_logger = False
     if use_cron_logger:
-        logger = Loggers.get_logger(logger_name="update_officer_images", use_cron_logger=use_cron_logger)
+        logger = Loggers.get_logger(use_cron_logger=use_cron_logger)
+    elif setup_website:
+        logger = Loggers.get_logger()
     else:
-        # this is necessary because this might have been called as part of the
-        # setup_website command which means it should use the logger that's already been created
-        remove_logger = False
-        try:
-            logger = Loggers.get_logger()
-        except Exception as e:
-            if e == "Could not find a logger":
-                # figure out if the code ever goes here
-                logger = Loggers.get_logger(logger_name="update_officer_images", use_cron_logger=True)
-                remove_logger = True
+        remove_logger = True
+        logger = Loggers.get_logger(logger_name="update_officer_images")
     if download:
-        os.system(
-            "rm -fr about/static/about_static/exec-photos || true; "
-            f"wget -r -X '*' --no-host-directories {settings.STAGING_SERVER}exec-photos/ -R "
-            "'*html*' -P about/static/about_static/ || true"
+        os.system("rm -fr about/static/about_static/exec-photos")
+        logger.info(f"[about/update_officer_images.py run_job()] now trying to download all the exec photos")
+        officers_url = f"{settings.STAGING_SERVER}dev_csss_website_media/exec-photos/"
+        retVal = os.system(
+            f"wget -r -X '*' --no-host-directories {officers_url} -R "
+            "'*html*' -P about/static/about_static/  --cut-dirs=1"
         )
+        if retVal != 0:
+            try:
+                raise Exception(f"Unable to download the exec-photos from {officers_url}")
+            except Exception:
+                logger.error(traceback.format_exc())
+                exit(1)
+        logger.info(f"[about/update_officer_images.py run_job()] all exec-photos downloaded")
     for officer in Officer.objects.all().filter():
         officer.image = get_officer_image_path(officer.elected_term, officer.full_name)
-        logger.info("[about/update_officer_images.py fix_image_for_officer()] "
+        logger.info("[about/update_officer_images.py run_job()] "
                     f"officer_image_path = {officer.image}")
         officer.save()
     if remove_logger:

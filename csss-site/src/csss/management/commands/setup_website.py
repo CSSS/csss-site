@@ -25,5 +25,5 @@ class Command(BaseCommand):
         logger = Loggers.get_logger(logger_name="setup_website")
         logger.info(options)
         download_or_create_announcement_attachments(options['download__attachments'])
-        run_job(download=options['download'], use_cron_logger=False)
+        run_job(download=options['download__officer_images'], use_cron_logger=False, setup_website=True)
         Loggers.remove_logger(logger_name="setup_website")
