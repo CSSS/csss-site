@@ -1,4 +1,5 @@
 import json
+import time
 
 from about.models import Officer, UnProcessedOfficer, OfficerEmailListAndPositionMapping
 from about.views.commands.validate_discord_roles_members. \
@@ -11,12 +12,16 @@ from about.views.commands.validate_discord_roles_members.get_all_user_dictionari
 from about.views.commands.validate_discord_roles_members.get_role_dictionary import get_role_dictionary
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
     EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
+from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term_obj, get_previous_term_obj
 
+SERVICE_NAME = "validate_discord_roles_members"
+
 
 def run_job(use_cron_logger=True):
-    logger = Loggers.get_logger(logger_name="validate_discord_roles_members", use_cron_logger=use_cron_logger)
+    time1 = time.perf_counter()
+    logger = Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
     current_officers = Officer.objects.all().filter(
         elected_term=get_current_term_obj()
     )
@@ -99,4 +104,14 @@ def run_job(use_cron_logger=True):
         )
         if not success:
             logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
-    Loggers.remove_logger(logger_name="validate_discord_roles_members")
+    Loggers.remove_logger(logger_name=SERVICE_NAME)
+    time2 = time.perf_counter()
+    total_seconds = time2 - time1
+    cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
+    number_of_stats = CronJobRunStat.objects.all().filter(job=cron_job)
+    if len(number_of_stats) == 10:
+        first = number_of_stats.order_by('id').first()
+        if first is not None:
+            first.delete()
+    CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
+

@@ -7,6 +7,8 @@ from django_mailbox.models import Message
 
 from csss.setup_logger import Loggers
 
+SERVICE_NAME = "create_attachments"
+
 
 class Command(BaseCommand):
 
@@ -19,10 +21,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        logger = Loggers.get_logger(logger_name="create_attachments")
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         download_or_create_announcement_attachments(options['download'])
-        Loggers.remove_logger(logger_name="create_attachments")
+        Loggers.remove_logger(logger_name=SERVICE_NAME)
 
 
 def download_or_create_announcement_attachments(download=False):

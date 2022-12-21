@@ -1,8 +1,9 @@
 import datetime
+import time
 from email.utils import parseaddr
 
 from django.conf import settings
-from django_mailbox.models import Mailbox
+from django_mailbox.management.commands.getmail import Command as GetMailCommand
 from django_mailbox.models import Message
 
 from about.models import Term, UnProcessedOfficer
@@ -12,34 +13,20 @@ from announcements.views.commands.process_announcements.add_sortable_date_to_man
     add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
-from csss.setup_logger import get_logger, Loggers
+from csss.models import CronJob, CronJobRunStat
+from csss.setup_logger import Loggers
 from csss.views_helper import get_term_number_for_specified_year_and_month
 
-
-def django_mailbox_handle():
-    logger = get_logger()
-    # duplicate of django_mailbox/management/commands/getmail.py
-    mailboxes = Mailbox.active_mailboxes.all()
-    for mailbox in mailboxes:
-        logger.info(
-            'Gathering messages for %s',
-            mailbox.name
-        )
-        messages = mailbox.get_new_mail()
-        for message in messages:
-            logger.info(
-                'Received %s (from %s)',
-                message.subject,
-                message.from_address
-            )
+SERVICE_NAME = "process_announcements"
 
 
 def run_job(poll_email=True, use_cron_logger=True):
-    logger = Loggers.get_logger(logger_name="process_announcements", use_cron_logger=use_cron_logger)
+    time1 = time.perf_counter()
+    logger = Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
     if len(UnProcessedOfficer.objects.all()) > 0:
         return
     if poll_email:
-        django_mailbox_handle()
+        GetMailCommand().handle()
 
     time_difference = get_timezone_difference(
         datetime.datetime.now().strftime('%Y-%m-%d'),
@@ -103,4 +90,13 @@ def run_job(poll_email=True, use_cron_logger=True):
             logger.info("[process_announcements handle()] saved post from"
                         f" {message.author} with date {announcement_datetime} "
                         f"for term {term}")
-    Loggers.remove_logger(logger_name="process_announcements")
+    Loggers.remove_logger(logger_name=SERVICE_NAME)
+    time2 = time.perf_counter()
+    total_seconds = time2 - time1
+    cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
+    number_of_stats = CronJobRunStat.objects.all().filter(job=cron_job)
+    if len(number_of_stats) == 10:
+        first = number_of_stats.order_by('id').first()
+        if first is not None:
+            first.delete()
+    CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
