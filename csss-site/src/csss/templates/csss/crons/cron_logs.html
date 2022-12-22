@@ -4,8 +4,8 @@
     <a href="{{ URL_ROOT }}cron">Cron Jobs</a><br><br>
 
     <a href="{{ parent_directory }}">..</a><br>
-    {%  for log in logs %}
-        <a href="/cron_logs/{{ log.file }}">{{ log.file }}</a> - {{ log.size }} KB<br>
+    {%  for log_file in log_files %}
+        <a href="/cron_logs/{{ log_file.file }}">{{ log_file.file }}</a> - {{ log_file.size }} KB<br>
     {%  endfor %}
-    {{ log |safe}}
+    {{ log_file|safe}}
 {%  endblock %}

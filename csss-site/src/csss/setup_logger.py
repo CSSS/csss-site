@@ -131,7 +131,7 @@ class Loggers:
 
         # this is mostly here just so that the settings in the setting.spy can persist to all the debug logs
         # without other fluff being added to them
-        cls.django_settings_logger = logging.getLogger("django_settings")
+        cls.django_settings_logger = logging.getLogger(settings.DJANO_SETTINGS_LOG_HANDLER_NAME)
         cls.django_settings_logger.setLevel(logging.DEBUG)
         cls.django_settings_file_path_and_name = (
             f"{settings.LOG_LOCATION}/{settings.DJANO_SETTINGS_LOG_HANDLER_NAME}/{date}.log"
