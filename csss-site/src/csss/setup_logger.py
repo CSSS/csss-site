@@ -8,11 +8,14 @@ import sys
 import pytz
 from django.conf import settings
 
+from csss.settings import CRON_SERVICE_NAME
+
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
 formatting = logging.Formatter('%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log)
 date_timezone = pytz.timezone('US/Pacific')
 modular_log_prefix = "cmd_"
+
 
 def get_logger():
     return Loggers.get_logger()
@@ -21,20 +24,21 @@ def get_logger():
 class Loggers:
     loggers = []
     logger_list_indices = {}
-    debug_file_path_and_name = None
+    django_settings_file_path_and_name = None
+    django_settings_logger = None
 
     @classmethod
     def get_logger(cls, logger_name=None, use_cron_logger=False):
+        if use_cron_logger:
+            cron_logger_name = f"{modular_log_prefix}{CRON_SERVICE_NAME}"
+            if cron_logger_name in cls.logger_list_indices:
+                return cls.loggers[cls.logger_list_indices[cron_logger_name]]
+            return cls._add_logger(cls._setup_logger(logger_name=cron_logger_name))
         if logger_name is None:
             if len(cls.loggers) == 0:
-                raise Exception("Could not find a logger")
+                raise Exception("Could not find any loggers")
             return cls.loggers[0]
         else:
-            if use_cron_logger:
-                cron_logger_name = f"{modular_log_prefix}cron_service"
-                if cron_logger_name in cls.logger_list_indices:
-                    return cls.loggers[cls.logger_list_indices[cron_logger_name]]
-                raise Exception("Could not find cron logger")
             if logger_name != settings.SYS_STREAM_LOG_HANDLER_NAME:
                 logger_name = f"{modular_log_prefix}{logger_name}"
                 if logger_name in cls.logger_list_indices:
@@ -58,10 +62,7 @@ class Loggers:
         debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
         error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_err.log"
 
-        try:
-            shutil.copy(cls.debug_file_path_and_name, f"{debug_log_file_absolute_path}")
-        except Exception as e:
-            print(e)
+        shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
@@ -81,9 +82,9 @@ class Loggers:
         sys_stdout_stream_handler.setLevel(logging.DEBUG)
         logger.addHandler(sys_stdout_stream_handler)
 
-        # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or exception
-        # use logging.exception("message")
-        # also remove logs from more than a month ago
+        # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or
+        # exception
+        # use logging.exception("message") also remove logs from more than a month ago
 
         return logger
 
@@ -94,19 +95,22 @@ class Loggers:
             exit(f"Unable to find '{settings.LOG_LOCATION}'")
         if not os.path.exists(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}"):
             os.mkdir(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}")
+        if not os.path.exists(f"{settings.LOG_LOCATION}/{settings.DJANO_SETTINGS_LOG_HANDLER_NAME}"):
+            os.mkdir(f"{settings.LOG_LOCATION}/{settings.DJANO_SETTINGS_LOG_HANDLER_NAME}")
 
         sys_logger = logging.getLogger(settings.SYS_STREAM_LOG_HANDLER_NAME)
         sys_logger.setLevel(logging.DEBUG)
 
         # ensures that anything printed to this logger at level DEBUG or above goes to the specified file
-        cls.debug_file_path_and_name = f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_debug.log"
-        debug_filehandler = logging.FileHandler(cls.debug_file_path_and_name)
+        debug_filehandler = logging.FileHandler(
+            f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_debug.log")
         debug_filehandler.setLevel(logging.DEBUG)
         debug_filehandler.setFormatter(formatting)
         sys_logger.addHandler(debug_filehandler)
 
         # ensures that anything printed to this logger at level ERROR or above goes to the specified file
-        error_filehandler = logging.FileHandler(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_err.log")
+        error_filehandler = logging.FileHandler(
+            f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_err.log")
         error_filehandler.setLevel(logging.ERROR)
         error_filehandler.setFormatter(formatting)
         sys_logger.addHandler(error_filehandler)
@@ -117,13 +121,30 @@ class Loggers:
         sys_stdout_stream_handler.setLevel(logging.DEBUG)
         sys_logger.addHandler(sys_stdout_stream_handler)
 
-        # ensures that anything that goes to stdout also goes to the logger which is directed back to the console
-        # thanks to the sys_stdout_stream_handler
-        sys.stdout = LoggerWriter(sys_logger.info)
-
         # ensures that anything that goes to stderr also goes to the logger which is directed back to the console
         # thanks to the sys_stdout_stream_handler
-        sys.stderr = LoggerWriter(sys_logger.error)
+        sys.stderr = LoggerWriter(sys_logger.error, "ERROR")
+
+        # ensures that anything that goes to stdout also goes to the logger which is directed back to the console
+        # thanks to the sys_stdout_stream_handler
+        sys.stdout = LoggerWriter(sys_logger.info, "INFO")
+
+        # this is mostly here just so that the settings in the setting.spy can persist to all the debug logs
+        # without other fluff being added to them
+        cls.django_settings_logger = logging.getLogger("django_settings")
+        cls.django_settings_logger.setLevel(logging.DEBUG)
+        cls.django_settings_file_path_and_name = (
+            f"{settings.LOG_LOCATION}/{settings.DJANO_SETTINGS_LOG_HANDLER_NAME}/{date}.log"
+        )
+        django_settings_filehandler = logging.FileHandler(cls.django_settings_file_path_and_name)
+        django_settings_filehandler.setLevel(logging.DEBUG)
+        django_settings_filehandler.setFormatter(formatting)
+        cls.django_settings_logger.addHandler(django_settings_filehandler)
+        django_settings_stream_handler = logging.StreamHandler(sys.stdout)
+        django_settings_stream_handler.setFormatter(formatting)
+        django_settings_stream_handler.setLevel(logging.DEBUG)
+        cls.django_settings_logger.addHandler(django_settings_stream_handler)
+
         return sys_logger
 
     @classmethod
@@ -135,14 +156,17 @@ class Loggers:
 
     @classmethod
     def remove_logger(cls, logger_name):
+        logger_name = f"{modular_log_prefix}{logger_name}"
         cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
+        cls.logger_list_indices = {}
         for (index, saved_logger) in enumerate(cls.loggers):
             cls.logger_list_indices[saved_logger.name] = index
 
 
 class LoggerWriter:
-    def __init__(self, level):
+    def __init__(self, level, level_name):
         self.level = level
+        self.level_name = level_name
         self.pattern_for_message_with_formatting = re.compile(
             "^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2} = (" +
             ("|".join(list(logging._nameToLevel.keys()))) +

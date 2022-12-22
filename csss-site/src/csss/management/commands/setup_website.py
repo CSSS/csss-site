@@ -4,6 +4,8 @@ from about.views.commands.update_officer_images import run_job
 from announcements.management.commands.create_attachments import download_or_create_announcement_attachments
 from csss.setup_logger import Loggers
 
+SERVICE_NAME = "setup_website"
+
 
 class Command(BaseCommand):
 
@@ -22,8 +24,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        logger = Loggers.get_logger(logger_name="setup_website")
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         download_or_create_announcement_attachments(options['download__attachments'])
         run_job(download=options['download__officer_images'], use_cron_logger=False, setup_website=True)
-        Loggers.remove_logger(logger_name="setup_website")
+        Loggers.remove_logger(logger_name=SERVICE_NAME)
