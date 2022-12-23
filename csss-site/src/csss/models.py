@@ -56,6 +56,7 @@ class CronJobRunStat(models.Model):
     def __str__(self):
         return f"job {self.job} ran for {self.get_run_time} on {self.run_date}"
 
+
 def convert_seconds_to_run_time_str(seconds):
     hours, minutes = 0, 0
     if seconds > 60:

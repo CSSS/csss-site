@@ -24,7 +24,7 @@ def create_context_for_cron_logs_html(context, error_messages=None, log_location
         indx for indx, char in enumerate(log_location) if char == "/"
     ]
     context[PARENT_DIRECTORY_KEY] = f"/{CRON_BASE_URL_KEY}"
-    context[PARENT_DIRECTORY_KEY] += f"{log_location[:(log_location[:-1].rfind('/'))]}/" if len(folders) > 1 else f"/"
+    context[PARENT_DIRECTORY_KEY] += f"{log_location[:(log_location[:-1].rfind('/'))]}/" if len(folders) > 1 else "/"
 
     file_path = f"{settings.LOG_LOCATION}{log_location}"
     if os.path.isdir(file_path):
@@ -32,7 +32,8 @@ def create_context_for_cron_logs_html(context, error_messages=None, log_location
             log_location = log_location[1:]
         files = [
             {
-                "file": f"{log_location}{log_file}/" if os.path.isdir(f"{settings.LOG_LOCATION}/{log_file}") else f"{log_location}{log_file}",
+                "file": f"{log_location}{log_file}/"
+                if os.path.isdir(f"{settings.LOG_LOCATION}/{log_file}") else f"{log_location}{log_file}",
                 "size": round(os.stat(f"{file_path}/{log_file}").st_size / 1000)
             }
             for log_file in os.listdir(file_path)

@@ -3,7 +3,7 @@ import datetime
 from django.core.management.base import BaseCommand
 
 from announcements.views.commands.process_announcements.process_announcements import run_job
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 
 SERVICE_NAME = "process_announcements"
 

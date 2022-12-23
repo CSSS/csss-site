@@ -4,7 +4,7 @@ from time import perf_counter
 from django.core.management.base import BaseCommand
 
 from csss.models import CronJobRunStat, CronJob
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 from resource_management.views.resource_views import validate_google_drive, validate_github
 
 SERVICE_NAME = "validate_access"

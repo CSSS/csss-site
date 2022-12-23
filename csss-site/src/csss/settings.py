@@ -1,12 +1,9 @@
-import datetime
 import logging
 import logging.config
 import sys
 import os
 import environ
-import pytz
 import tzlocal
-
 
 WEBSITE_TIME_ZONE = 'America/Vancouver'
 TIME_ZONE = WEBSITE_TIME_ZONE
@@ -25,7 +22,7 @@ SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
 DJANO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
 SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers  # noqa: E402
 
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
@@ -407,8 +404,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'django_cas_ng.backends.CASBackend',
@@ -470,4 +465,6 @@ FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR + 'temporary_files/'  # temporary fi
 DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/'  # will be placed under the MEDIA_ROOT folder
 Loggers.django_settings_logger.info(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
 Loggers.django_settings_logger.info(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
-Loggers.django_settings_logger.info(f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}')
+Loggers.django_settings_logger.info(
+    f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}'
+)

@@ -1,6 +1,7 @@
 import datetime
 
 from about.models import Term
+from csss.setup_logger import date_timezone
 
 
 def validate_inputted_term_info(inputted_term, inputted_year):
@@ -26,7 +27,8 @@ def validate_inputted_term_info(inputted_term, inputted_year):
             list(
                 range(
                     1970,
-                    datetime.datetime.now(date_timezone).year + (1 if int(datetime.datetime.now(date_timezone).month) <= 8 else 2)
+                    datetime.datetime.now(date_timezone).year +
+                    (1 if int(datetime.datetime.now(date_timezone).month) <= 8 else 2)
                 )
             )
         )

@@ -23,8 +23,8 @@ class Command(BaseCommand):
         cron_jobs = [cron_job for cron_job in CronJob.objects.all() if cron_job.is_active]
         for cron_job in cron_jobs:
             logger.info(
-                f"[Cron_Service_Command handle()] adding job {cron_job.job_name} with schedule of {cron_job.schedule} "
-                "to the scheduler"
+                f"[Cron_Service_Command handle()] adding job {cron_job.job_name} with schedule of {cron_job.schedule}"
+                " to the scheduler"
             )
             script_path = CRON_JOB_MAPPING[cron_job.job_name]['path']
             job = scheduler.add_job(
@@ -51,8 +51,9 @@ class Command(BaseCommand):
                     logger.info(f"[Cron_Service_Command handle()] cron job {updated_cron_job.job_name} removed")
                 else:
                     logger.info(
-                        f"[Cron_Service_Command handle()] updating cron job {updated_cron_job.job_name} with schedule "
-                        f"of {updated_cron_job.schedule} from {job.trigger} to {updated_cron_job.schedule}"
+                        f"[Cron_Service_Command handle()] updating cron job {updated_cron_job.job_name} "
+                        f"with schedule of {updated_cron_job.schedule} from {job.trigger} to "
+                        f"{updated_cron_job.schedule}"
                     )
                     script_path = CRON_JOB_MAPPING[updated_cron_job.job_name]['path']
                     scheduler.reschedule_job(
@@ -61,5 +62,5 @@ class Command(BaseCommand):
                         trigger=CronTrigger.from_crontab(updated_cron_job.schedule)
                     )
                     logger.info(f"[Cron_Service_Command handle()] updated cron job {updated_cron_job.job_name} ")
-            logger.info(f"[Cron_Service_Command handle()] going to sleep for an hour... ")
+            logger.info("[Cron_Service_Command handle()] going to sleep for an hour... ")
             sleep(seconds_in_an_hour)

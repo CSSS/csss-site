@@ -14,7 +14,7 @@ from about.views.commands.validate_discord_roles_members.get_role_dictionary imp
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
     EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
 from csss.models import CronJob, CronJobRunStat
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 from csss.views_helper import get_current_term_obj, get_previous_term_obj
 
 SERVICE_NAME = "validate_discord_roles_members"
@@ -116,4 +116,3 @@ def run_job():
         if first is not None:
             first.delete()
     CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
-

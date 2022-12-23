@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.management import BaseCommand
 from django_mailbox.models import Message
 
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 
 SERVICE_NAME = "create_attachments"
 

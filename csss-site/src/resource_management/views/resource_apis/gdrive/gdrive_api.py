@@ -12,7 +12,7 @@ from googleapiclient.discovery import build
 
 from about.models import Officer
 from csss.Gmail import Gmail
-from csss.setup_logger import get_logger
+from csss.setup_logger import get_logger, date_timezone
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views.send_email import send_email
 from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess, \

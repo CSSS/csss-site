@@ -4,7 +4,7 @@ from django.core.management import BaseCommand
 
 from about.views.commands.update_officer_images import run_job
 from announcements.management.commands.create_attachments import download_or_create_announcement_attachments
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 
 SERVICE_NAME = "setup_website"
 

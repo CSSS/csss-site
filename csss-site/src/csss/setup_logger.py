@@ -10,7 +10,9 @@ from django.conf import settings
 
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
-sys_stream_formatting = logging.Formatter('%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log)
+sys_stream_formatting = logging.Formatter(
+    '%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log
+)
 
 # had to create this cause I want each cron job runtime to have its own logger but it does not seem possible
 # to reset a logger in the same python runtime. so best I could figure is attach the timestamp to the name
@@ -167,7 +169,7 @@ class Loggers:
             cls.logger_list_indices[saved_logger.name] = index
 
     @classmethod
-    def logger_name_formatter(cls, prefix, date, logger_name ):
+    def logger_name_formatter(cls, prefix, date, logger_name):
         return f"{prefix}{date.strftime(date_formatting_in_filename)}-{logger_name}"
 
 
@@ -176,19 +178,21 @@ class LoggerWriter:
         self.level = level
         self.level_name = level_name
         self.pattern_for_message_with_formatting = re.compile(
-            "^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2} = (" +
+            r"^\d{4}-\d{1,2}-\d{1,2} \d{1,2}:\d{1,2}:\d{1,2} = (" +
             ("|".join(list(logging._nameToLevel.keys()))) +
-            ") = \w+ = "
+            r") = \w+ = "
         )
 
     def write(self, message):
         if message != '\n':
             """
             this bit a hack logic it just a way to transform a line of log from
-            2022-12-16 19:24:36 = INFO = std_stream = 2022-12-16 19:24:36 = INFO = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
+            2022-12-16 19:24:36 = INFO = std_stream = 2022-12-16 19:24:36 = INFO = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler # noqa W291
             to
-            2022-12-16 19:24:36 = INFO = std_stream = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler
-            not perfect but best way I could think of to reduce the redundacies and line length while also not creating confusion as to which logger the line originated from
+            2022-12-16 19:24:36 = INFO = std_stream = command_logs_cron_service = [csss/cron_service.py cron()] job nag_officers_to_enter_info added to the scheduler # noqa W291
+            
+            not perfect but best way I could think of to reduce the redundacies and line length while also not
+            creating confusion as to which logger the line originated from
             """
             pattern_match = self.pattern_for_message_with_formatting.match(message)
             if pattern_match is not None:
@@ -197,8 +201,8 @@ class LoggerWriter:
                 level = message[pattern_match_lower_bound:pattern_match_upper_bound].split(" = ")[1]
                 logger_name = message[pattern_match_lower_bound:pattern_match_upper_bound].split(" = ")[2]
                 message = f"{level} = {logger_name} = {message[pattern_match_upper_bound:]}"
-            # lines from `logger.level` seem to get a newline added on that is then duplicated with the call to self.level
-            # so remove that newline before another one gets added on
+            # lines from `logger.level` seem to get a newline added on that is then duplicated with the call
+            # to self.level so remove that newline before another one gets added on
             if len(message) > 0 and message[-1:] == "\n":
                 message = message[:-1]
             self.level(message)

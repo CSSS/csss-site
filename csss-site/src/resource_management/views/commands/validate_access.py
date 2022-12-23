@@ -2,13 +2,13 @@ import datetime
 import time
 
 from csss.models import CronJob, CronJobRunStat
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 from resource_management.views.resource_views import validate_google_drive, validate_github
 
 SERVICE_NAME = "validate_access"
 
 
-def run_job(use_cron_logger=True):
+def run_job():
     time1 = time.perf_counter()
     current_date = datetime.datetime.now(date_timezone)
     Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)

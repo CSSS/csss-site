@@ -3,7 +3,7 @@ import datetime
 from django.conf import settings
 from django.shortcuts import render
 
-from csss.setup_logger import get_logger
+from csss.setup_logger import get_logger, date_timezone
 from csss.views.context_creation.create_election_page_context import create_election_page_context
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election, NomineePosition, NomineeLink
