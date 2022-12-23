@@ -7,6 +7,19 @@ import environ
 import pytz
 import tzlocal
 
+
+WEBSITE_TIME_ZONE = 'America/Vancouver'
+TIME_ZONE = WEBSITE_TIME_ZONE
+SERVER_ZONE = f"{tzlocal.get_localzone()}"
+
+# needed for importing manual announcements from previous website
+TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
+USE_I18N = True
+
+USE_L10N = True
+
+USE_TZ = False
+
 CRON_SERVICE_NAME = "cron_service"
 SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
 DJANO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
@@ -394,17 +407,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-WEBSITE_TIME_ZONE = 'America/Vancouver'
-TIME_ZONE = WEBSITE_TIME_ZONE
-SERVER_ZONE = f"{tzlocal.get_localzone()}"
 
-# needed for importing manual announcements from previous website
-TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
-USE_I18N = True
-
-USE_L10N = True
-
-USE_TZ = False
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

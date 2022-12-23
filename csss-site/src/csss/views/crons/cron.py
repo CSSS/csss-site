@@ -18,7 +18,7 @@ def cron(request):
     process_cron_request = request.method == "POST"
     saved_cron_jobs_dict = {
         cron_job.job_name: cron_job
-        for cron_job in CronJob.objects.all()
+        for cron_job in CronJob.objects.all().order_by('id')
     }
     if process_cron_request:
         return process_specified_cron_request(request, saved_cron_jobs_dict, context)

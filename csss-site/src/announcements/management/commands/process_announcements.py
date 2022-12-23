@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.management.base import BaseCommand
 
 from announcements.views.commands.process_announcements.process_announcements import run_job
@@ -18,7 +20,8 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
+        current_date = datetime.datetime.now(date_timezone)
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
         logger.info(options)
-        run_job(poll_email=options['poll_email'], use_cron_logger=False)
-        Loggers.remove_logger(logger_name=SERVICE_NAME)
+        run_job(poll_email=options['poll_email'])
+        Loggers.remove_logger(SERVICE_NAME, current_date)

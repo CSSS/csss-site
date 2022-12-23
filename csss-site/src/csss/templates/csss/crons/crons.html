@@ -9,8 +9,7 @@
                 <th>Cron Name</th>
                 <th>Cron Schedule</th>
                 <th>Run</th>
-                <th>Logs</th>
-                <th>Average Run-time so far</th>
+                <th>Average run-time so far</th>
             </tr>
             {% for cron_mapping in cron_mappings %}
                 <tr>
@@ -18,11 +17,11 @@
                     <td>{{ cron_mapping.job_name }}</td>
                     <td><input type="text" name="[cron_schedules][{{ cron_mapping.job_name }}]" value="{{ cron_mapping.schedule }}"></td>
                     <td><button name="action" value="run_job_{{ cron_mapping.job_name }}">Run Job</button></td>
-                    <td>{% if cron_mapping.logs_exist %}<a href="/cron_logs/cmd_{{ cron_mapping.job_name }}">Logs</a>{%  endif %}</td>
                     <td>{{ cron_mapping.average_run_time }}</td>
                 </tr>
             {%  endfor %}
         </table>
+        <a href="/cron_logs/">Logs</a><br>
         <button name="action" value="update_cron_schedule">Update Cron Schedule</button>
         <button name="action" value="update_cron_job_details">Update Cron Job Details</button>
     </form>

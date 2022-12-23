@@ -38,7 +38,7 @@ def create_context_for_specify_new_officers_html(
     context[TERM__HTML_NAME] = TERM_KEY
     context[TERMS__HTML_NAME] = TERM_SEASONS
 
-    current_date = datetime.datetime.now()
+    current_date = datetime.datetime.now(date_timezone)
     current_year_offset = 1
     if int(current_date.month) <= 4:
         term_season_index = 0
@@ -58,7 +58,7 @@ def create_context_for_specify_new_officers_html(
     context[YEAR__HTML_NAME] = YEAR_KEY
 
     context[YEARS__HTML_NAME] = [
-        year for year in reversed(list(range(1970, datetime.datetime.now().year + current_year_offset)))
+        year for year in reversed(list(range(1970, datetime.datetime.now(date_timezone).year + current_year_offset)))
     ]
 
     context[CURRENT_YEAR__HTML_NAME] = current_date.year if year is None else year

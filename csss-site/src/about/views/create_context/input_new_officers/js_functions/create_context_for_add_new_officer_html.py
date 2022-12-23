@@ -16,6 +16,6 @@ def create_context_for_add_new_officer_html(context, officer_emaillist_and_posit
     officer_emaillist_and_position_mappings -- the queryset of currently saved position infos
     currrent_date -- the current date to use as a placeholder for any new officers
     """
-    context[START_DATE_VALUE] = datetime.datetime.now().strftime(YEAR_MONTH_DAY_FORMAT) \
+    context[START_DATE_VALUE] = datetime.datetime.now(date_timezone).strftime(YEAR_MONTH_DAY_FORMAT) \
         if current_date is None else current_date.strftime(YEAR_MONTH_DAY_FORMAT)
     create_context_for_display_new_officer_info_html(context, officer_emaillist_and_position_mappings)

@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.management import BaseCommand
 
 from about.views.commands.update_officer_images import run_job
@@ -24,8 +26,9 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
+        current_date = datetime.datetime.now(date_timezone)
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
         logger.info(options)
         download_or_create_announcement_attachments(options['download__attachments'])
-        run_job(download=options['download__officer_images'], use_cron_logger=False, setup_website=True)
-        Loggers.remove_logger(logger_name=SERVICE_NAME)
+        run_job(download=options['download__officer_images'], setup_website=True)
+        Loggers.remove_logger(SERVICE_NAME, current_date)

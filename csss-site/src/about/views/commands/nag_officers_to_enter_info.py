@@ -1,3 +1,4 @@
+import datetime
 import time
 
 from about.models import UnProcessedOfficer, Officer
@@ -5,15 +6,16 @@ from about.views.input_new_officers.specify_new_officers.notifications. \
     send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
 from csss.models import CronJobRunStat, CronJob
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 from csss.views.send_discord_dm import send_discord_dm
 
 SERVICE_NAME = "nag_officers_to_enter_info"
 
 
-def run_job(use_cron_logger=True):
+def run_job():
     time1 = time.perf_counter()
-    logger = Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
+    current_date = datetime.datetime.now(date_timezone)
+    logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
     unprocessed_officers = UnProcessedOfficer.objects.all()
     officers = Officer.objects.all()
     for unprocessed_officer in unprocessed_officers:
@@ -34,7 +36,7 @@ def run_job(use_cron_logger=True):
             f"{unprocessed_officer.full_name} to fill in their info"
             f"{'' if success else f' due to error {error_message}'}."
         )
-    Loggers.remove_logger(SERVICE_NAME)
+    Loggers.remove_logger(SERVICE_NAME, current_date)
     time2 = time.perf_counter()
     total_seconds = time2 - time1
     cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

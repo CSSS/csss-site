@@ -29,7 +29,7 @@ def process_specified_cron_request(request, saved_cron_jobs_dict, context):
     """
     request_dict = (parser.parse(request.POST.urlencode()))
     action = request_dict[CRON_JOB_UPDATE_ACTION_KEY]
-    draft_cron_jobs = request_dict[CRON_JOBS_SCHEDULES_KEY]
+    draft_cron_jobs = request_dict.get(CRON_JOBS_SCHEDULES_KEY, None)
     if re.compile("^run_job_").match(action) is not None:
         job_name = f"{action}".replace("run_job_", "")
         job_config = CRON_JOB_MAPPING[job_name]

@@ -1,3 +1,4 @@
+import datetime
 import os
 import time
 import traceback
@@ -12,16 +13,15 @@ from csss.setup_logger import Loggers
 SERVICE_NAME = "update_officer_images"
 
 
-def run_job(download=False, use_cron_logger=True, setup_website=False):
+def run_job(download=False, setup_website=False):
     time1 = time.perf_counter()
     remove_logger = False
-    if use_cron_logger:
-        logger = Loggers.get_logger(use_cron_logger=use_cron_logger)
-    elif setup_website:
+    current_date = datetime.datetime.now(date_timezone)
+    if setup_website:
         logger = Loggers.get_logger()
     else:
         remove_logger = True
-        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
     if download:
         os.system("rm -fr about/static/about_static/exec-photos")
         logger.info(f"[about/update_officer_images.py run_job()] now trying to download all the exec photos")
@@ -43,7 +43,7 @@ def run_job(download=False, use_cron_logger=True, setup_website=False):
                     f"officer_image_path = {officer.image}")
         officer.save()
     if remove_logger:
-        Loggers.remove_logger(logger_name=SERVICE_NAME)
+        Loggers.remove_logger(SERVICE_NAME, current_date)
     time2 = time.perf_counter()
     total_seconds = time2 - time1
     cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

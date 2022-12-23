@@ -13,7 +13,7 @@ def save_or_update_cron_jobs(saved_cron_jobs_dict, draft_cron_jobs):
     for (job_name, cron_job) in saved_cron_jobs_dict.items():
         if cron_job.schedule != draft_cron_jobs[job_name]:
             cron_job.schedule = draft_cron_jobs[job_name]
-            cron_job.last_update = datetime.datetime.now()
+            cron_job.last_update = datetime.datetime.now(date_timezone)
             cron_job.save()
         del draft_cron_jobs[job_name]
 

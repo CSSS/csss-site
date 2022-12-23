@@ -26,7 +26,7 @@ def get_nominees(request, slug):
         privilege_message = "user does not have election management privilege"
     logger.info(f"[elections/election_page.py get_nominees()] determining if election with slug {slug}"
                 f"needs to be shown as its date is {election_to_display.date} and the {privilege_message}")
-    if election_to_display.date <= datetime.datetime.now() or user_is_election_officer:
+    if election_to_display.date <= datetime.datetime.now(date_timezone) or user_is_election_officer:
         if user_is_election_officer:
             nominee_links = NomineeLink.objects.all().exclude(election__slug=slug)
             context[PRE_EXISTING_ELECTION] = False

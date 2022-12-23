@@ -5,6 +5,7 @@ import markdown
 from bs4 import BeautifulSoup
 
 from about.models import Term
+from csss.setup_logger import date_timezone
 
 DATE_FORMAT = '%Y-%m-%d'
 
@@ -35,12 +36,12 @@ def get_current_term():
     Return
     the term_number that fits the convention YYYY<1/2/3>
     """
-    current_date = datetime.datetime.now()
+    current_date = datetime.datetime.now(date_timezone)
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
 def get_previous_term():
-    current_date = datetime.datetime.now()
+    current_date = datetime.datetime.now(date_timezone)
     return get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
 
 
@@ -92,7 +93,7 @@ def get_datetime_for_beginning_of_current_term():
 
     Return the datetime for the beginning of the current time where the month is Jan, May, Sept and the day is 1
     """
-    current_date = datetime.datetime.now()
+    current_date = datetime.datetime.now(date_timezone)
     while not date_is_first_day_of_term(current_date):
         current_date = current_date - datetime.timedelta(days=1)
     return current_date
@@ -119,7 +120,7 @@ def determine_if_specified_term_obj_is_for_current_term(term_obj):
     Return
     Bool -- true if the term obj points to the current term, otherwise False
     """
-    current_date = datetime.datetime.now()
+    current_date = datetime.datetime.now(date_timezone)
     if int(current_date.month) <= 4:
         term_season_index = 0
     elif int(current_date.month) <= 8:
@@ -163,7 +164,7 @@ def get_latest_term():
     Return
     the term_number that fits the convention YYYY<1/2/3>
     """
-    date_for_next_month = datetime.datetime.now()
+    date_for_next_month = datetime.datetime.now(date_timezone)
     term_number_for_current_term = get_term_number_for_specified_year_and_month(
         date_for_next_month.month, date_for_next_month.year
     )

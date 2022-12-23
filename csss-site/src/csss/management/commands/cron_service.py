@@ -8,7 +8,7 @@ from django.core.management import BaseCommand
 
 from csss.models import CronJob
 from csss.settings import CRON_SERVICE_NAME
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 from csss.views.crons.Constants import CRON_JOB_MAPPING
 
 
@@ -16,9 +16,9 @@ class Command(BaseCommand):
 
     def handle(self, **options):
         seconds_in_an_hour = 60 * 60
-        logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
+        logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME, current_date=datetime.datetime.now(date_timezone))
         logger.info("[Cron_Service_Command handle()] setting up cron service")
-        date = datetime.datetime.now()
+        date = datetime.datetime.now(date_timezone)
         scheduler = BlockingScheduler()
         cron_jobs = [cron_job for cron_job in CronJob.objects.all() if cron_job.is_active]
         for cron_job in cron_jobs:
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         logger.info("[Cron_Service_Command handle()] cron service started")
         while True:
             updated_cron_jobs = CronJob.objects.all().filter(last_update__gte=date)
-            date = datetime.datetime.now()
+            date = datetime.datetime.now(date_timezone)
             for updated_cron_job in updated_cron_jobs:
                 job = scheduler.get_job(updated_cron_job.job_id)
                 if updated_cron_job.schedule == "":

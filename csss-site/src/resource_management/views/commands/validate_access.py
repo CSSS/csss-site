@@ -1,3 +1,4 @@
+import datetime
 import time
 
 from csss.models import CronJob, CronJobRunStat
@@ -9,10 +10,11 @@ SERVICE_NAME = "validate_access"
 
 def run_job(use_cron_logger=True):
     time1 = time.perf_counter()
-    Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
+    current_date = datetime.datetime.now(date_timezone)
+    Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
     validate_google_drive()
     validate_github()
-    Loggers.remove_logger(logger_name=SERVICE_NAME)
+    Loggers.remove_logger(SERVICE_NAME, current_date)
     time2 = time.perf_counter()
     total_seconds = time2 - time1
     cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

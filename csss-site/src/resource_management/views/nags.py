@@ -16,7 +16,7 @@ def nags(request):
     logger = get_logger()
     logger.info(f"[resource_management/nags.py nags()] request.POST={request.POST}")
     context = create_context_for_checking_google_drive_nags(request, tab=TAB_STRING)
-    current_date = datetime.datetime.now() - datetime.timedelta(days=1)
+    current_date = datetime.datetime.now(date_timezone) - datetime.timedelta(days=1)
 
     context.update({
         'ownership_changes': GoogleDriveFileAwaitingOwnershipChange.objects.all().filter(

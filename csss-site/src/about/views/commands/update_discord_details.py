@@ -1,17 +1,19 @@
+import datetime
 from time import sleep, perf_counter
 
 from about.models import Officer
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
 from csss.models import CronJobRunStat, CronJob
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 
 SERVICE_NAME = "update_discord_details"
 
 
-def run_job(use_cron_logger=True):
+def run_job():
     time1 = perf_counter()
-    logger = Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
+    current_date = datetime.datetime.now(date_timezone)
+    logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
     all_officers = Officer.objects.all()
     officers = all_officers.exclude(discord_id="NA")
     officers_discord_ids = list(set(list(officers.values_list('discord_id', flat=True))))
@@ -59,7 +61,7 @@ def run_job(use_cron_logger=True):
         nickname = discord_info_maps[officer.sfu_computing_id]['discord_nickname']
         officer.discord_nickname = nickname if nickname is not None else "NA"
     Officer.objects.bulk_update(officers_to_change, ['discord_id', 'discord_username', 'discord_nickname'])
-    Loggers.remove_logger(SERVICE_NAME)
+    Loggers.remove_logger(SERVICE_NAME, current_date)
     time2 = perf_counter()
     total_seconds = time2 - time1
     cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

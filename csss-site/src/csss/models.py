@@ -18,7 +18,7 @@ class CronJob(models.Model):
 
     @property
     def is_active(self):
-        return self.schedule.strip() == ""
+        return self.schedule.strip() != ""
 
     last_update = models.DateTimeField(
         default=django.utils.timezone.now

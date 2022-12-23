@@ -25,7 +25,6 @@ CRON_LOGS_DIRECTORY_KEY = 'log_files'
 CRON_JOB_NAME_KEY = 'job_name'
 CRON_JOB_ACTIVE_KEY = 'active'
 CRON_JOB_SCHEDULE_KEY = 'schedule'
-CRON_JOB_LOGS_EXIST_KEY = 'logs_exist'
 CRON_JOB_AVERAGE_RUN_TIME_KEY = 'average_run_time'
 CRON_JOB_CRON_MAPPINGS_KEY = 'cron_mappings'
 

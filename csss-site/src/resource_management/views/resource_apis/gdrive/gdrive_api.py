@@ -64,7 +64,7 @@ class GoogleDrive:
         self.non_media_mimeTypes = None
         self.file_types = None
         self.make_changes = True
-        self.latest_date_check = datetime.datetime.now()
+        self.latest_date_check = datetime.datetime.now(date_timezone)
         creds = None
         self.error_message = None
         self.root_file_id = None
@@ -294,7 +294,7 @@ class GoogleDrive:
         Keyword Argument
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
-        self.latest_date_check = datetime.datetime.now()
+        self.latest_date_check = datetime.datetime.now(date_timezone)
         self.file_types = GoogleDriveNonMediaFileType.objects.all()
         self.non_media_mimeTypes = [
             file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""

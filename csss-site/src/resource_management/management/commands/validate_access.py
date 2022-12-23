@@ -1,3 +1,4 @@
+import datetime
 from time import perf_counter
 
 from django.core.management.base import BaseCommand
@@ -28,7 +29,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         time1 = perf_counter()
-        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
+        current_date = datetime.datetime.now(date_timezone)
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
         logger.info(options)
         if options['google_drive']:
             logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
@@ -38,7 +40,7 @@ class Command(BaseCommand):
             logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
                         "to Github")
             validate_github()
-        Loggers.remove_logger(logger_name=SERVICE_NAME)
+        Loggers.remove_logger(SERVICE_NAME, current_date)
         time2 = perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

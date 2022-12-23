@@ -14,15 +14,16 @@ from announcements.views.commands.process_announcements.add_sortable_date_to_man
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
 from csss.models import CronJob, CronJobRunStat
-from csss.setup_logger import Loggers
+from csss.setup_logger import Loggers, date_timezone
 from csss.views_helper import get_term_number_for_specified_year_and_month
 
 SERVICE_NAME = "process_announcements"
 
 
-def run_job(poll_email=True, use_cron_logger=True):
+def run_job(poll_email=True):
     time1 = time.perf_counter()
-    logger = Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
+    current_date = datetime.datetime.now(date_timezone)
+    logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
     if len(UnProcessedOfficer.objects.all()) > 0:
         return
     if poll_email:
@@ -90,7 +91,7 @@ def run_job(poll_email=True, use_cron_logger=True):
             logger.info("[process_announcements handle()] saved post from"
                         f" {message.author} with date {announcement_datetime} "
                         f"for term {term}")
-    Loggers.remove_logger(logger_name=SERVICE_NAME)
+    Loggers.remove_logger(SERVICE_NAME, current_date)
     time2 = time.perf_counter()
     total_seconds = time2 - time1
     cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

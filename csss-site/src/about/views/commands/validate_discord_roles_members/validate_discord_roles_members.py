@@ -1,3 +1,4 @@
+import datetime
 import json
 import time
 
@@ -19,9 +20,10 @@ from csss.views_helper import get_current_term_obj, get_previous_term_obj
 SERVICE_NAME = "validate_discord_roles_members"
 
 
-def run_job(use_cron_logger=True):
+def run_job():
     time1 = time.perf_counter()
-    logger = Loggers.get_logger(logger_name=SERVICE_NAME, use_cron_logger=use_cron_logger)
+    current_date = datetime.datetime.now(date_timezone)
+    logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
     current_officers = Officer.objects.all().filter(
         elected_term=get_current_term_obj()
     )
@@ -104,7 +106,7 @@ def run_job(use_cron_logger=True):
         )
         if not success:
             logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
-    Loggers.remove_logger(logger_name=SERVICE_NAME)
+    Loggers.remove_logger(SERVICE_NAME, current_date)
     time2 = time.perf_counter()
     total_seconds = time2 - time1
     cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
