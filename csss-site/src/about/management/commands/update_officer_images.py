@@ -24,3 +24,4 @@ class Command(BaseCommand):
         logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
         logger.info(options)
         run_job(download=options['download'])
+        Loggers.remove_logger(SERVICE_NAME, current_date)

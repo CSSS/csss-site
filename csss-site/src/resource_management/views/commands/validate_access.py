@@ -3,9 +3,8 @@ import time
 
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers, date_timezone
+from resource_management.management.commands.validate_access import SERVICE_NAME
 from resource_management.views.resource_views import validate_google_drive, validate_github
-
-SERVICE_NAME = "validate_access"
 
 
 def run_job():
