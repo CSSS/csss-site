@@ -11,6 +11,7 @@ from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers, date_timezone
 
+
 def run_job(download=False, setup_website=False):
     time1 = time.perf_counter()
     remove_logger = False

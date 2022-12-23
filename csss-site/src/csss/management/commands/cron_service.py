@@ -9,7 +9,7 @@ from django.core.management import BaseCommand
 from csss.models import CronJob
 from csss.settings import CRON_SERVICE_NAME
 from csss.setup_logger import Loggers, date_timezone
-from csss.views.crons.Constants import CRON_JOB_MAPPING
+from csss.views.crons.Constants import CRON_JOB_MAPPING, CRON_JOB_MAPPING_PATH_KEY
 
 
 class Command(BaseCommand):
@@ -26,7 +26,7 @@ class Command(BaseCommand):
                 f"[Cron_Service_Command handle()] adding job {cron_job.job_name} with schedule of {cron_job.schedule}"
                 " to the scheduler"
             )
-            script_path = CRON_JOB_MAPPING[cron_job.job_name]['path']
+            script_path = CRON_JOB_MAPPING[cron_job.job_name][CRON_JOB_MAPPING_PATH_KEY]
             job = scheduler.add_job(
                 importlib.import_module(f'{script_path}{cron_job.job_name}').run_job,
                 trigger=CronTrigger.from_crontab(cron_job.schedule)
@@ -55,7 +55,7 @@ class Command(BaseCommand):
                         f"with schedule of {updated_cron_job.schedule} from {job.trigger} to "
                         f"{updated_cron_job.schedule}"
                     )
-                    script_path = CRON_JOB_MAPPING[updated_cron_job.job_name]['path']
+                    script_path = CRON_JOB_MAPPING[updated_cron_job.job_name][CRON_JOB_MAPPING_PATH_KEY]
                     scheduler.reschedule_job(
                         updated_cron_job.job_id,
                         importlib.import_module(f'{script_path}{updated_cron_job.job_name}').run_job,
