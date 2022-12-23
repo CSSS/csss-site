@@ -5,13 +5,11 @@ import traceback
 
 from django.conf import settings
 
+from about.management.commands.update_officer_images import SERVICE_NAME
 from about.models import Officer
 from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers, date_timezone
-
-SERVICE_NAME = "update_officer_images"
-
 
 def run_job(download=False, setup_website=False):
     time1 = time.perf_counter()
