@@ -15,4 +15,4 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
-        run_job(download=options['download'], use_cron_logger=False)
+        run_job(download=options['download'])

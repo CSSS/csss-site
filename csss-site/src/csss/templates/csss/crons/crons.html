@@ -15,14 +15,14 @@
                 <tr>
                     <td>{{ cron_mapping.active }}</td>
                     <td>{{ cron_mapping.job_name }}</td>
-                    <td><input type="text" name="[cron_schedules][{{ cron_mapping.job_name }}]" value="{{ cron_mapping.schedule }}"></td>
-                    <td><button name="action" value="run_job_{{ cron_mapping.job_name }}">Run Job</button></td>
+                    <td><input type="text" name="[{{cron_job_schedules__html_name}}][{{ cron_mapping.job_name }}]" value="{{ cron_mapping.schedule }}"></td>
+                    <td><button name="{{cron_jobs_action_button_name__html_name}}" value="{{run_job_action__html_name}}{{ cron_mapping.job_name }}">Run Job</button></td>
                     <td>{{ cron_mapping.average_run_time }}</td>
                 </tr>
             {%  endfor %}
         </table>
-        <a href="/cron_logs/">Logs</a><br>
-        <button name="action" value="update_cron_schedule">Update Cron Schedule</button>
-        <button name="action" value="update_cron_job_details">Update Cron Job Details</button>
+        <a href="/{{cron_logs_base_url_key__html_name}}/">Logs</a><br>
+        <button name="{{cron_jobs_action_button_name__html_name}}" value="{{update_cron_schedule__html_name}}">Update Cron Schedule</button>
+        <button name="{{cron_jobs_action_button_name__html_name}}" value="{{update_cron_job_details__html_name}}">Update Cron Job Details</button>
     </form>
 {%  endblock %}

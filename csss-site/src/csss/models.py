@@ -78,4 +78,6 @@ def convert_seconds_to_run_time_str(seconds):
         if len(run_time_str) > 0:
             run_time_str += ", and"
         run_time_str += f" {seconds} seconds"
+    if run_time_str == "":
+        run_time_str = "0 seconds"
     return run_time_str

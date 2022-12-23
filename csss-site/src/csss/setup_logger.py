@@ -16,7 +16,7 @@ sys_stream_formatting = logging.Formatter(
 
 # had to create this cause I want each cron job runtime to have its own logger but it does not seem possible
 # to reset a logger in the same python runtime. so best I could figure is attach the timestamp to the name
-# of the logger itself so its fresh its each, but then that mean that asctime formatter becomes redundant
+# of the logger itself so its fresh for each run, but then that mean that asctime formatter becomes redundant
 modular_formatting = logging.Formatter('%(levelname)s = %(name)s = %(message)s')
 
 date_timezone = pytz.timezone('US/Pacific')
@@ -46,22 +46,23 @@ class Loggers:
             if logger_name in cls.logger_list_indices:
                 return cls.loggers[cls.logger_list_indices[logger_name]]
             else:
-                return cls._add_logger(cls._setup_logger(logger_name=logger_name, current_date=current_date))
+                folder_name = f"{modular_log_prefix}{logger_name}"
+                return cls._add_logger(cls._setup_logger(folder_name, logger_name, current_date=current_date))
 
     @classmethod
-    def _setup_logger(cls, logger_name=None, current_date=None):
+    def _setup_logger(cls, folder_name, logger_name, current_date=None):
         if len(cls.loggers) == 0:
             raise Exception("There is no base logger")
-        if logger_name is None:
-            raise Exception("Did not get a logger_name")
 
         date = current_date.strftime(date_formatting_in_filename)
         if not os.path.exists(settings.LOG_LOCATION):
             exit(f"Unable to find '{settings.LOG_LOCATION}'")
-        if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
-            os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
-        debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
-        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_err.log"
+        if not os.path.exists(f"{settings.LOG_LOCATION}/{folder_name}"):
+            os.mkdir(f"{settings.LOG_LOCATION}/{folder_name}")
+        if not os.path.exists(f"{settings.LOG_LOCATION}/{folder_name}/{logger_name}"):
+            os.mkdir(f"{settings.LOG_LOCATION}/{folder_name}/{logger_name}")
+        debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{folder_name}/{logger_name}/{date}_debug.log"
+        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{folder_name}/{logger_name}/{date}_err.log"
 
         shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 

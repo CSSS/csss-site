@@ -3,7 +3,7 @@ import datetime
 from csss.setup_logger import date_timezone
 
 
-def save_or_update_cron_jobs(saved_cron_jobs_dict, draft_cron_jobs):
+def update_cron_jobs(saved_cron_jobs_dict, draft_cron_jobs):
     """
     Updates the saved Cron Jobs with the new schedules
 

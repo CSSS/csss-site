@@ -9,8 +9,8 @@ from csss.models import CronJob
 from csss.settings import URL_ROOT
 from csss.views.context_creation.create_context_for_crons_html import create_context_for_crons_html
 from csss.views.crons.Constants import CRON_JOB_MAPPING, CRON_JOB_UPDATE_ACTION_KEY, CRON_JOBS_SCHEDULES_KEY, \
-    CRON_JOB_MAPPING_PATH_KEY, CRON_JOB_UPDATE_DETAILS_KEY
-from csss.views.crons.save_or_update_cron_jobs import save_or_update_cron_jobs
+    CRON_JOB_MAPPING_PATH_KEY, CRON_JOB_UPDATE_DETAILS_KEY, RUN_JOB__ACTION_ID_PREFIX, CRON_JOBS_BASE_URL_KEY
+from csss.views.crons.update_cron_jobs import update_cron_jobs
 from csss.views.crons.validators.validate_specified_cron_schedule import validate_specified_cron_schedule
 
 
@@ -30,10 +30,16 @@ def process_specified_cron_request(request, saved_cron_jobs_dict, context):
     request_dict = (parser.parse(request.POST.urlencode()))
     action = request_dict[CRON_JOB_UPDATE_ACTION_KEY]
     draft_cron_jobs = request_dict.get(CRON_JOBS_SCHEDULES_KEY, None)
-    if re.compile("^run_job_").match(action) is not None:
-        job_name = f"{action}".replace("run_job_", "")
+    if re.compile(f"^{RUN_JOB__ACTION_ID_PREFIX}").match(action) is not None:
+        job_name = f"{action}".replace(RUN_JOB__ACTION_ID_PREFIX, "")
+        if job_name not in CRON_JOB_MAPPING:
+            error_message = f"Detected invalid job name of {job_name}"
+            create_context_for_crons_html(
+                context, saved_cron_jobs_dict, error_messages=[error_message], draft_cron_jobs=draft_cron_jobs
+            )
+            return render(request, 'csss/crons/crons.html', context)
         job_config = CRON_JOB_MAPPING[job_name]
-        importlib.import_module(f"{job_config[CRON_JOB_MAPPING_PATH_KEY]}{job_name}").run_job(use_cron_logger=False)
+        importlib.import_module(f"{job_config[CRON_JOB_MAPPING_PATH_KEY]}{job_name}").run_job()
         create_context_for_crons_html(
             context, saved_cron_jobs_dict, draft_cron_jobs=draft_cron_jobs
         )
@@ -46,7 +52,7 @@ def process_specified_cron_request(request, saved_cron_jobs_dict, context):
             if saved_cron_job.job_name not in CRON_JOB_MAPPING:
                 saved_cron_job.cronjobrunstat_set.all().delete()
                 saved_cron_job.delete()
-        return HttpResponseRedirect(f"{URL_ROOT}cron")
+        return HttpResponseRedirect(f"{URL_ROOT}{CRON_JOBS_BASE_URL_KEY}")
     else:
         success, error_message = validate_specified_cron_schedule(draft_cron_jobs)
         if not success:
@@ -54,5 +60,5 @@ def process_specified_cron_request(request, saved_cron_jobs_dict, context):
                 context, saved_cron_jobs_dict, error_messages=[error_message], draft_cron_jobs=draft_cron_jobs
             )
             return render(request, 'csss/crons/crons.html', context)
-        save_or_update_cron_jobs(saved_cron_jobs_dict, draft_cron_jobs)
-        return HttpResponseRedirect(f"{URL_ROOT}cron")
+        update_cron_jobs(saved_cron_jobs_dict, draft_cron_jobs)
+        return HttpResponseRedirect(f"{URL_ROOT}{CRON_JOBS_BASE_URL_KEY}")

@@ -7,4 +7,4 @@ class Command(BaseCommand):
     help = "Ensure that the Discord Roles associated with the Officers have valid members"
 
     def handle(self, *args, **options):
-        run_job(use_cron_logger=False)
+        run_job()
