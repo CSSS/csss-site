@@ -11,7 +11,9 @@ CRON_JOB_MAPPING = {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.commands.validate_discord_roles_members.",
     }, "process_announcements": {
         CRON_JOB_MAPPING_PATH_KEY: "announcements.views.commands.process_announcements.",
-    }, "validate_access": {
+    }, "validate_github": {
+        CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.commands.",
+    }, "validate_google_drive": {
         CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.commands.",
     }
 }
