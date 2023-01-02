@@ -3,7 +3,6 @@ import logging
 from email.utils import parseaddr
 
 from django.conf import settings
-from django_mailbox.management.commands.getmail import Command as GetMailCommand
 from django_mailbox.models import Message
 
 from about.models import Term, UnProcessedOfficer
@@ -22,6 +21,7 @@ def run_job(poll_email=True):
     if len(UnProcessedOfficer.objects.all()) > 0:
         return
     if poll_email:
+        from django_mailbox.management.commands.getmail import Command as GetMailCommand
         GetMailCommand().handle()
 
     time_difference = get_timezone_difference(
