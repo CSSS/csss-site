@@ -1,6 +1,5 @@
-import datetime
-
 from about.models import Term
+from csss.views_helper import get_current_date
 
 
 def validate_inputted_term_info(inputted_term, inputted_year):
@@ -26,7 +25,7 @@ def validate_inputted_term_info(inputted_term, inputted_year):
             list(
                 range(
                     1970,
-                    datetime.datetime.now().year + (1 if int(datetime.datetime.now().month) <= 8 else 2)
+                    get_current_date().year + (1 if int(get_current_date().month) <= 8 else 2)
                 )
             )
         )

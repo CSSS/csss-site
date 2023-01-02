@@ -1,4 +1,3 @@
-import datetime
 import logging
 from email.utils import parseaddr
 
@@ -12,7 +11,7 @@ from announcements.views.commands.process_announcements.add_sortable_date_to_man
     add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
-from csss.views_helper import get_term_number_for_specified_year_and_month
+from csss.views_helper import get_term_number_for_specified_year_and_month, get_current_date
 
 logger = logging.getLogger('csss_site')
 
@@ -25,7 +24,7 @@ def run_job(poll_email=True):
         GetMailCommand().handle()
 
     time_difference = get_timezone_difference(
-        datetime.datetime.now().strftime('%Y-%m-%d'),
+        get_current_date().strftime('%Y-%m-%d'),
         settings.WEBSITE_TIME_ZONE,
         settings.TIME_ZONE_FOR_PREVIOUS_WEBSITE
     )

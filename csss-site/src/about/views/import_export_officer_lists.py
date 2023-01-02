@@ -17,7 +17,7 @@ from csss.Gmail import Gmail
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_uploading_and_download_officer_lists
 from csss.views.views import ERROR_MESSAGES_KEY
-from csss.views_helper import TERM_SEASONS
+from csss.views_helper import TERM_SEASONS, get_current_date
 from resource_management.models import OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
@@ -225,7 +225,7 @@ def save_yearly_document(officer_json, overwrite):
     Return
     error_message -- the error_message if there was one or just None otherwise
     """
-    current_year = datetime.date.today().year
+    current_year = get_current_date().year
     for year in range(1984, current_year + 1):
         year = f"{year}"
         if year in officer_json:
