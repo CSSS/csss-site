@@ -3,6 +3,7 @@ import logging
 import re
 
 import markdown
+import pytz
 from bs4 import BeautifulSoup
 
 from about.models import Term
@@ -38,13 +39,13 @@ def get_current_term():
     Return
     the term_number that fits the convention YYYY<1/2/3>
     """
-    current_date = datetime.datetime.now()
+    current_date = get_current_date()
     return get_term_number_for_specified_year_and_month(current_date.month, current_date.year)
 
 
 def get_previous_term():
-    current_date = datetime.datetime.now()
-    return get_term_number_for_specified_year_and_month(12, current_date.year-1) if current_date.month <= 4 \
+    current_date = get_current_date()
+    return get_term_number_for_specified_year_and_month(12, current_date.year - 1) if current_date.month <= 4 \
         else get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
 
 
@@ -96,7 +97,7 @@ def get_datetime_for_beginning_of_current_term():
 
     Return the datetime for the beginning of the current time where the month is Jan, May, Sept and the day is 1
     """
-    current_date = datetime.datetime.now()
+    current_date = get_current_date()
     while not date_is_first_day_of_term(current_date):
         current_date = current_date - datetime.timedelta(days=1)
     return current_date
@@ -123,7 +124,7 @@ def determine_if_specified_term_obj_is_for_current_term(term_obj):
     Return
     Bool -- true if the term obj points to the current term, otherwise False
     """
-    current_date = datetime.datetime.now()
+    current_date = get_current_date()
     if int(current_date.month) <= 4:
         term_season_index = 0
     elif int(current_date.month) <= 8:
@@ -167,7 +168,7 @@ def get_latest_term():
     Return
     the term_number that fits the convention YYYY<1/2/3>
     """
-    date_for_next_month = datetime.datetime.now()
+    date_for_next_month = get_current_date()
     term_number_for_current_term = get_term_number_for_specified_year_and_month(
         date_for_next_month.month, date_for_next_month.year
     )
@@ -227,3 +228,10 @@ def validate_markdown(message):
         return True, None
     else:
         return False, "seems you tried to enter some un-escaped html/js code"
+
+
+date_timezone = pytz.timezone('US/Pacific')
+
+
+def get_current_date():
+    return datetime.datetime.now(date_timezone)

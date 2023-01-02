@@ -1,4 +1,3 @@
-import datetime
 import json
 import logging
 import os
@@ -15,6 +14,7 @@ from about.models import Officer
 from csss.Gmail import Gmail
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views.send_email import send_email
+from csss.views_helper import get_current_date
 from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess, \
     GoogleDriveNonMediaFileType, MediaToBeMoved
 
@@ -65,7 +65,7 @@ class GoogleDrive:
         self.non_media_mimeTypes = None
         self.file_types = None
         self.make_changes = True
-        self.latest_date_check = datetime.datetime.now()
+        self.latest_date_check = get_current_date()
         creds = None
         self.error_message = None
         self.root_file_id = None
@@ -291,7 +291,7 @@ class GoogleDrive:
         Keyword Argument
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
-        self.latest_date_check = datetime.datetime.now()
+        self.latest_date_check = get_current_date()
         self.file_types = GoogleDriveNonMediaFileType.objects.all()
         self.non_media_mimeTypes = [
             file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""

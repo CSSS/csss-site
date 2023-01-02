@@ -1,5 +1,3 @@
-import datetime
-
 from about.views.Constants import TERMS__HTML_NAME, YEARS__HTML_NAME, CURRENT_TERM__HTML_NAME, \
     CURRENT_YEAR__HTML_NAME, TERM__HTML_NAME, YEAR__HTML_NAME, TERM_KEY, YEAR_KEY, SAVED_NOMINEES_EXIST, \
     NEW_OFFICERS__HTML_NAME, SAVE_OR_CREATE_ALL_NEW_OFFICERS_INFORMATION, \
@@ -13,7 +11,7 @@ from about.views.create_context.input_new_officers.js_functions.on_load_js_funct
     create_context_for_main_function_html
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
-from csss.views_helper import TERM_SEASONS
+from csss.views_helper import TERM_SEASONS, get_current_date
 
 
 def create_context_for_specify_new_officers_html(
@@ -38,7 +36,7 @@ def create_context_for_specify_new_officers_html(
     context[TERM__HTML_NAME] = TERM_KEY
     context[TERMS__HTML_NAME] = TERM_SEASONS
 
-    current_date = datetime.datetime.now()
+    current_date = get_current_date()
     current_year_offset = 1
     if int(current_date.month) <= 4:
         term_season_index = 0
@@ -58,7 +56,7 @@ def create_context_for_specify_new_officers_html(
     context[YEAR__HTML_NAME] = YEAR_KEY
 
     context[YEARS__HTML_NAME] = [
-        year for year in reversed(list(range(1970, datetime.datetime.now().year + current_year_offset)))
+        year for year in reversed(list(range(1970, current_date.year + current_year_offset)))
     ]
 
     context[CURRENT_YEAR__HTML_NAME] = current_date.year if year is None else year
