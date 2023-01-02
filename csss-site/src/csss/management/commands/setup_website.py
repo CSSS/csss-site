@@ -2,7 +2,7 @@ import datetime
 
 from django.core.management import BaseCommand
 
-from about.views.commands.update_officer_images import run_job
+from about.views.commands.update_officer_images import update_officer_images
 from announcements.management.commands.create_attachments import download_or_create_announcement_attachments
 from csss.setup_logger import Loggers, date_timezone
 
@@ -27,8 +27,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         current_date = datetime.datetime.now(date_timezone)
-        logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         download_or_create_announcement_attachments(options['download__attachments'])
-        run_job(download=options['download__officer_images'], setup_website=True)
+        update_officer_images(SERVICE_NAME, download=options['download__officer_images'])
         Loggers.remove_logger(SERVICE_NAME, current_date)

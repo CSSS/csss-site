@@ -7,16 +7,17 @@ from apscheduler.triggers.cron import CronTrigger
 from django.core.management import BaseCommand
 
 from csss.models import CronJob
-from csss.settings import CRON_SERVICE_NAME
 from csss.setup_logger import Loggers, date_timezone
 from csss.views.crons.Constants import CRON_JOB_MAPPING, CRON_JOB_MAPPING_PATH_KEY
+
+CRON_SERVICE_NAME = "cron_service"
 
 
 class Command(BaseCommand):
 
     def handle(self, **options):
         seconds_in_an_hour = 60 * 60
-        logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME, current_date=datetime.datetime.now(date_timezone))
+        logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
         logger.info("[Cron_Service_Command handle()] setting up cron service")
         date = datetime.datetime.now(date_timezone)
         scheduler = BlockingScheduler()

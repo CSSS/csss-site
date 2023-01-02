@@ -6,7 +6,7 @@ CRON_JOB_MAPPING = {
     }, "update_discord_details": {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.commands.",
     }, "update_officer_images": {
-        CRON_JOB_MAPPING_PATH_KEY: "about.views.commands.",
+        CRON_JOB_MAPPING_PATH_KEY: "about.views.",
     }, "validate_discord_roles_members": {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.commands.validate_discord_roles_members.",
     }, "process_announcements": {

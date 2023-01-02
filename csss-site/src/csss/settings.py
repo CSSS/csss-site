@@ -17,9 +17,8 @@ USE_L10N = True
 
 USE_TZ = False
 
-CRON_SERVICE_NAME = "cron_service"
 SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
-DJANO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
+DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
 SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
 from csss.setup_logger import Loggers  # noqa: E402
@@ -34,63 +33,10 @@ LOG_LOCATION = os.environ['LOG_LOCATION'] if 'LOG_LOCATION' in os.environ else N
 if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
-Loggers.get_logger(logger_name=SYS_STREAM_LOG_HANDLER_NAME)
+Loggers.get_logger(logger_name=DJANGO_SETTINGS_LOG_HANDLER_NAME)
 
-LOGGING_CONFIG = None
-
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse',
-        },
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'formatters': {
-        'django.server': {
-            '()': 'django.utils.log.ServerFormatter',
-            'format': '[{server_time}] {message}',
-            'style': '{',
-        }
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-        },
-        'django.server': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            "stream": sys.stdout,  # setting this up manually because this specific property had to be changed,
-            # and I was too lazy to figure out how to customize this via
-            # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
-            'formatter': 'django.server',
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler',
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console', 'mail_admins'],
-            'level': 'INFO',
-        },
-        'django.server': {
-            'handlers': ['django.server'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-    }
-})
-
-Loggers.django_settings_logger.info(f'[settings.py] BASE_DIR set to {BASE_DIR}')
-Loggers.django_settings_logger.info(f'[settings.py] LOG_LOCATION set to {LOG_LOCATION}')
+print(f'[settings.py] BASE_DIR set to {BASE_DIR}')
+print(f'[settings.py] LOG_LOCATION set to {LOG_LOCATION}')
 
 SESSION_ENGINE = "django.contrib.sessions.backends.signed_cookies"
 
@@ -110,18 +56,18 @@ if 'WEBSITE_SECRET_KEY' not in os.environ:
 if "DEBUG" not in os.environ:
     raise Exception("[settings.py] DEBUG was not detected")
 DEBUG = os.environ['DEBUG'] == "true"
-Loggers.django_settings_logger.info(f'[settings.py] DEBUG set to {DEBUG}')
+print(f'[settings.py] DEBUG set to {DEBUG}')
 
 if 'STAGING_SERVER' in os.environ:
     STAGING_SERVER = os.environ['STAGING_SERVER']
 else:
     STAGING_SERVER = 'https://dev.sfucsss.org/'
-Loggers.django_settings_logger.info(f'[settings.py] STAGING_SERVER set to {STAGING_SERVER}')
+print(f'[settings.py] STAGING_SERVER set to {STAGING_SERVER}')
 
 if 'ENVIRONMENT' not in os.environ:
     raise Exception("[settings.py] ENVIRONMENT was not detected")
 ENVIRONMENT = os.environ['ENVIRONMENT']
-Loggers.django_settings_logger.info(f"[settings.py] ENVIRONMENT set to {ENVIRONMENT}")
+print(f"[settings.py] ENVIRONMENT set to {ENVIRONMENT}")
 
 if ENVIRONMENT != "LOCALHOST" and ENVIRONMENT != "STAGING" and ENVIRONMENT != "PRODUCTION":
     raise Exception('[settings.py] ENVIRONMENT is not a valid value')
@@ -133,20 +79,20 @@ if "PORT" in os.environ:
     PORT = os.environ['PORT']
 else:
     PORT = None
-Loggers.django_settings_logger.info(f'[settings.py] PORT set to {PORT}')
+print(f'[settings.py] PORT set to {PORT}')
 
 if "HOST_ADDRESS" not in os.environ:
     raise Exception("[settings.py] HOST_ADDRESS was not detected")
 HOST_ADDRESS = os.environ['HOST_ADDRESS']
 ALLOWED_HOSTS = [HOST_ADDRESS]
 
-Loggers.django_settings_logger.info(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
-Loggers.django_settings_logger.info(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
+print(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
+print(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
 if "DB_TYPE" not in os.environ:
     raise Exception("[settings.py] DB_TYPE is not detected")
 DB_TYPE = os.environ['DB_TYPE']
-Loggers.django_settings_logger.info(f'[settings.py] DB_TYPE set to {DB_TYPE}')
+print(f'[settings.py] DB_TYPE set to {DB_TYPE}')
 
 if "BRANCH_NAME" not in os.environ and ENVIRONMENT == "STAGING":
     raise Exception("[settings.py] there is no branch name detected in staging environment")
@@ -161,9 +107,9 @@ if "BRANCH_NAME" in os.environ:
         URL_ROOT = f"/{BRANCH_NAME}/"
         URL_PATTERN = f"{BRANCH_NAME}/"
 
-Loggers.django_settings_logger.info(f'[settings.py] BRANCH_NAME set to {BRANCH_NAME}')
-Loggers.django_settings_logger.info(f'[settings.py] URL_ROOT set to {URL_ROOT}')
-Loggers.django_settings_logger.info(f'[settings.py] URL_PATTERN set to {URL_PATTERN}')
+print(f'[settings.py] BRANCH_NAME set to {BRANCH_NAME}')
+print(f'[settings.py] URL_ROOT set to {URL_ROOT}')
+print(f'[settings.py] URL_PATTERN set to {URL_PATTERN}')
 
 # SETTINGS FOR GOOGLE_DRIVE
 GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
@@ -232,15 +178,15 @@ elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
     else:
         SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
 
-Loggers.django_settings_logger.info(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
-Loggers.django_settings_logger.info(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
-Loggers.django_settings_logger.info(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
-Loggers.django_settings_logger.info(f"[settings.py] SFU_CSSS_GMAIL_USERNAME={SFU_CSSS_GMAIL_USERNAME}")
-Loggers.django_settings_logger.info(f"[settings.py] SFU_CSSS_GMAIL_PASSWORD={SFU_CSSS_GMAIL_PASSWORD}")
-Loggers.django_settings_logger.info(f"[settings.py] DISCORD_BOT_TOKEN={DISCORD_BOT_TOKEN}")
-Loggers.django_settings_logger.info(f"[settings.py] GUILD_ID={GUILD_ID}")
-Loggers.django_settings_logger.info(f"[settings.py] SFU_ENDPOINT_TOKEN={SFU_ENDPOINT_TOKEN}")
-Loggers.django_settings_logger.info(f"[settings.py] DEV_DISCORD_ID={DEV_DISCORD_ID}")
+print(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
+print(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
+print(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
+print(f"[settings.py] SFU_CSSS_GMAIL_USERNAME={SFU_CSSS_GMAIL_USERNAME}")
+print(f"[settings.py] SFU_CSSS_GMAIL_PASSWORD={SFU_CSSS_GMAIL_PASSWORD}")
+print(f"[settings.py] DISCORD_BOT_TOKEN={DISCORD_BOT_TOKEN}")
+print(f"[settings.py] GUILD_ID={GUILD_ID}")
+print(f"[settings.py] SFU_ENDPOINT_TOKEN={SFU_ENDPOINT_TOKEN}")
+print(f"[settings.py] DEV_DISCORD_ID={DEV_DISCORD_ID}")
 
 if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
     raise Exception("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
@@ -418,7 +364,7 @@ CAS_LOGIN_MSG = None
 STATICFILES_DIRS = []
 if 'STATICFILES_DIRS' in os.environ:
     STATICFILES_DIRS = os.environ['STATICFILES_DIRS'].split(":")
-Loggers.django_settings_logger.info(f"[settings.py] STATICFILES_DIRS={STATICFILES_DIRS}")
+print(f"[settings.py] STATICFILES_DIRS={STATICFILES_DIRS}")
 
 # STATICFILES_DIRS = [
 #    'static_files/',
@@ -432,22 +378,22 @@ Loggers.django_settings_logger.info(f"[settings.py] STATICFILES_DIRS={STATICFILE
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 ROOT_DIR = environ.Path(__file__) - 4
-Loggers.django_settings_logger.info(f'[settings.py] ROOT_DIR set to {ROOT_DIR}')
+print(f'[settings.py] ROOT_DIR set to {ROOT_DIR}')
 
 STATIC_URL = f"{URL_ROOT}STATIC_URL/"
-Loggers.django_settings_logger.info(f'[settings.py] STATIC_URL set to {STATIC_URL}')
+print(f'[settings.py] STATIC_URL set to {STATIC_URL}')
 
 # is the URL on your website where these collected files will be accessible. IE: mysite.com/ static/
 # This is something that tells your browser where to look for JavaScript and CSS files
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root/')
-Loggers.django_settings_logger.info(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
+print(f'[settings.py] STATIC_ROOT set to {STATIC_ROOT}')
 
 # This is destination directory for your static files. This should be absolute path in yor file system,
 # for example: "/var/www/project/static" If you run 'python manage.py collectstatic' it will collect all
 # static files from your project and copy them into STATIC_ROOT dir
 MEDIA_URL = '/MEDIA_URL/'
-Loggers.django_settings_logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
+print(f'[settings.py] MEDIA_URL set to {MEDIA_URL}')
 
 # URL that handles the media served from MEDIA_ROOT, used for managing stored files. It must end in a slash
 # if set to a non-empty value. You will need to configure these
@@ -455,7 +401,7 @@ Loggers.django_settings_logger.info(f'[settings.py] MEDIA_URL set to {MEDIA_URL}
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_root/')
-Loggers.django_settings_logger.info(f'[settings.py] MEDIA_ROOT set to {MEDIA_ROOT}')
+print(f'[settings.py] MEDIA_ROOT set to {MEDIA_ROOT}')
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 
@@ -463,8 +409,63 @@ Loggers.django_settings_logger.info(f'[settings.py] MEDIA_ROOT set to {MEDIA_ROO
 FILE_FORM_MASTER_DIR = 'form_uploads/form_uploads/'
 FILE_FORM_UPLOAD_DIR = FILE_FORM_MASTER_DIR + 'temporary_files/'  # temporary files from form upload go here
 DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO = 'mailbox_attachments/%Y/%m/%d/'  # will be placed under the MEDIA_ROOT folder
-Loggers.django_settings_logger.info(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
-Loggers.django_settings_logger.info(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
-Loggers.django_settings_logger.info(
+print(f'[settings.py] FILE_FORM_MASTER_DIR set to {FILE_FORM_MASTER_DIR}')
+print(f'[settings.py] FILE_FORM_UPLOAD_DIR set to {FILE_FORM_UPLOAD_DIR}')
+print(
     f'[settings.py] DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO set to {DJANGO_MAILBOX_ATTACHMENT_UPLOAD_TO}'
 )
+
+Loggers.setup_sys_stream_logger()
+
+LOGGING_CONFIG = None
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+    },
+    'formatters': {
+        'django.server': {
+            '()': 'django.utils.log.ServerFormatter',
+            'format': '[{server_time}] {message}',
+            'style': '{',
+        }
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+        },
+        'django.server': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            "stream": sys.stdout,  # setting this up manually because this specific property had to be changed,
+            # and I was too lazy to figure out how to customize this via
+            # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
+            'formatter': 'django.server',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler',
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'mail_admins'],
+            'level': 'INFO',
+        },
+        'django.server': {
+            'handlers': ['django.server'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    }
+})

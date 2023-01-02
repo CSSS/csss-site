@@ -23,7 +23,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         current_date = datetime.datetime.now(date_timezone)
-        logger = Loggers.get_logger(logger_name=SERVICE_NAME, current_date=current_date)
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         download_or_create_announcement_attachments(options['download'])
         Loggers.remove_logger(SERVICE_NAME, current_date)
