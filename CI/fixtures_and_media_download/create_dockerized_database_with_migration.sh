@@ -11,9 +11,9 @@ if [ -z "${DB_CONTAINER_NAME}" ]; then
 fi
 
 function setup_website_db {
+  docker rm -f "${DB_CONTAINER_NAME}" || true
   docker run --name "${DB_CONTAINER_NAME}" -p "${DB_PORT}":5432 -it -d -e POSTGRES_PASSWORD="${DB_PASSWORD}" postgres:alpine || true
   wait_for_postgres_db
-  docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "DROP DATABASE \"${DB_NAME}\";" || true
   docker exec "${DB_CONTAINER_NAME}" psql -U postgres -d postgres -c "CREATE DATABASE \"${DB_NAME}\" OWNER postgres;" || true
 }
 
