@@ -44,7 +44,8 @@ def get_current_term():
 
 def get_previous_term():
     current_date = datetime.datetime.now()
-    return get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
+    return get_term_number_for_specified_year_and_month(12, current_date.year-1) if current_date.month <= 4 \
+        else get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
 
 
 def get_current_term_obj():
