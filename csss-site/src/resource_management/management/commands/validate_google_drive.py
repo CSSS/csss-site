@@ -2,9 +2,11 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from resource_management.views.commands.validate_google_drive import run_job as validate_google_drive_validation_job
+from resource_management.views.resource_views import validate_google_drive
 
 logger = logging.getLogger('csss_site')
+
+SERVICE_NAME = "validate_google_drive"
 
 
 class Command(BaseCommand):
@@ -14,4 +16,4 @@ class Command(BaseCommand):
         logger.info(options)
         logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
                     "to google drive")
-        validate_google_drive_validation_job()
+        validate_google_drive()

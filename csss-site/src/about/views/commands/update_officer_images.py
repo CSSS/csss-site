@@ -10,7 +10,7 @@ from about.views.utils.get_officer_image_path import get_officer_image_path
 logger = logging.getLogger('csss_site')
 
 
-def run_job(download=False):
+def update_officer_images(download=False):
     if download:
         os.system("rm -fr about/static/about_static/exec-photos")
         logger.info("[about/update_officer_images.py run_job()] now trying to download all the exec photos")
