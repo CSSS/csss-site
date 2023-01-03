@@ -2,9 +2,11 @@ import logging
 
 from django.core.management import BaseCommand
 
-from about.views.commands.update_officer_images import run_job
+from about.views.commands.update_officer_images import update_officer_images
 
 logger = logging.getLogger('csss_site')
+
+SERVICE_NAME = 'update_officer_images'
 
 
 class Command(BaseCommand):
@@ -20,4 +22,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         logger.info(options)
-        run_job(download=options['download'])
+        update_officer_images(download=options['download'])

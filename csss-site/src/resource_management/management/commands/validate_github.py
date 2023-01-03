@@ -2,9 +2,10 @@ import logging
 
 from django.core.management.base import BaseCommand
 
-from resource_management.views.commands.validate_github import run_job as validate_github_validation_job
+from resource_management.views.resource_views import validate_github
 
 logger = logging.getLogger('csss_site')
+SERVICE_NAME = "validate_github"
 
 
 class Command(BaseCommand):
@@ -14,4 +15,4 @@ class Command(BaseCommand):
         logger.info(options)
         logger.info("[resource_management/validate_access.py handle()] user has selected to validate the access "
                     "to Github")
-        validate_github_validation_job()
+        validate_github()
