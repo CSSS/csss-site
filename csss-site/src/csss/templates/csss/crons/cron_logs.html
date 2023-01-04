@@ -1,0 +1,11 @@
+{%  extends "csss/header.html" %}
+{%  block content %}
+    {%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+    <a href="{{ URL_ROOT }}{{cron_base_url_key__html_name}}">Cron Jobs</a><br><br>
+
+    <a href="{{ parent_directory }}">..</a><br>
+    {%  for log_file in log_files %}
+        <a href="/{{cron_logs_base_url_key__html_name}}/{{ log_file.file }}">{{ log_file.file }}</a> - {{ log_file.size }} Bytes<br>
+    {%  endfor %}
+    {{ log_file|safe}}
+{%  endblock %}
