@@ -31,8 +31,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
-        if len(UnProcessedOfficer.objects.all()) > 0:
-            return
+        there_are_no_unprocessed_officers = len(UnProcessedOfficer.objects.all()) == 0
         if options['poll_email']:
             from django_mailbox.management.commands.getmail import Command as GetMailCommand
             GetMailCommand().handle()
@@ -80,13 +79,12 @@ class Command(BaseCommand):
                     author_name = parseaddr(message.from_header)[0]
                     author_email = parseaddr(message.from_header)[1]
                     valid_email = (author_email in officer_emails)
-                    if valid_email:
-                        print(1)
-                    Announcement(term=term, email=message, date=announcement_datetime,
-                                 display=valid_email, author=author_name).save()
-                    logger.info("[process_announcements handle()] saved email from"
-                                f" {author_name} with email {author_email} with date {announcement_datetime} "
-                                f"for term {term}. Will {'not ' if valid_email is False else ''}display email")
+                    if valid_email or (not valid_email and there_are_no_unprocessed_officers):
+                        Announcement(term=term, email=message, date=announcement_datetime,
+                                     display=valid_email, author=author_name).save()
+                        logger.info("[process_announcements handle()] saved email from"
+                                    f" {author_name} with email {author_email} with date {announcement_datetime} "
+                                    f"for term {term}. Will {'not ' if valid_email is False else ''}display email")
                 else:
                     Announcement(term=term, email=message, date=announcement_datetime,
                                  display=False).save()
