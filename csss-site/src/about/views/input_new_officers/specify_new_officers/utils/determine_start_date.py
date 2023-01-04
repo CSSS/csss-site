@@ -1,8 +1,6 @@
-import logging
-
+from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term_obj
 
-logger = logging.getLogger('csss_site')
 
 """
 Determine Start Date Logic
@@ -57,6 +55,7 @@ def determine_start_date(
     Return
     start_date -- the start date to use for the UnProcessed Officer
     """
+    logger = Loggers.get_logger()
     if not re_use_start_date:
         return start_date
     position_obj = officer_email_list_and_position_mapping.filter(position_name=position_name).first()

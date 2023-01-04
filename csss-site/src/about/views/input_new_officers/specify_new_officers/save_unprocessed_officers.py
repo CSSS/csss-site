@@ -1,14 +1,11 @@
-import logging
-
 from about.models import Term, UnProcessedOfficer
 from about.views.Constants import DISCORD_ID_KEY, SFU_COMPUTING_ID_KEY, FULL_NAME_KEY, \
     RE_USE_START_DATE_KEY, START_DATE_KEY, POSITION_NAME_KEY, OVERWRITE_CURRENT_OFFICER_KEY, ID_KEY
-from about.views.input_new_officers.specify_new_officers.notifications.\
+from about.views.input_new_officers.specify_new_officers.notifications. \
     send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
 from about.views.input_new_officers.specify_new_officers.utils.determine_start_date import determine_start_date
-
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
 
 
 def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_position_mappings, officers, terms,
@@ -29,6 +26,7 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
     bool -- indicates if the unprocessed officers were all successfully DMed
     error_message - the relevant error message if any of the unprocessed officers could not be DMed
     """
+    logger = Loggers.get_logger()
     if unprocessed_officers is None:
         unprocessed_officers = []
     if len(unprocessed_officers) == 0:

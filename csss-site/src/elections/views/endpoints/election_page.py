@@ -1,8 +1,7 @@
-import logging
-
 from django.conf import settings
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_election_page_context import create_election_page_context
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_date
@@ -12,10 +11,9 @@ from elections.views.Constants import TAB_STRING, ELECTION__HTML_NAME, \
     ENDPOINT_DELETE_NOMINEE_LINKS, DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY
 from elections.views.validators.validate_election_slug import validate_election_slug
 
-logger = logging.getLogger('csss_site')
-
 
 def get_nominees(request, slug):
+    logger = Loggers.get_logger()
     context, user_is_election_officer = create_election_page_context(request, TAB_STRING)
     if not validate_election_slug(slug):
         context[ERROR_MESSAGES_KEY] = ["specified slug has an incorrect number of elections attached to it."]

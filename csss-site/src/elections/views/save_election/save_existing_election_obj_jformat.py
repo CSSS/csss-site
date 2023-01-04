@@ -1,10 +1,8 @@
 import datetime
-import logging
 
+from csss.setup_logger import Loggers
 from elections.views.Constants import DATE_AND_TIME_FORMAT
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
-
-logger = logging.getLogger('csss_site')
 
 
 def update_existing_election_obj_from_jformat(election, date, election_type, websurvey_link):
@@ -17,7 +15,7 @@ def update_existing_election_obj_from_jformat(election, date, election_type, web
     election_type -- the updated election type
     websurvey_link -- the updated link to the websurvey
     """
-
+    logger = Loggers.get_logger()
     election.date = datetime.datetime.strptime(f"{date}", DATE_AND_TIME_FORMAT)
     election.slug, election.human_friendly_name = \
         gete_slug_and_human_friendly_name_election(election.date, election_type)

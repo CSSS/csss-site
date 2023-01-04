@@ -1,6 +1,6 @@
 import json
-import logging
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.models import NomineeLink
@@ -18,7 +18,6 @@ from elections.views.create_context.nominee_links.utils.make_context_value_seria
     make_json_serializable_context_dictionary
 from elections.views.create_context.webform_format.js_functions.create_context_for_add_blank_speech_html import \
     create_context_for_add_blank_speech_html
-logger = logging.getLogger('csss_site')
 
 
 def create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=None,
@@ -34,6 +33,7 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
     error_messages -- error message to display
     nominee_info -- the nominee info that the user inputted, otherwise None
     """
+    logger = Loggers.get_logger()
     create_context_for_html_snippet_for_general_error_validations_html(context, error_messages=error_messages)
 
     nominee_link = NomineeLink.objects.get(id=nominee_link_id) \

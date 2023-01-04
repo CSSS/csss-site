@@ -1,5 +1,3 @@
-import logging
-
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -9,6 +7,7 @@ from about.views.position_mapping_helper import update_context, GITHUB_TEAM__ID_
     GITHUB_TEAM_RELEVANT_PREVIOUS_TERM_KEY, validate_position_names_for_github_team, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DELETE_STATUS, GITHUB_MAPPING_SELECTED_OFFICER_POSITIONS, \
     DELETE_GITHUB_MAPPING, GITHUB_TEAM__TEAM_NAME_KEY
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
 from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
@@ -17,10 +16,9 @@ from csss.views.views import ERROR_MESSAGES_KEY
 from resource_management.models import OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping
 from resource_management.views.resource_apis.github.github_api import GitHubAPI
 
-logger = logging.getLogger('csss_site')
-
 
 def update_saved_github_mappings(request):
+    logger = Loggers.get_logger()
     logger.info(
         "[about/update_saved_github_mappings.py update_saved_github_mappings()]"
         f" request.POST={request.POST}"
@@ -46,6 +44,7 @@ def _update_github_mapping(github_mapping):
     Return
     error_messages -- the list of possible error messages
     """
+    logger = Loggers.get_logger()
     if not (
             GITHUB_TEAM__ID_KEY in github_mapping and f"{github_mapping[GITHUB_TEAM__ID_KEY]}".isdigit() and
             len(OfficerPositionGithubTeam.objects.all().filter(id=int(github_mapping[GITHUB_TEAM__ID_KEY]))) == 1):
@@ -254,6 +253,7 @@ def _delete_github_mapping(github_team_db_obj, github_api):
     Return
     error_messages -- the list of possible error messages
     """
+    logger = Loggers.get_logger()
     logger.info(
         f"[about/update_saved_github_mappings.py _delete_github_mapping()] "
         f"deleted github team {github_team_db_obj.team_name}"
@@ -276,6 +276,7 @@ def _get_github_usernames_that_currently_have_github_access(
     github_usernames_that_currently_have_access -- github usernames that currently have access to the github team
     specified by the github_team_db_obj object
     """
+    logger = Loggers.get_logger()
     officer_position_names_that_currently_have_access_to_github_team = [
         position.officer_position_mapping.position_name
         for position in OfficerPositionGithubTeamMapping.objects.all().filter(github_team=github_team_db_obj)
@@ -312,6 +313,7 @@ def _get_github_usernames_that_need_github_access_granted(
     github_usernames_that_need_access -- the list of github usernames that match the position
      names under the relevant_previous_terms
     """
+    logger = Loggers.get_logger()
     github_usernames_that_need_access = get_list_of_officer_details_from_past_specified_terms(
         relevant_previous_terms=relevant_previous_terms, position_names=officer_position_names,
         filter_by_github=True

@@ -1,4 +1,3 @@
-import logging
 import os
 
 from django.conf import settings
@@ -10,7 +9,6 @@ from announcements.models import Announcement
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views_helper import markdown_message, validate_markdown
 
-logger = logging.getLogger('csss_site')
 
 ERROR_MESSAGES_KEY = 'error_messages'
 

@@ -1,5 +1,4 @@
 import datetime
-import logging
 
 from about.models import OfficerEmailListAndPositionMapping, Officer, AnnouncementEmailAddress
 from about.views.Constants import UNPROCESSED_OFFICER_PHONE_NUMBER_KEY, UNPROCESSED_OFFICER_NAME__KEY, \
@@ -12,10 +11,10 @@ from about.views.input_new_officers.enter_new_officer_info.grant_digital_resourc
     assign_discord_roles
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.grant_github_access import \
     grant_github_access
-from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.\
+from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access. \
     grant_google_drive_access import \
     grant_google_drive_access
-from about.views.input_new_officers.enter_new_officer_info.notifications.\
+from about.views.input_new_officers.enter_new_officer_info.notifications. \
     send_notifications_with_documentation_links import \
     send_notifications_with_documentation_links
 from about.views.input_new_officers.enter_new_officer_info.utils.alert_sys_admin_to_update_email_list import \
@@ -24,8 +23,7 @@ from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_use
     get_discord_username_and_nickname
 from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_email_alias import get_sfu_email_alias
 from about.views.utils.get_officer_image_path import get_officer_image_path
-
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
 
 
 def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mappings, unprocessed_officer,
@@ -44,6 +42,7 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
      or sending them their notifications in  gmail or discord DM
     error_message -- the error message if there was a problemw with any of the above
     """
+    logger = Loggers.get_logger()
     position_name = unprocessed_officer.position_name
     phone_number = officer_info[UNPROCESSED_OFFICER_PHONE_NUMBER_KEY]
     full_name = officer_info[UNPROCESSED_OFFICER_NAME__KEY]

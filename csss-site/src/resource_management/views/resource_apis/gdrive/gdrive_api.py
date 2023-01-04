@@ -1,5 +1,4 @@
 import json
-import logging
 import os
 import pickle
 import time
@@ -12,13 +11,13 @@ from googleapiclient.discovery import build
 
 from about.models import Officer
 from csss.Gmail import Gmail
+from csss.setup_logger import Loggers
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views.send_email import send_email
 from csss.views_helper import get_current_date
 from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess, \
     GoogleDriveNonMediaFileType, MediaToBeMoved
 
-logger = logging.getLogger('csss_site')
 
 mime_type = [
     'application/vnd.google-apps.audio',
@@ -62,6 +61,7 @@ class GoogleDriveTokenCreator:
 class GoogleDrive:
 
     def __init__(self, token_location=None, root_file_id=None):
+        self.logger = Loggers.get_logger()
         self.non_media_mimeTypes = None
         self.file_types = None
         self.make_changes = True
@@ -87,13 +87,13 @@ class GoogleDrive:
         except EOFError as e:
             self.error_message = "encountered following error when trying to read" \
                                  f" from {token_location} for google drive\n{e}"
-            logger.error(
+            self.logger.error(
                 f"[GoogleDrive __init__()] {self.error_message}")
             return
         except pickle.UnpicklingError as e:
             self.error_message = "encountered following error when trying to " \
                                  f"validate the token {token_location} for google drive\n{e}"
-            logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
+            self.logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
             return
         else:
             # If there are no (valid) credentials available, let the user log in.
@@ -104,7 +104,7 @@ class GoogleDrive:
                     self.error_message = "no token detected at location" \
                                          f" \"{token_location}\" for google drive, please create locally " \
                                          "and then upload to that location. "
-                    logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
+                    self.logger.error(f"[GoogleDrive __init__()] {self.error_message} ")
                     return
                 with open(token_location, 'wb') as token:
                     pickle.dump(creds, token)
@@ -151,7 +151,7 @@ class GoogleDrive:
                 )
                 body = {'role': 'writer', 'type': 'user', 'emailAddress': user.lower()}
                 try:
-                    logger.info(
+                    self.logger.info(
                         f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
                         "permission to access the sfu csss google drive"
                     )
@@ -163,7 +163,7 @@ class GoogleDrive:
                             body=body
                         ).execute()
                         time.sleep(30)
-                    logger.info(
+                    self.logger.info(
                         f"[GoogleDrive add_users_gdrive()] email sent to {user.lower()} "
                         "regarding their access to the sfu google drive"
                     )
@@ -172,10 +172,12 @@ class GoogleDrive:
                     try:
                         error_message += json.loads(e.content.decode('utf8').replace("'", '"'))['error']['message']
                     except Exception as decoding_error:
-                        logger.error(f"[GoogleDrive add_users_gdrive()] unable to parse error "
-                                     f"due to error {decoding_error}")
+                        self.logger.error(
+                            f"[GoogleDrive add_users_gdrive()] unable to parse error "
+                            f"due to error {decoding_error}"
+                        )
                         error_message += f"{e}"
-                    logger.error(
+                    self.logger.error(
                         "[GoogleDrive add_users_gdrive()] was not able to given write permission "
                         f"to {user.lower()} for the SFU CSSS Google Drive. following error occured"
                         f"instead. \n {error_message}"
@@ -194,17 +196,17 @@ class GoogleDrive:
             if file_id is None:
                 file_id = self.root_file_id
             try:
-                logger.info(
+                self.logger.info(
                     "[GoogleDrive remove_users_gdrive()] attempting to get the list of permisisons for "
                     f"file with id {file_id}"
                 )
                 permissions = self.gdrive.permissions().list(fileId=file_id, fields='permissions').execute()
-                logger.info("[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
+                self.logger.info("[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
                 for user in users:
                     for permission in permissions['permissions']:
                         if permission['emailAddress'].lower() == user:
                             try:
-                                logger.info(
+                                self.logger.info(
                                     f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
                                     f"access to file with id {file_id}"
                                 )
@@ -223,14 +225,14 @@ class GoogleDrive:
                                         google_drive_bad_access.latest_date_check = self.latest_date_check
                                         google_drive_bad_access.save()
                                     time.sleep(30)
-                                logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
+                                self.logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
                             except Exception as e:
-                                logger.error(
+                                self.logger.error(
                                     "[GoogleDrive remove_users_gdrive()] encountered following error "
                                     f"with permission removed. \n {e}"
                                 )
             except Exception as e:
-                logger.error(
+                self.logger.error(
                     "[GoogleDrive remove_users_gdrive()] encountred the following error when trying "
                     f"to get the list of permissions. \n{e}"
                 )
@@ -243,21 +245,23 @@ class GoogleDrive:
         """
         if self.connection_successful:
             if file_id is None:
-                logger.warning("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
+                self.logger.warning("[GoogleDrive make_public_link_gdrive()] Please specify a valid file_id")
                 return False, None, None
             body = {'role': 'writer', 'type': 'anyone'}
             try:
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive make_public_link_gdrive()] will attempt to make the file with id {file_id} "
                     f"publicly available."
                 )
                 self.gdrive.permissions().create(fileId=file_id, body=body).execute()
                 time.sleep(30)
-                logger.info("[GoogleDrive make_public_link_gdrive()] will attempt to get the public link to file.")
+                self.logger.info(
+                    "[GoogleDrive make_public_link_gdrive()] will attempt to get the public link to file."
+                )
                 response = self.gdrive.files().get(fileId=file_id, fields='name, webViewLink').execute()
                 return True, response['name'], response['webViewLink'], None
             except Exception as e:
-                logger.error(f"[GoogleDrive make_public_link_gdrive()] encountered the following error. \n {e}")
+                self.logger.error(f"[GoogleDrive make_public_link_gdrive()] encountered the following error. \n {e}")
                 return False, None, None, e
 
     def remove_public_link_gdrive(self, file_id):
@@ -268,17 +272,17 @@ class GoogleDrive:
         """
         if self.connection_successful:
             try:
-                logger.info(
+                self.logger.info(
                     "[GoogleDrive remove_public_link_gdrive()] will attempt to remove the public link "
                     f"that is enabled for file with id {file_id}"
                 )
                 self.gdrive.permissions().delete(fileId=file_id, permissionId='anyoneWithLink').execute()
                 time.sleep(30)
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive remove_public_link_gdrive()] removed public link for file with id {file_id}"
                 )
             except Exception as e:
-                logger.error(
+                self.logger.error(
                     "[GoogleDrive remove_public_link_gdrive()] experienced the following error when "
                     f"attempting to removing public link for file with id {file_id}.\n {e}"
                 )
@@ -326,7 +330,7 @@ class GoogleDrive:
             try:
                 response = self.gdrive.files().get(fileId=self.root_file_id, fields='*').execute()
             except Exception as e:
-                logger.error(
+                self.logger.error(
                     "[GoogleDrive _ensure_root_permissions_are_correct()] unable to get all the files "
                     f"under root due to following error.\n {e}")
                 return False
@@ -336,26 +340,26 @@ class GoogleDrive:
             gdrive_users_with_access_to_root_folder = [
                 permission['emailAddress'].lower() for permission in response['permissions']
             ]
-            logger.info("[GoogleDrive _ensure_root_permissions_are_correct()] current root permissions are: ")
-            logger.info(json.dumps(gdrive_users_with_access_to_root_folder, indent=3))
+            self.logger.info("[GoogleDrive _ensure_root_permissions_are_correct()] current root permissions are: ")
+            self.logger.info(json.dumps(gdrive_users_with_access_to_root_folder, indent=3))
             for gdrive_user in gdrive_users_with_access_to_root_folder:
                 if gdrive_user in google_drive_perms:
                     if self.root_file_id not in google_drive_perms[gdrive_user]:
-                        logger.info(
+                        self.logger.info(
                             f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} has access to"
                             " root file id but their level of access indicates it they need access to something "
                             "lower down, attempting to remove their access to the root file"
                         )
                         self.remove_users_gdrive([gdrive_user])
                 else:
-                    logger.info(
+                    self.logger.info(
                         f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} apparently should"
                         " not have access at all to any sfu csss google drive folder. attempting to remove it. "
                     )
                     self.remove_users_gdrive([gdrive_user])
             for gdrive_user in google_drive_perms:
                 if self.root_file_id in gdrive_user and gdrive_user not in gdrive_users_with_access_to_root_folder:
-                    logger.info(
+                    self.logger.info(
                         f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} should "
                         "have access to the root google drive folder but does not, attempting to grant "
                         "them access now."
@@ -393,7 +397,7 @@ class GoogleDrive:
                     q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
                 ).execute()
             except Exception as e:
-                logger.error(
+                self.logger.error(
                     "[GoogleDrive _validate_individual_file_and_folder_ownership_and_permissions()] "
                     f"unable to get the list of files under folder with id {parent_id[len(parent_id) - 1]}"
                     f" due to following error\n.{e}"
@@ -426,7 +430,7 @@ class GoogleDrive:
         # first going through all the permissions for the file to ensure
         # that they are correct according to the
         # google drive perms dictionary
-        logger.info(
+        self.logger.info(
             "[GoogleDrive _validate_permissions_for_file()] ensuring that the permissions for file "
             f"{file['name']} are correct"
         )
@@ -439,7 +443,7 @@ class GoogleDrive:
         file_does_not_have_to_be_moved = (
             file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
         )
-        logger.info(
+        self.logger.info(
             f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
             f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
             f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
@@ -458,7 +462,7 @@ class GoogleDrive:
                 # check files that are link-share enabled
                 if 'anyoneWithLink' not in google_drive_perms.keys():
                     # there are no link-shares enabled at this time
-                    logger.info(
+                    self.logger.info(
                         "[GoogleDrive _validate_permissions_for_file()] removing public "
                         f"link for file with id {file['id']} and name {file['name']}"
                     )
@@ -467,7 +471,7 @@ class GoogleDrive:
                     if set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']]) == 0:
                         # check to see if this particular file has not been link-share enabled or
                         # one of this particular file's parent folders have also not been link-share enabled
-                        logger.info(
+                        self.logger.info(
                             "[GoogleDrive _validate_permissions_for_file()] removing public "
                             f"link for file with id {file['id']} and name {file['name']}"
                         )
@@ -477,7 +481,7 @@ class GoogleDrive:
                 email_address = permission['emailAddress'].lower()
                 if email_address not in google_drive_perms.keys():
                     # this email is not supposed to have access to any of the CSSS Google Drive Resources
-                    logger.info(
+                    self.logger.info(
                         "[GoogleDrive _validate_permissions_for_file()] remove "
                         f"{email_address}'s access to file {file['name']}"
                     )
@@ -486,7 +490,7 @@ class GoogleDrive:
                     if set(google_drive_perms[email_address]).intersection(parent_id + [file['id']]) == 0:
                         # checks to see if this email is supposed to have access to either this file or
                         # one of its parent folders
-                        logger.info(
+                        self.logger.info(
                             "[GoogleDrive _validate_permissions_for_file()] remove "
                             f"{email_address}'s access to file {file['name']}"
                         )
@@ -509,7 +513,7 @@ class GoogleDrive:
         folder_to_change -- the current dictionary of the folders whose ownership needs to be changed
         """
         valid_ownership_for_file = self._owner_of_folder_is_correct(file)
-        logger.debug(
+        self.logger.debug(
             "[GoogleDrive _validate_owner_for_file()] file/folder "
             f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
             f"will {'not ' if valid_ownership_for_file else ''}have its owner be alerted."
@@ -531,26 +535,26 @@ class GoogleDrive:
             google_drive_file.number_of_nags += 1
             google_drive_file.latest_date_check = self.latest_date_check
             google_drive_file.save()
-            logger.info(
+            self.logger.info(
                 "[GoogleDrive _validate_owner_for_file()] file/folder "
                 f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
                 f"will have its owner be alerted."
             )
             if self._file_is_gdrive_file(file) and not self._file_is_gdrive_form(file):
-                logger.info(
+                self.logger.info(
                     "[GoogleDrive _validate_owner_for_file()] file "
                     f"{file['name']} determined to be a regular google drive file that is not a form"
                 )
                 self._alert_user_to_change_owner(file)
             else:
                 file_name = file['name']
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive _validate_owner_for_file()] google drive file {file_name} "
                     "determined to be a folder or form"
                 )
                 for owner in file['owners']:
                     owner_email = owner['emailAddress'].lower()
-                    logger.info(
+                    self.logger.info(
                         f"[GoogleDrive _validate_owner_for_file()] adding {owner_email} "
                         f"to the list of people who need to be alerted about changing "
                         f"ownership for folder or form {file_name}"
@@ -571,7 +575,7 @@ class GoogleDrive:
                             }]
                         }
                     if not self._determine_if_file_info_belongs_to_gdrive_folder(file):
-                        logger.info(
+                        self.logger.info(
                             "[GoogleDrive _validate_owner_for_file()] file "
                             f"{file['name']} determined to probably be an uploaded file or google drive form"
                         )
@@ -615,11 +619,15 @@ class GoogleDrive:
         Bool -- true or false to indicate if the file is a folder
         """
         if 'mimeType' in file_info:
-            logger.info(f"[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
-                        f"parsing a file_info with a type of {file_info['mimeType']} ")
+            self.logger.info(
+                f"[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
+                f"parsing a file_info with a type of {file_info['mimeType']} "
+            )
         else:
-            logger.error("[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
-                         f"unable to find a file type for file {file_info['name']}")
+            self.logger.error(
+                "[GoogleDrive _determine_if_file_info_belongs_to_gdrive_folder()] "
+                f"unable to find a file type for file {file_info['name']}"
+            )
         return 'mimeType' in file_info and file_info['mimeType'] == 'application/vnd.google-apps.folder'
 
     def _owner_of_folder_is_correct(self, file_info):
@@ -634,11 +642,15 @@ class GoogleDrive:
         """
         file_ownership = 'ownedByMe' in file_info and file_info['ownedByMe']
         if 'ownedByMe' in file_info:
-            logger.info(f"[GoogleDrive _owner_of_folder_is_correct()] "
-                        f"file is {'' if file_ownership else 'not '}owned by sfucsss@gmail.com")
+            self.logger.info(
+                f"[GoogleDrive _owner_of_folder_is_correct()] "
+                f"file is {'' if file_ownership else 'not '}owned by sfucsss@gmail.com"
+            )
         else:
-            logger.error("[GoogleDrive _owner_of_folder_is_correct()] "
-                         f"unable to find key 'ownedByMe' for file {file_info['name']}")
+            self.logger.error(
+                "[GoogleDrive _owner_of_folder_is_correct()] "
+                f"unable to find key 'ownedByMe' for file {file_info['name']}"
+            )
         return file_ownership
 
     def _file_is_gdrive_file(self, file_info):
@@ -654,11 +666,15 @@ class GoogleDrive:
         file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType'] and \
                     file_info['mimeType'] != "application/vnd.google-apps.form"
         if 'mimeType' in file_info:
-            logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
-                        f"is {file_info['mimeType']}")
+            self.logger.info(
+                f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+                f"is {file_info['mimeType']}"
+            )
         else:
-            logger.error("[GoogleDrive _file_is_gdrive_file()] "
-                         f"unable to find key 'mimeType' for file {file_info['name']}")
+            self.logger.error(
+                "[GoogleDrive _file_is_gdrive_file()] "
+                f"unable to find key 'mimeType' for file {file_info['name']}"
+            )
         return file_type
 
     def _file_is_gdrive_form(self, file_info):
@@ -673,11 +689,15 @@ class GoogleDrive:
         """
         file_type = 'mimeType' in file_info and file_info['mimeType'] == "application/vnd.google-apps.form"
         if 'mimeType' in file_info:
-            logger.info(f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
-                        f"is {file_info['mimeType']}")
+            self.logger.info(
+                f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+                f"is {file_info['mimeType']}"
+            )
         else:
-            logger.error("[GoogleDrive _file_is_gdrive_file()] "
-                         f"unable to find key 'mimeType' for file {file_info['name']}")
+            self.logger.error(
+                "[GoogleDrive _file_is_gdrive_file()] "
+                f"unable to find key 'mimeType' for file {file_info['name']}"
+            )
         return file_type
 
     def _alert_user_to_change_owner(self, file_info):
@@ -692,20 +712,24 @@ class GoogleDrive:
                 "Please change owner of this file to sfucsss@gmail.com.\nInstructions for doing so can be found"
                 " here: https://github.com/CSSS/managingCSSSResources"
             )}
-            logger.info(f"[GoogleDrive _alert_user_to_change_owner()] attempting to add a comment added "
-                        f"to file {file_info['name']}")
+            self.logger.info(
+                "[GoogleDrive _alert_user_to_change_owner()] attempting to add a comment added "
+                f"to file {file_info['name']}"
+            )
             if self.make_changes:
                 response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
                 if response['content'] == body['content']:
-                    logger.info(
+                    self.logger.info(
                         f"[GoogleDrive _alert_user_to_change_owner()] "
                         f"comment added to file {file_info['name']}"
                     )
                 else:
-                    logger.error(f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
-                                 f" to file {file_info['name']}")
+                    self.logger.error(
+                        "[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
+                        f" to file {file_info['name']}"
+                    )
         except Exception as e:
-            logger.error(
+            self.logger.error(
                 f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
@@ -719,8 +743,10 @@ class GoogleDrive:
         file_info -- the file that needs to have its comments deleted
         """
         try:
-            logger.info(f"[GoogleDrive _remove_outdated_comments()] attempting to remove any comments that "
-                        f"sfucsss@gmail.com made on file {file_info['name']}")
+            self.logger.info(
+                "[GoogleDrive _remove_outdated_comments()] attempting to remove any comments that "
+                f"sfucsss@gmail.com made on file {file_info['name']}"
+            )
             response = self.gdrive.comments().list(fileId=file_info['id'], fields="*").execute()
             for comment in response['comments']:
                 if comment['author']['me']:
@@ -729,12 +755,12 @@ class GoogleDrive:
                             commentId=comment['id'], fileId=file_info['id']
                         ).execute()
                         if comment_response != "":
-                            logger.error(
+                            self.logger.error(
                                 f"[GoogleDrive _remove_outdated_comments()] unable to delete outdated comment"
                                 f" on file {file_info['name']}"
                             )
         except Exception as e:
-            logger.error(
+            self.logger.error(
                 f"[GoogleDrive _remove_outdated_comments()] unable to remove comments on file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
@@ -752,7 +778,7 @@ class GoogleDrive:
         """
         try:
             if file_info['name'] != 'DO_NOT_USE__DELETE_FILE':
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
                 if self.make_changes:
@@ -761,21 +787,21 @@ class GoogleDrive:
                         fields='*',
                         body={'name': file_info['name']}
                     ).execute()
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['name']} with id {file_info['id']} successfully duplicated")
                 body = {'name': 'DO_NOT_USE__DELETE_FILE'}
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive _duplicate_file()]  attempting to set the body "
                     f"for file {file_info['name']} with id {file_info['id']} to {body}")
                 if self.make_changes:
                     self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
-                logger.info(
+                self.logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
             return True
         except Exception as e:
-            logger.error(
+            self.logger.error(
                 f"[GoogleDrive _duplicate_file()] "
                 f"unable to duplicate the file due to following error.\n{e}"
             )
@@ -805,7 +831,7 @@ class GoogleDrive:
                 }]
             }
         except Exception as e:
-            logger.error(
+            self.logger.error(
                 f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
                 f"of type {file_info['mimeType']} due to following error.\n{e}"
             )
@@ -819,8 +845,10 @@ class GoogleDrive:
         files_to_email_owner_about -- a dictionary that contains a list of all the emails and their corresponding
             files that they need to be made aware of that have to have their ownership changed
         """
-        logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
-                    " to setup connection to gmail server")
+        self.logger.info(
+            "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
+            " to setup connection to gmail server"
+        )
         subject = "UPDATED_LINKS MATEY!!! SFU CSSS Google Drive Folder ownership change"
         body_template = (
             "Please change owner of the following folders and forms to sfucsss@gmail.com.\n"
@@ -830,11 +858,11 @@ class GoogleDrive:
         )
         officers = Officer.objects.all()
         gmail = Gmail()
-        logger.info(
+        self.logger.info(
             "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
             "files_to_email_owner_about="
         )
-        logger.info(json.dumps(files_to_email_owner_about, indent=3))
+        self.logger.info(json.dumps(files_to_email_owner_about, indent=3))
         for to_email in files_to_email_owner_about:
             body = body_template + "".join(
                 [
@@ -844,14 +872,16 @@ class GoogleDrive:
             )
             files_names = [file['file_name'] for file in files_to_email_owner_about[to_email]['file_infos']]
             to_name = files_to_email_owner_about[to_email]['full_name']
-            logger.info("[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
-                        f"send email to {to_email} about files {files_names}")
-            logger.info(
+            self.logger.info(
+                "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
+                f"send email to {to_email} about files {files_names}"
+            )
+            self.logger.info(
                 "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
                 f"retrieving officer with gmail [{to_email}]"
             )
             officer = officers.filter(gmail=to_email).order_by('-start_date').first()
-            logger.info(
+            self.logger.info(
                 "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] officer is "
                 f"{'' if officer is None else 'not '}None"
             )
@@ -901,7 +931,7 @@ class GoogleDrive:
             send_email(
                 subject,
                 "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
-                "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=logger.handlers[1].baseFilename
+                "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=self.logger.handlers[1].baseFilename
             )
         if len(MediaToBeMoved.objects.all()) > 0:
             send_email(

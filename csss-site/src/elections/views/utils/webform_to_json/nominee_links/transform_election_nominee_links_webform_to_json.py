@@ -1,12 +1,10 @@
 import json
-import logging
 
+from csss.setup_logger import Loggers
 from elections.views.Constants import SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
 from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_json import \
     copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
-
-logger = logging.getLogger('csss_site')
 
 
 def transform_election_nominee_links_webform_to_json(request):
@@ -21,6 +19,7 @@ def transform_election_nominee_links_webform_to_json(request):
     Return
     new_nominee_dict -- the dictionary format that the process_existing_election_and_nominee_links function takes in
     """
+    logger = Loggers.get_logger()
     logger.info(
         "[elections/transform_election_nominee_links_webform_to_json.py "
         "transform_election_nominee_links_webform_to_json()] "

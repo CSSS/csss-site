@@ -1,8 +1,8 @@
 import json
-import logging
 
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from elections.views.Constants import TAB_STRING
 from elections.views.create_context.nominee_links.create_or_update_election.\
@@ -11,14 +11,13 @@ from elections.views.create_context.nominee_links.create_or_update_election.\
 from elections.views.create_election.nominee_links.process_new_election_and_nominee_links import \
     process_new_election_and_nominee_links
 
-logger = logging.getLogger('csss_site')
-
 
 def display_and_process_html_for_new_nominee_links_election(request):
     """
     Shows the page where the webform is displayed so that the user inputs the data needed to create a new election
     via Nominee Links
     """
+    logger = Loggers.get_logger()
     logger.info(
         "[elections/create_election_nominee_links.py display_and_process_html_for_new_nominee_links_election()] "
         "request.POST"

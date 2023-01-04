@@ -1,9 +1,7 @@
 import json
-import logging
 
+from csss.setup_logger import Loggers
 from elections.views.utils.prepare_json_for_html import prepare_json_for_html
-
-logger = logging.getLogger('csss_site')
 
 
 def validate_and_return_election_json(input_json):
@@ -19,6 +17,7 @@ def validate_and_return_election_json(input_json):
     election -- either returns the election in DICT form or a tries its best for format the
      user's input into something that resembles a dict
     """
+    logger = Loggers.get_logger()
     try:
         election_json = json.loads(input_json)
         return True, None, election_json

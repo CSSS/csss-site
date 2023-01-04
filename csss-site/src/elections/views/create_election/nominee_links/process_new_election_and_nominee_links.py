@@ -1,9 +1,8 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__VALUE, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, ENDPOINT_MODIFY_VIA_NOMINEE_LINKS
@@ -22,9 +21,6 @@ from elections.views.validators.validate_link import validate_websurvey_link
 from elections.views.validators.validate_user_command import validate_user_command
 
 
-logger = logging.getLogger('csss_site')
-
-
 def process_new_election_and_nominee_links(request, context):
     """
     Takes in the user's new election and nominee link input and validates it before having it saved
@@ -38,6 +34,7 @@ def process_new_election_and_nominee_links(request, context):
      either redirect user back to the page where they inputted the election info or direct them to the newly created
       election page along with nominee links
     """
+    logger = Loggers.get_logger()
     election_dict = transform_election_nominee_links_webform_to_json(request)
     fields = [
         ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_WEBFORM_KEY__TIME,

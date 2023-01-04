@@ -1,9 +1,6 @@
-import logging
-
 from about.models import Officer, Term, UnProcessedOfficer
+from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term, get_latest_term
-
-logger = logging.getLogger('csss_site')
 
 
 def get_list_of_officer_details_from_past_specified_terms(
@@ -29,6 +26,7 @@ def get_list_of_officer_details_from_past_specified_terms(
     else
         list of recent officer's bio, github usernames or SFUIDS that match the specified condition
     """
+    logger = Loggers.get_logger()
     logger.info(
         f"[resource_management/get_officer_list.py get_list_of_officer_details_from_past_specified_terms()]"
         f" called with relevant_previous_terms: {relevant_previous_terms}, position_names: {position_names},"

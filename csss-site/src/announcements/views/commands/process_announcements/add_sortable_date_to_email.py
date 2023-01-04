@@ -1,10 +1,9 @@
 import datetime
-import logging
 
 import pytz
 from django.conf import settings
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
 
 
 def add_sortable_date_to_email(email):
@@ -18,6 +17,7 @@ def add_sortable_date_to_email(email):
     Return
     email_datetime -- the email with a new "sortable_date" field
     """
+    logger = Loggers.get_logger()
     email_date = email.get_email_object().get('date')
     successful = False
     email_datetime = None

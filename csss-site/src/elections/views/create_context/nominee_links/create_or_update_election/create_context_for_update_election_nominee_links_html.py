@@ -1,6 +1,6 @@
 import json
-import logging
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, \
@@ -23,8 +23,6 @@ from elections.views.create_context.webform_format.create_context_for_election_w
     create_context_for_election_websurvey_html
 from elections.views.create_context.webform_format.create_context_for_submission_buttons_html import \
     create_context_for_submission_buttons_html
-
-logger = logging.getLogger('csss_site')
 
 
 def create_context_for_update_election_nominee_links_html(
@@ -52,6 +50,7 @@ def create_context_for_update_election_nominee_links_html(
     election_obj -- the object for the current election to determine which saved nominee links map
      to which draft nominee links
     """
+    logger = Loggers.get_logger()
     require_nominee_names = (
             (nominee_links is None or len(nominee_links) == 0) and
             (draft_nominee_links is None or len(draft_nominee_links) == 0)

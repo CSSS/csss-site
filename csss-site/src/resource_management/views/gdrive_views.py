@@ -1,4 +1,3 @@
-import logging
 import time
 
 from django.conf import settings
@@ -6,16 +5,15 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_google_drive_permissions
 from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
     get_list_of_officer_details_from_past_specified_terms
-from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_request_to_update_gdrive_permissions
+from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
-
-logger = logging.getLogger('csss_site')
 
 GOOGLE_DRIVE_USERS_DB_RECORD_KEY = 'record_id'
 GOOGLE_DRIVE_USERS_NAME_KEY = 'legal_name'
@@ -83,6 +81,7 @@ def add_users_to_gdrive(request):
     """
     Takes in the users who need to be given access to the SFU CSSS Google Drive
     """
+    logger = Loggers.get_logger()
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
     gdrive = GoogleDrive()
@@ -139,6 +138,7 @@ def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inpu
         access to the file
     error_message -- error if unable to give the user access to the file or None otherwise
    """
+    logger = Loggers.get_logger()
     file_id = settings.GDRIVE_ROOT_FOLDER_ID \
         if user_inputted_file_id == "" \
         else user_inputted_file_id
@@ -168,6 +168,7 @@ def update_permissions_for_existing_gdrive_user(request):
     """
     updates the permission for an existing google drive user
     """
+    logger = Loggers.get_logger()
     logger.info(
         "[resource_management/gdrive_views.py update_permissions_for_existing_gdrive_user()] "
         f"request.POST={request.POST}"
@@ -244,6 +245,7 @@ def make_folders_public_gdrive(request):
     """
     makes a list of requested google drive folders publicly available
     """
+    logger = Loggers.get_logger()
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
@@ -285,6 +287,7 @@ def make_folder_public_gdrive(gdrive, user_inputted_file_id):
     Bool -- true or false
     error_message -- None if successful and error_message if not successful
     """
+    logger = Loggers.get_logger()
     if not google_drive_file_is_publicly_available(user_inputted_file_id):
         success, file_name, file_link, error_message = gdrive.make_public_link_gdrive(user_inputted_file_id)
         if success:
@@ -311,6 +314,7 @@ def update_gdrive_public_links(request):
     """
     updates an existing google drive public file
     """
+    logger = Loggers.get_logger()
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
@@ -366,6 +370,7 @@ def create_google_drive_perms():
         ],
     }
     """
+    logger = Loggers.get_logger()
     officer_list = get_list_of_officer_details_from_past_specified_terms()
     logger.info(
         "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "

@@ -1,4 +1,3 @@
-import logging
 from time import sleep
 
 from django.core.management import BaseCommand
@@ -6,8 +5,7 @@ from django.core.management import BaseCommand
 from about.models import Officer
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
-
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
 
 SERVICE_NAME = "update_discord_details"
 
@@ -16,6 +14,7 @@ class Command(BaseCommand):
     help = "get the latest discord name and nicknames for the officers"
 
     def handle(self, *args, **options):
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         all_officers = Officer.objects.all()
         officers = all_officers.exclude(discord_id="NA")
         officers_discord_ids = list(set(list(officers.values_list('discord_id', flat=True))))
@@ -63,3 +62,4 @@ class Command(BaseCommand):
             nickname = discord_info_maps[officer.sfu_computing_id]['discord_nickname']
             officer.discord_nickname = nickname if nickname is not None else "NA"
         Officer.objects.bulk_update(officers_to_change, ['discord_id', 'discord_username', 'discord_nickname'])
+        Loggers.remove_logger(SERVICE_NAME)

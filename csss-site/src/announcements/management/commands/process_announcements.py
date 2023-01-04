@@ -1,4 +1,3 @@
-import logging
 from email.utils import parseaddr
 
 from django.conf import settings
@@ -12,9 +11,8 @@ from announcements.views.commands.process_announcements.add_sortable_date_to_man
     add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
+from csss.setup_logger import Loggers
 from csss.views_helper import get_current_date, get_term_number_for_specified_year_and_month
-
-logger = logging.getLogger('csss_site')
 
 SERVICE_NAME = "process_announcements"
 
@@ -31,6 +29,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         if len(UnProcessedOfficer.objects.all()) > 0:
             return
@@ -100,3 +99,4 @@ class Command(BaseCommand):
                 logger.info("[process_announcements handle()] saved post from"
                             f" {message.author} with date {announcement_datetime} "
                             f"for term {term}")
+        Loggers.remove_logger(SERVICE_NAME)

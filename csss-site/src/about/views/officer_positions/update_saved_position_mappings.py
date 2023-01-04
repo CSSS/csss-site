@@ -1,5 +1,3 @@
-import logging
-
 from django.shortcuts import render
 from querystring_parser import parser
 
@@ -19,6 +17,7 @@ from about.views.position_mapping_helper import update_context, OFFICER_EMAIL_LI
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__SFSS_COUNCIL_REP, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__FROSH_WEEK_CHAIR, \
     OFFICER_EMAIL_LIST_AND_POSITION_MAPPING__DISCORD_MANAGER
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_updating_position_mappings
 from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import get_current_term, get_datetime_for_beginning_of_current_term
@@ -27,8 +26,6 @@ from elections.models import NomineePosition
 DELETE_POSITION_MAPPING_KEY = 'delete_position_mapping'
 UN_DELETED_POSITION_MAPPING_KEY = 'un_delete_position_mapping'
 UPDATE_POSITION_MAPPING_KEY = 'update_position_mapping'
-
-logger = logging.getLogger('csss_site')
 
 
 def update_saved_position_mappings(request):
@@ -55,6 +52,7 @@ def _update_positions_mapping(positions):
     Return
     error_messages -- a list of all the possible error messages
     """
+    logger = Loggers.get_logger()
     current_specified_position_names = []
     current_specified_position_indices = []
     positions_to_save = []
@@ -240,20 +238,11 @@ def _update_positions_mapping(positions):
     return []
 
 
-def officer_info_is_not_changed(position_mapping_for_selected_officer, new_position_index_for_officer_position,
-                                new_name_for_officer_position,
-                                new_sfu_email_list_address_for_officer_position,
-                                discord_role_name,
-                                github_access,
-                                google_drive_access,
-                                elected_via_election_officer,
-                                executive_officer,
-                                election_officer,
-                                sfss_council_rep,
-                                frosh_week_chair,
-                                discord_manager,
-                                number_of_terms, starting_month
-                                ):
+def officer_info_is_not_changed(
+    position_mapping_for_selected_officer, new_position_index_for_officer_position, new_name_for_officer_position,
+    new_sfu_email_list_address_for_officer_position, discord_role_name, github_access, google_drive_access,
+    elected_via_election_officer, executive_officer, election_officer, sfss_council_rep, frosh_week_chair,
+        discord_manager, number_of_terms, starting_month):
     """
     Returns a bool that indicates if the officer's info has been changed
 
@@ -303,6 +292,7 @@ def update_current_officer(positions_to_save, position_mapping_for_selected_offi
     new_sfu_email_list_address_for_officer_position -- the new sfu email list address for the officer position
      that need to be updated
     """
+    logger = Loggers.get_logger()
     terms = Term.objects.all().filter(term_number=get_current_term())
     if len(terms) == 1:
         term = terms[0]

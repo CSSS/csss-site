@@ -1,14 +1,12 @@
 # Register your models here.
 from django.contrib import admin
+
+from csss.setup_logger import Loggers
 from documents.models import Repo, Media, Picture, Video, Album, Event, SubCategory
 from django.utils.translation import ugettext_lazy as _
 import subprocess
 import os
 import datetime
-import logging
-
-# Register your models here.
-logger = logging.getLogger('csss_site')
 
 subcategories = []
 path_to_file = ['documents_static', 'event-photos']
@@ -203,6 +201,7 @@ def create_pictures_from_repo(repo_dir):
 
 
 def clone_repos(repo_admin, request, queryset):
+    logger = Loggers.get_logger()
     for repo in queryset.all():
         logger.info(f"[documents/admin.py clone_repos()] doing a git pull inside of {repo.url}")
         commands = f'cd {repo.absolute_path}; git pull'

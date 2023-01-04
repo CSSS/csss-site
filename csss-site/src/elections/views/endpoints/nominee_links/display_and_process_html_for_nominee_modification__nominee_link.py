@@ -1,8 +1,8 @@
 import json
-import logging
 
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from elections.models import NomineeLink
 from elections.views.Constants import TAB_STRING, NOMINEE_LINK_ID, CREATE_OR_UPDATE_NOMINEE__NAME
@@ -12,10 +12,9 @@ from elections.views.create_context.nominee_links.create_or_update_nominee.\
 from elections.views.update_election.nominee_links.process_nominee__nominee_links import \
     process_nominee__nominee_links
 
-logger = logging.getLogger('csss_site')
-
 
 def display_and_process_html_for_nominee_modification(request):
+    logger = Loggers.get_logger()
     logger.info(
         "[elections/display_and_process_html_for_nominee_modification__nominee_link.py"
         " display_and_process_html_for_nominee_modification()] "

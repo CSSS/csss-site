@@ -1,7 +1,7 @@
 import json
-import logging
 
 from about.models import OfficerEmailListAndPositionMapping
+from csss.setup_logger import Loggers
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, \
@@ -15,8 +15,6 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_T
     ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
 from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
-
-logger = logging.getLogger('csss_site')
 
 
 def create_json_election_context_from_user_inputted_election_dict(
@@ -41,6 +39,7 @@ def create_json_election_context_from_user_inputted_election_dict(
     }
     the dict will also contain the keys created by create_submission_buttons_context for new elections
     """
+    logger = Loggers.get_logger()
     valid_election_type_choices = [election_type_choice[0] for election_type_choice in
                                    Election.election_type_choices]
     current_positions = [
@@ -75,6 +74,7 @@ def create_json_election_context_from_db_election_obj(election):
     Return
     a dict that contains the election itself in a format that is ready for the json page to display
     """
+    logger = Loggers.get_logger()
     context = {
         ELECTION_JSON_KEY__ELECTION_TYPE: election.election_type,
         ELECTION_JSON_KEY__DATE: election.date.strftime(DATE_AND_TIME_FORMAT),
@@ -103,6 +103,7 @@ def create_json_submission_buttons_context(create_new_election=True):
     - save_new_election_and_continue_editing__button_id
     - input_redirect_election_submit_and_continue_editing__value
     """
+    logger = Loggers.get_logger()
     context = create_base_submission_buttons_context(create_new_election=create_new_election)
     context.update({
         SAVE_NEW_JSON_ELECTION__BUTTON_ID: SAVE_NEW_JSON_ELECTION__BUTTON_ID_VALUE,

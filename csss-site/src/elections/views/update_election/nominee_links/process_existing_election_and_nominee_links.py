@@ -1,9 +1,8 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import SAVED_NOMINEE_LINKS, \
     NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS, SAVE_ELECTION__VALUE, UPDATE_EXISTING_ELECTION__NAME, \
@@ -27,9 +26,6 @@ from elections.views.validators.validate_saved_nominee_links import validate_sav
 from elections.views.validators.validate_user_command import validate_user_command
 
 
-logger = logging.getLogger('csss_site')
-
-
 def process_existing_election_and_nominee_links(request, election, context):
     """
     Processes the user's input for modify the specified election and its nominee links
@@ -42,6 +38,7 @@ def process_existing_election_and_nominee_links(request, election, context):
     Return
     render object that directs the user to the page for updating the election and its nominee links
     """
+    logger = Loggers.get_logger()
     election_dict = transform_election_nominee_links_webform_to_json(request)
     fields = [
         ELECTION_JSON_KEY__DATE, ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__ELECTION_TYPE,

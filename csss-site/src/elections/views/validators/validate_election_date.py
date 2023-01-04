@@ -1,9 +1,7 @@
 import datetime
-import logging
 
+from csss.setup_logger import Loggers
 from elections.views.Constants import DATE_AND_TIME_FORMAT
-
-logger = logging.getLogger('csss_site')
 
 
 def validate_json_election_date_and_time(date_and_time):
@@ -46,6 +44,7 @@ def _validate_date(date):
     sucess -- Bool
     error_message -- an error message if the date was badly formatted, otherwise it is None
     """
+    logger = Loggers.get_logger()
     try:
         datetime.datetime.strptime(f"{date}", DATE_AND_TIME_FORMAT)
     except ValueError:

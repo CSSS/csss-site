@@ -1,9 +1,8 @@
-import logging
 import os
 
 from django.conf import settings
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
 
 
 def get_officer_image_path(term_obj, full_name):
@@ -17,6 +16,7 @@ def get_officer_image_path(term_obj, full_name):
     Return
     pic_path -- the path for the officer's image
     """
+    logger = Loggers.get_logger()
     valid_picture_extensions = ['jpg', 'jpeg', 'png']
     valid_picture_path = None
     if settings.ENVIRONMENT == "LOCALHOST":

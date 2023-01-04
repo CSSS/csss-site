@@ -1,10 +1,10 @@
 import json
-import logging
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import ELECTION_JSON__KEY, CREATE_NEW_ELECTION__NAME, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON
@@ -23,8 +23,6 @@ from elections.views.validators.validate_nominees_for_new_election import \
     validate_new_nominees_for_new_election
 from elections.views.validators.validate_user_command import validate_user_command
 
-logger = logging.getLogger('csss_site')
-
 
 def process_new_inputted_json_election(request, context):
     """
@@ -39,6 +37,7 @@ def process_new_inputted_json_election(request, context):
      either redirect user back to the page where they inputted the election info or direct them to the newly created
       election page
     """
+    logger = Loggers.get_logger()
     fields = [ELECTION_JSON__KEY]
     error_message = verify_user_input_has_all_required_fields(request.POST, fields=fields)
     if error_message != "":
