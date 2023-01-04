@@ -1,7 +1,10 @@
+import time
+
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_current_and_past_officers_details
@@ -72,11 +75,35 @@ def validate_google_drive():
     """
     calls functions for validating google drive permissions
     """
+    time1 = time.perf_counter()
     GoogleDrive().validate_ownerships_and_permissions(create_google_drive_perms())
+    time2 = time.perf_counter()
+    total_seconds = time2 - time1
+    cron_job = CronJob.objects.get(job_name=GOOGLE_DRIVE_SERVICE_NAME)
+    number_of_stats = CronJobRunStat.objects.all().filter(job=cron_job)
+    if len(number_of_stats) == 10:
+        first = number_of_stats.order_by('id').first()
+        if first is not None:
+            first.delete()
+    CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
+
+from resource_management.management.commands.validate_google_drive import SERVICE_NAME as GOOGLE_DRIVE_SERVICE_NAME # noqa E402
 
 
 def validate_github():
     """
     calls the functions for validating the github permissions
     """
+    time1 = time.perf_counter()
     GitHubAPI().ensure_proper_membership(create_github_perms())
+    time2 = time.perf_counter()
+    total_seconds = time2 - time1
+    cron_job = CronJob.objects.get(job_name=GITHUB_SERVICE_NAME)
+    number_of_stats = CronJobRunStat.objects.all().filter(job=cron_job)
+    if len(number_of_stats) == 10:
+        first = number_of_stats.order_by('id').first()
+        if first is not None:
+            first.delete()
+    CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
+
+from resource_management.management.commands.validate_github import SERVICE_NAME as GITHUB_SERVICE_NAME # noqa E402
