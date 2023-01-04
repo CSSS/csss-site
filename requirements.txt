@@ -66,3 +66,6 @@ beautifulsoup4==4.11.1
 
 # needed for logging in
 git+https://github.com/gregbaker/django-cas-ng.git@4f4a82e07eb624ffa53446a4f6806383c6c3b338
+
+# for the cron service
+APScheduler==3.9.1
