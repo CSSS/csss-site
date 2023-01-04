@@ -1,16 +1,15 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from querystring_parser import parser
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_updating_github_mappings_and_permissions
 from csss.views.privilege_validation.list_of_officer_details_from_past_specified_terms import \
     get_list_of_officer_details_from_past_specified_terms
-from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views.request_validation import validate_request_to_update_github_permissions
+from csss.views.views import ERROR_MESSAGES_KEY
 from csss.views_helper import there_are_multiple_entries
 from resource_management.models import NonOfficerGithubMember, OfficerPositionGithubTeam, \
     OfficerPositionGithubTeamMapping
@@ -20,7 +19,7 @@ GITHUB_RECORD_KEY = 'record_id'
 GITHUB_USERNAME_KEY = 'user_name'
 LEGAL_NAME_KEY = 'legal_name'
 GITHUB_TEAM_KEY = 'github_team'
-logger = logging.getLogger('csss_site')
+
 TAB_STRING = 'administration'
 
 
@@ -45,6 +44,7 @@ def add_non_officer_to_github_team(request):
     takes in the specified user and team from the user and attempts to give them the request github team
     membership
     """
+    logger = Loggers.get_logger()
     logger.info(f"[resource_management/github_views.py add_non_officer_to_github_team()] request.POST={request.POST}")
     validate_request_to_update_github_permissions(request)
     github = GitHubAPI()
@@ -122,6 +122,7 @@ def update_github_non_officer(request):
     updates the specified github team membership, either changes the username or the team name that is associated
     with the membership
     """
+    logger = Loggers.get_logger()
     logger.info(f"[resource_management/github_views.py update_github_non_officer()] request.POST={request.POST}")
     validate_request_to_update_github_permissions(request)
     github = GitHubAPI()
@@ -195,6 +196,7 @@ def create_github_perms():
         ],
     }
     """
+    logger = Loggers.get_logger()
     users_to_grant_permission_to_github_officers_team = {
         'team_names': []
     }

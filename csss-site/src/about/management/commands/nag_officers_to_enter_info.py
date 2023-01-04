@@ -1,12 +1,10 @@
-import logging
 from time import sleep
 
 from django.core.management import BaseCommand
 
 from about.models import UnProcessedOfficer, Officer
+from csss.setup_logger import Loggers
 from csss.views.send_discord_dm import send_discord_dm
-
-logger = logging.getLogger('csss_site')
 
 SERVICE_NAME = "nag_officers_to_enter_info"
 
@@ -15,6 +13,7 @@ class Command(BaseCommand):
     help = "nag any officers who have not entered their info"
 
     def handle(self, *args, **options):
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         unprocessed_officers = UnProcessedOfficer.objects.all()
         current_director_of_archives = Officer.objects.all().filter(
             position_name='Director of Archives'
@@ -40,3 +39,4 @@ class Command(BaseCommand):
                 f"[about/nag_officers_to_enter_info.py()] alerted the Sys Admin and DoA that "
                 f"{unprocessed_officer.full_name} has not filled in their info"
             )
+        Loggers.remove_logger(SERVICE_NAME)

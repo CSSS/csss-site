@@ -1,21 +1,19 @@
 import json
-import logging
 
 from django.core.management import BaseCommand
 
 from about.models import Officer, UnProcessedOfficer, OfficerEmailListAndPositionMapping
 from about.views.commands.validate_discord_roles_members.determine_changes_for_exec_discord_group_role_validation \
     import determine_changes_for_exec_discord_group_role_validation
-from about.views.commands.validate_discord_roles_members.\
+from about.views.commands.validate_discord_roles_members. \
     determine_changes_for_position_specific_discord_role_validation import \
     determine_changes_for_position_specific_discord_role_validation
 from about.views.commands.validate_discord_roles_members.get_all_user_dictionaries import get_all_user_dictionaries
 from about.views.commands.validate_discord_roles_members.get_role_dictionary import get_role_dictionary
 from about.views.input_new_officers.enter_new_officer_info.grant_digital_resource_access.assign_discord_roles import \
     EXEC_DISCORD_ROLE_NAME, get_discord_guild_roles, assign_roles_to_officer
+from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term_obj, get_previous_term_obj
-
-logger = logging.getLogger('csss_site')
 
 SERVICE_NAME = "validate_discord_roles_members"
 
@@ -24,6 +22,7 @@ class Command(BaseCommand):
     help = "Ensure that the Discord Roles associated with the Officers have valid members"
 
     def handle(self, *args, **options):
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         current_officers = Officer.objects.all().filter(
             elected_term=get_current_term_obj()
         )
@@ -106,3 +105,4 @@ class Command(BaseCommand):
             )
             if not success:
                 logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
+        Loggers.remove_logger(SERVICE_NAME)

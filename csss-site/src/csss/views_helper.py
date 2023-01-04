@@ -1,5 +1,4 @@
 import datetime
-import logging
 import re
 
 import markdown
@@ -7,8 +6,6 @@ import pytz
 from bs4 import BeautifulSoup
 
 from about.models import Term
-
-logger = logging.getLogger('csss_site')
 
 DATE_FORMAT = '%Y-%m-%d'
 

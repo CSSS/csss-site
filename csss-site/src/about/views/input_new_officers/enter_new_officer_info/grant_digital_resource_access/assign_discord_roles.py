@@ -1,15 +1,13 @@
 import json
-import logging
 
 import requests
 from django.conf import settings
 
 from csss.settings import discord_header
+from csss.setup_logger import Loggers
 from csss.views_helper import determine_if_specified_term_obj_is_for_current_term
 
 EXEC_DISCORD_ROLE_NAME = 'Execs'
-
-logger = logging.getLogger('csss_site')
 
 
 def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj):
@@ -104,6 +102,7 @@ def assign_roles_to_officer(discord_id_of_new_officer_with_role, discord_role_id
     bool -- true or false if the roles for the specified officer's discord user profile was updated
     error_message -- the error message if the roles could not be assigned to the user, or None
     """
+    logger = Loggers.get_logger()
     url = f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id_of_new_officer_with_role}"
     discord_role_ids = list(set(discord_role_ids))  # if there are any duplicate IDs in this, it results
     # in the dumbest and most vague error response to walk this earth

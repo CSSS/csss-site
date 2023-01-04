@@ -1,9 +1,6 @@
-import logging
-
+from csss.setup_logger import Loggers
 from csss.views_helper import DATE_FORMAT
 from elections.models import Election
-
-logger = logging.getLogger('csss_site')
 
 
 def gete_slug_and_human_friendly_name_election(election_date, chosen_election_type):
@@ -18,6 +15,7 @@ def gete_slug_and_human_friendly_name_election(election_date, chosen_election_ty
     slug -- the slug for the election
     human_friendly_name -- the human friendly name for the election
     """
+    logger = Loggers.get_logger()
     human_friendly_election_type = [
         valid_election_type_choice[1]
         for valid_election_type_choice in Election.election_type_choices

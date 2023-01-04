@@ -2,7 +2,6 @@ import collections
 import csv
 import datetime
 import json
-import logging
 import re
 
 from django.conf import settings
@@ -14,6 +13,7 @@ from about.models import Term, Officer, AnnouncementEmailAddress, OfficerEmailLi
 from about.views.Constants import TAB_STRING
 from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.Gmail import Gmail
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import \
     create_context_for_uploading_and_download_officer_lists
 from csss.views.views import ERROR_MESSAGES_KEY
@@ -40,8 +40,6 @@ BIO_COLUMN = 12
 ELECTION_OFFICER_POSITIONS = ["By-Election Officer", "General Election Officer"]
 OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE = ["SFSS Council-Representative"]
 OFFICERS_THAT_DO_NOT_HAVE_EYES_ONLY_PRIVILEGE.extend(ELECTION_OFFICER_POSITIONS.copy())
-
-logger = logging.getLogger('csss_site')
 
 
 def show_page_for_uploading_officer_list(request):
@@ -99,6 +97,7 @@ def save_officers_in_csv(request, overwrite, context):
     Return
     render value -- sends user to appropriate page based on if there was an error
     """
+    logger = Loggers.get_logger()
     year = 0
     term = 0
     output = collections.OrderedDict()
@@ -146,6 +145,7 @@ def return_member_json(row):
     member -- the dict that represents the member
     error_message -- the error message if there was a problem with one or more of the officer fields
     """
+    logger = Loggers.get_logger()
     course_divider = row[FAVORITE_COURSES_COLUMN].find("|")
     language_divider = row[FAVORITE_LANGUAGES_COLUMN].find("|")
     member = {
@@ -193,6 +193,7 @@ def extract_multiple_values_from_csv_column(column, default_value=None, delimite
     return
     an array of all the values extracts from csv column
     """
+    logger = Loggers.get_logger()
     values = [value.strip() for value in column.split(delimiter)]
     #  the above code set values to [""] if the indicated row is empty
     # which trigger the below if statement
@@ -225,6 +226,7 @@ def save_yearly_document(officer_json, overwrite):
     Return
     error_message -- the error_message if there was one or just None otherwise
     """
+    logger = Loggers.get_logger()
     current_year = get_current_date().year
     for year in range(1984, current_year + 1):
         year = f"{year}"
@@ -286,6 +288,7 @@ def create_new_term(year, term):
     return
     term_obj -- the term that was created with the specified year and season
     """
+    logger = Loggers.get_logger()
     term_number = get_term_number(year, term)
     term_obj = Term.objects.all().filter(term=term, term_number=term_number, year=int(year))
     if len(term_obj) == 0:
@@ -440,7 +443,7 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
     success - true or False
     error_message -- error message if success is False
     """
-
+    logger = Loggers.get_logger()
     pic_path = get_officer_image_path(term_obj, full_name)
     logger.info(
         f"[about/officer_management_helper.py save_officer_and_grant_digital_resources()] pic_path set to {pic_path}")
@@ -539,6 +542,7 @@ def _save_officer_github_membership(officer):
     success -- true or false Bool
     error_message -- the error_message if success is False or None otherwise
     """
+    logger = Loggers.get_logger()
     position_mapping = OfficerEmailListAndPositionMapping.objects.all().filter(
         position_index=officer.position_index
     )

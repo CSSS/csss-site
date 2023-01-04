@@ -1,12 +1,11 @@
-from csss.settings import discord_header
 import json
-import logging
 from time import sleep
 
 import requests
 from django.conf import settings
 
-logger = logging.getLogger('csss_site')
+from csss.settings import discord_header
+from csss.setup_logger import Loggers
 
 
 def get_discord_username_and_nickname(discord_id):
@@ -22,6 +21,7 @@ def get_discord_username_and_nickname(discord_id):
     discord_username --  the discord username for the user with the given discord ID
     discord_nickname -- the discord nickname for the user with the given discord ID
     """
+    logger = Loggers.get_logger()
     resp = requests.get(
         f"https://discord.com/api/guilds/{settings.GUILD_ID}/members/{discord_id}",
         headers=discord_header,

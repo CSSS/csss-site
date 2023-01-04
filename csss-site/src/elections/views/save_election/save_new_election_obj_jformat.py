@@ -1,12 +1,9 @@
-import logging
-
+from csss.setup_logger import Loggers
 from elections.models import Election
 
-logger = logging.getLogger('csss_site')
 
-
-def create_and_save_election_object_jformat(
-        election_type, election_websurvey, election_date, slug, human_friendly_name):
+def create_and_save_election_object_jformat(election_type, election_websurvey,
+                                            election_date, slug, human_friendly_name):
     """
     Create a new election given the election information
 
@@ -21,6 +18,7 @@ def create_and_save_election_object_jformat(
     the election object
 
     """
+    logger = Loggers.get_logger()
     election = Election(slug=slug, election_type=election_type, date=election_date,
                         websurvey=election_websurvey, human_friendly_name=human_friendly_name)
     election.save()

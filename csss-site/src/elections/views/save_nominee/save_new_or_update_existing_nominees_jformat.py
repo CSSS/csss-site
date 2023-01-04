@@ -1,5 +1,4 @@
-import logging
-
+from csss.setup_logger import Loggers
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_NAME, \
@@ -8,8 +7,6 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, 
 from elections.views.extractors.get_existing_nominee import get_exist_nominee
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
-
-logger = logging.getLogger('csss_site')
 
 
 def save_new_or_update_existing_nominees_jformat(election, election_information):
@@ -25,7 +22,7 @@ def save_new_or_update_existing_nominees_jformat(election, election_information)
     error-message -- the error message if the function could not find the nominee election under the
      election_information dict or None if it could be found
     """
-
+    logger = Loggers.get_logger()
     list_of_nominee_ids_specified_in_election = []
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []

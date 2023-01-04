@@ -1,8 +1,5 @@
-import logging
-
+from csss.setup_logger import Loggers
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
-
-logger = logging.getLogger('csss_site')
 
 
 def grant_google_drive_access(grant_gdrive_access, gmail):
@@ -17,6 +14,7 @@ def grant_google_drive_access(grant_gdrive_access, gmail):
     bool -- True or false depending on if there was an issue with talking to the google drive API
     error_message -- the message received alongside the error
     """
+    logger = Loggers.get_logger()
     if grant_gdrive_access and gmail is not None:
         gdrive_api = GoogleDrive()
         if gdrive_api.connection_successful is False:

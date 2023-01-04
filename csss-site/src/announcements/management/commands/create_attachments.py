@@ -1,12 +1,13 @@
-import logging
 import os
-import pathlib2
 
+import pathlib2
 from django.conf import settings
 from django.core.management import BaseCommand
 from django_mailbox.models import Message
 
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
+
+SERVICE_NAME = "create_attachments"
 
 
 class Command(BaseCommand):
@@ -20,8 +21,10 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         download_or_create_announcement_attachments(options['download'])
+        Loggers.remove_logger(SERVICE_NAME)
 
 
 def download_or_create_announcement_attachments(download=False):

@@ -1,17 +1,16 @@
 import json
-import logging
 
 from django.conf import settings
 from django.http import HttpResponseRedirect
 
+from csss.setup_logger import Loggers
 from csss.views.request_validation import validate_request_to_delete_election
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
 
-logger = logging.getLogger('csss_site')
-
 
 def delete_selected_election(request, slug):
+    logger = Loggers.get_logger()
     logger.info("[administration/delete_selected_election.py delete_selected_election()] request.POST=")
     logger.info(json.dumps(request.POST, indent=3))
     validate_request_to_delete_election(request)

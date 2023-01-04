@@ -1,8 +1,8 @@
 import json
-import logging
 
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_authenticated_contexts import create_context_for_election_officer
 from csss.views.views import ERROR_MESSAGES_KEY
 from elections.models import Election
@@ -12,11 +12,10 @@ from elections.views.create_context.webform.create_context_for_update_election__
 from elections.views.update_election.webform.process_existing_election_webform import \
     process_existing_election_information_from_webform
 
-logger = logging.getLogger('csss_site')
-
 
 def display_and_process_html_for_modification_of_webform_election(request, slug):
     """Shows the request election to the user in WebForm format"""
+    logger = Loggers.get_logger()
     logger.info("[elections/display_and_process_html_for_webform.py "
                 "display_and_process_html_for_modification_of_webform_election()] request.POST=")
     logger.info(json.dumps(request.POST, indent=3))

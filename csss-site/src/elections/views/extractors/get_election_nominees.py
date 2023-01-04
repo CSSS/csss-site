@@ -1,14 +1,12 @@
 import json
-import logging
 
+from csss.setup_logger import Loggers
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
     ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD
-
-logger = logging.getLogger('csss_site')
 
 
 def get_election_nominees(election):
@@ -39,6 +37,7 @@ def get_election_nominees(election):
         ]
     }
     """
+    logger = Loggers.get_logger()
     nominees = [
         nominee for nominee in Nominee.objects.all().filter(
             election=election

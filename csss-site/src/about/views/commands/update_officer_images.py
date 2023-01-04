@@ -1,4 +1,3 @@
-import logging
 import os
 import traceback
 
@@ -6,11 +5,11 @@ from django.conf import settings
 
 from about.models import Officer
 from about.views.utils.get_officer_image_path import get_officer_image_path
-
-logger = logging.getLogger('csss_site')
+from csss.setup_logger import Loggers
 
 
 def update_officer_images(download=False):
+    logger = Loggers.get_logger()
     if download:
         os.system("rm -fr about/static/about_static/exec-photos")
         logger.info("[about/update_officer_images.py run_job()] now trying to download all the exec photos")

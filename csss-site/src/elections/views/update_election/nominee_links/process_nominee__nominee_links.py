@@ -1,9 +1,8 @@
-import logging
-
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.models import Election, NomineeSpeech, NomineePosition
 from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, \
@@ -21,8 +20,6 @@ from elections.views.utils.webform_to_json.nominee_links.transform_nominee_links
 from elections.views.validators.validate_existing_nominees__nominee_link import \
     validate_existing_nominee__nominee_link
 
-logger = logging.getLogger('csss_site')
-
 
 def process_nominee__nominee_links(request, context, nominee_link=None, passphrase=False):
     """
@@ -36,6 +33,7 @@ def process_nominee__nominee_links(request, context, nominee_link=None, passphra
     Return
     render object that directs the user to the page for updating a nominee via nominee link
     """
+    logger = Loggers.get_logger()
     nominee_info = transform_nominee_links_webform_to_json(request)
 
     election_id = nominee_link.election.id

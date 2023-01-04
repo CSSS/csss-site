@@ -1,17 +1,16 @@
 from django.shortcuts import render
 from django.utils.deprecation import MiddlewareMixin
 import traceback
-import logging
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod, CASAuthenticationMethod
 from csss.views.views import ERROR_MESSAGES_KEY
 
-logger = logging.getLogger('csss_site')
-
 
 class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
+        logger = Loggers.get_logger()
         if isinstance(exception, InvalidPrivilege):
             return exception.render
         if isinstance(exception, NoAuthenticationMethod):

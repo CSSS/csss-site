@@ -1,6 +1,6 @@
 import json
-import logging
 
+from csss.setup_logger import Loggers
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.models import NomineeLink
@@ -21,8 +21,6 @@ from elections.views.create_context.webform_format.create_context_for_election_w
 from elections.views.create_context.webform_format.create_context_for_submission_buttons_html import \
     create_context_for_submission_buttons_html
 
-logger = logging.getLogger('csss_site')
-
 
 def create_context_for_create_election_nominee_links_html(context, election_date=None, election_time=None,
                                                           election_type=None, create_new_election=False,
@@ -42,6 +40,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     error_messages -- error message to display
     nominee_names --the nominee names that the user inputted so far
     """
+    logger = Loggers.get_logger()
     pre_existing_election = False
     if create_new_election:
         nominee_links = NomineeLink.objects.all()
