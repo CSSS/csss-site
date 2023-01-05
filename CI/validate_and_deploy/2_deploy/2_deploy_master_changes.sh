@@ -19,18 +19,11 @@ function install_latest_python_requirements {
 }
 
 function create_directory_for_website_logs {
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/backup_script"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/django_admin"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/jenkins"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/process_announcements"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/update_officer_pics"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/validate_resource_permissions"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/create_fixtures"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/nag_officers_to_enter_info"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/update_discord_details"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/validate_discord_roles_members"
-  mkdir -p "${BASE_DIR}/website_logs/python_logs/csss_website_cron_job"
   mkdir -p "${BASE_DIR}/website_logs/gunicorn_logs"
+  mkdir -p "${BASE_DIR}/website_logs/backup_script"
+  mkdir -p "${BASE_DIR}/website_logs/create_fixtures"
+  mkdir -p "${BASE_DIR}/website_logs/django_admin"
+  mkdir -p "${BASE_DIR}/website_logs/jenkins"
 }
 
 function wait_for_postgres_db {
