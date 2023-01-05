@@ -1,6 +1,6 @@
 backports.functools-lru-cache==1.5
 cachetools==4.2.2
-certifi==2018.11.29
+certifi==2022.12.7
 cffi==1.14.5
 chardet==3.0.4
 defusedxml==0.7.1
