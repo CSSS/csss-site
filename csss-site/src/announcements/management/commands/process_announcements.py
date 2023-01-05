@@ -1,3 +1,4 @@
+import time
 from email.utils import parseaddr
 
 from django.conf import settings
@@ -11,6 +12,7 @@ from announcements.views.commands.process_announcements.add_sortable_date_to_man
     add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
+from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
 from csss.views_helper import get_current_date, get_term_number_for_specified_year_and_month
 
@@ -29,6 +31,7 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        time1 = time.perf_counter()
         logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         there_are_no_unprocessed_officers = len(UnProcessedOfficer.objects.all()) == 0
@@ -97,4 +100,13 @@ class Command(BaseCommand):
                 logger.info("[process_announcements handle()] saved post from"
                             f" {message.author} with date {announcement_datetime} "
                             f"for term {term}")
+        time2 = time.perf_counter()
+        total_seconds = time2 - time1
+        cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
+        number_of_stats = CronJobRunStat.objects.all().filter(job=cron_job)
+        if len(number_of_stats) == 10:
+            first = number_of_stats.order_by('id').first()
+            if first is not None:
+                first.delete()
+        CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
         Loggers.remove_logger(SERVICE_NAME)

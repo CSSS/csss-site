@@ -52,17 +52,10 @@ function transfer_env_variables_to_server {
   echo 'GUILD_ID='"'"${GUILD_ID}"'" >> site_envs
   echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> site_envs
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn  
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/backup_script"'" > site_envs_backup_script
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/create_fixtures"'" > site_envs_create_fixtures
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/jenkins"'" > site_envs_jenkins
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/process_announcements"'" > site_envs_process_announcements
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_officer_pics"'" > site_envs_update_officer_pics
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/validate_resource_permissions"'" > site_envs_validate_resource_permissions    
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/nag_officers_to_enter_info"'" > site_envs_nag_officers_to_enter_info
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/update_discord_details"'" > site_envs_update_discord_details
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/validate_discord_roles_members"'" > site_envs_validate_discord_roles_members
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/csss_website_cron_job"'" > site_envs_csss_website_cron_job
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/backup_script"'" > site_envs_backup_script
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/create_fixtures"'" > site_envs_create_fixtures
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/django_admin"'" > site_envs_django_admin
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/jenkins"'" > site_envs_jenkins
   echo 'DB_NAME='"'postgres'" >> site_envs
 
   cat site_envs >> site_envs_gunicorn
@@ -70,26 +63,12 @@ function transfer_env_variables_to_server {
   cat site_envs >> site_envs_create_fixtures
   cat site_envs >> site_envs_django_admin
   cat site_envs >> site_envs_jenkins
-  cat site_envs >> site_envs_process_announcements
-  cat site_envs >> site_envs_update_officer_pics
-  cat site_envs >> site_envs_validate_resource_permissions
-  cat site_envs >> site_envs_nag_officers_to_enter_info
-  cat site_envs >> site_envs_update_discord_details
-  cat site_envs >> site_envs_validate_discord_roles_members
-  cat site_envs >> site_envs_csss_website_cron_job
 
   scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
   scp site_envs_backup_script csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_backup_script"
   scp site_envs_create_fixtures csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_create_fixtures"
   scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
   scp site_envs_jenkins csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_jenkins"
-  scp site_envs_process_announcements csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_process_announcements"
-  scp site_envs_update_officer_pics csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_update_officer_pics"
-  scp site_envs_validate_resource_permissions csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_validate_resource_permissions"
-  scp site_envs_nag_officers_to_enter_info csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_nag_officers_to_enter_info"
-  scp site_envs_update_discord_details csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_update_discord_details"
-  scp site_envs_validate_discord_roles_members csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_validate_discord_roles_members"
-  scp site_envs_csss_website_cron_job csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_csss_website_cron_job"
   scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 

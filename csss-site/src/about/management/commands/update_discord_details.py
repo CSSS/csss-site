@@ -1,3 +1,4 @@
+import time
 from time import sleep
 
 from django.core.management import BaseCommand
@@ -5,6 +6,7 @@ from django.core.management import BaseCommand
 from about.models import Officer
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
+from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
 
 SERVICE_NAME = "update_discord_details"
@@ -14,6 +16,7 @@ class Command(BaseCommand):
     help = "get the latest discord name and nicknames for the officers"
 
     def handle(self, *args, **options):
+        time1 = time.perf_counter()
         logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         all_officers = Officer.objects.all()
         officers = all_officers.exclude(discord_id="NA")
@@ -62,4 +65,13 @@ class Command(BaseCommand):
             nickname = discord_info_maps[officer.sfu_computing_id]['discord_nickname']
             officer.discord_nickname = nickname if nickname is not None else "NA"
         Officer.objects.bulk_update(officers_to_change, ['discord_id', 'discord_username', 'discord_nickname'])
+        time2 = time.perf_counter()
+        total_seconds = time2 - time1
+        cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
+        number_of_stats = CronJobRunStat.objects.all().filter(job=cron_job)
+        if len(number_of_stats) == 10:
+            first = number_of_stats.order_by('id').first()
+            if first is not None:
+                first.delete()
+        CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
         Loggers.remove_logger(SERVICE_NAME)
