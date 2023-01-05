@@ -83,13 +83,6 @@ function update_nginx_configuration {
   sudo systemctl restart nginx.service
 }
 
-function restart_cron_job_service {
-  csss_website_cron_job="csss_website_cron_job.service"
-  sudo systemctl restart "${csss_website_cron_job}"
-  sudo systemctl enable "${csss_website_cron_job}"
-  sudo systemctl status "${csss_website_cron_job}"
-  sudo journalctl -u "${csss_website_cron_job}"
-}
 function clean_up_after_deployment {
   rm "/home/csss/deploy_changes.sh"
 }
@@ -104,5 +97,4 @@ update_static_files_location
 set_gunicorn_files
 updating_gunincorn
 update_nginx_configuration
-restart_cron_job_service
 clean_up_after_deployment

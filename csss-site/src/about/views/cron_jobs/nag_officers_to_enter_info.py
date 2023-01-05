@@ -9,4 +9,4 @@ def run_job():
     if settings.ENVIRONMENT == "LOCALHOST":
         Popen(['python', 'manage.py', f'{SERVICE_NAME}'])
     else:
-        Popen(['../../cron_scripts/prod_nag_officers_to_enter_info.sh'])
+        Popen(['./about/cron_scripts/prod_nag_officers_to_enter_info.sh'])
