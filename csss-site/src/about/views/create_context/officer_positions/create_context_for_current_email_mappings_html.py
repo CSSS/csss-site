@@ -23,7 +23,7 @@ def create_context_for_current_email_mappings_html(context, officer_emaillist_an
         for applicable_position in officer_emaillist_and_position_mappings.filter(email=email_list):
             officers_to_show = officers.filter(
                 position_name=applicable_position.position_name
-            ).order_by('-start_date')[:2]
+            ).order_by('-start_date')
             sfuids_of_officers_to_show = []
             for officer_to_show in officers_to_show:
                 if officer_to_show.sfu_computing_id not in sfuids_of_officers_to_show:
