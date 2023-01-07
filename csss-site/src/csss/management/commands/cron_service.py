@@ -2,8 +2,9 @@ import datetime
 import importlib
 from time import sleep
 
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
+from django.conf import settings
 from django.core.management import BaseCommand
 
 from csss.models import CronJob
@@ -20,7 +21,8 @@ class Command(BaseCommand):
         logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
         logger.info("[Cron_Service_Command handle()] setting up cron service")
         date = datetime.datetime.now(date_timezone)
-        scheduler = BlockingScheduler()
+        scheduler = BackgroundScheduler(timezone=settings.SERVER_ZONE)
+        scheduler.configure()
         cron_jobs = [cron_job for cron_job in CronJob.objects.all() if cron_job.is_active]
         for cron_job in cron_jobs:
             logger.info(
