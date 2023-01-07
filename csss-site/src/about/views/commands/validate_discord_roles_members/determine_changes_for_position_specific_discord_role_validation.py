@@ -38,9 +38,11 @@ def determine_changes_for_position_specific_discord_role_validation(
         officers_that_should_be_in_discord_role = current_officers.filter(
             position_name__in=positions_that_map_to_the_discord_role
         )
-        list_of_officer_ids_that_belong_to_discord_role = list(
-            officers_that_should_be_in_discord_role.values_list('discord_id', flat=True)
-        )
+        list_of_officer_ids_that_belong_to_discord_role = [
+            current_officer.discord_id for current_officer in current_officers.filter(
+                position_name__in=positions_that_map_to_the_discord_role
+            )
+        ]
         if executive_discord_role_obj['id'] in role_id__list_of_users:  # in case the role currently has no users
             users_currently_in_executive_discord_role = role_id__list_of_users[executive_discord_role_obj['id']]
             for user_currently_in_executive_discord_role in users_currently_in_executive_discord_role:
