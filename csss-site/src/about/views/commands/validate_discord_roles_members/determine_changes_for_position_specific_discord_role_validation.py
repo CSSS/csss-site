@@ -141,7 +141,7 @@ def determine_changes_for_position_specific_discord_role_validation(
                             }
                     members_id__role_ids[
                         user_that_should_be_in_discord_role.discord_id
-                    ]['roles'][executive_discord_role_name] = executive_discord_role_obj['id']
+                    ]['roles'].append(executive_discord_role_obj['id'])
                     logger.info(
                         "[about/validate_discord_roles_members.py() ] add the role "
                         f"{executive_discord_role_name} to user {user_that_should_be_in_discord_role.full_name}"
