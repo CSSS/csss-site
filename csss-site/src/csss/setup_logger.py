@@ -6,6 +6,12 @@ import sys
 
 import pytz
 from django.conf import settings
+from django.core.exceptions import AppRegistryNotReady
+
+try:
+    from csss.models import Error
+except AppRegistryNotReady as e:
+    print(f"skipping past error {e} and will assume its happening when settings.py is loading logger")
 
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
@@ -106,6 +112,9 @@ class Loggers:
         debug_log_file_absolute_path = (
             f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_debug.log"
         )
+        error_log_file_absolute_path = (
+            f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_error.log"
+        )
 
         shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
@@ -116,8 +125,7 @@ class Loggers:
         sys_logger.addHandler(debug_filehandler)
 
         # ensures that anything printed to this logger at level ERROR or above goes to the specified file
-        error_filehandler = logging.FileHandler(
-            f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_err.log")
+        error_filehandler = logging.FileHandler(error_log_file_absolute_path)
         error_filehandler.setLevel(barrier_logging_level)
         error_filehandler.setFormatter(sys_stream_formatting)
         sys_logger.addHandler(error_filehandler)
@@ -135,7 +143,9 @@ class Loggers:
         sys_stderr_stream_handler.setFormatter(sys_stream_formatting)
         sys_stderr_stream_handler.setLevel(barrier_logging_level)
         sys_logger.addHandler(sys_stderr_stream_handler)
-        sys.stderr = LoggerWriter(sys_logger.error, settings.SYS_STREAM_LOG_HANDLER_NAME, "ERROR")
+        sys.stderr = LoggerWriter(
+            sys_logger.error, settings.SYS_STREAM_LOG_HANDLER_NAME, "ERROR", file_name=error_log_file_absolute_path
+        )
 
         return sys_logger
 
@@ -150,7 +160,7 @@ class Loggers:
         if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
             os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
         debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
-        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_err.log"
+        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_error.log"
 
         shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
@@ -179,7 +189,7 @@ class Loggers:
         sys_sterr_stream_handler.setFormatter(sys_stream_formatting)
         sys_sterr_stream_handler.setLevel(barrier_logging_level)
         logger.addHandler(sys_sterr_stream_handler)
-        sys.stderr = LoggerWriter(logger.error, logger_name, "ERROR")
+        sys.stderr = LoggerWriter(logger.error, logger_name, "ERROR", file_name=error_log_file_absolute_path)
 
         # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or
         # exception
@@ -220,13 +230,16 @@ class Loggers:
 
 
 class LoggerWriter:
-    def __init__(self, level, logger_name, level_name):
+    def __init__(self, level, logger_name, level_name, file_name=None):
         self.level = level
         self.logger_name = logger_name
         self.level_name = level_name
+        self.file_name = file_name
 
     def write(self, message):
         if message != '\n':
+            if self.level_name == "ERROR":
+                Error(level=self.level_name, filename=self.file_name, message=message).save()
             self.level(message)
 
     def flush(self):
