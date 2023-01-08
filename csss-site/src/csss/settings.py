@@ -6,7 +6,10 @@ import environ
 import os
 import tzlocal
 
-from csss.setup_logger import Loggers
+SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
+
+SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
+DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
 
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
@@ -30,9 +33,7 @@ USE_L10N = True
 
 USE_TZ = False
 
-SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
-DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
-SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
+from csss.setup_logger import Loggers # noqa E402
 
 Loggers.get_logger(logger_name=DJANGO_SETTINGS_LOG_HANDLER_NAME)
 

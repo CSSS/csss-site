@@ -57,6 +57,24 @@ class CronJobRunStat(models.Model):
         return f"job {self.job} ran for {self.get_run_time} on {self.run_date}"
 
 
+class Error(models.Model):
+    level = models.CharField(
+        max_length=500
+    )
+    filename = models.CharField(
+        max_length=500
+    )
+    message = models.CharField(
+        max_length=5000
+    )
+    processed = models.BooleanField(
+        default=False
+    )
+
+    def __str__(self):
+        return f"Error in file {self.filename}"
+
+
 def convert_seconds_to_run_time_str(seconds):
     hours, minutes = 0, 0
     if seconds > 60:
