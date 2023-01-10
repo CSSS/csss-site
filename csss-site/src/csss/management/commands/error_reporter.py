@@ -30,7 +30,7 @@ class Command(BaseCommand):
                         "[csss/error_reporter.py handle()] emailing the sys-admin about error "
                         f"{unprocessed_error.message}"
                     )
-                    message = f"{unprocessed_error.level} {unprocessed_error.message} in {unprocessed_error.filename}"
+                    message = f"{unprocessed_error.message} in {unprocessed_error.filename}"
                     send_email(
                         "ERRORS detected in CSSS-WEBSITE", message, "csss-sysadmin@sfu.ca", "Jace",
                         gmail=gmail, attachment=unprocessed_error.filename
