@@ -1,7 +1,9 @@
 import json
 import time
+from copy import deepcopy
 
 from django.core.management import BaseCommand
+from django.db.models import Q
 
 from about.models import Officer, UnProcessedOfficer, OfficerEmailListAndPositionMapping
 from about.views.commands.validate_discord_roles_members.determine_changes_for_exec_discord_group_role_validation \
@@ -29,22 +31,27 @@ class Command(BaseCommand):
         current_officers = Officer.objects.all().filter(
             elected_term=get_current_term_obj()
         )
-        exec_from_last_term = None
-        if len((current_officers.filter(position_name__contains="Executive at Large"))) == 0:
-            exec_from_last_term = Officer.objects.all().filter(
-                elected_term=get_previous_term_obj(), position_name__contains="Executive at Large"
-            ).exclude(
-                sfu_computing_id__in=list(
-                    UnProcessedOfficer.objects.all().values_list(
-                        'sfu_computing_id', flat=True
-                    )
+        officers_to_ignore = list(UnProcessedOfficer.objects.all().values_list('sfu_computing_id', flat=True))
+        if len((deepcopy(current_officers).filter(position_name__contains="Executive at Large"))) == 0:
+            current_officers = Officer.objects.filter(
+                (
+                    Q(elected_term=get_current_term_obj()) &
+                    ~Q(sfu_computing_id__in=officers_to_ignore)
+                )
+                |
+                (
+                    Q(elected_term=get_previous_term_obj()) &
+                    Q(position_name__contains="Executive at Large") &
+                    ~Q(sfu_computing_id__in=officers_to_ignore)
                 )
             )
-        current_officers = current_officers.exclude(
-            sfu_computing_id__in=list(UnProcessedOfficer.objects.all().values_list('sfu_computing_id', flat=True))
-        )
-        if exec_from_last_term is not None:
-            current_officers = current_officers.union(exec_from_last_term)
+        else:
+            current_officers = Officer.objects.filter(
+                (
+                    Q(elected_term=get_current_term_obj()) &
+                    ~Q(sfu_computing_id__in=officers_to_ignore)
+                )
+            )
         officer_discord_id__officer_full_name = {
             officer.discord_id: officer.full_name for officer in current_officers
         }
