@@ -58,9 +58,6 @@ class CronJobRunStat(models.Model):
 
 
 class Error(models.Model):
-    level = models.CharField(
-        max_length=500
-    )
     filename = models.CharField(
         max_length=500
     )

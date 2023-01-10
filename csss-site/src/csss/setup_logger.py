@@ -31,6 +31,17 @@ class CSSSDebugStreamHandler(logging.StreamHandler):
             super().emit(record)
 
 
+class CSSSErrorHandler(logging.StreamHandler):
+
+    def __init__(self, stream=None, file_name=None):
+        self.file_name = file_name
+        super().__init__(stream)
+
+    def emit(self, record):
+        Error(filename=self.file_name, message=record).save()
+        super().emit(record)
+
+
 class Loggers:
     loggers = []
     logger_list_indices = {}
@@ -85,14 +96,14 @@ class Loggers:
         django_settings_stdout_stream_handler.setFormatter(sys_stream_formatting)
         django_settings_stdout_stream_handler.setLevel(logging.DEBUG)
         django_settings_logger.addHandler(django_settings_stdout_stream_handler)
-        sys.stdout = LoggerWriter(django_settings_logger.info, settings.DJANGO_SETTINGS_LOG_HANDLER_NAME, "INFO")
+        sys.stdout = LoggerWriter(django_settings_logger.info)
 
         sys.stderr = sys.__stderr__
-        django_settings_stderr_stream_handler = logging.StreamHandler(sys.stderr)
+        django_settings_stderr_stream_handler = CSSSErrorHandler(sys.stderr)
         django_settings_stderr_stream_handler.setFormatter(sys_stream_formatting)
         django_settings_stderr_stream_handler.setLevel(barrier_logging_level)
         django_settings_logger.addHandler(django_settings_stderr_stream_handler)
-        sys.stderr = LoggerWriter(django_settings_logger.error, settings.DJANGO_SETTINGS_LOG_HANDLER_NAME, "ERROR")
+        sys.stderr = LoggerWriter(django_settings_logger.error)
 
         return django_settings_logger
 
@@ -136,16 +147,14 @@ class Loggers:
         sys_stdout_stream_handler.setFormatter(sys_stream_formatting)
         sys_stdout_stream_handler.setLevel(logging.DEBUG)
         sys_logger.addHandler(sys_stdout_stream_handler)
-        sys.stdout = LoggerWriter(sys_logger.info, settings.SYS_STREAM_LOG_HANDLER_NAME, "INFO")
+        sys.stdout = LoggerWriter(sys_logger.info)
 
         sys.stderr = sys.__stderr__
-        sys_stderr_stream_handler = logging.StreamHandler(sys.stderr)
+        sys_stderr_stream_handler = CSSSErrorHandler(sys.stderr, file_name=error_log_file_absolute_path)
         sys_stderr_stream_handler.setFormatter(sys_stream_formatting)
         sys_stderr_stream_handler.setLevel(barrier_logging_level)
         sys_logger.addHandler(sys_stderr_stream_handler)
-        sys.stderr = LoggerWriter(
-            sys_logger.error, settings.SYS_STREAM_LOG_HANDLER_NAME, "ERROR", file_name=error_log_file_absolute_path
-        )
+        sys.stderr = LoggerWriter(sys_logger.error)
 
         return sys_logger
 
@@ -182,14 +191,14 @@ class Loggers:
         sys_stdout_stream_handler.setFormatter(sys_stream_formatting)
         sys_stdout_stream_handler.setLevel(logging.DEBUG)
         logger.addHandler(sys_stdout_stream_handler)
-        sys.stdout = LoggerWriter(logger.info, logger_name, "INFO")
+        sys.stdout = LoggerWriter(logger.info)
 
         sys.stderr = sys.__stderr__
-        sys_sterr_stream_handler = logging.StreamHandler(sys.stderr)
+        sys_sterr_stream_handler = CSSSErrorHandler(sys.stderr, file_name=error_log_file_absolute_path)
         sys_sterr_stream_handler.setFormatter(sys_stream_formatting)
         sys_sterr_stream_handler.setLevel(barrier_logging_level)
         logger.addHandler(sys_sterr_stream_handler)
-        sys.stderr = LoggerWriter(logger.error, logger_name, "ERROR", file_name=error_log_file_absolute_path)
+        sys.stderr = LoggerWriter(logger.error)
 
         return logger
 
@@ -226,16 +235,11 @@ class Loggers:
 
 
 class LoggerWriter:
-    def __init__(self, level, logger_name, level_name, file_name=None):
+    def __init__(self, level):
         self.level = level
-        self.logger_name = logger_name
-        self.level_name = level_name
-        self.file_name = file_name
 
     def write(self, message):
         if message != '\n':
-            if self.level_name == "ERROR":
-                Error(level=self.level_name, filename=self.file_name, message=message).save()
             self.level(message)
 
     def flush(self):
