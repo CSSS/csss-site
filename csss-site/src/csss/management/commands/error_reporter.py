@@ -3,7 +3,7 @@ from time import sleep
 from django.core.management import BaseCommand
 
 from csss.Gmail import Gmail
-from csss.models import Error
+from csss.models import CSSSError
 from csss.setup_logger import Loggers
 from csss.views.send_email import send_email
 
@@ -16,11 +16,11 @@ class Command(BaseCommand):
         seconds_in_an_hour = 60 * 60
         logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
         while True:
-            unprocessed_errors = Error.objects.all().filter(processed=False)
+            unprocessed_errors = CSSSError.objects.all().filter(processed=False)
             logger.info(f"[csss/error_reporter.py handle()] detected {len(unprocessed_errors)} unprocessed_error")
             for unprocessed_error in unprocessed_errors:
                 unprocessed_error.processed = True
-            Error.objects.bulk_update(unprocessed_errors, ['processed'])
+            CSSSError.objects.bulk_update(unprocessed_errors, ['processed'])
             logger.info("[csss/error_reporter.py handle()] any unprocessed errors updated to \"processed\"")
             if len(unprocessed_errors) > 0:
                 logger.info("[csss/error_reporter.py handle()] connecting to gmail")
@@ -30,7 +30,7 @@ class Command(BaseCommand):
                         "[csss/error_reporter.py handle()] emailing the sys-admin about error "
                         f"{unprocessed_error.message}"
                     )
-                    message = f"{unprocessed_error.level} {unprocessed_error.message} in {unprocessed_error.filename}"
+                    message = f"{unprocessed_error.message} in {unprocessed_error.filename}"
                     send_email(
                         "ERRORS detected in CSSS-WEBSITE", message, "csss-sysadmin@sfu.ca", "Jace",
                         gmail=gmail, attachment=unprocessed_error.filename
