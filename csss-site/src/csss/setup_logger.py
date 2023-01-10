@@ -33,7 +33,7 @@ class CSSSErrorHandler(logging.StreamHandler):
 
     def emit(self, record):
         from csss.models import CSSSError
-        if len(CSSSError.objects.all().exclude(message=record.message)) == 0:
+        if len(CSSSError.objects.all().filter(message=record.message)) == 0:
             CSSSError(filename=self.file_name, message=record.message).save()
         super().emit(record)
 
