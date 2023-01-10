@@ -6,12 +6,6 @@ import sys
 
 import pytz
 from django.conf import settings
-from django.core.exceptions import AppRegistryNotReady
-
-try:
-    from csss.models import Error
-except AppRegistryNotReady as e:
-    print(f"skipping past error {e} and will assume its happening when settings.py is loading logger")
 
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
@@ -38,7 +32,8 @@ class CSSSErrorHandler(logging.StreamHandler):
         super().__init__(stream)
 
     def emit(self, record):
-        Error(filename=self.file_name, message=record).save()
+        from csss.models import CSSSError
+        CSSSError(filename=self.file_name, message=record).save()
         super().emit(record)
 
 

@@ -57,7 +57,7 @@ class CronJobRunStat(models.Model):
         return f"job {self.job} ran for {self.get_run_time} on {self.run_date}"
 
 
-class Error(models.Model):
+class CSSSError(models.Model):
     filename = models.CharField(
         max_length=500
     )

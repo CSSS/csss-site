@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from csss.models import Error
+from csss.models import CSSSError
 
 
-class ErrorAdmin(admin.ModelAdmin):
-    list_display = ('level', 'filename', 'message', 'processed')
+class CSSSErrorAdmin(admin.ModelAdmin):
+    list_display = ('filename', 'message', 'processed')
 
 
-admin.site.register(Error, ErrorAdmin)
+admin.site.register(CSSSError, CSSSErrorAdmin)
