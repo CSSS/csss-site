@@ -88,6 +88,7 @@ def validate_google_drive():
             first.delete()
     CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
 
+
 def validate_github():
     """
     calls the functions for validating the github permissions
