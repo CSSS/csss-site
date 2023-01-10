@@ -12,6 +12,7 @@ from csss.views.request_validation import validate_request_to_update_digital_res
 from csss.views_helper import there_are_multiple_entries
 from .gdrive_views import create_google_drive_perms
 from .github_views import create_github_perms
+from .resource_apis.Constants import GOOGLE_DRIVE_SERVICE_NAME, GITHUB_SERVICE_NAME
 from .resource_apis.gdrive.gdrive_api import GoogleDrive
 from .resource_apis.github.github_api import GitHubAPI
 
@@ -87,9 +88,6 @@ def validate_google_drive():
             first.delete()
     CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
 
-from resource_management.management.commands.validate_google_drive import SERVICE_NAME as GOOGLE_DRIVE_SERVICE_NAME # noqa E402
-
-
 def validate_github():
     """
     calls the functions for validating the github permissions
@@ -105,5 +103,3 @@ def validate_github():
         if first is not None:
             first.delete()
     CronJobRunStat(job=cron_job, run_time_in_seconds=total_seconds).save()
-
-from resource_management.management.commands.validate_github import SERVICE_NAME as GITHUB_SERVICE_NAME # noqa E402
