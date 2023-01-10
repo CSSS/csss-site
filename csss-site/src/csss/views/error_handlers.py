@@ -18,6 +18,6 @@ class HandleBusinessExceptionMiddleware(MiddlewareMixin):
         if isinstance(exception, CASAuthenticationMethod):
             return exception.render
         context = create_main_context(request, 'index')
-        logger.info(traceback.format_exc())
+        logger.exception(traceback.format_exc())
         context[ERROR_MESSAGES_KEY] = [f"Encountered an unexpected exception of: {exception}"]
         return render(request, 'csss/error_htmls/unknown_error.html', context)

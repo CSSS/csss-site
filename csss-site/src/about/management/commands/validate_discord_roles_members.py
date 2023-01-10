@@ -102,12 +102,16 @@ class Command(BaseCommand):
             f"{json.dumps(members_id__role_ids, indent=3)}"
         )
         for discord_id, user_role_info in members_id__role_ids.items():
+            logger.info(
+                f"[about/validate_discord_roles_members.py() Command() ] setting discord roles for"
+                f" {user_role_info['username']}({discord_id})"
+            )
             success, error_message = assign_roles_to_officer(
                 discord_id,
                 [role_id for role_name, role_id in user_role_info['roles'].items()]
             )
             if not success:
-                logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
+                logger.error(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
         time2 = time.perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

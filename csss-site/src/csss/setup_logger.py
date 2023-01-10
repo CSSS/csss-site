@@ -191,10 +191,6 @@ class Loggers:
         logger.addHandler(sys_sterr_stream_handler)
         sys.stderr = LoggerWriter(logger.error, logger_name, "ERROR", file_name=error_log_file_absolute_path)
 
-        # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or
-        # exception
-        # use logging.exception("message") also remove logs from more than a month ago
-
         return logger
 
     @classmethod
