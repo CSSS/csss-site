@@ -64,6 +64,17 @@ class CSSSError(models.Model):
     message = models.CharField(
         max_length=5000
     )
+    request = models.CharField(
+        max_length=100000,
+        default=None,
+        null=True
+    )
+
+    endpoint = models.CharField(
+        max_length=500,
+        default=None,
+        null=True
+    )
     processed = models.BooleanField(
         default=False
     )
