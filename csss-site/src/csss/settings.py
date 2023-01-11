@@ -440,18 +440,26 @@ logging.config.dictConfig({
         }
     },
     'handlers': {
-        'console': {
+        'info_handler': {
             'level': 'INFO',
             'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            "stream": sys.stdout  # setting this up manually because this specific property had to be changed,
+            'class': 'csss.CSSSLoggerHandlers.CSSSDebugStreamHandler',
+            "stream": sys.__stdout__  # setting this up manually because this specific property had to be changed,
+            # and I was too lazy to figure out how to customize this via
+            # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
+        },
+        'error_handler': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'csss.CSSSLoggerHandlers.CSSSErrorHandler',
+            "stream": sys.__stderr__  # setting this up manually because this specific property had to be changed,
             # and I was too lazy to figure out how to customize this via
             # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
         },
         'django.server': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            "stream": sys.stdout,  # setting this up manually because this specific property had to be changed,
+            "stream": sys.__stdout__,  # setting this up manually because this specific property had to be changed,
             # and I was too lazy to figure out how to customize this via
             # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
             'formatter': 'django.server',
@@ -464,7 +472,7 @@ logging.config.dictConfig({
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'mail_admins'],
+            'handlers': ['info_handler', 'error_handler', 'mail_admins'],
             'level': 'INFO',
         },
         'django.server': {
