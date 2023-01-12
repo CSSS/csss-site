@@ -24,7 +24,7 @@ def add_sortable_date_to_email(email):
     date_format = '%a, %d %b %Y %H:%M:%S %z'
     try:
         email_datetime = datetime.datetime.strptime(email_date, date_format).astimezone(
-            pytz.timezone(settings.WEBSITE_TIME_ZONE)
+            pytz.timezone(settings.TIME_ZONE)
         )
         successful = True
     except ValueError:
@@ -34,7 +34,7 @@ def add_sortable_date_to_email(email):
         date_format = '%a, %d %b %Y %H:%M:%S %z'
         try:
             email_datetime = datetime.datetime.strptime(email_date[:-6], date_format).astimezone(
-                pytz.timezone(settings.WEBSITE_TIME_ZONE)
+                pytz.timezone(settings.TIME_ZONE)
             )
             successful = True
         except ValueError:
@@ -44,7 +44,7 @@ def add_sortable_date_to_email(email):
         date_format = '%a, %d %b %Y %H:%M:%S %Z'
         try:
             email_datetime = datetime.datetime.strptime(email_date, date_format).astimezone(
-                pytz.timezone(settings.WEBSITE_TIME_ZONE)
+                pytz.timezone(settings.TIME_ZONE)
             )
             successful = True
         except ValueError:

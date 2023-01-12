@@ -62,7 +62,7 @@ class Command(BaseCommand):
 
         time_difference = get_timezone_difference(
             get_current_date().strftime('%Y-%m-%d'),
-            settings.WEBSITE_TIME_ZONE,
+            settings.TIME_ZONE,
             settings.TIME_ZONE_FOR_PREVIOUS_WEBSITE
         )
 
