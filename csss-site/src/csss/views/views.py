@@ -35,7 +35,10 @@ def index(request):
     if current_page == 'none':
         current_page = 1
     else:
-        current_page = int(current_page)
+        try:
+            current_page = int(current_page)
+        except ValueError:
+            current_page = 1
 
     request_path = request.path
 
