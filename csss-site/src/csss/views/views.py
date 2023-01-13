@@ -38,7 +38,7 @@ def index(request):
         try:
             current_page = int(current_page)
         except ValueError:
-            current_page = 1
+            return HttpResponseRedirect(settings.URL_ROOT)
 
     request_path = request.path
 
