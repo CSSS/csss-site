@@ -228,7 +228,6 @@ INSTALLED_APPS = [
     'csss',
     'announcements',
     'about',
-    'documents',
     'events',
     'events.frosh',
     'events.mountain_madness',
