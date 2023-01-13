@@ -18,7 +18,7 @@ def add_sortable_date_to_manual_announcement(timezone_difference, manual_announc
     """
     logger = Loggers.get_logger()
     manual_announcement.sortable_date = \
-        pytz.timezone(settings.WEBSITE_TIME_ZONE).localize(
+        pytz.timezone(settings.TIME_ZONE).localize(
             manual_announcement.date + datetime.timedelta(hours=timezone_difference)
         )
     logger.info('[process_announcements return_manual_announcement_with_date)] generated '

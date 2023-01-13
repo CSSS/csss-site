@@ -4,7 +4,6 @@ import sys
 
 import environ
 import os
-import tzlocal
 
 SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
@@ -21,9 +20,8 @@ LOG_LOCATION = os.environ['LOG_LOCATION'] if 'LOG_LOCATION' in os.environ else N
 if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
-WEBSITE_TIME_ZONE = 'America/Vancouver'
-TIME_ZONE = WEBSITE_TIME_ZONE
-SERVER_ZONE = f"{tzlocal.get_localzone()}"
+TIME_ZONE = 'America/Vancouver'
+# SERVER_ZONE = f"{tzlocal.get_localzone()}"
 
 # needed for importing manual announcements from previous website
 TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
@@ -31,7 +29,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
 from csss.setup_logger import Loggers # noqa E402
 
