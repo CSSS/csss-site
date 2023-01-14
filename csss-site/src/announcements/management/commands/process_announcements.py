@@ -15,6 +15,7 @@ from announcements.views.commands.process_announcements.get_officer_term_mapping
 from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
+from csss.views.send_email import send_email
 from csss.views_helper import get_current_date, get_term_number_for_specified_year_and_month
 
 SERVICE_NAME = "process_announcements"
@@ -77,7 +78,7 @@ class Command(BaseCommand):
         )
         messages.sort(key=lambda x: x.sortable_date, reverse=False)
         officer_mapping = get_officer_term_mapping()
-
+        emails_not_displayed = []
         for message in messages:
             announcement_datetime = message.sortable_date
             term_number = get_term_number_for_specified_year_and_month(
@@ -104,12 +105,14 @@ class Command(BaseCommand):
                     author_email = parseaddr(message.from_header)[1]
                     valid_email = (author_email in officer_emails)
                     if valid_email or (not valid_email and there_are_no_unprocessed_officers):
+                        emails_not_displayed.append(f"email from [{author_email}]")
                         Announcement(term=term, email=message, date=announcement_datetime,
                                      display=valid_email, author=author_name).save()
                         logger.info("[process_announcements handle()] saved email from"
                                     f" {author_name} with email {author_email} with date {announcement_datetime} "
                                     f"for term {term}. Will {'not ' if valid_email is False else ''}display email")
                 else:
+                    emails_not_displayed.append(f"Unknown Email with subject [{message.subject}]")
                     Announcement(term=term, email=message, date=announcement_datetime,
                                  display=False).save()
                     logger.info("[process_announcements handle()] unable to determine sender of email "
@@ -121,6 +124,9 @@ class Command(BaseCommand):
                 logger.info("[process_announcements handle()] saved post from"
                             f" {message.author} with date {announcement_datetime} "
                             f"for term {term}")
+        if len(emails_not_displayed) > 0:
+            body = "<br>".join(emails_not_displayed)
+            send_email("CSSS-Website emails not displayed", body, "csss-sysadmin@sfu.ca", "jace")
         time2 = time.perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
