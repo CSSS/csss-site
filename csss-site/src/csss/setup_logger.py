@@ -31,6 +31,12 @@ class Loggers:
         if logger_name is None:
             if len(cls.loggers) == 0:
                 raise Exception("Could not find any loggers")
+            # handler_files = [
+            #     handler.baseFilename for handler in cls.loggers[0].handlers if type(handler) is logging.FileHandler
+            # ]
+            # print(f"handler_file-first={handler_files[0]}")
+            # print(f"handler_file-second={handler_files[1]}")
+            print("test")
             return cls.loggers[0]
         elif logger_name == settings.DJANGO_SETTINGS_LOG_HANDLER_NAME:
             return cls._add_logger(cls._add_settings_filehandler())
