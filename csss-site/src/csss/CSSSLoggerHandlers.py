@@ -28,7 +28,7 @@ class CSSSErrorHandler(logging.StreamHandler):
             endpoint = record.request.path
         else:
             filename = self.file_name
-            message = record.exc_text
+            message = record.exc_test if record.exc_text is not None else record.message
         if len(CSSSError.objects.all().filter(message=message)) == 0:
             CSSSError(filename=filename, message=message, request=request, endpoint=endpoint).save()
         super().emit(record)
