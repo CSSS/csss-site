@@ -167,7 +167,8 @@ class Loggers:
         debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
         error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_error.log"
 
-        shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
+        if REDIRECT_STD_STREAMS:
+            shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
