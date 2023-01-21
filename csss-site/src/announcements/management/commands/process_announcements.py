@@ -105,7 +105,8 @@ class Command(BaseCommand):
                     author_email = parseaddr(message.from_header)[1]
                     valid_email = (author_email in officer_emails)
                     if valid_email or (not valid_email and there_are_no_unprocessed_officers):
-                        emails_not_displayed.append(f"email from [{author_email}]")
+                        if not valid_email:
+                            emails_not_displayed.append(f"email from [{author_email}]")
                         Announcement(term=term, email=message, date=announcement_datetime,
                                      display=valid_email, author=author_name).save()
                         logger.info("[process_announcements handle()] saved email from"
