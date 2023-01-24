@@ -540,7 +540,11 @@ class GoogleDrive:
                 f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
                 f"will have its owner be alerted."
             )
-            if self._file_is_gdrive_file(file) and not self._file_is_gdrive_form(file):
+            file_is_form_or_folder = (
+                self._file_is_gdrive_form(file) or
+                self._determine_if_file_info_belongs_to_gdrive_folder(file)
+            )
+            if self._file_is_gdrive_file(file) and not file_is_form_or_folder:
                 self.logger.info(
                     "[GoogleDrive _validate_owner_for_file()] file "
                     f"{file['name']} determined to be a regular google drive file that is not a form"
