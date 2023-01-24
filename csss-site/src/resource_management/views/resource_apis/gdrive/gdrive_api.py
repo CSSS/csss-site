@@ -585,7 +585,7 @@ class GoogleDrive:
                         )
                         if self._duplicate_file(file):
                             self._alert_user_to_delete_file(file, files_to_email_owner_about, owner_email, owner)
-        else:
+        elif not self._file_is_gdrive_form(file):
             self._remove_outdated_comments(file)
         if self._determine_if_file_info_belongs_to_gdrive_folder(file):
             # this is a folder so we have to check to see if any of its files have a bad permission set
