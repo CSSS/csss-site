@@ -1,4 +1,3 @@
-
 import logging
 
 barrier_logging_level = logging.ERROR
@@ -26,9 +25,11 @@ class CSSSErrorHandler(logging.StreamHandler):
             message = " ".join([f"{exc_info}" for exc_info in record.exc_info])
             request = str(record.request.__dict__)
             endpoint = record.request.path
+            record_type = 'django_request_record'
         else:
             filename = self.file_name
             message = record.exc_test if record.exc_text is not None else record.message
+            record_type = 'other_record'
         if len(CSSSError.objects.all().filter(message=message)) == 0:
-            CSSSError(filename=filename, message=message, request=request, endpoint=endpoint).save()
+            CSSSError(filename=filename, message=message, request=request, endpoint=endpoint, type=record_type).save()
         super().emit(record)

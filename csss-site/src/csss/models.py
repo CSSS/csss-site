@@ -58,6 +58,11 @@ class CronJobRunStat(models.Model):
 
 
 class CSSSError(models.Model):
+    type = models.CharField(
+        max_length=100,
+        default=None,
+        null=True
+    )
     filename = models.CharField(
         max_length=500
     )
