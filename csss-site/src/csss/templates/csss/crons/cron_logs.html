@@ -7,5 +7,5 @@
     {%  for log_file in log_files %}
         <a href="/{{cron_logs_base_url_key__html_name}}/{{ log_file.file }}">{{ log_file.file }}</a> - {{ log_file.size }} Bytes<br>
     {%  endfor %}
-    {{ log_file|safe}}
+    {{ log_file|linebreaksbr}}
 {%  endblock %}
