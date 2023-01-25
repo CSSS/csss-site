@@ -134,14 +134,18 @@ def determine_changes_for_position_specific_discord_role_validation(
                         username = (
                             user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['user']['username']
                         )
+                        roles_map = {
+                            role_id__role[role_id]['name']: role_id
+                            for role_id in user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['roles']
+                        }
                         members_id__role_ids[user_that_should_be_in_discord_role.discord_id] = \
                             {
                                 "username": username,
-                                "roles": user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['roles']
+                                "roles": roles_map
                             }
-                    members_id__role_ids[
-                        user_that_should_be_in_discord_role.discord_id
-                    ]['roles'].append(executive_discord_role_obj['id'])
+                    role_id = executive_discord_role_obj['id']
+                    role_name = role_id__role[role_id]['name']
+                    members_id__role_ids[user_that_should_be_in_discord_role.discord_id]['roles'][role_name] = role_id
                     logger.info(
                         "[about/validate_discord_roles_members.py() ] add the role "
                         f"{executive_discord_role_name} to user {user_that_should_be_in_discord_role.full_name}"
