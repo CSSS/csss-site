@@ -27,6 +27,7 @@ class CSSSErrorHandler(logging.StreamHandler):
             endpoint = record.request.path
             record_type = 'django_request_record'
         else:
+            # django-commands come here
             filename = self.file_name
             message = record.exc_test if record.exc_text is not None else record.message
             record_type = 'other_record'
