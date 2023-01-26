@@ -221,10 +221,10 @@ def validate_markdown(message):
             message
         )
     )
-    if not bool(BeautifulSoup(unescaped_input_in_message, "html.parser").find()):
+    if len(BeautifulSoup(unescaped_input_in_message).find_all("script")) == 0:
         return True, None
     else:
-        return False, "seems you tried to enter some un-escaped html/js code"
+        return False, "seems you tried to enter some un-escaped Javascript code"
 
 
 date_timezone = pytz.timezone('US/Pacific')
