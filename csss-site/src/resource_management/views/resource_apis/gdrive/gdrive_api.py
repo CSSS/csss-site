@@ -358,7 +358,9 @@ class GoogleDrive:
                     )
                     self.remove_users_gdrive([gdrive_user])
             for gdrive_user in google_drive_perms:
-                if self.root_file_id in gdrive_user and gdrive_user not in gdrive_users_with_access_to_root_folder:
+                user_should_have_access = self.root_file_id in google_drive_perms[gdrive_user]
+                user_doesnt_have_access = gdrive_user not in gdrive_users_with_access_to_root_folder
+                if user_should_have_access and user_doesnt_have_access:
                     self.logger.info(
                         f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} should "
                         "have access to the root google drive folder but does not, attempting to grant "
