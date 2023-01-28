@@ -221,7 +221,7 @@ def validate_markdown(message):
             message
         )
     )
-    if len(BeautifulSoup(unescaped_input_in_message).find_all("script")) == 0:
+    if len(BeautifulSoup(unescaped_input_in_message, features="lxml").find_all("script")) == 0:
         return True, None
     else:
         return False, "seems you tried to enter some un-escaped Javascript code"

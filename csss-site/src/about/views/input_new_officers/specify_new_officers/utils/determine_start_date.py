@@ -1,6 +1,7 @@
-from csss.setup_logger import Loggers
-from csss.views_helper import get_current_term_obj
+import datetime
 
+from csss.setup_logger import Loggers
+from csss.views_helper import get_current_term_obj, date_timezone
 
 """
 Determine Start Date Logic
@@ -57,7 +58,7 @@ def determine_start_date(
     """
     logger = Loggers.get_logger()
     if not re_use_start_date:
-        return start_date
+        return datetime.datetime.strptime(start_date, "%Y-%m-%d").astimezone(tz=date_timezone)
     position_obj = officer_email_list_and_position_mapping.filter(position_name=position_name).first()
     if position_obj.number_of_terms == 1:
         logger.info(
