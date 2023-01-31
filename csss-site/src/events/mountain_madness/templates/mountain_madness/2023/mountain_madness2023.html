@@ -1,249 +1,273 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Mountain Madness</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {% load staticfiles %}
-    <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'mountain_madness_static/2023/mm2023_main.css' %}">
-    <link rel="stylesheet" href="{% static 'events_static/custom_css.css' %}">
-  </head>
-  <body>
 
-    <nav id='nav-links'>
-      <a href="{{URL_ROOT}}">
-        CSSS
-      </a>
+<head>
+  <title>Mountain Madness</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% load staticfiles %}
+  <link href="https://fonts.googleapis.com/css?family=Bungee" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'mountain_madness_static/2023/mm2023_main.css' %}">
+  <link rel="stylesheet" href="{% static 'events_static/custom_css.css' %}">
+</head>
 
-      <a href="#about">
-        About
-      </a>
+<body>
 
-      <a href="#faq">
-        FAQ
-      </a>
+  <nav id='nav-links'>
+    <a href="{{URL_ROOT}}">
+      CSSS
+    </a>
 
-      <a href="#schedule">
-        Schedule
-      </a>
+    <a href="#about">
+      About
+    </a>
 
-      <a href="#prize">
-        Prizes
-      </a>
+    <a href="#faq">
+      FAQ
+    </a>
 
-      <a href="{{URL_ROOT}}events/mm/2021/submissions">
-        2021 Submissions
-      </a>
-    </nav>
+    <a href="#schedule">
+      Schedule
+    </a>
 
-    <section id='above-fold'>
+    <a href="#prize">
+      Prizes
+    </a>
 
-      <header>
-        <h3>The CSSS presents</h3>
-        <h1>Mountain Madness</h1>
-        <h3>February 18-19, 2023 @ Simon Fraser University</h3>
-        <h2><a href="https://www.eventbrite.ca/e/mountain-madness-2023-tickets-520208937937" class='btn'>Register</a></h2>
-      </header>
+    <a href="{{URL_ROOT}}events/mm/2021/submissions">
+      2021 Submissions
+    </a>
+  </nav>
+
+  <section id='above-fold'>
+
+    <header>
+      <h3>The CSSS presents</h3>
+      <h1>Mountain Madness</h1>
+      <h3>February 18-19, 2023 @ Simon Fraser University</h3>
+      <h2><a href="https://www.eventbrite.ca/e/mountain-madness-2023-tickets-520208937937" class='btn'>Register</a></h2>
+    </header>
 
 
-      <div id='building' aria-hidden="true"></div>
+    <div id='building' aria-hidden="true"></div>
 
-      <div id='mountain' aria-hidden="true">
-				<div class='grass'></div>
-				<div class='grass'></div>
-				<div class='grass'></div>
+    <div id='mountain' aria-hidden="true">
+      <div class='grass'></div>
+      <div class='grass'></div>
+      <div class='grass'></div>
+    </div>
+
+
+  </section>
+
+  <div id='info-container'>
+    <article id='about' class="stack center">
+      <div>
+        <h2>What is Mountain Madness?</h2>
+        <p>The SFU Computing Science Student Society (CSSS) organizes the Mountain Madness hackathon annually.
+          We welcome students of all skill levels and experience to our cozy, tight-knit hackathon.
+          The "Mountain" in the name pays homage to Burnaby Mountain, the original foundation of Simon Fraser University
+          and the scenic location for a full weekend's worth of fun.
+        </p>
+        <h3>This year's theme: <strong>ANNOUNCED DURING OPENING CEREMONY</strong></h3>
+      </div>
+    </article>
+    <article class="stack center">
+      <div>
+        <h2>Why Mountain Madness?</h2>
+        <p>
+          We emphasize learning and creativity over commercial feasibility.
+          This is an opportunity to spend a weekend tinkering with your favourite technologies to create something fun
+          and interesting.
+        </p>
+
+        <p>
+          Mountain Madness is <i>the perfect event</i> for everyone from fresh-faced hackers to seasoned CS veterans.
+        </p>
+      </div>
+    </article>
+    <article id='faq' class="stack center">
+      <h2>Frequently Asked Questions</h2>
+      <div>
+        <h3>
+          Wait, what actually is a hackathon?
+        </h3>
+        <p>
+          A hackathon is an event where teams work on a project inspired by an event-provided theme.
+          You will have 24 hours to develop something cool at Mountain Madness.
+          Your team will start from scratch and try to make the coolest thing they can before the time is up.
+        </p>
       </div>
 
+      <div>
+        <h3>
+          Where is Mountain Madness?
+        </h3>
+        <p>
+          Registration and administration is at TASC 9204 on SFU's Burnaby Campus.
+          We will provide a Zoom link for online registration (if you wish to participate remotely).
+          You are free to hack at other open locations on campus.
+        </p>
+      </div>
 
-    </section>
-
-    <div id='info-container'>
-        <article id='about' class="stack center">
-          <div>  
-          <h2>What is Mountain Madness?</h2>
-            <p>The SFU Computing Science Student Society (CSSS) organizes the Mountain Madness hackathon annually. 
-              We welcome students of all skill levels and experience to our cozy, tight-knit hackathon. 
-              The "Mountain" in the name pays homage to Burnaby Mountain, the original foundation of Simon Fraser University and the scenic location for a full weekend's worth of fun.
-            </p>
-            <h3>This year's theme: <strong>ANNOUNCED DURING OPENING CEREMONY</strong></h3>
-          </div>
-        </article>
-        <article class="stack center">
-          <div>
-            <h2>Why Mountain Madness?</h2>
-            <p>
-            We emphasize learning and creativity over commercial feasibility. 
-            This is an opportunity to spend a weekend tinkering with your favourite technologies to create something fun and interesting.
-            </p>
-  
-            <p>
-            Mountain Madness is <i>the perfect event</i> for everyone from fresh-faced hackers to seasoned CS veterans.
-            </p>
-          </div>
-        </article>
-      <article id='faq' class="stack center">
-        <h2>Frequently Asked Questions</h2>
-        <div>
-          <h3>
-            Wait, what actually is a hackathon?
-          </h3>
-          <p>
-            A hackathon is an event where teams work on a project inspired by an event-provided theme. 
-            Mountain Madness will have 24-hours of development time allotted. 
-            Your team will start from scratch and try to make the coolest thing they can before the time is up.
-          </p>
-        </div>
-
-        <div>
-          <h3>
-            Where is Mountain Madness?
-          </h3>
-          <p>
-            Registration and administration is at TASC 9204 on SFU's Burnaby Campus.
-            We will provide a Zoom link for online registration (if you wish to participate remotely).
-            You are free to hack at other open locations on campus.
-          </p>
-        </div>
-
-        <div>
-          <h3>
-            Why should I participate?
-          </h3>
-          <p>
-	        You get experience with new technologies and navigate teamwork dynamics to accomplish a goal. 
+      <div>
+        <h3>
+          Why should I participate?
+        </h3>
+        <p>
+          You get experience with new technologies and navigate teamwork dynamics to accomplish a goal.
           Hackathon projects are also a great addition to a resume!
-          </p>
-        </div>
+        </p>
+      </div>
 
-        <div>
-          <h3>
-            I am in my first year/don't have much experience, should I still participate?
-          </h3>
-          <p>
-	      Yes! This hackathon is <strong>free</strong> and it is a great learning oppurtinity for people with less development experience.
-          </p>
-        </div>
+      <div>
+        <h3>
+          I am in my first year/don't have much experience, should I still participate?
+        </h3>
+        <p>
+          Yes! This hackathon is <strong>free</strong> and it is a great learning oppurtinity for people with less
+          development experience.
+        </p>
+      </div>
 
-        <div>
-          <h3>
-            Do I need to stay during the entire event?
-          </h3>
-          <p>
-            No! You may leave and enter the venue whenever (note that most doors are locked during the weekend).
-            You can spend as much or as little of the 24 hours as you wish. 
-            If you get tired, we will have sleeping rooms available for you. 
-            Sleep still matters even though it is reading break!
-          </p>
-        </div>
+      <div>
+        <h3>
+          Do I need to stay during the entire event?
+        </h3>
+        <p>
+          No! You may leave and enter the venue whenever (note that most doors are locked during the weekend).
+          You can spend as much or as little of the 24 hours as you wish.
+          If you get tired, we will have sleeping rooms available for you.
+          Sleep still matters even though it is reading break!
+        </p>
+      </div>
 
-        <div>
-          <h3>
-           How do we declare teams?
-          </h3>
-          <p>
-	        You <strong>do not need</strong> to know your team when you register.
+      <div>
+        <h3>
+          How do we declare teams?
+        </h3>
+        <p>
+          You <strong>do not need</strong> to know your team when you register.
           You can form groups before or during the hackathon.
           When you give us your submission GitHub/GitLab link you will declare your group members.
-          </p>
-        </div>
+        </p>
+      </div>
 
-        <div>
-          <h3>
-           Will there be food?
-          </h3>
-          <p>
-		Yes! We will be providing food for in person attendees.
-          </p>
-        </div>
+      <div>
+        <h3>
+          Will there be food?
+        </h3>
+        <p>
+          Yes! We will be providing food for in person attendees.
+        </p>
+      </div>
 
-        <div>
-          <h3>
-            Can I have Non-SFU people and Alumni join my team?
-          </h3>
-          <p>
-	    Yes! We will allow groups to be made up of non-SFU students however we want a majority (> 50%) of the team to be made up of SFU students. 
-      So a group of 5 can have up to 2 non-SFU participants.
-          </p>
-        </div>
+      <div>
+        <h3>
+          Can I have Non-SFU people and Alumni join my team?
+        </h3>
+        <p>
+          Yes! We will allow groups to be made up of non-SFU students however we want a majority (> 50%) of the team to
+          be made up of SFU students.
+          So a group of 5 can have up to 2 non-SFU participants.
+        </p>
+      </div>
 
-        <div>
-          <h3>
-            Can I work on my previous projects?
-          </h3>
-          <p>
-            No, we want you to create awesome things from scratch in 24 hours. 
-            Starting from an existing project is against the spirit of the event. 
-            Existing open-source libraries and frameworks are fine, of course. 
-            Ask an organizer if you are unsure.
-          </p>
-        </div>
+      <div>
+        <h3>
+          Can I work on my previous projects?
+        </h3>
+        <p>
+          No, we want you to create awesome things from scratch in 24 hours.
+          Starting from an existing project is against the spirit of the event.
+          Existing open-source libraries and frameworks are fine, of course.
+          Ask an organizer if you are unsure.
+        </p>
+      </div>
 
-        <div>
-          <h3>
-            What size should my team be?
-          </h3>
-          <p>
-            Teams can have between 1 and 5 members inclusive. 
-            You can work alone if you really want to, but struggling with your team is an essential hackathon experience! 
-            We will run a team formation event before the event for you to form teams. 
-            From past experience groups of 3 work well!
-          </p>
-        </div>
+      <div>
+        <h3>
+          What size should my team be?
+        </h3>
+        <p>
+          Teams can have between 1 and 5 members inclusive.
+          You can work alone if you really want to, but struggling with your team is an essential hackathon experience!
+          We will run a team formation event before the event for you to form teams.
+          From past experience groups of 3 work well!
+        </p>
+      </div>
 
-        <div>
-          <h3>
-            How much does it cost?
-          </h3>
-          <p>
-            The event is <strong>free!</strong>
-          </p>
-        </div>
-      </article>
+      <div>
+        <h3>
+          How much does it cost?
+        </h3>
+        <p>
+          The event is <strong>free!</strong>
+        </p>
+      </div>
+    </article>
 
-      <article id='schedule' class="center">
-        <h2>Preliminary Schedule</h2>
-        <h3 id="join-discord"><a href="https://discord.gg/sfucsss" target="_blank">Join the CSSS Discord Server</a> for the latest updates.</h3>
-        <div>
-          <h3>Saturday, February 18</h3>
-          <table>
-            <tr>
-              <td>8:30 AM</td><td>Check-in/Registration</td>
-            </tr>
-            <tr>
-              <td>9:30 AM</td><td>Opening Ceremony (theme annouced)</td>
-            </tr>
-            <tr>
-              <td>10:00 AM</td><td>Hacking Begins</td>
-            </tr>
-            <tr>
-              <td>1:30 PM</td><td>Lunch</td>
-            </tr>
-            <tr>
-              <td>6:30 PM</td><td>Dinner</td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <h3>Sunday, February 19</h3>
-          <table>
-            <tr>
-              <td>8:00 AM</td><td>Breakfast</td>
-            </tr>
-            <tr>
-              <td>10:00 AM</td><td>Submission Deadline</td>
-            </tr>
-            <tr>
-              <td>11:00 AM</td><td>Project Presentations</td>
-            </tr>
-          </table>
-        </div>
-      </article>
+    <article id='schedule' class="center">
+      <h2>Preliminary Schedule</h2>
+      <h3 id="join-discord"><a href="https://discord.gg/sfucsss" target="_blank">Join the CSSS Discord Server</a> for
+        the latest updates.</h3>
+      <div>
+        <h3>Saturday, February 18</h3>
+        <table>
+          <tr>
+            <td>9:00 AM</td>
+            <td>Check-in/Registration</td>
+          </tr>
+          <tr>
+            <td>10:00 AM</td>
+            <td>Opening Ceremony (theme annouced)</td>
+          </tr>
+          <tr>
+            <td>11:00 AM</td>
+            <td>Hacking Begins</td>
+          </tr>
+          <tr>
+            <td>2:00 PM</td>
+            <td>Lunch</td>
+          </tr>
+          <tr>
+            <td>7:30 PM</td>
+            <td>Dinner</td>
+          </tr>
+        </table>
+      </div>
+      <div>
+        <h3>Sunday, February 19</h3>
+        <table>
+          <tr>
+            <td>8:00 AM</td>
+            <td>Breakfast</td>
+          </tr>
+          <tr>
+            <td>9:30 AM</td>
+            <td>Submissions Open</td>
+          </tr>
+          <tr>
+            <td>11:00 AM</td>
+            <td>Hacking Ends - Submission Deadline</td>
+          </tr>
+          <tr>
+            <td>11:30 AM</td>
+            <td>Project Presentations</td>
+          </tr>
+          <tr>
+            <td>1:30 PM</td>
+            <td>END</td>
+          </tr>
+        </table>
+      </div>
+    </article>
 
-      <article id='prize' class="center">
-        <h2>Prize Categories will be announced at the Opening Ceremony</h2>
-      </article>
-    </div>
-   </body>
+    <article id='prize' class="center">
+      <h2>Prize Categories will be announced at the Opening Ceremony</h2>
+    </article>
+  </div>
+</body>
+
 </html>
