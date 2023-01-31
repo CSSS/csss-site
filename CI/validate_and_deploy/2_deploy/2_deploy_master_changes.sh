@@ -69,23 +69,27 @@ function updating_gunincorn {
   gunicorn_socket="gunicorn.socket"
   gunicorn="gunicorn.service"
   sudo systemctl restart "${gunicorn_socket}"
+  sleep 10
   sudo systemctl status "${gunicorn_socket}"
   file "${socket_file_location}"
   sudo journalctl -u "${gunicorn_socket}"
 
   sudo systemctl restart "${gunicorn}"
+  sleep 10
   sudo systemctl status "${gunicorn}"
 }
 
 function update_nginx_configuration {
   nginx_service="nginx.service"
   sudo systemctl restart "${nginx_service}"
+  sleep 10
   sudo systemctl status "${nginx_service}"
 }
 
 function restart_cron_job_service {
   csss_website_cron_job="cron.service"
   sudo systemctl restart "${csss_website_cron_job}"
+  sleep 10
   sudo systemctl status "${csss_website_cron_job}"
 }
 
@@ -93,6 +97,7 @@ function restart_cron_job_service {
 function restart_error_reporting_service {
   csss_website_error_reporting="error_reporting.service"
   sudo systemctl restart "${csss_website_error_reporting}"
+  sleep 10
   sudo systemctl status "${csss_website_error_reporting}"
 }
 

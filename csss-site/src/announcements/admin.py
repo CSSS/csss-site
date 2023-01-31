@@ -11,7 +11,7 @@ admin.site.register(ManualAnnouncement, ManualAnnouncementAdmin)
 
 
 class AnnouncementAdmin(admin.ModelAdmin):
-    list_display = ('id', 'term', 'email', 'manual_announcement', 'date', 'author', 'display')
+    list_display = ('id', 'term', 'date', 'author', 'display', 'email', 'manual_announcement')
 
 
 admin.site.register(Announcement, AnnouncementAdmin)
