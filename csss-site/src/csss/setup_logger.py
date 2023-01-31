@@ -218,7 +218,8 @@ class Loggers:
         logger = cls.loggers[cls.logger_list_indices[logger_name]]
         [
             os.remove(handler.baseFilename) for handler in logger.handlers
-            if (type(handler) == logging.FileHandler) and (round(os.stat(handler.baseFilename).st_size) == 0)
+            if (type(handler) == logging.FileHandler) and os.path.exists(handler.baseFilename)
+            and (round(os.stat(handler.baseFilename).st_size) == 0)
         ]
         cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
         cls.logger_list_indices = {}
