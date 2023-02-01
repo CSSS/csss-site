@@ -4,8 +4,8 @@ from elections.views.validators.validate_speech_and_position_names import valida
 
 
 def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, position_ids_so_far, full_name,
-                                      position_names_and_speech_pairings, facebook_link, linkedin_link, email_address,
-                                      discord_username, election_id):
+                                      position_names_and_speech_pairings, facebook_link, instagram_link,
+                                      linkedin_link, email_address, discord_username, election_id):
     """
     validates the nominee info to validate it
 
@@ -23,7 +23,8 @@ def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, p
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, linkedin_link,
+    success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, instagram_link,
+                                                       linkedin_link,
                                                        email_address, discord_username)
     if not success:
         return success, error_message

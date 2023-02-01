@@ -3,7 +3,7 @@ from elections.views.Constants import NOMINEE_DIV__NAME, NOMINEES_HTML__NAME, ID
     DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
-    ELECTION_JSON_KEY__NOM_DISCORD
+    ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_INSTAGRAM
 from elections.views.create_context.webform.js_functions.create_context_for_add_blank_nominee_html import \
     create_context_for_add_blank_nominee_html
 from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
@@ -59,6 +59,7 @@ def create_context_for_main_function__webform_html(
                             ID_KEY: nominee_obj.id,
                             ELECTION_JSON_KEY__NOM_NAME: nominee_obj.full_name,
                             ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
+                            ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_obj.instagram,
                             ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
                             ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,
                             ELECTION_JSON_KEY__NOM_DISCORD: nominee_obj.discord
@@ -83,6 +84,8 @@ def create_context_for_main_function__webform_html(
                     if ELECTION_JSON_KEY__NOM_NAME in nominee_info else None,
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK]
                     if ELECTION_JSON_KEY__NOM_FACEBOOK in nominee_info else None,
+                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM]
+                    if ELECTION_JSON_KEY__NOM_INSTAGRAM in nominee_info else None,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN]
                     if ELECTION_JSON_KEY__NOM_LINKEDIN in nominee_info else None,
                     ELECTION_JSON_KEY__NOM_EMAIL: nominee_info[ELECTION_JSON_KEY__NOM_EMAIL]

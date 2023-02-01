@@ -1,7 +1,7 @@
 from elections.models import Nominee
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_LINKEDIN, \
-    ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD
+    ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_INSTAGRAM
 from elections.views.validators.validate_existing_nominee_jformat import validate_existing_nominee_jformat
 
 
@@ -27,5 +27,6 @@ def validate_existing_nominee__nominee_link(election_id, nominee_link_id, nomine
     return validate_existing_nominee_jformat(
         nominee_names_so_far, speech_ids_so_far, position_ids_so_far,
         nominee_info[ELECTION_JSON_KEY__NOM_NAME], nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
-        nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN],
+        nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
+        nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN],
         nominee_info[ELECTION_JSON_KEY__NOM_EMAIL], nominee_info[ELECTION_JSON_KEY__NOM_DISCORD], election_id)

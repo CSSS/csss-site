@@ -3,7 +3,8 @@ from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
-    ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_DISCORD
+    ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_DISCORD, \
+    ELECTION_JSON_KEY__NOM_INSTAGRAM
 from elections.views.extractors.get_existing_nominee import get_exist_nominee
 from elections.views.save_nominee.save_new_nominee_jformat import save_new_nominee_jformat
 from elections.views.save_nominee.update_existing_nominees_jformat import update_existing_nominee_jformat
@@ -41,8 +42,9 @@ def save_new_or_update_existing_nominees_jformat(election, election_information)
             nominee_id, position_ids, speech_ids = save_new_nominee_jformat(
                 election, nominee[ELECTION_JSON_KEY__NOM_NAME],
                 nominee[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
-                nominee[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee[ELECTION_JSON_KEY__NOM_LINKEDIN],
-                nominee[ELECTION_JSON_KEY__NOM_EMAIL], nominee[ELECTION_JSON_KEY__NOM_DISCORD]
+                nominee[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee[ELECTION_JSON_KEY__NOM_INSTAGRAM],
+                nominee[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee[ELECTION_JSON_KEY__NOM_EMAIL],
+                nominee[ELECTION_JSON_KEY__NOM_DISCORD]
             )
             list_of_nominee_ids_specified_in_election.append(nominee_id)
             list_of_speech_obj_ids_specified_in_election.extend(speech_ids)
