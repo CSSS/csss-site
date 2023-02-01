@@ -1,7 +1,7 @@
 from elections.views.Constants import NOMINEE_DIV__NAME, DRAFT_NOMINEE_HTML__NAME
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
-    ELECTION_JSON_KEY__NOM_DISCORD
+    ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_INSTAGRAM
 from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
     create_context_for_display_nominee_info_html import \
     create_context_for_display_nominee_info_html
@@ -26,6 +26,7 @@ def create_context_for_main_function__nominee_links_html(context, nominee_info=N
             nominee_info_to_add_to_context = {
                     ELECTION_JSON_KEY__NOM_NAME: nominee_info[ELECTION_JSON_KEY__NOM_NAME],
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK],
+                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN],
                     ELECTION_JSON_KEY__NOM_EMAIL: nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
                     ELECTION_JSON_KEY__NOM_DISCORD: nominee_info[ELECTION_JSON_KEY__NOM_DISCORD]
@@ -43,6 +44,7 @@ def create_context_for_main_function__nominee_links_html(context, nominee_info=N
                 nominee_obj.full_name: {
                     ELECTION_JSON_KEY__NOM_NAME: nominee_obj.full_name,
                     ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
+                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_obj.instagram,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
                     ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,
                     ELECTION_JSON_KEY__NOM_DISCORD: nominee_obj.discord

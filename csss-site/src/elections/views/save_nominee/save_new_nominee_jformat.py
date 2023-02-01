@@ -5,8 +5,8 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH
     ELECTION_JSON_KEY__NOM_POSITION_NAMES
 
 
-def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, facebook_link, linkedin_link,
-                             email_address, discord_username, nominee_link=None):
+def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, facebook_link, instagram_link,
+                             linkedin_link, email_address, discord_username, nominee_link=None):
     """
     Saves the given nominees and the relevant NomineeSpeech and NomineePosition objects with the given values
 
@@ -15,6 +15,7 @@ def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, 
     name -- the name of the nominee
     speech_and_position_pairings -- a list of the pairings of the nominee's speeches and position_names
     facebook_link -- the nominee's facebook link
+    instagram_link -- the nominee's Instagram link
     linkedin_link -- the nominee's linkedin link
     email_address -- the nominee's email address
     discord_username -- the nominee's discord username
@@ -28,11 +29,12 @@ def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, 
     logger = Loggers.get_logger()
     full_name = full_name.strip()
     facebook_link = facebook_link.strip()
+    instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
     discord_username = discord_username.strip()
     nominee = Nominee(election=election, full_name=full_name, facebook=facebook_link,
-                      linkedin=linkedin_link, email=email_address, discord=discord_username)
+                      instagram=instagram_link, linkedin=linkedin_link, email=email_address, discord=discord_username)
     nominee.save()
     logger.info("[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} under election {election}"

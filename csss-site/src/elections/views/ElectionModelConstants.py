@@ -15,6 +15,7 @@ ELECTION_JSON_KEY__NOM_SPEECH = NomineeSpeech.speech.field_name
 ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS = \
     f'{ELECTION_JSON_KEY__NOM_POSITION_NAMES}_and_{ELECTION_JSON_KEY__NOM_SPEECH}_pairings'
 ELECTION_JSON_KEY__NOM_FACEBOOK = Nominee.facebook.field_name
+ELECTION_JSON_KEY__NOM_INSTAGRAM = Nominee.instagram.field_name
 ELECTION_JSON_KEY__NOM_LINKEDIN = Nominee.linkedin.field_name
 ELECTION_JSON_KEY__NOM_EMAIL = Nominee.email.field_name
 ELECTION_JSON_KEY__NOM_DISCORD = Nominee.discord.field_name
