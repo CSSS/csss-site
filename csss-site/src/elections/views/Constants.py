@@ -88,6 +88,7 @@ INPUT_SPEECH_ID__NAME = 'input_speech_id__name'
 INPUT_NOMINEE_NAME__NAME = 'input_nominee_name__name'
 
 INPUT_NOMINEE_FACEBOOK__NAME = 'input_nominee_facebook__name'
+INPUT_NOMINEE_INSTAGRAM__NAME = 'input_nominee_instagram__name'
 INPUT_NOMINEE_LINKEDIN__NAME = 'input_nominee_linkedin__name'
 INPUT_NOMINEE_EMAIL__NAME = 'input_nominee_email__name'
 INPUT_NOMINEE_DISCORD__NAME = 'input_nominee_discord__name'

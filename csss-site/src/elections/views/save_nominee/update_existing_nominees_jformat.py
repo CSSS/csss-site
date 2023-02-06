@@ -7,7 +7,7 @@ from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
-    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME
+    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_INSTAGRAM
 
 
 def update_existing_nominee_jformat(nominee_obj, nominee_dict):
@@ -27,6 +27,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     list_of_nominee_position_obj_ids_specified_in_election = []
     nominee_obj.full_name = nominee_dict[ELECTION_JSON_KEY__NOM_NAME].strip()
     nominee_obj.facebook = nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip()
+    nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
     nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
     nominee_obj.discord = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD].strip()
@@ -36,6 +37,7 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
         "updating a nominee obj with the following details ")
     logger.info(f"name = {nominee_obj.full_name}")
     logger.info(f"facebook = {nominee_obj.facebook}")
+    logger.info(f"instagram = {nominee_obj.instagram}")
     logger.info(f"linkedin = {nominee_obj.linkedin}")
     logger.info(f"email = {nominee_obj.email}")
     logger.info(f"discord = {nominee_obj.discord}")

@@ -4,14 +4,15 @@ from csss.setup_logger import Loggers
 from elections.views.validators.validate_link import validate_link_for_nominee_social_media
 
 
-def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, linkedin_link, email_address,
-                              discord_username):
+def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, instagram_link, linkedin_link,
+                              email_address, discord_username):
     """
     validates the nominee info to validate it
 
     Keyword Arguments
     name -- the full name of the nominee
     facebook_link -- the link to the nominee's facebook profile
+    instagram_link -- the link to the nominee's Instagram profile
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
     discord_username -- the nominee's discord username
@@ -29,6 +30,7 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, li
     )
     full_name = full_name.strip()
     facebook_link = facebook_link.strip()
+    instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
     discord_username = discord_username.strip()
@@ -41,6 +43,12 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, li
         return False, f"No valid facebook link detected for nominee" \
                       f" {full_name}, please set to \"NONE\" if there is no facebook link"
     success, error_message = validate_link_for_nominee_social_media(facebook_link, "Facebook", full_name)
+    if not success:
+        return False, error_message
+    if len(instagram_link) == 0:
+        return False, f"No valid instagram link detected for nominee" \
+                      f" {full_name}, please set to \"NONE\" if there is no instagram link"
+    success, error_message = validate_link_for_nominee_social_media(instagram_link, "Instagram", full_name)
     if not success:
         return False, error_message
     if len(linkedin_link) == 0:

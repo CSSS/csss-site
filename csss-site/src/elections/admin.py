@@ -36,6 +36,7 @@ class NomineeAdmin(admin.ModelAdmin):
         'election',
         'full_name',
         'facebook',
+        'instagram',
         'linkedin',
         'email',
         'discord',

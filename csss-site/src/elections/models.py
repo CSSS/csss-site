@@ -53,6 +53,11 @@ class Nominee(models.Model):
         _(u'Facebook Link'),
         max_length=300
     )
+    instagram = models.CharField(
+        _(u'Instagram Link'),
+        max_length=300,
+        default='NONE'
+    )
     linkedin = models.CharField(
         _(u'LinkedIn Link'),
         max_length=300
@@ -123,6 +128,13 @@ class NomineeSpeech(models.Model):
         barrier_needed = False
         if self.nominee.facebook != "NONE":
             social_media = f'<a href="{self.nominee.facebook}" target="_blank">Facebook Profile</a>'
+            barrier_needed = True
+        if self.nominee.instagram != "NONE":
+            if barrier_needed:
+                social_media += " | "
+            else:
+                social_media = ""
+            social_media += f'<a href="{self.nominee.instagram}" target="_blank">Instagram Profile</a>'
             barrier_needed = True
         if self.nominee.linkedin != "NONE":
             if barrier_needed:
