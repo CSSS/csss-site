@@ -5,7 +5,7 @@ from elections.views.validators.validate_speech_and_position_names import valida
 
 def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, position_ids_so_far, full_name,
                                       position_names_and_speech_pairings, facebook_link, instagram_link,
-                                      linkedin_link, email_address, discord_username, election_id):
+                                      linkedin_link, email_address, discord_id, election_id):
     """
     validates the nominee info to validate it
 
@@ -25,7 +25,7 @@ def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, p
     """
     success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, instagram_link,
                                                        linkedin_link,
-                                                       email_address, discord_username)
+                                                       email_address, discord_id)
     if not success:
         return success, error_message
     specified_position_names = []

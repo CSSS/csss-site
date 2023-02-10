@@ -1,4 +1,6 @@
 from about.models import OfficerEmailListAndPositionMapping
+from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
+    get_discord_username_and_nickname
 from csss.setup_logger import Loggers
 from elections.models import Nominee, NomineeSpeech, NomineePosition
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH, \
@@ -6,7 +8,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH
 
 
 def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, facebook_link, instagram_link,
-                             linkedin_link, email_address, discord_username, nominee_link=None):
+                             linkedin_link, email_address, discord_id, nominee_link=None):
     """
     Saves the given nominees and the relevant NomineeSpeech and NomineePosition objects with the given values
 
@@ -32,9 +34,16 @@ def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, 
     instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
-    discord_username = discord_username.strip()
+    if discord_id is not None:
+        success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
+    else:
+        discord_username = "NONE"
+        discord_nickname = "NONE"
+        discord_id = "NONE"
     nominee = Nominee(election=election, full_name=full_name, facebook=facebook_link,
-                      instagram=instagram_link, linkedin=linkedin_link, email=email_address, discord=discord_username)
+                      instagram=instagram_link, linkedin=linkedin_link, email=email_address, discord=discord_username,
+                      discord_username=discord_username, discord_nickname=discord_nickname, discord_id=discord_id
+                      )
     nominee.save()
     logger.info("[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} under election {election}"

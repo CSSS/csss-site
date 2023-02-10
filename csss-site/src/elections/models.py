@@ -71,6 +71,21 @@ class Nominee(models.Model):
         max_length=300
     )
 
+    discord_id = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
+    discord_username = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
+    discord_nickname = models.CharField(
+        max_length=200,
+        default='NA'
+    )
+
     def __str__(self):
         return f"Nominee {self.full_name} for Election {self.election}"
 
@@ -150,12 +165,25 @@ class NomineeSpeech(models.Model):
                 social_media = ""
             social_media += f'Email: <a href="mailto:{self.nominee.email}"> {self.nominee.email}</a>'
             barrier_needed = True
-        if self.nominee.discord != "NONE":
+        if self.nominee.discord_nickname != "NONE":
             if barrier_needed:
                 social_media += " | "
             else:
                 social_media = ""
-            social_media += f'Discord Username: {self.nominee.discord}'
+            social_media += f"Discord Nickname: {self.nominee.discord_nickname}"
+        if self.nominee.discord_username != "NONE":
+            if barrier_needed:
+                social_media += " | "
+            else:
+                social_media = ""
+            social_media += f"Discord Username: {self.nominee.discord_username}"
+        else:
+            if self.nominee.discord != "NONE":
+                if barrier_needed:
+                    social_media += " | "
+                else:
+                    social_media = ""
+                social_media += f'Discord Username: {self.nominee.discord}'
         return "" if social_media is None else "<p> Contact/Social Media: " + social_media + "</p>"
 
     @property

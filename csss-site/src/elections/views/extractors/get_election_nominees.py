@@ -6,8 +6,8 @@ from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
     ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_SPEECH, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_FACEBOOK, \
-    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
-    ELECTION_JSON_KEY__NOM_INSTAGRAM
+    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_INSTAGRAM, \
+    ELECTION_JSON_KEY__NOM_DISCORD_ID
 
 
 def get_election_nominees(election):
@@ -86,7 +86,7 @@ def get_election_nominees(election):
                     ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee.instagram,
                     ELECTION_JSON_KEY__NOM_LINKEDIN: nominee.linkedin,
                     ELECTION_JSON_KEY__NOM_EMAIL: nominee.email,
-                    ELECTION_JSON_KEY__NOM_DISCORD: nominee.discord
+                    ELECTION_JSON_KEY__NOM_DISCORD_ID: nominee.discord_id
                 }
             else:
                 nominees_dict_to_display[nominee.full_name][

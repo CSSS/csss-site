@@ -22,7 +22,7 @@ $(document).ready(function () {
 		let instagram;
 		let linkedin;
 		let email;
-		let discord;
+        let discord_id;
         let nominee_link_election_form=false;
         {%  for nominee in nominees__html_name %}
             nominee_index = document.getElementById(nominees_div_name).childElementCount;
@@ -33,7 +33,7 @@ $(document).ready(function () {
 			instagram="{{nominee.instagram}}";
 			linkedin="{{nominee.linkedin}}";
 			email="{{nominee.email}}";
-			discord="{{nominee.discord}}";
+			discord_id="{{nominee.discord_id}}";
 			speech_parent_div_name = nominee_div_name + '_speeches';
 			{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
         {%  endfor %}

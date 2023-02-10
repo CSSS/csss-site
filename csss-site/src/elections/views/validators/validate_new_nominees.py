@@ -6,7 +6,7 @@ from elections.views.validators.validate_info_for_nominee_obj import validate_no
 
 
 def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_speech_pairings, facebook_link,
-                         instagram_link, linkedin_link, email_address, discord_username):
+                         instagram_link, linkedin_link, email_address, discord_id):
     """
     validates the nominee info to validate it
 
@@ -16,7 +16,7 @@ def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_spe
     facebook_link -- the link to the nominee's facebook profile
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
-    discord_username -- the nominee's discord username
+    discord_id -- the nominee's discord ID
 
     Return
     Boolean -- indicates whether or not nominee information is valid which happens when any of the
@@ -24,7 +24,7 @@ def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_spe
     error_message -- the error message if the nominees had an invalid input
     """
     success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, instagram_link,
-                                                       linkedin_link, email_address, discord_username)
+                                                       linkedin_link, email_address, discord_id)
     if not success:
         return success, error_message
     specified_position_names = []

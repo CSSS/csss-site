@@ -5,7 +5,7 @@ from csss.setup_logger import Loggers
 from elections.models import NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
-    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
+    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_INSTAGRAM
 
@@ -30,7 +30,6 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
     nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
-    nominee_obj.discord = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD].strip()
 
     logger.info(
         "[elections/update_existing_nominees_jformat.py update_existing_nominee_jformat()]"

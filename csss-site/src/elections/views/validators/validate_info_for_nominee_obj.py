@@ -1,11 +1,13 @@
 import re
 
+from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
+    get_discord_username_and_nickname
 from csss.setup_logger import Loggers
 from elections.views.validators.validate_link import validate_link_for_nominee_social_media
 
 
 def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, instagram_link, linkedin_link,
-                              email_address, discord_username):
+                              email_address, discord_id):
     """
     validates the nominee info to validate it
 
@@ -15,7 +17,7 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, in
     instagram_link -- the link to the nominee's Instagram profile
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
-    discord_username -- the nominee's discord username
+    discord_id -- the nominee's discord ID
 
     Return
     Boolean -- indicates whether or not nominee information is valid which happens when any of the
@@ -26,14 +28,13 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, in
     logger.info(
         f"[elections/validate_info_for_nominee_obj.py validate_nominee_obj_info()] "
         f"name={full_name}, facebook_link={facebook_link}, linkedin_link={linkedin_link}, "
-        f"email_address={email_address}, discord_username={discord_username}"
+        f"email_address={email_address}"
     )
     full_name = full_name.strip()
     facebook_link = facebook_link.strip()
     instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
-    discord_username = discord_username.strip()
     if full_name in nominee_names_so_far:
         return False, f"the nominee {full_name} has been specified more than once"
     nominee_names_so_far.append(full_name)
@@ -63,8 +64,7 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, in
     regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
     if not (re.search(regex, email_address) or email_address == "NONE"):
         return False, f"email {email_address} for nominee {full_name} did not pass validation"
-    if len(discord_username) == 0:
-        return False, f"No valid discord username detected for nominee" \
-                      f" {full_name}, please set to \"NONE\" if there is no discord " \
-                      f"username "
+    success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
+    if not success:
+        return False, error_message
     return True, None

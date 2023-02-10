@@ -18,4 +18,4 @@ ELECTION_JSON_KEY__NOM_FACEBOOK = Nominee.facebook.field_name
 ELECTION_JSON_KEY__NOM_INSTAGRAM = Nominee.instagram.field_name
 ELECTION_JSON_KEY__NOM_LINKEDIN = Nominee.linkedin.field_name
 ELECTION_JSON_KEY__NOM_EMAIL = Nominee.email.field_name
-ELECTION_JSON_KEY__NOM_DISCORD = Nominee.discord.field_name
+ELECTION_JSON_KEY__NOM_DISCORD_ID = Nominee.discord_id.field_name

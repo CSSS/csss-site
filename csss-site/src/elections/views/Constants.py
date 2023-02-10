@@ -92,6 +92,7 @@ INPUT_NOMINEE_INSTAGRAM__NAME = 'input_nominee_instagram__name'
 INPUT_NOMINEE_LINKEDIN__NAME = 'input_nominee_linkedin__name'
 INPUT_NOMINEE_EMAIL__NAME = 'input_nominee_email__name'
 INPUT_NOMINEE_DISCORD__NAME = 'input_nominee_discord__name'
+INPUT_NOMINEE_DISCORD_ID__NAME = 'input_nominee_discord_id__name'
 
 CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
 
