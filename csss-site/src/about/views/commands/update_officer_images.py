@@ -11,16 +11,23 @@ from csss.setup_logger import Loggers
 def update_officer_images(download=False):
     logger = Loggers.get_logger()
     if download:
-        os.system("rm -fr about/static/about_static/exec-photos")
+        if settings.ENVIRONMENT == "LOCALHOST":
+            os.system("rm -fr about/static/about_static/exec-photos")
         logger.info("[about/update_officer_images.py run_job()] now trying to download all the exec photos")
-        officers_url = f"{settings.STAGING_SERVER}dev_csss_website_media/exec-photos/"
-        ret_val = os.system(
-            f"wget -r -X '*' --no-host-directories {officers_url} -R "
-            "'*html*' -P about/static/about_static/  --cut-dirs=1"
-        )
+        if settings.ENVIRONMENT == "LOCALHOST":
+            officers_url = f"{settings.STAGING_SERVER}dev_csss_website_media/exec-photos/"
+            ret_val = os.system(
+                f"wget -r -X '*' --no-host-directories {officers_url} -R "
+                "'*html*' -P about/static/about_static/  --cut-dirs=1"
+            )
+        else:
+            ret_val = os.system("cd /mnt/csss_website_media/csss-site-exec-photos && git pull")
         if ret_val != 0:
             try:
-                raise Exception(f"Unable to download the exec-photos from {officers_url}")
+                if settings.ENVIRONMENT == "LOCALHOST":
+                    raise Exception(f"Unable to download the exec-photos from {officers_url}")
+                else:
+                    raise Exception("Unable to download the exec-hotos from github")
             except Exception:
                 logger.error(traceback.format_exc())
                 return
