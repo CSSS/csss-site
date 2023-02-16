@@ -14,7 +14,6 @@ def update_officer_images(download=False):
         if settings.ENVIRONMENT == "LOCALHOST":
             os.system("rm -fr about/static/about_static/exec-photos")
         logger.info("[about/update_officer_images.py run_job()] now trying to download all the exec photos")
-        
         if settings.ENVIRONMENT == "LOCALHOST":
             officers_url = f"{settings.STAGING_SERVER}dev_csss_website_media/exec-photos/"
             ret_val = os.system(
