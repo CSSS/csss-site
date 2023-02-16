@@ -24,7 +24,10 @@ def update_officer_images(download=False):
             ret_val = os.system("cd /mnt/csss_website_media/csss-site-exec-photos && git pull")
         if ret_val != 0:
             try:
-                raise Exception(f"Unable to download the exec-photos from {officers_url}")
+                if settings.ENVIRONMENT == "LOCALHOST":
+                    raise Exception(f"Unable to download the exec-photos from {officers_url}")
+                else:
+                    raise Exception("Unable to download the exec-hotos from github")
             except Exception:
                 logger.error(traceback.format_exc())
                 return
