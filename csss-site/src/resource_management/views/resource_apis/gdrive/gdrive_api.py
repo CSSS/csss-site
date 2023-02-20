@@ -15,8 +15,7 @@ from csss.setup_logger import Loggers
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views.send_email import send_email
 from csss.views_helper import get_current_date
-from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess, \
-    GoogleDriveNonMediaFileType, MediaToBeMoved
+from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
 
 
 mime_type = [
@@ -299,7 +298,7 @@ class GoogleDrive:
         # self.file_types = GoogleDriveNonMediaFileType.objects.all()
         # self.non_media_mimeTypes = [
         #    file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
-        #]
+        # ]
         # MediaToBeMoved.objects.all().delete()
         self._ensure_root_permissions_are_correct(google_drive_perms)
         files_to_email_owner_about = self._validate_individual_file_and_folder_ownership_and_permissions(
@@ -436,22 +435,22 @@ class GoogleDrive:
             "[GoogleDrive _validate_permissions_for_file()] ensuring that the permissions for file "
             f"{file['name']} are correct"
         )
-        #file_mime_type_and_extension_not_for_image = False
+        # file_mime_type_and_extension_not_for_image = False
         # for file_type in self.file_types.exclude(file_extension=""):
         #    file_mime_type_and_extension_not_for_image = file_mime_type_and_extension_not_for_image or (
         #        file['mimeType'] == file_type.mime_type and
         #        'fileExtension' in file and file['fileExtension'] == file_type.file_extension
         #    )
-        #file_does_not_have_to_be_moved = (
+        # file_does_not_have_to_be_moved = (
         #    file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
-        #)
+        # )
         self.logger.info(
             f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
             f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
             f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
             f") detected as an image "
         )
-        #if not file_does_not_have_to_be_moved:
+        # if not file_does_not_have_to_be_moved:
         #    MediaToBeMoved(
         #        file_path=parent_folder, file_name=file['name'],
         #        parent_folder_link=(
