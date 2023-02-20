@@ -444,12 +444,12 @@ class GoogleDrive:
         # file_does_not_have_to_be_moved = (
         #    file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
         # )
-        self.logger.info(
-            f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
-            f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
-            f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
-            f") detected as an image "
-        )
+        # self.logger.info(
+        #    f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
+        #    f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
+        #    f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
+        #    f") detected as an image "
+        # )
         # if not file_does_not_have_to_be_moved:
         #    MediaToBeMoved(
         #        file_path=parent_folder, file_name=file['name'],
