@@ -938,7 +938,7 @@ class GoogleDrive:
                 "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
                 "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=self.logger.handlers[1].baseFilename
             )
-        #if len(MediaToBeMoved.objects.all()) > 0:
+        # if len(MediaToBeMoved.objects.all()) > 0:
         #    send_email(
         #        "Media has been upload to the Google Drive that has to be moved",
         #        "http://sfucsss.org/resource_management/media_to_be_moved\n\n",
