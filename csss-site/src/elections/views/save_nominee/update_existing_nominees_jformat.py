@@ -1,13 +1,16 @@
 import json
 
 from about.models import OfficerEmailListAndPositionMapping
+from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
+    get_discord_username_and_nickname
 from csss.setup_logger import Loggers
 from elections.models import NomineeSpeech, NomineePosition
 from elections.views.Constants import ID_KEY
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
-    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_INSTAGRAM
+    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_INSTAGRAM, \
+    ELECTION_JSON_KEY__NOM_DISCORD_ID
 
 
 def update_existing_nominee_jformat(nominee_obj, nominee_dict):
@@ -30,6 +33,12 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
     nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
+    nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
+    if nominee_obj.discord_id is not None:
+        success, error_message, nominee_obj.discord_username, nominee_obj.discord_nickname = \
+            get_discord_username_and_nickname(
+                nominee_obj.discord_id
+            )
 
     logger.info(
         "[elections/update_existing_nominees_jformat.py update_existing_nominee_jformat()]"
@@ -39,7 +48,9 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     logger.info(f"instagram = {nominee_obj.instagram}")
     logger.info(f"linkedin = {nominee_obj.linkedin}")
     logger.info(f"email = {nominee_obj.email}")
-    logger.info(f"discord = {nominee_obj.discord}")
+    logger.info(f"discord_id = {nominee_obj.discord_id}")
+    logger.info(f"discord_username = {nominee_obj.discord_username}")
+    logger.info(f"discord_nickname = {nominee_obj.discord_nickname}")
 
     speech_and_position_pairings = nominee_dict[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
     for speech_and_position_pairing in speech_and_position_pairings:

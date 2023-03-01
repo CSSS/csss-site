@@ -6,7 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 from csss.views_helper import markdown_message
-from elections.views.Constants import HTML_PASSPHRASE_GET_KEY
+from elections.views.Constants import HTML_PASSPHRASE_GET_KEY, NA_STRING
 
 
 class Election(models.Model):
@@ -14,7 +14,8 @@ class Election(models.Model):
 
     human_friendly_name = models.CharField(
         max_length=32,
-        default="NONE"
+        default=None,
+        null=True
     )
     election_type_choices = (
         ('general_election', 'General Election'),
@@ -37,8 +38,14 @@ class Election(models.Model):
     websurvey = models.CharField(
         _("The link that the voters can use to vote on"),
         max_length=300,
-        default="NONE",
+        default=None,
+        null=True
     )
+
+    def save(self, *args, **kwargs):
+        if self.human_friendly_name is None:
+            raise Exception(f"detected a Null value for the name for the election {self}")
+        super(Election, self).save(*args, **kwargs)
 
     def __str__(self):
         return "{}_{}".format(self.date, self.election_type)
@@ -49,42 +56,113 @@ class Nominee(models.Model):
 
     full_name = models.CharField(max_length=140)
 
+    @property
+    def get_full_name(self):
+        return NA_STRING if self.full_name is None else self.full_name
+
     facebook = models.CharField(
         _(u'Facebook Link'),
-        max_length=300
+        max_length=300,
+        default=None,
+        null=True
     )
+
+    @property
+    def get_facebook(self):
+        return NA_STRING if self.facebook is None else self.facebook
+
     instagram = models.CharField(
         _(u'Instagram Link'),
         max_length=300,
-        default='NONE'
+        default=None,
+        null=True
     )
+
+    @property
+    def get_instagram(self):
+        return NA_STRING if self.instagram is None else self.instagram
+
     linkedin = models.CharField(
         _(u'LinkedIn Link'),
-        max_length=300
+        max_length=300,
+        default=None,
+        null=True
     )
+
+    @property
+    def get_linkedin(self):
+        return NA_STRING if self.linkedin is None else self.linkedin
+
     email = models.CharField(
         _(u'Email Address'),
-        max_length=300
+        max_length=300,
+        default=None,
+        null=True
     )
+
+    @property
+    def get_email(self):
+        return NA_STRING if self.email is None else self.email
+
     discord = models.CharField(
         _(u'Discord Username'),
-        max_length=300
+        max_length=300,
+        default=None,
+        null=True
     )
+
+    @property
+    def get_discord_username(self):
+        if self.discord_username is not None:
+            return self.discord_username
+        if self.discord is not None:
+            return self.discord
+        return NA_STRING
 
     discord_id = models.CharField(
         max_length=200,
-        default='NA'
+        default=None,
+        null=True
     )
+
+    @property
+    def get_discord_id(self):
+        return NA_STRING if self.discord_id is None else self.discord_id
 
     discord_username = models.CharField(
         max_length=200,
-        default='NA'
+        default=None,
+        null=True
     )
 
     discord_nickname = models.CharField(
         max_length=200,
-        default='NA'
+        default=None,
+        null=True
     )
+
+    @property
+    def get_discord_nickname(self):
+        return NA_STRING if self.discord_nickname is None else self.discord_nickname
+
+    sfuid = models.CharField(
+        max_length=8,
+        default=None,
+        null=True
+    )
+
+    @property
+    def get_sfuid(self):
+        return NA_STRING if self.sfuid is None else self.sfuid
+
+    def save(self, *args, **kwargs):
+        # will uncomment below when the SfuID is determined for all past nominees
+        # if self.sfuid is None:
+        #     raise Exception(
+        #         f"detected a Null value for SFUID for the the nominee {self.full_name}"
+        #         f"for election {self.election}"
+        #     )
+        super(Nominee, self).save(*args, **kwargs)
 
     def __str__(self):
         return f"Nominee {self.full_name} for Election {self.election}"
@@ -122,7 +200,8 @@ class NomineeSpeech(models.Model):
 
     speech = models.CharField(
         max_length=30000,
-        default='NA'
+        default=None,
+        null=True
     )
 
     @property
@@ -141,44 +220,44 @@ class NomineeSpeech(models.Model):
     def social_media_html(self):
         social_media = None
         barrier_needed = False
-        if self.nominee.facebook != "NONE":
+        if self.nominee.facebook is not None:
             social_media = f'<a href="{self.nominee.facebook}" target="_blank">Facebook Profile</a>'
             barrier_needed = True
-        if self.nominee.instagram != "NONE":
+        if self.nominee.instagram is not None:
             if barrier_needed:
                 social_media += " | "
             else:
                 social_media = ""
             social_media += f'<a href="{self.nominee.instagram}" target="_blank">Instagram Profile</a>'
             barrier_needed = True
-        if self.nominee.linkedin != "NONE":
+        if self.nominee.linkedin is not None:
             if barrier_needed:
                 social_media += " | "
             else:
                 social_media = ""
             social_media += f'<a href="{self.nominee.linkedin}" target="_blank">LinkedIn Profile</a>'
             barrier_needed = True
-        if self.nominee.email != "NONE":
+        if self.nominee.email is not None:
             if barrier_needed:
                 social_media += " | "
             else:
                 social_media = ""
             social_media += f'Email: <a href="mailto:{self.nominee.email}"> {self.nominee.email}</a>'
             barrier_needed = True
-        if self.nominee.discord_nickname != "NONE":
+        if self.nominee.discord_nickname is not None:
             if barrier_needed:
                 social_media += " | "
             else:
                 social_media = ""
             social_media += f"Discord Nickname: {self.nominee.discord_nickname}"
-        if self.nominee.discord_username != "NONE":
+        if self.nominee.discord_username is not None:
             if barrier_needed:
                 social_media += " | "
             else:
                 social_media = ""
             social_media += f"Discord Username: {self.nominee.discord_username}"
         else:
-            if self.nominee.discord != "NONE":
+            if self.nominee.discord is not None:
                 if barrier_needed:
                     social_media += " | "
                 else:
@@ -191,7 +270,7 @@ class NomineeSpeech(models.Model):
         return ", ".join([position.position_name for position in self.nomineeposition_set.all()])
 
     def __str__(self):
-        return f"speech for Nominee {self.nominee.full_name} for Election {self.nominee.election}"
+        return f"speech for Nominee {self.nominee.get_full_name} for Election {self.nominee.election}"
 
 
 class NomineePosition(models.Model):

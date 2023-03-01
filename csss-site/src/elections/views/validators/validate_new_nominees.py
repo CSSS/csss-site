@@ -1,30 +1,34 @@
 from about.models import OfficerEmailListAndPositionMapping
 from csss.views_helper import there_are_multiple_entries
+from elections.views.Constants import NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_POSITION_NAMES, \
     ELECTION_JSON_KEY__NOM_SPEECH
 from elections.views.validators.validate_info_for_nominee_obj import validate_nominee_obj_info
 
 
-def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_speech_pairings, facebook_link,
+def validate_new_nominee(nominee_names_so_far, full_name, sfuid, position_names_and_speech_pairings, facebook_link,
                          instagram_link, linkedin_link, email_address, discord_id):
     """
     validates the nominee info to validate it
 
     Keyword Arguments
-    name -- the full name of the nominee
+    nominee_names_so_far -- the names of the nominees who have been validated so far
+    full_name -- the full name of the nominee
+    sfuid -- the nominee's SFU ID
     position_names_and_speech_pairing -- a list of the pairings of the nominee's speeches and position_names
     facebook_link -- the link to the nominee's facebook profile
+    instagram_link -- the link to the nominee's instagram page
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
     discord_id -- the nominee's discord ID
 
     Return
-    Boolean -- indicates whether or not nominee information is valid which happens when any of the
+    Boolean -- indicates whether nominee information is valid which happens when any of the
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, instagram_link,
-                                                       linkedin_link, email_address, discord_id)
+    success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_link,
+                                                       instagram_link, linkedin_link, email_address, discord_id)
     if not success:
         return success, error_message
     specified_position_names = []
@@ -43,7 +47,7 @@ def validate_new_nominee(nominee_names_so_far, full_name, position_names_and_spe
             specified_position_names.append(position_name)
         if not (len(position_names_and_speech_pairing[ELECTION_JSON_KEY__NOM_SPEECH]) > 0):
             return False, f"No valid speech detected for nominee" \
-                          f" {full_name}, please set to \"NONE\" if there is no speech"
+                          f" {full_name}, please set to \"{NA_STRING}\" if there is no speech"
 
     return True, None
 

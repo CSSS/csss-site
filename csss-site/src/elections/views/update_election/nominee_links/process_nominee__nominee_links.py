@@ -6,11 +6,11 @@ from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.models import Election, NomineeSpeech, NomineePosition
 from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, \
-    HTML_PASSPHRASE_GET_KEY, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID
+    HTML_PASSPHRASE_GET_KEY, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID, NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_INSTAGRAM, \
-    ELECTION_JSON_KEY__NOM_DISCORD_ID
+    ELECTION_JSON_KEY__NOM_DISCORD_ID, ELECTION_JSON_KEY__NOM_SFUID
 from elections.views.create_context.nominee_links.create_or_update_nominee. \
     create_context_for_create_or_update_nominee__nominee_links_html import \
     create_context_for_create_or_update_nominee__nominee_links_html
@@ -22,7 +22,8 @@ from elections.views.validators.validate_existing_nominees__nominee_link import 
     validate_existing_nominee__nominee_link
 
 
-def process_nominee__nominee_links(request, context, nominee_link=None, passphrase=False, election_officer_request=False):
+def process_nominee__nominee_links(
+        request, context, nominee_link=None, passphrase=False, election_officer_request=False):
     """
     Processes the user's input for modify the specified election
 
@@ -30,6 +31,8 @@ def process_nominee__nominee_links(request, context, nominee_link=None, passphra
     request -- django request object
     context -- the context dictionary
     nominee_link_id -- the ID for the nominee link that has to be modified
+    passphrase -- indicates if the page is being access via a passphrase or its an election officer
+    election_officer_request -- indicates if the page is being accessed by the election officer
 
     Return
     render object that directs the user to the page for updating a nominee via nominee link
@@ -44,6 +47,7 @@ def process_nominee__nominee_links(request, context, nominee_link=None, passphra
         ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
     ]
     if election_officer_request:
+        fields.append(ELECTION_JSON_KEY__NOM_SFUID)
         fields.append(ELECTION_JSON_KEY__NOM_DISCORD_ID)
     error_message = verify_user_input_has_all_required_fields(nominee_info, fields)
     if error_message != "":
@@ -59,7 +63,9 @@ def process_nominee__nominee_links(request, context, nominee_link=None, passphra
             context
         )
 
-    success, error_message = validate_existing_nominee__nominee_link(election_id, nominee_link.id, nominee_info, election_officer_request)
+    success, error_message = validate_existing_nominee__nominee_link(
+        election_id, nominee_link.id, nominee_info, election_officer_request
+    )
     if not success:
         logger.info(
             f"[elections/process_nominee__nominee_links.py process_nominee__nominee_links()] "
@@ -73,9 +79,10 @@ def process_nominee__nominee_links(request, context, nominee_link=None, passphra
             context
         )
     if nominee_link.nominee is None:
-        discord_id = nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID] if election_officer_request else "NONE"
+        discord_id = nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID] if election_officer_request else NA_STRING
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
+            nominee_info[ELECTION_JSON_KEY__NOM_SFUID],
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
             nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
             nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],

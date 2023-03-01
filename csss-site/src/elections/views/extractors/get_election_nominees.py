@@ -80,13 +80,13 @@ def get_election_nominees(election):
             if nominee.full_name not in nominees_dict_to_display:
                 nominees_dict_to_display[nominee.full_name] = {
                     ID_KEY: nominee.id,
-                    ELECTION_JSON_KEY__NOM_NAME: nominee.full_name,
+                    ELECTION_JSON_KEY__NOM_NAME: nominee.get_full_name,
                     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS: speech_and_position_pairings,
-                    ELECTION_JSON_KEY__NOM_FACEBOOK: nominee.facebook,
-                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee.instagram,
-                    ELECTION_JSON_KEY__NOM_LINKEDIN: nominee.linkedin,
-                    ELECTION_JSON_KEY__NOM_EMAIL: nominee.email,
-                    ELECTION_JSON_KEY__NOM_DISCORD_ID: nominee.discord_id
+                    ELECTION_JSON_KEY__NOM_FACEBOOK: nominee.get_facebook,
+                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee.get_instagram,
+                    ELECTION_JSON_KEY__NOM_LINKEDIN: nominee.get_linkedin,
+                    ELECTION_JSON_KEY__NOM_EMAIL: nominee.get_email,
+                    ELECTION_JSON_KEY__NOM_DISCORD_ID: nominee.get_discord_id
                 }
             else:
                 nominees_dict_to_display[nominee.full_name][

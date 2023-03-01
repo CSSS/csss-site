@@ -13,12 +13,13 @@ $(document).ready(function () {
 		draft_or_finalized_nominee_to_display=true;
 		id="not needed since nominee is tracked via passphrase";
 		name="{{draft_nominee__html_name.full_name}}";
+		sfuid="{{draft_nominee__html_name.sfuid}}";
 		facebook="{{draft_nominee__html_name.facebook}}";
 		instagram="{{draft_nominee__html_name.instagram}}";
 		linkedin="{{draft_nominee__html_name.linkedin}}";
 		email="{{draft_nominee__html_name.email}}";
 		discord_id="{{draft_nominee__html_name.discord_id}}";
-        let nominee_link_election_form=true;
+		let nominee_link_election_form=true;
 		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
     {% else %}
         /* when there is no info regarding the nominee yet */
@@ -31,7 +32,7 @@ $(document).ready(function () {
 		speech_parent_div_name = nominee_div_name + '_speeches';
 
 		draft_or_finalized_nominee_to_display=false;
-        let nominee_link_election_form=true;
+		let nominee_link_election_form=true;
 		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
 		addBlankSpeech(nominee_index)
     {%  endif %}
