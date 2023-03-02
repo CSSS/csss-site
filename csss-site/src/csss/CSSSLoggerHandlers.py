@@ -28,8 +28,10 @@ class CSSSErrorHandler(logging.StreamHandler):
             record_type = 'django_request_record'
         else:
             # django-commands come here
+            # gunicorn comes here
             filename = self.file_name
             message = record.exc_text if record.exc_text is not None else record.message
+            request = str(record.__dict__)
             record_type = 'other_record'
         if len(CSSSError.objects.all().filter(message=message)) == 0:
             CSSSError(filename=filename, message=message, request=request, endpoint=endpoint, type=record_type).save()
