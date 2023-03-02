@@ -1,5 +1,8 @@
 import datetime
 
+import pytz
+from django.conf import settings
+
 from csss.setup_logger import Loggers
 from elections.views.Constants import DATE_AND_TIME_FORMAT
 from elections.views.extractors.get_election_slug_and_name import gete_slug_and_human_friendly_name_election
@@ -16,7 +19,9 @@ def update_existing_election_obj_from_jformat(election, date, election_type, web
     websurvey_link -- the updated link to the websurvey
     """
     logger = Loggers.get_logger()
-    election.date = datetime.datetime.strptime(f"{date}", DATE_AND_TIME_FORMAT)
+    election.date = datetime.datetime.strptime(f"{date}", DATE_AND_TIME_FORMAT).astimezone(
+            pytz.timezone(settings.TIME_ZONE)
+        )
     election.slug, election.human_friendly_name = \
         gete_slug_and_human_friendly_name_election(election.date, election_type)
     election.election_type = election_type
