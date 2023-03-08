@@ -1,21 +1,22 @@
 from elections.models import Nominee
 from elections.views.Constants import NOMINEE_DIV__NAME, NOMINEES_HTML__NAME, ID_KEY, \
-    DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME
+    DRAFT_OR_FINALIZED_NOMINEE_TO_DISPLAY__HTML_NAME, NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
-    ELECTION_JSON_KEY__NOM_DISCORD, ELECTION_JSON_KEY__NOM_INSTAGRAM
+    ELECTION_JSON_KEY__NOM_INSTAGRAM, ELECTION_JSON_KEY__NOM_DISCORD_ID, \
+    ELECTION_JSON_KEY__NOM_SFUID
 from elections.views.create_context.webform.js_functions.create_context_for_add_blank_nominee_html import \
     create_context_for_add_blank_nominee_html
-from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
+from elections.views.create_context.webform_format.js_functions.on_load_js_function. \
     create_context_for_display_nominee_info_html import \
     create_context_for_display_nominee_info_html
 
 
 def create_context_for_main_function__webform_html(
-        context, nominees_info=None, include_id_for_nominee=False, webform_election=True,
-        new_webform_election=True, draft_or_finalized_nominee_to_display=False, election=None,
-        get_existing_election_webform=False,
-        create_or_update_webform_election=False
+    context, nominees_info=None, include_id_for_nominee=False, webform_election=True,
+    new_webform_election=True, draft_or_finalized_nominee_to_display=False, election=None,
+    get_existing_election_webform=False,
+    create_or_update_webform_election=False
 ):
     """
     populates the context dictionary that is used by
@@ -57,12 +58,13 @@ def create_context_for_main_function__webform_html(
                     if nominee_obj.full_name not in nominee_info_to_add_to_context:
                         nominee_info_to_add_to_context[nominee_obj.full_name] = {
                             ID_KEY: nominee_obj.id,
-                            ELECTION_JSON_KEY__NOM_NAME: nominee_obj.full_name,
-                            ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.facebook,
-                            ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_obj.instagram,
-                            ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.linkedin,
-                            ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.email,
-                            ELECTION_JSON_KEY__NOM_DISCORD: nominee_obj.discord
+                            ELECTION_JSON_KEY__NOM_NAME: nominee_obj.get_full_name,
+                            ELECTION_JSON_KEY__NOM_SFUID: nominee_obj.get_sfuid,
+                            ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_obj.get_facebook,
+                            ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_obj.get_instagram,
+                            ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_obj.get_linkedin,
+                            ELECTION_JSON_KEY__NOM_EMAIL: nominee_obj.get_email,
+                            ELECTION_JSON_KEY__NOM_DISCORD_ID: nominee_obj.get_discord_id
                         }
                         create_context_for_display_nominee_info_html(
                             context, draft_or_finalized_nominee_to_display=draft_or_finalized_nominee_to_display,
@@ -80,18 +82,13 @@ def create_context_for_main_function__webform_html(
         if nominees_info is not None and type(nominees_info) is list:
             for nominee_info in nominees_info:  # for the webform pages
                 nominee_info_to_add_to_context = {
-                    ELECTION_JSON_KEY__NOM_NAME: nominee_info[ELECTION_JSON_KEY__NOM_NAME]
-                    if ELECTION_JSON_KEY__NOM_NAME in nominee_info else None,
-                    ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK]
-                    if ELECTION_JSON_KEY__NOM_FACEBOOK in nominee_info else None,
-                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM]
-                    if ELECTION_JSON_KEY__NOM_INSTAGRAM in nominee_info else None,
-                    ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN]
-                    if ELECTION_JSON_KEY__NOM_LINKEDIN in nominee_info else None,
-                    ELECTION_JSON_KEY__NOM_EMAIL: nominee_info[ELECTION_JSON_KEY__NOM_EMAIL]
-                    if ELECTION_JSON_KEY__NOM_EMAIL in nominee_info else None,
-                    ELECTION_JSON_KEY__NOM_DISCORD: nominee_info[ELECTION_JSON_KEY__NOM_DISCORD]
-                    if ELECTION_JSON_KEY__NOM_DISCORD in nominee_info else None,
+                    ELECTION_JSON_KEY__NOM_NAME: nominee_info.get(ELECTION_JSON_KEY__NOM_NAME, NA_STRING),
+                    ELECTION_JSON_KEY__NOM_SFUID: nominee_info.get(ELECTION_JSON_KEY__NOM_SFUID, NA_STRING),
+                    ELECTION_JSON_KEY__NOM_FACEBOOK: nominee_info.get(ELECTION_JSON_KEY__NOM_FACEBOOK, NA_STRING),
+                    ELECTION_JSON_KEY__NOM_INSTAGRAM: nominee_info.get(ELECTION_JSON_KEY__NOM_INSTAGRAM, NA_STRING),
+                    ELECTION_JSON_KEY__NOM_LINKEDIN: nominee_info.get(ELECTION_JSON_KEY__NOM_LINKEDIN, NA_STRING),
+                    ELECTION_JSON_KEY__NOM_EMAIL: nominee_info.get(ELECTION_JSON_KEY__NOM_EMAIL, NA_STRING),
+                    ELECTION_JSON_KEY__NOM_DISCORD_ID: nominee_info.get(ELECTION_JSON_KEY__NOM_DISCORD_ID, NA_STRING)
                 }
                 if ID_KEY in nominee_info:
                     nominee_info_to_add_to_context[ID_KEY] = nominee_info[ID_KEY]

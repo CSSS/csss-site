@@ -9,7 +9,7 @@
 		{% for nominee_speech in saved_nominee_speeches__html_name %}
 			<h4 class="title is-size-4">Position[s]: {{ nominee_speech.formatted_position_names_html }}</h4>
 			<br>
-			{%  if nominee_speech.speech != "NONE" %}
+			{%  if nominee_speech.speech != None %}
 				<p>Nominee Speech:</p>
 				<br>
 				<div class="csss_markdown">

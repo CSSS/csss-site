@@ -1,3 +1,6 @@
+from elections.views.Constants import NA_STRING
+
+
 def validate_websurvey_link(link):
     """
     Verifies that the websurvey link is valid
@@ -36,7 +39,7 @@ def validate_link_for_nominee_social_media(link, link_type, nom_name):
 
 def _validate_http_link(link):
     """
-    Verifies that the link is valid, which means it either starts with "http://" or "https://" or is NONE
+    Verifies that the link is valid, which means it either starts with "http://" or "https://" or is NA
 
     Keyword Argument
     link -- the link to validate
@@ -44,4 +47,4 @@ def _validate_http_link(link):
     Return
     Bool -- True or False
     """
-    return link[:7] == "http://" or link[:8] == "https://" or link == "NONE"
+    return link[:7] == "http://" or link[:8] == "https://" or link == NA_STRING

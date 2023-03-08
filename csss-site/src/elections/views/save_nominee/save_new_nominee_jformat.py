@@ -1,24 +1,28 @@
 from about.models import OfficerEmailListAndPositionMapping
+from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
+    get_discord_username_and_nickname
 from csss.setup_logger import Loggers
 from elections.models import Nominee, NomineeSpeech, NomineePosition
+from elections.views.Constants import NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES
 
 
-def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, facebook_link, instagram_link,
-                             linkedin_link, email_address, discord_username, nominee_link=None):
+def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pairings, facebook_link, instagram_link,
+                             linkedin_link, email_address, discord_id, nominee_link=None):
     """
     Saves the given nominees and the relevant NomineeSpeech and NomineePosition objects with the given values
 
     Keyword Argument
     election -- the election to save the nominee under
-    name -- the name of the nominee
+    full_name -- the name of the nominee
+    sfuid -- the SFU ID of the nominee
     speech_and_position_pairings -- a list of the pairings of the nominee's speeches and position_names
     facebook_link -- the nominee's facebook link
     instagram_link -- the nominee's Instagram link
     linkedin_link -- the nominee's linkedin link
     email_address -- the nominee's email address
-    discord_username -- the nominee's discord username
+    discord_id -- the nominee's discord ID
     nominee_link -- the nominee_link to associate with the nominee being saved
 
     Return
@@ -32,9 +36,17 @@ def save_new_nominee_jformat(election, full_name, speech_and_position_pairings, 
     instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
-    discord_username = discord_username.strip()
-    nominee = Nominee(election=election, full_name=full_name, facebook=facebook_link,
-                      instagram=instagram_link, linkedin=linkedin_link, email=email_address, discord=discord_username)
+    sfuid = sfuid.strip()
+    if discord_id != NA_STRING:
+        success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
+    else:
+        discord_username = None
+        discord_nickname = None
+        discord_id = None
+    nominee = Nominee(election=election, full_name=full_name, sfuid=sfuid, facebook=facebook_link,
+                      instagram=instagram_link, linkedin=linkedin_link, email=email_address,
+                      discord_username=discord_username, discord_nickname=discord_nickname, discord_id=discord_id
+                      )
     nominee.save()
     logger.info("[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} under election {election}"
