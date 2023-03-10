@@ -101,10 +101,10 @@ ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
 ENDPOINT_DELETE_NOMINEE_LINKS = 'delete_nominee_links'
 
-NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
-NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
-NOMINEE_NAMES__VALUE = 'nominee_names__value'
-REQUIRE_NOMINEE_NAMES = 'require_nominee_names'
+NOMINEE_SFUIDS__HTML_NAME = 'nominee_sfuids__html_name'
+NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS = 'new_nominee_sfuids'
+NOMINEE_SFUIDS__VALUE = 'nominee_sfuids__value'
+REQUIRE_NOMINEE_SFUIDS = 'require_nominee_sfuids'
 
 CURRENT_ELECTION = 'current_election'
 
@@ -119,8 +119,8 @@ DELETE = 'delete'
 SAVED_NOMINEE_LINK__ID__HTML_NAME = 'saved_nominee_link__id__html_name'
 SAVED_NOMINEE_LINK__ID = 'saved_nominee_link__id'
 
-SAVED_NOMINEE_LINK__NAME__HTML_NAME = 'saved_nominee_link__name__html_name'
-SAVED_NOMINEE_LINK__NAME = 'saved_nominee_link__name'
+SAVED_NOMINEE_LINK__SFUID__HTML_NAME = 'saved_nominee_link__sfuid__html_name'
+SAVED_NOMINEE_LINK__SFUID = 'saved_nominee_link__sfuid'
 
 SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME = 'saved_nominee_link__nominee__html_name'
 SAVED_NOMINEE_LINK__NOMINEE = 'saved_nominee_link__nominee'

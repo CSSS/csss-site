@@ -1,0 +1,6 @@
+SFU IDs of the nominees to create links for: [separate the nominees with a newline if there are more than 1]<br>
+{% if require_nominee_sfuids is True %}
+	<textarea name="{{nominee_sfuids__html_name}}" cols="10" rows="3" required>{{ nominee_sfuids__value }}</textarea><br>
+{%  else %}
+	<textarea name="{{nominee_sfuids__html_name}}" cols="10" rows="3">{{ nominee_sfuids__value }}</textarea><br>
+{%  endif %}
