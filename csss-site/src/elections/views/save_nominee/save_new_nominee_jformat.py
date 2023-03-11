@@ -36,7 +36,7 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
     instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
-    sfuid = sfuid.strip()
+    sfuid = sfuid.strip() if sfuid != NA_STRING else None
     if discord_id != NA_STRING:
         success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
     else:

@@ -164,6 +164,13 @@ class Nominee(models.Model):
         #     )
         super(Nominee, self).save(*args, **kwargs)
 
+        # added to ensure the SFUID is synchronized between the Nominee and their posible NomineeLink object
+        nominee_links = self.nomineelink_set.all()
+        if len(nominee_links) != 0:
+            nominee_link = nominee_links[0]
+            nominee_link.sfuid = self.sfuid
+            nominee_link.save()
+
     def __str__(self):
         return f"Nominee {self.full_name} for Election {self.election}"
 
@@ -181,6 +188,12 @@ class NomineeLink(models.Model):
         null=True
     )
 
+    sfuid = models.CharField(
+        max_length=8,
+        default=None,
+        null=True
+    )
+
     @property
     def link(self):
         base_url = f"{settings.HOST_ADDRESS}"
@@ -190,6 +203,14 @@ class NomineeLink(models.Model):
             base_url += f":{settings.PORT}"
         base_url += f"{settings.URL_ROOT}elections/create_or_update_via_nominee_links_for_nominee?"
         return f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={self.passphrase}"
+
+    def save(self, *args, **kwargs):
+        super(NomineeLink, self).save(*args, **kwargs)
+
+        # added to ensure that changes to the NomineeLink's sfuid propagate to the Nominee object
+        if self.nominee is not None:
+            self.nominee.sfuid = self.sfuid
+            self.nominee.save()
 
     def __str__(self):
         return f"passphrase for nominee {self.full_name} for election {self.election}"

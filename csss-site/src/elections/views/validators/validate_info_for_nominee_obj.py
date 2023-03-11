@@ -44,9 +44,10 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
     nominee_names_so_far.append(full_name)
     if len(full_name) == 0 or full_name == NA_STRING:
         return False, "No valid name detected for one of the nominees"
-    success, error_message = validate_sfu_id(sfuid)
-    if not success:
-        return False, error_message
+    if sfuid != NA_STRING:
+        success, error_message = validate_sfu_id(sfuid)
+        if not success:
+            return False, error_message
     if len(facebook_link) == 0:
         return False, f"No valid facebook link detected for nominee" \
                       f" {full_name}, please set to \"{NA_STRING}\" if there is no facebook link"

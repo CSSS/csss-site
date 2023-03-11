@@ -20,7 +20,7 @@
 		{%  if draft_nominee_links|length > 0 or nominee_links|length  > 0 %}
 			<input type="button" class="select_nominee_link_label" value="Select All Nominee Links" onclick="toggle_deletion()"><br>
 		{%  endif %}
-			{%  include 'elections/nominee_links/create_or_update_election/election_nominee_names.html' %}
+			{%  include 'elections/nominee_links/create_or_update_election/election_nominee_sfuids.html' %}
 			{%  include 'elections/webform_format/submission_buttons.html' %}
 		</form>
 	<script>

@@ -28,9 +28,10 @@ def validate_existing_nominee__nominee_link(election_id, nominee_link_id, nomine
     speech_ids_so_far = []
     position_ids_so_far = []
     discord_id = nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID] if election_officer_request else NA_STRING
+    sfuid = nominee_info[ELECTION_JSON_KEY__NOM_SFUID] if election_officer_request else NA_STRING
     return validate_existing_nominee_jformat(
         nominee_names_so_far, speech_ids_so_far, position_ids_so_far,
-        nominee_info[ELECTION_JSON_KEY__NOM_NAME], nominee_info[ELECTION_JSON_KEY__NOM_SFUID],
+        nominee_info[ELECTION_JSON_KEY__NOM_NAME], sfuid,
         nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
         nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
         nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
