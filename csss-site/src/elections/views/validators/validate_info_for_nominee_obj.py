@@ -9,7 +9,7 @@ from elections.views.validators.validate_link import validate_link_for_nominee_s
 
 
 def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_link, instagram_link, linkedin_link,
-                              email_address, discord_id):
+                              email_address, discord_id, election_officer_request=True):
     """
     validates the nominee info to validate it
 
@@ -22,6 +22,7 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
     discord_id -- the nominee's discord ID
+    election_officer_request -- indicates if the page is being accessed by the election officer
 
     Return
     Boolean -- indicates whether nominee information is valid which happens when any of the
@@ -35,16 +36,18 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
         f"email_address={email_address}, discord_id={discord_id}"
     )
     full_name = full_name.strip()
+    sfuid = sfuid.strip()
     facebook_link = facebook_link.strip()
     instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
+    discord_id = discord_id.strip()
     if full_name in nominee_names_so_far:
         return False, f"the nominee {full_name} has been specified more than once"
     nominee_names_so_far.append(full_name)
     if len(full_name) == 0 or full_name == NA_STRING:
         return False, "No valid name detected for one of the nominees"
-    if sfuid != NA_STRING:
+    if election_officer_request:
         success, error_message = validate_sfu_id(sfuid)
         if not success:
             return False, error_message
@@ -72,8 +75,9 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
     regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
     if not (re.search(regex, email_address) or email_address == NA_STRING):
         return False, f"email {email_address} for nominee {full_name} did not pass validation"
-    if discord_id != NA_STRING:
-        success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
-        if not success:
-            return False, error_message
+    if election_officer_request:
+        if discord_id != NA_STRING:
+            success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
+            if not success:
+                return False, error_message
     return True, None

@@ -9,7 +9,8 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_SPEECH
 
 
 def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pairings, facebook_link, instagram_link,
-                             linkedin_link, email_address, discord_id, nominee_link=None):
+                             linkedin_link, email_address, discord_id, nominee_link=None,
+                             election_officer_request=True):
     """
     Saves the given nominees and the relevant NomineeSpeech and NomineePosition objects with the given values
 
@@ -24,6 +25,7 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
     email_address -- the nominee's email address
     discord_id -- the nominee's discord ID
     nominee_link -- the nominee_link to associate with the nominee being saved
+    election_officer_request -- indicates if the page is being accessed by the election officer
 
     Return
     nominee_id -- the ID of the nominee that got saved
@@ -36,13 +38,25 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
     instagram_link = instagram_link.strip()
     linkedin_link = linkedin_link.strip()
     email_address = email_address.strip()
-    sfuid = sfuid.strip() if sfuid != NA_STRING else None
+    discord_username = NA_STRING
+    discord_nickname = NA_STRING
+    if election_officer_request:
+        sfuid = sfuid.strip()
+        discord_id = discord_id.strip()
+    if not election_officer_request:
+        if nominee_link is None:
+            sfuid = NA_STRING
+        else:
+            sfuid = nominee_link.nominee.get_sfuid \
+                if nominee_link.nominee is not None else nominee_link.get_sfuid
+        if nominee_link is None:
+            discord_id = NA_STRING
+        else:
+            discord_id = nominee_link.nominee.get_discord_id \
+                if nominee_link.nominee is not None else nominee_link.get_discord_id
     if discord_id != NA_STRING:
         success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
-    else:
-        discord_username = None
-        discord_nickname = None
-        discord_id = None
+
     nominee = Nominee(election=election, full_name=full_name, sfuid=sfuid, facebook=facebook_link,
                       instagram=instagram_link, linkedin=linkedin_link, email=email_address,
                       discord_username=discord_username, discord_nickname=discord_nickname, discord_id=discord_id

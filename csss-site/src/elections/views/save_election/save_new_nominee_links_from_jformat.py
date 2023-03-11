@@ -2,7 +2,6 @@ import random
 import string
 
 from elections.models import NomineeLink
-from elections.views.Constants import NA_STRING
 
 
 def save_new_nominee_links_from_jformat(election, new_nominee_sfuids_and_discord_ids):
@@ -19,7 +18,6 @@ def save_new_nominee_links_from_jformat(election, new_nominee_sfuids_and_discord
             if new_nominee_sfuids_and_discord_id.strip() != "":
                 new_nominee_sfuid = new_nominee_sfuids_and_discord_id.split(",")[0].strip()
                 new_nominee_discord_id = new_nominee_sfuids_and_discord_id.split(",")[1].strip()
-                new_nominee_discord_id = new_nominee_discord_id if new_nominee_discord_id != NA_STRING else None
                 passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
                 while len(NomineeLink.objects.all().filter(passphrase=passphrase)) > 0:
                     passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))

@@ -5,12 +5,12 @@ from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_use
     get_discord_username_and_nickname
 from csss.setup_logger import Loggers
 from elections.models import NomineeSpeech, NomineePosition
-from elections.views.Constants import ID_KEY
+from elections.views.Constants import ID_KEY, NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
     ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_INSTAGRAM, \
-    ELECTION_JSON_KEY__NOM_DISCORD_ID
+    ELECTION_JSON_KEY__NOM_DISCORD_ID, ELECTION_JSON_KEY__NOM_SFUID
 
 
 def update_existing_nominee_jformat(nominee_obj, nominee_dict):
@@ -33,8 +33,9 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
     nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
+    nominee_obj.sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip()
     nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
-    if nominee_obj.discord_id is not None:
+    if nominee_obj.discord_id != NA_STRING:
         success, error_message, nominee_obj.discord_username, nominee_obj.discord_nickname = \
             get_discord_username_and_nickname(
                 nominee_obj.discord_id

@@ -6,7 +6,7 @@ from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.models import Election, NomineeSpeech, NomineePosition
 from elections.views.Constants import ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, \
-    HTML_PASSPHRASE_GET_KEY, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID, NA_STRING
+    HTML_PASSPHRASE_GET_KEY, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, NOMINEE_LINK_ID
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_INSTAGRAM, \
@@ -23,14 +23,14 @@ from elections.views.validators.validate_existing_nominees__nominee_link import 
 
 
 def process_nominee__nominee_links(
-        request, context, nominee_link=None, passphrase=False, election_officer_request=False):
+        request, context, nominee_link=None, passphrase=False, election_officer_request=True):
     """
     Processes the user's input for modify the specified election
 
     Keyword Argument
     request -- django request object
     context -- the context dictionary
-    nominee_link_id -- the ID for the nominee link that has to be modified
+    nominee_link -- the nominee link object that has to be modified
     passphrase -- indicates if the page is being access via a passphrase or its an election officer
     election_officer_request -- indicates if the page is being accessed by the election officer
 
@@ -38,7 +38,9 @@ def process_nominee__nominee_links(
     render object that directs the user to the page for updating a nominee via nominee link
     """
     logger = Loggers.get_logger()
-    nominee_info = transform_nominee_links_webform_to_json(request)
+    nominee_info = transform_nominee_links_webform_to_json(
+        request, election_officer_request=election_officer_request
+    )
 
     election_id = nominee_link.election.id
     fields = [
@@ -64,7 +66,7 @@ def process_nominee__nominee_links(
         )
 
     success, error_message = validate_existing_nominee__nominee_link(
-        election_id, nominee_link.id, nominee_info, election_officer_request
+        election_id, nominee_link.id, nominee_info, election_officer_request=election_officer_request
     )
     if not success:
         logger.info(
@@ -79,15 +81,14 @@ def process_nominee__nominee_links(
             context
         )
     if nominee_link.nominee is None:
-        discord_id = nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID] if election_officer_request else NA_STRING
-        sfuid = nominee_info[ELECTION_JSON_KEY__NOM_SFUID] if election_officer_request else NA_STRING
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
-            sfuid,
+            nominee_info[ELECTION_JSON_KEY__NOM_SFUID],
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
             nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
             nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
-            discord_id, nominee_link=nominee_link
+            nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID], nominee_link=nominee_link,
+            election_officer_request=election_officer_request
         )
     else:
         position_ids, speech_ids = update_existing_nominee_jformat(nominee_link.nominee, nominee_info)

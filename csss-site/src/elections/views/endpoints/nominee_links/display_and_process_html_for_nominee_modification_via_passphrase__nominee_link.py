@@ -40,7 +40,9 @@ def display_and_process_html_for_nominee_modification_via_passphrase(request):
         )
 
     if (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST):
-        return process_nominee__nominee_links(request, context, nominee_link=nominee_links[0], passphrase=True)
+        return process_nominee__nominee_links(
+            request, context, nominee_link=nominee_links[0], election_officer_request=False, passphrase=True
+        )
     else:
         create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=nominee_links[0].id)
         return render(

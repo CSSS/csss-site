@@ -162,6 +162,24 @@ class Nominee(models.Model):
         #         f"detected a Null value for SFUID for the the nominee {self.full_name}"
         #         f"for election {self.election}"
         #     )
+        if self.facebook is NA_STRING:
+            self.facebook = None
+        if self.instagram is NA_STRING:
+            self.instagram = None
+        if self.linkedin is NA_STRING:
+            self.linkedin = None
+        if self.email is NA_STRING:
+            self.email = None
+        if self.discord is NA_STRING:
+            self.discord = None
+        if self.discord_id is NA_STRING:
+            self.discord_id = None
+        if self.discord_username is NA_STRING:
+            self.discord_username = None
+        if self.discord_nickname is NA_STRING:
+            self.discord_nickname = None
+        if self.sfuid is NA_STRING:
+            self.sfuid = None
         super(Nominee, self).save(*args, **kwargs)
 
         # added to ensure the SFUID is synchronized between the Nominee and their posible NomineeLink object
@@ -220,6 +238,12 @@ class NomineeLink(models.Model):
         return f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={self.passphrase}"
 
     def save(self, *args, **kwargs):
+        if self.full_name is NA_STRING:
+            self.full_name = None
+        if self.sfuid is NA_STRING:
+            self.sfuid = None
+        if self.discord_id is NA_STRING:
+            self.discord_id = None
         super(NomineeLink, self).save(*args, **kwargs)
 
         # added to ensure that changes to the NomineeLink's sfuid and discord id propagate to the Nominee object
