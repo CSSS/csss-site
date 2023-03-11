@@ -5,7 +5,8 @@ from elections.views.validators.validate_speech_and_position_names import valida
 
 def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, position_ids_so_far, full_name,
                                       sfuid, position_names_and_speech_pairings, facebook_link, instagram_link,
-                                      linkedin_link, email_address, discord_id, election_id):
+                                      linkedin_link, email_address, discord_id, election_id,
+                                      election_officer_request=True):
     """
     validates the nominee info to validate it
 
@@ -22,6 +23,7 @@ def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, p
     email_address -- the nominee's email address
     discord_id -- the nominee's discord ID
     election_id -- the ID for the election that the nominee is running under
+    election_officer_request -- indicates if the page is being accessed by the election officer
 
     Return
     Boolean -- indicates whether or not nominee information is valid which happens when any of the
@@ -30,7 +32,7 @@ def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, p
     """
     success, error_message = validate_nominee_obj_info(
         nominee_names_so_far, full_name, sfuid, facebook_link, instagram_link, linkedin_link, email_address,
-        discord_id
+        discord_id, election_officer_request=election_officer_request
     )
     if not success:
         return success, error_message
