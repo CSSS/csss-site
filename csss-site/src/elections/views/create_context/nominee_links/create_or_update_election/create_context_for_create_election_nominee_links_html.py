@@ -6,8 +6,8 @@ from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for
 from elections.models import NomineeLink
 from elections.views.Constants import PRE_EXISTING_ELECTION
 from elections.views.create_context.nominee_links.create_or_update_election.\
-    create_context_for_election_nominee_sfuids_html import \
-    create_context_for_election_nominee_sfuids_html
+    create_context_for_election_nominee_sfuids_and_discord_ids_html import \
+    create_context_for_election_nominee_sfuids_and_discord_ids_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
     make_json_serializable_context_dictionary
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
@@ -25,7 +25,7 @@ from elections.views.create_context.webform_format.create_context_for_submission
 def create_context_for_create_election_nominee_links_html(context, election_date=None, election_time=None,
                                                           election_type=None, create_new_election=False,
                                                           websurvey_link=None, error_messages=None,
-                                                          nominee_sfuids=None):
+                                                          nominee_sfuids_and_discord_ids=None):
     """
     populates the context dictionary that is used by
      elections/templates/elections/nominee_links/create_or_update_election/create_election_nominee_links.html
@@ -38,7 +38,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     create_new_election -- boolean to indicate what the submission button should be labelled with
     websurvey_link -- the websurvey link of the election that the user inputted, otherwise None
     error_messages -- error message to display
-    nominee_sfuids -- the user inputted election nominee SFU IDs
+    nominee_sfuids_and_discord_ids -- the user inputted election nominee SFU IDs and Discord IDs
     """
     logger = Loggers.get_logger()
     pre_existing_election = False
@@ -57,7 +57,9 @@ def create_context_for_create_election_nominee_links_html(context, election_date
         create_context_for_election_time_html(context, election_time=election_time)
         create_context_for_election_type_html(context, election_type=election_type)
         create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
-        create_context_for_election_nominee_sfuids_html(context, nominee_sfuids=nominee_sfuids)
+        create_context_for_election_nominee_sfuids_and_discord_ids_html(
+            context, nominee_sfuids_and_discord_ids=nominee_sfuids_and_discord_ids
+        )
         create_context_for_submission_buttons_html(context, create_new_election=create_new_election)
     logger.info(
         "[elections/create_context_for_create_election_nominee_links_html.py"

@@ -5,7 +5,7 @@ from django.shortcuts import render
 from csss.setup_logger import Loggers
 from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import CREATE_NEW_ELECTION__NAME, SAVE_ELECTION__VALUE, \
-    ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS
+    ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, \
     ELECTION_JSON_WEBFORM_KEY__TIME, ELECTION_JSON_KEY__DATE
 from elections.views.create_context.nominee_links.create_or_update_election. \
@@ -18,7 +18,8 @@ from elections.views.validators.validate_election_date import validate_webform_e
 from elections.views.validators.validate_election_type import validate_election_type
 from elections.views.validators.validate_election_uniqueness import validate_election_webform_format_uniqueness
 from elections.views.validators.validate_link import validate_websurvey_link
-from elections.views.validators.validate_new_nominee_sfuid import validate_new_nominee_sfuid
+from elections.views.validators.validate_new_nominee_sfuids_and_discord_ids import \
+    validate_new_nominee_sfuids_and_discord_ids
 from elections.views.validators.validate_user_command import validate_user_command
 
 
@@ -39,7 +40,7 @@ def process_new_election_and_nominee_links(request, context):
     election_dict = transform_election_nominee_links_webform_to_json(request)
     fields = [
         ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_WEBFORM_KEY__TIME,
-        ELECTION_JSON_KEY__DATE, NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS
+        ELECTION_JSON_KEY__DATE, NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS
     ]
     error_message = verify_user_input_has_all_required_fields(election_dict, fields=fields)
     if error_message != "":
@@ -66,7 +67,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            nominee_sfuids=election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS]
+            nominee_sfuids_and_discord_ids=election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
@@ -85,7 +86,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            nominee_sfuids=election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS]
+            nominee_sfuids_and_discord_ids=election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
@@ -104,7 +105,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            nominee_sfuids=election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS]
+            nominee_sfuids_and_discord_ids=election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
@@ -125,7 +126,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            nominee_sfuids=election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS]
+            nominee_sfuids_and_discord_ids=election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
@@ -144,13 +145,15 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            nominee_sfuids=election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS]
+            nominee_sfuids_and_discord_ids=election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',
             context
         )
-    success, error_message = validate_new_nominee_sfuid(election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS])
+    success, error_message = validate_new_nominee_sfuids_and_discord_ids(
+        election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
+    )
     if not success:
         logger.info(
             "[elections/process_new_election_and_nominee_links.py process_new_election_and_nominee_links()]"
@@ -162,7 +165,7 @@ def process_new_election_and_nominee_links(request, context):
             election_time=election_dict[ELECTION_JSON_WEBFORM_KEY__TIME],
             election_type=election_dict[ELECTION_JSON_KEY__ELECTION_TYPE],
             websurvey_link=election_dict[ELECTION_JSON_KEY__WEBSURVEY],
-            nominee_sfuids=election_dict[NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS]
+            nominee_sfuids_and_discord_ids=election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
         )
         return render(
             request, 'elections/nominee_links/create_or_update_election/create_election_nominee_links.html',

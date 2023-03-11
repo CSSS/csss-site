@@ -1,6 +1,6 @@
 from elections.models import NomineeLink, Nominee
 from elections.views.Constants import SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NOMINEE, \
-    DELETE, NO_NOMINEE_LINKED, SAVED_NOMINEE_LINK__SFUID
+    DELETE, NO_NOMINEE_LINKED, SAVED_NOMINEE_LINK__SFUID, SAVED_NOMINEE_LINK__DISCORD_ID, NA_STRING
 
 
 def update_existing_nominee_links_from_jformat(saved_nominee_links):
@@ -18,6 +18,8 @@ def update_existing_nominee_links_from_jformat(saved_nominee_links):
                 nominee_link.delete()
             else:
                 nominee_link.sfuid = saved_nominee_link[SAVED_NOMINEE_LINK__SFUID]
+                nominee_link.discord_id = saved_nominee_link[SAVED_NOMINEE_LINK__DISCORD_ID] \
+                    if saved_nominee_link[SAVED_NOMINEE_LINK__DISCORD_ID] != NA_STRING else None
                 if saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE] != NO_NOMINEE_LINKED:
                     nominee_link.nominee = Nominee.objects.get(
                         id=int(saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE])

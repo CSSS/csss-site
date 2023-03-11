@@ -8,7 +8,10 @@
 				<input type="number" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{saved_nominee_link__id__html_name}}]" value="{{ nominee_link.id }}" readonly required>
 			</td>
 			<td>
-				<input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{ saved_nominee_link__sfuid__html_name }}]" value="{{ nominee_link.sfuid }}" required>
+				<input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{ saved_nominee_link__sfuid__html_name }}]" value="{{ nominee_link.get_sfuid }}" required>
+			</td>
+			<td>
+				<input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{ saved_nominee_link__discord_id__html_name }}]" value="{{ nominee_link.get_discord_id }}" required>
 			</td>
 			<td>
 				<select name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{saved_nominee_link__nominee__html_name}}]">
