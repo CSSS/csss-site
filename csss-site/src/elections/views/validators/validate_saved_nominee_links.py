@@ -1,7 +1,8 @@
+from about.views.input_new_officers.specify_new_officers.validators.validate_discord_id import validate_discord_id
 from about.views.input_new_officers.specify_new_officers.validators.validate_sfu_id import validate_sfu_id
 from elections.models import NomineeLink, Nominee
 from elections.views.Constants import SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NOMINEE, \
-    DELETE, NO_NOMINEE_LINKED, SAVED_NOMINEE_LINK__SFUID
+    DELETE, NO_NOMINEE_LINKED, SAVED_NOMINEE_LINK__SFUID, SAVED_NOMINEE_LINK__DISCORD_ID, NA_STRING
 
 
 def validate_saved_nominee_links(nominee_links):
@@ -22,11 +23,11 @@ def validate_saved_nominee_links(nominee_links):
     for nominee_link in nominee_links:
         if not (
                 SAVED_NOMINEE_LINK__ID in nominee_link and SAVED_NOMINEE_LINK__SFUID in nominee_link and
-                SAVED_NOMINEE_LINK__NOMINEE in nominee_link
+                SAVED_NOMINEE_LINK__NOMINEE in nominee_link and SAVED_NOMINEE_LINK__DISCORD_ID in nominee_link
         ):
             return False, f"It seems that one of the following fields is missing for a nominee link: " \
                           f" {SAVED_NOMINEE_LINK__ID}, {SAVED_NOMINEE_LINK__SFUID}, " \
-                          f"{SAVED_NOMINEE_LINK__NOMINEE}"
+                          f"{SAVED_NOMINEE_LINK__NOMINEE}, {SAVED_NOMINEE_LINK__DISCORD_ID}"
         nominee_link_id = nominee_link[SAVED_NOMINEE_LINK__ID]
         if len(NomineeLink.objects.all().filter(id=nominee_link_id)) != 1:
             return False, f"Invalid Nominee Link Id of {nominee_link_id} passed for one of the nominee links"
@@ -38,6 +39,10 @@ def validate_saved_nominee_links(nominee_links):
             success, error_message = validate_sfu_id(nominee_link[SAVED_NOMINEE_LINK__SFUID])
             if not success:
                 return success, error_message
+            if nominee_link[SAVED_NOMINEE_LINK__DISCORD_ID] != NA_STRING:
+                success, error_message = validate_discord_id(nominee_link[SAVED_NOMINEE_LINK__DISCORD_ID])
+                if not success:
+                    return success, error_message
             if linked_nominee_id != NO_NOMINEE_LINKED:
                 if len(Nominee.objects.all().filter(id=linked_nominee_id)) != 1:
                     return False, f"Invalid Nominee id of {linked_nominee_id} was detected"

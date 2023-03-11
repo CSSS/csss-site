@@ -169,6 +169,7 @@ class Nominee(models.Model):
         if len(nominee_links) != 0:
             nominee_link = nominee_links[0]
             nominee_link.sfuid = self.sfuid
+            nominee_link.discord_id = self.discord_id
             nominee_link.save()
 
     def __str__(self):
@@ -195,6 +196,20 @@ class NomineeLink(models.Model):
     )
 
     @property
+    def get_sfuid(self):
+        return NA_STRING if self.sfuid is None else self.sfuid
+
+    discord_id = models.CharField(
+        max_length=200,
+        default=None,
+        null=True
+    )
+
+    @property
+    def get_discord_id(self):
+        return NA_STRING if self.discord_id is None else self.sfuid
+
+    @property
     def link(self):
         base_url = f"{settings.HOST_ADDRESS}"
         # this is necessary if the user is testing the site locally and therefore is using the port to access the
@@ -207,9 +222,10 @@ class NomineeLink(models.Model):
     def save(self, *args, **kwargs):
         super(NomineeLink, self).save(*args, **kwargs)
 
-        # added to ensure that changes to the NomineeLink's sfuid propagate to the Nominee object
+        # added to ensure that changes to the NomineeLink's sfuid and discord id propagate to the Nominee object
         if self.nominee is not None:
             self.nominee.sfuid = self.sfuid
+            self.nominee.discord_id = self.discord_id
             self.nominee.save()
 
     def __str__(self):

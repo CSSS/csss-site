@@ -101,10 +101,10 @@ ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
 ENDPOINT_DELETE_NOMINEE_LINKS = 'delete_nominee_links'
 
-NOMINEE_SFUIDS__HTML_NAME = 'nominee_sfuids__html_name'
-NEW_NOMINEE_SFUIDS_FOR_NOMINEE_LINKS = 'new_nominee_sfuids'
-NOMINEE_SFUIDS__VALUE = 'nominee_sfuids__value'
-REQUIRE_NOMINEE_SFUIDS = 'require_nominee_sfuids'
+NOMINEE_SFUIDS_AND_DISCORD_IDS__HTML_NAME = 'nominee_sfuids_and_discord_ids__html_name'
+NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS = 'new_nominee_sfuids_and_discord_ids'
+NOMINEE_SFUIDS_AND_DISCORD_IDS__VALUE = 'nominee_sfuids_and_discord_ids__value'
+REQUIRE_NOMINEE_SFUIDS_AND_DISCORD_IDS = 'require_nominee_sfuids_and_discord_ids'
 
 CURRENT_ELECTION = 'current_election'
 
@@ -124,6 +124,9 @@ SAVED_NOMINEE_LINK__SFUID = 'saved_nominee_link__sfuid'
 
 SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME = 'saved_nominee_link__nominee__html_name'
 SAVED_NOMINEE_LINK__NOMINEE = 'saved_nominee_link__nominee'
+
+SAVED_NOMINEE_LINK__DISCORD_ID__HTML_NAME = 'saved_nominee_link__discord_id__html_name'
+SAVED_NOMINEE_LINK__DISCORD_ID = 'saved_nominee_link__discord_id'
 
 NO_NOMINEE_LINKED__HTML_NAME = 'no_nominee_linked__html_name'
 NO_NOMINEE_LINKED = 'no_nominee_linked'
