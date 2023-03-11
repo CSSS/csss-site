@@ -2,7 +2,8 @@ from django.conf.urls import url
 
 from .views.Constants import ENDPOINT_MODIFY_VIA_JSON, ENDPOINT_MODIFY_VIA_WEBFORM, \
     ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
-    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK, ENDPOINT_DELETE_NOMINEE_LINKS
+    ENDPOINT_DELETE_NOMINEE_LINKS, \
+    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK
 from .views.endpoints.delete_selected_election import delete_selected_election
 from .views.endpoints.delete_selected_election_nominee_links import delete_selected_election__nominee_links
 from .views.endpoints.election_page import get_nominees
@@ -70,7 +71,7 @@ urlpatterns = [
         name="Show Page for Election Officer to update a Nominee via Nominee Link"
     ),
     url(
-        fr'^{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK}/$',
+        fr'^{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK}/$',
         display_and_process_html_for_nominee_modification_via_passphrase,
         name="SHow Page for Nominees to update their own info"
     ),

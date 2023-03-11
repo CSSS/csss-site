@@ -21,7 +21,7 @@ from about.views.input_new_officers.enter_new_officer_info.utils.alert_sys_admin
     alert_sys_admin_to_update_email_list
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
-from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_email_alias import get_sfu_email_alias
+from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_info import get_sfu_info
 from about.views.utils.get_officer_image_path import get_officer_image_path
 from csss.setup_logger import Loggers
 
@@ -47,9 +47,10 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
     phone_number = officer_info[UNPROCESSED_OFFICER_PHONE_NUMBER_KEY]
     full_name = officer_info[UNPROCESSED_OFFICER_NAME__KEY]
     sfu_computing_id = unprocessed_officer.sfu_computing_id
-    success, error_message, sfu_email_alias = get_sfu_email_alias(sfu_computing_id)
+    success, error_message, sfu_info = get_sfu_info(sfu_computing_id)
     if not success:
         return success, error_message
+    sfu_email_alias = sfu_info['aliases'][0]
     announcement_emails = []
     if len(officer_info[UNPROCESSED_OFFICER_ANNOUNCEMENT_EMAILS__KEY].strip()) > 1:
         announcement_emails = [

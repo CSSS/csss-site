@@ -110,6 +110,8 @@ CURRENT_ELECTION = 'current_election'
 
 DRAFT_NOMINEE_LINKS = 'draft_nominee_links'
 
+LINK_FOR_NOMINEES_TO_ENTER_INFO = 'link_for_nominees'
+
 SAVED_NOMINEE_LINKS__HTML_NAME = 'saved_nominee_links__html_name'
 SAVED_NOMINEE_LINKS = 'saved_nominee_links'
 
@@ -138,7 +140,7 @@ NOMINEE_LINKS = 'nominee_links'
 
 CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME = 'create_or_update_nominee_via_nominee_link__html_name'
 ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nominee_links'
-ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK = (
+ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK = (
     'create_or_update_via_nominee_links_for_nominee'
 )
 
@@ -147,8 +149,6 @@ TOGGLE_NOMINEE_LINKS_TO_DELETE = 'nominee_link_to_delete'
 
 PRE_EXISTING_ELECTION = 'pre_existing_election'
 DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"
-
-HTML_PASSPHRASE_GET_KEY = 'passphrase'
 
 DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY = 'redirect_path'
 

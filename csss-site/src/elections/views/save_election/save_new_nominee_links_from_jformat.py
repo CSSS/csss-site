@@ -1,7 +1,6 @@
-import random
-import string
-
+from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_info import get_sfu_info
 from elections.models import NomineeLink
+from elections.views.Constants import NA_STRING
 
 
 def save_new_nominee_links_from_jformat(election, new_nominee_sfuids_and_discord_ids):
@@ -18,10 +17,11 @@ def save_new_nominee_links_from_jformat(election, new_nominee_sfuids_and_discord
             if new_nominee_sfuids_and_discord_id.strip() != "":
                 new_nominee_sfuid = new_nominee_sfuids_and_discord_id.split(",")[0].strip()
                 new_nominee_discord_id = new_nominee_sfuids_and_discord_id.split(",")[1].strip()
-                passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-                while len(NomineeLink.objects.all().filter(passphrase=passphrase)) > 0:
-                    passphrase = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(10))
-                NomineeLink(
+                success, error_message, sfu_info = get_sfu_info(new_nominee_sfuid)
+                full_name = f"{sfu_info['firstnames']} {sfu_info['lastname']}" if success else NA_STRING
+                nominee_link = NomineeLink(
                     election=election, sfuid=new_nominee_sfuid, discord_id=new_nominee_discord_id,
-                    passphrase=passphrase
-                ).save()
+                    full_name=full_name
+                )
+                nominee_link.save()
+                nominee_link.send_dm()

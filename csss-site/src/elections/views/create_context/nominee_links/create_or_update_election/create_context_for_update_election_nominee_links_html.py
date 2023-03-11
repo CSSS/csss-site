@@ -1,10 +1,13 @@
 import json
 
+from django.conf import settings
+
 from csss.setup_logger import Loggers
 from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for_general_error_validations import \
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.views.Constants import CURRENT_ELECTION, TOGGLE_NOMINEE_LINKS_TO_DELETE__HTML_CLASS_NAME, \
-    TOGGLE_NOMINEE_LINKS_TO_DELETE, DRAFT_NOMINEE_LINKS, NOMINEE_LINKS
+    TOGGLE_NOMINEE_LINKS_TO_DELETE, DRAFT_NOMINEE_LINKS, NOMINEE_LINKS, \
+    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK, LINK_FOR_NOMINEES_TO_ENTER_INFO
 from elections.views.create_context.nominee_links.create_or_update_election.\
     create_context_for_election_nominee_sfuids_and_discord_ids_html import \
     create_context_for_election_nominee_sfuids_and_discord_ids_html
@@ -61,6 +64,16 @@ def create_context_for_update_election_nominee_links_html(
     create_context_for_election_time_html(context, election_time=election_time)
     create_context_for_election_type_html(context, election_type=election_type)
     create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
+
+    base_url = f"{settings.HOST_ADDRESS}"
+    # this is necessary if the user is testing the site locally and therefore is using the port to access the
+    # browser
+    if settings.PORT is not None:
+        base_url += f":{settings.PORT}"
+    context[LINK_FOR_NOMINEES_TO_ENTER_INFO] = (
+        f"http://{base_url}{settings.URL_ROOT}elections/"
+        f"{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK}"
+    )
     create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links,
                                                 nominee_links=nominee_links, election_obj=election_obj)
     if draft_nominee_links is not None:
