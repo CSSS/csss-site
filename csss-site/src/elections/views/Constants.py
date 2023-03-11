@@ -24,8 +24,8 @@ INPUT_REDIRECT_ELECTION_SUBMIT__VALUE = 'input_redirect_election_submit__value'
 CREATE_OR_UPDATE_NOMINEE__NAME = 'create_or_update_nominee'
 CREATE_NEW_ELECTION__NAME = 'create_election'
 UPDATE_EXISTING_ELECTION__NAME = 'update_election'
-SAVE_ELECTION__VALUE = 'Save Election'
-SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
+SAVE_ELECTION__VALUE = 'Save/Update Election'
+SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save/Update and Continue Editing Election'
 
 INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE = 'input_redirect_nominee_submit__value'
 
