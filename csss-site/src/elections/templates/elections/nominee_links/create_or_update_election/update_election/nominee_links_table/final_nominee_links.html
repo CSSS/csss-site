@@ -10,6 +10,9 @@
 			<td>
 				<input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{ saved_nominee_link__sfuid__html_name }}]" value="{{ nominee_link.get_sfuid }}" required>
 			</td>
+            <td>
+                <input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][ignore]" value="{{ nominee_link.full_name }}" readonly>
+            </td>
 			<td>
 				<input type="text" name="[{{saved_nominee_links__html_name}}][{{ nominee_link.id}}][{{ saved_nominee_link__discord_id__html_name }}]" value="{{ nominee_link.get_discord_id }}" required>
 			</td>
@@ -25,9 +28,6 @@
 					{%  endfor %}
 
 				</select>
-			</td>
-			<td>
-				<a target="_blank" href='{{ nominee_link.link }}'>Nominee Link</a>
 			</td>
 			<td>
 				<a target="_blank" href="{{ URL_ROOT }}elections/{{create_or_update_nominee_via_nominee_link__html_name}}/?{{nominee_link_id__html_name}}={{ nominee_link.id }}">

@@ -6,6 +6,7 @@ from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod, UnPr
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
     get_sfuid_for_officer_in_past_5_terms, get_current_election_officer_sfuid
+from elections.models import NomineeLink
 
 
 def create_context_for_officer_creation_links(request, tab=None):
@@ -337,6 +338,28 @@ def create_context_for_processing_unprocessed_officer(request, tab=None):
         raise UnProcessedNotDetected(request, tab=tab)
     new_officer = UnProcessedOfficer.objects.all().filter(sfu_computing_id=request.user.username).first()
     if new_officer is None:
+        raise UnProcessedNotDetected(request, tab=tab)
+    unprocessed_officers = UnProcessedOfficer.objects.all()
+    officers = Officer.objects.all().order_by('-start_date')
+    return create_main_context(
+        request, tab,
+        current_election_officer_sfuid=get_current_election_officer_sfuid(unprocessed_officers=unprocessed_officers,
+                                                                          officers=officers),
+        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
+            unprocessed_officers=unprocessed_officers,
+            officers=officers),
+        current_sys_admin_sfuid=get_current_sys_admin_sfuid(unprocessed_officers=unprocessed_officers,
+                                                            officers=officers),
+        current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(unprocessed_officers=unprocessed_officers,
+                                                                          officers=officers)
+    )
+
+
+def create_context_for_nominee_entering_their_info(request, tab=None):
+    if request.user.username == "root":
+        raise UnProcessedNotDetected(request, tab=tab)
+    nominee_link = NomineeLink.objects.all().filter(sfuid=request.user.username).first()
+    if nominee_link is None:
         raise UnProcessedNotDetected(request, tab=tab)
     unprocessed_officers = UnProcessedOfficer.objects.all()
     officers = Officer.objects.all().order_by('-start_date')

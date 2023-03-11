@@ -1,6 +1,7 @@
+from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_info import get_sfu_info
 from elections.models import NomineeLink, Nominee
 from elections.views.Constants import SAVED_NOMINEE_LINK__ID, SAVED_NOMINEE_LINK__NOMINEE, \
-    DELETE, NO_NOMINEE_LINKED, SAVED_NOMINEE_LINK__SFUID, SAVED_NOMINEE_LINK__DISCORD_ID
+    DELETE, NO_NOMINEE_LINKED, SAVED_NOMINEE_LINK__SFUID, SAVED_NOMINEE_LINK__DISCORD_ID, NA_STRING
 
 
 def update_existing_nominee_links_from_jformat(saved_nominee_links):
@@ -19,6 +20,8 @@ def update_existing_nominee_links_from_jformat(saved_nominee_links):
             else:
                 nominee_link.sfuid = saved_nominee_link[SAVED_NOMINEE_LINK__SFUID].strip()
                 nominee_link.discord_id = saved_nominee_link[SAVED_NOMINEE_LINK__DISCORD_ID].strip()
+                success, error_message, sfu_info = get_sfu_info(nominee_link.sfuid)
+                nominee_link.full_name = f"{sfu_info['firstnames']} {sfu_info['lastname']}" if success else NA_STRING
                 if saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE] != NO_NOMINEE_LINKED:
                     nominee_link.nominee = Nominee.objects.get(
                         id=int(saved_nominee_link[SAVED_NOMINEE_LINK__NOMINEE])

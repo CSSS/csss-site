@@ -5,8 +5,10 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
+from csss.views.send_discord_dm import send_discord_dm
 from csss.views_helper import markdown_message
-from elections.views.Constants import HTML_PASSPHRASE_GET_KEY, NA_STRING
+from elections.views.Constants import NA_STRING, \
+    ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK
 
 
 class Election(models.Model):
@@ -227,16 +229,6 @@ class NomineeLink(models.Model):
     def get_discord_id(self):
         return NA_STRING if self.discord_id is None else self.sfuid
 
-    @property
-    def link(self):
-        base_url = f"{settings.HOST_ADDRESS}"
-        # this is necessary if the user is testing the site locally and therefore is using the port to access the
-        # browser
-        if settings.PORT is not None:
-            base_url += f":{settings.PORT}"
-        base_url += f"{settings.URL_ROOT}elections/create_or_update_via_nominee_links_for_nominee?"
-        return f"http://{base_url}{HTML_PASSPHRASE_GET_KEY}={self.passphrase}"
-
     def save(self, *args, **kwargs):
         if self.full_name is NA_STRING:
             self.full_name = None
@@ -253,7 +245,24 @@ class NomineeLink(models.Model):
             self.nominee.save()
 
     def __str__(self):
-        return f"passphrase for nominee {self.full_name} for election {self.election}"
+        return f"Nominee Link for nominee {self.full_name} for election {self.election}"
+
+    def send_dm(self):
+        if self.discord_id is not None:
+            url = f'http://{settings.HOST_ADDRESS}'
+            if settings.DEBUG:
+                url += f":{settings.PORT}"
+            url += f'/login?next=/elections/{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK}'
+
+            message = (
+                f"Hello {self.full_name},\n\nThanks for being a nominee for the upcoming election. :smiley:\n\n"
+                f"[Click on this link to add your your speech to the website]({url})"
+                f"\nThe above link need to be filled in for you to be included on the nomination"
+            )
+            send_discord_dm(
+                self.discord_id, f"Fill out CSSS Nominee Information for {self.election.human_friendly_name}",
+                message
+            )
 
 
 class NomineeSpeech(models.Model):
