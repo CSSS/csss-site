@@ -24,11 +24,17 @@ def get_discord_username_and_nickname(discord_id):
         headers=discord_header,
     )
     if resp.status_code != 200:
-        texts = "<br>".join(json.loads(resp.text)['user_id'])
-        message = (
-            f"{discord_id} does not seem to be a valid Discord ID. "
-            f"<br>Received a response of {resp.reason}: {texts} from discord API"
-        )
+        if 'user_id' not in json.loads(resp.text):
+            message = (
+                f"Could not locate the discord user for ID {discord_id} due to "
+                f"error: '{json.loads(resp.text)['message']}'"
+            )
+        else:
+            texts = "<br>".join(json.loads(resp.text)['user_id'])
+            message = (
+                f"{discord_id} does not seem to be a valid Discord ID. "
+                f"<br>Received a response of {resp.reason}: {texts} from discord API"
+            )
         return False, message, None, None
     user_info = json.loads(resp.text)
     return True, None, user_info['user']['username'], user_info['nick']
