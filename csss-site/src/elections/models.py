@@ -227,7 +227,7 @@ class NomineeLink(models.Model):
 
     @property
     def get_discord_id(self):
-        return NA_STRING if self.discord_id is None else self.sfuid
+        return NA_STRING if self.discord_id is None else self.discord_id
 
     def save(self, *args, **kwargs):
         if self.full_name is NA_STRING:
