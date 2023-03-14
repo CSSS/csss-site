@@ -164,23 +164,23 @@ class Nominee(models.Model):
         #         f"detected a Null value for SFUID for the the nominee {self.full_name}"
         #         f"for election {self.election}"
         #     )
-        if self.facebook is NA_STRING:
+        if self.facebook == NA_STRING:
             self.facebook = None
-        if self.instagram is NA_STRING:
+        if self.instagram == NA_STRING:
             self.instagram = None
-        if self.linkedin is NA_STRING:
+        if self.linkedin == NA_STRING:
             self.linkedin = None
-        if self.email is NA_STRING:
+        if self.email == NA_STRING:
             self.email = None
-        if self.discord is NA_STRING:
+        if self.discord == NA_STRING:
             self.discord = None
-        if self.discord_id is NA_STRING:
+        if self.discord_id == NA_STRING:
             self.discord_id = None
-        if self.discord_username is NA_STRING:
+        if self.discord_username == NA_STRING:
             self.discord_username = None
-        if self.discord_nickname is NA_STRING:
+        if self.discord_nickname == NA_STRING:
             self.discord_nickname = None
-        if self.sfuid is NA_STRING:
+        if self.sfuid == NA_STRING:
             self.sfuid = None
         super(Nominee, self).save(*args, **kwargs)
 
@@ -230,11 +230,11 @@ class NomineeLink(models.Model):
         return NA_STRING if self.discord_id is None else self.discord_id
 
     def save(self, *args, **kwargs):
-        if self.full_name is NA_STRING:
+        if self.full_name == NA_STRING:
             self.full_name = None
-        if self.sfuid is NA_STRING:
+        if self.sfuid == NA_STRING:
             self.sfuid = None
-        if self.discord_id is NA_STRING:
+        if self.discord_id == NA_STRING:
             self.discord_id = None
         super(NomineeLink, self).save(*args, **kwargs)
 
