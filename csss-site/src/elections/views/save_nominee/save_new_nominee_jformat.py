@@ -40,20 +40,15 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
     email_address = email_address.strip()
     discord_username = NA_STRING
     discord_nickname = NA_STRING
+    discord_id = discord_id.strip()
     if election_officer_request:
         sfuid = sfuid.strip()
-        discord_id = discord_id.strip()
     if not election_officer_request:
         if nominee_link is None:
             sfuid = NA_STRING
         else:
             sfuid = nominee_link.nominee.get_sfuid \
                 if nominee_link.nominee is not None else nominee_link.get_sfuid
-        if nominee_link is None:
-            discord_id = NA_STRING
-        else:
-            discord_id = nominee_link.nominee.get_discord_id \
-                if nominee_link.nominee is not None else nominee_link.get_discord_id
     if discord_id != NA_STRING:
         success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
 

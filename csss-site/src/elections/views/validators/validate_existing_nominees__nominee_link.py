@@ -28,7 +28,6 @@ def validate_existing_nominee__nominee_link(
                             ]
     speech_ids_so_far = []
     position_ids_so_far = []
-    discord_id = nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID] if election_officer_request else NA_STRING
     sfuid = nominee_info[ELECTION_JSON_KEY__NOM_SFUID] if election_officer_request else NA_STRING
     return validate_existing_nominee_jformat(
         nominee_names_so_far, speech_ids_so_far, position_ids_so_far,
@@ -36,5 +35,6 @@ def validate_existing_nominee__nominee_link(
         nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
         nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
         nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
-        discord_id, election_id, election_officer_request=election_officer_request
+        nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID], election_id,
+        election_officer_request=election_officer_request
     )

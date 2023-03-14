@@ -46,11 +46,10 @@ def process_nominee__nominee_links(
     fields = [
         ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_INSTAGRAM,
         ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL,
-        ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS
+        ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_DISCORD_ID
     ]
     if election_officer_request:
         fields.append(ELECTION_JSON_KEY__NOM_SFUID)
-        fields.append(ELECTION_JSON_KEY__NOM_DISCORD_ID)
     error_message = verify_user_input_has_all_required_fields(nominee_info, fields)
     if error_message != "":
         logger.info(

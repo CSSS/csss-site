@@ -75,9 +75,8 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
     regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
     if not (re.search(regex, email_address) or email_address == NA_STRING):
         return False, f"email {email_address} for nominee {full_name} did not pass validation"
-    if election_officer_request:
-        if discord_id != NA_STRING:
-            success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
-            if not success:
-                return False, error_message
+    if discord_id != NA_STRING:
+        success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
+        if not success:
+            return False, error_message
     return True, None

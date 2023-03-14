@@ -53,18 +53,16 @@ def transform_nominee_links_webform_to_json(request, election_officer_request=Tr
         if new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] == NA_STRING:
             new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] = None
         else:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] = new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].stripe()
+            new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] = new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
+    if ELECTION_JSON_KEY__NOM_DISCORD_ID in new_nominee_dict:
+        new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] = \
+            new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
     if election_officer_request:
         if ELECTION_JSON_KEY__NOM_SFUID in new_nominee_dict:
             new_nominee_dict[ELECTION_JSON_KEY__NOM_SFUID] = new_nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip()
-        if ELECTION_JSON_KEY__NOM_DISCORD_ID in new_nominee_dict:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] = \
-                new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
     else:
         if ELECTION_JSON_KEY__NOM_SFUID in new_nominee_dict:
             del new_nominee_dict[ELECTION_JSON_KEY__NOM_SFUID]
-        if ELECTION_JSON_KEY__NOM_DISCORD_ID in new_nominee_dict:
-            del new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID]
     transform_nominee_webform_to_json(new_nominee_dict)
     logger.info("[elections/transform_nominee_links_webform_to_json.py transform_nominee_links_webform_to_json()] to")
     logger.info(json.dumps(new_nominee_dict, indent=3))
