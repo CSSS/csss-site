@@ -34,3 +34,4 @@ def validate_new_nominee_sfuids_and_discord_ids(new_nominee_sfuids_and_discord_i
                     success, error_message = validate_discord_id(new_nominee_discord_id)
                     if not success:
                         return success, error_message
+    return True, None
