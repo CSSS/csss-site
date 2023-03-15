@@ -164,6 +164,11 @@ class Nominee(models.Model):
         #         f"detected a Null value for SFUID for the the nominee {self.full_name}"
         #         f"for election {self.election}"
         #     )
+        nominee_link = self.nomineelink_set.all()
+        if len(nominee_link) == 1:
+            nominee_link = nominee_link[0]
+        else:
+            nominee_link = None
         if self.facebook == NA_STRING:
             self.facebook = None
         if self.instagram == NA_STRING:
@@ -182,6 +187,8 @@ class Nominee(models.Model):
             self.discord_nickname = None
         if self.sfuid == NA_STRING:
             self.sfuid = None
+        if self.sfuid is None and nominee_link is not None and nominee_link.sfuid is not None:
+            self.sfuid = nominee_link.sfuid
         super(Nominee, self).save(*args, **kwargs)
 
         # added to ensure the SFUID is synchronized between the Nominee and their posible NomineeLink object

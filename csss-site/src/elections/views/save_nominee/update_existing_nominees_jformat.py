@@ -33,7 +33,9 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
     nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
-    nominee_obj.sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip()
+    sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID]
+    sfuid = sfuid.strip() if sfuid is not None else sfuid
+    nominee_obj.sfuid = sfuid
     nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
     if nominee_obj.discord_id != NA_STRING:
         success, error_message, nominee_obj.discord_username, nominee_obj.discord_nickname = \
