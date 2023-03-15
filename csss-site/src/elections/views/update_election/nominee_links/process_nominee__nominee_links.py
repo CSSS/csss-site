@@ -80,17 +80,19 @@ def process_nominee__nominee_links(
             context
         )
     if nominee_link.nominee is None:
-        sfuid = nominee_info[ELECTION_JSON_KEY__NOM_SFUID] if election_officer_request else None
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
-            sfuid, nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
+            nominee_info[ELECTION_JSON_KEY__NOM_SFUID],
+            nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
             nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
             nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
             nominee_info[ELECTION_JSON_KEY__NOM_DISCORD_ID], nominee_link=nominee_link,
             election_officer_request=election_officer_request
         )
     else:
-        position_ids, speech_ids = update_existing_nominee_jformat(nominee_link.nominee, nominee_info)
+        position_ids, speech_ids = update_existing_nominee_jformat(
+            nominee_link.nominee, nominee_info, election_officer_request=election_officer_request
+        )
 
         current_nominee_position_ids_under_election = [
             speech.id for speech in NomineePosition.objects.all().filter(

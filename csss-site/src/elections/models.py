@@ -187,8 +187,6 @@ class Nominee(models.Model):
             self.discord_nickname = None
         if self.sfuid == NA_STRING:
             self.sfuid = None
-        if self.sfuid is None and nominee_link is not None and nominee_link.sfuid is not None:
-            self.sfuid = nominee_link.sfuid
         super(Nominee, self).save(*args, **kwargs)
 
         # added to ensure the SFUID is synchronized between the Nominee and their posible NomineeLink object

@@ -13,7 +13,7 @@ from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, 
     ELECTION_JSON_KEY__NOM_DISCORD_ID, ELECTION_JSON_KEY__NOM_SFUID
 
 
-def update_existing_nominee_jformat(nominee_obj, nominee_dict):
+def update_existing_nominee_jformat(nominee_obj, nominee_dict, election_officer_request=True):
     """
     Updates the specified nominee
 
@@ -29,13 +29,17 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []
     nominee_obj.full_name = nominee_dict[ELECTION_JSON_KEY__NOM_NAME].strip()
-    nominee_obj.facebook = nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip()
-    nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
-    nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
-    nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
-    sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID]
-    sfuid = sfuid.strip() if sfuid is not None else sfuid
-    nominee_obj.sfuid = sfuid
+    nominee_obj.facebook = nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK] is not None else None
+    nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM] is not None else None
+    nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] is not None else None
+    nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] is not None else None
+
+    nominee_obj.sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip() \
+        if election_officer_request else nominee_obj.sfuid
     nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
     if nominee_obj.discord_id != NA_STRING:
         success, error_message, nominee_obj.discord_username, nominee_obj.discord_nickname = \
