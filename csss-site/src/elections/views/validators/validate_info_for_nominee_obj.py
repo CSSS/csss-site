@@ -37,11 +37,11 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
     )
     full_name = full_name.strip()
     sfuid = sfuid.strip()
-    facebook_link = facebook_link.strip()
-    instagram_link = instagram_link.strip()
-    linkedin_link = linkedin_link.strip()
-    email_address = email_address.strip()
-    discord_id = discord_id.strip()
+    facebook_link = facebook_link.strip() if facebook_link is not None else facebook_link
+    instagram_link = instagram_link.strip() if instagram_link is not None else instagram_link
+    linkedin_link = linkedin_link.strip() if instagram_link is not None else instagram_link
+    email_address = email_address.strip() if email_address is not None else email_address
+    discord_id = discord_id.strip() if discord_id is not None else discord_id
     if full_name in nominee_names_so_far:
         return False, f"the nominee {full_name} has been specified more than once"
     nominee_names_so_far.append(full_name)
@@ -51,31 +51,35 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
         success, error_message = validate_sfu_id(sfuid)
         if not success:
             return False, error_message
-    if len(facebook_link) == 0:
-        return False, f"No valid facebook link detected for nominee" \
-                      f" {full_name}, please set to \"{NA_STRING}\" if there is no facebook link"
-    success, error_message = validate_link_for_nominee_social_media(facebook_link, "Facebook", full_name)
-    if not success:
-        return False, error_message
-    if len(instagram_link) == 0:
-        return False, f"No valid instagram link detected for nominee" \
-                      f" {full_name}, please set to \"{NA_STRING}\" if there is no instagram link"
-    success, error_message = validate_link_for_nominee_social_media(instagram_link, "Instagram", full_name)
-    if not success:
-        return False, error_message
-    if len(linkedin_link) == 0:
-        return False, f"No valid linkedin link detected for nominee" \
-                      f" {full_name}, please set to \"{NA_STRING}\" if there is no linkedin link"
-    success, error_message = validate_link_for_nominee_social_media(linkedin_link, "LinkedIn", full_name)
-    if not success:
-        return False, error_message
-    if len(email_address) == 0:
-        return False, f"No valid email detected for nominee" \
-                      f" {full_name}, please set to \"{NA_STRING}\" if there is no email"
-    regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
-    if not (re.search(regex, email_address) or email_address == NA_STRING):
-        return False, f"email {email_address} for nominee {full_name} did not pass validation"
-    if discord_id != NA_STRING:
+    if facebook_link is not None:
+        if len(facebook_link) == 0:
+            return False, f"No valid facebook link detected for nominee" \
+                          f" {full_name}, please set to \"{NA_STRING}\" if there is no facebook link"
+        success, error_message = validate_link_for_nominee_social_media(facebook_link, "Facebook", full_name)
+        if not success:
+            return False, error_message
+    if instagram_link is not None:
+        if len(instagram_link) == 0:
+            return False, f"No valid instagram link detected for nominee" \
+                          f" {full_name}, please set to \"{NA_STRING}\" if there is no instagram link"
+        success, error_message = validate_link_for_nominee_social_media(instagram_link, "Instagram", full_name)
+        if not success:
+            return False, error_message
+    if linkedin_link is not None:
+        if len(linkedin_link) == 0:
+            return False, f"No valid linkedin link detected for nominee" \
+                          f" {full_name}, please set to \"{NA_STRING}\" if there is no linkedin link"
+        success, error_message = validate_link_for_nominee_social_media(linkedin_link, "LinkedIn", full_name)
+        if not success:
+            return False, error_message
+    if email_address is not None:
+        if len(email_address) == 0:
+            return False, f"No valid email detected for nominee" \
+                          f" {full_name}, please set to \"{NA_STRING}\" if there is no email"
+        regex = r'^(\w|\.|\_|\-)+[@](\w|\_|\-|\.)+[.]\w+$'
+        if not (re.search(regex, email_address) or email_address == NA_STRING):
+            return False, f"email {email_address} for nominee {full_name} did not pass validation"
+    if discord_id is not None and discord_id != NA_STRING:
         success, error_message, discord_username, discord_nickname = get_discord_username_and_nickname(discord_id)
         if not success:
             return False, error_message
