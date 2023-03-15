@@ -71,7 +71,7 @@ def create_context_for_update_election_nominee_links_html(
     if settings.PORT is not None:
         base_url += f":{settings.PORT}"
     context[LINK_FOR_NOMINEES_TO_ENTER_INFO] = (
-        f"http://{base_url}{settings.URL_ROOT}elections/"
+        f"http://{base_url}{settings.URL_ROOT}login?next=/elections/"
         f"{ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK}"
     )
     create_context_for_nominee_links_table_html(context, draft_nominee_links=draft_nominee_links,
