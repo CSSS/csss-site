@@ -34,13 +34,13 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
     """
     logger = Loggers.get_logger()
     full_name = full_name.strip()
-    facebook_link = facebook_link.strip()
-    instagram_link = instagram_link.strip()
-    linkedin_link = linkedin_link.strip()
-    email_address = email_address.strip()
+    facebook_link = facebook_link.strip() if facebook_link is not None else None
+    instagram_link = instagram_link.strip() if instagram_link is not None else None
+    linkedin_link = linkedin_link.strip() if facebook_link is not None else None
+    email_address = email_address.strip() if facebook_link is not None else None
     discord_username = NA_STRING
     discord_nickname = NA_STRING
-    discord_id = discord_id.strip()
+    discord_id = discord_id.strip() if facebook_link is not None else None
     if election_officer_request:
         sfuid = sfuid.strip()
     if not election_officer_request:
