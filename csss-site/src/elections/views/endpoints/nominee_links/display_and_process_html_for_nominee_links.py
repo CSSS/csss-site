@@ -42,7 +42,7 @@ def display_and_process_html_for_modification_of_election_and_nominee_links__nom
         return process_existing_election_and_nominee_links(request, election, context)
     else:
         create_context_for_update_election_nominee_links_html(
-            context, nominee_links=NomineeLink.objects.all(),
+            context, nominee_links=NomineeLink.objects.all().order_by('id'),
             election_date=election.date, election_time=election.date, election_type=election.election_type,
             websurvey_link=election.websurvey, create_new_election=election is None, election_obj=election
         )
