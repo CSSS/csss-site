@@ -158,17 +158,17 @@ class Nominee(models.Model):
         return NA_STRING if self.sfuid is None else self.sfuid
 
     def save(self, *args, **kwargs):
+        if 'first_pass' in kwargs:
+            first_pass = kwargs['first_pass']
+            del kwargs['first_pass']
+        else:
+            first_pass = True
         # will uncomment below when the SfuID is determined for all past nominees
         # if self.sfuid is None:
         #     raise Exception(
         #         f"detected a Null value for SFUID for the the nominee {self.full_name}"
         #         f"for election {self.election}"
         #     )
-        nominee_link = self.nomineelink_set.all()
-        if len(nominee_link) == 1:
-            nominee_link = nominee_link[0]
-        else:
-            nominee_link = None
         if self.facebook == NA_STRING:
             self.facebook = None
         if self.instagram == NA_STRING:
@@ -190,12 +190,12 @@ class Nominee(models.Model):
         super(Nominee, self).save(*args, **kwargs)
 
         # added to ensure the SFUID is synchronized between the Nominee and their posible NomineeLink object
-        nominee_links = self.nomineelink_set.all()
-        if len(nominee_links) != 0:
-            nominee_link = nominee_links[0]
+        nominee_link = self.nomineelink_set.all()
+        nominee_link = nominee_link[0] if len(nominee_link) == 1 else None
+        if first_pass and nominee_link is not None:
             nominee_link.sfuid = self.sfuid
             nominee_link.discord_id = self.discord_id
-            nominee_link.save()
+            nominee_link.save(first_pass=False)
 
     def __str__(self):
         return f"Nominee {self.full_name} for Election {self.election}"
@@ -235,6 +235,11 @@ class NomineeLink(models.Model):
         return NA_STRING if self.discord_id is None else self.discord_id
 
     def save(self, *args, **kwargs):
+        if 'first_pass' in kwargs:
+            first_pass = kwargs['first_pass']
+            del kwargs['first_pass']
+        else:
+            first_pass = True
         if self.full_name == NA_STRING:
             self.full_name = None
         if self.sfuid == NA_STRING:
@@ -244,10 +249,10 @@ class NomineeLink(models.Model):
         super(NomineeLink, self).save(*args, **kwargs)
 
         # added to ensure that changes to the NomineeLink's sfuid and discord id propagate to the Nominee object
-        if self.nominee is not None:
+        if first_pass and self.nominee is not None:
             self.nominee.sfuid = self.sfuid
             self.nominee.discord_id = self.discord_id
-            self.nominee.save()
+            self.nominee.save(first_pass=False)
 
     def __str__(self):
         return f"Nominee Link for nominee {self.full_name} for election {self.election}"
