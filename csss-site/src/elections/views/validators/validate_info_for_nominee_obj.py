@@ -5,7 +5,8 @@ from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_use
 from about.views.input_new_officers.specify_new_officers.validators.validate_sfu_id import validate_sfu_id
 from csss.setup_logger import Loggers
 from elections.views.Constants import NA_STRING
-from elections.views.validators.validate_link import validate_link_for_nominee_social_media
+from elections.views.validators.validate_link import validate_facebook_link, \
+    validate_instagram_link, validate_linkedin_link
 
 
 def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_link, instagram_link, linkedin_link,
@@ -55,21 +56,21 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
         if len(facebook_link) == 0:
             return False, f"No valid facebook link detected for nominee" \
                           f" {full_name}, please set to \"{NA_STRING}\" if there is no facebook link"
-        success, error_message = validate_link_for_nominee_social_media(facebook_link, "Facebook", full_name)
+        success, error_message = validate_facebook_link(facebook_link, full_name)
         if not success:
             return False, error_message
     if instagram_link is not None:
         if len(instagram_link) == 0:
             return False, f"No valid instagram link detected for nominee" \
                           f" {full_name}, please set to \"{NA_STRING}\" if there is no instagram link"
-        success, error_message = validate_link_for_nominee_social_media(instagram_link, "Instagram", full_name)
+        success, error_message = validate_instagram_link(instagram_link, full_name)
         if not success:
             return False, error_message
     if linkedin_link is not None:
         if len(linkedin_link) == 0:
             return False, f"No valid linkedin link detected for nominee" \
                           f" {full_name}, please set to \"{NA_STRING}\" if there is no linkedin link"
-        success, error_message = validate_link_for_nominee_social_media(linkedin_link, "LinkedIn", full_name)
+        success, error_message = validate_linkedin_link(linkedin_link, full_name)
         if not success:
             return False, error_message
     if email_address is not None:
