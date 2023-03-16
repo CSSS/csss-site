@@ -46,7 +46,9 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
             context[NOMINEE__NAME__HTML_NAME] = nominee_obj.full_name
 
     create_context_for_form__nominee_links_html(context)
-    create_context_for_main_function__nominee_links_html(context, nominee_info=nominee_info, nominee_obj=nominee_obj)
+    create_context_for_main_function__nominee_links_html(
+        context, nominee_info=nominee_info, nominee_obj=nominee_obj, sfuid=nominee_link.sfuid
+    )
     create_context_for_add_blank_speech_html(context)
     create_context_for_view_saved_nominee_info_html(context, nominee_obj=nominee_obj)
     logger.info(

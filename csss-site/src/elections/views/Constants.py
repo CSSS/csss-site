@@ -9,6 +9,8 @@ ELECTION__HTML_NAME = 'election__html_name'
 NOMINEES_HTML__NAME = 'nominees__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
 
+NOMINEE_LINK_SFU_ID = 'nominee_link_sfu_id'
+
 ELECTION_HUMAN_FRIENDLY_NAME__HTML_NAME = 'election_human_friendly_name__html_name'
 NOMINEE__NAME__HTML_NAME = 'nominee__name__html_name'
 

@@ -22,7 +22,7 @@ if (draft_or_finalized_nominee_to_display == true){
     and there are no nominees, will display a form to enter the first nominee
     */
 	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" required></p>";
-	new_nominee.innerHTML += "<p>SFUID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_sfuid__name}}]\" required></p>";
+	new_nominee.innerHTML += "<p>SFUID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_sfuid__name}}]\" value=\""+nominee_link_sfu_id+"\" required></p>";
 	new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\"NA\" required></p>";
 	new_nominee.innerHTML += "<p>Instagram Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_instagram__name}}]\" value=\"NA\" required></p>";
 	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\"NA\" required></p>";

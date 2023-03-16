@@ -1,4 +1,4 @@
-from elections.views.Constants import NOMINEE_DIV__NAME, DRAFT_NOMINEE_HTML__NAME, NA_STRING
+from elections.views.Constants import NOMINEE_DIV__NAME, DRAFT_NOMINEE_HTML__NAME, NA_STRING, NOMINEE_LINK_SFU_ID
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEE, ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_INSTAGRAM, ELECTION_JSON_KEY__NOM_DISCORD_ID, ELECTION_JSON_KEY__NOM_SFUID
@@ -7,7 +7,7 @@ from elections.views.create_context.webform_format.js_functions.on_load_js_funct
     create_context_for_display_nominee_info_html
 
 
-def create_context_for_main_function__nominee_links_html(context, nominee_info=None, nominee_obj=None):
+def create_context_for_main_function__nominee_links_html(context, nominee_info=None, nominee_obj=None, sfuid=""):
     """
     populates the context dictionary that is used by
      elections/templates/elections/nominee_links/create_or_update_nominee/js_functions/
@@ -17,6 +17,7 @@ def create_context_for_main_function__nominee_links_html(context, nominee_info=N
     context -- the context dictionary that has to be populated for the main_function.html
     nominee_info -- the nominee info that the user inputted, otherwise None
     nominee_obj -- the object that contains the saved nominee info
+    sfuID -- the sfu ID attached to the Nominee Link
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEE,
@@ -62,6 +63,7 @@ def create_context_for_main_function__nominee_links_html(context, nominee_info=N
             )
             context[DRAFT_NOMINEE_HTML__NAME] = nominee_info_to_add_to_context[nominee_obj.full_name]
     else:
+        context[NOMINEE_LINK_SFU_ID] = sfuid
         create_context_for_display_nominee_info_html(
             context, draft_or_finalized_nominee_to_display=False
         )
