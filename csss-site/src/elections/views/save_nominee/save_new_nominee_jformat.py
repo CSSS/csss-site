@@ -45,7 +45,7 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
         sfuid = sfuid.strip()
     if not election_officer_request:
         if nominee_link is None:
-            sfuid = NA_STRING
+            sfuid = None
         else:
             sfuid = nominee_link.nominee.get_sfuid \
                 if nominee_link.nominee is not None else nominee_link.get_sfuid

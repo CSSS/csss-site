@@ -1,11 +1,11 @@
 $(document).ready(function () {
-    let speech_parent_div_name;
-    let nominees_div_name = '{{nominee_div__name}}';
+	let speech_parent_div_name;
+	let nominees_div_name = '{{nominee_div__name}}';
 	let nominee_index;
 	let nominee_speeches;
 	let draft_or_finalized_nominee_to_display;
 	let new_nominee;
-    {%  if draft_nominee__html_name is not None %}
+    	{%  if draft_nominee__html_name is not None %}
 		nominee_index = document.getElementById(nominees_div_name).childElementCount;
 		const nominee_div_name = 'nominee_' + nominee_index;
 		speech_parent_div_name = nominee_div_name + '_speeches';
@@ -21,8 +21,8 @@ $(document).ready(function () {
 		discord_id="{{draft_nominee__html_name.discord_id}}";
 		let nominee_link_election_form=true;
 		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
-    {% else %}
-        /* when there is no info regarding the nominee yet */
+    	{% else %}
+        	/* when there is no info regarding the nominee yet */
 		if (document.getElementById(nominees_div_name).lastChild === null){
 			nominee_index = document.getElementById(nominees_div_name).childElementCount;
 		}else{
@@ -33,8 +33,8 @@ $(document).ready(function () {
 
 		draft_or_finalized_nominee_to_display=false;
 		let nominee_link_election_form=true;
-        	let nominee_link_sfu_id='{{ nominee_link_sfu_id }}';
+        	let sfuid='{{ nominee_link_sfu_id }}';
 		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
 		addBlankSpeech(nominee_index)
-    {%  endif %}
+	{%  endif %}
 });

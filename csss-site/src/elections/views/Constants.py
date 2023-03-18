@@ -154,4 +154,6 @@ DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"
 
 DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY = 'redirect_path'
 
+ELECTION_OFFICER_REQUEST = 'election_officer_request'
+
 NA_STRING = "NA"

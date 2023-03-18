@@ -3,23 +3,24 @@ from elections.views.Constants import NOMINEE_DIV__NAME, \
     INPUT_NOMINEE_NAME__NAME, INPUT_NOMINEE_FACEBOOK__NAME, INPUT_NOMINEE_EMAIL__NAME, INPUT_NOMINEE_ID__NAME, \
     ID_KEY, INPUT_NOMINEE_LINKEDIN__NAME, INCLUDE_ID_FOR_NOMINEE_IN_WEBFORM__HTML_NAME, \
     ELECTION_MODIFICATION_VIA_WEBFORM__HTML_NAME, INPUT_NOMINEE_INSTAGRAM__NAME, INPUT_NOMINEE_DISCORD_ID__NAME, \
-    INPUT_NOMINEE_SFUID__NAME
+    INPUT_NOMINEE_SFUID__NAME, ELECTION_OFFICER_REQUEST
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, \
     ELECTION_JSON_KEY__NOM_FACEBOOK, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_LINKEDIN, \
     ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, \
     ELECTION_JSON_KEY__NOM_INSTAGRAM, ELECTION_JSON_KEY__NOM_DISCORD_ID, ELECTION_JSON_KEY__NOM_SFUID
-from elections.views.create_context.webform_format.js_functions.on_load_js_function.\
+from elections.views.create_context.webform_format.js_functions.on_load_js_function. \
     position_names_and_speech_pairings.create_context_for_position_names_and_speech_pairing_html import \
     create_context_for_position_names_and_speech_pairing_html
 
 
 def create_context_for_display_nominee_info_html(
-        context, draft_or_finalized_nominee_to_display=False, include_id_for_nominee=False,
-        webform_election=True, new_webform_election=True,
-        nominee_info_to_add_to_context=None, nominee_info=None, nominee_obj=None,
-        speech_ids=None, populate_nominee_info=False,
-        create_or_update_webform_election=False,
-        get_existing_election_webform=False
+    context, draft_or_finalized_nominee_to_display=False, include_id_for_nominee=False,
+    webform_election=True, new_webform_election=True,
+    nominee_info_to_add_to_context=None, nominee_info=None, nominee_obj=None,
+    speech_ids=None, populate_nominee_info=False,
+    create_or_update_webform_election=False,
+    get_existing_election_webform=False,
+    election_officer_request=True
 ):
     """
     populates the context dictionary that is used by
@@ -37,9 +38,10 @@ def create_context_for_display_nominee_info_html(
     speech_ids -- keeps tracks of the speech_ids attached to the context so far
     populate_nominee_info -- flag to indicate whether or not to populate the nominee_info when being called via
      create_context_for_update_election__webform_html context creator
+    create_or_update_webform_election -- boolean indicator when the user is trying to create or update an election
     get_existing_election_webform -- boolean indicator of when the context is being creating for the page
      that shows a saved election
-    create_or_update_webform_election -- boolean indicator when the user is trying to create or update an election
+    election_officer_request -- indicates if the request that is being processed came from the election officer
     """
     context.update({
         NOMINEE_DIV__NAME: ELECTION_JSON_KEY__NOMINEES,
@@ -49,7 +51,8 @@ def create_context_for_display_nominee_info_html(
         INPUT_NOMINEE_INSTAGRAM__NAME: ELECTION_JSON_KEY__NOM_INSTAGRAM,
         INPUT_NOMINEE_LINKEDIN__NAME: ELECTION_JSON_KEY__NOM_LINKEDIN,
         INPUT_NOMINEE_EMAIL__NAME: ELECTION_JSON_KEY__NOM_EMAIL,
-        INPUT_NOMINEE_DISCORD_ID__NAME: ELECTION_JSON_KEY__NOM_DISCORD_ID
+        INPUT_NOMINEE_DISCORD_ID__NAME: ELECTION_JSON_KEY__NOM_DISCORD_ID,
+        ELECTION_OFFICER_REQUEST: election_officer_request
     })
     if draft_or_finalized_nominee_to_display:
         context.update({

@@ -37,11 +37,12 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict, election_officer_
         if nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] is not None else None
     nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip() \
         if nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] is not None else None
+    nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] is not None else None
 
     nominee_obj.sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip() \
         if election_officer_request else nominee_obj.sfuid
-    nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
-    if nominee_obj.discord_id != NA_STRING:
+    if nominee_obj.discord_id != NA_STRING and nominee_obj.discord_id is not None:
         success, error_message, nominee_obj.discord_username, nominee_obj.discord_nickname = \
             get_discord_username_and_nickname(
                 nominee_obj.discord_id

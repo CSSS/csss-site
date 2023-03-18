@@ -57,7 +57,8 @@ def process_nominee__nominee_links(
             f"{error_message}"
         )
         create_context_for_create_or_update_nominee__nominee_links_html(
-            context, nominee_link_id=nominee_link.id, error_messages=[error_message]
+            context, nominee_link_id=nominee_link.id, nominee_info=nominee_info, error_messages=[error_message],
+            election_officer_request=election_officer_request
         )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
@@ -73,7 +74,8 @@ def process_nominee__nominee_links(
             f"{error_message}"
         )
         create_context_for_create_or_update_nominee__nominee_links_html(
-            context, nominee_link_id=nominee_link.id, error_messages=[error_message], nominee_info=nominee_info
+            context, nominee_link_id=nominee_link.id, nominee_info=nominee_info, error_messages=[error_message],
+            election_officer_request=election_officer_request
         )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
@@ -82,7 +84,7 @@ def process_nominee__nominee_links(
     if nominee_link.nominee is None:
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
-            nominee_info[ELECTION_JSON_KEY__NOM_SFUID],
+            nominee_info.get(ELECTION_JSON_KEY__NOM_SFUID, None),
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
             nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
             nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],

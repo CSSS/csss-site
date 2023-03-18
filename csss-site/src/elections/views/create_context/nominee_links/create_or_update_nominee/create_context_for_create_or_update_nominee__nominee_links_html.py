@@ -5,13 +5,13 @@ from csss.views.context_creation.error_htmls.create_context_for_html_snippet_for
     create_context_for_html_snippet_for_general_error_validations_html
 from elections.models import NomineeLink
 from elections.views.Constants import NOMINEE__NAME__HTML_NAME, ELECTION_HUMAN_FRIENDLY_NAME__HTML_NAME
-from elections.views.create_context.nominee_links.\
+from elections.views.create_context.nominee_links. \
     create_or_update_nominee.create_context_for_form__nominee_links_html import \
     create_context_for_form__nominee_links_html
-from elections.views.create_context.nominee_links.create_or_update_nominee.\
+from elections.views.create_context.nominee_links.create_or_update_nominee. \
     create_context_for_view_saved_nominee_info_html import \
     create_context_for_view_saved_nominee_info_html
-from elections.views.create_context.nominee_links.create_or_update_nominee.js_functions.on_load_js_functions.\
+from elections.views.create_context.nominee_links.create_or_update_nominee.js_functions.on_load_js_functions. \
     create_context_for_main_function__nominee_links_html import \
     create_context_for_main_function__nominee_links_html
 from elections.views.create_context.nominee_links.utils.make_context_value_serializable_to_json import \
@@ -22,7 +22,8 @@ from elections.views.create_context.webform_format.js_functions.create_context_f
 
 def create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=None,
                                                                     error_messages=None,
-                                                                    nominee_info=None):
+                                                                    nominee_info=None,
+                                                                    election_officer_request=True):
     """
     populates the context dictionary that is used by
      elections/templates/elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html
@@ -32,6 +33,8 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
     nominee_link_id -- the ID for the nominee link that has to be modified
     error_messages -- error message to display
     nominee_info -- the nominee info that the user inputted, otherwise None
+    election_officer_request -- indicates if the page is being accessed by the election officer
+
     """
     logger = Loggers.get_logger()
     create_context_for_html_snippet_for_general_error_validations_html(context, error_messages=error_messages)
@@ -47,7 +50,8 @@ def create_context_for_create_or_update_nominee__nominee_links_html(context, nom
 
     create_context_for_form__nominee_links_html(context)
     create_context_for_main_function__nominee_links_html(
-        context, nominee_info=nominee_info, nominee_obj=nominee_obj, sfuid=nominee_link.sfuid
+        context, nominee_info=nominee_info, nominee_obj=nominee_obj,
+        election_officer_request=election_officer_request, sfuid=nominee_link.sfuid
     )
     create_context_for_add_blank_speech_html(context)
     create_context_for_view_saved_nominee_info_html(context, nominee_obj=nominee_obj)
