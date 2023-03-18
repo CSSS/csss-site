@@ -84,7 +84,7 @@ def process_nominee__nominee_links(
     if nominee_link.nominee is None:
         save_new_nominee_jformat(
             Election.objects.get(id=election_id), nominee_info[ELECTION_JSON_KEY__NOM_NAME],
-            nominee_info[ELECTION_JSON_KEY__NOM_SFUID],
+            nominee_info.get(ELECTION_JSON_KEY__NOM_SFUID, None),
             nominee_info[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS],
             nominee_info[ELECTION_JSON_KEY__NOM_FACEBOOK], nominee_info[ELECTION_JSON_KEY__NOM_INSTAGRAM],
             nominee_info[ELECTION_JSON_KEY__NOM_LINKEDIN], nominee_info[ELECTION_JSON_KEY__NOM_EMAIL],
