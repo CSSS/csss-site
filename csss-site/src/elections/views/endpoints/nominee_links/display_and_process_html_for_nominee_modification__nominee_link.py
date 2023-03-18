@@ -33,7 +33,9 @@ def display_and_process_html_for_nominee_modification(request):
     elif nominee_links[0].election is None:
         error_message = [f"No election attached to Nominee Link {nominee_links[0]} detected in the request"]
     if error_message is not None:
-        create_context_for_create_or_update_nominee__nominee_links_html(context, error_messages=[error_message])
+        create_context_for_create_or_update_nominee__nominee_links_html(
+            context, error_messages=[error_message], election_officer_request=True
+        )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
             context
@@ -42,7 +44,8 @@ def display_and_process_html_for_nominee_modification(request):
     if (request.method == "POST") and (CREATE_OR_UPDATE_NOMINEE__NAME in request.POST):
         return process_nominee__nominee_links(request, context, nominee_links[0], election_officer_request=True)
     else:
-        create_context_for_create_or_update_nominee__nominee_links_html(context, nominee_link_id=nominee_link_id)
+        create_context_for_create_or_update_nominee__nominee_links_html(
+            context, nominee_link_id=nominee_link_id, election_officer_request=True)
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
             context

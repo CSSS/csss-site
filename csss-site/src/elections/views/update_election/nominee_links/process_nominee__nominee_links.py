@@ -57,7 +57,8 @@ def process_nominee__nominee_links(
             f"{error_message}"
         )
         create_context_for_create_or_update_nominee__nominee_links_html(
-            context, nominee_link_id=nominee_link.id, error_messages=[error_message]
+            context, nominee_link_id=nominee_link.id, nominee_info=nominee_info, error_messages=[error_message],
+            election_officer_request=election_officer_request
         )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',
@@ -73,7 +74,8 @@ def process_nominee__nominee_links(
             f"{error_message}"
         )
         create_context_for_create_or_update_nominee__nominee_links_html(
-            context, nominee_link_id=nominee_link.id, error_messages=[error_message], nominee_info=nominee_info
+            context, nominee_link_id=nominee_link.id, nominee_info=nominee_info, error_messages=[error_message],
+            election_officer_request=election_officer_request
         )
         return render(
             request, 'elections/nominee_links/create_or_update_nominee/create_or_update_nominee__nominee_links.html',

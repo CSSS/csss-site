@@ -33,7 +33,7 @@ $(document).ready(function () {
 
 		draft_or_finalized_nominee_to_display=false;
 		let nominee_link_election_form=true;
-        	let nominee_link_sfu_id='{{ nominee_link_sfu_id }}';
+        	let sfuid='{{ nominee_link_sfu_id }}';
 		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
 		addBlankSpeech(nominee_index)
 	{%  endif %}
