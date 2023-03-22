@@ -40,7 +40,7 @@ def validate_nominee_obj_info(nominee_names_so_far, full_name, sfuid, facebook_l
     sfuid = sfuid.strip()
     facebook_link = facebook_link.strip() if facebook_link is not None else facebook_link
     instagram_link = instagram_link.strip() if instagram_link is not None else instagram_link
-    linkedin_link = linkedin_link.strip() if instagram_link is not None else instagram_link
+    linkedin_link = linkedin_link.strip() if linkedin_link is not None else linkedin_link
     email_address = email_address.strip() if email_address is not None else email_address
     discord_id = discord_id.strip() if discord_id is not None else discord_id
     if full_name in nominee_names_so_far:
