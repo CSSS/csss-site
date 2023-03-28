@@ -48,7 +48,7 @@ def validate_facebook_link(link, nom_name):
     """
     if link == NA_STRING:
         return True, None
-    if not re.match(r"^https?://(www\.)?facebook.com/\w+/?$", link):
+    if not re.match(r"^https?://(www\.)?facebook.com/([a-zA-Z0-9|\.)+/?$", link):
         logger = Loggers.get_logger()
         error_message = (
             f"Invalid Facebook link of \"{link}\" detected for nominee {nom_name}. "
@@ -100,7 +100,7 @@ def validate_linkedin_link(link, nom_name):
     """
     if link == NA_STRING:
         return True, None
-    if not re.match(r"^https?://(www\.)?linkedin.com/in/\w+$", link):
+    if not re.match(r"^https?://(www\.)?linkedin.com/in/([a-zA-Z0-9]|-)+", link):
         logger = Loggers.get_logger()
         error_message = (
             f"Invalid LinkedIn link of \"{link}\" detected for nominee {nom_name}. "
