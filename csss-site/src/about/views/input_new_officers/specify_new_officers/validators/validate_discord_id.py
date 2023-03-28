@@ -24,5 +24,5 @@ def validate_discord_id(discord_id):
         )
     )
     if resp.status_code != 200:
-        return False, f"Encountered error message of '{resp.reason}'"
+        return False, f"Encountered error message of '{resp.reason}' when validating Discord ID {discord_id}"
     return True, None
