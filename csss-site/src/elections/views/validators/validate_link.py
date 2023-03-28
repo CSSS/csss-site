@@ -49,10 +49,12 @@ def validate_facebook_link(link, nom_name):
     if link == NA_STRING:
         return True, None
     if not re.match(r"^https?://(www\.)?facebook.com/\w+/?$", link):
+        logger = Loggers.get_logger()
         error_message = (
             f"Invalid Facebook link of \"{link}\" detected for nominee {nom_name}. "
             f"Don't forgot to start with \"http://\" or \"https://\""
         )
+        logger.error(error_message)
         return False, error_message
     return True, None
 
@@ -73,10 +75,12 @@ def validate_instagram_link(link, nom_name):
     if link == NA_STRING:
         return True, None
     if not re.match(r"^https?://(www\.)?instagram.com/\w+/?$", link):
+        logger = Loggers.get_logger()
         error_message = (
             f"Invalid Instagram link of \"{link}\" detected for nominee {nom_name}. "
             f"Don't forgot to start with \"http://\" or \"https://\""
         )
+        logger.error(error_message)
         return False, error_message
     return True, None
 
@@ -97,9 +101,11 @@ def validate_linkedin_link(link, nom_name):
     if link == NA_STRING:
         return True, None
     if not re.match(r"^https?://(www\.)?linkedin.com/in/\w+$", link):
+        logger = Loggers.get_logger()
         error_message = (
             f"Invalid LinkedIn link of \"{link}\" detected for nominee {nom_name}. "
             f"Don't forgot to start with \"http://\" or \"https://\""
         )
+        logger.error(error_message)
         return False, error_message
     return True, None
