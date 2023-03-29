@@ -20,8 +20,14 @@ class ManualAnnouncement(models.Model):
         default=None,
         unique=True
     )
-    content = MarkdownField(
-        default=None
+    old_content = MarkdownField(
+        default=None,
+        null=True
+    )
+    content = models.CharField(
+        max_length=3000,
+        default=None,
+        null=True
     )
     date = models.DateTimeField()
 
