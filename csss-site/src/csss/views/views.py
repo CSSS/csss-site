@@ -5,10 +5,9 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from announcements.models import Announcement
+from announcements.models import Announcement, ManualAnnouncement
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views_helper import markdown_message, validate_markdown
-
 
 ERROR_MESSAGES_KEY = 'error_messages'
 
@@ -75,6 +74,15 @@ def index(request):
         'ENVIRONMENT': settings.ENVIRONMENT
     })
     return render(request, 'announcements/announcements.html', context)
+
+
+def convert_md(request):
+    manual_announcements = ManualAnnouncement.objects.all()
+    for manual_announcement in manual_announcements:
+        manual_announcement.content = manual_announcement.old_content
+        manual_announcement.old_content = None
+        manual_announcement.save()
+    return HttpResponseRedirect(f'{settings.URL_ROOT}')
 
 
 def md(request):
