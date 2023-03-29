@@ -1,6 +1,5 @@
 from django.db import models
 from django_mailbox.models import Message
-from django_markdown.models import MarkdownField
 
 from about.models import Term
 
@@ -19,10 +18,6 @@ class ManualAnnouncement(models.Model):
         max_length=32,
         default=None,
         unique=True
-    )
-    old_content = MarkdownField(
-        default=None,
-        null=True
     )
     content = models.CharField(
         max_length=3000,
