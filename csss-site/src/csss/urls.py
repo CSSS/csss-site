@@ -17,7 +17,6 @@ urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'elections/', include('elections.urls')),
     url(r'^' + settings.URL_PATTERN + 'resource_management/', include('resource_management.urls')),
     url(r'^' + settings.URL_PATTERN + '$', views.index, name="index"),
-    url(r'^' + settings.URL_PATTERN + 'convert_md', views.convert_md, name="convert_md"),
     url(r'^' + settings.URL_PATTERN + 'markdown', views.md, name="Markdown"),
     url(r'^' + settings.URL_PATTERN + CRON_JOBS_BASE_URL_KEY + '$', cron, name="cron"),
     url(r'^' + settings.URL_PATTERN + CRON_LOGS_BASE_URL_KEY + '(?P<log_location>.+)', cron_logs, name="cron_logs"),
