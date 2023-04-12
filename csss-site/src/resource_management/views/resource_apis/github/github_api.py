@@ -394,8 +394,16 @@ class GitHubAPI:
                 user_has_been_acquired = None
                 while user_has_been_acquired is None:
                     try:
-                        github_user = self.git.search_users(query=f"user:{user}")[0]
-                        user_has_been_acquired = True
+                        users_obtained = self.git.search_users(query=f"user:{user}")
+                        if users_obtained.totalCount == 0:
+                            self.logger.error(
+                                "[GitHubAPI ensure_proper_membership()] unable to get any users using the "
+                                "query 'user:{user}'"
+                            )
+                            user_has_been_acquired = False
+                        else:
+                            github_user = users_obtained.get_page(0)[0]
+                            user_has_been_acquired = True
                     except RateLimitExceededException:
                         self.logger.info(
                             "[GitHubAPI ensure_proper_membership()] "
