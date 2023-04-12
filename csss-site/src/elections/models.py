@@ -5,6 +5,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
+from csss.PSTDateTimeField import PSTDateTimeField
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views_helper import markdown_message
 from elections.views.Constants import NA_STRING, \
@@ -32,7 +33,7 @@ class Election(models.Model):
         max_length=1000,
     )
 
-    date = models.DateTimeField(
+    date = PSTDateTimeField(
         _(u'Date to be made Public'),
         default=datetime.now,
     )

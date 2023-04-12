@@ -20,11 +20,7 @@ LOG_LOCATION = os.environ['LOG_LOCATION'] if 'LOG_LOCATION' in os.environ else N
 if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
-TIME_ZONE = 'America/Vancouver'
-# SERVER_ZONE = f"{tzlocal.get_localzone()}"
 
-# needed for importing manual announcements from previous website
-TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True

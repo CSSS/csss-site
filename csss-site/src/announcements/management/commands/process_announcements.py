@@ -1,22 +1,18 @@
 import time
 from email.utils import parseaddr
 
-from django.conf import settings
 from django.core.management.base import BaseCommand
-from django_mailbox.models import Message
 from django_mailbox.models import Mailbox
+from django_mailbox.models import Message
 
 from about.models import UnProcessedOfficer, Term
-from announcements.models import ManualAnnouncement, Announcement
+from announcements.models import Announcement
 from announcements.views.commands.process_announcements.add_sortable_date_to_email import add_sortable_date_to_email
-from announcements.views.commands.process_announcements.add_sortable_date_to_manual_announcement import \
-    add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
-from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
 from csss.views.send_email import send_email
-from csss.views_helper import get_current_date, get_term_number_for_specified_year_and_month
+from csss.views_helper import get_term_number_for_specified_year_and_month
 
 SERVICE_NAME = "process_announcements"
 
@@ -61,20 +57,10 @@ class Command(BaseCommand):
                         message.from_address
                     )
 
-        time_difference = get_timezone_difference(
-            get_current_date().strftime('%Y-%m-%d'),
-            settings.TIME_ZONE,
-            settings.TIME_ZONE_FOR_PREVIOUS_WEBSITE
-        )
-
         messages = []
         messages.extend(
             [add_sortable_date_to_email(email) for email in
              Message.objects.all().filter(visibility_indicator__isnull=True)]
-        )
-        messages.extend(
-            [add_sortable_date_to_manual_announcement(time_difference, manual_announcement)
-             for manual_announcement in ManualAnnouncement.objects.all().filter(visibility_indicator__isnull=True)]
         )
         messages.sort(key=lambda x: x.sortable_date, reverse=False)
         officer_mapping = get_officer_term_mapping()

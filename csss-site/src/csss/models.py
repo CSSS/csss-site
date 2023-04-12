@@ -1,5 +1,7 @@
-import django
 from django.db import models
+from django.utils import timezone
+
+from csss.PSTDateTimeField import PSTDateTimeField
 
 
 class CronJob(models.Model):
@@ -20,8 +22,8 @@ class CronJob(models.Model):
     def is_active(self):
         return self.schedule.strip() != ""
 
-    last_update = models.DateTimeField(
-        default=django.utils.timezone.now
+    last_update = PSTDateTimeField(
+        default=timezone.now
     )
 
     @property
@@ -44,9 +46,10 @@ class CronJobRunStat(models.Model):
         CronJob,
         on_delete=models.CASCADE,
     )
-    run_date = models.DateTimeField(
-        default=django.utils.timezone.now
+    run_date = PSTDateTimeField(
+        default=timezone.now
     )
+
     run_time_in_seconds = models.IntegerField()
 
     @property
