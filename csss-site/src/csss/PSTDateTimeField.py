@@ -14,8 +14,9 @@ class PSTDateTimeField(models.DateTimeField):
         """
         Makes sure to convert the date to UTC time before saving if its in Canada/Pacific timezone
         """
-        if model_instance.date.tzinfo == tzfile('/usr/share/zoneinfo/Canada/Pacific'):
-            model_instance.date = convert_pacific_time_to_utc(model_instance.date)
+        date = getattr(model_instance, self.attname)
+        if date.tzinfo == tzfile('/usr/share/zoneinfo/Canada/Pacific'):
+            setattr(model_instance, self.attname, convert_pacific_time_to_utc(date))
         return super(PSTDateTimeField, self).pre_save(model_instance, add)
 
     def from_db_value(self, value, expression, connection):
