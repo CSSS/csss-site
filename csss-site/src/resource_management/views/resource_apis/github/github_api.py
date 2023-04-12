@@ -398,7 +398,7 @@ class GitHubAPI:
                         if users_obtained.totalCount == 0:
                             self.logger.error(
                                 "[GitHubAPI ensure_proper_membership()] unable to get any users using the "
-                                "query 'user:{user}'"
+                                f"query 'user:{user}'"
                             )
                             user_has_been_acquired = False
                         else:
