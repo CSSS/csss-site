@@ -81,7 +81,7 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
         unprocessed_officer_obj.start_date = start_date
         unprocessed_officer_obj.term = term
         unprocessed_officer_obj.re_use_start_date = RE_USE_START_DATE_KEY in unprocessed_officer
-        unprocessed_officer_obj.overwrite_current_officer = OVERWRITE_CURRENT_OFFICER_KEY in unprocessed_officer
+        unprocessed_officer_obj.overwrite_current_officer = False
         unprocessed_officer_obj.save()
         if unprocessed_officer_obj.id in saved_unprocessed_officers_dict:
             del saved_unprocessed_officers_dict[unprocessed_officer_obj.id]
