@@ -1,6 +1,6 @@
 from about.models import Term, UnProcessedOfficer
 from about.views.Constants import DISCORD_ID_KEY, SFU_COMPUTING_ID_KEY, FULL_NAME_KEY, \
-    RE_USE_START_DATE_KEY, START_DATE_KEY, POSITION_NAME_KEY, OVERWRITE_CURRENT_OFFICER_KEY, ID_KEY
+    RE_USE_START_DATE_KEY, START_DATE_KEY, POSITION_NAME_KEY, ID_KEY
 from about.views.input_new_officers.specify_new_officers.notifications. \
     send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
