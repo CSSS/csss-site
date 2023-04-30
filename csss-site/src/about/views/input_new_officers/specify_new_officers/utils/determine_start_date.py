@@ -59,7 +59,7 @@ def determine_start_date(
     """
     logger = Loggers.get_logger()
     if not re_use_start_date:
-        return create_pst_time_from_datetime
+        return create_pst_time_from_datetime(datetime.datetime.strptime(start_date, "%Y-%m-%d"))
     position_obj = officer_email_list_and_position_mapping.filter(position_name=position_name).first()
     if position_obj.number_of_terms == 1:
         logger.info(
