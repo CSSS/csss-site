@@ -3,8 +3,10 @@ from elections.models import Election, Nominee, NomineePosition, NomineeSpeech
 # keys/values in Election JSON
 ELECTION_JSON_KEY__ELECTION_TYPE = Election.election_type.field_name
 ELECTION_JSON_KEY__DATE = Election.date.field_name
+ELECTION_JSON_KEY__END_DATE = Election.end_date.field_name
 ELECTION_JSON_WEBFORM_KEY__TIME = "time"
-ELECTION_JSON_VALUE__DATE_AND_TIME_FORMAT = "YYYY-MM-DD HH:MM"
+ELECTION_JSON_VALUE__DATE_FORMAT = "YYYY-MM-DD"
+ELECTION_JSON_VALUE__DATE_AND_TIME_FORMAT = f"{ELECTION_JSON_VALUE__DATE_FORMAT} HH:MM"
 ELECTION_JSON_KEY__WEBSURVEY = Election.websurvey.field_name
 ELECTION_JSON_KEY__NOMINEES = Nominee.__name__.lower() + "s"
 ELECTION_JSON_KEY__NOMINEE = Nominee.__name__.lower()

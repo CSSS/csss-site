@@ -18,6 +18,8 @@ from elections.views.create_context.nominee_links.utils.make_context_value_seria
     make_json_serializable_context_dictionary
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
     create_context_for_election_date_html
+from elections.views.create_context.webform_format.create_context_for_election_end_date_html import \
+    create_context_for_election_end_date_html
 from elections.views.create_context.webform_format.create_context_for_election_time_html import \
     create_context_for_election_time_html
 from elections.views.create_context.webform_format.create_context_for_election_type_html import \
@@ -29,8 +31,8 @@ from elections.views.create_context.webform_format.create_context_for_submission
 
 
 def create_context_for_update_election_nominee_links_html(
-    context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_type=None,
-    websurvey_link=None, create_new_election=False, draft_nominee_links=None,
+    context, error_messages=None, nominee_links=None, election_date=None, election_time=None, election_end_date=None,
+    election_type=None, websurvey_link=None, create_new_election=False, draft_nominee_links=None,
         new_nominee_sfuids_and_discord_ids=None, election_obj=None):
     """
     populates the context dictionary that is used by
@@ -43,6 +45,7 @@ def create_context_for_update_election_nominee_links_html(
      create_or_update_election/update_election/nominee_links_table/final_nominee_links.html
     election_date -- the user inputted election date
     election_time -- the user inputted election time
+    election_end_date -- the user inputted election end date
     election_type -- the user inputted election type
     websurvey_link -- the user inputted election websurvey link
     create_new_election -- boolean to indicate what the submission button should be labelled with
@@ -62,6 +65,7 @@ def create_context_for_update_election_nominee_links_html(
     context[CURRENT_ELECTION] = election_obj
     create_context_for_election_date_html(context, election_date=election_date)
     create_context_for_election_time_html(context, election_time=election_time)
+    create_context_for_election_end_date_html(context, election_end_date=election_end_date)
     create_context_for_election_type_html(context, election_type=election_type)
     create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
 

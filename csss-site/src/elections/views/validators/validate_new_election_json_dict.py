@@ -1,5 +1,5 @@
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
-    ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__NOMINEES
+    ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__END_DATE
 
 
 def all_relevant_election_json_keys_exist(election_dict):
@@ -14,5 +14,6 @@ def all_relevant_election_json_keys_exist(election_dict):
     """
     return (
             ELECTION_JSON_KEY__ELECTION_TYPE in election_dict and ELECTION_JSON_KEY__DATE in election_dict and
-            ELECTION_JSON_KEY__WEBSURVEY in election_dict and ELECTION_JSON_KEY__NOMINEES in election_dict
+            ELECTION_JSON_KEY__END_DATE in election_dict and ELECTION_JSON_KEY__WEBSURVEY in election_dict and
+            ELECTION_JSON_KEY__NOMINEES in election_dict
     )
