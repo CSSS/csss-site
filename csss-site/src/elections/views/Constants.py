@@ -58,7 +58,9 @@ TIME_FORMAT = '%H:%M'
 DATE_AND_TIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"
 
 INPUT_DATE__NAME = 'input_date__name'
+INPUT_END_DATE__NAME = 'input_end_date__name'
 INPUT_DATE__VALUE = 'input_date__value'
+INPUT_END_DATE__VALUE = 'input_end_date__value'
 INPUT_TIME__NAME = 'input_time__name'
 INPUT_TIME__VALUE = 'input_time__value'
 SELECT_ELECTION_TYPE__NAME = 'select_election_type__name'

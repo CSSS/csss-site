@@ -38,6 +38,11 @@ class Election(models.Model):
         default=datetime.now,
     )
 
+    end_date = PSTDateTimeField(
+        default=None,
+        null=True,
+    )
+
     websurvey = models.CharField(
         _("The link that the voters can use to vote on"),
         max_length=300,
