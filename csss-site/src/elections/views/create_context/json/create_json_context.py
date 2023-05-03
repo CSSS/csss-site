@@ -3,6 +3,7 @@ import json
 from about.models import OfficerEmailListAndPositionMapping
 from csss.setup_logger import Loggers
 from csss.views.views import ERROR_MESSAGES_KEY
+from csss.views_helper import DATE_FORMAT
 from elections.models import Election
 from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, \
     FORMAT_ELECTION_JSON__DIV_ID_NAME, \
@@ -12,7 +13,8 @@ from elections.views.Constants import TYPES_OF_ELECTIONS, VALID_POSITION_NAMES, 
     SAVE_NEW_JSON_ELECTION_AND_CONTINUE_EDITING__BUTTON_ID_VALUE, DISPLAY_INSTRUCTIONS_TO_VALID_JSON__CLASS_NAME, \
     DISPLAY_INSTRUCTIONS_TO_VALID_JSON
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__DATE, \
-    ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES
+    ELECTION_JSON_KEY__WEBSURVEY, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__END_DATE, \
+    ELECTION_JSON_VALUE__DATE_FORMAT
 from elections.views.create_context.submission_buttons_context import create_base_submission_buttons_context
 from elections.views.extractors.get_election_nominees import get_election_nominees
 
@@ -78,6 +80,8 @@ def create_json_election_context_from_db_election_obj(election):
     context = {
         ELECTION_JSON_KEY__ELECTION_TYPE: election.election_type,
         ELECTION_JSON_KEY__DATE: election.date.strftime(DATE_AND_TIME_FORMAT),
+        ELECTION_JSON_KEY__END_DATE: election.end_date.strftime(DATE_FORMAT)
+        if election.end_date is not None else ELECTION_JSON_VALUE__DATE_FORMAT,
         ELECTION_JSON_KEY__WEBSURVEY: election.websurvey,
         ELECTION_JSON_KEY__NOMINEES: get_election_nominees(election)
     }

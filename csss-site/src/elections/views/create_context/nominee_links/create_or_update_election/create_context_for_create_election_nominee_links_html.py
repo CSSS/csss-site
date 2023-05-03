@@ -12,6 +12,8 @@ from elections.views.create_context.nominee_links.utils.make_context_value_seria
     make_json_serializable_context_dictionary
 from elections.views.create_context.webform_format.create_context_for_election_date_html import \
     create_context_for_election_date_html
+from elections.views.create_context.webform_format.create_context_for_election_end_date_html import \
+    create_context_for_election_end_date_html
 from elections.views.create_context.webform_format.create_context_for_election_time_html import \
     create_context_for_election_time_html
 from elections.views.create_context.webform_format.create_context_for_election_type_html import \
@@ -23,9 +25,9 @@ from elections.views.create_context.webform_format.create_context_for_submission
 
 
 def create_context_for_create_election_nominee_links_html(context, election_date=None, election_time=None,
-                                                          election_type=None, create_new_election=False,
-                                                          websurvey_link=None, error_messages=None,
-                                                          nominee_sfuids_and_discord_ids=None):
+                                                          election_end_date=None, election_type=None,
+                                                          create_new_election=False, websurvey_link=None,
+                                                          error_messages=None, nominee_sfuids_and_discord_ids=None):
     """
     populates the context dictionary that is used by
      elections/templates/elections/nominee_links/create_or_update_election/create_election_nominee_links.html
@@ -34,6 +36,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     context -- the context dictionary that has to be populated for the create_election_nominee_links.html
     election_date -- the date of the election that the user inputted, otherwise None
     election_time -- the time of the election that the user inputted, otherwise None
+    election_end_date -- the end date of the election that the user inputted, otherwise None
     election_type -- the election type that the user inputted, otherwise None
     create_new_election -- boolean to indicate what the submission button should be labelled with
     websurvey_link -- the websurvey link of the election that the user inputted, otherwise None
@@ -55,6 +58,7 @@ def create_context_for_create_election_nominee_links_html(context, election_date
     if pre_existing_election is False:
         create_context_for_election_date_html(context, election_date=election_date)
         create_context_for_election_time_html(context, election_time=election_time)
+        create_context_for_election_end_date_html(context, election_end_date=election_end_date)
         create_context_for_election_type_html(context, election_type=election_type)
         create_context_for_election_websurvey_html(context, websurvey_link=websurvey_link)
         create_context_for_election_nominee_sfuids_and_discord_ids_html(

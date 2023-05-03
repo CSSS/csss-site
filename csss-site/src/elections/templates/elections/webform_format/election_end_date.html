@@ -1,0 +1,7 @@
+<p>Date that Voting ends:
+    {%  if input_end_date__value is not None %}
+        <input type="date" name="{{input_end_date__name}}" value="{{input_end_date__value}}">
+    {%  else %}
+        <input type="date" name="{{input_end_date__name}}">
+    {% endif %}
+<p>
