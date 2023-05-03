@@ -17,10 +17,9 @@ class CSSSErrorHandler(logging.StreamHandler):
 
     def emit(self, record):
         from csss.models import CSSSError
-        from csss.setup_logger import Loggers
-        request = None
         endpoint = None
         if record.name == "django.request":
+            from csss.setup_logger import Loggers
             filename = Loggers.sys_stream_error_log_file_absolute_path
             message = " ".join([f"{exc_info}" for exc_info in record.exc_info])
             request = str(record.request.__dict__)
