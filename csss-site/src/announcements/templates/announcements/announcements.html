@@ -5,11 +5,20 @@
 {% block content %}
 	<link rel="stylesheet" href="{% static 'announcements_static/csss_custom.css' %}">
 	<div class="columns">
-		<div class="column is-three-quarters ">
+		<div class="column">
+			<section class="section" style="padding-bottom: 0;">
+				<div class="container" style="display: flex;">
+					<div>
+						<h2 class="title is-size-3">Recent CSSS Announcements:</h2>
+						<p class="is-size-5" style="display: inline-block">We run lots of exciting events, check back often!</p>
+					</div>
+					<img src="{% static 'announcements_static/csss_frog_pixel_v3.png' %}" alt="pixel coding frog" title="coding hard" width=200 height=200 style="margin-left: auto;"></img>
+				</div>
+			</section>
 			{% for announcement in announcements %}
 				<section class="section">
 					<div class="container">
-						<article class="box is-light" >
+						<article class="box is-light">
 							{%  if error_message is not None %}
 								{{ error_message|safe }}
 							{% else %}
