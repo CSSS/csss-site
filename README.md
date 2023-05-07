@@ -46,6 +46,7 @@ if (you do not want to spin up a docker database){
     echo 'DB_NAME='"'"'csss_website_db'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
     echo 'DB_PORT='"'"'5432'"'"'' >> CI/validate_and_deploy/2_deploy/site_envs
 }
+note: in HOST_ADDRESS, do not add the port to <serverIP>
 ```
 
 ### 2.1 Set Environment Variables
@@ -57,6 +58,7 @@ cd csss-site/src
 ### 2.2 Create log folder
 ```shell
 mkdir -p /path/to/csss-site/website_logs/python_logs
+export LOG_LOCATION="/path/to/csss-site/website_logs/python_logs"
 ```
 
 ### 2.3 Spin up Dockerized Database and Setup Database Entries
