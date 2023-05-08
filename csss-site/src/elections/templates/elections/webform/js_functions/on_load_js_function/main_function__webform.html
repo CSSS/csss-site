@@ -6,34 +6,38 @@ $(document).ready(function () {
         */
         addBlankNominee(nominees_div_name)
     {%  else %}
-		let nominee_index;
-		let new_nominee;
-		let nominee_speeches;
-		let speech_index;
-		let new_nominee_speech;
-		let nominee_position;
-		let speech_div_name;
-		let nominee_div_name;
-		let speech_parent_div_name;
-		let draft_or_finalized_nominee_to_display={{draft_or_finalized_nominee_to_display__html_name}};
-		let id;
-		let name;
-		let facebook;
-		let linkedin;
-		let email;
-		let discord;
+	let nominee_index;
+	let new_nominee;
+	let nominee_speeches;
+	let speech_index;
+	let new_nominee_speech;
+	let nominee_position;
+	let speech_div_name;
+	let nominee_div_name;
+	let speech_parent_div_name;
+	let draft_or_finalized_nominee_to_display={{draft_or_finalized_nominee_to_display__html_name}};
+	let id;
+	let name;
+	let sfuid;
+	let facebook;
+	let instagram;
+	let linkedin;
+	let email;
+        let discord_id;
         let nominee_link_election_form=false;
         {%  for nominee in nominees__html_name %}
-            nominee_index = document.getElementById(nominees_div_name).childElementCount;
-            nominee_div_name = 'nominee_' + nominee_index;
-			id="{{nominee.id}}";
-			name="{{nominee.full_name}}";
-			facebook="{{nominee.facebook}}";
-			linkedin="{{nominee.linkedin}}";
-			email="{{nominee.email}}";
-			discord="{{nominee.discord}}";
-			speech_parent_div_name = nominee_div_name + '_speeches';
-			{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
+		nominee_index = document.getElementById(nominees_div_name).childElementCount;
+		nominee_div_name = 'nominee_' + nominee_index;
+		id="{{nominee.id}}";
+		name="{{nominee.full_name}}";
+		sfuid="{{nominee.sfuid}}";
+		facebook="{{nominee.facebook}}";
+		instagram="{{nominee.instagram}}";
+		linkedin="{{nominee.linkedin}}";
+		email="{{nominee.email}}";
+		discord_id="{{nominee.discord_id}}";
+		speech_parent_div_name = nominee_div_name + '_speeches';
+		{%  include 'elections/webform_format/js_functions/on_load_js_function/display_nominee_info.html' %}
         {%  endfor %}
     {%  endif %}
 });

@@ -4,9 +4,11 @@ import sys
 
 import environ
 import os
-import tzlocal
 
-from csss.setup_logger import Loggers
+SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
+
+SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
+DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
 
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
@@ -18,21 +20,14 @@ LOG_LOCATION = os.environ['LOG_LOCATION'] if 'LOG_LOCATION' in os.environ else N
 if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
-WEBSITE_TIME_ZONE = 'America/Vancouver'
-TIME_ZONE = WEBSITE_TIME_ZONE
-SERVER_ZONE = f"{tzlocal.get_localzone()}"
 
-# needed for importing manual announcements from previous website
-TIME_ZONE_FOR_PREVIOUS_WEBSITE = 'UTC'
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False
+USE_TZ = True
 
-SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
-DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
-SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
+from csss.setup_logger import Loggers # noqa E402
 
 Loggers.get_logger(logger_name=DJANGO_SETTINGS_LOG_HANDLER_NAME)
 
@@ -229,7 +224,6 @@ INSTALLED_APPS = [
     'csss',
     'announcements',
     'about',
-    'documents',
     'events',
     'events.frosh',
     'events.mountain_madness',
@@ -239,7 +233,6 @@ INSTALLED_APPS = [
     'resource_management',
     'static_pages',
     'django_mailbox',
-    'django_markdown',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -440,18 +433,26 @@ logging.config.dictConfig({
         }
     },
     'handlers': {
-        'console': {
+        'info_handler': {
             'level': 'INFO',
             'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            "stream": sys.stdout  # setting this up manually because this specific property had to be changed,
+            'class': 'csss.CSSSLoggerHandlers.CSSSDebugStreamHandler',
+            "stream": sys.__stdout__  # setting this up manually because this specific property had to be changed,
+            # and I was too lazy to figure out how to customize this via
+            # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
+        },
+        'error_handler': {
+            'level': 'ERROR',
+            'filters': ['require_debug_true'],
+            'class': 'csss.CSSSLoggerHandlers.CSSSErrorHandler',
+            "stream": sys.__stderr__  # setting this up manually because this specific property had to be changed,
             # and I was too lazy to figure out how to customize this via
             # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
         },
         'django.server': {
             'level': 'INFO',
             'class': 'logging.StreamHandler',
-            "stream": sys.stdout,  # setting this up manually because this specific property had to be changed,
+            "stream": sys.__stdout__,  # setting this up manually because this specific property had to be changed,
             # and I was too lazy to figure out how to customize this via
             # https://docs.djangoproject.com/en/4.1/topics/logging/#configuring-logging
             'formatter': 'django.server',
@@ -464,7 +465,7 @@ logging.config.dictConfig({
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'mail_admins'],
+            'handlers': ['info_handler', 'error_handler', 'mail_admins'],
             'level': 'INFO',
         },
         'django.server': {

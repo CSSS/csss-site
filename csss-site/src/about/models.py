@@ -5,6 +5,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
+from csss.PSTDateTimeField import PSTDateTimeField
+
 
 class Term(models.Model):
     term_number = models.IntegerField(
@@ -93,7 +95,7 @@ class Officer(models.Model):
         default="NA"
     )
 
-    start_date = models.DateTimeField(
+    start_date = PSTDateTimeField(
         default=timezone.now
     )
 
@@ -332,9 +334,10 @@ class UnProcessedOfficer(models.Model):
         max_length=100,
         default='NA'
     )
-    start_date = models.DateTimeField(
+    start_date = PSTDateTimeField(
         default=timezone.now
     )
+
     position_name = models.CharField(
         max_length=300,
         default="President"

@@ -64,7 +64,8 @@ def determine_changes_for_exec_discord_group_role_validation(
                 members_id__role_ids[user_that_should_be_in_discord_role] = \
                     {"username": user_id__user_obj[user_that_should_be_in_discord_role]['user']['username'],
                      "roles": user_id__user_obj[user_that_should_be_in_discord_role]['roles']}
-            members_id__role_ids[user_that_should_be_in_discord_role]['roles'].append(exec_discord_role_id)
+            role_name = role_id__role[exec_discord_role_id]['name']
+            members_id__role_ids[user_that_should_be_in_discord_role]['roles'][role_name] = exec_discord_role_id
             logger.info(
                 "[about/determine_changes_for_exec_discord_group_role_validation.py() ] add role "
                 f"{exec_discord_role_id} to user {user_that_should_be_in_discord_role}"

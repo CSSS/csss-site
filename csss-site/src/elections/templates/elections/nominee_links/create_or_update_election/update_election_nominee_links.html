@@ -14,13 +14,17 @@
 			{%  csrf_token %}
 			{%  include 'elections/webform_format/election_date.html' %}
 			{%  include 'elections/webform_format/election_time.html' %}
+			{%  include 'elections/webform_format/election_end_date.html' %}
 			{%  include 'elections/webform_format/election_type.html' %}
 			{%  include 'elections/webform_format/election_websurvey.html' %}
+            {%  if nominee_links|length  > 0 %}
+                <a href="{{ link_for_nominees }}" target="_blank">Link For Nominees</a>
+            {%  endif %}
 			{%  include 'elections/nominee_links/create_or_update_election/update_election/nominee_links_table.html' %}
 		{%  if draft_nominee_links|length > 0 or nominee_links|length  > 0 %}
 			<input type="button" class="select_nominee_link_label" value="Select All Nominee Links" onclick="toggle_deletion()"><br>
 		{%  endif %}
-			{%  include 'elections/nominee_links/create_or_update_election/election_nominee_names.html' %}
+			{%  include 'elections/nominee_links/create_or_update_election/election_nominee_sfuids_and_discord_ids.html' %}
 			{%  include 'elections/webform_format/submission_buttons.html' %}
 		</form>
 	<script>

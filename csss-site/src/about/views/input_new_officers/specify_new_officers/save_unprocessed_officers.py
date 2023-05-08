@@ -1,6 +1,6 @@
 from about.models import Term, UnProcessedOfficer
 from about.views.Constants import DISCORD_ID_KEY, SFU_COMPUTING_ID_KEY, FULL_NAME_KEY, \
-    RE_USE_START_DATE_KEY, START_DATE_KEY, POSITION_NAME_KEY, OVERWRITE_CURRENT_OFFICER_KEY, ID_KEY
+    RE_USE_START_DATE_KEY, START_DATE_KEY, POSITION_NAME_KEY, ID_KEY
 from about.views.input_new_officers.specify_new_officers.notifications. \
     send_notification_asking_officer_to_fill_in_form import \
     send_notification_asking_officer_to_fill_in_form
@@ -81,7 +81,7 @@ def save_unprocessed_officers(saved_unprocessed_officers, officer_emaillist_and_
         unprocessed_officer_obj.start_date = start_date
         unprocessed_officer_obj.term = term
         unprocessed_officer_obj.re_use_start_date = RE_USE_START_DATE_KEY in unprocessed_officer
-        unprocessed_officer_obj.overwrite_current_officer = OVERWRITE_CURRENT_OFFICER_KEY in unprocessed_officer
+        unprocessed_officer_obj.overwrite_current_officer = False
         unprocessed_officer_obj.save()
         if unprocessed_officer_obj.id in saved_unprocessed_officers_dict:
             del saved_unprocessed_officers_dict[unprocessed_officer_obj.id]

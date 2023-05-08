@@ -34,8 +34,10 @@ class NomineeAdmin(admin.ModelAdmin):
     list_display = (
         'id',
         'election',
+        'sfuid',
         'full_name',
         'facebook',
+        'instagram',
         'linkedin',
         'email',
         'discord',

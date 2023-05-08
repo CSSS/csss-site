@@ -1,8 +1,9 @@
 from django.db import models
+from django.utils import timezone
 from django_mailbox.models import Message
-from django_markdown.models import MarkdownField
 
 from about.models import Term
+from csss.PSTDateTimeField import PSTDateTimeField
 
 
 class ManualAnnouncement(models.Model):
@@ -20,10 +21,14 @@ class ManualAnnouncement(models.Model):
         default=None,
         unique=True
     )
-    content = MarkdownField(
-        default=None
+    content = models.CharField(
+        max_length=3000,
+        default=None,
+        null=True
     )
-    date = models.DateTimeField()
+    date = PSTDateTimeField(
+        default=timezone.now
+    )
 
     def __str__(self):
         return self.title
@@ -52,7 +57,9 @@ class Announcement(models.Model):
         blank=True,
         null=True
     )
-    date = models.DateTimeField()
+    date = PSTDateTimeField(
+        default=timezone.now
+    )
 
     author = models.CharField(
         max_length=200,

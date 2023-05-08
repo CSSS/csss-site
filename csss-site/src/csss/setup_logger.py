@@ -7,6 +7,9 @@ import sys
 import pytz
 from django.conf import settings
 
+from csss.CSSSLoggerHandlers import barrier_logging_level, CSSSDebugStreamHandler, CSSSErrorHandler
+
+REDIRECT_STD_STREAMS = True
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
 sys_stream_formatting = logging.Formatter(
@@ -16,25 +19,24 @@ sys_stream_formatting = logging.Formatter(
 date_timezone = pytz.timezone('US/Pacific')
 modular_log_prefix = "cmd_"
 
-barrier_logging_level = logging.ERROR
-
-
-class CSSSDebugStreamHandler(logging.StreamHandler):
-    def emit(self, record):
-        if record.levelno < barrier_logging_level:
-            super().emit(record)
-
 
 class Loggers:
     loggers = []
     logger_list_indices = {}
     django_settings_file_path_and_name = None
+    sys_stream_error_log_file_absolute_path = None
 
     @classmethod
     def get_logger(cls, logger_name=None):
         if logger_name is None:
             if len(cls.loggers) == 0:
                 raise Exception("Could not find any loggers")
+            # handler_files = [
+            #     handler.baseFilename for handler in cls.loggers[0].handlers if type(handler) is logging.FileHandler
+            # ]
+            # print(f"handler_file-first={handler_files[0]}")
+            # print(f"handler_file-second={handler_files[1]}")
+            print("test")
             return cls.loggers[0]
         elif logger_name == settings.DJANGO_SETTINGS_LOG_HANDLER_NAME:
             return cls._add_logger(cls._add_settings_filehandler())
@@ -74,19 +76,23 @@ class Loggers:
         django_settings_error_filehandler.setFormatter(sys_stream_formatting)
         django_settings_logger.addHandler(django_settings_error_filehandler)
 
-        sys.stdout = sys.__stdout__
+        if REDIRECT_STD_STREAMS:
+            sys.stdout = sys.__stdout__
         django_settings_stdout_stream_handler = CSSSDebugStreamHandler(sys.stdout)
         django_settings_stdout_stream_handler.setFormatter(sys_stream_formatting)
         django_settings_stdout_stream_handler.setLevel(logging.DEBUG)
         django_settings_logger.addHandler(django_settings_stdout_stream_handler)
-        sys.stdout = LoggerWriter(django_settings_logger.info, settings.DJANGO_SETTINGS_LOG_HANDLER_NAME, "INFO")
+        if REDIRECT_STD_STREAMS:
+            sys.stdout = LoggerWriter(django_settings_logger.info)
 
-        sys.stderr = sys.__stderr__
-        django_settings_stderr_stream_handler = logging.StreamHandler(sys.stderr)
+        if REDIRECT_STD_STREAMS:
+            sys.stderr = sys.__stderr__
+        django_settings_stderr_stream_handler = CSSSErrorHandler(sys.stderr)
         django_settings_stderr_stream_handler.setFormatter(sys_stream_formatting)
         django_settings_stderr_stream_handler.setLevel(barrier_logging_level)
         django_settings_logger.addHandler(django_settings_stderr_stream_handler)
-        sys.stderr = LoggerWriter(django_settings_logger.error, settings.DJANGO_SETTINGS_LOG_HANDLER_NAME, "ERROR")
+        if REDIRECT_STD_STREAMS:
+            sys.stderr = LoggerWriter(django_settings_logger.error)
 
         return django_settings_logger
 
@@ -106,8 +112,12 @@ class Loggers:
         debug_log_file_absolute_path = (
             f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_debug.log"
         )
+        cls.sys_stream_error_log_file_absolute_path = (
+            f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_error.log"
+        )
 
-        shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
+        if REDIRECT_STD_STREAMS:
+            shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
         # ensures that anything printed to this logger at level DEBUG or above goes to the specified file
         debug_filehandler = logging.FileHandler(debug_log_file_absolute_path)
@@ -116,26 +126,31 @@ class Loggers:
         sys_logger.addHandler(debug_filehandler)
 
         # ensures that anything printed to this logger at level ERROR or above goes to the specified file
-        error_filehandler = logging.FileHandler(
-            f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}/{date}_err.log")
+        error_filehandler = logging.FileHandler(cls.sys_stream_error_log_file_absolute_path)
         error_filehandler.setLevel(barrier_logging_level)
         error_filehandler.setFormatter(sys_stream_formatting)
         sys_logger.addHandler(error_filehandler)
 
         # ensures that anything from the log goes to the stdout
-        sys.stdout = sys.__stdout__
+        if REDIRECT_STD_STREAMS:
+            sys.stdout = sys.__stdout__
         sys_stdout_stream_handler = CSSSDebugStreamHandler(sys.stdout)
         sys_stdout_stream_handler.setFormatter(sys_stream_formatting)
         sys_stdout_stream_handler.setLevel(logging.DEBUG)
         sys_logger.addHandler(sys_stdout_stream_handler)
-        sys.stdout = LoggerWriter(sys_logger.info, settings.SYS_STREAM_LOG_HANDLER_NAME, "INFO")
+        if REDIRECT_STD_STREAMS:
+            sys.stdout = LoggerWriter(sys_logger.info)
 
-        sys.stderr = sys.__stderr__
-        sys_stderr_stream_handler = logging.StreamHandler(sys.stderr)
+        if REDIRECT_STD_STREAMS:
+            sys.stderr = sys.__stderr__
+        sys_stderr_stream_handler = CSSSErrorHandler(
+            sys.stderr, file_name=cls.sys_stream_error_log_file_absolute_path
+        )
         sys_stderr_stream_handler.setFormatter(sys_stream_formatting)
         sys_stderr_stream_handler.setLevel(barrier_logging_level)
         sys_logger.addHandler(sys_stderr_stream_handler)
-        sys.stderr = LoggerWriter(sys_logger.error, settings.SYS_STREAM_LOG_HANDLER_NAME, "ERROR")
+        if REDIRECT_STD_STREAMS:
+            sys.stderr = LoggerWriter(sys_logger.error)
 
         return sys_logger
 
@@ -150,9 +165,10 @@ class Loggers:
         if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
             os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
         debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
-        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_err.log"
+        error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_error.log"
 
-        shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
+        if REDIRECT_STD_STREAMS:
+            shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
@@ -167,23 +183,23 @@ class Loggers:
         error_filehandler.setLevel(barrier_logging_level)
         logger.addHandler(error_filehandler)
 
-        sys.stdout = sys.__stdout__
+        if REDIRECT_STD_STREAMS:
+            sys.stdout = sys.__stdout__
         sys_stdout_stream_handler = CSSSDebugStreamHandler(sys.stdout)
         sys_stdout_stream_handler.setFormatter(sys_stream_formatting)
         sys_stdout_stream_handler.setLevel(logging.DEBUG)
         logger.addHandler(sys_stdout_stream_handler)
-        sys.stdout = LoggerWriter(logger.info, logger_name, "INFO")
+        if REDIRECT_STD_STREAMS:
+            sys.stdout = LoggerWriter(logger.info)
 
-        sys.stderr = sys.__stderr__
-        sys_sterr_stream_handler = logging.StreamHandler(sys.stderr)
+        if REDIRECT_STD_STREAMS:
+            sys.stderr = sys.__stderr__
+        sys_sterr_stream_handler = CSSSErrorHandler(sys.stderr, file_name=error_log_file_absolute_path)
         sys_sterr_stream_handler.setFormatter(sys_stream_formatting)
         sys_sterr_stream_handler.setLevel(barrier_logging_level)
         logger.addHandler(sys_sterr_stream_handler)
-        sys.stderr = LoggerWriter(logger.error, logger_name, "ERROR")
-
-        # add method for going through the logs in realtime and emailing to csss-syadmin if there is an error or
-        # exception
-        # use logging.exception("message") also remove logs from more than a month ago
+        if REDIRECT_STD_STREAMS:
+            sys.stderr = LoggerWriter(logger.error)
 
         return logger
 
@@ -202,7 +218,8 @@ class Loggers:
         logger = cls.loggers[cls.logger_list_indices[logger_name]]
         [
             os.remove(handler.baseFilename) for handler in logger.handlers
-            if (type(handler) == logging.FileHandler) and (round(os.stat(handler.baseFilename).st_size) == 0)
+            if (type(handler) == logging.FileHandler) and os.path.exists(handler.baseFilename)
+            and (round(os.stat(handler.baseFilename).st_size) == 0)
         ]
         cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
         cls.logger_list_indices = {}
@@ -220,10 +237,8 @@ class Loggers:
 
 
 class LoggerWriter:
-    def __init__(self, level, logger_name, level_name):
+    def __init__(self, level):
         self.level = level
-        self.logger_name = logger_name
-        self.level_name = level_name
 
     def write(self, message):
         if message != '\n':

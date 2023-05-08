@@ -1,7 +1,9 @@
 import json
 import time
+from copy import deepcopy
 
 from django.core.management import BaseCommand
+from django.db.models import Q
 
 from about.models import Officer, UnProcessedOfficer, OfficerEmailListAndPositionMapping
 from about.views.commands.validate_discord_roles_members.determine_changes_for_exec_discord_group_role_validation \
@@ -29,22 +31,27 @@ class Command(BaseCommand):
         current_officers = Officer.objects.all().filter(
             elected_term=get_current_term_obj()
         )
-        exec_from_last_term = None
-        if len((current_officers.filter(position_name__contains="Executive at Large"))) == 0:
-            exec_from_last_term = Officer.objects.all().filter(
-                elected_term=get_previous_term_obj(), position_name__contains="Executive at Large"
-            ).exclude(
-                sfu_computing_id__in=list(
-                    UnProcessedOfficer.objects.all().values_list(
-                        'sfu_computing_id', flat=True
-                    )
+        officers_to_ignore = list(UnProcessedOfficer.objects.all().values_list('sfu_computing_id', flat=True))
+        if len((deepcopy(current_officers).filter(position_name__contains="Executive at Large"))) == 0:
+            current_officers = Officer.objects.filter(
+                (
+                    Q(elected_term=get_current_term_obj()) &
+                    ~Q(sfu_computing_id__in=officers_to_ignore)
+                )
+                |
+                (
+                    Q(elected_term=get_previous_term_obj()) &
+                    Q(position_name__contains="Executive at Large") &
+                    ~Q(sfu_computing_id__in=officers_to_ignore)
                 )
             )
-        current_officers = current_officers.exclude(
-            sfu_computing_id__in=list(UnProcessedOfficer.objects.all().values_list('sfu_computing_id', flat=True))
-        )
-        if exec_from_last_term is not None:
-            current_officers = current_officers.union(exec_from_last_term)
+        else:
+            current_officers = Officer.objects.filter(
+                (
+                    Q(elected_term=get_current_term_obj()) &
+                    ~Q(sfu_computing_id__in=officers_to_ignore)
+                )
+            )
         officer_discord_id__officer_full_name = {
             officer.discord_id: officer.full_name for officer in current_officers
         }
@@ -102,12 +109,16 @@ class Command(BaseCommand):
             f"{json.dumps(members_id__role_ids, indent=3)}"
         )
         for discord_id, user_role_info in members_id__role_ids.items():
+            logger.info(
+                f"[about/validate_discord_roles_members.py() Command() ] setting discord roles for"
+                f" {user_role_info['username']}({discord_id})"
+            )
             success, error_message = assign_roles_to_officer(
                 discord_id,
                 [role_id for role_name, role_id in user_role_info['roles'].items()]
             )
             if not success:
-                logger.info(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
+                logger.error(f"[about/validate_discord_roles_members.py() Command() ] {error_message}")
         time2 = time.perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

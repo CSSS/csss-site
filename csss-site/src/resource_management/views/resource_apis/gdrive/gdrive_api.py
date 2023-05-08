@@ -15,8 +15,7 @@ from csss.setup_logger import Loggers
 from csss.views.send_discord_dm import send_discord_dm
 from csss.views.send_email import send_email
 from csss.views_helper import get_current_date
-from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess, \
-    GoogleDriveNonMediaFileType, MediaToBeMoved
+from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
 
 
 mime_type = [
@@ -296,11 +295,11 @@ class GoogleDrive:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
         self.latest_date_check = get_current_date()
-        self.file_types = GoogleDriveNonMediaFileType.objects.all()
-        self.non_media_mimeTypes = [
-            file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
-        ]
-        MediaToBeMoved.objects.all().delete()
+        # self.file_types = GoogleDriveNonMediaFileType.objects.all()
+        # self.non_media_mimeTypes = [
+        #    file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
+        # ]
+        # MediaToBeMoved.objects.all().delete()
         self._ensure_root_permissions_are_correct(google_drive_perms)
         files_to_email_owner_about = self._validate_individual_file_and_folder_ownership_and_permissions(
             "CSSS", google_drive_perms
@@ -358,7 +357,9 @@ class GoogleDrive:
                     )
                     self.remove_users_gdrive([gdrive_user])
             for gdrive_user in google_drive_perms:
-                if self.root_file_id in gdrive_user and gdrive_user not in gdrive_users_with_access_to_root_folder:
+                user_should_have_access = self.root_file_id in google_drive_perms[gdrive_user]
+                user_doesnt_have_access = gdrive_user not in gdrive_users_with_access_to_root_folder
+                if user_should_have_access and user_doesnt_have_access:
                     self.logger.info(
                         f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} should "
                         "have access to the root google drive folder but does not, attempting to grant "
@@ -434,29 +435,29 @@ class GoogleDrive:
             "[GoogleDrive _validate_permissions_for_file()] ensuring that the permissions for file "
             f"{file['name']} are correct"
         )
-        file_mime_type_and_extension_not_for_image = False
-        for file_type in self.file_types.exclude(file_extension=""):
-            file_mime_type_and_extension_not_for_image = file_mime_type_and_extension_not_for_image or (
-                file['mimeType'] == file_type.mime_type and
-                'fileExtension' in file and file['fileExtension'] == file_type.file_extension
-            )
-        file_does_not_have_to_be_moved = (
-            file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
-        )
-        self.logger.info(
-            f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
-            f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
-            f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
-            f") detected as an image "
-        )
-        if not file_does_not_have_to_be_moved:
-            MediaToBeMoved(
-                file_path=parent_folder, file_name=file['name'],
-                parent_folder_link=(
-                    self.gdrive.files().get(fileId=file['parents'][0], fields='webViewLink').execute()['webViewLink']
-                )
-            ).save()
-            return
+        # file_mime_type_and_extension_not_for_image = False
+        # for file_type in self.file_types.exclude(file_extension=""):
+        #    file_mime_type_and_extension_not_for_image = file_mime_type_and_extension_not_for_image or (
+        #        file['mimeType'] == file_type.mime_type and
+        #        'fileExtension' in file and file['fileExtension'] == file_type.file_extension
+        #    )
+        # file_does_not_have_to_be_moved = (
+        #    file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
+        # )
+        # self.logger.info(
+        #    f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
+        #    f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
+        #    f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
+        #    f") detected as an image "
+        # )
+        # if not file_does_not_have_to_be_moved:
+        #    MediaToBeMoved(
+        #        file_path=parent_folder, file_name=file['name'],
+        #        parent_folder_link=(
+        #            self.gdrive.files().get(fileId=file['parents'][0], fields='webViewLink').execute()['webViewLink']
+        #        )
+        #    ).save()
+        #    return
         for permission in file['permissions']:
             if permission['id'] == 'anyoneWithLink':
                 # check files that are link-share enabled
@@ -540,7 +541,11 @@ class GoogleDrive:
                 f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
                 f"will have its owner be alerted."
             )
-            if self._file_is_gdrive_file(file) and not self._file_is_gdrive_form(file):
+            file_is_form_or_folder = (
+                self._file_is_gdrive_form(file) or
+                self._determine_if_file_info_belongs_to_gdrive_folder(file)
+            )
+            if self._file_is_gdrive_file(file) and not file_is_form_or_folder:
                 self.logger.info(
                     "[GoogleDrive _validate_owner_for_file()] file "
                     f"{file['name']} determined to be a regular google drive file that is not a form"
@@ -581,7 +586,7 @@ class GoogleDrive:
                         )
                         if self._duplicate_file(file):
                             self._alert_user_to_delete_file(file, files_to_email_owner_about, owner_email, owner)
-        else:
+        elif not self._file_is_gdrive_form(file):
             self._remove_outdated_comments(file)
         if self._determine_if_file_info_belongs_to_gdrive_folder(file):
             # this is a folder so we have to check to see if any of its files have a bad permission set
@@ -933,10 +938,10 @@ class GoogleDrive:
                 "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
                 "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=self.logger.handlers[1].baseFilename
             )
-        if len(MediaToBeMoved.objects.all()) > 0:
-            send_email(
-                "Media has been upload to the Google Drive that has to be moved",
-                "http://sfucsss.org/resource_management/media_to_be_moved\n\n",
-                "csss-sysadmin@sfu.ca", "jace", gmail=gmail
-            )
+        # if len(MediaToBeMoved.objects.all()) > 0:
+        #    send_email(
+        #        "Media has been upload to the Google Drive that has to be moved",
+        #        "http://sfucsss.org/resource_management/media_to_be_moved\n\n",
+        #        "csss-sysadmin@sfu.ca", "jace", gmail=gmail
+        #    )
         gmail.close_connection()

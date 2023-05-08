@@ -4,27 +4,36 @@ from elections.views.validators.validate_speech_and_position_names import valida
 
 
 def validate_existing_nominee_jformat(nominee_names_so_far, speech_ids_so_far, position_ids_so_far, full_name,
-                                      position_names_and_speech_pairings, facebook_link, linkedin_link, email_address,
-                                      discord_username, election_id):
+                                      sfuid, position_names_and_speech_pairings, facebook_link, instagram_link,
+                                      linkedin_link, email_address, discord_id, election_id,
+                                      election_officer_request=True):
     """
     validates the nominee info to validate it
 
     Keyword Arguments
-    name -- the full name of the nominee
+    nominee_names_so_far -- the names of the nominees who have been validated so far
+    speech_ids_so_far -- the list of speech IDs detected so far
+    position_ids_so_far -- the list of positions mapping to a speech detected so far
+    full_name -- the full name of the nominee
+    sfuid -- the nominees SFU ID
     position_names_and_speech_pairings -- a list of the pairings of the nominee's speeches and position_names
     facebook_link -- the link to the nominee's facebook profile
+    instagram_link -- the link to the nominee's instagram page
     linkedin_link -- the link to the nominee's linkedin page
     email_address -- the nominee's email address
-    discord_username -- the nominee's discord username
+    discord_id -- the nominee's discord ID
     election_id -- the ID for the election that the nominee is running under
+    election_officer_request -- indicates if the page is being accessed by the election officer
 
     Return
     Boolean -- indicates whether or not nominee information is valid which happens when any of the
     specified fields are empty
     error_message -- the error message if the nominees had an invalid input
     """
-    success, error_message = validate_nominee_obj_info(nominee_names_so_far, full_name, facebook_link, linkedin_link,
-                                                       email_address, discord_username)
+    success, error_message = validate_nominee_obj_info(
+        nominee_names_so_far, full_name, sfuid, facebook_link, instagram_link, linkedin_link, email_address,
+        discord_id, election_officer_request=election_officer_request
+    )
     if not success:
         return success, error_message
     specified_position_names = []

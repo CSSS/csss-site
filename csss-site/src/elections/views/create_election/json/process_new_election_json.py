@@ -9,7 +9,7 @@ from csss.views_helper import verify_user_input_has_all_required_fields
 from elections.views.Constants import ELECTION_JSON__KEY, CREATE_NEW_ELECTION__NAME, \
     SAVE_ELECTION__VALUE, ENDPOINT_MODIFY_VIA_JSON
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__ELECTION_TYPE, ELECTION_JSON_KEY__WEBSURVEY, \
-    ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__NOMINEES
+    ELECTION_JSON_KEY__DATE, ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__END_DATE
 from elections.views.save_election.save_new_election_from_jformat import save_new_election_from_jformat
 from elections.views.update_election.json.process_existing_election_json import \
     create_json_election_context_from_user_inputted_election_dict
@@ -70,6 +70,7 @@ def process_new_inputted_json_election(request, context):
     if not all_relevant_election_json_keys_exist(election_dict):
         error_message = f"Did not find all of the following necessary keys in input: " \
                         f"{ELECTION_JSON_KEY__ELECTION_TYPE}, {ELECTION_JSON_KEY__DATE}, " \
+                        f"{ELECTION_JSON_KEY__END_DATE}, " \
                         f"{ELECTION_JSON_KEY__WEBSURVEY}, {ELECTION_JSON_KEY__NOMINEES}"
         logger.info(
             f"[elections/process_new_election_json.py process_new_inputted_json_election()] {error_message}"

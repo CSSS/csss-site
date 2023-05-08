@@ -1,7 +1,7 @@
 import json
 
 from csss.setup_logger import Loggers
-from elections.views.Constants import SAVED_NOMINEE_LINKS, NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS
+from elections.views.Constants import SAVED_NOMINEE_LINKS, NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS
 from elections.views.utils.webform_to_json.copy_election_info_from_webform_to_json import \
     copy_election_info_from_webform_to_json
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
@@ -31,8 +31,9 @@ def transform_election_nominee_links_webform_to_json(request):
     copy_election_info_from_webform_to_json(new_nominee_dict, election_dict)
     if SAVED_NOMINEE_LINKS in election_dict:
         new_nominee_dict[SAVED_NOMINEE_LINKS] = list(election_dict[SAVED_NOMINEE_LINKS].values())
-    if NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS in election_dict:
-        new_nominee_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS] = election_dict[NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS]
+    if NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS in election_dict:
+        new_nominee_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS] = \
+            election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
     logger.info("[elections/transform_election_nominee_links_webform_to_json.py "
                 "transform_election_nominee_links_webform_to_json()] to")
     logger.info(json.dumps(new_nominee_dict, indent=3))

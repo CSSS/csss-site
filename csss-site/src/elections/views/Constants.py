@@ -9,6 +9,8 @@ ELECTION__HTML_NAME = 'election__html_name'
 NOMINEES_HTML__NAME = 'nominees__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
 
+NOMINEE_LINK_SFU_ID = 'nominee_link_sfu_id'
+
 ELECTION_HUMAN_FRIENDLY_NAME__HTML_NAME = 'election_human_friendly_name__html_name'
 NOMINEE__NAME__HTML_NAME = 'nominee__name__html_name'
 
@@ -22,8 +24,8 @@ INPUT_REDIRECT_ELECTION_SUBMIT__VALUE = 'input_redirect_election_submit__value'
 CREATE_OR_UPDATE_NOMINEE__NAME = 'create_or_update_nominee'
 CREATE_NEW_ELECTION__NAME = 'create_election'
 UPDATE_EXISTING_ELECTION__NAME = 'update_election'
-SAVE_ELECTION__VALUE = 'Save Election'
-SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save and Continue Editing Election'
+SAVE_ELECTION__VALUE = 'Save/Update Election'
+SAVE_AND_CONTINUE_EDITING_ELECTION__VALUE = 'Save/Update and Continue Editing Election'
 
 INPUT_REDIRECT_NOMINEE_SUBMIT__VALUE = 'input_redirect_nominee_submit__value'
 
@@ -56,7 +58,9 @@ TIME_FORMAT = '%H:%M'
 DATE_AND_TIME_FORMAT = f"{DATE_FORMAT} {TIME_FORMAT}"
 
 INPUT_DATE__NAME = 'input_date__name'
+INPUT_END_DATE__NAME = 'input_end_date__name'
 INPUT_DATE__VALUE = 'input_date__value'
+INPUT_END_DATE__VALUE = 'input_end_date__value'
 INPUT_TIME__NAME = 'input_time__name'
 INPUT_TIME__VALUE = 'input_time__value'
 SELECT_ELECTION_TYPE__NAME = 'select_election_type__name'
@@ -86,11 +90,13 @@ INPUT_NOMINEE_POSITION_NAMES__NAME = 'input_nominee_position_names__name'
 INPUT_SPEECH_ID__NAME = 'input_speech_id__name'
 
 INPUT_NOMINEE_NAME__NAME = 'input_nominee_name__name'
+INPUT_NOMINEE_SFUID__NAME = 'input_nominee_sfuid__name'
 
 INPUT_NOMINEE_FACEBOOK__NAME = 'input_nominee_facebook__name'
+INPUT_NOMINEE_INSTAGRAM__NAME = 'input_nominee_instagram__name'
 INPUT_NOMINEE_LINKEDIN__NAME = 'input_nominee_linkedin__name'
 INPUT_NOMINEE_EMAIL__NAME = 'input_nominee_email__name'
-INPUT_NOMINEE_DISCORD__NAME = 'input_nominee_discord__name'
+INPUT_NOMINEE_DISCORD_ID__NAME = 'input_nominee_discord_id__name'
 
 CURRENT_OFFICER_POSITIONS = 'current_officer_positions'
 
@@ -99,14 +105,16 @@ ENDPOINT_MODIFY_VIA_WEBFORM = 'election_modification_webform'
 ENDPOINT_MODIFY_VIA_NOMINEE_LINKS = 'election_modification_nominee_links'
 ENDPOINT_DELETE_NOMINEE_LINKS = 'delete_nominee_links'
 
-NOMINEE_NAMES__HTML_NAME = 'nominee_names__html_name'
-NEW_NOMINEE_NAMES_FOR_NOMINEE_LINKS = 'new_nominee_names'
-NOMINEE_NAMES__VALUE = 'nominee_names__value'
-REQUIRE_NOMINEE_NAMES = 'require_nominee_names'
+NOMINEE_SFUIDS_AND_DISCORD_IDS__HTML_NAME = 'nominee_sfuids_and_discord_ids__html_name'
+NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS = 'new_nominee_sfuids_and_discord_ids'
+NOMINEE_SFUIDS_AND_DISCORD_IDS__VALUE = 'nominee_sfuids_and_discord_ids__value'
+REQUIRE_NOMINEE_SFUIDS_AND_DISCORD_IDS = 'require_nominee_sfuids_and_discord_ids'
 
 CURRENT_ELECTION = 'current_election'
 
 DRAFT_NOMINEE_LINKS = 'draft_nominee_links'
+
+LINK_FOR_NOMINEES_TO_ENTER_INFO = 'link_for_nominees'
 
 SAVED_NOMINEE_LINKS__HTML_NAME = 'saved_nominee_links__html_name'
 SAVED_NOMINEE_LINKS = 'saved_nominee_links'
@@ -117,11 +125,14 @@ DELETE = 'delete'
 SAVED_NOMINEE_LINK__ID__HTML_NAME = 'saved_nominee_link__id__html_name'
 SAVED_NOMINEE_LINK__ID = 'saved_nominee_link__id'
 
-SAVED_NOMINEE_LINK__NAME__HTML_NAME = 'saved_nominee_link__name__html_name'
-SAVED_NOMINEE_LINK__NAME = 'saved_nominee_link__name'
+SAVED_NOMINEE_LINK__SFUID__HTML_NAME = 'saved_nominee_link__sfuid__html_name'
+SAVED_NOMINEE_LINK__SFUID = 'saved_nominee_link__sfuid'
 
 SAVED_NOMINEE_LINK__NOMINEE__HTML_NAME = 'saved_nominee_link__nominee__html_name'
 SAVED_NOMINEE_LINK__NOMINEE = 'saved_nominee_link__nominee'
+
+SAVED_NOMINEE_LINK__DISCORD_ID__HTML_NAME = 'saved_nominee_link__discord_id__html_name'
+SAVED_NOMINEE_LINK__DISCORD_ID = 'saved_nominee_link__discord_id'
 
 NO_NOMINEE_LINKED__HTML_NAME = 'no_nominee_linked__html_name'
 NO_NOMINEE_LINKED = 'no_nominee_linked'
@@ -133,7 +144,7 @@ NOMINEE_LINKS = 'nominee_links'
 
 CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINKS__HTML_NAME = 'create_or_update_nominee_via_nominee_link__html_name'
 ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK = 'create_or_update_via_nominee_links'
-ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_PASSPHRASE__NOMINEE_LINK = (
+ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK = (
     'create_or_update_via_nominee_links_for_nominee'
 )
 
@@ -143,6 +154,8 @@ TOGGLE_NOMINEE_LINKS_TO_DELETE = 'nominee_link_to_delete'
 PRE_EXISTING_ELECTION = 'pre_existing_election'
 DELETE_EXISTING_NOMINEE_LINKS_MESSAGE = "delete_existing_nominee_links_message"
 
-HTML_PASSPHRASE_GET_KEY = 'passphrase'
-
 DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY = 'redirect_path'
+
+ELECTION_OFFICER_REQUEST = 'election_officer_request'
+
+NA_STRING = "NA"

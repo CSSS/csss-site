@@ -1,9 +1,7 @@
 import datetime
 
-import pytz
-from django.conf import settings
-
 from csss.setup_logger import Loggers
+from csss.views.time_converter import convert_utc_time_to_pacific
 
 
 def add_sortable_date_to_email(email):
@@ -23,9 +21,7 @@ def add_sortable_date_to_email(email):
     email_datetime = None
     date_format = '%a, %d %b %Y %H:%M:%S %z'
     try:
-        email_datetime = datetime.datetime.strptime(email_date, date_format).astimezone(
-            pytz.timezone(settings.WEBSITE_TIME_ZONE)
-        )
+        email_datetime = convert_utc_time_to_pacific(datetime.datetime.strptime(email_date, date_format))
         successful = True
     except ValueError:
         logger.info(f"[process_announcements get_date_from_email()] date '{email_date}' "
@@ -33,9 +29,7 @@ def add_sortable_date_to_email(email):
     if not successful:
         date_format = '%a, %d %b %Y %H:%M:%S %z'
         try:
-            email_datetime = datetime.datetime.strptime(email_date[:-6], date_format).astimezone(
-                pytz.timezone(settings.WEBSITE_TIME_ZONE)
-            )
+            email_datetime = convert_utc_time_to_pacific(datetime.datetime.strptime(email_date[:-6], date_format))
             successful = True
         except ValueError:
             logger.info(f"[process_announcements get_date_from_email()] date '{email_date[:-6]}' "
@@ -43,9 +37,7 @@ def add_sortable_date_to_email(email):
     if not successful:
         date_format = '%a, %d %b %Y %H:%M:%S %Z'
         try:
-            email_datetime = datetime.datetime.strptime(email_date, date_format).astimezone(
-                pytz.timezone(settings.WEBSITE_TIME_ZONE)
-            )
+            email_datetime = convert_utc_time_to_pacific(datetime.datetime.strptime(email_date, date_format))
             successful = True
         except ValueError:
             logger.info(f"[process_announcements get_date_from_email()] date '{email_date}' "

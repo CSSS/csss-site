@@ -5,7 +5,7 @@ import requests
 from django.conf import settings
 
 
-def get_sfu_email_alias(sfu_computing_id):
+def get_sfu_info(sfu_computing_id):
     """
     Ensures that the given sfu id for a New_Officer is correct
 
@@ -15,7 +15,15 @@ def get_sfu_email_alias(sfu_computing_id):
     Return
     bool -- indicator of whether the validation was successful
     error_message -- whatever error message there was as a result of the validation, or None
-    email_alias -- the user's email alias
+    sfu_info -- the user's info in following format
+    {
+    "sfuid": "sfuid",
+    "aliases": [
+        "email_alias"
+    ],
+    "firstnames": "firstName",
+    "lastname": "lastName"
+}
     """
     if settings.SFU_ENDPOINT_TOKEN is None:
         return True, None, None
@@ -45,4 +53,4 @@ def get_sfu_email_alias(sfu_computing_id):
         type(json.loads(resp.text)['aliases']) is not list or
             len(json.loads(resp.text)['aliases']) <= 0):
         return False, f"Could not detect email alias for {sfu_computing_id}", None
-    return True, None, json.loads(resp.text)['aliases'][0]
+    return True, None, json.loads(resp.text)

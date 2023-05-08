@@ -43,7 +43,7 @@
 								</table>
 							{%  endif %}
 
-							{% if election__html_name.websurvey != "NONE" %}
+							{% if election__html_name.websurvey != None %}
 								<p> <a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a></p>
 							{% endif %}
 							<br>
@@ -54,7 +54,7 @@
 								<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.full_name}}</b></p>
 								{{nominee.nominee_speech.social_media_html|safe}}
 								<br>
-								{%  if nominee.nominee_speech.speech != "NONE" %}
+								{%  if nominee.nominee_speech.speech != None %}
 									<p>Nominee Speech:</p>
 									<br>
 									<div class="csss_markdown">

@@ -4,12 +4,12 @@ from time import sleep
 
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
-from django.conf import settings
 from django.core.management import BaseCommand
 
 from csss.models import CronJob
 from csss.setup_logger import Loggers, date_timezone
 from csss.views.crons.Constants import CRON_JOB_MAPPING, CRON_JOB_MAPPING_PATH_KEY
+from csss.views.time_converter import TIME_ZONE
 
 CRON_SERVICE_NAME = "cron_service"
 
@@ -21,8 +21,7 @@ class Command(BaseCommand):
         logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
         logger.info("[Cron_Service_Command handle()] setting up cron service")
         date = datetime.datetime.now(date_timezone)
-        scheduler = BackgroundScheduler(timezone=settings.SERVER_ZONE)
-        scheduler.configure()
+        scheduler = BackgroundScheduler(timezone=TIME_ZONE)
         cron_jobs = [cron_job for cron_job in CronJob.objects.all() if cron_job.is_active]
         for cron_job in cron_jobs:
             logger.info(

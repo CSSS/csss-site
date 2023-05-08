@@ -9,10 +9,14 @@ if (draft_or_finalized_nominee_to_display == true){
 		new_nominee.innerHTML += "<input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_id__name}}]\" value=\""+id+"\" hidden readonly>";
 	{%  endif %}
 	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" value=\""+name+"\" required></p>";
+    {%  if election_officer_request %}
+	    new_nominee.innerHTML += "<p>SFUID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_sfuid__name}}]\" value=\""+sfuid+"\" required></p>";
+    {%  endif %}
 	new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\""+facebook+"\" required></p>";
+	new_nominee.innerHTML += "<p>Instagram Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_instagram__name}}]\" value=\""+instagram+"\" required></p>";
 	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\""+linkedin+"\" required></p>";
 	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\""+email+"\" required></p>";
-	new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord__name}}]\" value=\""+discord+"\" required></p>";
+	new_nominee.innerHTML += "<p>Discord ID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord_id__name}}]\" value=\""+discord_id+"\" required><b><a target=\"_blank\" href=\"https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-\">How to find your Discord ID</a></b></p>";
 
 }else{
     /*
@@ -20,10 +24,18 @@ if (draft_or_finalized_nominee_to_display == true){
     and there are no nominees, will display a form to enter the first nominee
     */
 	new_nominee.innerHTML += "<p>Full Name: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_name__name}}]\" required></p>";
-	new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\"NONE\" required></p>";
-	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\"NONE\" required></p>";
-	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\"NONE\" required></p>";
-	new_nominee.innerHTML += "<p>Discord Username: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord__name}}]\" value=\"NONE\" required></p>";
+    {%  if election_officer_request %}
+        if (typeof sfuid === "undefined"){
+	        new_nominee.innerHTML += "<p>SFUID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_sfuid__name}}]\" required></p>";
+        }else{
+            new_nominee.innerHTML += "<p>SFUID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_sfuid__name}}]\" value=\""+sfuid+"\" required></p>";
+        }
+    {%  endif %}
+	new_nominee.innerHTML += "<p>Facebook Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_facebook__name}}]\" value=\"NA\" required></p>";
+	new_nominee.innerHTML += "<p>Instagram Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_instagram__name}}]\" value=\"NA\" required></p>";
+	new_nominee.innerHTML += "<p>LinkedIn Link: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_linkedin__name}}]\" value=\"NA\" required></p>";
+	new_nominee.innerHTML += "<p>Email Address: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_email__name}}]\" value=\"NA\" required></p>";
+	new_nominee.innerHTML += "<p>Discord ID: <input type=\"text\" name=\"[{{nominee_div__name}}]["+nominee_index+"][{{input_nominee_discord_id__name}}]\" value=\"NA\" required><b><a target=\"_blank\" href=\"https://support.discord.com/hc/en-us/articles/206346498-Where-can-I-find-my-User-Server-Message-ID-\">How to find your Discord ID</a></b></p>";
 
 }
 new_nominee.innerHTML += "<input type=\"button\" value=\"Add Another Speech\" onClick=\"addBlankSpeech('"+nominee_index+"');\">";

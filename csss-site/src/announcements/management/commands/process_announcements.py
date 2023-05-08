@@ -1,21 +1,18 @@
 import time
 from email.utils import parseaddr
 
-from django.conf import settings
 from django.core.management.base import BaseCommand
-from django_mailbox.models import Message
 from django_mailbox.models import Mailbox
+from django_mailbox.models import Message
 
 from about.models import UnProcessedOfficer, Term
-from announcements.models import ManualAnnouncement, Announcement
+from announcements.models import Announcement
 from announcements.views.commands.process_announcements.add_sortable_date_to_email import add_sortable_date_to_email
-from announcements.views.commands.process_announcements.add_sortable_date_to_manual_announcement import \
-    add_sortable_date_to_manual_announcement
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
-from announcements.views.commands.process_announcements.get_timezone_difference import get_timezone_difference
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
-from csss.views_helper import get_current_date, get_term_number_for_specified_year_and_month
+from csss.views.send_email import send_email
+from csss.views_helper import get_term_number_for_specified_year_and_month
 
 SERVICE_NAME = "process_announcements"
 
@@ -60,24 +57,14 @@ class Command(BaseCommand):
                         message.from_address
                     )
 
-        time_difference = get_timezone_difference(
-            get_current_date().strftime('%Y-%m-%d'),
-            settings.WEBSITE_TIME_ZONE,
-            settings.TIME_ZONE_FOR_PREVIOUS_WEBSITE
-        )
-
         messages = []
         messages.extend(
             [add_sortable_date_to_email(email) for email in
              Message.objects.all().filter(visibility_indicator__isnull=True)]
         )
-        messages.extend(
-            [add_sortable_date_to_manual_announcement(time_difference, manual_announcement)
-             for manual_announcement in ManualAnnouncement.objects.all().filter(visibility_indicator__isnull=True)]
-        )
         messages.sort(key=lambda x: x.sortable_date, reverse=False)
         officer_mapping = get_officer_term_mapping()
-
+        emails_not_displayed = []
         for message in messages:
             announcement_datetime = message.sortable_date
             term_number = get_term_number_for_specified_year_and_month(
@@ -104,12 +91,15 @@ class Command(BaseCommand):
                     author_email = parseaddr(message.from_header)[1]
                     valid_email = (author_email in officer_emails)
                     if valid_email or (not valid_email and there_are_no_unprocessed_officers):
+                        if not valid_email:
+                            emails_not_displayed.append(f"email from [{author_email}]")
                         Announcement(term=term, email=message, date=announcement_datetime,
                                      display=valid_email, author=author_name).save()
                         logger.info("[process_announcements handle()] saved email from"
                                     f" {author_name} with email {author_email} with date {announcement_datetime} "
                                     f"for term {term}. Will {'not ' if valid_email is False else ''}display email")
                 else:
+                    emails_not_displayed.append(f"Unknown Email with subject [{message.subject}]")
                     Announcement(term=term, email=message, date=announcement_datetime,
                                  display=False).save()
                     logger.info("[process_announcements handle()] unable to determine sender of email "
@@ -121,6 +111,9 @@ class Command(BaseCommand):
                 logger.info("[process_announcements handle()] saved post from"
                             f" {message.author} with date {announcement_datetime} "
                             f"for term {term}")
+        if len(emails_not_displayed) > 0:
+            body = "<br>".join(emails_not_displayed)
+            send_email("CSSS-Website emails not displayed", body, "csss-sysadmin@sfu.ca", "jace")
         time2 = time.perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

@@ -1,6 +1,8 @@
 from django.db import models
+from django.utils import timezone
 
 from about.models import OfficerEmailListAndPositionMapping
+from csss.PSTDateTimeField import PSTDateTimeField
 
 
 class OfficerPositionGithubTeam(models.Model):
@@ -107,8 +109,8 @@ class GoogleDriveFileAwaitingOwnershipChange(models.Model):
     number_of_nags = models.IntegerField(
         default=0
     )
-    latest_date_check = models.DateTimeField(
-
+    latest_date_check = PSTDateTimeField(
+        default=timezone.now
     )
 
     def __str__(self):
@@ -125,8 +127,8 @@ class GoogleDriveRootFolderBadAccess(models.Model):
     number_of_nags = models.IntegerField(
         default=0
     )
-    latest_date_check = models.DateTimeField(
-
+    latest_date_check = PSTDateTimeField(
+        default=timezone.now
     )
 
     def __str__(self):

@@ -1,5 +1,7 @@
-import django
 from django.db import models
+from django.utils import timezone
+
+from csss.PSTDateTimeField import PSTDateTimeField
 
 
 class CronJob(models.Model):
@@ -20,8 +22,8 @@ class CronJob(models.Model):
     def is_active(self):
         return self.schedule.strip() != ""
 
-    last_update = models.DateTimeField(
-        default=django.utils.timezone.now
+    last_update = PSTDateTimeField(
+        default=timezone.now
     )
 
     @property
@@ -44,9 +46,10 @@ class CronJobRunStat(models.Model):
         CronJob,
         on_delete=models.CASCADE,
     )
-    run_date = models.DateTimeField(
-        default=django.utils.timezone.now
+    run_date = PSTDateTimeField(
+        default=timezone.now
     )
+
     run_time_in_seconds = models.IntegerField()
 
     @property
@@ -55,6 +58,37 @@ class CronJobRunStat(models.Model):
 
     def __str__(self):
         return f"job {self.job} ran for {self.get_run_time} on {self.run_date}"
+
+
+class CSSSError(models.Model):
+    type = models.CharField(
+        max_length=100,
+        default=None,
+        null=True
+    )
+    filename = models.CharField(
+        max_length=500
+    )
+    message = models.CharField(
+        max_length=5000
+    )
+    request = models.CharField(
+        max_length=100000,
+        default=None,
+        null=True
+    )
+
+    endpoint = models.CharField(
+        max_length=500,
+        default=None,
+        null=True
+    )
+    processed = models.BooleanField(
+        default=False
+    )
+
+    def __str__(self):
+        return f"Error in file {self.filename}"
 
 
 def convert_seconds_to_run_time_str(seconds):

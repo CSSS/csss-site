@@ -47,4 +47,4 @@ def create_context_for_cron_logs_html(context, error_messages=None, log_location
         context[CRON_LOGS_DIRECTORY_KEY] = list(reversed(sorted(files, key=lambda x: x[CRON_LOGS_FILE__HTML_NAME])))
     else:
         context[CRON_LOG_FILE_CONTENTS_KEY] = open(f"{settings.LOG_LOCATION}{log_location}", 'rb').read().decode(
-            "UTF-8").replace("\n", "<br>")
+            "UTF-8")

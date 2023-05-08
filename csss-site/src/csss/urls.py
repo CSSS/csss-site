@@ -12,7 +12,6 @@ from .views.login import LoginView, LogoutView
 urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),
     url(r'^' + settings.URL_PATTERN + 'about/', include('about.urls')),
-    url(r'^' + settings.URL_PATTERN + 'documents/', include('documents.urls')),
     url(r'^' + settings.URL_PATTERN + 'events/', include('events.urls')),
     url(r'^' + settings.URL_PATTERN + 'statics/', include('static_pages.urls')),
     url(r'^' + settings.URL_PATTERN + 'elections/', include('elections.urls')),

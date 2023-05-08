@@ -1,16 +1,19 @@
 import json
 
 from about.models import OfficerEmailListAndPositionMapping
+from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
+    get_discord_username_and_nickname
 from csss.setup_logger import Loggers
 from elections.models import NomineeSpeech, NomineePosition
-from elections.views.Constants import ID_KEY
+from elections.views.Constants import ID_KEY, NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOM_NAME, ELECTION_JSON_KEY__NOM_FACEBOOK, \
-    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, ELECTION_JSON_KEY__NOM_DISCORD, \
+    ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS, ELECTION_JSON_KEY__NOM_SPEECH, \
-    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME
+    ELECTION_JSON_KEY__NOM_POSITION_NAMES, ELECTION_JSON_KEY__NOM_POSITION_NAME, ELECTION_JSON_KEY__NOM_INSTAGRAM, \
+    ELECTION_JSON_KEY__NOM_DISCORD_ID, ELECTION_JSON_KEY__NOM_SFUID
 
 
-def update_existing_nominee_jformat(nominee_obj, nominee_dict):
+def update_existing_nominee_jformat(nominee_obj, nominee_dict, election_officer_request=True):
     """
     Updates the specified nominee
 
@@ -26,19 +29,36 @@ def update_existing_nominee_jformat(nominee_obj, nominee_dict):
     list_of_speech_obj_ids_specified_in_election = []
     list_of_nominee_position_obj_ids_specified_in_election = []
     nominee_obj.full_name = nominee_dict[ELECTION_JSON_KEY__NOM_NAME].strip()
-    nominee_obj.facebook = nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip()
-    nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
-    nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
-    nominee_obj.discord = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD].strip()
+    nominee_obj.facebook = nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK] is not None else None
+    nominee_obj.instagram = nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM] is not None else None
+    nominee_obj.linkedin = nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] is not None else None
+    nominee_obj.email = nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] is not None else None
+    nominee_obj.discord_id = nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip() \
+        if nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] is not None else None
+
+    nominee_obj.sfuid = nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip() \
+        if election_officer_request else nominee_obj.sfuid
+    if nominee_obj.discord_id != NA_STRING and nominee_obj.discord_id is not None:
+        success, error_message, nominee_obj.discord_username, nominee_obj.discord_nickname = \
+            get_discord_username_and_nickname(
+                nominee_obj.discord_id
+            )
 
     logger.info(
         "[elections/update_existing_nominees_jformat.py update_existing_nominee_jformat()]"
         "updating a nominee obj with the following details ")
     logger.info(f"name = {nominee_obj.full_name}")
     logger.info(f"facebook = {nominee_obj.facebook}")
+    logger.info(f"instagram = {nominee_obj.instagram}")
     logger.info(f"linkedin = {nominee_obj.linkedin}")
     logger.info(f"email = {nominee_obj.email}")
-    logger.info(f"discord = {nominee_obj.discord}")
+    logger.info(f"discord_id = {nominee_obj.discord_id}")
+    logger.info(f"discord_username = {nominee_obj.discord_username}")
+    logger.info(f"discord_nickname = {nominee_obj.discord_nickname}")
 
     speech_and_position_pairings = nominee_dict[ELECTION_JSON_KEY__NOM_POSITION_AND_SPEECH_PAIRINGS]
     for speech_and_position_pairing in speech_and_position_pairings:

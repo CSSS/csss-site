@@ -9,7 +9,6 @@ from announcements.models import Announcement
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views_helper import markdown_message, validate_markdown
 
-
 ERROR_MESSAGES_KEY = 'error_messages'
 
 
@@ -35,7 +34,10 @@ def index(request):
     if current_page == 'none':
         current_page = 1
     else:
-        current_page = int(current_page)
+        try:
+            current_page = int(current_page)
+        except ValueError:
+            return HttpResponseRedirect(settings.URL_ROOT)
 
     request_path = request.path
 
