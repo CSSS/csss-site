@@ -1,0 +1,190 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+	{{ block.super }}
+	<section class="section">
+		<div class="container">
+			<div class="content" style="display: flex;">
+				{% load staticfiles %}
+				<div style="width: 50%;">
+					<embed src="{% static 'Cheque-Requisition-Form-Pick-Up-2022-1P.pdf' %}" style="width: 100%; padding: 4px 12px; height: 100%; min-height: 600px;" type="application/pdf">
+				</div>
+				<div style="width: 50%;">
+					<h3 class="title is-size-3">Generate Cheque Requisition</h3>
+					<iframe id="downloaded_file" style="display:none;"></iframe>
+					<script>
+						function process_request() {
+							function isNumeric(str) {
+								if (typeof str != "string") 
+									return false;
+								return !isNaN(str) && !isNaN(parseFloat(str));
+							}
+
+							if (!isNumeric(document.getElementById('amount_cad').value)) {
+								alert("Amount (CAD) must be a number");
+								return false;
+							}
+
+							target_url = document.getElementById('form').getAttribute('url');
+							target_url += "?date=" + encodeURIComponent(document.getElementById('date').value);
+							target_url += "&request_kind=" + encodeURIComponent(document.getElementById('request_kind').value);
+							target_url += "&request_by=" + encodeURIComponent(document.getElementById('request_by').value);
+							target_url += "&requester_position=" + encodeURIComponent(document.getElementById('requester_position').value);
+
+							target_url += "&request_desc=" + encodeURIComponent(document.getElementById('request_desc').value);
+							target_url += "&amount_cad=" + encodeURIComponent(document.getElementById('amount_cad').value);
+							target_url += "&payable_to=" + encodeURIComponent(document.getElementById('payable_to').value);
+
+							target_url += "&reimburse_method=" + encodeURIComponent(document.getElementById('reimburse_method').value);
+							target_url += "&pickup_name=" + encodeURIComponent(document.getElementById('pickup_name').value);
+							target_url += "&pickup_email=" + encodeURIComponent(document.getElementById('pickup_email').value);
+
+							target_url += "&address_street=" + encodeURIComponent(document.getElementById('address_street').value);
+							target_url += "&address_city_province=" + encodeURIComponent(document.getElementById('address_city_province').value);
+							target_url += "&address_postal_code=" + encodeURIComponent(document.getElementById('address_postal_code').value);
+							target_url += "&address_is_on_campus=" + encodeURIComponent(document.getElementById('address_is_on_campus').value);
+
+							var xhr = new XMLHttpRequest();
+							xhr.open("POST", target_url, true);
+							xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded')
+							xhr.setRequestHeader('X-CSRFToken', document.getElementById('form').firstElementChild.value)
+							xhr.onreadystatechange = () => {
+								// https://stackoverflow.com/questions/35038884/download-file-from-bytes-in-javascript
+								function base64ToArrayBuffer(base64) {
+									var binaryString = window.atob(base64);
+									var binaryLen = binaryString.length;
+									var bytes = new Uint8Array(binaryLen);
+									for (var i = 0; i < binaryLen; i++) {
+										var ascii = binaryString.charCodeAt(i);
+										bytes[i] = ascii;
+									}
+									return bytes;
+								}
+								function saveByteArray(reportName, byte) {
+									var blob = new Blob([byte], {type: "application/pdf"});
+									var link = document.createElement('a');
+									link.href = window.URL.createObjectURL(blob);
+									var fileName = reportName;
+									link.download = fileName;
+									link.click();
+								}
+								if (xhr.readyState == 4 && xhr.status == 200) {
+									console.log("pdf received");
+									console.log(xhr);
+									saveByteArray("result.pdf", base64ToArrayBuffer(xhr.responseText));
+								} 
+							}
+							xhr.send();
+							return false;
+						}
+					</script>
+
+					<form id="form" onsubmit="return process_request();" url="{% url 'gen_cheque_req_process' %}" method="post">
+						{% csrf_token %}
+						<label>Current Date</label>
+						<input type="date" id="date"> <br>
+						<script>document.getElementById('date').valueAsDate = new Date();</script>
+
+						<label>Request Kind</label>
+						<select id="request_kind">
+							<option value="custom">Custom</option>
+							<option value="core">Core</option>
+							<option value="grant">Grant</option>
+						</select> <br>
+						<script>
+							document.getElementById('request_kind').onchange = () => {
+								if (document.getElementById('request_kind').value == 'custom') { 
+									document.getElementById('form_custom').hidden = false; 
+									document.getElementById('form_other').hidden = true; 
+									document.getElementById('submit').disabled = false; 
+								} else { 
+									document.getElementById('form_custom').hidden = true; 
+									document.getElementById('form_other').hidden = false; 
+									document.getElementById('submit').disabled = true; 
+								}
+							}
+						</script>
+
+						<label>Request by</label>
+						<!-- TODO: check if this has a space & if not, warn that it must be a full name -->
+						<input type="text" id="request_by" placeholder="your name" size="16">
+						<select id="requester_position">
+							<option value=""></option>
+							<option value="Treasurer">Treasurer</option>
+							<option value="President">President</option>
+							<option value="Vice President">Vice-President</option>
+							<option value="Director of Events">Director of Events</option>
+							<option value="SFSS Council Rep">SFSS Council Rep</option>
+						</select> <br>
+						<p>Most requests can only be made by an executive with the Fund/Facilities role on the SFSS Website</p>
+
+						<hr style="background-color: #ddd">
+
+						<div id="form_custom">
+							<label>Description</label> <br>
+							<textarea id="request_desc" rows="4" cols="46" placeholder="Describe the request to be made to the SFSS" style="resize:vertical; width:100%;"></textarea>
+							
+							<label>Amount (CAD)</label>
+							<input type="text" id="amount_cad" placeholder="0.00" size="8">
+							<label>payable to</label>
+							<input type="text" id="payable_to" placeholder="name" size="15"> <br>
+
+							<hr style="background-color: #ddd">
+							
+							<label>Reimbursement Method</label>
+							<select id="reimburse_method">
+								<option value="pickup">Pick up at SFSS Office (Burnaby)</option>
+								<option value="mailed">Mailed to address</option>
+							</select>
+							<script>
+								document.getElementById('reimburse_method').onchange = () => {
+									if (document.getElementById('reimburse_method').value=='mailed') { 
+										document.getElementById('pickup').hidden = true; 
+										document.getElementById('mailed').hidden = false; 
+									} else { 
+										document.getElementById('pickup').hidden = false; 
+										document.getElementById('mailed').hidden = true; 
+									}
+								}
+							</script>
+
+							<div id="pickup" style="padding: 12px; margin: 12px; border-left: #ddd 2px solid;">
+								<h4 style="float: right;"><u>Pickup</u></h4>
+								<label>Name</label>
+								<input type="text" id="pickup_name" size="16" placeholder="name"><br>
+								<label>Email</label>
+								<input type="text" id="pickup_email" size="16" placeholder="email@sfu.ca"><br>
+								<p>Note: When the request goes through in several weeks, you will receive an email telling you to pick up the cheque from the SFSS Office in the Burnaby Campus <a href="https://sfss.ca/sub/overview-location-and-hours/">SUB</a>.</p>
+							</div>
+
+							<div id="mailed" style="padding: 12px; margin: 12px; border-left: #ddd 2px solid;" hidden>
+								<h4 style="float: right;"><u>Mailed</u></h4>
+
+								<label>Address</label> <br>
+								<input type="text" id="address_street" size="24" placeholder="street"><br>
+								<input type="text" id="address_city_province" size="24" placeholder="city, province"><br>
+								<input type="text" id="address_postal_code" size="8" placeholder="postal code"><br>
+								
+								<label>Address is on Campus</label>
+								<select id="address_is_on_campus">
+									<option value="no">No</option>
+									<option value="yes">Yes</option>
+								</select>
+							</div>
+						</div>
+
+						<div id="form_other" style="text-align: center;" hidden>
+							<br>
+							<p>this kind of request is not yet supported</p>
+							<br>
+						</div>
+
+						<div style="text-align: center;">
+							<input type="submit" id="submit" value="Generate PDF">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endblock %}

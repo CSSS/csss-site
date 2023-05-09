@@ -17,6 +17,7 @@
 ```shell
 sudo apt-get install -y python3.7
 sudo apt-get install python3-distutils --reinstall
+sudo apt-get install libcairo2-dev
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python3.7 get-pip.py --user
 python3.7 -m pip install virtualenv --user

@@ -225,6 +225,7 @@ INSTALLED_APPS = [
     'announcements',
     'about',
     'events',
+    'tools',
     'events.frosh',
     'events.mountain_madness',
     'events.fall_hacks',

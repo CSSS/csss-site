@@ -1,3 +1,5 @@
+import typing, io, os
+
 from dataclasses import dataclass
 from datetime import datetime
 
@@ -15,9 +17,12 @@ from reportlab.pdfgen import canvas
 # globals
 
 # https://sfss.ca/wp-content/uploads/2022/09/Cheque-Requisition-Form-Pick-Up-2022-1P.pdf
-small_text_logo = "logo-text-smaller.png"
-cheque_req_form_pickup = "Cheque-Requisition-Form-Pick-Up-2022-1P.pdf"
-cheque_req_form_mailed = "..."
+small_text_logo = "tools/static/logo-text-smaller.png"
+cheque_req_form_pickup = "tools/static/Cheque-Requisition-Form-Pick-Up-2022-1P.pdf"
+cheque_req_form_mailed = ""
+
+tmp_dir = "tools/static/tmp/"
+
 
 # ------------------------
 # structs
@@ -39,13 +44,13 @@ class Mailed:
 
 @dataclass
 class CoreChequeReq:
-    requested_by: str
+    request_by: str
     requester_position: str 
     request_desc: str 
 
     payable_to: str         
     amount_cad: float       
-    receive_kind: Pickup | Mailed 
+    receive_kind: typing.Union[Pickup, Mailed] 
 
     current_date: datetime 
 
@@ -60,12 +65,12 @@ class ReceiptInfo:
 
 # generate cheque req from core
 # meeting_minutes: str is the prefix for the meeting minutes of the form: "yyyy-mm-dd"
-def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts: list[ReceiptInfo], out_file_name: str, include_auto_desc: bool = True, watermark_active: bool = True):
+def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts: list[ReceiptInfo], include_auto_desc: bool = True, watermark_active: bool = True):
     reader = PdfReader(cheque_req_form_pickup)
     assert len(reader.pages) == 1
 
     page = reader.pages[0]
-
+    
     # TODO: automatically generate a description given info about receipts
     # TODO: automatically include attached meeting minutes in the cheque-req -> do a search; look for person's name & reciept costs
     # TODO: in the web tool, have a link to this script's source, and an existing filled out form (or something like that)
@@ -76,7 +81,7 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
         'In The Amount Of': "${0:.2f}".format(data.amount_cad), 
         'Describe the request andor provide additional information if necessary': data.request_desc, 
 
-        'Requested By': data.requested_by, 
+        'Requested By': data.request_by, 
         'Position': data.requester_position,
     }
 
@@ -121,26 +126,35 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
     fields = reader.get_form_text_fields()
     for key in relevant_fields.keys():
         if not key in fields:
-            raise KeyError("pdf form did not have neccesary key")
+            raise KeyError("pdf form did not have necessary key")
 
     # ------------------------
     # final writing
 
-    c = canvas.Canvas('tmp/watermark.pdf')
+    if not os.path.exists(tmp_dir):
+        os.makedirs(tmp_dir)
+
+    c = canvas.Canvas(tmp_dir + "watermark.pdf")
     c.drawString(335, 702, "Computing Science Student Society")
     if watermark_active: c.drawImage(small_text_logo, 429, 725, 848 / 6, 174 / 6)
     c.save()
 
-    csss_text_logo = PdfReader(open('tmp/watermark.pdf', "rb"))
+    # NOTE: what happens when multiple requests come in at once? 
+    # I guess the file acts as a mutex & blocks one of the requests. This degraded performance is 
+    # okay! We are using python anyways.
+    csss_text_logo = PdfReader(open(tmp_dir + "watermark.pdf", "rb"))
     page.merge_page(csss_text_logo.pages[0])
     
     writer = PdfWriter()
     writer.add_page(page)
     writer.update_page_form_field_values(writer.pages[0], relevant_fields)
 
-    with open(out_file_name, "wb") as output_stream:
-        writer.write(output_stream)
+    # byte stream
+    stream = io.BytesIO()
+    writer.write(stream)
 
+    print("len: {}".format(len(stream.getvalue())))
+    return stream.getvalue()
 
 # generate cheque req from grant
 def generate_grant_cheque_req():
@@ -171,7 +185,7 @@ def search_motions(keyword, threshold=0, nyears=2):
 
 if __name__ == "__main__":
     cheque_req = CoreChequeReq(
-        requested_by = "Gabe", 
+        request_by = "Gabe", 
         requester_position = "Treasurer", 
         request_desc = "Something shall be requested from core!", 
         
@@ -184,4 +198,7 @@ if __name__ == "__main__":
     )
     
     print(cheque_req)
-    generate_core_cheque_req(cheque_req, "2022-02-27", [], "tmp_core_cheque_req.pdf")
+    pdf_bytes = generate_core_cheque_req(cheque_req, "2022-02-27", [])
+
+    with open("tmp_core_cheque_req.pdf", "wb") as file:
+        file.write(pdf_bytes)
