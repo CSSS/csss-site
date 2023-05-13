@@ -204,7 +204,10 @@ class GoogleDrive:
                 for user in users:
                     self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through user {user}")
                     for permission in permissions['permissions']:
-                        self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through permission {permission}")
+                        self.logger.info(
+                            f"[GoogleDrive remove_users_gdrive()] iterating through permission "
+                            f"{permission}"
+                        )
                         if permission['emailAddress'].lower() == user:
                             try:
                                 self.logger.info(
