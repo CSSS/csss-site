@@ -202,7 +202,9 @@ class GoogleDrive:
                 permissions = self.gdrive.permissions().list(fileId=file_id, fields='permissions').execute()
                 self.logger.info("[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
                 for user in users:
+                    self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through user {user}")
                     for permission in permissions['permissions']:
+                        self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through permission {permission}")
                         if permission['emailAddress'].lower() == user:
                             try:
                                 self.logger.info(
@@ -753,13 +755,19 @@ class GoogleDrive:
                 f"sfucsss@gmail.com made on file {file_info['name']}"
             )
             response = self.gdrive.comments().list(fileId=file_info['id'], fields="*").execute()
+            self.logger.info("[GoogleDrive _remove_outdated_comments()] received response from google drive API ")
             for comment in response['comments']:
+                self.logger.info(f"[GoogleDrive _remove_outdated_comments()] iterating though comment {comment}")
                 if comment['author']['me']:
                     if self.make_changes:
                         comment_response = self.gdrive.comments().delete(
                             commentId=comment['id'], fileId=file_info['id']
                         ).execute()
                         if comment_response != "":
+                            self.logger.info(
+                                f"[GoogleDrive _remove_outdated_comments()] received comment response of"
+                                f" {comment_response}"
+                            )
                             self.logger.error(
                                 f"[GoogleDrive _remove_outdated_comments()] unable to delete outdated comment"
                                 f" on file {file_info['name']}"
