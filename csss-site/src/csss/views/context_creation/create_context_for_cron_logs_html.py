@@ -39,7 +39,7 @@ def create_context_for_cron_logs_html(context, error_messages=None, log_location
         files = [
             {
                 CRON_LOGS_FILE__HTML_NAME: f"{front_end_log_location}{log_file}/"
-                if os.path.isdir(f"{settings.LOG_LOCATION}{log_location}{log_file}") else f"{log_location}{log_file}",
+                if os.path.isdir(f"{settings.LOG_LOCATION}{log_location}{log_file}") else f"{front_end_log_location}{log_file}",
                 CRON_LOGS_SIZE__HTML_NAME: round(os.stat(f"{file_path}/{log_file}").st_size)
             }
             for log_file in os.listdir(file_path)
