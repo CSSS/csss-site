@@ -50,7 +50,7 @@ class Loggers:
             # ]
             # print(f"handler_file-first={handler_files[0]}")
             # print(f"handler_file-second={handler_files[1]}")
-            print("test")
+            # print("test")
             return cls.loggers[0]
         elif logger_name == settings.DJANGO_SETTINGS_LOG_HANDLER_NAME:
             return cls._add_logger(cls._add_settings_filehandler())
