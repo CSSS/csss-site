@@ -474,7 +474,7 @@ class GoogleDrive:
                     )
                     self.remove_public_link_gdrive(file['id'])
                 else:
-                    if set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']]) == 0:
+                    if len(set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']])) == 0:
                         # check to see if this particular file has not been link-share enabled or
                         # one of this particular file's parent folders have also not been link-share enabled
                         self.logger.info(
