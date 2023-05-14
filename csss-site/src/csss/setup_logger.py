@@ -9,15 +9,29 @@ from django.conf import settings
 
 from csss.CSSSLoggerHandlers import barrier_logging_level, CSSSDebugStreamHandler, CSSSErrorHandler
 
+date_timezone = pytz.timezone('US/Pacific')
+
+
+class PSTFormatter(logging.Formatter):
+    def __init__(self, fmt=None, datefmt=None, tz=None):
+        super(PSTFormatter, self).__init__(fmt, datefmt)
+        self.tz = tz
+
+    def formatTime(self, record, datefmt=None):
+        dt = datetime.datetime.fromtimestamp(record.created, self.tz)
+        if datefmt:
+            return dt.strftime(datefmt)
+        else:
+            return str(dt)
+
+
 REDIRECT_STD_STREAMS = True
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
-sys_stream_formatting = logging.Formatter(
-    '%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log
-)
-
-date_timezone = pytz.timezone('US/Pacific')
 modular_log_prefix = "cmd_"
+sys_stream_formatting = PSTFormatter(
+    '%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log, tz=date_timezone
+)
 
 
 class Loggers:
@@ -219,7 +233,7 @@ class Loggers:
         [
             os.remove(handler.baseFilename) for handler in logger.handlers
             if (type(handler) == logging.FileHandler) and os.path.exists(handler.baseFilename)
-            and (round(os.stat(handler.baseFilename).st_size) == 0)
+               and (round(os.stat(handler.baseFilename).st_size) == 0)
         ]
         cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
         cls.logger_list_indices = {}
