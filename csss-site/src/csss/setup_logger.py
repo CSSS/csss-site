@@ -17,7 +17,7 @@ class PSTFormatter(logging.Formatter):
         super(PSTFormatter, self).__init__(fmt, datefmt)
         self.tz = tz
 
-    def formatTime(self, record, datefmt=None):
+    def formatTime(self, record, datefmt=None):  # noqa: N802
         dt = datetime.datetime.fromtimestamp(record.created, self.tz)
         if datefmt:
             return dt.strftime(datefmt)
@@ -233,7 +233,7 @@ class Loggers:
         [
             os.remove(handler.baseFilename) for handler in logger.handlers
             if (type(handler) == logging.FileHandler) and os.path.exists(handler.baseFilename)
-               and (round(os.stat(handler.baseFilename).st_size) == 0)
+            and (round(os.stat(handler.baseFilename).st_size) == 0)
         ]
         cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
         cls.logger_list_indices = {}
