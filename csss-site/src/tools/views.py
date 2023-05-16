@@ -1,5 +1,5 @@
 import base64
-import datetime
+from datetime import datetime
 
 from django.shortcuts import render
 from django.http import HttpResponse
