@@ -475,3 +475,5 @@ logging.config.dictConfig({
         },
     }
 })
+
+print("settings.py finished")

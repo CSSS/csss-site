@@ -7,6 +7,7 @@ from about.management.commands.validate_discord_roles_members import SERVICE_NAM
 
 def run_job():
     if settings.ENVIRONMENT == "LOCALHOST":
-        Popen(['python', 'manage.py', f'{SERVICE_NAME}'])
+        process = Popen(['python', 'manage.py', f'{SERVICE_NAME}'])
     else:
-        Popen(['./about/cron_scripts/prod_validate_discord_roles_members.sh'])
+        process = Popen(['./about/cron_scripts/prod_validate_discord_roles_members.sh'])
+    process.wait()
