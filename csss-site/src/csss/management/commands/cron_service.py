@@ -2,7 +2,6 @@ import datetime
 import importlib
 from time import sleep
 
-import apscheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.core.management import BaseCommand
@@ -10,7 +9,7 @@ from django.core.management import BaseCommand
 from csss.models import CronJob
 from csss.setup_logger import Loggers, date_timezone
 from csss.views.crons.Constants import CRON_JOB_MAPPING, CRON_JOB_MAPPING_PATH_KEY
-from csss.views.time_converter import PACIFIC_TZ
+from csss.views.time_converter import TIME_ZONE
 
 CRON_SERVICE_NAME = "cron_service"
 
@@ -22,8 +21,7 @@ class Command(BaseCommand):
         logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
         logger.info("[Cron_Service_Command handle()] setting up cron service")
         date = datetime.datetime.now(date_timezone)
-        apscheduler.timezone = 5
-        scheduler = BackgroundScheduler({'apscheduler.timezone': PACIFIC_TZ})
+        scheduler = BackgroundScheduler()
         cron_jobs = [cron_job for cron_job in CronJob.objects.all() if cron_job.is_active]
         for cron_job in cron_jobs:
             logger.info(
@@ -33,7 +31,7 @@ class Command(BaseCommand):
             script_path = CRON_JOB_MAPPING[cron_job.job_name][CRON_JOB_MAPPING_PATH_KEY]
             job = scheduler.add_job(
                 importlib.import_module(f'{script_path}{cron_job.job_name}').run_job,
-                trigger=CronTrigger.from_crontab(cron_job.schedule)
+                trigger=CronTrigger.from_crontab(cron_job.schedule, timezone=TIME_ZONE)
             )
             cron_job.job_id = job.id
             cron_job.save()
