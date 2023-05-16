@@ -1,17 +1,17 @@
-import typing, io, os
+import typing
+import io
+import os
 
 from dataclasses import dataclass
 from datetime import datetime
 
-#from util import *
-
-from pypdf import PdfReader, PdfWriter, PdfReader
+from pypdf import PdfReader, PdfWriter
 from pypdf.generic import NameObject
 from reportlab.pdfgen import canvas
 
 # definitions:
 # - Cheque Requisison (or Cheque-Req for short) is a document that requests money from the sfss
-# - 
+# -
 
 # ------------------------
 # globals
@@ -27,13 +27,14 @@ tmp_dir = "tools/static/tmp/"
 # ------------------------
 # structs
 
-#NOTE: these are pretty much just C-style structs
+# NOTE: these are pretty much just C-style structs
 # TODO: have example values for all dataclasses
 
 @dataclass
 class Pickup:
-    pickup_by: str          
-    pickup_email: str   
+    pickup_by: str
+    pickup_email: str
+
 
 @dataclass
 class Mailed:
@@ -42,50 +43,61 @@ class Mailed:
     city_province: str
     postal_code: str
 
+
 @dataclass
 class CoreChequeReq:
     request_by: str
-    requester_position: str 
-    request_desc: str 
+    requester_position: str
+    request_desc: str
 
-    payable_to: str         
-    amount_cad: float       
-    receive_kind: typing.Union[Pickup, Mailed] 
+    payable_to: str
+    amount_cad: float
+    receive_kind: typing.Union[Pickup, Mailed]
 
-    current_date: datetime 
+    current_date: datetime
+
 
 @dataclass
 class ReceiptInfo:
-    paid_by: str 
-    location: str  
-    amount_cad: float 
+    paid_by: str
+    location: str
+    amount_cad: float
 
 # ------------------------
 # functions
 
+
 # generate cheque req from core
 # meeting_minutes: str is the prefix for the meeting minutes of the form: "yyyy-mm-dd"
-def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts: list[ReceiptInfo], include_auto_desc: bool = True, watermark_active: bool = True):
+def generate_core_cheque_req(
+    data: CoreChequeReq,
+        meeting_minutes: str,
+        receipts: list[ReceiptInfo],
+        include_auto_desc: bool = True,
+        watermark_active: bool = True):
+
     reader = PdfReader(cheque_req_form_pickup)
     assert len(reader.pages) == 1
 
     page = reader.pages[0]
-    
+
     # TODO: automatically generate a description given info about receipts
-    # TODO: automatically include attached meeting minutes in the cheque-req -> do a search; look for person's name & reciept costs
-    # TODO: in the web tool, have a link to this script's source, and an existing filled out form (or something like that)
+    # TODO: automatically include attached meeting minutes in the cheque-req
+    #       -> do a search; look for person's name & reciept costs
+    # TODO: in the web tool, have a link to this script's source, and an existing filled out form
+    #       (or something like that)
 
     relevant_fields = {
         'Today s Date': data.current_date.strftime("%B %#d, %Y"),
-        'Cheque Payable To print legibly': data.payable_to, 
-        'In The Amount Of': "${0:.2f}".format(data.amount_cad), 
-        'Describe the request andor provide additional information if necessary': data.request_desc, 
+        'Cheque Payable To print legibly': data.payable_to,
+        'In The Amount Of': "${0:.2f}".format(data.amount_cad),
+        'Describe the request andor provide additional information if necessary': data.request_desc,
 
-        'Requested By': data.request_by, 
+        'Requested By': data.request_by,
         'Position': data.requester_position,
     }
 
-    # contextual fields 
+    # contextual fields
     if isinstance(data.receive_kind, Pickup):
         relevant_fields['Picked up by'] = data.receive_kind.pickup_by
         relevant_fields['Email'] = data.receive_kind.pickup_email
@@ -93,7 +105,7 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
         relevant_fields['Street Address'] = data.receive_kind.street_address
         relevant_fields['City, Province'] = data.receive_kind.city_province
         relevant_fields['Postal Code'] = data.receive_kind.postal_code
-        
+
         # check boxes are not easy, so just update them in the reader's page
         found_check_box_1 = False
         found_check_box_3 = False
@@ -102,10 +114,10 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
                 annotation_obj = annotation.get_object()
                 annotation_type = annotation_obj['/T']
                 if annotation_type == "Check Box1":
-                    found_check_box_1 = True 
+                    found_check_box_1 = True
                 elif annotation_type == "Check Box3":
                     found_check_box_3 = True
-                
+
                 if annotation_type == "Check Box1" and data.receive_kind.mail_off_campus or \
                    annotation_type == "Check Box3" and not data.receive_kind.mail_off_campus:
                     annotation_obj.update({
@@ -114,7 +126,7 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
                     })
         else:
             raise KeyError("pdf has no checkboxes; something is wrong!")
-        
+
         if not found_check_box_1 or not found_check_box_3:
             raise KeyError("could not find checkboxes; pdf may be malformed")
     else:
@@ -125,7 +137,7 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
 
     fields = reader.get_form_text_fields()
     for key in relevant_fields.keys():
-        if not key in fields:
+        if key not in fields:
             raise KeyError("pdf form did not have necessary key")
 
     # ------------------------
@@ -136,15 +148,16 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
 
     c = canvas.Canvas(tmp_dir + "watermark.pdf")
     c.drawString(335, 702, "Computing Science Student Society")
-    if watermark_active: c.drawImage(small_text_logo, 429, 725, 848 / 6, 174 / 6)
+    if watermark_active:
+        c.drawImage(small_text_logo, 429, 725, 848 / 6, 174 / 6)
     c.save()
 
-    # NOTE: what happens when multiple requests come in at once? 
-    # I guess the file acts as a mutex & blocks one of the requests. This degraded performance is 
+    # NOTE: what happens when multiple requests come in at once?
+    # I guess the file acts as a mutex & blocks one of the requests. This degraded performance is
     # okay! We are using python anyways.
     csss_text_logo = PdfReader(open(tmp_dir + "watermark.pdf", "rb"))
     page.merge_page(csss_text_logo.pages[0])
-    
+
     writer = PdfWriter()
     writer.add_page(page)
     writer.update_page_form_field_values(writer.pages[0], relevant_fields)
@@ -156,23 +169,27 @@ def generate_core_cheque_req(data: CoreChequeReq, meeting_minutes: str, receipts
     print("len: {}".format(len(stream.getvalue())))
     return stream.getvalue()
 
+
 # generate cheque req from grant
 def generate_grant_cheque_req():
     pass
+
 
 # generate invoice
 def generate_invoice():
     pass
 
+
 # generate travel & conference funding request
 def generate_travel_conference_funding_req():
     pass
+
 
 # search through motions from the past n years for keywords
 def search_motions(keyword, threshold=0, nyears=2):
     # 1. fetch all the pdfs (report how that's going...)
     # pypdf to read stuff
-    
+
     # 2. parse them for text
     # TODO: check if pip install thefuzz[speedup] actually helps & by how much?
     # thefuzz to match text with keyword
@@ -180,23 +197,24 @@ def search_motions(keyword, threshold=0, nyears=2):
     # 3. return all matches over a certain similarity threshold
     pass
 
+
 # ------------------------
 # testing
 
 if __name__ == "__main__":
     cheque_req = CoreChequeReq(
-        request_by = "Gabe", 
-        requester_position = "Treasurer", 
-        request_desc = "Something shall be requested from core!", 
-        
-        payable_to = "payee", 
-        amount_cad = 10.00, 
-        #receive_kind = Pickup("picker upper", "pickup@email.com"), 
-        receive_kind = Mailed(True, "address", "city", "A2C4E6"), 
+        request_by="Gabe",
+        requester_position="Treasurer",
+        request_desc="Something shall be requested from core!",
 
-        current_date = datetime.now()
+        payable_to="payee",
+        amount_cad=10.00,
+        # receive_kind = Pickup("picker upper", "pickup@email.com"),
+        receive_kind=Mailed(True, "address", "city", "A2C4E6"),
+
+        current_date=datetime.now()
     )
-    
+
     print(cheque_req)
     pdf_bytes = generate_core_cheque_req(cheque_req, "2022-02-27", [])
 
