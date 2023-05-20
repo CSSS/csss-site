@@ -9,14 +9,9 @@ from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 
-from about.models import Officer
-from csss.Gmail import Gmail
 from csss.setup_logger import Loggers
-from csss.views.send_discord_dm import send_discord_dm
-from csss.views.send_email import send_email
 from csss.views_helper import get_current_date
-from resource_management.models import GoogleDriveFileAwaitingOwnershipChange, GoogleDriveRootFolderBadAccess
-
+from resource_management.models import GoogleDriveRootFolderBadAccess
 
 mime_type = [
     'application/vnd.google-apps.audio',
@@ -318,10 +313,8 @@ class GoogleDrive:
         # ]
         # MediaToBeMoved.objects.all().delete()
         self._ensure_root_permissions_are_correct(google_drive_perms)
-        files_to_email_owner_about = self._validate_individual_file_and_folder_ownership_and_permissions(
-            "CSSS", google_drive_perms
-        )
-        self._send_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
+        self._validate_individual_file_and_folder_ownership_and_permissions("CSSS", google_drive_perms)
+        # self._send_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
 
     def _ensure_root_permissions_are_correct(self, google_drive_perms):
         """Attempts to make sure that only officers [and other necessary individuals] have access to the CSSS root folder
@@ -355,9 +348,12 @@ class GoogleDrive:
             # first doing a check for the permissions to the root folder "CSSS"
             # once the new permissions have gone through, will check each individual file to make sure
             # there is nothing else that has access that should not have it.
-            gdrive_users_with_access_to_root_folder = [
-                permission['emailAddress'].lower() for permission in response['permissions']
-            ]
+            gdrive_users_with_access_to_root_folder = []
+            if 'permissions' in response:
+                gdrive_users_with_access_to_root_folder = [
+                    permission['emailAddress'].lower() for permission in response['permissions']
+                ]
+
             self.logger.info("[GoogleDrive _ensure_root_permissions_are_correct()] current root permissions are: ")
             self.logger.info(json.dumps(gdrive_users_with_access_to_root_folder, indent=3))
             for gdrive_user in gdrive_users_with_access_to_root_folder:
@@ -533,83 +529,83 @@ class GoogleDrive:
         Return
         folder_to_change -- the current dictionary of the folders whose ownership needs to be changed
         """
-        valid_ownership_for_file = self._owner_of_folder_is_correct(file)
-        self.logger.debug(
-            "[GoogleDrive _validate_owner_for_file()] file/folder "
-            f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
-            f"will {'not ' if valid_ownership_for_file else ''}have its owner be alerted."
-        )
-        if not valid_ownership_for_file:
-            google_drive_file = GoogleDriveFileAwaitingOwnershipChange.objects.all().filter(
-                file_id=file['id']
-            ).first()
-            parent_folder_link = (
-                self.gdrive.files().get(
-                    fileId=file['parents'][0], fields='webViewLink', supportsAllDrives=True
-                ).execute()[
-                    'webViewLink']
-            )
-            if google_drive_file is None:
-                google_drive_file = GoogleDriveFileAwaitingOwnershipChange(
-                    file_id=file['id'], file_name=file['name'], file_path=parent_folder,
-                    parent_folder_link=parent_folder_link,
-                    file_owner=file['owners'][0]['emailAddress'],
-                )
-            google_drive_file.number_of_nags += 1
-            google_drive_file.latest_date_check = self.latest_date_check
-            google_drive_file.save()
-            self.logger.info(
-                "[GoogleDrive _validate_owner_for_file()] file/folder "
-                f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
-                f"will have its owner be alerted."
-            )
-            file_is_form_or_folder = (
-                self._file_is_gdrive_form(file) or
-                self._determine_if_file_info_belongs_to_gdrive_folder(file)
-            )
-            if self._file_is_gdrive_file(file) and not file_is_form_or_folder:
-                self.logger.info(
-                    "[GoogleDrive _validate_owner_for_file()] file "
-                    f"{file['name']} determined to be a regular google drive file that is not a form"
-                )
-                self._alert_user_to_change_owner(file)
-            else:
-                file_name = file['name']
-                self.logger.info(
-                    f"[GoogleDrive _validate_owner_for_file()] google drive file {file_name} "
-                    "determined to be a folder or form"
-                )
-                for owner in file['owners']:
-                    owner_email = owner['emailAddress'].lower()
-                    self.logger.info(
-                        f"[GoogleDrive _validate_owner_for_file()] adding {owner_email} "
-                        f"to the list of people who need to be alerted about changing "
-                        f"ownership for folder or form {file_name}"
-                    )
-                    if owner_email in files_to_email_owner_about:
-                        files_to_email_owner_about[owner_email]['file_infos'].append(
-                            {
-                                'file_name': file_name,
-                                "containing_folder_link": parent_folder_link
-                            }
-                        )
-                    else:
-                        files_to_email_owner_about[owner_email] = {
-                            'full_name': owner['displayName'],
-                            'file_infos': [{
-                                'file_name': file_name,
-                                "containing_folder_link": parent_folder_link
-                            }]
-                        }
-                    if not self._determine_if_file_info_belongs_to_gdrive_folder(file):
-                        self.logger.info(
-                            "[GoogleDrive _validate_owner_for_file()] file "
-                            f"{file['name']} determined to probably be an uploaded file or google drive form"
-                        )
-                        if self._duplicate_file(file):
-                            self._alert_user_to_delete_file(file, files_to_email_owner_about, owner_email, owner)
-        elif not self._file_is_gdrive_form(file):
-            self._remove_outdated_comments(file)
+        # valid_ownership_for_file = self._owner_of_folder_is_correct(file)
+        # self.logger.debug(
+        #     "[GoogleDrive _validate_owner_for_file()] file/folder "
+        #     f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
+        #     f"will {'not ' if valid_ownership_for_file else ''}have its owner be alerted."
+        # )
+        # if not valid_ownership_for_file:
+        #     google_drive_file = GoogleDriveFileAwaitingOwnershipChange.objects.all().filter(
+        #         file_id=file['id']
+        #     ).first()
+        #     parent_folder_link = (
+        #         self.gdrive.files().get(
+        #             fileId=file['parents'][0], fields='webViewLink', supportsAllDrives=True
+        #         ).execute()[
+        #             'webViewLink']
+        #     )
+        #     if google_drive_file is None:
+        #         google_drive_file = GoogleDriveFileAwaitingOwnershipChange(
+        #             file_id=file['id'], file_name=file['name'], file_path=parent_folder,
+        #             parent_folder_link=parent_folder_link,
+        #             file_owner=file['owners'][0]['emailAddress'],
+        #         )
+        #     google_drive_file.number_of_nags += 1
+        #     google_drive_file.latest_date_check = self.latest_date_check
+        #     google_drive_file.save()
+        #     self.logger.info(
+        #         "[GoogleDrive _validate_owner_for_file()] file/folder "
+        #         f"{file['name']} of type {file['mimeType']} with owner {file['owners'][0]['emailAddress'].lower()} "
+        #         f"will have its owner be alerted."
+        #     )
+        #     file_is_form_or_folder = (
+        #         self._file_is_gdrive_form(file) or
+        #         self._determine_if_file_info_belongs_to_gdrive_folder(file)
+        #     )
+        #     if self._file_is_gdrive_file(file) and not file_is_form_or_folder:
+        #         self.logger.info(
+        #             "[GoogleDrive _validate_owner_for_file()] file "
+        #             f"{file['name']} determined to be a regular google drive file that is not a form"
+        #         )
+        #         self._alert_user_to_change_owner(file)
+        #     else:
+        #         file_name = file['name']
+        #         self.logger.info(
+        #             f"[GoogleDrive _validate_owner_for_file()] google drive file {file_name} "
+        #             "determined to be a folder or form"
+        #         )
+        #         for owner in file['owners']:
+        #             owner_email = owner['emailAddress'].lower()
+        #             self.logger.info(
+        #                 f"[GoogleDrive _validate_owner_for_file()] adding {owner_email} "
+        #                 f"to the list of people who need to be alerted about changing "
+        #                 f"ownership for folder or form {file_name}"
+        #             )
+        #             if owner_email in files_to_email_owner_about:
+        #                 files_to_email_owner_about[owner_email]['file_infos'].append(
+        #                     {
+        #                         'file_name': file_name,
+        #                         "containing_folder_link": parent_folder_link
+        #                     }
+        #                 )
+        #             else:
+        #                 files_to_email_owner_about[owner_email] = {
+        #                     'full_name': owner['displayName'],
+        #                     'file_infos': [{
+        #                         'file_name': file_name,
+        #                         "containing_folder_link": parent_folder_link
+        #                     }]
+        #                 }
+        #             if not self._determine_if_file_info_belongs_to_gdrive_folder(file):
+        #                 self.logger.info(
+        #                     "[GoogleDrive _validate_owner_for_file()] file "
+        #                     f"{file['name']} determined to probably be an uploaded file or google drive form"
+        #                 )
+        #                 if self._duplicate_file(file):
+        #                     self._alert_user_to_delete_file(file, files_to_email_owner_about, owner_email, owner)
+        # elif not self._file_is_gdrive_form(file):
+        #     self._remove_outdated_comments(file)
         if self._determine_if_file_info_belongs_to_gdrive_folder(file):
             # this is a folder so we have to check to see if any of its files have a bad permission set
             return self._validate_individual_file_and_folder_ownership_and_permissions(
@@ -619,22 +615,22 @@ class GoogleDrive:
             )
         return files_to_email_owner_about
 
-    def _determine_if_file_id_belongs_to_gdrive_folder(self, file_id):
-        """
-        determines if the google drive file type is a folder
-
-        Keyword Argument
-        file_info -- the id for the file whose type needs to be checked
-
-        Return
-        Bool -- true or false to indicate if the file is a folder
-        """
-        file_info = self.gdrive.files().get(
-            fields='*',
-            fileId=file_id,
-            supportsAllDrives=True
-        ).execute()
-        return self._determine_if_file_info_belongs_to_gdrive_folder(file_info)
+    # def _determine_if_file_id_belongs_to_gdrive_folder(self, file_id):
+    #     """
+    #     determines if the google drive file type is a folder
+    #
+    #     Keyword Argument
+    #     file_info -- the id for the file whose type needs to be checked
+    #
+    #     Return
+    #     Bool -- true or false to indicate if the file is a folder
+    #     """
+    #     file_info = self.gdrive.files().get(
+    #         fields='*',
+    #         fileId=file_id,
+    #         supportsAllDrives=True
+    #     ).execute()
+    #     return self._determine_if_file_info_belongs_to_gdrive_folder(file_info)
 
     def _determine_if_file_info_belongs_to_gdrive_folder(self, file_info):
         """
@@ -658,327 +654,327 @@ class GoogleDrive:
             )
         return 'mimeType' in file_info and file_info['mimeType'] == 'application/vnd.google-apps.folder'
 
-    def _owner_of_folder_is_correct(self, file_info):
-        """
-        determines if the owner of the google drive folder is correct
+    # def _owner_of_folder_is_correct(self, file_info):
+    #     """
+    #     determines if the owner of the google drive folder is correct
+    #
+    #     Keyword Argument
+    #     file_info -- the info for the file whose type needs to be checked
+    #
+    #     Return
+    #     Bool -- true or false to indicate if the folder is owned by sfucsss or not
+    #     """
+    #     file_ownership = 'ownedByMe' in file_info and file_info['ownedByMe']
+    #     if 'ownedByMe' in file_info:
+    #         self.logger.info(
+    #             f"[GoogleDrive _owner_of_folder_is_correct()] "
+    #             f"file is {'' if file_ownership else 'not '}owned by sfucsss@gmail.com"
+    #         )
+    #     else:
+    #         self.logger.error(
+    #             "[GoogleDrive _owner_of_folder_is_correct()] "
+    #             f"unable to find key 'ownedByMe' for file {file_info['name']}"
+    #         )
+    #     return file_ownership
 
-        Keyword Argument
-        file_info -- the info for the file whose type needs to be checked
+    # def _file_is_gdrive_file(self, file_info):
+    #     """
+    #     determine if the file is a goggle-app type that can be commented on
+    #
+    #     Keyword Argument
+    #     file_info -- the info for the file whose type needs to be checked
+    #
+    #     Return
+    #     Bool -- true or false to indicate if the file is of google-app type that can be commented on
+    #     """
+    #     file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType'] and \
+    #                 file_info['mimeType'] != "application/vnd.google-apps.form"
+    #     if 'mimeType' in file_info:
+    #         self.logger.info(
+    #             f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+    #             f"is {file_info['mimeType']}"
+    #         )
+    #     else:
+    #         self.logger.error(
+    #             "[GoogleDrive _file_is_gdrive_file()] "
+    #             f"unable to find key 'mimeType' for file {file_info['name']}"
+    #         )
+    #     return file_type
 
-        Return
-        Bool -- true or false to indicate if the folder is owned by sfucsss or not
-        """
-        file_ownership = 'ownedByMe' in file_info and file_info['ownedByMe']
-        if 'ownedByMe' in file_info:
-            self.logger.info(
-                f"[GoogleDrive _owner_of_folder_is_correct()] "
-                f"file is {'' if file_ownership else 'not '}owned by sfucsss@gmail.com"
-            )
-        else:
-            self.logger.error(
-                "[GoogleDrive _owner_of_folder_is_correct()] "
-                f"unable to find key 'ownedByMe' for file {file_info['name']}"
-            )
-        return file_ownership
+    # def _file_is_gdrive_form(self, file_info):
+    #     """
+    #     determine if the file is a goggle form
+    #
+    #     Keyword Argument
+    #     file_info -- the info for the file whose type needs to be checked
+    #
+    #     Return
+    #     Bool -- true or false to indicate if the file is a google form
+    #     """
+    #     file_type = 'mimeType' in file_info and file_info['mimeType'] == "application/vnd.google-apps.form"
+    #     if 'mimeType' in file_info:
+    #         self.logger.info(
+    #             f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
+    #             f"is {file_info['mimeType']}"
+    #         )
+    #     else:
+    #         self.logger.error(
+    #             "[GoogleDrive _file_is_gdrive_file()] "
+    #             f"unable to find key 'mimeType' for file {file_info['name']}"
+    #         )
+    #     return file_type
 
-    def _file_is_gdrive_file(self, file_info):
-        """
-        determine if the file is a goggle-app type that can be commented on
+    # def _alert_user_to_change_owner(self, file_info):
+    #     """
+    #     adds a comment to the file to alert the owner that they need to change the owner of the google drive file
+    #
+    #     Keyword Argument
+    #     file_info -- the file that needs to have the comment added to it
+    #     """
+    #     try:
+    #         body = {'content': (
+    #             "Please change owner of this file to sfucsss@gmail.com.\nInstructions for doing so can be found"
+    #             " here: https://github.com/CSSS/managingCSSSResources"
+    #         )}
+    #         self.logger.info(
+    #             "[GoogleDrive _alert_user_to_change_owner()] attempting to add a comment added "
+    #             f"to file {file_info['name']}"
+    #         )
+    #         if self.make_changes:
+    #             response = self.gdrive.comments().create(
+    #                 fileId=file_info['id'], fields="*", body=body, supportsAllDrives=True
+    #             ).execute()
+    #             if response['content'] == body['content']:
+    #                 self.logger.info(
+    #                     f"[GoogleDrive _alert_user_to_change_owner()] "
+    #                     f"comment added to file {file_info['name']}"
+    #                 )
+    #             else:
+    #                 self.logger.error(
+    #                     "[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
+    #                     f" to file {file_info['name']}"
+    #                 )
+    #     except Exception as e:
+    #         self.logger.error(
+    #             f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
+    #             f"of type {file_info['mimeType']} due to following error.\n{e}"
+    #         )
 
-        Keyword Argument
-        file_info -- the info for the file whose type needs to be checked
+    # def _remove_outdated_comments(self, file_info):
+    #     """
+    #     removes any comments made by sfucsss@gmail.com from any files whose permissions has been successfully
+    #      transferred over to sfucsss@gmail.com
+    #
+    #     Keyword Argument
+    #     file_info -- the file that needs to have its comments deleted
+    #     """
+    #     try:
+    #         self.logger.info(
+    #             "[GoogleDrive _remove_outdated_comments()] attempting to remove any comments that "
+    #             f"sfucsss@gmail.com made on file {file_info['name']}"
+    #         )
+    #         response = self.gdrive.comments().list(
+    #             fileId=file_info['id'], fields="*", supportsAllDrives=True
+    #         ).execute()
+    #         self.logger.info("[GoogleDrive _remove_outdated_comments()] received response from google drive API ")
+    #         for comment in response['comments']:
+    #             self.logger.info(f"[GoogleDrive _remove_outdated_comments()] iterating though comment {comment}")
+    #             if comment['author']['me']:
+    #                 if self.make_changes:
+    #                     comment_response = self.gdrive.comments().delete(
+    #                         commentId=comment['id'], fileId=file_info['id'],
+    #                         supportsAllDrives=True
+    #                     ).execute()
+    #                     if comment_response != "":
+    #                         self.logger.info(
+    #                             f"[GoogleDrive _remove_outdated_comments()] received comment response of"
+    #                             f" {comment_response}"
+    #                         )
+    #                         self.logger.error(
+    #                             f"[GoogleDrive _remove_outdated_comments()] unable to delete outdated comment"
+    #                             f" on file {file_info['name']}"
+    #                         )
+    #     except Exception as e:
+    #         self.logger.error(
+    #             f"[GoogleDrive _remove_outdated_comments()] unable to remove comments on file {file_info['name']} "
+    #             f"of type {file_info['mimeType']} due to following error.\n{e}"
+    #         )
 
-        Return
-        Bool -- true or false to indicate if the file is of google-app type that can be commented on
-        """
-        file_type = 'mimeType' in file_info and 'google-apps' in file_info['mimeType'] and \
-                    file_info['mimeType'] != "application/vnd.google-apps.form"
-        if 'mimeType' in file_info:
-            self.logger.info(
-                f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
-                f"is {file_info['mimeType']}"
-            )
-        else:
-            self.logger.error(
-                "[GoogleDrive _file_is_gdrive_file()] "
-                f"unable to find key 'mimeType' for file {file_info['name']}"
-            )
-        return file_type
+    # def _duplicate_file(self, file_info):
+    #     """
+    #     Duplicates a non-google native document and renames the original to indicate it should no longer
+    #     be used
+    #
+    #     Keyword Arguments:
+    #     file_info -- the file_info for the file that needs to be duplicated
+    #
+    #     Return
+    #     Bool -- true or false to indicate if the file was successfully duplicated
+    #     """
+    #     try:
+    #         if file_info['name'] != 'DO_NOT_USE__DELETE_FILE':
+    #             self.logger.info(
+    #                 f"[GoogleDrive _duplicate_file()] "
+    #                 f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
+    #             if self.make_changes:
+    #                 self.gdrive.files().copy(
+    #                     fileId=file_info['id'],
+    #                     fields='*',
+    #                     body={'name': file_info['name']},
+    #                     supportsAllDrives=True
+    #                 ).execute()
+    #             self.logger.info(
+    #                 f"[GoogleDrive _duplicate_file()] "
+    #                 f"file {file_info['name']} with id {file_info['id']} successfully duplicated")
+    #             body = {'name': 'DO_NOT_USE__DELETE_FILE'}
+    #             self.logger.info(
+    #                 f"[GoogleDrive _duplicate_file()]  attempting to set the body "
+    #                 f"for file {file_info['name']} with id {file_info['id']} to {body}")
+    #             if self.make_changes:
+    #                 self.gdrive.files().update(fileId=file_info['id'], body=body, supportsAllDrives=True).execute()
+    #             self.logger.info(
+    #                 f"[GoogleDrive _duplicate_file()] "
+    #                 f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
+    #         return True
+    #     except Exception as e:
+    #         self.logger.error(
+    #             f"[GoogleDrive _duplicate_file()] "
+    #             f"unable to duplicate the file due to following error.\n{e}"
+    #         )
+    #         return False
 
-    def _file_is_gdrive_form(self, file_info):
-        """
-        determine if the file is a goggle form
+    # def _alert_user_to_delete_file(self, file_info, files_to_email_owner_about, owner_email, owner):
+    #     """
+    #     alert the owner of a file via a comment that its needs to be deleted
+    #
+    #     Keyword Argument
+    #     file_info -- the info for the file that needs to be deleted
+    #     files_to_email_owner_about -- a dictionary of the files whose owners need to be informed
+    #         that their permission needs to be updated
+    #     owner_email -- the email address for the current owner of the file
+    #     owner -- the info of the current owner of the file
+    #     """
+    #     try:
+    #         parent_folder_link = (
+    #             self.gdrive.files().get(
+    #                 fileId=file_info['parents'][0], fields='webViewLink', supportsAllDrives=True
+    #             ).execute()[
+    #                 'webViewLink']
+    #         )
+    #         files_to_email_owner_about[owner_email] = {
+    #             'full_name': owner['displayName'],
+    #             'file_infos': [{
+    #                 'file_name': file_info['name'],
+    #                 "containing_folder_link": parent_folder_link
+    #             }]
+    #         }
+    #     except Exception as e:
+    #         self.logger.error(
+    #             f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
+    #             f"of type {file_info['mimeType']} due to following error.\n{e}"
+    #         )
 
-        Keyword Argument
-        file_info -- the info for the file whose type needs to be checked
-
-        Return
-        Bool -- true or false to indicate if the file is a google form
-        """
-        file_type = 'mimeType' in file_info and file_info['mimeType'] == "application/vnd.google-apps.form"
-        if 'mimeType' in file_info:
-            self.logger.info(
-                f"[GoogleDrive _file_is_gdrive_file()] file type for file {file_info['name']} "
-                f"is {file_info['mimeType']}"
-            )
-        else:
-            self.logger.error(
-                "[GoogleDrive _file_is_gdrive_file()] "
-                f"unable to find key 'mimeType' for file {file_info['name']}"
-            )
-        return file_type
-
-    def _alert_user_to_change_owner(self, file_info):
-        """
-        adds a comment to the file to alert the owner that they need to change the owner of the google drive file
-
-        Keyword Argument
-        file_info -- the file that needs to have the comment added to it
-        """
-        try:
-            body = {'content': (
-                "Please change owner of this file to sfucsss@gmail.com.\nInstructions for doing so can be found"
-                " here: https://github.com/CSSS/managingCSSSResources"
-            )}
-            self.logger.info(
-                "[GoogleDrive _alert_user_to_change_owner()] attempting to add a comment added "
-                f"to file {file_info['name']}"
-            )
-            if self.make_changes:
-                response = self.gdrive.comments().create(
-                    fileId=file_info['id'], fields="*", body=body, supportsAllDrives=True
-                ).execute()
-                if response['content'] == body['content']:
-                    self.logger.info(
-                        f"[GoogleDrive _alert_user_to_change_owner()] "
-                        f"comment added to file {file_info['name']}"
-                    )
-                else:
-                    self.logger.error(
-                        "[GoogleDrive _alert_user_to_change_owner()] unable to add comment"
-                        f" to file {file_info['name']}"
-                    )
-        except Exception as e:
-            self.logger.error(
-                f"[GoogleDrive _alert_user_to_change_owner()] unable to add comment to file {file_info['name']} "
-                f"of type {file_info['mimeType']} due to following error.\n{e}"
-            )
-
-    def _remove_outdated_comments(self, file_info):
-        """
-        removes any comments made by sfucsss@gmail.com from any files whose permissions has been successfully
-         transferred over to sfucsss@gmail.com
-
-        Keyword Argument
-        file_info -- the file that needs to have its comments deleted
-        """
-        try:
-            self.logger.info(
-                "[GoogleDrive _remove_outdated_comments()] attempting to remove any comments that "
-                f"sfucsss@gmail.com made on file {file_info['name']}"
-            )
-            response = self.gdrive.comments().list(
-                fileId=file_info['id'], fields="*", supportsAllDrives=True
-            ).execute()
-            self.logger.info("[GoogleDrive _remove_outdated_comments()] received response from google drive API ")
-            for comment in response['comments']:
-                self.logger.info(f"[GoogleDrive _remove_outdated_comments()] iterating though comment {comment}")
-                if comment['author']['me']:
-                    if self.make_changes:
-                        comment_response = self.gdrive.comments().delete(
-                            commentId=comment['id'], fileId=file_info['id'],
-                            supportsAllDrives=True
-                        ).execute()
-                        if comment_response != "":
-                            self.logger.info(
-                                f"[GoogleDrive _remove_outdated_comments()] received comment response of"
-                                f" {comment_response}"
-                            )
-                            self.logger.error(
-                                f"[GoogleDrive _remove_outdated_comments()] unable to delete outdated comment"
-                                f" on file {file_info['name']}"
-                            )
-        except Exception as e:
-            self.logger.error(
-                f"[GoogleDrive _remove_outdated_comments()] unable to remove comments on file {file_info['name']} "
-                f"of type {file_info['mimeType']} due to following error.\n{e}"
-            )
-
-    def _duplicate_file(self, file_info):
-        """
-        Duplicates a non-google native document and renames the original to indicate it should no longer
-        be used
-
-        Keyword Arguments:
-        file_info -- the file_info for the file that needs to be duplicated
-
-        Return
-        Bool -- true or false to indicate if the file was successfully duplicated
-        """
-        try:
-            if file_info['name'] != 'DO_NOT_USE__DELETE_FILE':
-                self.logger.info(
-                    f"[GoogleDrive _duplicate_file()] "
-                    f"attempting to duplicate file {file_info['name']} with id {file_info['id']}")
-                if self.make_changes:
-                    self.gdrive.files().copy(
-                        fileId=file_info['id'],
-                        fields='*',
-                        body={'name': file_info['name']},
-                        supportsAllDrives=True
-                    ).execute()
-                self.logger.info(
-                    f"[GoogleDrive _duplicate_file()] "
-                    f"file {file_info['name']} with id {file_info['id']} successfully duplicated")
-                body = {'name': 'DO_NOT_USE__DELETE_FILE'}
-                self.logger.info(
-                    f"[GoogleDrive _duplicate_file()]  attempting to set the body "
-                    f"for file {file_info['name']} with id {file_info['id']} to {body}")
-                if self.make_changes:
-                    self.gdrive.files().update(fileId=file_info['id'], body=body, supportsAllDrives=True).execute()
-                self.logger.info(
-                    f"[GoogleDrive _duplicate_file()] "
-                    f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
-            return True
-        except Exception as e:
-            self.logger.error(
-                f"[GoogleDrive _duplicate_file()] "
-                f"unable to duplicate the file due to following error.\n{e}"
-            )
-            return False
-
-    def _alert_user_to_delete_file(self, file_info, files_to_email_owner_about, owner_email, owner):
-        """
-        alert the owner of a file via a comment that its needs to be deleted
-
-        Keyword Argument
-        file_info -- the info for the file that needs to be deleted
-        files_to_email_owner_about -- a dictionary of the files whose owners need to be informed
-            that their permission needs to be updated
-        owner_email -- the email address for the current owner of the file
-        owner -- the info of the current owner of the file
-        """
-        try:
-            parent_folder_link = (
-                self.gdrive.files().get(
-                    fileId=file_info['parents'][0], fields='webViewLink', supportsAllDrives=True
-                ).execute()[
-                    'webViewLink']
-            )
-            files_to_email_owner_about[owner_email] = {
-                'full_name': owner['displayName'],
-                'file_infos': [{
-                    'file_name': file_info['name'],
-                    "containing_folder_link": parent_folder_link
-                }]
-            }
-        except Exception as e:
-            self.logger.error(
-                f"[GoogleDrive _alert_user_to_delete_file()] unable to add comment to file {file_info['name']} "
-                f"of type {file_info['mimeType']} due to following error.\n{e}"
-            )
-
-    def _send_notifications_for_files_with_incorrect_ownership(self, files_to_email_owner_about):
-        """
-        will email all the relevant owners of the folders that they are owners of that need to have
-        their ownership changed
-
-        Keyword Argument
-        files_to_email_owner_about -- a dictionary that contains a list of all the emails and their corresponding
-            files that they need to be made aware of that have to have their ownership changed
-        """
-        self.logger.info(
-            "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
-            " to setup connection to gmail server"
-        )
-        subject = "UPDATED_LINKS MATEY!!! SFU CSSS Google Drive Folder ownership change"
-        body_template = (
-            "Please change owner of the following folders and forms to sfucsss@gmail.com.\n"
-            "Instructions for doing so can be "
-            "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
-            "to be changed:\n"
-        )
-        officers = Officer.objects.all()
-        gmail = Gmail()
-        self.logger.info(
-            "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
-            "files_to_email_owner_about="
-        )
-        self.logger.info(json.dumps(files_to_email_owner_about, indent=3))
-        for to_email in files_to_email_owner_about:
-            body = body_template + "".join(
-                [
-                    f"{file['file_name']} : {file['containing_folder_link']}\n" for file in
-                    files_to_email_owner_about[to_email]['file_infos']
-                ]
-            )
-            files_names = [file['file_name'] for file in files_to_email_owner_about[to_email]['file_infos']]
-            to_name = files_to_email_owner_about[to_email]['full_name']
-            self.logger.info(
-                "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
-                f"send email to {to_email} about files {files_names}"
-            )
-            self.logger.info(
-                "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
-                f"retrieving officer with gmail [{to_email}]"
-            )
-            officer = officers.filter(gmail=to_email).order_by('-start_date').first()
-            self.logger.info(
-                "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] officer is "
-                f"{'' if officer is None else 'not '}None"
-            )
-            if officer is not None:
-                # send_email(
-                #     subject, body, f"{officer.sfu_computing_id}@sfu.ca", officer.full_name, gmail=gmail
-                # )
-                send_discord_dm(officer.discord_id, subject, body)
-            if self.make_changes:
-                send_email(subject, body, to_email, to_name, gmail=gmail)
-
-        pending_ownership_changes = GoogleDriveFileAwaitingOwnershipChange.objects.all()
-        pending_ownership_changes.filter(latest_date_check__lt=self.latest_date_check).delete()
-        pending_ownership_changes = pending_ownership_changes.filter(
-            number_of_nags__gte=6
-        ).order_by('file_owner')
-        overall_body = ""
-        if len(pending_ownership_changes) > 1:
-            overall_body += "Pending Ownership Changes\n\n"
-        users_added_so_far = []
-        for pending_ownership_change in pending_ownership_changes:
-            if pending_ownership_change.file_owner not in users_added_so_far:
-                overall_body += f"Owner: {pending_ownership_change.file_owner}:\n"
-                users_added_so_far.append(pending_ownership_change.file_owner)
-            overall_body += (
-                f"\tFile: {pending_ownership_change.file_path}/{pending_ownership_change.file_name}\n"
-                f"\tFolder Link: {pending_ownership_change.parent_folder_link}\n"
-                f"\tNumber of Nags: {pending_ownership_change.number_of_nags}\n"
-            )
-
-        pending_bad_accesses = GoogleDriveRootFolderBadAccess.objects.all()
-        pending_bad_accesses.filter(latest_date_check__lt=self.latest_date_check).delete()
-        pending_bad_accesses = GoogleDriveRootFolderBadAccess.objects.all().filter(
-            number_of_nags__gte=6
-        ).order_by('user')
-        if len(pending_bad_accesses) > 1:
-            overall_body += "\nPending Bad Access\n\n"
-        users_added_so_far = []
-        for pending_bad_access in pending_bad_accesses:
-            if pending_bad_access.user not in users_added_so_far:
-                overall_body += f"User: {pending_bad_access.user}:\n"
-                users_added_so_far.append(pending_bad_access.user)
-            overall_body += (
-                f"\tFileID: {pending_bad_access.file_id} && Number of Nags: {pending_bad_access.number_of_nags}\n"
-            )
-        if len(overall_body) > 0:
-            send_email(
-                subject,
-                "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
-                "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=self.logger.handlers[1].baseFilename
-            )
-        # if len(MediaToBeMoved.objects.all()) > 0:
-        #    send_email(
-        #        "Media has been upload to the Google Drive that has to be moved",
-        #        "http://sfucsss.org/resource_management/media_to_be_moved\n\n",
-        #        "csss-sysadmin@sfu.ca", "jace", gmail=gmail
-        #    )
-        gmail.close_connection()
+    # def _send_notifications_for_files_with_incorrect_ownership(self, files_to_email_owner_about):
+    #     """
+    #     will email all the relevant owners of the folders that they are owners of that need to have
+    #     their ownership changed
+    #
+    #     Keyword Argument
+    #     files_to_email_owner_about -- a dictionary that contains a list of all the emails and their corresponding
+    #         files that they need to be made aware of that have to have their ownership changed
+    #     """
+    #     self.logger.info(
+    #         "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting"
+    #         " to setup connection to gmail server"
+    #     )
+    #     subject = "UPDATED_LINKS MATEY!!! SFU CSSS Google Drive Folder ownership change"
+    #     body_template = (
+    #         "Please change owner of the following folders and forms to sfucsss@gmail.com.\n"
+    #         "Instructions for doing so can be "
+    #         "found  here: https://github.com/CSSS/managingCSSSResources\n\nFolders whose ownership needs "
+    #         "to be changed:\n"
+    #     )
+    #     officers = Officer.objects.all()
+    #     gmail = Gmail()
+    #     self.logger.info(
+    #         "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
+    #         "files_to_email_owner_about="
+    #     )
+    #     self.logger.info(json.dumps(files_to_email_owner_about, indent=3))
+    #     for to_email in files_to_email_owner_about:
+    #         body = body_template + "".join(
+    #             [
+    #                 f"{file['file_name']} : {file['containing_folder_link']}\n" for file in
+    #                 files_to_email_owner_about[to_email]['file_infos']
+    #             ]
+    #         )
+    #         files_names = [file['file_name'] for file in files_to_email_owner_about[to_email]['file_infos']]
+    #         to_name = files_to_email_owner_about[to_email]['full_name']
+    #         self.logger.info(
+    #             "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] attempting to "
+    #             f"send email to {to_email} about files {files_names}"
+    #         )
+    #         self.logger.info(
+    #             "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] "
+    #             f"retrieving officer with gmail [{to_email}]"
+    #         )
+    #         officer = officers.filter(gmail=to_email).order_by('-start_date').first()
+    #         self.logger.info(
+    #             "[GoogleDrive _send_email_notifications_for_files_with_incorrect_ownership()] officer is "
+    #             f"{'' if officer is None else 'not '}None"
+    #         )
+    #         if officer is not None:
+    #             # send_email(
+    #             #     subject, body, f"{officer.sfu_computing_id}@sfu.ca", officer.full_name, gmail=gmail
+    #             # )
+    #             send_discord_dm(officer.discord_id, subject, body)
+    #         if self.make_changes:
+    #             send_email(subject, body, to_email, to_name, gmail=gmail)
+    #
+    #     pending_ownership_changes = GoogleDriveFileAwaitingOwnershipChange.objects.all()
+    #     pending_ownership_changes.filter(latest_date_check__lt=self.latest_date_check).delete()
+    #     pending_ownership_changes = pending_ownership_changes.filter(
+    #         number_of_nags__gte=6
+    #     ).order_by('file_owner')
+    #     overall_body = ""
+    #     if len(pending_ownership_changes) > 1:
+    #         overall_body += "Pending Ownership Changes\n\n"
+    #     users_added_so_far = []
+    #     for pending_ownership_change in pending_ownership_changes:
+    #         if pending_ownership_change.file_owner not in users_added_so_far:
+    #             overall_body += f"Owner: {pending_ownership_change.file_owner}:\n"
+    #             users_added_so_far.append(pending_ownership_change.file_owner)
+    #         overall_body += (
+    #             f"\tFile: {pending_ownership_change.file_path}/{pending_ownership_change.file_name}\n"
+    #             f"\tFolder Link: {pending_ownership_change.parent_folder_link}\n"
+    #             f"\tNumber of Nags: {pending_ownership_change.number_of_nags}\n"
+    #         )
+    #
+    #     pending_bad_accesses = GoogleDriveRootFolderBadAccess.objects.all()
+    #     pending_bad_accesses.filter(latest_date_check__lt=self.latest_date_check).delete()
+    #     pending_bad_accesses = GoogleDriveRootFolderBadAccess.objects.all().filter(
+    #         number_of_nags__gte=6
+    #     ).order_by('user')
+    #     if len(pending_bad_accesses) > 1:
+    #         overall_body += "\nPending Bad Access\n\n"
+    #     users_added_so_far = []
+    #     for pending_bad_access in pending_bad_accesses:
+    #         if pending_bad_access.user not in users_added_so_far:
+    #             overall_body += f"User: {pending_bad_access.user}:\n"
+    #             users_added_so_far.append(pending_bad_access.user)
+    #         overall_body += (
+    #             f"\tFileID: {pending_bad_access.file_id} && Number of Nags: {pending_bad_access.number_of_nags}\n"
+    #         )
+    #     if len(overall_body) > 0:
+    #         send_email(
+    #             subject,
+    #             "http://sfucsss.org/resource_management/nags\n\n" + overall_body,
+    #             "csss-sysadmin@sfu.ca", "jace", gmail=gmail, attachment=self.logger.handlers[1].baseFilename
+    #         )
+    #     if len(MediaToBeMoved.objects.all()) > 0:
+    #        send_email(
+    #            "Media has been upload to the Google Drive that has to be moved",
+    #            "http://sfucsss.org/resource_management/media_to_be_moved\n\n",
+    #            "csss-sysadmin@sfu.ca", "jace", gmail=gmail
+    #        )
+    #     gmail.close_connection()
