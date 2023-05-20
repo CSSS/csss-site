@@ -127,7 +127,7 @@ class GoogleDrive:
             if file_id is None:
                 file_id = self.root_file_id
             try:
-                response = self.gdrive.files().get(fileId=file_id).execute()
+                response = self.gdrive.files().get(fileId=file_id, supportsAllDrives=True).execute()
             except googleapiclient.errors.HttpError as e:
                 return False, None, f"{e}"
 
@@ -159,7 +159,8 @@ class GoogleDrive:
                             fileId=file_id,
                             emailMessage=email_message,
                             sendNotificationEmail=True,
-                            body=body
+                            body=body,
+                            supportsAllDrives=True
                         ).execute()
                         time.sleep(30)
                     self.logger.info(
@@ -199,7 +200,9 @@ class GoogleDrive:
                     "[GoogleDrive remove_users_gdrive()] attempting to get the list of permisisons for "
                     f"file with id {file_id}"
                 )
-                permissions = self.gdrive.permissions().list(fileId=file_id, fields='permissions').execute()
+                permissions = self.gdrive.permissions().list(
+                    fileId=file_id, fields='permissions', supportsAllDrives=True
+                ).execute()
                 self.logger.info("[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
                 for user in users:
                     self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through user {user}")
@@ -215,8 +218,11 @@ class GoogleDrive:
                                     f"access to file with id {file_id}"
                                 )
                                 if self.make_changes:
-                                    resp = self.gdrive.permissions().delete(fileId=file_id,
-                                                                            permissionId=permission['id']).execute()
+                                    resp = self.gdrive.permissions().delete(
+                                        fileId=file_id,
+                                        permissionId=permission['id'],
+                                        supportsAllDrives=True
+                                    ).execute()
                                     if resp != "":
                                         google_drive_bad_access = GoogleDriveRootFolderBadAccess.objects.all.filter(
                                             file_id=file_id
@@ -257,12 +263,15 @@ class GoogleDrive:
                     f"[GoogleDrive make_public_link_gdrive()] will attempt to make the file with id {file_id} "
                     f"publicly available."
                 )
-                self.gdrive.permissions().create(fileId=file_id, body=body).execute()
+                self.gdrive.permissions().create(fileId=file_id, body=body, supportsAllDrives=True).execute()
                 time.sleep(30)
                 self.logger.info(
                     "[GoogleDrive make_public_link_gdrive()] will attempt to get the public link to file."
                 )
-                response = self.gdrive.files().get(fileId=file_id, fields='name, webViewLink').execute()
+                response = self.gdrive.files().get(
+                    fileId=file_id, fields='name, webViewLink',
+                    supportsAllDrives=True
+                ).execute()
                 return True, response['name'], response['webViewLink'], None
             except Exception as e:
                 self.logger.error(f"[GoogleDrive make_public_link_gdrive()] encountered the following error. \n {e}")
@@ -280,7 +289,10 @@ class GoogleDrive:
                     "[GoogleDrive remove_public_link_gdrive()] will attempt to remove the public link "
                     f"that is enabled for file with id {file_id}"
                 )
-                self.gdrive.permissions().delete(fileId=file_id, permissionId='anyoneWithLink').execute()
+                self.gdrive.permissions().delete(
+                    fileId=file_id, permissionId='anyoneWithLink',
+                    supportsAllDrives=True
+                ).execute()
                 time.sleep(30)
                 self.logger.info(
                     f"[GoogleDrive remove_public_link_gdrive()] removed public link for file with id {file_id}"
@@ -332,7 +344,9 @@ class GoogleDrive:
         """
         if self.connection_successful:
             try:
-                response = self.gdrive.files().get(fileId=self.root_file_id, fields='*').execute()
+                response = self.gdrive.files().get(
+                    fileId=self.root_file_id, fields='*', supportsAllDrives=True
+                ).execute()
             except Exception as e:
                 self.logger.error(
                     "[GoogleDrive _ensure_root_permissions_are_correct()] unable to get all the files "
@@ -400,7 +414,8 @@ class GoogleDrive:
                     pageToken=next_page_token,
                     fields='*',
                     pageSize=999,
-                    q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
+                    q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false",
+                    supportsAllDrives=True
                 ).execute()
             except Exception as e:
                 self.logger.error(
@@ -529,7 +544,9 @@ class GoogleDrive:
                 file_id=file['id']
             ).first()
             parent_folder_link = (
-                self.gdrive.files().get(fileId=file['parents'][0], fields='webViewLink').execute()[
+                self.gdrive.files().get(
+                    fileId=file['parents'][0], fields='webViewLink', supportsAllDrives=True
+                ).execute()[
                     'webViewLink']
             )
             if google_drive_file is None:
@@ -614,7 +631,8 @@ class GoogleDrive:
         """
         file_info = self.gdrive.files().get(
             fields='*',
-            fileId=file_id
+            fileId=file_id,
+            supportsAllDrives=True
         ).execute()
         return self._determine_if_file_info_belongs_to_gdrive_folder(file_info)
 
@@ -727,7 +745,9 @@ class GoogleDrive:
                 f"to file {file_info['name']}"
             )
             if self.make_changes:
-                response = self.gdrive.comments().create(fileId=file_info['id'], fields="*", body=body).execute()
+                response = self.gdrive.comments().create(
+                    fileId=file_info['id'], fields="*", body=body, supportsAllDrives=True
+                ).execute()
                 if response['content'] == body['content']:
                     self.logger.info(
                         f"[GoogleDrive _alert_user_to_change_owner()] "
@@ -757,14 +777,17 @@ class GoogleDrive:
                 "[GoogleDrive _remove_outdated_comments()] attempting to remove any comments that "
                 f"sfucsss@gmail.com made on file {file_info['name']}"
             )
-            response = self.gdrive.comments().list(fileId=file_info['id'], fields="*").execute()
+            response = self.gdrive.comments().list(
+                fileId=file_info['id'], fields="*", supportsAllDrives=True
+            ).execute()
             self.logger.info("[GoogleDrive _remove_outdated_comments()] received response from google drive API ")
             for comment in response['comments']:
                 self.logger.info(f"[GoogleDrive _remove_outdated_comments()] iterating though comment {comment}")
                 if comment['author']['me']:
                     if self.make_changes:
                         comment_response = self.gdrive.comments().delete(
-                            commentId=comment['id'], fileId=file_info['id']
+                            commentId=comment['id'], fileId=file_info['id'],
+                            supportsAllDrives=True
                         ).execute()
                         if comment_response != "":
                             self.logger.info(
@@ -801,7 +824,8 @@ class GoogleDrive:
                     self.gdrive.files().copy(
                         fileId=file_info['id'],
                         fields='*',
-                        body={'name': file_info['name']}
+                        body={'name': file_info['name']},
+                        supportsAllDrives=True
                     ).execute()
                 self.logger.info(
                     f"[GoogleDrive _duplicate_file()] "
@@ -811,7 +835,7 @@ class GoogleDrive:
                     f"[GoogleDrive _duplicate_file()]  attempting to set the body "
                     f"for file {file_info['name']} with id {file_info['id']} to {body}")
                 if self.make_changes:
-                    self.gdrive.files().update(fileId=file_info['id'], body=body).execute()
+                    self.gdrive.files().update(fileId=file_info['id'], body=body, supportsAllDrives=True).execute()
                 self.logger.info(
                     f"[GoogleDrive _duplicate_file()] "
                     f"file {file_info['name']} with id {file_info['id']}'s body successfully updated")
@@ -836,7 +860,9 @@ class GoogleDrive:
         """
         try:
             parent_folder_link = (
-                self.gdrive.files().get(fileId=file_info['parents'][0], fields='webViewLink').execute()[
+                self.gdrive.files().get(
+                    fileId=file_info['parents'][0], fields='webViewLink', supportsAllDrives=True
+                ).execute()[
                     'webViewLink']
             )
             files_to_email_owner_about[owner_email] = {

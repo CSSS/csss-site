@@ -52,7 +52,7 @@ pipeline {
                             export ENVIRONMENT=STAGING;
                             export HOST_ADDRESS=dev.sfucsss.org;
 
-                            export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
+                            export GDRIVE_ROOT_FOLDER_ID="'"0AGb0FPdVjrsqUk9PVA"'";
                             export GDRIVE_TOKEN_LOCATION="'"/home/csss/credentials/token.pickle"'";
                             export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
@@ -99,7 +99,7 @@ pipeline {
                         export HOST_ADDRESS=sfucsss.org;
 
                         export GDRIVE_TOKEN_LOCATION="/home/csss/google_drive_api_token/token.pickle";
-                        export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
+                        export GDRIVE_ROOT_FOLDER_ID="'"0AGb0FPdVjrsqUk9PVA"'";
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
