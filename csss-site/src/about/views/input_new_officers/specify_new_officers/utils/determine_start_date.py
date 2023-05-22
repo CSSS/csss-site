@@ -2,7 +2,7 @@ import datetime
 
 from csss.setup_logger import Loggers
 from csss.views.time_converter import create_pst_time_from_datetime
-from csss.views_helper import get_current_term_obj
+from csss.views_helper import get_current_term_obj, get_previous_term_obj
 
 """
 Determine Start Date Logic
@@ -88,6 +88,15 @@ def determine_start_date(
     officer = officers.filter(
         sfu_computing_id=sfu_computing_id, position_name=position_name, elected_term=get_current_term_obj()
     ).order_by('-id').first()
+    if officer is None:
+        logger.info(
+            f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id "
+            f"{sfu_computing_id} did not hold the position of {position_name} on any date after "
+            f"{get_current_term_obj()}. Will fall-back to looking in {get_previous_term_obj()}"
+        )
+        officer = officers.filter(
+            sfu_computing_id=sfu_computing_id, position_name=position_name, elected_term=get_previous_term_obj()
+        ).order_by('-id').first()
     if officer is None:
         logger.info(
             f"[about/determine_start_date.py determine_start_date()] the officer with sfu_computing_id "
