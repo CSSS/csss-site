@@ -254,6 +254,10 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=True
     )
 
+    shared_position = models.BooleanField(
+        default=False
+    )
+
     number_of_terms_choices = (
         (None, "None"),
         (1, "1"),
