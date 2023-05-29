@@ -143,7 +143,7 @@ class GoogleDrive:
                     "https://github.com/CSSS/managingCSSSResources/tree/master/google_drive"
                     "-Your Sys Admin"
                 )
-                body = {'role': 'organizer', 'type': 'user', 'emailAddress': user.lower()}
+                body = {'role': 'fileOrganizer', 'type': 'user', 'emailAddress': user.lower()}
                 try:
                     self.logger.info(
                         f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
