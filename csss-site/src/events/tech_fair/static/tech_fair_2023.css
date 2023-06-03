@@ -1,0 +1,124 @@
+body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    overflow-x: hidden;
+}
+
+p {
+    font-size: 1.25em;
+    padding: 8px 0;
+}
+
+.white-a {
+    border: #fff 2px solid;
+    color: #fff; 
+    padding: 8px; 
+    text-decoration: none;
+}
+.white-a:hover {
+    /* todo: ANIMATION become wider*/
+    color: #8db7ff;
+}
+
+/* ************************* */
+
+
+#column-container {
+    margin: 0 auto;
+    max-width: 1150px;
+    min-height: 100vh;
+}
+
+@font-face {
+    font-family: "darumadropOne";
+    src: url("http://localhost:8000/STATIC_URL/fonts/DarumadropOne-Regular.ttf");
+}
+
+@font-face {
+    font-family: "NotoSansGeorgian-Regular";
+    src: url("http://localhost:8000/STATIC_URL/fonts/NotoSansGeorgian-Regular.ttf");
+}
+
+@font-face {
+    font-family: "NotoSansGeorgian-Bold";
+    src: url("http://localhost:8000/STATIC_URL/fonts/NotoSansGeorgian-Bold.ttf");
+}
+
+.title {
+    font-family: "darumadropOne", "Lucida Handwriting", cursive;
+}
+
+.noto {
+    font-family: "NotoSansGeorgian-Regular",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+
+.noto-bold {
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+
+.noselect {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+/* ************************* */
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ee8695;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #000;
+}
+
+/* ************************* */
+
+.logo {
+    vertical-align: top;
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    margin-left: auto;
+    margin-right: auto;
+    border: none;
+}
+
+.styled-table thead tr {
+    background-color: #bcf5bc;
+    color: #000000;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    border: none;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
