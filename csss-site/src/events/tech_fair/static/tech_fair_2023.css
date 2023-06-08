@@ -1,5 +1,5 @@
 html {
-    scroll-padding-top: 100px;
+    scroll-padding-top: 115px;
 }
 
 body {
@@ -13,18 +13,33 @@ p {
 }
 
 .white-a {
+    text-align: center;
+
     border: #fff 2px solid;
     color: #fff; 
     padding: 8px; 
     text-decoration: none;
+    
+    width: 75px;
+    transition: width 0.35s ease-in-out; 
 }
 .white-a:hover {
-    /* todo: ANIMATION become wider*/
+    width: 105px;
+    transition: width 0.65s ease-in-out; 
     color: #8db7ff;
 }
 
+h3:target {
+    color: #8db7ff;
+}
 a:target {
     color: #8db7ff;
+}
+a:target:before {
+    content:"› "; /* ※ 》¶ › § */
+    font-size: 0.75em;
+    position: relative;
+    bottom: 4px;
 }
 
 /* ************************* */
