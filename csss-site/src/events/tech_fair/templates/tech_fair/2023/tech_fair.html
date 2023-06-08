@@ -13,65 +13,77 @@
 
     <body onload="onload()" onresize="updateBanner()">
         <div id="column-container" style="padding: 0 16px; background-color: rgba(255, 255, 255, 0.0);">
-            <article>
-                <div style="height: 64px; background-color: #fff; width: calc(100% - 24px); margin: 12px; vertical-align: middle; color: #fff; display: flex; border: #fff 2px solid; display: flex; padding: 2px;">
-                    <div style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
-                        <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
-                    </div>
-
-                    <div style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                        <a href="#info" style="color: white;">Info</a>
-                    </div>
-
-                    <div style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                        <a href="#booths" style="color: white;">Booths</a>
-                    </div>
-
-                    <div style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                        <a href="#schedule" style="color: white;">Schedule</a>
-                    </div>
-
-                    <div style=" height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                        <a href="#interview_workshop" style="color: white;">Interview Workshops</a>
-                    </div>
-
-                    <div style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                        <a href="#resume_workshop" style="color: white;">Resume Workshops</a>
-                    </div>
-
-                    <div style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                        <a href="#resume_workshop" style="color: white;">Career Talks</a>
-                    </div>
-
-                    <div style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center;"">
-                        <a href="#resume_workshop" style="color: white;">Exhibitor Packages</a>
-                    </div>
+            <div style="position: fixed; background-color: #fff; width: calc(100% - 60px); color: #fff; display: flex; padding: 16px 16px 0px 16px;">
+                <div style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
                 </div>
-            </article>
 
-            <header>
-                <div style="width: 45%; min-height: 24px;"></div>
-                <div style="text-align: left; vertical-align: bottom; font-size: 2.25em; width: 45%; display: inline-block; padding: 4px 12px; margin-bottom: -32px;">
-                    <h1 class="title" style="display: inline; color: #000;">SFU CSSS</h1>
-                    <p class="title" style="display: inline; color: #000;">'s</p>
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#" style="color: white;">Tech Fair 2023</a>
                 </div>
-            </header>
 
-            <br><br>
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#info" style="color: white;">Info</a>
+                </div>
 
-            <div id="laptop-div" style="z-index: -1; width: 420px;">
-                <object id="laptop" class="svgClass" style="width: 160px; margin-bottom: -24px; margin-left: 240px;" fill="currentColor" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#booths" style="color: white;">Booths</a>
+                </div>
+
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#schedule" style="color: white;">Schedule</a>
+                </div>
+
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#resume_workshop" style="color: white;">Workshops & Talks</a>
+                </div>
+
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#students" style="color: white;">Students</a>
+                </div>
+
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#resume_workshop" style="color: white;">Exhibitor Packages</a>
+                </div>
+
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
+                    <a href="#history" style="color: white;">History</a>
+                </div>
+
+                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; flex-grow: 1;">
+                </div>
             </div>
 
-            <div class="noto-bold noselect" style="font-size: 160px; letter-spacing: -22px; position: relative; height: 0px; bottom: 177px; right: -407px; color: #000; z-index: -1;">Tech Fair</div>
-            <div class="noto-bold noselect" style="font-size: 60px; letter-spacing: -5px; position: relative; height: 0px; bottom: 68px; right: -932px; color: #000; z-index: -1;">2023</div>
+            <div style="height: 100px;"></div>
+
+            <header style="text-align: left; vertical-align: bottom; font-size: 2em; display: inline-block; padding: 0 12px; min-height: 385px;">
+                <h1 class="title"><span style="color: #ee8695;">SFU_CSSS</span>.TechFair(<span style="color: #4a7a96">2023</span>);</h1>
+                <h1 class="title" style="">
+                    <span id="before-cursor" style="color: #fbbbad; white-space: pre;"></span>
+                    <span class="noselect" style="animation-name: blinking; animation-duration: 1s; animation-iteration-count: infinite; animation-timing-function: ease-in-out;">|</span>
+                </h1>
+            </header>
+
+            <div style="height: 50px;"></div>
+
+            <div id="logo-container" style="display: flex; align-items: baseline; margin-bottom: -36px;">
+                <div style="width: 465px; display: inline-block;">
+                    <object class="svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" fill="currentColor" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
+                </div>
+                <div style="display: flex; height: 178px; align-items: baseline;">
+                    <div class="noto-bold" style="font-size: 160px; letter-spacing: -22px; z-index: -1; white-space: nowrap;">Tech Fair</div>
+                    <div class="noto-bold" style="font-size: 60px; letter-spacing: -5px; z-index: -1; display: relative; position: relative; bottom: 4px;">2023</div>
+                </div>
+            </div>
+
+            <img style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}"></img>
             
             <article>
                 <div id="info-banner" style="position: absolute; width: 100vw; height: 100%; background-color: #000; z-index: -1; left: 0; margin-top: -12px;" hidden>
                 </div>
 
                 <div id="info-text" style="min-height: 128px; width: calc(100%); background-color: #fff; z-index: 2; border: #000 2px solid; margin: 12px 0; padding: 24px;">
-                    <h3 id="info" name="info" class="noto-bold" style="font-size: 2em; position: relative; z-index: 3;">Info</h3>
+                    <a href="#info" id="info" class="noto-bold" style="font-size: 2em; position: relative; z-index: 3; color: #000;">Info</a>
                     <!-- TODO: add bullet points here! -->
                     <div style="display: flex;">
                         <p style="background-color: rgba(255, 255, 255, 0.0); margin-right: 12px;">Tech Fair is a career fair located at SFU's Burnaby campus in Burnaby British Columbia, where various tech companies are invited to come in and set up a booth from 9:30am - 4:00pm October 26th to advertise their company. This is a great opportunity to expand the name recognition of your company. There are over 2700 Computing Science majors at SFU who will be invited to check out your company at the booth. The booths will be set up on <b>October 26th</b>. More details about events taking place, the schedule and packages can be found below.</p>
@@ -187,6 +199,28 @@
             </article>
 
             <article>
+                <div style="min-height: 128px; background-color: #000; color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px;">
+                    <h3 class="noto-bold" style="font-size: 2em;">History</h3>
+                    <img src="noto-bold" style="width: 200px;"></img>
+
+                    <p>Tech Fair 2023 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students that could become potential stars in your company. Find talent and show our students why they should work with you.
+
+                        Reach out to hundreds of passionate Computing Science students at various points throughout their degree.
+        
+                        Let students learn about you, your culture, and your opportunities - so you're first in mind when they start their career journeys.
+        
+                        Attend TechFair 2023 - our students might meet their next co-op, and you might meet your next full-time employee.</p>
+
+                    <br>
+                    <p>Interested in setting up a booth?</p>
+                    <div style="width: 256px;">
+                        <p class="noto-bold" style="color: #fff; background-color: #4a7a96; text-align: center;">Join Tech Fair</p>
+                    </div>
+
+                </div>
+            </article>
+
+            <article>
                 <div class="noto" style="min-height: 128px; background-color: #fff; color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; text-align: center;">
                     <p>SFU CSSS</p>
                     <p>computing science</p>
@@ -194,164 +228,6 @@
             </article>
         </div>
 
-        <!--
-        <div class="topnav">
-            <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
-            <a href="#">Home</a>
-            <a href="#schedule">Schedule</a>
-            <a href="#booths">Booths</a>
-            <a href="#interview_workshop">Interview Workshops</a>
-            <a href="#resume_workshop">Resume Workshops</a>
-            <a href="#career_talks">Career Talks</a>
-            <a href="#ExhibitorPackages">Exhibitor Packages</a>
-        </div>
-        <div style="max-width: 1000px; padding-left: 100px; padding-right: 100px; padding-bottom: 100px">
-            <br>
-
-            <h1 style="text-align: center;">What is Tech Fair?</h1>
-            
-            <p>
-                Tech Fair is a career fair located at SFU's Burnaby campus in Burnaby British Columbia, where various tech companies are invited to come in and set up a booth from 9:30am - 4:00pm October 26th to advertise their company. This is a great opportunity to expand the name recognition of your company. There are over 2700 Computing Science majors at SFU who will be invited to check out your company at the booth. The booths will be set up on <b>October 26th</b>. 
-                More details about events taking place, the schedule and packages can be found below.
-            </p>
-
-            <br>
-
-            <h2 style="text-align: center;">
-                <b>Schedule</b>
-            </h2>
-
-
-            <div id="schedule" style="text-align: center">
-                <div class="mxgraph" style="margin-left: auto; margin-right: auto" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;lightbox&quot;:false,&quot;nav&quot;:true,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2022-10-18T07:19:11.859Z\&quot; agent=\&quot;5.0 (X11)\&quot; etag=\&quot;WXaikJImsp19K0fav_UC\&quot; compressed=\&quot;false\&quot; version=\&quot;20.2.8\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;v2s5x8OJGLoDd5lz0log\&quot; name=\&quot;Page-1\&quot;&gt;7Ztfk5s2EMA/jR+PkQTiz6Ptu+s1004zuTQ3eepgkG0ajAjIZ7ufvpIRBln4bMdgX1qUZGJWQsK7v12WRR6Y48X6l8xP57/TkMQDBML1wLwfIAQthAbiLwg3hcRBViGYZVEoB1WC5+gfIoVASpdRSHJlIKM0ZlGqCgOaJCRgiszPMrpSh01prK6a+jOiCZ4DP9alL1HI5oXUxaCSP5FoNi9XhkD2LPxysBTkcz+kq5rIfBiY44xSVnxarMckFsor9VKc93igd3dhGUnYKSfkn52/n57Dh+9D+iUabz5M89/yO2mdVz9eyi8sL5ZtSg3MMrpM5TCSMbJu0rs/KYcD/brg7ttyTAhdEJZt+BA5EXLkKZIQiIvDVaVuE2EDOmDX5NrzmuI9jA3eUTWJgDT/bLdspSH+QSqpWWGLhw8vf6L1lycXRp++MviXHQR3NjyuMW7pVHwMMprnEz8bmKPVPGLkOfUDIV9xV+GyOVvwpe8h/8hVnIQklEdhlHGVRjThxzldCi2MpjRhz3IJMYbrnflRQvjk94Af61p/0977hjxoHRcYrllrULGVg9VeUzMdNg233jzddK6NDFRrZlemOwF2koRDETX4UUITcshKQLPIWeonoRJ0dOXXFQh0jZWyjMQ+i17VUNWkN7nCRxrxy9vZ1rMME+CqWaofuqZhw4MexcHMAiJnrIedvUUgggbC58zM/GxGmDbz1uY7HV2AgdljcAYGNrQMp+6erWFwZOauMbB6DM7AAAPb4HfqXbRHdmscHJu6axBwD8IZIJieZ0C71szWQDg2ddcg2D0IZ4CAPGiY9dSuvYhwbOquQXB6EM4Agd/DDdya7Rtm69rcbm/uM8ztmoDfrmutNdMfmblrDLwGDOyYSZMqPNjfl7TsuMu3RashH4Bwut4+i5f9/NNM/A+Bvygn4xdXzFd0aajxB3Om8uXH0UzUAgIOkXjgH4nH9yjw46HsWERhKE4fZYRfjKzFCBZToayt+vBogO/FXEtGiwveTp2zjH4jYxrTrEJ7GsXxvkhAXZzm3LAaAQwXeVVzLbUcAW3L8LxaAiEJqrmN1+A2FjjsIRdVHMrKVhdIeT1RbRAFNaQUojDm3Vr1qsaTc1WemoqPBQNh9HpZhIIKT9vpepzaDlDIEYmtVTW91n3dAIUOAnX5PQ+lfYS6BKnyqdgRbzaqKhm0bsxMU/20LWZ6ZK5wU7Nc2/B0iq57K2sqv7ZEUR94WqJITYU8kVxrT2c3A6ipbNsSQGYPUAcAOQAZllerK9wYoKZyb0sAWT1AHQDkQpEJVZsN0I0BaioTtwQQ7gHqACAPNm4SuhlAJxSeu9hLlFHmS5GnV6yvaB3XMyy72tYF1DT1zkRNaarYUdSwiwhBx8BdbR1yO3xOLifKUz8pZS8kTEge+puyc5LtD+ffo37GwWjRTnmo02/7R8DohNPGT7O5lX/oC16pZgU7DJLRwp+RYZ4W21hhufJu32kl2e04hbf0XoQNx9Ff19RcFboN4dTpKpy6hxO6E/GHnkYtKDmphDGZsss9pGEtdaJJKRjTBfcDofkRpWye15CfaCft4oTHlzG3r53AHf9n8UMAqqxCDyi95P8g+bHwqeYURxKQvbDmZ4E8svbC4ACZD7b4o8VM3lNkBLVAvXW7a6aOTmN4K181Ik/dvKhvfUY828T15jQFQ6CMsbqKjU2p5n8gNn7M6JTkOU9mfaGDj3PK6Ez8EmVTI/uNKIm2YfEdxMgb+KXqV5WbYt1NJ8EUT4I33fSd+OWBTcVKUuI27T5XnyWaPbd1t/QObxD4qd3yE8mXC8JPeaHZt3xO09O8EaJt0iLdkTM7ROCNQsjtXAQC3UceH8fjI7ey6/pI7QWQ6iNWQ+m18ArdFTxkmHZX9F+8neF90v+ZBPNEPErys34VT5evEVmd7wxQzeC3zvET+QP3Bvz4eG3q7fprT4V608IGck8G3xX53dng88PqF53FzsTqd7Hmw78=&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
-                <script src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
-            </div>
-
-            <h2 style="text-align: center;">
-                Why your company should come to Tech Fair
-            </h2>
-            
-            <p>
-                Tech Fair 2023 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students that could become potential stars in your company. Find talent and show our students why they should work with you.
-
-                Reach out to hundreds of passionate Computing Science students at various points throughout their degree.
-
-                Let students learn about you, your culture, and your opportunities - so you're first in mind when they start their career journeys.
-
-                Attend TechFair 2023 - our students might meet their next co-op, and you might meet your next full-time employee.
-            </p>
-
-            <br>
-
-            <h2 id= "booths" style="text-align: center;">
-                <b>Booths</b>
-            </h2>
-
-            <p>
-                This is the core part of Tech Fair, it is where you as a company can come in and set up a booth and advertise to students. Bring some slides, a project demo, some merch, company banner and whatever else you want! You'll be set up with a table, chairs and power outlets.  
-
-                This is where you get to highlight why students should be  joining your company. Students will be coming throughout the day to learn about you and your company.
-            </p>
-
-            <br>
-
-            <h2 id="interview_workshop" style="text-align: center;">
-                <b>Interview Workshop</b>
-            </h2>
-
-            <p>
-                We are looking for volunteers who regularly participate in technical interviews to give a technical interview in front of a group of students. Questions asked to these students would be similar to ones they might see in a technical interview, with programming and problem solving problems.
-            </p>
-
-            <br>
-
-            <h2 style="text-align: center;">
-                <b>Interview Tips and Tricks</b>
-            </h2>
-
-            <p>
-                We are looking for a volunteer who regularly participates in parts of the interview process for candidates. This will be a place to highlight common mistakes made during interviews and how to fix them. Also an opportunity for students to ask questions about interviews.
-            </p>
-
-            <br>
-
-            <h2 id="resume_workshop" style="text-align: center;">
-                <b>Resume Workshop</b>
-            </h2>
-
-            <p>
-            We are looking for volunteers who regularly review resumes to review selected resumes in front of a group of students. The resumes would be ranging from first time co-op seeker to full-time. Students would learn from the constructive comments made and apply those changes to their own resumes.
-            </p>
-
-            <br>
-
-            <h2 id="career_talks" style="text-align: center;">
-                <b>Career Talks</b>
-            </h2>
-
-            <p>
-                We are looking for Computing Science or Computer Science graduates who have worked in a variety of companies to come in and speak about their journey. This is an opportunity for students to learn what various careers are like and to answer any questions they may have before beginning their careers.
-            </p>
-
-            <br>
-
-            <h2 id="photography" style="text-align: center;">
-                <b>Photography</b>
-            </h2>
-            
-            <p>
-            We are having a photographer come in and take photos of students they can use for LinkedIn.
-            </p>
-
-            <br>
-
-            <h2 id="ExhibitorPackages" style="text-align: center;">
-                <b>Exhibitor Package</b>
-            </h2>
-
-            <table class="styled-table">
-                <thead>
-                    <tr>
-                        <th>Item</th>
-                        <th>Tech Fair Attendee</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Price</td>
-                        <td>$600</td>
-                    </tr>
-                    <tr>
-                        <td>Company Booth</td>
-                        <td>1 Day</td>
-                    </tr>
-                    <tr>
-                        <td>Logo on website</td>
-                        <td>Large</td>
-                    </tr>
-                    <tr>
-                        <td>Email shoutout</td>
-                        <td>Yes, with optional custom blurb</td>
-                    </tr>
-                    <tr>
-                        <td>Have job postings emailed to our students</td>
-                        <td>Up to 2</td>
-                    </tr>
-                    <tr>
-                        <td>Get resumes of many of our co-op and full-time seeking students</td>
-                        <td>Yes</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <br>	
-            
-            <p>Payment can be made through wire transfer, etransfer, credit card or cheque. Please contact <b>csss-techfair@sfu.ca</b> for details.</p>
-            <br>
-            
-            <p>Please reach out to <b>csss-techfair@sfu.ca</b> with any questions.</p>
-        </div> 
-        -->
         <script src="{% static 'js/tech_fair_2023.js' %}"></script>
     </body>
 </html>
