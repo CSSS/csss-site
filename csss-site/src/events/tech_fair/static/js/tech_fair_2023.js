@@ -5,8 +5,8 @@ const FRONT_PAGE_MESSAGES = [
     "// computing science is cool!",
     "// computer science is cool!",
     "// thousands of students!",
-    "// we might have cake!",
-    "// at the top of a mountain",
+    "// we might have cake",
+    "// on top of a mountain",
     "// meet local vancouver companies!",
     "// build your professional image!",
     "// reasons you should join tech fair:\n// 1. to make connections\n// 2. it's fun!",
@@ -18,15 +18,20 @@ const FRONT_PAGE_MESSAGES = [
     "for(booth in companyBooths) {\n\tSFU_CSSS.TechFair.create(booth);\n}",
     "Tech Fair received signal SIGSEV, \nSegmentation fault.", // TODO: the spaces in this message should be instant (it should also type really fast)
     ":)",
-    "// the coolest event on campus",
+    //"// the coolest event on campus",
     "// static webpages rule!",
     "// be there or be rectangle",
     "adsflghja;dfhj;kldgsdaf\n~ \n:q!",
     "(write (car tech_fair_events))",
     "// run by the 【 SFU CSSS 】",
     "// ↑↑↓↓←→←→BA\n",
-    "// ∀ companies ∃ a perfect one",
-    "[1]+  Stopped\tvi tech_fair.cpp\ncsss@cr:~/tf/$ git add *\ncsss@cr:~/tf/$ git commit -m \"stuff\""
+    //"// ∀ companies ∃ a perfect one",
+    "[1]+  Stopped\tvi tech_fair.cpp\ncsss@cr:~/tf/$ git add *\ncsss@cr:~/tf/$ git commit -m \"stuff\"",
+    "// now in full colour!",
+    "// bigger than a bread box!",
+    "// Tech Fair: Where Ideas Ignite!\n// - ChatGPT",
+    "// Computing Science Student Society \n// (CSSS)",
+    "// ",
 ];
 
 // todo: move scrollbar for multiline versions

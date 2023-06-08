@@ -13,7 +13,7 @@
 
     <body onload="onload()" onresize="updateBanner()">
         <div id="column-container" style="padding: 0 16px; background-color: rgba(255, 255, 255, 0.0);">
-            <div style="position: fixed; background-color: #fff; width: calc(100% - 60px); color: #fff; display: flex; padding: 16px 16px 0px 16px;">
+            <div style="position: fixed; background-color: #fff; width: calc(100% - 60px); color: #fff; display: flex; padding: 16px 16px 0px 16px; z-index: 5;">
                 <div style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
                     <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
                 </div>
@@ -43,7 +43,7 @@
                 </div>
 
                 <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#resume_workshop" style="color: white;">Exhibitor Packages</a>
+                    <a href="#companies" style="color: white;">Exhibitor Packages</a>
                 </div>
 
                 <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
@@ -83,7 +83,7 @@
                 </div>
 
                 <div id="info-text" style="min-height: 128px; width: calc(100%); background-color: #fff; z-index: 2; border: #000 2px solid; margin: 12px 0; padding: 24px;">
-                    <a href="#info" id="info" class="noto-bold" style="font-size: 2em; position: relative; z-index: 3; color: #000;">Info</a>
+                    <a id="info" href="#info" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">Info</a>
                     <!-- TODO: add bullet points here! -->
                     <div style="display: flex;">
                         <p style="background-color: rgba(255, 255, 255, 0.0); margin-right: 12px;">Tech Fair is a career fair located at SFU's Burnaby campus in Burnaby British Columbia, where various tech companies are invited to come in and set up a booth from 9:30am - 4:00pm October 26th to advertise their company. This is a great opportunity to expand the name recognition of your company. There are over 2700 Computing Science majors at SFU who will be invited to check out your company at the booth. The booths will be set up on <b>October 26th</b>. More details about events taking place, the schedule and packages can be found below.</p>
@@ -94,7 +94,7 @@
 
             <article>
                 <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px 0;">
-                    <h3 class="noto-bold" style="font-size: 2em; margin: 0 0 24px 24px;">Who's Coming?</h3>
+                    <a id="booths" href="#booths" class="noto-bold" style="display: inline-block; font-size: 2em; margin: 0 0 24px 24px; color: #000; text-decoration: none;">Who's Coming?</a>
                     
                     <div style="overflow: auto; white-space: nowrap;">
                         <div style="white-space: normal; display: inline-block; vertical-align: top; width: 312px; height: 312px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
@@ -111,11 +111,10 @@
                         <div style="white-space: normal; display: inline-block; vertical-align: top; width: 312px; height: 312px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
                             <p class="noto-bold" style="padding: 0; float: right;">Fancy Company 2</p>
                             <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////</p>
-                            <!-- <hr style="border: 1px dotted #000;"> -->
                             <div style="font-size: 0.75em; padding: 0;">
                                 <p>This is a great company for many many other reasons, plus a few more. One of which is because they are a cool place to work.</p>
                                 <p>What a company!</p>
-                                <a href="#" style="background-color: #fff; padding: 8px; display: inline-block; color: #fff;">See more</a>
+                                <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
                         </div>
 
@@ -125,7 +124,7 @@
                             <!-- <hr style="border: 1px dotted #000;"> -->
                             <div style="font-size: 0.75em; padding: 0;">
                                 <p>This is a company, nice!</p>
-                                <a href="#" style="background-color: #fff; padding: 8px; display: inline-block; color: #4a7a96;">See more</a>
+                                <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
                         </div>
 
@@ -135,7 +134,7 @@
                             <!-- <hr style="border: 1px dotted #000;"> -->
                             <div style="font-size: 0.75em; padding: 0;">
                                 <p>This is a company. Good for them!</p>
-                                <a href="#" style="background-color: #fff; padding: 8px; display: inline-block; color: #4a7a96;">See more</a>
+                                <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
                         </div>
                     </div>
@@ -144,8 +143,8 @@
             </article>
             
             <article>
-                <div style="min-height: 128px; background-color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; color: #fff;">
-                    <h3 id="schedule" name="schedule" class="noto-bold" style="font-size: 2em;">Schedule</h3>
+                <div style="min-height: 128px; background-color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; color: #fff; position: relative; z-index: 1;">
+                    <a id="schedule" href="#schedule" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none; position: relative; z-index: 2;">Schedule</a>
                     
                     <p>Day 1 | Day 2</p>
 
@@ -154,16 +153,17 @@
                     <br><br><br><br>
                     <br><br><br><br>
                     <br><br><br><br>
+                    <br><br><br><br>
 
                     <p> ... </p>
 
-                    <div class="noto-bold noselect" style="font-size: 232px; letter-spacing: -22px; position: relative; height: 0px; bottom: 240px; right: -28px; color: #fff; z-index: 0;">Schedule</div>
+                    <div class="noto-bold noselect" style="font-size: 232px; letter-spacing: -22px; position: relative; height: 0px; bottom: 240px; right: -219px; color: #fff; z-index: 3;">Schedule</div>
                 </div>
             </article>
 
             <article>
                 <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
-                    <h3 class="noto-bold" style="font-size: 2em;">Students</h3>
+                    <a id="students" href="#students" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">Students</a>
                    
                     <p>What a time to be alive</p>
 
@@ -171,52 +171,43 @@
                     <p>Improve your skills</p>
                     <p>Build a professional image</p>
 
-                    <div style="width: 124px; padding: 4px; color: #fff; background-color: #ee8695;">
-                        <p class="noto-bold" style="text-align: center;">RSVP!</p>
-                    </div>
+                    <a href="#" class="noto-bold" style="width: 124px; color: #fff; background-color: #ee8695; text-align: center; display: block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">RSVP!</a>
                 </div>
             </article>
 
             <article>
                 <div style="min-height: 128px; background-color: #000; color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px;">
-                    <h3 class="noto-bold" style="font-size: 2em;">Companies</h3>
+                    <a id="companies" href="#companies" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none;">Companies</a>
 
-                    <p>Tech Fair 2023 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students that could become potential stars in your company. Find talent and show our students why they should work with you.
+                    <p>
+                        Tech Fair 2023 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students that could become potential stars in your company. Find talent and show our students why they should work with you.
 
                         Reach out to hundreds of passionate Computing Science students at various points throughout their degree.
         
                         Let students learn about you, your culture, and your opportunities - so you're first in mind when they start their career journeys.
         
-                        Attend TechFair 2023 - our students might meet their next co-op, and you might meet your next full-time employee.</p>
+                        Attend TechFair 2023 - our students might meet their next co-op, and you might meet your next full-time employee.
+                    </p>
 
                     <br>
                     <p>Interested in setting up a booth?</p>
-                    <div style="width: 256px;">
-                        <p class="noto-bold" style="color: #fff; background-color: #4a7a96; text-align: center;">Join Tech Fair</p>
-                    </div>
-
+                    <a href="#companies" class="noto-bold" style="width: 192px; color: #fff; background-color: #4a7a96; text-align: center; display: block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">Join Tech Fair</a>
                 </div>
             </article>
 
             <article>
-                <div style="min-height: 128px; background-color: #000; color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px;">
-                    <h3 class="noto-bold" style="font-size: 2em;">History</h3>
-                    <img src="noto-bold" style="width: 200px;"></img>
-
-                    <p>Tech Fair 2023 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students that could become potential stars in your company. Find talent and show our students why they should work with you.
-
-                        Reach out to hundreds of passionate Computing Science students at various points throughout their degree.
-        
-                        Let students learn about you, your culture, and your opportunities - so you're first in mind when they start their career journeys.
-        
-                        Attend TechFair 2023 - our students might meet their next co-op, and you might meet your next full-time employee.</p>
-
+                <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
+                    <a id="history" href="#history" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">History</a>
+                    <p>Only one decade ago, Tech fair was still a long standing CSSS tradition at SFU. However, in recent times this is the second year we're running it. The tech fair has recently become a permenant part of our constitution, so we're becoming much more serious about this than before!</p>
+                    
                     <br>
-                    <p>Interested in setting up a booth?</p>
-                    <div style="width: 256px;">
-                        <p class="noto-bold" style="color: #fff; background-color: #4a7a96; text-align: center;">Join Tech Fair</p>
+                    <h4 class="noto-bold" style="font-size: 1.5em; color: #000;">Gallery</h4>
+                    <div style="display: flexbox; width: 100%;">
+                        <img src="{% static 'images/tf-image-1.jpg' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
+                        <img src="{% static 'images/tf-image-2.jpg' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
+                        <img src="{% static 'images/techfair.png' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
+                        <img src="{% static 'images/sfu.jpg' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
                     </div>
-
                 </div>
             </article>
 
