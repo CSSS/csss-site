@@ -35,7 +35,8 @@ const FRONT_PAGE_MESSAGES = [
     "// TODO: make tech fair awesome",
     "// run anually",
     "csss@CR:~/tf/$ fg\nbash: fg: current: no such job",
-    "// ",
+    "// meet your next co-op!",
+    "// lots of tech companies!"
 ];
 
 // todo: add line numbers
