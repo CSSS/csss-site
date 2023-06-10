@@ -223,5 +223,5 @@ a:target:before {
 
 .nav-button:active > span, .nav-button-s:active > span, .nav-button-w:active > span {
     transform: translate3d(0, 6px, 0);
-    transition: transform 0.02s ease-in-out; 
+    transition: transform 0.05s ease-in-out; 
 }
