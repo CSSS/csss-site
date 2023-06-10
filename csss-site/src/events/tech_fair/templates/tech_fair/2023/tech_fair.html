@@ -12,48 +12,47 @@
     </head>
 
     <body onload="onload()" onresize="updateBanner()">
-        <div id="column-container" style="padding: 0 16px; background-color: rgba(255, 255, 255, 0.0);">
-            <div style="position: fixed; background-color: #fff; width: calc(100% - 60px); color: #fff; display: flex; padding: 16px 16px 0px 16px; z-index: 5;">
+        <div style="position: fixed; background-color: #fff; width: 100%; color: #fff; display: flex; padding: 16px 16px 4px 16px; z-index: 5;">
+            <div style="margin: 0 auto; display: flex; flex-direction: row; max-width: calc(1150px);">
                 <div style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
                     <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
                 </div>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#" style="color: white;">Tech Fair 2023</a>
-                </div>
+                <a href="#" class="noto-bold nav-button-w" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Tech Fair 2023</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#info" style="color: white;">Info</a>
-                </div>
+                <a href="#info" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Info</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#booths" style="color: white;">Booths</a>
-                </div>
+                <a href="#booths" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Booths</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#schedule" style="color: white;">Schedule</a>
-                </div>
+                <a href="#schedule" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Schedule</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#resume_workshop" style="color: white;">Workshops & Talks</a>
-                </div>
+                <a href="#resume_workshop" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <span>Workshops & Talks</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#students" style="color: white;">Students</a>
-                </div>
+                <a href="#students" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <span>Students</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#companies" style="color: white;">Exhibitor Packages</a>
-                </div>
+                <a href="#companies" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Exhibitor Packages</span>
+                </a>
 
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; margin-right: 4px;">
-                    <a href="#history" style="color: white;">History</a>
-                </div>
-
-                <div class="noto-bold" style="height: 64px; background-color: #000; padding: 2px 12px; display: flex; align-items: center; flex-grow: 1;">
-                </div>
+                <a href="#history" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <span>History</span>
+                </a>
             </div>
+        </div>
 
+        <div id="column-container" style="padding: 0 16px; background-color: rgba(255, 255, 255, 0.0);">
             <div style="height: 100px;"></div>
 
             <header style="text-align: left; vertical-align: bottom; font-size: 2em; display: inline-block; padding: 0 12px; min-height: 385px;">
@@ -67,8 +66,8 @@
             <div style="height: 50px;"></div>
 
             <div id="logo-container" style="display: flex; align-items: baseline; margin-bottom: -36px;">
-                <div style="width: 465px; display: inline-block;">
-                    <object class="svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" fill="currentColor" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
+                <div id="laptop" style="width: 465px; display: inline-block; cursor: pointer; ">
+                    <object id="laptop-child" class="noselect svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" fill="currentColor" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
                 </div>
                 <div style="display: flex; height: 178px; align-items: baseline;">
                     <div class="noto-bold" style="font-size: 160px; letter-spacing: -22px; z-index: -1; white-space: nowrap;">Tech Fair</div>
@@ -76,7 +75,7 @@
                 </div>
             </div>
 
-            <img style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}"></img>
+            <img id="mountain" style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}"></img>
             
             <article>
                 <div id="info-banner" style="position: absolute; width: 100vw; height: 100%; background-color: #000; z-index: -1; left: 0; margin-top: -12px;" hidden>
@@ -85,9 +84,33 @@
                 <div id="info-text" style="min-height: 128px; width: calc(100%); background-color: #fff; z-index: 2; border: #000 2px solid; margin: 12px 0; padding: 24px;">
                     <a id="info" href="#info" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">Info</a>
                     <!-- TODO: add bullet points here! -->
-                    <div style="display: flex;">
-                        <p style="background-color: rgba(255, 255, 255, 0.0); margin-right: 12px;">Tech Fair is a career fair located at SFU's Burnaby campus in Burnaby British Columbia, where various tech companies are invited to come in and set up a booth from 9:30am - 4:00pm October 26th to advertise their company. This is a great opportunity to expand the name recognition of your company. There are over 2700 Computing Science majors at SFU who will be invited to check out your company at the booth. The booths will be set up on <b>October 26th</b>. More details about events taking place, the schedule and packages can be found below.</p>
-                        <img style="display: inline; height: 300px; width: 300px;" src="{% static 'images/sfu-air.jpg' %}">
+
+                    <div style="display: table; clear: both;">
+                        <p style="float: left; width: calc(40% - 16px); margin-right: 16px;">
+                            Tech Fair is a career fair, bringing students and companies together. This is a great opportunity to set up a booth and expand the name recognition of your company! 
+                            
+                            <br><br>
+
+                            More details about events taking place, the schedule and packages can be found below.
+                        </p>
+                        
+                        <h2>Rundown:</h2>
+                        <ul style="float: left; width: calc(60% - 8px); margin-right: 8px;">
+                            <li>Located at SFU's Burnaby campus in Burnaby, BC</li>
+                            <li>
+                                Over 2700 Computing Science majors at SFU invited!
+                            </li>
+                            <li>
+                                Setup 9:30am - 4:00pm October 26th (TBD)
+                            </li>
+                            <li>
+                                Stuff!
+                            </li>
+                        </ul>
+                        
+                        <!--
+                        <img style="width: 33.3%; aspect-ratio: 1; position: absolute; z-index: 1;" src="{% static 'images/sfu-air.jpg' %}">
+                        -->
                     </div>
                 </div>
             </article>
@@ -97,42 +120,54 @@
                     <a id="booths" href="#booths" class="noto-bold" style="display: inline-block; font-size: 2em; margin: 0 0 24px 24px; color: #000; text-decoration: none;">Who's Coming?</a>
                     
                     <div style="overflow: auto; white-space: nowrap;">
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 312px; height: 312px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
-                            <p class="noto-bold" style="padding: 0; float: right;">Fancy Company Name</p>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////</p>
-                            <!-- <hr style="border: 1px dotted #000;"> -->
-                            <div style="font-size: 0.75em; padding: 0;">
+                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 367px; height: 367px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
+                            <p class="noto-bold" style="padding: 0; float: right; font-size: 1.4em;">Fancy Company Name</p>
+                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////////////</p>
+                            
+                            <br><br>
+
+                            <div style="font-size: 0.85em; padding: 0;">
+                                <br>
                                 <p>This is a great company for many many reasons, one of which is because they are a cool place to work.</p>
                                 <p>This company makes a product that helps people do tasks. What a company!</p>
                                 <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
                         </div>
 
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 312px; height: 312px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
-                            <p class="noto-bold" style="padding: 0; float: right;">Fancy Company 2</p>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////</p>
-                            <div style="font-size: 0.75em; padding: 0;">
+                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 367px; height: 367px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
+                            <p class="noto-bold" style="padding: 0; float: right; font-size: 1.4em;">Fancy Company 2</p>
+                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////////////</p>
+                            <br>
+                            <br>
+                            <div style="font-size: 0.85em; padding: 0;">
+                                <br>
                                 <p>This is a great company for many many other reasons, plus a few more. One of which is because they are a cool place to work.</p>
                                 <p>What a company!</p>
                                 <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
                         </div>
 
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 312px; height: 312px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
-                            <p class="noto-bold" style="padding: 0; float: right;">Normal Company 1</p>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////</p>
+                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 367px; height: 367px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
+                            <p class="noto-bold" style="padding: 0; float: right; font-size: 1.4em;">Normal Company 1</p>
+                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////////////</p>
+                            <br>
+                            <br>
                             <!-- <hr style="border: 1px dotted #000;"> -->
-                            <div style="font-size: 0.75em; padding: 0;">
+                            <div style="font-size: 0.85em; padding: 0;">
+                                <br>
                                 <p>This is a company, nice!</p>
                                 <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
                         </div>
 
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 312px; height: 312px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
-                            <p class="noto-bold" style="padding: 0; float: right;">Normal Company 2</p>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////</p>
+                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 367px; height: 367px; padding: 24px; border-left: #fff 2px solid; background-color: #000; color: #fff;">
+                            <p class="noto-bold" style="padding: 0; float: right; font-size: 1.4em;">Normal Company 2</p>
+                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////////////////</p>
+                            <br>
+                            <br>
                             <!-- <hr style="border: 1px dotted #000;"> -->
-                            <div style="font-size: 0.75em; padding: 0;">
+                            <div style="font-size: 0.85em; padding: 0;">
+                                <br>
                                 <p>This is a company. Good for them!</p>
                                 <a href="#" class="noto white-a" style="margin: 12px 0; display: inline-block;">See more</a>
                             </div>
@@ -151,6 +186,9 @@
                     <p> ... </p>
                     
                     <br><br><br><br>
+                    <br><br><br><br>
+                    <br><br><br><br>
+
                     <br><br><br><br>
                     <br><br><br><br>
                     <br><br><br><br>
@@ -198,22 +236,36 @@
             <article>
                 <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
                     <a id="history" href="#history" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">History</a>
-                    <p>Only one decade ago, Tech fair was still a long standing CSSS tradition at SFU. However, in recent times this is the second year we're running it. The tech fair has recently become a permenant part of our constitution, so we're becoming much more serious about this than before!</p>
                     
+                    <div style="display: table; clear: both;">
+                        <p style="float: left;width: 50%;">
+                            Just a short decade ago, Tech Fair was a standing CSSS tradition at SFU. Unforuntaely, due to the curse of time, in recent years it had fallen out of favour.
+                            
+                            <br><br> 
+
+                            However! This all changed over the past few years. 
+                        </p>
+                        <p style="float: left;width: 50%;">
+                            This is the second year we're running Tech Fair in row. Not only has it recently become a permenant part of our <a href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2022.pdf">constitution</a>, but we're also becoming much more serious about this than before!
+                        </p>
+                    </div>
+
                     <br>
+
                     <h4 class="noto-bold" style="font-size: 1.5em; color: #000;">Gallery</h4>
                     <div style="display: flexbox; width: 100%;">
-                        <img src="{% static 'images/tf-image-1.jpg' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
-                        <img src="{% static 'images/tf-image-2.jpg' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
-                        <img src="{% static 'images/techfair.png' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
-                        <img src="{% static 'images/sfu.jpg' %}" style="display: inline; width: calc(50% - 20px); padding: 10px;"></img>
+                        <img title="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
+                        <img title="Students at Tech Fair 2022" src="{% static 'images/tf-image-2.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
+                        <img title="A Booth at Tech Fair 2022" src="{% static 'images/booth.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
+                        <img title="View from SFU's Burnaby Campus" src="{% static 'images/sfu.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
                     </div>
                 </div>
             </article>
 
             <article>
                 <div class="noto" style="min-height: 128px; background-color: #fff; color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; text-align: center;">
-                    <p>SFU CSSS</p>
+                    <p>2023, SFU CSSS</p>
+                    <p><a href="https://www.instagram.com/sfu_csss/">@sfu_csss</a> | <a href="https://go.sfss.ca/unions/11/info">student society</a> | <a href="http://discord.sfucsss.org/">discord</a></p>
                     <p>computing science</p>
                 </div>
             </article>
