@@ -14,10 +14,10 @@ const FRONT_PAGE_MESSAGES = [
     "long i = *(long*) &f;\ni = 0x5f3759df - (i >> 1); \n// hmmm, maybe not...",
     "cout << \"n=\" << this->booths.size() << endl;",
     "goto tech_fair;",
-    "let info = new CompanyBooth(info);",
+    "let booth = new CompanyBooth(info);",
     "for(booth in companyBooths) {\n\tSFU_CSSS.TechFair.create(booth);\n}",
     "Tech Fair received signal SIGSEV, \nSegmentation fault.", // TODO: the spaces in this message should be instant (it should also type really fast)
-    ":)",
+    "// :)",
     //"// the coolest event on campus",
     "// static webpages rule!",
     "// be there or be rectangle",
@@ -26,15 +26,19 @@ const FRONT_PAGE_MESSAGES = [
     "// run by the 【 SFU CSSS 】",
     "// ↑↑↓↓←→←→BA\n",
     //"// ∀ companies ∃ a perfect one",
-    "[1]+  Stopped\tvi tech_fair.cpp\ncsss@cr:~/tf/$ git add *\ncsss@cr:~/tf/$ git commit -m \"stuff\"",
-    "// now in full colour!",
+    "[1]+  Stopped\tvi tech_fair.cpp\ncsss@CR:~/tf/$ git add *\ncsss@CR:~/tf/$ git commit -m \"stuff\"",
+    "// now with more colours!",
     "// bigger than a bread box!",
     "// Tech Fair: Where Ideas Ignite!\n// - ChatGPT",
     "// Computing Science Student Society \n// (CSSS)",
+    "if let Booth(info) = tech_fair {\n\t//TODO: this\n}",
+    "// TODO: make tech fair awesome",
+    "// run anually",
+    "csss@CR:~/tf/$ fg\nbash: fg: current: no such job",
     "// ",
 ];
 
-// todo: move scrollbar for multiline versions
+// todo: add line numbers
 function typeMessage(lastIndex) {
     // when a person types a word there are 3 main ways:
     // 1. type word fully, really quickly
@@ -43,10 +47,14 @@ function typeMessage(lastIndex) {
 
     const MIN_KEYPRESS_TIME = 20;
     const MAX_KEYPRESS_TIME = 90;
-
+    
     let randIndex = lastIndex;
     while (randIndex == lastIndex) {
-        randIndex = Math.floor(Math.random() * FRONT_PAGE_MESSAGES.length);
+        if (randIndex == -1) {
+            randIndex = Math.floor(Math.random() * 2);            
+        } else {
+            randIndex = Math.floor(Math.random() * FRONT_PAGE_MESSAGES.length);
+        }
     }
     let word = FRONT_PAGE_MESSAGES[randIndex];
     
@@ -92,9 +100,37 @@ function typeMessage(lastIndex) {
     }
 }
 
+var laptopRotateTimer = 0.0;
+
 function onload() {
     updateBanner();
-    typeMessage();
+    setTimeout(() => { typeMessage(-1); }, 500);
+    document.getElementById("laptop").onclick = () => {
+        laptopRotateTimer = 0.65;
+    }
+    requestAnimationFrame(update);
+}
+
+var start;
+function update(time) {
+    if (start === undefined) {
+        start = time;
+    }
+    const elapsed = time - start;
+
+    if (laptopRotateTimer > 0.0) {
+        laptopRotateTimer -= elapsed / 1000.0;
+        document.getElementById("laptop-child").style.transform = "rotate(" + 180 + "deg)";
+        document.getElementById("mountain").style.transform = "translate(4px, 16px)";
+    } else {
+        document.getElementById("laptop-child").style.transform = "";
+        document.getElementById("mountain").style.transform = "";
+        laptopRotateTimer = 0.0;
+    }
+
+    // 
+    requestAnimationFrame(update);
+    start = time;
 }
 
 function updateBanner() {

@@ -12,6 +12,11 @@ p {
     padding: 8px 0;
 }
 
+li {
+    font-size: 1.25em;
+    margin: 12px;
+}
+
 .white-a {
     text-align: center;
 
@@ -20,21 +25,24 @@ p {
     padding: 8px; 
     text-decoration: none;
     
-    width: 75px;
-    transition: width 0.35s ease-in-out; 
+    width: 95px;
+    transition: width 0.25s ease-in-out; 
 }
 .white-a:hover {
-    width: 105px;
-    transition: width 0.65s ease-in-out; 
+    width: 110px;
+    transition: width 0.15s ease-in-out; 
     color: #8db7ff;
 }
 
-h3:target {
-    color: #8db7ff;
+a {
+    color: #D6385A;
+    text-decoration: none;
 }
-a:target {
-    color: #8db7ff;
+a:hover {
+    color: #000;
+    text-decoration: underline;
 }
+
 a:target:before {
     content:"› "; /* ※ 》¶ › § */
     font-size: 0.75em;
@@ -118,34 +126,6 @@ a:target:before {
     margin-bottom: 5px;
 }
 
-.styled-table {
-    border-collapse: collapse;
-    margin: 25px 0;
-    font-size: 0.9em;
-    font-family: sans-serif;
-    min-width: 400px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
-    margin-left: auto;
-    margin-right: auto;
-    border: none;
-}
-
-.styled-table thead tr {
-    background-color: #bcf5bc;
-    color: #000000;
-    text-align: left;
-}
-
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-    border: none;
-}
-
-.styled-table tbody tr:nth-of-type(even) {
-    background-color: #f3f3f3;
-}
-
 /* animations: ************************* */
 
 @keyframes blinking {
@@ -161,9 +141,87 @@ a:target:before {
 #logo-container > div > object {
     transform-style: preserve-3d;
     transition: transform 0.25s ease-in-out;
+    cursor: pointer; 
 }
-
 #logo-container:hover > div > object {
     transform: translate3d(-3px, -16px, 0px);
     transition: transform 0.25s ease-in-out; 
+}
+
+#mountain {
+    transform-style: preserve-3d;
+    transition: transform 0.52s ease-in-out;
+}
+
+.nav-button {
+    background-color: #000;
+    color: #fff;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
+    
+    min-width: 96px;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.nav-button:hover {
+    background-color: #e07b8a;
+    color: #fff;
+    transition: background-color 0.125s ease-in-out, color 0.125s ease-in-out; 
+}
+
+.nav-button-s {
+    background-color: #000;
+    color: #fff;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
+    
+    min-width: 96px;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.nav-button-s:hover {
+    background-color: #4a7a96;
+    color: #fff;
+    transition: background-color 0.055s ease-in-out, color 0.055s ease-in-out; 
+}
+
+.nav-button-w {
+    background-color: #000;
+    color: #fff;
+    border-color: #fff;
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out; 
+    
+    border: 1px solid;
+
+    min-width: 96px;
+    margin-left: 4px;
+    margin-right: 4px;
+
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.nav-button-w:hover {
+    background-color: #fff;
+    color: #000;
+    border-color: #000;
+    transition: background-color 0.125s ease-in-out, color 0.125s ease-in-out, border-color 0.125s ease-in-out; 
+}
+
+.nav-button > span, .nav-button-s > span, .nav-button-w > span {
+    transition: transform 0.25s ease-in-out; 
+}
+.nav-button:hover > span, .nav-button-s:hover > span, .nav-button-w:hover > span {
+    transition: transform 0.25s ease-in-out; 
+}
+
+.nav-button:active > span, .nav-button-s:active > span, .nav-button-w:active > span {
+    transform: translate3d(0, 6px, 0);
+    transition: transform 0.02s ease-in-out; 
 }
