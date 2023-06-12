@@ -230,6 +230,7 @@ INSTALLED_APPS = [
     'events.mountain_madness',
     'events.fall_hacks',
     'events.tech_fair',
+    'events.workshops',
     'resource_management',
     'static_pages',
     'django_mailbox',
@@ -475,3 +476,5 @@ logging.config.dictConfig({
         },
     }
 })
+
+print("settings.py finished")

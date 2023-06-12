@@ -7,5 +7,6 @@ urlpatterns = [
     url(r'^tech_fair/', include('events.tech_fair.urls')),
     url(r'^frosh/', include('events.frosh.urls')),
     url(r'^mm/', include('events.mountain_madness.urls')),
-    url(r'^fall_hacks/', include('events.fall_hacks.urls'))
+    url(r'^fall_hacks/', include('events.fall_hacks.urls')),
+    url(r'^workshops/', include('events.workshops.urls'))
 ]

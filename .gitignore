@@ -4,3 +4,4 @@
 /@eaDir/
 *.DS_Store*
 csss-site/src/about/static/about_static/exec-photos/
+*.env

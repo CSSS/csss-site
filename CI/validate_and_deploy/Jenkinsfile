@@ -5,7 +5,7 @@ pipeline {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
     }
     stages {
-        stage('Validate Formatting') {
+        stage('Validate Python Formatting') {
             steps {
                 sh label: '', script: """bash -c \'
                     ./csss-site/test/line_endings.sh;
@@ -17,7 +17,7 @@ pipeline {
                     export CONTAINER_SRC_DIR="\${CONTAINER_HOME_DIR}"/src;
 
                     export LOCALHOST_SRC_DIR=${WORKSPACE}/website/src/;
-                    export LOCALHOST_TEST_DIR=test_results;
+                    export LOCALHOST_TEST_DIR=python_formatting_test_results;
                     export TEST_RESULT_FILE_NAME=all-unit-tests.xml;
                     export LOCALHOST_TEST_DIR=${WORKSPACE}/"\${LOCALHOST_TEST_DIR}";
 
@@ -52,7 +52,7 @@ pipeline {
                             export ENVIRONMENT=STAGING;
                             export HOST_ADDRESS=dev.sfucsss.org;
 
-                            export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
+                            export GDRIVE_ROOT_FOLDER_ID="'"0AGb0FPdVjrsqUk9PVA"'";
                             export GDRIVE_TOKEN_LOCATION="'"/home/csss/credentials/token.pickle"'";
                             export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                             export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
@@ -72,6 +72,27 @@ pipeline {
                 }
             }
         }
+        stage('Validate HTML Formatting') {
+            when { changeRequest target: 'master' }
+            steps {
+                sh label: '', script: """bash -c \'
+                    export W3C_TESTS_URL=https://dev.sfucsss.org/PR-${CHANGE_ID};
+
+                    export COMPOSE_PROJECT_NAME=TEST_WEBSITE_${CHANGE_ID};
+                    export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_w3c;
+                    export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_w3c;
+
+                    export CONTAINER_HOME_DIR=/usr/src/app;
+                    export CONTAINER_HOME_LOGS_DIR="\${CONTAINER_HOME_DIR}"/logs;
+                    export CONTAINER_TEST_RESULT_DIRECTORY="\${CONTAINER_HOME_DIR}"/django_tests;
+
+                    export LOCALHOST_TEST_DIR=html_formatting_test_results;
+
+                    ./CI/validate_and_deploy/1_validate/validate_staging_website.sh;
+                \'"""
+            }
+        }
+
         stage('Deploy to Prod Server') {
             when {
                 branch 'master'
@@ -99,7 +120,7 @@ pipeline {
                         export HOST_ADDRESS=sfucsss.org;
 
                         export GDRIVE_TOKEN_LOCATION="/home/csss/google_drive_api_token/token.pickle";
-                        export GDRIVE_ROOT_FOLDER_ID="'"0B5w0O-VrxOd3UDg4Y3cyd3NFWEE"'";
+                        export GDRIVE_ROOT_FOLDER_ID="'"0AGb0FPdVjrsqUk9PVA"'";
                         export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
                         export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
                         export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
@@ -120,8 +141,11 @@ pipeline {
     post {
       always {
           script {
-              if (fileExists('test_results/all-unit-tests.xml')){
-                  junit skipPublishingChecks: true, testResults: 'test_results/all-unit-tests.xml'
+              if (fileExists('python_formatting_test_results/all-unit-tests.xml')){
+                  junit skipPublishingChecks: true, testResults: 'python_formatting_test_results/all-unit-tests.xml'
+              }
+              if (fileExists('html_formatting_test_results/xml/tests.xml')){
+                  junit skipPublishingChecks: true, testResults: 'html_formatting_test_results/xml/tests.xml'
               }
           }
       }

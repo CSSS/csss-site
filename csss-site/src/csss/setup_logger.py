@@ -9,15 +9,29 @@ from django.conf import settings
 
 from csss.CSSSLoggerHandlers import barrier_logging_level, CSSSDebugStreamHandler, CSSSErrorHandler
 
+date_timezone = pytz.timezone('US/Pacific')
+
+
+class PSTFormatter(logging.Formatter):
+    def __init__(self, fmt=None, datefmt=None, tz=None):
+        super(PSTFormatter, self).__init__(fmt, datefmt)
+        self.tz = tz
+
+    def formatTime(self, record, datefmt=None):  # noqa: N802
+        dt = datetime.datetime.fromtimestamp(record.created, self.tz)
+        if datefmt:
+            return dt.strftime(datefmt)
+        else:
+            return str(dt)
+
+
 REDIRECT_STD_STREAMS = True
 date_formatting_in_log = '%Y-%m-%d %H:%M:%S'
 date_formatting_in_filename = "%Y_%m_%d_%H_%M_%S"
-sys_stream_formatting = logging.Formatter(
-    '%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log
-)
-
-date_timezone = pytz.timezone('US/Pacific')
 modular_log_prefix = "cmd_"
+sys_stream_formatting = PSTFormatter(
+    '%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log, tz=date_timezone
+)
 
 
 class Loggers:
@@ -36,7 +50,7 @@ class Loggers:
             # ]
             # print(f"handler_file-first={handler_files[0]}")
             # print(f"handler_file-second={handler_files[1]}")
-            print("test")
+            # print("test")
             return cls.loggers[0]
         elif logger_name == settings.DJANGO_SETTINGS_LOG_HANDLER_NAME:
             return cls._add_logger(cls._add_settings_filehandler())

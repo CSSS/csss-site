@@ -43,7 +43,9 @@ def validate_user_info(new_officer_info, validate_github=True, validate_google_d
     if not success:
         return success, error_message
     if validate_github:
-        github_username = new_officer_info[UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY]
+        github_username = new_officer_info[UNPROCESSED_OFFICER_GITHUB_USERNAME__KEY].strip()
+        if len(github_username) == 0:
+            return False, "No Github username detected"
         github_api = GitHubAPI()
         success, error_message = github_api.validate_user(github_username)
         if not success:

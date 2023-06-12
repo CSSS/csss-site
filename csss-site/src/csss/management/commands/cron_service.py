@@ -21,7 +21,7 @@ class Command(BaseCommand):
         logger = Loggers.get_logger(logger_name=CRON_SERVICE_NAME)
         logger.info("[Cron_Service_Command handle()] setting up cron service")
         date = datetime.datetime.now(date_timezone)
-        scheduler = BackgroundScheduler(timezone=TIME_ZONE)
+        scheduler = BackgroundScheduler()
         cron_jobs = [cron_job for cron_job in CronJob.objects.all() if cron_job.is_active]
         for cron_job in cron_jobs:
             logger.info(
@@ -31,7 +31,7 @@ class Command(BaseCommand):
             script_path = CRON_JOB_MAPPING[cron_job.job_name][CRON_JOB_MAPPING_PATH_KEY]
             job = scheduler.add_job(
                 importlib.import_module(f'{script_path}{cron_job.job_name}').run_job,
-                trigger=CronTrigger.from_crontab(cron_job.schedule)
+                trigger=CronTrigger.from_crontab(cron_job.schedule, timezone=TIME_ZONE)
             )
             cron_job.job_id = job.id
             cron_job.save()

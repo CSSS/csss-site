@@ -55,17 +55,18 @@ def validate_inputted_unprocessed_officers(
             else:
                 valid_ids.append(unprocessed_officer[ID_KEY])
         selected_position_name = unprocessed_officer[POSITION_NAME_KEY].strip()
-        if selected_position_name in selected_positions:
-            return False, f"You cannot have more than 1 {selected_position_name}"
         selected_position = officer_emaillist_and_position_mappings.filter(
             position_name=selected_position_name
         ).first()
         if selected_position is None:
             return False, f"Invalid position of {selected_position} specified"
+        if not selected_position.shared_position:
+            if selected_position_name in selected_positions:
+                return False, f"You cannot have more than 1 {selected_position_name}"
+            selected_positions.append(selected_position_name)
         officer_name = unprocessed_officer[FULL_NAME_KEY].strip()
         if ' ' not in officer_name:
             return False, f"Could not detect a full name for \"{officer_name}\" [first AND last name]"
-        selected_positions.append(selected_position_name)
         if len(unprocessed_officer[DISCORD_ID_KEY].strip()) > 0:
             discord_id = unprocessed_officer[DISCORD_ID_KEY].strip()
             valid, error_message = validate_discord_id(discord_id)
