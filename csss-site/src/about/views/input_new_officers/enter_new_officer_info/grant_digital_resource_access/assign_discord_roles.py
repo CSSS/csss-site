@@ -10,7 +10,7 @@ from csss.views_helper import determine_if_specified_term_obj_is_for_current_ter
 EXEC_DISCORD_ROLE_NAME = 'Execs'
 
 
-def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj):
+def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj, role_is_executive_officer=False):
     """
     Assigns any necessary discord roles to the new officer
 
@@ -18,21 +18,24 @@ def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj):
     discord_role_name -- the name of the Officer specific role to assign to the new Officer
     discord_recipient_id -- the discord ID of the new officer
     term_obj -- the term that the officer has been elected for
+    role_is_executive_officer -- indicates if the officer has to be assigned the exec group role as well
 
     Return
     bool -- True or false depending on if there was an issue with talking to the discord API
     error_message -- the message received alongside the error
     """
     if determine_if_specified_term_obj_is_for_current_term(term_obj) and settings.GUILD_ID is not None:
-        discord_role_names = [EXEC_DISCORD_ROLE_NAME, discord_role_name]
+        discord_role_names = [discord_role_name]
+        if role_is_executive_officer:
+            discord_role_names.append(EXEC_DISCORD_ROLE_NAME)
         success, error_message, matching_roles = get_discord_guild_roles(discord_role_names)
         if not success:
             return success, error_message
         exec_discord_role_id = matching_roles[EXEC_DISCORD_ROLE_NAME]['id'] \
-            if EXEC_DISCORD_ROLE_NAME in matching_roles else None
+            if (role_is_executive_officer and EXEC_DISCORD_ROLE_NAME in matching_roles) else None
         officer_discord_role_id = matching_roles[discord_role_name]['id'] \
             if discord_role_name in matching_roles else None
-        if exec_discord_role_id is None:
+        if role_is_executive_officer and exec_discord_role_id is None:
             return False, f"Could not find the discord role \"{EXEC_DISCORD_ROLE_NAME}\""
         if officer_discord_role_id is None:
             return False, f"Could not find the discord roles \"{discord_role_name}\""
@@ -40,7 +43,9 @@ def assign_discord_roles(discord_role_name, discord_recipient_id, term_obj):
         success, error_message, discord_recipient_roles = get_discord_roles_for_specific_user(discord_recipient_id)
         if not success:
             return success, error_message
-        discord_recipient_roles.extend([officer_discord_role_id, exec_discord_role_id])
+        discord_recipient_roles.append(officer_discord_role_id)
+        if role_is_executive_officer:
+            discord_recipient_roles.append(exec_discord_role_id)
         return assign_roles_to_officer(discord_recipient_id, discord_recipient_roles)
     return True, None
 

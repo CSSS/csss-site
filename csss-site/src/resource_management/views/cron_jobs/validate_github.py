@@ -7,6 +7,7 @@ from resource_management.views.resource_apis.Constants import GITHUB_SERVICE_NAM
 
 def run_job():
     if settings.ENVIRONMENT == "LOCALHOST":
-        Popen(['python', 'manage.py', f'{GITHUB_SERVICE_NAME}'])
+        process = Popen(['python', 'manage.py', f'{GITHUB_SERVICE_NAME}'])
     else:
-        Popen(['./resource_management/cron_scripts/prod_validate_github.sh'])
+        process = Popen(['./resource_management/cron_scripts/prod_validate_github.sh'])
+    process.wait()

@@ -376,7 +376,7 @@ def create_google_drive_perms():
         "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "
         f"to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"
     )
-    google_drive_perms = {"sfucsss@gmail.com": [settings.GDRIVE_ROOT_FOLDER_ID]}
+    google_drive_perms = {}
     for officer in officer_list:
         if officer.gmail not in google_drive_perms.keys() and officer.gmail != "":
             google_drive_perms[officer.gmail.lower()] = [settings.GDRIVE_ROOT_FOLDER_ID]
