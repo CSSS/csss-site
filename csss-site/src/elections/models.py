@@ -6,8 +6,8 @@ from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 from csss.PSTDateTimeField import PSTDateTimeField
+from csss.convert_markdown import markdown_message
 from csss.views.send_discord_dm import send_discord_dm
-from csss.views_helper import markdown_message
 from elections.views.Constants import NA_STRING, \
     ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK
 
