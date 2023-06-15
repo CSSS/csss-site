@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from csss.PSTDateTimeField import PSTDateTimeField
+from csss.convert_markdown import markdown_message
 
 
 class Term(models.Model):
@@ -181,6 +182,14 @@ class Officer(models.Model):
         max_length=140,
         default="NA"
     )
+
+    @property
+    def get_front_end_start_date(self):
+        return datetime.datetime.strftime(self.start_date, "%d %b %Y")
+
+    @property
+    def get_front_end_bio(self):
+        return markdown_message(self.bio)
 
     def __str__(self):
         return f" {self.elected_term} {self.full_name}"

@@ -6,8 +6,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from announcements.models import Announcement
+from csss.convert_markdown import markdown_message
 from csss.views.context_creation.create_main_context import create_main_context
-from csss.views_helper import markdown_message, validate_markdown
+from csss.views_helper import validate_markdown
 
 ERROR_MESSAGES_KEY = 'error_messages'
 

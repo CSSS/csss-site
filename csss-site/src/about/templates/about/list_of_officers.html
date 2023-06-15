@@ -41,11 +41,6 @@
 
 				<!-- Tab panes -->
 				<div id="tab-content">
-					<!-- the prev_position is used to ensure that when a user who is not logged in is viewing the list
-					they only see the last person to occupy a position -->
-					{% if officer_in_past_5_terms is True or root_user is True %}
-						{% define "None" as prev_position %}
-					{%  endif %}
 					{% for term in terms %}
 						{% if term_active == term.term_number %}
 							<div data-content="{{term.term}}_{{term.year}}">
@@ -55,40 +50,44 @@
 							<h1 class="title">Officers for {{term.term}} {{term.year}} Term</h1>
 							<hr>
 							<div class="row">
-								{% for officer in officers %}
-									{%  if prev_position != officer.position_name or officer_in_past_5_terms is True or root_user is True  %}
-										{% if officer.elected_term == term %}
-											<div class="col-md-4">
-												<img class="officer-photos" src="{% static officer.image %}" alt ="{{ officer.full_name }} photo for term {{term_active}}">
-											</div>
-											<div class="col-md-6">
-												<p class="lead">{{officer.position_name}} - <b>{{officer.full_name}}</b></p>
-												<p class="lead">Start Date - <b>{{ officer.start_date }}</b></p>
-												{% if officer_in_past_5_terms or root_user %}
-													<p class="lead">SFUID - <b>{{ officer.sfu_computing_id }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
-													<p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
-												{%  endif %}
-												{% if officer_in_past_5_terms or root_user or term_active == term.term_number  %}
-													<p class="lead">Discord Nickname: {{officer.discord_nickname}}</p>
-													<p class="lead">Discord Username: {{officer.discord_username}}</p>
-												{%  endif %}
-												<p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
-												<p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
-												{% if term_active == term.term_number %}
-													<p class="lead">Contact -<br> SFU Email: <a href="mailto:{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
-												{% endif %}
-												<div class="lead"><p>Bio -</p>
-													<div class="csss_markdown">
-														{{officer.bio|safe}}
-													</div>
-												</div>
-												<hr>
-											</div> <!-- closes col-md-6 div -->
-										{%  endif %} <!-- closes the if officer.elected_term == term -->
-									{% endif %}<!-- closes the if prev_position != officer.position_name or officer_in_past_5_terms is True or root_user is True-->
-									{% define officer.position_name as prev_position %}
-								{% endfor %}<!-- closes the for officer in officers -->
-							</div><!-- closes the row div -->
+                                {%  for officer_term, position_and_officer_mapping_in_term in officer_map.items %}
+                                    {%  if officer_term == term %}
+                                        {%  for position, officers_iterations in position_and_officer_mapping_in_term.items %}
+                                            {%  for officers_iteration in officers_iterations %}
+                                                {%  for officer in officers_iteration %}
+                                                    <div class="col-md-4">
+                                                        <img class="officer-photos" src="{% static officer.image %}" alt ="{{ officer.full_name }} photo for term {{term_active}}">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <p class="lead">{% if officers_iteration|length > 1 %}Co-{% endif %}{{officer.position_name}} - <b>{{officer.full_name}}</b></p>
+                                                        <p class="lead">Start Date - <b>{{ officer.get_front_end_start_date }}</b></p>
+                                                        {% if officer_in_past_5_terms or root_user %}
+                                                            <p class="lead">SFUID - <b>{{ officer.sfu_computing_id }}</b> | Phone Number - <b>{{ officer.phone_number }}</b></p>
+                                                            <p class="lead">Github Username - <b>{{ officer.github_username }}</b> | Gmail - <b>{{ officer.gmail }}</b></p>
+                                                        {%  endif %}
+                                                        {% if officer_in_past_5_terms or root_user or term_active == term.term_number  %}
+                                                            <p class="lead">Discord Nickname: {{officer.discord_nickname}}</p>
+                                                            <p class="lead">Discord Username: {{officer.discord_username}}</p>
+                                                        {%  endif %}
+                                                        <p class="lead">Favourite Courses - <b>{{officer.course1}}</b> | <b>{{officer.course2}}</b></p>
+                                                        <p class="lead">Languages of Choice - <b>{{officer.language1}}</b> | <b>{{officer.language2}}</b></p>
+                                                        {% if term_active == term.term_number %}
+                                                            <p class="lead">Contact -<br> SFU Email: <a href="mailto:{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
+                                                        {% endif %}
+                                                        <div class="lead"><p>Bio -</p>
+                                                            <div class="csss_markdown">
+                                                                {{officer.get_front_end_bio|safe}}
+                                                            </div>
+                                                        </div>
+                                                        <hr>
+                                                    </div> <!-- closes col-md-6 div -->
+                                                {%  endfor %}<!-- closes the for officer in officers_iteration -->
+                                            {%  endfor %}<!-- closes the for officers_iteration in officers_iterations -->
+                                        {%  endfor %}<!-- closes the for position, officers_iterations in position_and_officer_mapping_in_term.items -->
+                                    {%  else %}
+                                    {%  endif %}<!-- closes the if officer_term == term -->
+                                {%  endfor %}<!-- closes the for officer_term, position_and_officer_mapping_in_term in officer_map.items -->
+                            </div><!-- closes the row div -->
 						</div><!-- closes the div data-content div-->
 					{% endfor %}<!-- closes the form term in terms -->
 				</div> <!-- closes the tab-content div -->
