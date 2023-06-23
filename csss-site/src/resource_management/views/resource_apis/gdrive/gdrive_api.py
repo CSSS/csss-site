@@ -333,11 +333,12 @@ class GoogleDrive:
          google_drive_perms -- a dict that list all the permissions that currently need to be set
         """
         self.latest_date_check = get_current_date()
-        self.file_types = GoogleDriveNonMediaFileType.objects.all()
-        self.non_media_mimeTypes = [
-           file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
-        ]
-        MediaToBeMoved.objects.all().delete()
+        if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[MAIN_TEAM_DRIVE_NAME]['folder_id']:
+            self.file_types = GoogleDriveNonMediaFileType.objects.all()
+            self.non_media_mimeTypes = [
+                file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
+            ]
+            MediaToBeMoved.objects.all().delete()
         self._ensure_root_permissions_are_correct(google_drive_perms)
         self._validate_individual_file_and_folder_ownership_and_permissions("CSSS", google_drive_perms)
         if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[MAIN_TEAM_DRIVE_NAME]['folder_id']:
@@ -498,33 +499,34 @@ class GoogleDrive:
             "[GoogleDrive _validate_permissions_for_file()] ensuring that the permissions for file "
             f"{file['name']} are correct"
         )
-        file_mime_type_and_extension_not_for_image = False
-        for file_type in self.file_types.exclude(file_extension=""):
-            file_mime_type_and_extension_not_for_image = file_mime_type_and_extension_not_for_image or (
-               file['mimeType'] == file_type.mime_type and
-               'fileExtension' in file and file['fileExtension'] == file_type.file_extension
+        if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[MAIN_TEAM_DRIVE_NAME]['folder_id']:
+            file_mime_type_and_extension_not_for_image = False
+            for file_type in self.file_types.exclude(file_extension=""):
+                file_mime_type_and_extension_not_for_image = file_mime_type_and_extension_not_for_image or (
+                   file['mimeType'] == file_type.mime_type and
+                   'fileExtension' in file and file['fileExtension'] == file_type.file_extension
+                )
+            file_does_not_have_to_be_moved = (
+               file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
             )
-        file_does_not_have_to_be_moved = (
-           file['mimeType'] in self.non_media_mimeTypes or file_mime_type_and_extension_not_for_image
-        )
-        self.logger.info(
-           f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
-           f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
-           f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
-           f") detected as an image "
-        )
-        if not file_does_not_have_to_be_moved:
-            existing_file_obj = MediaToBeMoved.objects.all().filter(file_id=file['id'])
-            if len(existing_file_obj) == 0:
-                MediaToBeMoved(
-                    file_path=parent_folder, file_name=file['name'],
-                    parent_folder_link=(
-                        self.gdrive.files().get(
-                            fileId=file['parents'][0], fields='webViewLink'
-                        ).execute()['webViewLink']
-                    )
-                ).save()
-            return
+            self.logger.info(
+               f"[GoogleDrive _validate_permissions_for_file()] file \"{file['name']}\" "
+               f"({'True' if file['mimeType'] in self.non_media_mimeTypes else 'False'} || "
+               f"{'True' if file_mime_type_and_extension_not_for_image else 'False'}"
+               f") detected as an image "
+            )
+            if not file_does_not_have_to_be_moved:
+                existing_file_obj = MediaToBeMoved.objects.all().filter(file_id=file['id'])
+                if len(existing_file_obj) == 0:
+                    MediaToBeMoved(
+                        file_path=parent_folder, file_name=file['name'],
+                        parent_folder_link=(
+                            self.gdrive.files().get(
+                                fileId=file['parents'][0], fields='webViewLink'
+                            ).execute()['webViewLink']
+                        )
+                    ).save()
+                return
         # first going through all the permissions for the file to ensure
         # that they are correct according to the
         # google drive perms dictionary
