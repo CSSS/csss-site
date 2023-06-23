@@ -170,7 +170,8 @@ class MediaToBeMoved(models.Model):
 
     file_id = models.CharField(
         max_length=1000,
-        default=None
+        default=None,
+        null=True
     )
 
     def __str__(self):
