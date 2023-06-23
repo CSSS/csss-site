@@ -94,24 +94,25 @@ class CSSSError(models.Model):
 def convert_seconds_to_run_time_str(seconds):
     hours, minutes = 0, 0
     if seconds > 60:
-        minutes = seconds / 60
+        minutes = int(int(seconds) / 60)
         if minutes > 60:
-            hours = minutes / 60
+            hours = int(int(minutes) / 60)
             minutes = minutes % 60
-    seconds = seconds % 60
+    seconds = int(seconds % 60)
     run_time_str = ""
     if hours > 0:
-        run_time_str += f"{hours} hours"
+        run_time_str += f"{hours:{2}} hours"
     if minutes > 0:
         if len(run_time_str) > 0:
             run_time_str += ","
         if seconds == 0:
-            run_time_str += " and"
-        run_time_str += f" {minutes} minutes"
+            run_time_str += " and "
+        run_time_str += f"{minutes:{2}} minutes"
     if seconds > 0:
         if len(run_time_str) > 0:
-            run_time_str += ", and"
-        run_time_str += f" {seconds} seconds"
+            run_time_str += ", and "
+        run_time_str += f"{seconds:{2}} seconds"
     if run_time_str == "":
         run_time_str = "0 seconds"
+    run_time_str = run_time_str.replace(" ", "&nbsp;")
     return run_time_str
