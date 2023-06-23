@@ -9,10 +9,8 @@ Django==2.2.28
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
-django-file-form==3.3.0
 django-jinja==2.4.1
 django-mailbox==4.8.1
-django-pony-forms==0.6.0
 gitdb2==2.0.5
 gunicorn==19.9.0
 idna==2.8

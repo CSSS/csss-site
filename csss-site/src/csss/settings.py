@@ -191,11 +191,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bootstrap3',
-    'django_file_form',
-    'file_uploads',
-    'django_file_form.ajaxuploader',
-    'django_bootstrap3_form',
-    'django_pony_forms',
     'elections',
     'django.contrib.sites',
     'django_cas_ng'
