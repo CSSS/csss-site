@@ -152,6 +152,12 @@ class GoogleDriveNonMediaFileType(models.Model):
 
 
 class MediaToBeMoved(models.Model):
+    processed = models.BooleanField(
+        default=False
+    ),
+    archive = models.BooleanField(
+        default=False
+    )
     file_name = models.CharField(
         max_length=500
     )
@@ -160,6 +166,11 @@ class MediaToBeMoved(models.Model):
     )
     parent_folder_link = models.CharField(
         max_length=1000
+    )
+
+    file_id = models.CharField(
+        max_length=1000,
+        default=None
     )
 
     def __str__(self):
