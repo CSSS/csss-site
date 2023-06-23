@@ -168,11 +168,5 @@ class MediaToBeMoved(models.Model):
         max_length=1000
     )
 
-    file_id = models.CharField(
-        max_length=1000,
-        default=None,
-        null=True
-    )
-
     def __str__(self):
         return f"Media to Move: {self.file_name}"
