@@ -1,2 +1,12 @@
-GOOGLE_DRIVE_SERVICE_NAME = "validate_google_drive"
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_GENERAL_DOCUMENTS_SERVICE_NAME = \
+    "validate_google_workspace_shared_team_drive_for_general_documents"
+
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_PUBLIC_GALLERY_SERVICE_NAME = \
+    "validate_google_workspace_shared_team_drive_for_public_gallery"
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_PRIVATE_GALLERY_SERVICE_NAME = \
+    "validate_google_workspace_shared_team_drive_for_private_gallery"
+
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_DEEP_EXECS_SERVICE_NAME = \
+    "validate_google_workspace_shared_team_drive_for_deep_exec"
+
 GITHUB_SERVICE_NAME = "validate_github"

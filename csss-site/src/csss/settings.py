@@ -1,6 +1,7 @@
 import logging
 import logging.config
 import sys
+from typing import Optional
 
 import environ
 import os
@@ -99,85 +100,58 @@ if "BRANCH_NAME" not in os.environ and ENVIRONMENT == "STAGING":
 URL_ROOT = "/"
 URL_PATTERN = ""
 
-BRANCH_NAME = None
 if "BRANCH_NAME" in os.environ:
-    BRANCH_NAME = os.environ["BRANCH_NAME"]
-    if BRANCH_NAME != "master":
-        URL_ROOT = f"/{BRANCH_NAME}/"
-        URL_PATTERN = f"{BRANCH_NAME}/"
+    if os.environ['BRANCH_NAME'] != "master":
+        URL_PATTERN = f"{os.environ['BRANCH_NAME']}/"
+        URL_ROOT = f"/{URL_PATTERN}"
 
-print(f'[settings.py] BRANCH_NAME set to {BRANCH_NAME}')
 print(f'[settings.py] URL_ROOT set to {URL_ROOT}')
 print(f'[settings.py] URL_PATTERN set to {URL_PATTERN}')
 
 # SETTINGS FOR GOOGLE_DRIVE
 GDRIVE_SCOPES = ['https://www.googleapis.com/auth/drive']
 
-GDRIVE_ROOT_FOLDER_ID = None
-GDRIVE_TOKEN_LOCATION = None
-GITHUB_ACCESS_TOKEN = None
-SFU_CSSS_GMAIL_USERNAME = None
-SFU_CSSS_GMAIL_PASSWORD = None
-DISCORD_BOT_TOKEN = None
-GUILD_ID = None
-SFU_ENDPOINT_TOKEN = None
-DEV_DISCORD_ID = None
 
-if ENVIRONMENT == "LOCALHOST":
-    if 'GDRIVE_ROOT_FOLDER_ID' in os.environ:
-        GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
-    if 'GDRIVE_TOKEN_LOCATION' in os.environ:
-        GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
-    if 'GITHUB_ACCESS_TOKEN' in os.environ:
-        GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
-    if 'SFU_CSSS_GMAIL_USERNAME' in os.environ:
-        SFU_CSSS_GMAIL_USERNAME = os.environ['SFU_CSSS_GMAIL_USERNAME']
-    if 'SFU_CSSS_GMAIL_PASSWORD' in os.environ:
-        SFU_CSSS_GMAIL_PASSWORD = os.environ['SFU_CSSS_GMAIL_PASSWORD']
-    if 'DISCORD_BOT_TOKEN' in os.environ:
-        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
-    if 'GUILD_ID' in os.environ:
-        GUILD_ID = os.environ['GUILD_ID']
-    if 'SFU_ENDPOINT_TOKEN' in os.environ:
-        SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
-    if 'DEV_DISCORD_ID' in os.environ:
-        DEV_DISCORD_ID = os.environ['DEV_DISCORD_ID']
+def env_getter(key) -> Optional[str]:
+    env_variable = None
+    if ENVIRONMENT == "LOCALHOST" and key in os.environ:
+        env_variable = os.environ[key]
+    elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
+        if key not in os.environ:
+            raise Exception(f"[settings.py] {key} is not detected in ENVIRONMENT {ENVIRONMENT}")
+        env_variable = os.environ[key]
+    if env_variable is not None and not env_variable != "":
+        raise Exception(f"[settings.py] empty value for {key}")
+    return env_variable
 
-elif ENVIRONMENT == "PRODUCTION" or ENVIRONMENT == "STAGING":
-    if "GDRIVE_ROOT_FOLDER_ID" not in os.environ:
-        raise Exception(f"[settings.py] GDRIVE_ROOT_FOLDER_ID it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        GDRIVE_ROOT_FOLDER_ID = os.environ['GDRIVE_ROOT_FOLDER_ID']
-    if "GDRIVE_TOKEN_LOCATION" not in os.environ:
-        raise Exception(f"[settings.py] GDRIVE_TOKEN_LOCATION it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        GDRIVE_TOKEN_LOCATION = os.environ['GDRIVE_TOKEN_LOCATION']
-    if "GITHUB_ACCESS_TOKEN" not in os.environ:
-        raise Exception(f"[settings.py] GITHUB_ACCESS_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        GITHUB_ACCESS_TOKEN = os.environ['GITHUB_ACCESS_TOKEN']
-    if "SFU_CSSS_GMAIL_USERNAME" not in os.environ:
-        raise Exception(f"[settings.py] SFU_CSSS_GMAIL_USERNAME it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        SFU_CSSS_GMAIL_USERNAME = os.environ['SFU_CSSS_GMAIL_USERNAME']
-    if "SFU_CSSS_GMAIL_PASSWORD" not in os.environ:
-        raise Exception(f"[settings.py] SFU_CSSS_GMAIL_PASSWORD it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        SFU_CSSS_GMAIL_PASSWORD = os.environ['SFU_CSSS_GMAIL_PASSWORD']
-    if "DISCORD_BOT_TOKEN" not in os.environ:
-        raise Exception(f"[settings.py] DISCORD_BOT_TOKEN it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        DISCORD_BOT_TOKEN = os.environ['DISCORD_BOT_TOKEN']
-    if "GUILD_ID" not in os.environ:
-        raise Exception(f"[settings.py] GUILD_ID it not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        GUILD_ID = os.environ['GUILD_ID']
-    if "SFU_ENDPOINT_TOKEN" not in os.environ:
-        raise Exception(f"[settings.py] SFU_ENDPOINT_TOKEN not detected in ENVIRONMENT {ENVIRONMENT}")
-    else:
-        SFU_ENDPOINT_TOKEN = os.environ['SFU_ENDPOINT_TOKEN']
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS = env_getter('GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS') # noqa E501
 
-print(f"[settings.py] GDRIVE_ROOT_FOLDER_ID={GDRIVE_ROOT_FOLDER_ID}")
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY = env_getter('GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY') # noqa E501
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY = env_getter('GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY') # noqa E501
+
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY = env_getter('GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY') # noqa E501
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY = env_getter('GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY') # noqa E501
+
+GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC = env_getter('GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC') # noqa E501
+
+GDRIVE_TOKEN_LOCATION = env_getter('GDRIVE_TOKEN_LOCATION')
+GITHUB_ACCESS_TOKEN = env_getter('GITHUB_ACCESS_TOKEN')
+SFU_CSSS_GMAIL_USERNAME = env_getter('SFU_CSSS_GMAIL_USERNAME')
+SFU_CSSS_GMAIL_PASSWORD = env_getter('SFU_CSSS_GMAIL_PASSWORD')
+DISCORD_BOT_TOKEN = env_getter('DISCORD_BOT_TOKEN')
+GUILD_ID = env_getter('GUILD_ID')
+SFU_ENDPOINT_TOKEN = env_getter('SFU_ENDPOINT_TOKEN')
+DEV_DISCORD_ID = os.environ['DEV_DISCORD_ID'] if 'DEV_DISCORD_ID' in os.environ else None
+
+if DEV_DISCORD_ID is not None and not DEV_DISCORD_ID != "":
+    raise Exception("[settings.py] empty value for DEV_DISCORD_ID")
+
+print(f"[settings.py] GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS={GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS}") # noqa E501
+print(f"[settings.py] GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY={GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY}") # noqa E501
+print(f"[settings.py] GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY={GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY}") # noqa E501
+print(f"[settings.py] GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY={GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY}") # noqa E501
+print(f"[settings.py] GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY={GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY}") # noqa E501
+print(f"[settings.py] GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC={GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC}") # noqa E501
 print(f"[settings.py] GDRIVE_TOKEN_LOCATION={GDRIVE_TOKEN_LOCATION}")
 print(f"[settings.py] GITHUB_ACCESS_TOKEN={GITHUB_ACCESS_TOKEN}")
 print(f"[settings.py] SFU_CSSS_GMAIL_USERNAME={SFU_CSSS_GMAIL_USERNAME}")
@@ -187,32 +161,9 @@ print(f"[settings.py] GUILD_ID={GUILD_ID}")
 print(f"[settings.py] SFU_ENDPOINT_TOKEN={SFU_ENDPOINT_TOKEN}")
 print(f"[settings.py] DEV_DISCORD_ID={DEV_DISCORD_ID}")
 
-if GDRIVE_ROOT_FOLDER_ID is not None and not GDRIVE_ROOT_FOLDER_ID != "":
-    raise Exception("[settings.py] empty value for GDRIVE_ROOT_FOLDER_ID")
-
 if GDRIVE_TOKEN_LOCATION is not None and not os.path.isfile(GDRIVE_TOKEN_LOCATION):
     raise Exception(f"[settings.py] file {GDRIVE_TOKEN_LOCATION} does not exist for GDRIVE_TOKEN_LOCATION")
 
-if GITHUB_ACCESS_TOKEN is not None and not GITHUB_ACCESS_TOKEN != "":
-    raise Exception("[settings.py] empty value for GITHUB_ACCESS_TOKEN")
-
-if SFU_CSSS_GMAIL_USERNAME is not None and not SFU_CSSS_GMAIL_USERNAME != "":
-    raise Exception("[settings.py] empty value for SFU_CSSS_GMAIL_USERNAME")
-
-if SFU_CSSS_GMAIL_PASSWORD is not None and not SFU_CSSS_GMAIL_PASSWORD != "":
-    raise Exception("[settings.py] empty value for SFU_CSSS_GMAIL_PASSWORD")
-
-if DISCORD_BOT_TOKEN is not None and not DISCORD_BOT_TOKEN != "":
-    raise Exception("[settings.py] empty value for DISCORD_BOT_TOKEN")
-
-if GUILD_ID is not None and not GUILD_ID != "":
-    raise Exception("[settings.py] empty value for GUILD_ID")
-
-if SFU_ENDPOINT_TOKEN is not None and not SFU_ENDPOINT_TOKEN != "":
-    raise Exception("[settings.py] empty value for SFU_ENDPOINT_TOKEN")
-
-if DEV_DISCORD_ID is not None and not DEV_DISCORD_ID != "":
-    raise Exception("[settings.py] empty value for DEV_DISCORD_ID")
 # Application definition
 
 discord_header = {

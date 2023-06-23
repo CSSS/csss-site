@@ -32,6 +32,30 @@ mime_type = [
     'application/vnd.google-apps.drive-sdk'
 ]
 
+MAIN_TEAM_DRIVE_NAME = "CSSS@SFU"
+PUBLIC_GALLERY_TEAM_DRIVE_FOLDER_NAME = "Public Gallery"
+PRIVATE_GALLERY_TEAM_DRIVE_FOLDER_NAME = "Private Gallery"
+DEEP_EXEC_TEAM_DRIVE_NAME = "Deep-Exec"
+
+GOOGLE_DRIVE_WORKSPACE_FOLDERS = {
+    MAIN_TEAM_DRIVE_NAME: {
+        "folder_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS,
+        "drive_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS
+    },
+    PUBLIC_GALLERY_TEAM_DRIVE_FOLDER_NAME: {
+        "folder_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY,
+        "drive_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY
+    },
+    PRIVATE_GALLERY_TEAM_DRIVE_FOLDER_NAME: {
+        "folder_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY,
+        "drive_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY
+    },
+    DEEP_EXEC_TEAM_DRIVE_NAME: {
+        "folder_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC,
+        "drive_id": settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC
+    }
+}
+
 
 class GoogleDriveTokenCreator:
     def __init__(self, token_location, gdrive_client_id_json, scopes):
@@ -54,7 +78,7 @@ class GoogleDriveTokenCreator:
 
 class GoogleDrive:
 
-    def __init__(self, token_location=None, root_file_id=None):
+    def __init__(self, root_file_id, token_location=None):
         self.logger = Loggers.get_logger()
         self.non_media_mimeTypes = None
         self.file_types = None
@@ -62,18 +86,20 @@ class GoogleDrive:
         self.latest_date_check = get_current_date()
         creds = None
         self.error_message = None
-        self.root_file_id = None
-
+        self.root_file_id = root_file_id
+        self.folder_or_drive_name = None
+        for key, value in GOOGLE_DRIVE_WORKSPACE_FOLDERS.items():
+            if value['folder_id'] == root_file_id:
+                self.folder_or_drive_name = key
+        if self.folder_or_drive_name is None:
+            self.error_message = f'File id of {root_file_id} does not map to any known Google Workspace folders'
+            return
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
         # time.
         self.connection_successful = False
         if token_location is None:
             token_location = settings.GDRIVE_TOKEN_LOCATION
-        if root_file_id is not None:
-            self.root_file_id = root_file_id
-        if self.root_file_id is None:
-            self.root_file_id = settings.GDRIVE_ROOT_FOLDER_ID
         try:
             if os.path.exists(token_location):
                 with open(token_location, 'rb') as token:
@@ -127,27 +153,22 @@ class GoogleDrive:
                 return False, None, f"{e}"
 
             file_name = response['name']
-            if file_id is self.root_file_id:
-                message = 'the root SFU CSSS Google Drive folder'
-            else:
-                message = 'a subfolder in the SFU CSSS Google Drive'
+            message = ''
+            if file_id is not self.root_file_id:
+                message += 'a subfolder in '
+            message += f'the SFU CSSS Google Workspace "{self.folder_or_drive_name}" Folder/Shared Drive'
             for user in users:
                 email_message = (
                     f"Hello {user},"
-                    f"You have been granted access to {message}"
+                    f"You have been granted access to {message}.\n\n<br><br>"
                     "Please be careful when deleting as you have \"master\" access, as do all the officers."
-                    "Furthermore, when creating a file on the CSSS Google Drive, please "
-                    "try to transfer ownerships of any files you create to \"sfucsss@gmail.com\" account "
-                    "as this makes it easier for me to remove your access when it's time to revoke it."
-                    "You can figure out how to do that with these instructions: "
-                    "https://github.com/CSSS/managingCSSSResources/tree/master/google_drive"
-                    "-Your Sys Admin"
+                    "\n\n<br><br>-Your Sys Admin"
                 )
                 body = {'role': 'fileOrganizer', 'type': 'user', 'emailAddress': user.lower()}
                 try:
                     self.logger.info(
                         f"[GoogleDrive add_users_gdrive()] attempting to give {user.lower()} "
-                        "permission to access the sfu csss google drive"
+                        f"permission to access the {self.folder_or_drive_name}"
                     )
                     if self.make_changes:
                         self.gdrive.permissions().create(
@@ -174,7 +195,7 @@ class GoogleDrive:
                         error_message += f"{e}"
                     self.logger.error(
                         "[GoogleDrive add_users_gdrive()] was not able to given write permission "
-                        f"to {user.lower()} for the SFU CSSS Google Drive. following error occured"
+                        f"to {user.lower()} for {self.folder_or_drive_name}. following error occured"
                         f"instead. \n {error_message}"
                     )
                     return False, None, f"{error_message}"
@@ -200,42 +221,46 @@ class GoogleDrive:
                 ).execute()
                 self.logger.info("[GoogleDrive remove_users_gdrive()] was able to get the list of file permissions")
                 for user in users:
-                    self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through user {user}")
-                    for permission in permissions['permissions']:
-                        self.logger.info(
-                            f"[GoogleDrive remove_users_gdrive()] iterating through permission "
-                            f"{permission}"
-                        )
-                        if permission['emailAddress'].lower() == user:
-                            try:
-                                self.logger.info(
-                                    f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
-                                    f"access to file with id {file_id}"
-                                )
-                                if self.make_changes:
-                                    resp = self.gdrive.permissions().delete(
-                                        fileId=file_id,
-                                        permissionId=permission['id'],
-                                        supportsAllDrives=True
-                                    ).execute()
-                                    if resp != "":
-                                        google_drive_bad_access = GoogleDriveRootFolderBadAccess.objects.all.filter(
-                                            file_id=file_id
-                                        ).first()
-                                        if google_drive_bad_access is None:
-                                            google_drive_bad_access = GoogleDriveRootFolderBadAccess(
-                                                user=user, file_id=file_id
-                                            )
-                                        google_drive_bad_access.number_of_nags += 1
-                                        google_drive_bad_access.latest_date_check = self.latest_date_check
-                                        google_drive_bad_access.save()
-                                    time.sleep(30)
-                                self.logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
-                            except Exception as e:
-                                self.logger.error(
-                                    "[GoogleDrive remove_users_gdrive()] encountered following error "
-                                    f"with permission removed. \n {e}"
-                                )
+                    if user != 'csss@sfucsss.org':
+                        self.logger.info(f"[GoogleDrive remove_users_gdrive()] iterating through user {user}")
+                        for permission in permissions['permissions']:
+                            self.logger.info(
+                                f"[GoogleDrive remove_users_gdrive()] iterating through permission "
+                                f"{permission}"
+                            )
+                            if permission['emailAddress'].lower() == user:
+                                try:
+                                    self.logger.info(
+                                        f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
+                                        f"access to file with id {file_id}"
+                                    )
+                                    if self.make_changes:
+                                        resp = self.gdrive.permissions().delete(
+                                            fileId=file_id,
+                                            permissionId=permission['id'],
+                                            supportsAllDrives=True
+                                        ).execute()
+                                        if resp != "":
+                                            google_drive_bad_access = \
+                                                GoogleDriveRootFolderBadAccess.objects.all.filter(
+                                                    file_id=file_id
+                                                ).first()
+                                            if google_drive_bad_access is None:
+                                                google_drive_bad_access = GoogleDriveRootFolderBadAccess(
+                                                    user=user, file_id=file_id
+                                                )
+                                            google_drive_bad_access.number_of_nags += 1
+                                            google_drive_bad_access.latest_date_check = self.latest_date_check
+                                            google_drive_bad_access.save()
+                                        time.sleep(30)
+                                    self.logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
+                                except Exception as e:
+                                    self.logger.error(
+                                        "[GoogleDrive remove_users_gdrive()] encountered following error "
+                                        f"with permission removed. \n {e}"
+                                    )
+                    else:
+                        self.logger.info(f"[GoogleDrive remove_users_gdrive()] skipping root user of {user}")
             except Exception as e:
                 self.logger.error(
                     "[GoogleDrive remove_users_gdrive()] encountred the following error when trying "
@@ -353,6 +378,14 @@ class GoogleDrive:
                 gdrive_users_with_access_to_root_folder = [
                     permission['emailAddress'].lower() for permission in response['permissions']
                 ]
+            elif 'permissionIds' in response:
+                gdrive_users_with_access_to_root_folder = [
+                    (self.gdrive.permissions().get(
+                        fileId=self.root_file_id, permissionId=permission_id,
+                        supportsAllDrives=True, fields='*'
+                    ).execute())['emailAddress'].lower() for permission_id in response['permissionIds']
+                    if permission_id != 'anyoneWithLink'
+                ]
 
             self.logger.info("[GoogleDrive _ensure_root_permissions_are_correct()] current root permissions are: ")
             self.logger.info(json.dumps(gdrive_users_with_access_to_root_folder, indent=3))
@@ -368,7 +401,8 @@ class GoogleDrive:
                 else:
                     self.logger.info(
                         f"[GoogleDrive _ensure_root_permissions_are_correct()] user {gdrive_user} apparently should"
-                        " not have access at all to any sfu csss google drive folder. attempting to remove it. "
+                        f" not have access at all to any folders in {self.folder_or_drive_name}. "
+                        f"attempting to remove it. "
                     )
                     self.remove_users_gdrive([gdrive_user])
             for gdrive_user in google_drive_perms:
@@ -407,11 +441,14 @@ class GoogleDrive:
         while True:
             try:
                 response = self.gdrive.files().list(
+                    corpora='drive',
+                    driveId=GOOGLE_DRIVE_WORKSPACE_FOLDERS[self.folder_or_drive_name]['drive_id'],
+                    includeItemsFromAllDrives=True,
+                    supportsAllDrives=True,
                     pageToken=next_page_token,
                     fields='*',
                     pageSize=999,
-                    q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false",
-                    supportsAllDrives=True
+                    q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
                 ).execute()
             except Exception as e:
                 self.logger.error(
@@ -474,25 +511,55 @@ class GoogleDrive:
         #        )
         #    ).save()
         #    return
-        for permission in file['permissions']:
+        if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[PUBLIC_GALLERY_TEAM_DRIVE_FOLDER_NAME]['folder_id']:
+            google_drive_file_that_permits_downloading = (
+                not file['copyRequiresWriterPermission'] and not
+                self._determine_if_file_info_belongs_to_gdrive_folder(file)
+            )
+            if google_drive_file_that_permits_downloading:
+                self.logger.info(
+                    "[GoogleDrive _validate_permissions_for_file()] attempting to remove the ability to copy the file"
+                    f" '{file['name']}' without writer permission"
+                )
+                self.gdrive.files().update(
+                    fileId=file['id'], supportsAllDrives=True, body={"copyRequiresWriterPermission": True}
+                ).execute()
+                self.logger.info(
+                    "[GoogleDrive _validate_permissions_for_file()] was able to remove the ability to copy the file"
+                    f" '{file['name']}' without writer permission"
+                )
+        permissions = []
+        if 'permissions' in file:
+            permissions = file['permissions']
+        elif 'permissionIds' in file:
+            permissions = [
+                (self.gdrive.permissions().get(
+                    fileId=self.root_file_id, permissionId=permission_id,
+                    supportsAllDrives=True, fields='*'
+                ).execute()) for permission_id in file['permissionIds']
+            ]
+        for permission in permissions:
             if permission['id'] == 'anyoneWithLink':
-                # check files that are link-share enabled
-                if 'anyoneWithLink' not in google_drive_perms.keys():
-                    # there are no link-shares enabled at this time
-                    self.logger.info(
-                        "[GoogleDrive _validate_permissions_for_file()] removing public "
-                        f"link for file with id {file['id']} and name {file['name']}"
-                    )
-                    self.remove_public_link_gdrive(file['id'])
-                else:
-                    if len(set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']])) == 0:
-                        # check to see if this particular file has not been link-share enabled or
-                        # one of this particular file's parent folders have also not been link-share enabled
+                if self.root_file_id != settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY:
+                    # have to allow the anyoneWithLink for the public gallery since its public facing
+
+                    # check files that are link-share enabled
+                    if 'anyoneWithLink' not in google_drive_perms.keys():
+                        # there are no link-shares enabled at this time
                         self.logger.info(
                             "[GoogleDrive _validate_permissions_for_file()] removing public "
                             f"link for file with id {file['id']} and name {file['name']}"
                         )
                         self.remove_public_link_gdrive(file['id'])
+                    else:
+                        if len(set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']])) == 0:
+                            # check to see if this particular file has not been link-share enabled or
+                            # one of this particular file's parent folders have also not been link-share enabled
+                            self.logger.info(
+                                "[GoogleDrive _validate_permissions_for_file()] removing public "
+                                f"link for file with id {file['id']} and name {file['name']}"
+                            )
+                            self.remove_public_link_gdrive(file['id'])
             elif 'emailAddress' in permission:
                 # checking permissions that are email-shared
                 email_address = permission['emailAddress'].lower()

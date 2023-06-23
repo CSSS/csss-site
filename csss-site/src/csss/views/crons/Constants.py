@@ -1,19 +1,38 @@
+from about.management.commands.nag_officers_to_enter_info import \
+    SERVICE_NAME as NAG_OFFICERS_TO_ENTER_INFO_AS_SERVICE_NAME
+from about.management.commands.update_discord_details \
+    import SERVICE_NAME as UPDATE_DISCORD_DETAILS_SERVICE_NAME
+from about.management.commands.update_officer_images \
+    import SERVICE_NAME as UPDATE_OFFICER_IMAGES_SERVICE_NAME
+from about.management.commands.validate_discord_roles_members \
+    import SERVICE_NAME as VALIDATE_DISCORD_ROLES_MEMBERS_SERVICE_NAME
+from announcements.management.commands.process_announcements \
+    import SERVICE_NAME as PROCESS_ANNOUNCEMENTS_SERVICE_NAME
+from resource_management.views.resource_apis.Constants import \
+    GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_GENERAL_DOCUMENTS_SERVICE_NAME, \
+    GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_DEEP_EXECS_SERVICE_NAME, \
+    GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_PUBLIC_GALLERY_SERVICE_NAME, GITHUB_SERVICE_NAME
+
 CRON_JOB_MAPPING_PATH_KEY = 'path'
 
 CRON_JOB_MAPPING = {
-    "nag_officers_to_enter_info": {
+    NAG_OFFICERS_TO_ENTER_INFO_AS_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs."
-    }, "update_discord_details": {
+    }, UPDATE_DISCORD_DETAILS_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
-    }, "update_officer_images": {
+    }, UPDATE_OFFICER_IMAGES_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
-    }, "validate_discord_roles_members": {
+    }, VALIDATE_DISCORD_ROLES_MEMBERS_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
-    }, "process_announcements": {
+    }, PROCESS_ANNOUNCEMENTS_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "announcements.views.cron_jobs.",
-    }, "validate_github": {
+    }, GITHUB_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.cron_jobs.",
-    }, "validate_google_drive": {
+    }, GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_GENERAL_DOCUMENTS_SERVICE_NAME: {
+        CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.cron_jobs.",
+    }, GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_DEEP_EXECS_SERVICE_NAME: {
+        CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.cron_jobs.",
+    }, GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_PUBLIC_GALLERY_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.cron_jobs.",
     }
 }

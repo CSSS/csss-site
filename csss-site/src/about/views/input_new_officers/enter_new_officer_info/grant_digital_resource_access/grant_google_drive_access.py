@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from csss.setup_logger import Loggers
 from resource_management.views.resource_apis.gdrive.gdrive_api import GoogleDrive
 
@@ -16,7 +18,7 @@ def grant_google_drive_access(grant_gdrive_access, gmail):
     """
     logger = Loggers.get_logger()
     if grant_gdrive_access and gmail is not None:
-        gdrive_api = GoogleDrive()
+        gdrive_api = GoogleDrive(settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS)
         if gdrive_api.connection_successful is False:
             logger.info("[about/grant_google_drive_access.py grant_google_drive_access()]"
                         f" {gdrive_api.error_message}")
