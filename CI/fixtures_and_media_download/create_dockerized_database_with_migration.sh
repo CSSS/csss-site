@@ -31,7 +31,14 @@ function applying_master_db_migrations {
   python3 manage.py migrate
   rm *.json* || true
   if [ -z "${CHANGE_ID}" ]; then
+    if [ $(echo $USER) = "jace" ]; then
+      ssh staging "grep -v 'redact' csss-site-fixtures-and-media-setup-for-staging/download_fixtures_and_media.sh  > csss-site-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh"
+      ssh staging "cd ~/csss-site-fixtures-and-media-setup-for-staging/ && /home/csss/csss-site-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh"
+    fi
     wget -r --no-parent -nd https://dev.sfucsss.org/dev_csss_website_media/fixtures/ -A 'json'
+    if [ $(echo $USER) = "jace" ]; then
+      ssh staging "cd ~/csss-site-fixtures-and-media-setup-for-staging/ && /home/csss/csss-site-fixtures-and-media-setup-for-staging/download_fixtures_and_media.sh"
+    fi
   else
     cp /mnt/dev_csss_website_media/fixtures/* .
   fi
