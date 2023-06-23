@@ -84,7 +84,7 @@ def add_users_to_gdrive(request):
     logger = Loggers.get_logger()
     logger.info(f"[resource_management/gdrive_views.py add_users_to_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive()
+    gdrive = GoogleDrive(settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
         if there_are_multiple_entries(post_dict, GOOGLE_DRIVE_USERS_NAME_KEY):
@@ -139,7 +139,7 @@ def add_user_to_gdrive(gdrive, user_legal_name, user_inputted_file_id, user_inpu
     error_message -- error if unable to give the user access to the file or None otherwise
    """
     logger = Loggers.get_logger()
-    file_id = settings.GDRIVE_ROOT_FOLDER_ID \
+    file_id = settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS \
         if user_inputted_file_id == "" \
         else user_inputted_file_id
     if user_does_not_have_access_to_file(user_inputted_gmail, file_id):
@@ -174,7 +174,7 @@ def update_permissions_for_existing_gdrive_user(request):
         f"request.POST={request.POST}"
     )
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive()
+    gdrive = GoogleDrive(settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS)
     if gdrive.connection_successful:
         if 'action' in request.POST:
             if request.POST['action'] == 'update':
@@ -185,7 +185,7 @@ def update_permissions_for_existing_gdrive_user(request):
                 success = False
                 file_name = None
                 gdrive_user = NonOfficerGoogleDriveUser.objects.get(id=request.POST[GOOGLE_DRIVE_USERS_DB_RECORD_KEY])
-                file_id = settings.GDRIVE_ROOT_FOLDER_ID \
+                file_id = settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS \
                     if request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY] == "" \
                     else request.POST[GOOGLE_DRIVE_USERS_FILE_ID_KEY]
                 if gdrive_user.gmail != request.POST[GOOGLE_DRIVE_USERS_GMAIL_KEY] and gdrive_user.file_id != \
@@ -249,7 +249,7 @@ def make_folders_public_gdrive(request):
     logger.info(
         f"[resource_management/gdrive_views.py make_folders_public_gdrive()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive()
+    gdrive = GoogleDrive(settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS)
     if gdrive.connection_successful:
         post_dict = parser.parse(request.POST.urlencode())
         if there_are_multiple_entries(post_dict, GOOGLE_DRIVE_USERS_FILE_ID_KEY):
@@ -318,7 +318,7 @@ def update_gdrive_public_links(request):
     logger.info(
         f"[resource_management/gdrive_views.py update_gdrive_public_links()] request.POST={request.POST}")
     validate_request_to_update_gdrive_permissions(request)
-    gdrive = GoogleDrive()
+    gdrive = GoogleDrive(settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS)
     if gdrive.connection_successful:
         if 'action' in request.POST:
             if request.POST['action'] == 'update':
@@ -355,8 +355,16 @@ def update_gdrive_public_links(request):
     return HttpResponseRedirect(f'{settings.URL_ROOT}resource_management/gdrive/')
 
 
-def create_google_drive_perms():
+def create_google_drive_perms(root_file_id=settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS,
+                              execs_only=False, relevant_previous_terms=5):
     """
+    Keyword Argument
+    root_file_id -- the file ID for the root folder/Shared Team drive whose permissions are needed
+    execs_only -- flag to ensure that only folks who were in executive positions are returned. This is used
+        in conjunction with relevant_previous_terms of 0 to get the list of current executives for `Deep-Execs` shared
+        team drive
+    relevant_previous_terms - if 0 specified, only get current term
+        if 1 is specified get current and previous term and so forth
     Example of google_drive_perms
     {
         "email1@gmail.com" : [
@@ -371,18 +379,20 @@ def create_google_drive_perms():
     }
     """
     logger = Loggers.get_logger()
-    officer_list = get_list_of_officer_details_from_past_specified_terms()
+    officer_list = get_list_of_officer_details_from_past_specified_terms(
+        execs_only=execs_only, relevant_previous_terms=relevant_previous_terms
+    )
     logger.info(
         "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "
-        f"to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"
+        f"to root folder {root_file_id}"
     )
     google_drive_perms = {}
     for officer in officer_list:
         if officer.gmail not in google_drive_perms.keys() and officer.gmail != "":
-            google_drive_perms[officer.gmail.lower()] = [settings.GDRIVE_ROOT_FOLDER_ID]
+            google_drive_perms[officer.gmail.lower()] = [root_file_id]
             logger.info(
                 f"[resource_management/gdrive_views.py create_google_drive_perms()] "
-                f"adding gmail {officer.gmail.lower()} to root folder {settings.GDRIVE_ROOT_FOLDER_ID}"
+                f"adding gmail {officer.gmail.lower()} to root folder {root_file_id}"
             )
     non_officer_users_with_access = NonOfficerGoogleDriveUser.objects.all()
     for user in non_officer_users_with_access:

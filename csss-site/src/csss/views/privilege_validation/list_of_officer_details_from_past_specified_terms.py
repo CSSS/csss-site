@@ -1,11 +1,12 @@
-from about.models import Officer, Term, UnProcessedOfficer
+from about.models import Officer, Term, UnProcessedOfficer, OfficerEmailListAndPositionMapping
 from csss.setup_logger import Loggers
 from csss.views_helper import get_current_term, get_latest_term
 
 
 def get_list_of_officer_details_from_past_specified_terms(
         relevant_previous_terms=5, position_names=None, filter_by_github=False, filter_by_sfuid=False,
-        unprocessed_officers=None, all_officers_in_relevant_terms=None, current_officer_only=False
+        unprocessed_officers=None, all_officers_in_relevant_terms=None, current_officer_only=False,
+        execs_only=False
 ):
     """
     Returns the list of users who match the specified position_names and relevant_previous_terms
@@ -18,7 +19,11 @@ def get_list_of_officer_details_from_past_specified_terms(
     filter_by_sfuid -- creates a list of just the relevant SFUIDs if set to True
     unprocessed_officers -- the list of SFUIDs for officer who have not yet added their latest bio
     all_officers_in_relevant_terms -- the list of officers for the relevant terms that need to be filtered down
-    current_officer_only -- flag to indicate if just 1 entry needs to be returned or a list of officers
+    current_officer_only -- flag to indicate if just 1 entry needs to be returned or a list of officers. this is
+        used for determining the privilege of users who are used the website
+    execs_only -- flag to ensure that only folks who were in executive positions are returned. This is used
+        in conjunction with relevant_previous_terms of 0 to get the list of current executives for `Deep-Execs` shared
+        team drive
 
     Return
     if current_officer_only
@@ -42,6 +47,13 @@ def get_list_of_officer_details_from_past_specified_terms(
                 term_number__in=get_relevant_terms(relevant_previous_terms)
             )
         ).order_by('-start_date')
+        if execs_only:
+            executive_officer_position_names = OfficerEmailListAndPositionMapping.objects.all().filter(
+                executive_officer=True
+            ).values_list('position_name', flat=True)
+            all_officers_in_relevant_terms = all_officers_in_relevant_terms.filter(
+                position_name__in=executive_officer_position_names
+            )
     officer_in_specified_terms_with_specified_position_names = [
         _extract_specified_info(officer, filter_by_github, filter_by_sfuid)
         for officer in all_officers_in_relevant_terms

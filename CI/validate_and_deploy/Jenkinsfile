@@ -6,6 +6,14 @@ pipeline {
     }
     environment {
         CONTAINER_HOME_DIR = "/usr/src/app";
+
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS = "0AGb0FPdVjrsqUk9PVA";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY = "1l3VeQL0fwb3ZX37OAoNxS7_K_V11QMpo";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY = "0AKdC7N8AIxGIUk9PVA";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY = "1qAxlOwVMUBtaL28S9oxZq05KQVyIXFUp";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY = "0AKdC7N8AIxGIUk9PVA";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC = "0AEthg-w3Ogz7Uk9PVA";
+        GDRIVE_ROOT_FOLDER_ID = '0AGb0FPdVjrsqUk9PVA';
     }
     stages {
         stage('Validate Python Formatting') {
@@ -52,7 +60,6 @@ pipeline {
                             export ENVIRONMENT=STAGING;
                             export HOST_ADDRESS=dev.sfucsss.org;
 
-                            export GDRIVE_ROOT_FOLDER_ID=0AGb0FPdVjrsqUk9PVA;
                             export GDRIVE_TOKEN_LOCATION=/home/csss/credentials/token.pickle;
                             export GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN};
                             export SFU_CSSS_GMAIL_USERNAME=${SFU_CSSS_GMAIL_USERNAME};
@@ -120,7 +127,6 @@ pipeline {
                         export HOST_ADDRESS=sfucsss.org;
 
                         export GDRIVE_TOKEN_LOCATION="/home/csss/google_drive_api_token/token.pickle";
-                        export GDRIVE_ROOT_FOLDER_ID=0AGb0FPdVjrsqUk9PVA;
                         export GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN};
                         export SFU_CSSS_GMAIL_USERNAME=${SFU_CSSS_GMAIL_USERNAME};
                         export SFU_CSSS_GMAIL_PASSWORD=${SFU_CSSS_GMAIL_PASSWORD};
