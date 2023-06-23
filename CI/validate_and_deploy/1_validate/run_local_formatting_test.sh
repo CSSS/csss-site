@@ -20,4 +20,13 @@ do
 	sleep 1
 done
 
-docker logs csss_website_test
+
+docker logs csss_website_test > logs.txt
+
+docker rm csss_website_test || true
+docker image rm csss_website_test || true
+docker builder prune -f
+
+cat logs.txt
+
+rm logs.txt
