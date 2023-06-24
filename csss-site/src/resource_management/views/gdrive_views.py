@@ -382,11 +382,13 @@ def create_google_drive_perms(root_file_id=settings.GOOGLE_WORKSPACE_SHARED_TEAM
     officer_list = get_list_of_officer_details_from_past_specified_terms(
         execs_only=execs_only, relevant_previous_terms=relevant_previous_terms
     )
+    google_drive_perms = {}
+
     logger.info(
-        "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail sfucsss@gmail.com "
+        "[resource_management/gdrive_views.py create_google_drive_perms()] adding gmail csss@sfucsss.org "
         f"to root folder {root_file_id}"
     )
-    google_drive_perms = {}
+    google_drive_perms['csss@sfucsss.org'] = root_file_id
     for officer in officer_list:
         if officer.gmail not in google_drive_perms.keys() and officer.gmail != "":
             google_drive_perms[officer.gmail.lower()] = [root_file_id]
