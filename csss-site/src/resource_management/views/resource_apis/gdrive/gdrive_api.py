@@ -553,7 +553,7 @@ class GoogleDrive:
         elif 'permissionIds' in file:
             for permission_id in file['permissionIds']:
                 permission = self.gdrive.permissions().get(
-                    fileId=file['id'], permissionId=permission_id,supportsAllDrives=True, fields='*'
+                    fileId=file['id'], permissionId=permission_id, supportsAllDrives=True, fields='*'
                 ).execute()
                 permissions.append(permission)
 
