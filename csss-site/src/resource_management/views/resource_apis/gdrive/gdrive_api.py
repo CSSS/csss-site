@@ -551,12 +551,12 @@ class GoogleDrive:
         if 'permissions' in file:
             permissions = file['permissions']
         elif 'permissionIds' in file:
-            permissions = [
-                (self.gdrive.permissions().get(
-                    fileId=self.root_file_id, permissionId=permission_id,
-                    supportsAllDrives=True, fields='*'
-                ).execute()) for permission_id in file['permissionIds']
-            ]
+            for permission_id in file['permissionIds']:
+                permission = self.gdrive.permissions().get(
+                    fileId=file['id'], permissionId=permission_id,supportsAllDrives=True, fields='*'
+                ).execute()
+                permissions.append(permission)
+
         for permission in permissions:
             if permission['id'] == 'anyoneWithLink':
                 if self.root_file_id != settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY:
