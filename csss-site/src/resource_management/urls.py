@@ -3,6 +3,7 @@ from django.conf.urls import url
 from resource_management.views import github_views, gdrive_views, resource_views
 from resource_management.views.media_to_be_moved import media_to_be_moved
 from resource_management.views.nags import nags
+from resource_management.views.upload_media import upload_media
 
 urlpatterns = [
     url(
@@ -51,6 +52,11 @@ urlpatterns = [
         r'^github/update_github_non_officer',
         github_views.update_github_non_officer,
         name="Update Non Officer"
+    ),
+    url(
+        r'^upload',
+        upload_media,
+        name='upload_media'
     ),
     url(
         r'^nags',

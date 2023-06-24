@@ -175,3 +175,27 @@ class MediaToBeMoved(models.Model):
 
     def __str__(self):
         return f"Media to Move: {self.file_name}"
+
+
+class Upload(models.Model):
+    upload_date = PSTDateTimeField(
+        default=timezone.now
+    )
+    event_type = models.CharField(
+        max_length=500
+    )
+    event_date = PSTDateTimeField(
+        default=timezone.now
+    )
+    relevant_note = models.CharField(
+        max_length=500
+    )
+
+
+class MediaUpload(models.Model):
+    media = models.FileField(
+        max_length=1000
+    )
+    upload = models.ForeignKey(
+        Upload, on_delete=models.CASCADE,
+    )
