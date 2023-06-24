@@ -47,13 +47,13 @@ def get_list_of_officer_details_from_past_specified_terms(
                 term_number__in=get_relevant_terms(relevant_previous_terms)
             )
         ).order_by('-start_date')
-        if execs_only:
-            executive_officer_position_names = OfficerEmailListAndPositionMapping.objects.all().filter(
-                executive_officer=True
-            ).values_list('position_name', flat=True)
-            all_officers_in_relevant_terms = all_officers_in_relevant_terms.filter(
-                position_name__in=executive_officer_position_names
-            )
+    if execs_only:
+        executive_officer_position_names = OfficerEmailListAndPositionMapping.objects.all().filter(
+            executive_officer=True
+        ).values_list('position_name', flat=True)
+        all_officers_in_relevant_terms = all_officers_in_relevant_terms.filter(
+            position_name__in=executive_officer_position_names
+        )
     officer_in_specified_terms_with_specified_position_names = [
         _extract_specified_info(officer, filter_by_github, filter_by_sfuid)
         for officer in all_officers_in_relevant_terms
