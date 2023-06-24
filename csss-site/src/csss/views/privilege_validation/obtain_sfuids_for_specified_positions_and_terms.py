@@ -38,6 +38,23 @@ def get_sfuid_for_officer_in_past_5_terms(unprocessed_officers=None, officers=No
     )
 
 
+def get_sfuid_for_current_executive_officers(unprocessed_officers=None, officers=None):
+    """
+    Get the SFUIDs for any person who is currently an executive officer
+
+    Keyword Arguments
+    unprocessed_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    a list of SFUIDs for officer who are currently an executive officer and have updated their bio
+    """
+    return _get_sfuids_for_specified_position_in_specified_terms(
+        unprocessed_officers=unprocessed_officers, officers=officers,
+        execs_only=True, relevant_previous_terms=0
+    )
+
+
 def get_current_sys_admin_or_webmaster_sfuid(unprocessed_officers=None, officers=None):
     """
     Get the SFUIDs for any person who is a current sys admin or webmaster
@@ -101,8 +118,9 @@ def get_current_webmaster_or_doa_sfuid(unprocessed_officers=None, officers=None)
 
 
 def _get_sfuids_for_specified_position_in_specified_terms(
-        relevant_previous_terms=5, position_names=None,
-        unprocessed_officers=None, officers=None, current_officer_only=False):
+    relevant_previous_terms=5, position_names=None,
+    unprocessed_officers=None, officers=None, current_officer_only=False,
+        execs_only=False):
     """
     gets either a list of SFUIDs or the sole applicable SFUID
 
@@ -114,6 +132,9 @@ def _get_sfuids_for_specified_position_in_specified_terms(
     officers -- all current and past officers
     current_officer_only -- indicates whether to return a list of all the officers that match
      the condition or just the latest one to do so
+    execs_only -- flag to ensure that only folks who were in executive positions are returned. This is used
+        in conjunction with relevant_previous_terms of 0 to get the list of current executives for `Deep-Execs` shared
+        team drive
 
     Return
     the list of SFUIDs or the sole applicable SFUID based on the parameters
@@ -138,5 +159,5 @@ def _get_sfuids_for_specified_position_in_specified_terms(
         position_names=position_names,
         filter_by_sfuid=True, unprocessed_officers=unprocessed_officers,
         all_officers_in_relevant_terms=all_officers_in_past_term,
-        current_officer_only=current_officer_only
+        current_officer_only=current_officer_only, execs_only=execs_only
     )

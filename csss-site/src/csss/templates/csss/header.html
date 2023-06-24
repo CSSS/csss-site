@@ -78,8 +78,11 @@
 							<a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a>
 							<a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/tree/master/policies">CSSS Policies</a>
 							<a target="_blank" class="navbar-item" href="https://sfss.ca/about/meeting-times-minutes/council/">SFSS Council Minutes</a>
-							<a target="_blank" href="https://drive.google.com/drive/folders/1l3VeQL0fwb3ZX37OAoNxS7_K_V11QMpo" class="navbar-item" >Photo Galleries</a>
-							<a target="_blank" href='' class="navbar-item">WIP-Upload Photo/Videos from CSSS Events</a>
+							<a target="_blank" href="https://drive.google.com/drive/folders/1l3VeQL0fwb3ZX37OAoNxS7_K_V11QMpo" class="navbar-item" >CSSS Gallery</a>
+                            {%  if current_executive_officer or root_user %}
+							    <a target="_blank" href="https://drive.google.com/drive/folders/1qAxlOwVMUBtaL28S9oxZq05KQVyIXFUp" class="navbar-item" >Private Exec Gallery</a>
+                            {%  endif %}
+							<a href='{{URL_ROOT}}resource_management/upload' class="navbar-item">Upload Media from CSSS Events</a>
 						</div>
 					</div>
 

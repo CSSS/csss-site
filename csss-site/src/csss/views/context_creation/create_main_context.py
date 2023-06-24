@@ -4,7 +4,8 @@ from about.models import Officer, UnProcessedOfficer
 from csss.views.context_creation.create_base_context import create_base_context
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_election_officer_sfuid, get_current_sys_admin_sfuid, \
-    get_current_webmaster_or_doa_sfuid, get_sfuid_for_officer_in_past_5_terms
+    get_current_webmaster_or_doa_sfuid, get_sfuid_for_officer_in_past_5_terms, \
+    get_sfuid_for_current_executive_officers
 from elections.models import Election
 
 CURRENT_WEBMASTER_OR_DOA = 'current_webmaster_or_doa'
@@ -67,6 +68,10 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
                 unprocessed_officers=unprocessed_officers, officers=officers
             )
         context[CURRENT_WEBMASTER_OR_DOA] = request.user.username in current_webmaster_or_doa_sfuid
+
+        current_executive_officer_sfuids = get_sfuid_for_current_executive_officers(
+            unprocessed_officers=unprocessed_officers, officers=officers)
+        context['current_executive_officer'] = request.user.username in current_executive_officer_sfuids
 
     request_path = f"http://{settings.HOST_ADDRESS}"
     if settings.PORT is not None:
