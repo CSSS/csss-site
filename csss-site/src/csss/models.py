@@ -31,7 +31,7 @@ class CronJob(models.Model):
         seconds_so_far = 0
         number_of_run_times = len(self.cronjobrunstat_set.all())
         if number_of_run_times == 0:
-            return "NA"
+            return "&nbsp;NA"
         for seconds in self.cronjobrunstat_set.all():
             seconds_so_far += seconds.run_time_in_seconds
         seconds_so_far = seconds_so_far / number_of_run_times
@@ -101,18 +101,30 @@ def convert_seconds_to_run_time_str(seconds):
     seconds = int(seconds % 60)
     run_time_str = ""
     if hours > 0:
-        run_time_str += f"{hours:{2}} hours"
+        if hours >= 10:
+            run_time_str += f"{hours:{3}} "
+        else:
+            run_time_str += f"{hours:{2}} "
+        run_time_str += "hours"
     if minutes > 0:
         if len(run_time_str) > 0:
             run_time_str += ","
         if seconds == 0:
             run_time_str += " and "
-        run_time_str += f"{minutes:{2}} minutes"
+        if minutes >= 10:
+            run_time_str += f"{minutes:{3}} "
+        else:
+            run_time_str += f"{minutes:{2}} "
+        run_time_str += "minutes"
     if seconds > 0:
         if len(run_time_str) > 0:
-            run_time_str += ", and "
-        run_time_str += f"{seconds:{2}} seconds"
+            run_time_str += ", and"
+        if seconds >= 10:
+            run_time_str += f"{seconds:{3}} "
+        else:
+            run_time_str += f"{seconds:{2}} "
+        run_time_str += "seconds"
     if run_time_str == "":
-        run_time_str = "0 seconds"
+        run_time_str = " 0 seconds"
     run_time_str = run_time_str.replace(" ", "&nbsp;")
     return run_time_str
