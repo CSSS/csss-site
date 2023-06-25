@@ -522,7 +522,8 @@ class GoogleDrive:
                         file_path=parent_folder, file_name=file['name'],
                         parent_folder_link=(
                             self.gdrive.files().get(
-                                fileId=file['parents'][0], fields='webViewLink'
+                                fileId=file['parents'][0], fields='webViewLink',
+                                supportsAllDrives=True
                             ).execute()['webViewLink']
                         )
                     ).save()
