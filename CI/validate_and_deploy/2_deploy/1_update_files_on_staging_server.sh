@@ -8,52 +8,52 @@ function create_staging_branch_home_dir {
 }
 
 function remove_existing_files {
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_django_admin" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/site_envs_gunicorn" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/csss_site_envs/csss_site_django_admin.env" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/csss_site_envs/csss_site_gunicorn.env" || true
 
 }
 
 function transfer_env_variables_to_server {
   # create the file that contains all the environment variables that
   # site needs to run
-  echo 'BASE_DIR='"'"${BASE_DIR}"'" > site_envs
-  echo 'WEBSITE_SECRET_KEY='"'"${WEBSITE_SECRET_KEY}"'" >> site_envs
-  echo 'DEBUG='"'"${DEBUG}"'" >> site_envs
-  echo 'HOST_ADDRESS='"'"${HOST_ADDRESS}"'" >> site_envs
-  echo 'DB_PASSWORD='"'"${DB_PASSWORD}"'" >> site_envs
-  echo 'STRIPE_PUBLISHABLE_KEY='"'"${STRIPE_PUBLISHABLE_KEY}"'" >> site_envs
-  echo 'STRIPE_SECRET_KEY='"'"${STRIPE_SECRET_KEY}"'" >> site_envs
-  echo 'DB_PORT='"'"'5432'"'" >> site_envs
-  echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
-  echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-  echo 'ENVIRONMENT='"'"${ENVIRONMENT}"'" >> site_envs
+  echo 'BASE_DIR='"'"${BASE_DIR}"'" > csss_site.env
+  echo 'WEBSITE_SECRET_KEY='"'"${WEBSITE_SECRET_KEY}"'" >> csss_site.env
+  echo 'DEBUG='"'"${DEBUG}"'" >> csss_site.env
+  echo 'HOST_ADDRESS='"'"${HOST_ADDRESS}"'" >> csss_site.env
+  echo 'DB_PASSWORD='"'"${DB_PASSWORD}"'" >> csss_site.env
+  echo 'STRIPE_PUBLISHABLE_KEY='"'"${STRIPE_PUBLISHABLE_KEY}"'" >> csss_site.env
+  echo 'STRIPE_SECRET_KEY='"'"${STRIPE_SECRET_KEY}"'" >> csss_site.env
+  echo 'DB_PORT='"'"'5432'"'" >> csss_site.env
+  echo 'DB_TYPE='"'"'postgres'"'" >> csss_site.env
+  echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> csss_site.env
+  echo 'ENVIRONMENT='"'"${ENVIRONMENT}"'" >> csss_site.env
 
-  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS}"'" >> site_envs
-  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY}"'" >> site_envs
-  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY}"'" >> site_envs
-  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY}"'" >> site_envs
-  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY}"'" >> site_envs
-  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC}"'" >> site_envs
-  echo 'GDRIVE_ROOT_FOLDER_ID='"'"${GDRIVE_ROOT_FOLDER_ID}"'" >> site_envs
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS}"'" >> csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY}"'" >> csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY}"'" >> csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY}"'" >> csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY}"'" >> csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC}"'" >> csss_site.env
+  echo 'GDRIVE_ROOT_FOLDER_ID='"'"${GDRIVE_ROOT_FOLDER_ID}"'" >> csss_site.env
 
-  echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
-  echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
-  echo 'SFU_CSSS_GMAIL_USERNAME='"'"${SFU_CSSS_GMAIL_USERNAME}"'" >> site_envs
-  echo 'SFU_CSSS_GMAIL_PASSWORD='"'"${SFU_CSSS_GMAIL_PASSWORD}"'" >> site_envs
-  echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> site_envs
-  echo 'GUILD_ID='"'"${GUILD_ID}"'" >> site_envs
-  echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> site_envs
-  echo 'DB_CONTAINER_NAME='"'"'csss_site_db_dev'"'" >> site_envs
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > site_envs_django_admin
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn
-  echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-  echo 'CHANGE_ID='"'"${CHANGE_ID}"'" >> site_envs
+  echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> csss_site.env
+  echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> csss_site.env
+  echo 'SFU_CSSS_GMAIL_USERNAME='"'"${SFU_CSSS_GMAIL_USERNAME}"'" >> csss_site.env
+  echo 'SFU_CSSS_GMAIL_PASSWORD='"'"${SFU_CSSS_GMAIL_PASSWORD}"'" >> csss_site.env
+  echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> csss_site.env
+  echo 'GUILD_ID='"'"${GUILD_ID}"'" >> csss_site.env
+  echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> csss_site.env
+  echo 'DB_CONTAINER_NAME='"'"'csss_site_db_dev'"'" >> csss_site.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > csss_site_django_admin.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > csss_site_gunicorn.env
+  echo 'DB_NAME='"'"${BRANCH_NAME}"'" >> csss_site.env
+  echo 'CHANGE_ID='"'"${CHANGE_ID}"'" >> csss_site.env
 
-  cat site_envs >> site_envs_django_admin
-  cat site_envs >>  site_envs_gunicorn
-  ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}/site_envs" || true
-  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
-  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
+  cat csss_site.env >> csss_site_django_admin.env
+  cat csss_site.env >>  csss_site_gunicorn.env
+  ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}/csss_site_envs" || true
+  scp csss_site_django_admin.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_django_admin.env"
+  scp csss_site_gunicorn.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_gunicorn.env"
 }
 
 function transfer_file_to_deploy_all_above_changes {

@@ -4,7 +4,7 @@ set -e -o xtrace
 
 git checkout master
 
-rm sqlite || true
+rm db.sqlite3 || true
 python3 manage.py migrate
 
 rm *.json* || true

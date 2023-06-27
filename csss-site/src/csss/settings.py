@@ -6,27 +6,60 @@ from typing import Optional
 import environ
 import os
 
-SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 
-SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
-DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
+if 'ENVIRONMENT' not in os.environ:
+    raise Exception("[settings.py] ENVIRONMENT was not detected")
+ENVIRONMENT = os.environ['ENVIRONMENT']
+print(f"[settings.py] ENVIRONMENT set to {ENVIRONMENT}")
+
+if ENVIRONMENT != "LOCALHOST" and ENVIRONMENT != "STAGING" and ENVIRONMENT != "PRODUCTION":
+    print('[settings.py] ENVIRONMENT is not a valid value')
+    exit(1)
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+if ENVIRONMENT != "LOCALHOST":
+    if 'WEBSITE_SECRET_KEY' not in os.environ:
+        raise Exception("[settings.py] NO WEBSITE_SECRET_KEY was detected")
+    SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
+else:
+    SECRET_KEY = 'localhost'
+
 
 if 'BASE_DIR' in os.environ:
     BASE_DIR = os.environ['BASE_DIR']
 else:
+    # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
     BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 LOG_LOCATION = os.environ['LOG_LOCATION'] if 'LOG_LOCATION' in os.environ else None
 if LOG_LOCATION is None:
     raise Exception("[settings.py] NO LOG_LOCATION was detected")
 
+if 'LOG_LOCATION' not in os.environ:
+    raise Exception("[settings.py] NO LOG_LOCATION was detected")
+
+LOG_LOCATION = os.environ['LOG_LOCATION']
+
+# SECURITY WARNING: don't run with debug turned on in production!
+if ENVIRONMENT != "LOCALHOST":
+    if "DEBUG" not in os.environ:
+        raise Exception("[settings.py] DEBUG was not detected")
+    DEBUG = os.environ['DEBUG'] == "true"
+else:
+    DEBUG = True
+
+print(f'[settings.py] DEBUG set to {DEBUG}')
 
 USE_I18N = True
 
 USE_L10N = True
 
 USE_TZ = True
+
+
+SYS_STREAM_LOG_HANDLER_NAME = 'sys_stream'
+DJANGO_SETTINGS_LOG_HANDLER_NAME = "django_settings"
 
 from csss.setup_logger import Loggers # noqa E402
 
@@ -45,17 +78,6 @@ SESSION_COOKIE_AGE = 3600  # one hour in seconds
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-if 'WEBSITE_SECRET_KEY' not in os.environ:
-    raise Exception("[settings.py] NO WEBSITE_SECRET_KEY was detected")
-
-SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
-
-# SECURITY WARNING: don't run with debug turned on in production!
-if "DEBUG" not in os.environ:
-    raise Exception("[settings.py] DEBUG was not detected")
-DEBUG = os.environ['DEBUG'] == "true"
-print(f'[settings.py] DEBUG set to {DEBUG}')
 
 if 'STAGING_SERVER' in os.environ:
     STAGING_SERVER = os.environ['STAGING_SERVER']
@@ -63,27 +85,15 @@ else:
     STAGING_SERVER = 'https://dev.sfucsss.org/'
 print(f'[settings.py] STAGING_SERVER set to {STAGING_SERVER}')
 
-if 'ENVIRONMENT' not in os.environ:
-    raise Exception("[settings.py] ENVIRONMENT was not detected")
-ENVIRONMENT = os.environ['ENVIRONMENT']
-print(f"[settings.py] ENVIRONMENT set to {ENVIRONMENT}")
+PORT = 8000
 
-if ENVIRONMENT != "LOCALHOST" and ENVIRONMENT != "STAGING" and ENVIRONMENT != "PRODUCTION":
-    print('[settings.py] ENVIRONMENT is not a valid value')
-    exit(1)
+if ENVIRONMENT != "LOCALHOST" and "HOST_ADDRESS" not in os.environ:
+    raise Exception("[settings.py] HOST_ADDRESS is not set but the environment is not LOCALHOST")
 
-if ENVIRONMENT == "LOCALHOST" and "PORT" not in os.environ:
-    raise Exception("[settings.py] PORT is not set but the environment is LOCALHOST")
-
-if "PORT" in os.environ:
-    PORT = os.environ['PORT']
+if "HOST_ADDRESS" in os.environ:
+    HOST_ADDRESS = os.environ['HOST_ADDRESS']
 else:
-    PORT = None
-print(f'[settings.py] PORT set to {PORT}')
-
-if "HOST_ADDRESS" not in os.environ:
-    raise Exception("[settings.py] HOST_ADDRESS was not detected")
-HOST_ADDRESS = os.environ['HOST_ADDRESS']
+    HOST_ADDRESS = "127.0.0.1"
 ALLOWED_HOSTS = [HOST_ADDRESS]
 
 print(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
