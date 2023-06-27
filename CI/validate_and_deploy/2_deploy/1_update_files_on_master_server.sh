@@ -15,7 +15,7 @@ function remove_existing_files {
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/csss_site_envs/*" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env_master.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 }
 
@@ -77,7 +77,7 @@ function transfer_env_variables_to_server {
   scp csss_site_create_fixtures.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_create_fixtures.env"
   scp csss_site_django_admin.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_django_admin.env"
   scp csss_site_jenkins.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_jenkins.env"
-  scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
+  scp "CI/validate_and_deploy/2_deploy/set_env_master.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
 function transfer_file_to_deploy_all_above_changes {
