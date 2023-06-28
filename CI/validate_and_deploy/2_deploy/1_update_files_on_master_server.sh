@@ -15,7 +15,7 @@ function remove_existing_files {
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/csss_site_envs/*" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env_master.sh" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 }
 
