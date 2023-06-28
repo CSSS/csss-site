@@ -50,7 +50,7 @@ pipeline {
                         string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
                     ]
                 ) {
-                      timeout(5) {
+                      timeout(10) {
                           sh('''
                             export BRANCH_NAME=${BRANCH_NAME};
                             export CHANGE_ID=${CHANGE_ID};
