@@ -27,8 +27,8 @@ function setup_master_virtual_env(){
   python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt" --no-cache-dir
 
 
-  chmod +x "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh"
-  cp "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh" "${BASE_DIR}/set_env.sh"
+  chmod +x "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env_master.sh"
+  cp "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env_master.sh" "${BASE_DIR}/set_env.sh"
   . "${BASE_DIR}/set_env.sh" csss_site_envs/csss_site_django_admin.env
 }
 
