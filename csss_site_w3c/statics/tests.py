@@ -10,3 +10,6 @@ class StaticsW3CValidationTest(SimpleTestCase):
 
     def test_guide_page(self):
         W3CValidation().validate_page(path="/statics/guide")
+
+    def test_getting_started_page(self):
+        W3CValidation().validate_page(path="/statics/getting_started")

@@ -12,3 +12,7 @@ def bursaries(request):
 
 def guide(request):
     return render(request, 'static_pages/guide.html', create_main_context(request, TAB))
+
+
+def getting_started(request):
+    return render(request, 'static_pages/getting_started.html', create_main_context(request, 'getting_started'))
