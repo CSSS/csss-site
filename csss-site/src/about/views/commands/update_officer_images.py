@@ -21,13 +21,13 @@ def update_officer_images(download=False):
                 "'*html*' -P about/static/about_static/  --cut-dirs=1"
             )
         else:
-            ret_val = os.system("cd /mnt/csss_website_media/csss-site-exec-photos && git pull")
+            ret_val = os.system("cd /home/csss/static_assets/csss-site-exec-photos && git pull")
         if ret_val != 0:
             try:
                 if settings.ENVIRONMENT == "LOCALHOST":
                     raise Exception(f"Unable to download the exec-photos from {officers_url}")
                 else:
-                    raise Exception("Unable to download the exec-hotos from github")
+                    raise Exception("Unable to download the exec-photos from github")
             except Exception:
                 logger.error(traceback.format_exc())
                 return

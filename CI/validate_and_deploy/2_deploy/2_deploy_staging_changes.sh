@@ -81,12 +81,10 @@ function update_static_files_location {
 }
 
 function update_media_files {
-  mkdir -p "${BASE_DIR}/static_root/documents_static" || true
-  ln -ns /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
   mkdir -p "${BASE_DIR}/static_root/about_static" || true
-  ln -ns /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
+  ln -ns /home/csss/staging_assets/website/exec-photos "${BASE_DIR}/static_root/about_static/" || true
   mkdir -p "${BASE_DIR}/media_root/" || true
-  ln -s /mnt/dev_csss_website_media/mailbox_attachments "${BASE_DIR}/media_root/." || true
+  ln -s /home/csss/staging_assets/website/mailbox_attachments "${BASE_DIR}/media_root/." || true
 }
 
 function set_gunicorn_files {
