@@ -1,6 +1,6 @@
 	location / {
 		proxy_read_timeout 3600;
 		autoindex on;
-		alias /mnt/;
+		alias /home/csss/staging_assets/;
 	}
 }
