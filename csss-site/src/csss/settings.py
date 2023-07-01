@@ -16,6 +16,7 @@ if ENVIRONMENT != "LOCALHOST" and ENVIRONMENT != "STAGING" and ENVIRONMENT != "P
     print('[settings.py] ENVIRONMENT is not a valid value')
     exit(1)
 
+PORT = None
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if ENVIRONMENT != "LOCALHOST":
@@ -24,6 +25,7 @@ if ENVIRONMENT != "LOCALHOST":
     SECRET_KEY = os.environ['WEBSITE_SECRET_KEY']
 else:
     SECRET_KEY = 'localhost'
+    PORT = 8000
 
 
 if 'BASE_DIR' in os.environ:
@@ -84,8 +86,6 @@ if 'STAGING_SERVER' in os.environ:
 else:
     STAGING_SERVER = 'https://dev.sfucsss.org/'
 print(f'[settings.py] STAGING_SERVER set to {STAGING_SERVER}')
-
-PORT = 8000
 
 if ENVIRONMENT != "LOCALHOST" and "HOST_ADDRESS" not in os.environ:
     raise Exception("[settings.py] HOST_ADDRESS is not set but the environment is not LOCALHOST")
