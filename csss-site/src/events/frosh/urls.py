@@ -2,7 +2,7 @@ from django.conf.urls import url
 
 from .views import (frosh_info, frosh2012, frosh2013, frosh2014, frosh2015,
                     frosh2016, frosh2017, frosh2018, frosh2019, frosh2020,
-                    frosh2021, frosh2022)
+                    frosh2021, frosh2022, frosh2023)
 
 urlpatterns = [
     url(r'^2012$', frosh2012.index, name="Frosh Week 2012"),
@@ -45,5 +45,9 @@ urlpatterns = [
     url(r'^2022$', frosh2022.index, name="Frosh Week 2022 Entrance"),
     url(r'^2022/frosh$', frosh2022.frosh, name="Frosh Week 2022"),
     url(r'^2022/secret$', frosh2022.secret, name="Not A Secret"),
+    url(r'^2023$', frosh2023.index, name="Frosh Week 2023 Entrance"),
+    url(r'^2023/frosh$', frosh2023.frosh, name="Frosh Week 2023"),
+    url(r'^2023/secret$', frosh2023.secret, name="Not A Secret"),
+    url(r'^2023/sponsor$', frosh2023.sponsor, name="For Sponsors"),
     url(r'^$', frosh_info.frosh_week, name="Frosh Week"),
 ]
