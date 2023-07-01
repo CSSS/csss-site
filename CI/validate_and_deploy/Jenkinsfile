@@ -14,6 +14,12 @@ pipeline {
         GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY = "0AKdC7N8AIxGIUk9PVA";
         GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC = "0AEthg-w3Ogz7Uk9PVA";
         GDRIVE_ROOT_FOLDER_ID = '0AGb0FPdVjrsqUk9PVA';
+
+        LOCALHOST_PYTHON_VALIDATION_TEST_DIR = 'python_formatting_test_results-${currentBuild.startTimeInMillis}';
+        LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME = 'formatting_test_results.xml';
+
+        LOCALHOST_W3C_VALIDATION_TEST_DIR = 'html_formatting_test_results-${currentBuild.startTimeInMillis}/xml';
+        LOCALHOST_W3C_VALIDATION_XML_FILE_NAME = 'w3c_validation_results.xml';
     }
     stages {
         stage('Validate Python Formatting') {
@@ -26,8 +32,7 @@ pipeline {
                     export CONTAINER_SRC_DIR="\${CONTAINER_HOME_DIR}"/src;
 
                     export LOCALHOST_SRC_DIR=${WORKSPACE}/website/src/;
-                    export TEST_RESULT_FILE_NAME=all-unit-tests.xml;
-                    export LOCALHOST_TEST_DIR=python_formatting_test_results;
+                    export TEST_RESULT_FILE_NAME=${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME};
 
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
@@ -93,8 +98,6 @@ pipeline {
                     export CONTAINER_HOME_LOGS_DIR="\${CONTAINER_HOME_DIR}"/logs;
                     export CONTAINER_TEST_RESULT_DIRECTORY="\${CONTAINER_HOME_DIR}"/django_tests;
 
-                    export LOCALHOST_TEST_DIR=html_formatting_test_results;
-
                     ./CI/validate_and_deploy/1_validate/validate_staging_website.sh;
                 ''')
             }
@@ -147,11 +150,11 @@ pipeline {
     post {
       always {
           script {
-              if (fileExists('python_formatting_test_results/all-unit-tests.xml')){
-                  junit skipPublishingChecks: true, testResults: 'python_formatting_test_results/all-unit-tests.xml'
+              if (fileExists('${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}')){
+                  junit skipPublishingChecks: true, testResults: '${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}'
               }
-              if (fileExists('html_formatting_test_results/xml/tests.xml')){
-                  junit skipPublishingChecks: true, testResults: 'html_formatting_test_results/xml/tests.xml'
+              if (fileExists('${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}')){
+                  junit skipPublishingChecks: true, testResults: '${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}'
               }
           }
       }
