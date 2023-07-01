@@ -15,11 +15,11 @@ docker build --no-cache -t ${docker_test_image_lower_case} \
     --build-arg LOG_LOCATION=${CONTAINER_HOME_LOGS_DIR} \
     --build-arg TEST_RESULT_DIRECTORY=${CONTAINER_TEST_RESULT_DIRECTORY} .
 
-echo "TEST_RESULT_DIRECTORY=${CONTAINER_TEST_RESULT_DIRECTORY}" >> site_envs
-echo "W3C_TESTS_URL=${W3C_TESTS_URL}" >> site_envs
+echo "TEST_RESULT_DIRECTORY=${CONTAINER_TEST_RESULT_DIRECTORY}" > ${BUILD_NUMBER}/css_site_w3c_validation.env
+echo "W3C_TESTS_URL=${W3C_TESTS_URL}" >> ${BUILD_NUMBER}/css_site_w3c_validation.env
 
 sleep 120
-docker run -d --name ${DOCKER_TEST_CONTAINER} --env-file site_envs ${docker_test_image_lower_case}
+docker run -d --name ${DOCKER_TEST_CONTAINER} --env-file ${BUILD_NUMBER}/css_site_w3c_validation.env ${docker_test_image_lower_case}
 
 while [ "$(docker inspect -f '{{.State.Running}}' ${DOCKER_TEST_CONTAINER})" == "true" ]
 do
@@ -27,10 +27,10 @@ do
 	sleep 1
 done
 
-rm -r ${LOCALHOST_TEST_DIR} || true
+rm -r ${BUILD_NUMBER}/${LOCALHOST_TEST_DIR} || true
 
 docker cp ${DOCKER_TEST_CONTAINER}:${CONTAINER_TEST_RESULT_DIRECTORY} \
-    ${LOCALHOST_TEST_DIR}
+    ${BUILD_NUMBER}/${LOCALHOST_TEST_DIR}
 
 test_container_failed=$(docker inspect ${DOCKER_TEST_CONTAINER} --format='{{.State.ExitCode}}')
 if [ "${test_container_failed}" -eq "1" ]; then
