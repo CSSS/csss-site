@@ -365,6 +365,11 @@ section {
 		flex-basis: auto;
 		width: calc(100vw - 32px);
 	}
+	.flexible-container {
+		flex-grow: 0;
+		flex-basis: auto;
+		width: calc(100vw - 32px);		
+	}
 }
 section .sponsors {
 	display: flex;
@@ -559,4 +564,76 @@ li {
 	padding: 16px;
 	max-width: 640px;
 	height: fit-content;
+}
+
+.flexible-container .sponsors {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+.flexible-container .sponsors img {
+	margin: 8px;
+	border-radius: 0;
+	width: 128px;
+	height: 64px;
+	object-fit: contain;
+}
+.flexible-container h1 {
+	font-size: 32pt;
+	font-weight: 900;
+	text-align: center;
+}
+.flexible-container h2 {
+	font-size: 24pt;
+	font-weight: 600;
+	text-align: center;
+}
+.flexible-container h3 {
+	font-size: 20pt;
+	font-weight: 400;
+}
+.flexible-container h4 {
+	text-align: center;
+	font-size: 16pt;
+	font-weight: 400;
+}
+.flexible-container p {
+	font-size: 14pt;
+}
+.flexible-container p.para {
+	text-indent: 32px;
+}
+.flexible-container p.fig {
+	text-align: center;
+	color: gray;
+}
+.flexible-container .monospace {
+	font-family: "IBM Plex Mono", monospace;
+}
+.flexible-container .center {
+	text-align: center;
+}
+.flexible-container a {
+	color: #a0a0ff;
+	font-weight: 600;
+	text-decoration: none;
+}
+.flexible-container a:hover {
+	text-decoration: underline;
+}
+.flexible-container b {
+	font-weight: 900;
+}
+.flexible-container img {
+	border-radius: 8px;
+	width: 100%;
+}
+.flexible-container table td {
+	padding: 8px;
+}
+.flexible-container span.gold {
+	font-weight: 600;
+	color: #ffff40;
 }

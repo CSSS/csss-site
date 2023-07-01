@@ -135,7 +135,7 @@ function animate(time) {
 
 	prev = time;
 
-	console.log(`${pong}, ${time}, ${delta}`);
+	//console.log(`${pong}, ${time}, ${delta}`);
 	window.requestAnimationFrame(animate);
 }
 
