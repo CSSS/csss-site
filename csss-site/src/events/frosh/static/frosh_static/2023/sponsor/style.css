@@ -550,3 +550,13 @@ button.contact:hover {
 li {
 	line-height: 24px;
 }
+
+.flexible-container {
+	flex-grow: 1;
+	flex-basis: 0;
+	display: block;
+	margin: 0;
+	padding: 16px;
+	max-width: 640px;
+	height: fit-content;
+}
