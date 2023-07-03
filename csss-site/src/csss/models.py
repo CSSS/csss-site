@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -63,6 +64,13 @@ class CronJobRunStat(models.Model):
 class CSSSError(models.Model):
     type = models.CharField(
         max_length=100,
+        default=None,
+        null=True
+    )
+    base_directory = settings.BASE_DIR,
+
+    file_path = models.CharField(
+        max_length=500,
         default=None,
         null=True
     )

@@ -37,8 +37,12 @@ class CSSSErrorHandler(logging.StreamHandler):
         try:
             from csss.models import CSSSError
             if len(CSSSError.objects.all().filter(message=message)) == 0:
-                CSSSError(filename=filename, message=message, request=request, endpoint=endpoint,
-                          type=record_type).save()
+                path_after_server_base = len(settings.BASE_DIR) + 1
+                path_before_file_name = filename.rindex("/")
+                file_path_after_base_dir = filename[path_after_server_base:path_before_file_name]
+                file_name = filename[path_before_file_name:]
+                CSSSError(file_path=file_path_after_base_dir, filename=file_name, message=message, request=request,
+                          endpoint=endpoint, type=record_type).save()
         except AppRegistryNotReady:
             pass
         except Exception as e:
