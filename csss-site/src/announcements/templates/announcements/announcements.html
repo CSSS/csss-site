@@ -31,7 +31,9 @@
 									<div class="hide_email_embeds">
 										{% if announcement.email.html|safe|length > 0 %}
 											{{announcement.email.html|safe}}
-										{% else %}
+                                        {%  elif announcement.email.html_text|safe|length > 0 %}
+                                            {{announcement.email.html_text|safe}}
+                                        {% else %}
 											{{announcement.email.body|safe|linebreaks}}
 										{% endif %}
 									</div>

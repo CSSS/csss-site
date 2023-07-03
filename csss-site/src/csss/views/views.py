@@ -48,6 +48,13 @@ def index(request):
         return HttpResponseRedirect(f'{settings.URL_ROOT}')
 
     announcements = paginated_object.page(current_page)
+    for announcement in announcements:
+        if announcement.email is not None:
+            # this is necessary because sometimes there are emails that seem to be double encoded
+            # like the one from Dina Zeng on 2023-06-30, in which case the html attribute does not render
+            # and the body attribute is still encoded
+            announcement.email.html_text = announcement.email.text.replace("\r\n", "<br>") \
+                if announcement.email.html == "" else ""
     error_message = None
     if settings.ENVIRONMENT == "LOCALHOST":
         announcement = [announcement for announcement in announcements if
