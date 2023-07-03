@@ -27,18 +27,18 @@ class Command(BaseCommand):
                 logger.info("[csss/error_reporter.py handle()] connecting to gmail")
                 gmail = Gmail()
                 for unprocessed_error in unprocessed_errors:
-                    if unprocessed_error.filename not in processed_files:
+                    if unprocessed_error.get_absolute_path() not in processed_files:
                         logger.info(
                             "[csss/error_reporter.py handle()] emailing the sys-admin about errors in "
-                            f"{unprocessed_error.filename}"
+                            f"{unprocessed_error.get_absolute_path()}"
                         )
                         message = f"Error in {unprocessed_error.filename}"
                         send_email(
                             "ERRORS detected in CSSS-WEBSITE", message, "csss-sysadmin@sfu.ca", "Jace",
-                            gmail=gmail, attachment=unprocessed_error.filename
+                            gmail=gmail, attachment=unprocessed_error.get_absolute_path()
                         )
                         logger.info("[csss/error_reporter.py handle()] sys-admin emailed about above error.")
-                        processed_files.append(unprocessed_error.filename)
+                        processed_files.append(unprocessed_error.get_absolute_path())
                 gmail.close_connection()
                 logger.info("[csss/error_reporter.py handle()] disconnected from gmail")
             logger.info("[csss/error_reporter.py handle()] going to sleep for an hour")

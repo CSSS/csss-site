@@ -86,6 +86,9 @@ class CSSSError(models.Model):
         null=True
     )
 
+    def get_absolute_path(self):
+        return f"[{self.base_directory}][{self.file_path}][{self.filename}]"
+
     endpoint = models.CharField(
         max_length=500,
         default=None,
