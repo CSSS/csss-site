@@ -1,0 +1,427 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<title>Frosh 2023</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Noto+Color+Emoji&display=swap" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/sponsor/style.css' %}" />
+		<script src="{% static 'frosh_static/2023/sponsor/index.js' %}"></script>
+	</head>
+	<body>
+		<header id="header">
+			<h1 class="title">
+				<img onclick="location.href = 'https://sfucsss.org'"
+				     src="{% static 'frosh_static/2023/sponsor/CSSS.svg' %}" alt="CSSS" />
+				RETRO FROSH 2023
+			</h1>
+			<img id="collapse-icon" src="{% static 'frosh_static/2023/sponsor/collapse-icon.svg' %}" alt="menu" />
+			<div id="collapse-menu" class="menu collapse-hide">
+				<a href="#about">About</a>
+				<a href="#statistics">Statistics</a>
+				<a href="#events">Events</a>
+				<a href="#packages" class="sponsor">SPONSOR US</a>
+				<a href="#contact" class="contact">Contact</a>
+			</div>
+		</header>
+		<div class="pong-wrapper" onmouseenter="pong = true;" onmouseleave="pong = false;">
+			<div id="pong-box">
+				<div class="tl"></div>
+				<div class="tr"></div>
+				<div class="ml"></div>
+				<div class="bl"></div>
+				<div class="br"></div>
+				<img id="center-block" src="{% static 'frosh_static/2023/sponsor/retro-frosh-2023.png' %}" alt="retro frosh 2023" />
+				<img id="paddle-a" src="{% static 'frosh_static/2023/sponsor/paddle.png' %}" alt="paddle-a" />
+				<img id="paddle-b" src="{% static 'frosh_static/2023/sponsor/paddle.png' %}" alt="paddle-b" />
+				<img id="ball" src="{% static 'frosh_static/2023/sponsor/ball.png' %}" alt="ball" />
+			</div>
+			<a id="scroll-prompt" href="#about" class="scroll-prompt">👇</a>
+		</div>
+		<a id="top-prompt" href="#top" class="top-prompt">👆</a>
+		<div>
+			<div id="about" class="anchor"></div>
+			<div class="cols">
+				<section>
+					<h2>About</h2>
+					<h3>What is FROSH?</h3>
+					<p class="para">
+						<b>FROSH</b> is a series of events run by the
+						<a href="https://sfucsss.org">
+							Computing Science Student Society
+						</a>
+						at
+						<a href="https://sfu.ca">
+							Simon Fraser University
+						</a>
+						in collaboration with the School of Computing Science.
+					</p>
+					<p>
+						FROSH week occurs during the fall semester to welcome new undergraduate
+						students into the School of Computing Science. Starting your degree is
+						a pivotal moment in each student's academic career, and with <b>FROSH</b>,
+						the fondest memories are made.
+					</p>
+					<p class="para">
+						<b>RETRO FROSH</b> is the next iteration of this tradition, starting
+						<b>September 11<sup>th</sup></b> and ending <b>September 16<sup>th</sup></b>, 2023.
+						This year's FROSH is inspired by SFU's School of Computing Science's
+						<a href="https://www.sfu.ca/computing/50-years.html">50<sup>th</sup> anniversary</a>.
+					</p>
+				</section>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/frosh.jpg' %}" alt="Candy FROSH 2022" />
+					<p class="fig">Candy FROSH 2022, Midnight Madness.</p>
+				</div>
+			</div>
+			<div id="statistics" class="anchor"></div>
+			<div class="cols">
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/statistics.jpg' %}" alt="History" />
+					<p class="fig">FROSH Week 2021</p>
+				</div>
+				<section>
+					<h2>Statistics</h2>
+					<p class="center">
+						On average, FROSH week is attended by more than <b>150-200 froshees</b>.
+					</p>
+					<p class="para">
+						In the past, FROSH has been sponsored by the following companies
+						with merchandise, funding, or by other means:
+					</p>
+					<div class="sponsors">
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/bitquill.png' %}" alt="BitQuill" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/coolermaster.png' %}" alt="CoolerMaster" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/ea.png' %}" alt="Electronic Arts" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/google.png' %}" alt="Google" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/jetbrains.png' %}" alt="JetBrains" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/microsoft.png' %}" alt="Microsoft" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/redbull.png' %}" alt="Red Bull" />
+						<img src="{% static 'frosh_static/2023/sponsor/past_sponsors/wolfram.png' %}" alt="Wolfram" />
+					</div>
+					<p>
+						Interested in sponsoring us? Please see our
+						<a href="#packages">sponsor</a> section.
+					</p>
+				</section>
+			</div>
+			<div id="events" class="anchor"></div>
+			<div class="cols">
+				<section>
+					<h2>Events</h2>
+					<p class="para">
+						The <b>RETRO FROSH</b> events take place over the course of
+						five days and one night (midnight madness). These events have
+						roots in the history of previously run FROSHes, but with an
+						added twist to keep things fresh and exciting.
+					</p>
+					<p>These events are:</p>
+					<ul>
+						<li><b>Monday</b>: Ice-Cream Social</li>
+						<li><b>Tuesday</b>: Burnaby Mountain Park Hike</li>
+						<li><b>Wednesday</b>: Info-Session, Pac Macro</li>
+						<li><b>Thursday</b>: BBQ and Board Games</li>
+						<li><b>Friday</b>: Midnight Madness</li>
+					</ul>
+				</section>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>Ice-Cream Social</h2>
+					<p class="para">
+						The ice-cream social is a recurring FROSH
+						event where froshees socialize with
+						fellow students over free ice-cream.
+					</p>
+					<p>
+						It is also during the ice-cream social that
+						froshees receive their <b>RETRO FROSH</b>
+						T-shirts, and meet their FROSH leaders.
+					</p>
+				</section>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/icecream.jpg' %}" alt="icecream social" />
+					<p class="fig">Candy FROSH 2022, Ice-Cream Social</p>
+				</div>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>Burnaby Mountain Park Hike</h2>
+					<p class="para">
+						This is an exciting adventure where froshees are invited to
+						conquer <b>Burnaby Mountain Park</b> with a thrilling hike,
+						games, and food.
+					</p>
+					<p>
+						This is a great opportunity for froshees to connect with their
+						peers in an outdoor and active setting, creating lasting memories
+						that will keep them excited for the rest of FROSH!
+					</p>
+				</section>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/hike.jpg' %}" alt="frosh hike" />
+					<p class="fig">Candy FROSH 2022, Hike</p>
+				</div>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>Info-Session</h2>
+					<p class="para">
+						During the info-session, froshees learn about
+						Computing Science concentrations, SFU co-op,
+						courses, and more from <b>invited speakers</b>.
+					</p>
+					<p>
+						This is an event intended to ease the transition
+						from high-school to university by allowing
+						froshees to ask questions and hear advice
+						from experienced academics and professionals.
+					</p>
+				</section>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/infosession.jpg' %}" alt="info session" />
+					<p class="fig">FROSH Week 2017, Info-Session</p>
+				</div>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>Pac-Macro</h2>
+					<p class="para">
+						Pac-macro is a FROSH week classic. Froshees
+						take turns playing as Pacman and Ghosts
+						in the streets of <b>downtown Vancouver</b>.
+					</p>
+					<p>
+						<b>CSSS-developed software</b> is used to keep track of the
+						location of players digitally, and present a Pacman-like
+						map to players.
+					</p>
+				</section>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/pacmacro.jpg' %}" alt="pacmacro" />
+					<p class="fig">Candy FROSH 2022, Pac-Macro</p>
+				</div>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>BBQ and Board Games</h2>
+					<p class="para">
+						During the welcome BBQ, we provide free burgers
+						and hotdogs to froshees, grilled by our finest
+						in-society chefs!
+					</p>
+					<p>
+						This well-earned meal is proceeded by a fun
+						afternoon full of board games.
+					</p>
+				</section>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/bbq.jpg' %}" alt="BBQ" />
+					<p class="fig">FROSH Week 2018, BBQ</p>
+				</div>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>Midnight Madness</h2>
+					<p class="para">
+						Midnight Madness is the culmination of all events during FROSH week.
+						Froshees are invited to stay overnight in the Applied Science Building
+						for a full 12 hours of planned fun.
+					<p>
+						There will be challenges fought between the four <b>Applied Science Schools</b>
+						(Computing Science, Engineering, Sustainable Engineering, Software Systems,
+						and Mechatronics)
+						Engineering, Software Systems, and Mechatronics), food, and <i>much more</i>.
+					</p>
+					<p class="para">
+						One thing that has remained consistent with Midnight Madness since <b>2004</b>
+						is the <b>RAMMING CEREMONY</b>, of which, by tradition, cannot be described.
+						This is the ultimate initiation into SFU Computing Science.
+					</p>
+					<p>
+						(Disclaimer: no froshees have or will ever be harmed during the ramming
+						ceremony; the name should not be taken upon its initial impression.)
+					</p>
+					<div class="spacer"></div>
+					<h2>Gallery (FROSH 2011-2022)</h2>
+				</section>
+			</div>
+			<div class="cols">
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/slurpee.jpg' %}" alt="slurpee race" />
+					<p class="fig">FROSH Week 2011, Midnight Madness</p>
+				</div>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/lanparty.jpg' %}" alt="lan party" />
+					<p class="fig">FROSH Week 2012, Midnight Madness</p>
+				</div>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/boardgames.jpg' %}" alt="board games night" />
+					<p class="fig">FROSH Week 2018, Midnight Madness</p>
+				</div>
+			</div>
+			<div class="cols">
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/dodgeball.jpg' %}" alt="THE dodgeball game" />
+					<p class="fig">Candy FROSH 2022, Midnight Madness</p>
+				</div>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/breakfast.jpg' %}" alt="breakfast" />
+					<p class="fig">FROSH Week 2017, Midnight Madness</p>
+				</div>
+				<div class="flexible-container">
+					<img src="{% static 'frosh_static/2023/sponsor/photos/compsci.jpg' %}" alt="compsci" />
+					<p class="fig">Candy FROSH 2022, Midnight Madness</p>
+				</div>
+			</div>
+			<div id="packages" class="anchor"></div>
+			<div class="cols">
+				<section>
+					<h2>Why Sponsor Us?</h2>
+					<p class="para">
+						FROSH is an opportunity to influence Computer Scientists
+						early on into their career. Sponsoring us enables you to:
+					</p>
+					<ul>
+						<li>Impact a large portion of new Computer Scientists early in their career.</li>
+						<li>Access the resum&eacute;s of our engaged FROSH Leaders.</li>
+						<li>Display your company logo on our RETRO FROSH merchandise.</li>
+						<li>Impact the organization and theme of Pac Macro (<span class="gold">GOLD</span> or <b>SILVER</b> package).</li>
+						<li>Present during our Info-Session (<span class="gold">GOLD</span> package).</li>
+					</ul>
+					<p>
+						Funding FROSH also ensures that we can create
+						memories for another year of passionate Computer
+						Scientists.
+					</p>
+					<p class="para">
+						Your contribution to FROSH will allow you to advertise your
+						company in a variety of ways, depending on your <b>Sponsorship
+						Package</b>.
+					</p>
+				</section>
+			</div>
+			<div class="cols">
+				<section>
+					<h2>👑 <b>GOLD</b> Package</h2>
+					<h4>
+						Contribution of greater than <b>$800</b>, or equivalent value in merchandise or items.
+					</h4>
+					<p class="para">
+						The <span class="gold">GOLD</span> Package allows your
+						company to make the greatest impact on our Froshees.
+					</p>
+					<ul>
+						<li><b>Present</b> during our Info-Session.</li>
+						<li><b>Large-size logo</b> on our RETRO FROSH merchandise.</li>
+						<li><b>Influence gameplay</b> of Pac-Macro.</li>
+						<li><b>Choose names</b> for characters in Pac-Macro</li>
+						<li><b>Access resum&eacute;s</b> of FROSH Leaders.</li>
+						<li>Inclusion as sponsor in RETRO FROSH media.</li>
+					</ul>
+					<button class="gold" onclick="location.href = '#contact'">Select</button>
+				</section>
+				<section>
+					<h2>💍 <b>SILVER</b> Package</h2>
+					<h4>Contribution of greater than <b>$400</b>, or equivalent value in merchandise or items.</h4>
+					<p class="para">
+						The <b>SILVER</b> Package allows your company
+						to make a significant impact on our Froshees.
+					</p>
+					<ul>
+						<li><b>Medium-size logo</b> on our RETRO FROSH merchandise.</li>
+						<li><b>Choose names</b> for characters in Pac-Macro</li>
+						<li><b>Access resum&eacute;s</b> of FROSH Leaders.</li>
+						<li>Inclusion as sponsor in RETRO FROSH media.</li>
+					</ul>
+					<button class="silver" onclick="location.href = '#contact'">Select</button>
+				</section>
+			</div>
+			<div class="cols">
+				<section>
+					<h2><b>PROVIDER</b> Package</h2>
+					<h4>Contribution of less than $400, or equivalent value in merchandise or items.</h4>
+					<p class="para">
+						The <b>PROVIDER</b> Package will allow your company
+						to impact froshees and help make RETRO FROSH possible.
+					</p>
+					<ul>
+						<li>Inclusion as sponsor in RETRO FROSH media.</li>
+					</ul>
+					<button class="provider" onclick="location.href = '#contact'">Select</button>
+				</section>
+				<section>
+					<h2><b>INDIVIDUAL</b> Package</h2>
+					<h4>Contribution of <b>$25</b>.</h4>
+					<p class="para">
+						The <b>INDIVIDUAL</b> Package is directed towards
+						<u>individuals</u> that want to sponsor RETRO FROSH.
+					</p>
+					<ul>
+						<li>
+							<b>Leave your mark</b> on RETRO FROSH merchandise
+							with a small-scale mark or signature.
+						</li>
+					</ul>
+					<button onclick="location.href = '#contact'">Select</button>
+				</section>
+			</div>
+			<div id="contact" class="anchor"></div>
+			<div class="cols">
+				<section>
+					<h2>Contact Us</h2>
+					<p class="para">
+						If you're interested in sponsoring RETRO FROSH, then send us an email
+						containing the <b>Sponsorship Package</b> that you are interested in,
+						or any questions that you may have.
+					</p>
+					<p>
+						Payment can be made through wire-transfer, e-transfer, credit card or cheque.
+					</p>
+					<button class="contact" onclick="location.href = 'mailto:csss-froshchair@sfu.ca'">Email Us</button>
+					<p class="monospace center">( csss-froshchair@sfu.ca )</p>
+					<p class="para">
+						Questions for the Computing Science Student Society should be emailed
+						directly to our executives, using the mailing list:<br>
+						<a class="monospace" href="mailto:csss-exec-current@sfu.ca">
+							csss-exec-current@sfu.ca
+						</a>
+					</p>
+				</section>
+			</div>
+		</div>
+		<footer>
+			<div class="cols">
+				<div class="flexible-container">
+					<h2 class="title">
+						<img onclick="location.href = 'https://sfucsss.org'" src="{% static 'frosh_static/2023/sponsor/CSSS.svg' %}" alt="CSSS Logo" />
+						RETRO FROSH 2023
+					</h2>
+				</div>
+				<div class="flexible-container">
+					<p>
+						Computing Science Student Society<br>
+						Simon Fraser University
+					</p>
+				</div>
+				<div class="flexible-container">
+					<p>
+						We can be contacted at:<br>
+						<a href="mailto:csss-exec-current@sfu.ca">csss-exec-current@sfu.ca</a> or<br>
+						<a href="mailto:csss-froshchair@sfu.ca">csss-froshchair@sfu.ca</a>
+					</p>
+				</div>
+				<div class="flexible-container">
+					<p>
+						<a href="https://discord.gg/sfucsss">Discord</a> /
+						<a href="https://instagram.com/sfu_csss">Instagram</a> /
+						<a href="https://www.linkedin.com/company/sfucsss">LinkedIn</a>
+					</p>
+				</div>
+			</div>
+		</footer>
+	</body>
+</html>
