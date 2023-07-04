@@ -40,7 +40,7 @@ class CSSSErrorHandler(logging.StreamHandler):
                 path_after_server_base = len(settings.BASE_DIR) + 1
                 path_before_file_name = filename.rindex("/")
                 file_path_after_base_dir = filename[path_after_server_base:path_before_file_name]
-                file_name = filename[path_before_file_name:]
+                file_name = filename[path_before_file_name+1:]
                 CSSSError(file_path=file_path_after_base_dir, filename=file_name, message=message, request=request,
                           endpoint=endpoint, type=record_type).save()
         except AppRegistryNotReady:
