@@ -162,6 +162,12 @@ pipeline {
                   junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}"
               }
           }
+        cleanWs(cleanWhenNotBuilt: false,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true,
+                    notFailBuild: true,
+                    patterns: [[pattern: '.gitignore', type: 'INCLUDE'],
+                               [pattern: '.propsfile', type: 'EXCLUDE']])
       }
   }
 }
