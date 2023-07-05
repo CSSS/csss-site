@@ -163,13 +163,13 @@ pipeline {
               }
           }
         cleanWs(
-            cleanWhenAborted(true)
-            cleanWhenFailure(true)
-            cleanWhenNotBuilt(false)
-            cleanWhenSuccess(true)
-            cleanWhenUnstable(true)
-            deleteDirs(true)
-            disableDeferredWipeout(true)
+            cleanWhenAborted: true,
+            cleanWhenFailure: true,
+            cleanWhenNotBuilt: false,
+            cleanWhenSuccess: true,
+            cleanWhenUnstable: true,
+            deleteDirs: true,
+            disableDeferredWipeout: true
       }
   }
 }
