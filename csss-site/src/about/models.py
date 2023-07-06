@@ -86,7 +86,12 @@ class Officer(models.Model):
             self.bitwarden_takeover_needed = False
         elif not self.bitwarden_is_set:
             self.bitwarden_is_set = True
-            if not OfficerEmailListAndPositionMapping.objects.get(position_name=self.position_name).bitwarden_access:
+            position_mapping = OfficerEmailListAndPositionMapping.objects.filter(
+                position_name=self.position_name
+            ).first()
+            if position_mapping is None:
+                self.bitwarden_takeover_needed = False
+            elif not position_mapping.bitwarden_access:
                 self.bitwarden_takeover_needed = False
             else:
                 from csss.views_helper import get_previous_term_obj
