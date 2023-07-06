@@ -81,6 +81,17 @@ class Officer(models.Model):
 
     def save(self, *args, **kwargs):
         self.validate_unique()
+        from csss.views_helper import get_previous_term_obj
+        if hasattr(self, "_bitwarden_takeover_needed"):
+            # comes here if the sys admin entered the password in the list of officers page
+            self.bitwarden_takeover_needed = self._bitwarden_takeover_needed
+        elif not OfficerEmailListAndPositionMapping.objects.get(position_name=self.position_name).bitwarden_access:
+            self.bitwarden_takeover_needed = False
+        else:
+            last_officer_with_same_position = Officer.objects.all().filter(
+                elected_term__term_number__gte=get_previous_term_obj().term_number, position_name=self.position_name
+            ).exclude(start_date=self.start_date).exclude(id=self.id).order_by('start_date').last()
+            self.bitwarden_takeover_needed = last_officer_with_same_position.sfu_computing_id != self.sfu_computing_id
         super(Officer, self).save(*args, **kwargs)
 
     position_name = models.CharField(
@@ -183,6 +194,10 @@ class Officer(models.Model):
         default="NA"
     )
 
+    bitwarden_takeover_needed = models.BooleanField(
+        default=False
+    )
+
     @property
     def get_front_end_start_date(self):
         return datetime.datetime.strftime(self.start_date, "%d %b %Y")
@@ -265,6 +280,10 @@ class OfficerEmailListAndPositionMapping(models.Model):
 
     shared_position = models.BooleanField(
         default=False
+    )
+
+    bitwarden_access = models.BooleanField(
+        default=True
     )
 
     number_of_terms_choices = (

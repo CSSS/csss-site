@@ -1,15 +1,37 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from about.models import Officer, Term
 from about.views.Constants import TAB_STRING
 from csss.views.context_creation.create_main_context import create_main_context
+from csss.views.send_discord_dm import send_discord_dm
 from csss.views_helper import get_current_term
+
+OFFICER_ID_HTML_URL_PARAMETER_KEY = 'officer_id_key'
+OFFICER_ID_HTML_URL_PARAMETER_VALUE = 'officer_id'
+
+NEW_PASSWORD_KEY = "password_key"
+NEW_PASSWORD_VALUE = 'password'
+
+UPDATE_BITWARDEN_PASSWORD_BUTTON__HTML_NAME_KEY = 'update_bitwarden_password_key'
+UPDATE_BITWARDEN_PASSWORD_BUTTON__HTML_NAME_VALUE = 'update_bitwarden_password'
 
 
 def list_of_current_officers(request):
     """
     Lists all current CSSS Officers
     """
+    if UPDATE_BITWARDEN_PASSWORD_BUTTON__HTML_NAME_VALUE in request.POST:
+        officer = Officer.objects.get(id=request.GET[OFFICER_ID_HTML_URL_PARAMETER_VALUE])
+        new_password = request.POST[NEW_PASSWORD_VALUE]
+        officer._bitwarden_takeover_needed = False
+        officer.save()
+        send_discord_dm(
+            officer.discord_id, "Bitwarden Password Reset",
+            f"URL: https://vault.bitwarden.com/#/login\n\n username: "
+            f"`{officer.sfu_officer_mailing_list_email}`\n\npassword : `{new_password}`"
+        )
+        return HttpResponseRedirect(request.path)
     context = create_main_context(request, TAB_STRING)
     officer_map = {}
     show_all_officers = context['root_user'] or context['officer_in_past_5_terms']
@@ -40,6 +62,9 @@ def list_of_current_officers(request):
         'officer_map': officer_map,
         'term_active': get_current_term(),
         'terms': [Term.objects.all().filter(term_number=get_current_term()).first()],
+        OFFICER_ID_HTML_URL_PARAMETER_KEY: OFFICER_ID_HTML_URL_PARAMETER_VALUE,
+        NEW_PASSWORD_KEY: NEW_PASSWORD_VALUE,
+        UPDATE_BITWARDEN_PASSWORD_BUTTON__HTML_NAME_KEY: UPDATE_BITWARDEN_PASSWORD_BUTTON__HTML_NAME_VALUE
     })
 
     return render(request, 'about/list_of_officers.html', context)
