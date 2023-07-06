@@ -195,7 +195,7 @@ class Officer(models.Model):
     )
 
     bitwarden_takeover_needed = models.BooleanField(
-        default=False
+        default=True
     )
 
     @property
