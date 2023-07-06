@@ -24,6 +24,15 @@ pipeline {
     stages {
         stage("Setup Environment"){
             steps {
+                cleanWs(
+                    cleanWhenAborted: true,
+                    cleanWhenFailure: true,
+                    cleanWhenNotBuilt: false,
+                    cleanWhenSuccess: true,
+                    cleanWhenUnstable: true,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true
+                )
                 sh("mkdir ${BUILD_NUMBER}")
             }
         }
@@ -42,7 +51,8 @@ pipeline {
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
                     ./CI/validate_and_deploy/1_validate/run_jenkins_dockerized_formatting_test.sh;
-                ''')
+                '''
+                )
             }
         }
         stage("Deploy to Test Server") {
@@ -104,14 +114,13 @@ pipeline {
                     export CONTAINER_TEST_RESULT_DIRECTORY="\${CONTAINER_HOME_DIR}"/django_tests;
 
                     ./CI/validate_and_deploy/1_validate/validate_staging_website.sh;
-                ''')
+                '''
+                )
             }
         }
 
         stage("Deploy to Prod Server") {
-            when {
-                branch "master"
-            }
+            when { branch "master" }
             steps {
                 withCredentials(
                     [
@@ -147,30 +156,22 @@ pipeline {
                         export STRIPE_SECRET_KEY=${WEBSITE_PROD_STRIPE_SECRET_KEY};
                         ./CI/validate_and_deploy/2_deploy/1_update_files_on_master_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
-                    ''')
+                    '''
+                    )
                 }
             }
         }
     }
     post {
-      always {
-          script {
-              if (fileExists("${BUILD_NUMBER}/${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}")){
-                  junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}"
-              }
-              if (fileExists("${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}")){
-                  junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}"
-              }
-          }
-        cleanWs(
-            cleanWhenAborted: true,
-            cleanWhenFailure: true,
-            cleanWhenNotBuilt: false,
-            cleanWhenSuccess: true,
-            cleanWhenUnstable: true,
-            deleteDirs: true,
-            disableDeferredWipeout: true
-        )
-      }
-  }
+        always {
+            script {
+                if (fileExists("${BUILD_NUMBER}/${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}")){
+                    junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}"
+                }
+                if (fileExists("${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}")){
+                    junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}"
+                }
+            }
+        }
+    }
 }
