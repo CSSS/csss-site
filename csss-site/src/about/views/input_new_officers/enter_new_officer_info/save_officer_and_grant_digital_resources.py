@@ -181,7 +181,9 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
     )
     if not success:
         return success, error_message
-    alert_sys_admin_to_update_email_list(sfu_officer_mailing_list_email)
+    alert_sys_admin_to_update_email_list(
+        sfu_officer_mailing_list_email, position_mapping_for_new_officer.bitwarden_access
+    )
     if not success:
         return success, error_message
     officer_obj.save()

@@ -74,6 +74,16 @@
                                                         {% if term_active == term.term_number %}
                                                             <p class="lead">Contact -<br> SFU Email: <a href="mailto:{{officer.sfu_officer_mailing_list_email}}">{{officer.sfu_officer_mailing_list_email}}</a><br></p>
                                                         {% endif %}
+                                                        {%  if officer.bitwarden_takeover_needed %}
+                                                            {% if current_sys_admin or root_user %}
+                                                                <form method="post" class="form" action="?{{officer_id_key}}={{ officer.id }}">
+                                                                    {% csrf_token %}
+                                                                    <a class="lead" target="_blank" href="https://vault.bitwarden.com/#/settings/emergency-access">Takeover bitwarden account here</a>
+                                                                    <p class="lead">New Password: <input type="text" size="5" name="{{password_key}}" required> <input type="submit" name="{{update_bitwarden_password_key}}" value="Submit" /></p>
+
+                                                                </form>
+                                                            {%  endif %}
+                                                        {%  endif %}
                                                         <div class="lead"><p>Bio -</p>
                                                             <div class="csss_markdown">
                                                                 {{officer.get_front_end_bio|safe}}
