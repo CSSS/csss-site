@@ -310,7 +310,8 @@ class OfficerEmailListAndPositionMapping(models.Model):
     number_of_terms = models.IntegerField(
         choices=number_of_terms_choices,
         default=3,
-        null=True
+        null=True,
+        blank=True
     )
 
     @property
@@ -341,7 +342,8 @@ class OfficerEmailListAndPositionMapping(models.Model):
     starting_month = models.IntegerField(
         choices=starting_month_choices,
         default=3,
-        null=True
+        null=True,
+        blank=True
     )
 
     def get_term_month_number(self):
