@@ -24,7 +24,7 @@ def list_of_current_officers(request):
     if UPDATE_BITWARDEN_PASSWORD_BUTTON__HTML_NAME_VALUE in request.POST:
         officer = Officer.objects.get(id=request.GET[OFFICER_ID_HTML_URL_PARAMETER_VALUE])
         new_password = request.POST[NEW_PASSWORD_VALUE]
-        officer._bitwarden_takeover_needed = False
+        officer._bitwarden_is_set = True
         officer.save()
         send_discord_dm(
             officer.discord_id, "Bitwarden Password Reset",
