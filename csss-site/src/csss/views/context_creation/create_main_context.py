@@ -1,6 +1,7 @@
 from django.conf import settings
 
 from about.models import Officer, UnProcessedOfficer
+from csss.models import CSSSError
 from csss.views.context_creation.create_base_context import create_base_context
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_election_officer_sfuid, get_current_sys_admin_sfuid, \
@@ -74,6 +75,10 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
         context['current_executive_officer'] = request.user.username in current_executive_officer_sfuids
 
     request_path = f"http://{settings.HOST_ADDRESS}"
+    relevant_errors = CSSSError.objects.all().exclude(
+        message="Couldn't do oauth2 because Install python-social-auth to use oauth2 auth for gmail\n"
+    )
+    context['errors_exist'] = context[CURRENT_SYS_ADMIN] and len(relevant_errors) > 0
     if settings.PORT is not None:
         request_path += f":{settings.PORT}"
     if request.user.is_authenticated:

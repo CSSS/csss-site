@@ -61,13 +61,16 @@ class CronJobRunStat(models.Model):
         return f"job {self.job} ran for {self.get_run_time} on {self.run_date}"
 
 
+PROD_SERVER_BASE_DIR = "/home/csss"
+
+
 class CSSSError(models.Model):
     type = models.CharField(
         max_length=100,
         default=None,
         null=True
     )
-    base_directory = settings.BASE_DIR,
+    base_directory = settings.BASE_DIR
 
     file_path = models.CharField(
         max_length=500,
@@ -85,9 +88,41 @@ class CSSSError(models.Model):
         default=None,
         null=True
     )
+    fixed = models.BooleanField(
+        default=False
+    )
 
-    def get_absolute_path(self):
-        return f"[{self.base_directory}][{self.file_path}][{self.filename}]"
+    @property
+    def get_prod_error_absolute_path(self):
+        return f"{PROD_SERVER_BASE_DIR}/{self.file_path}/{self.get_error_file_name}"
+
+    @property
+    def get_prod_debug_absolute_path(self):
+        return f"{PROD_SERVER_BASE_DIR}/{self.file_path}/{self.get_debug_file_name}"
+
+    @property
+    def get_error_absolute_path(self):
+        return f"{self.base_directory}/{self.file_path}/{self.get_error_file_name}"
+
+    @property
+    def get_debug_absolute_path(self):
+        return f"{self.base_directory}/{self.file_path}/{self.get_debug_file_name}"
+
+    @property
+    def get_error_project_path(self):
+        return f"{self.file_path}/{self.get_error_file_name}"
+
+    @property
+    def get_debug_project_path(self):
+        return f"{self.file_path}/{self.get_debug_file_name}"
+
+    @property
+    def get_error_file_name(self):
+        return self.filename
+
+    @property
+    def get_debug_file_name(self):
+        return f"{self.filename[:-10]}_debug.log"
 
     endpoint = models.CharField(
         max_length=500,

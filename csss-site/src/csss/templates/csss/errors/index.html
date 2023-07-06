@@ -1,0 +1,34 @@
+{%  extends "csss/header.html" %}
+{%  block content %}
+    {%  if error_file or debug_file %}
+        <a href="{{ URL_ROOT }}errors"><button type="button" style="color: rgba(0, 0, 0, 0.7)">Back to List</button></a>
+        <a href="{{ URL_ROOT }}errors?{{mark_to_toggle_fixed_key}}={{ csss_error_id }}"><button style="color: rgba(0, 0, 0, 0.7)">{{ marker_string }}</button></a>
+        <a href="{{ URL_ROOT }}errors?{{file_to_delete_key}}={{ csss_error_id }}"><button style="color: rgba(0, 0, 0, 0.7)">Delete Files</button></a>
+        <br><br>
+    {%  else %}
+        {%  if csss_errors %}
+        <h1 class="title is-size-1">Error Files</h1>
+        <ul style="margin-left: 2em;list-style-type: circle;">
+            {%  for csss_error in csss_errors %}
+                <li><a href="{{ URL_ROOT }}errors/?file={{ csss_error.id }}">{{ csss_error.get_error_project_path }}</a></li>
+            {%  endfor %}
+        </ul>
+        {%  endif %}
+        {%  if csss_fixed_errors %}
+        <h1 class="title is-size-1">Fixed Error Files</h1>
+        <ul style="margin-left: 2em;list-style-type: circle;">
+            {%  for csss_fixed_error in csss_fixed_errors %}
+                <li><a href="{{ URL_ROOT }}errors/?file={{ csss_fixed_error.id }}">{{ csss_fixed_error.get_error_project_path }}</a></li>
+            {%  endfor %}
+        </ul>
+        {%  endif %}
+    {%  endif %}
+    {%  if error_file %}
+        <h1 class="title is-size-1">Error File</h1>
+        {{ error_file|linebreaksbr}}
+    {%  endif %}
+    {%  if debug_file %}
+        <h1 class="title is-size-1">Debug File</h1>
+    {{ debug_file|linebreaksbr}}
+    {%  endif %}
+{%  endblock %}

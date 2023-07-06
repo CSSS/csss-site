@@ -41,6 +41,15 @@
 			<div id="navbarBasicExample" class="navbar-menu">
 				<div class="navbar-start">
 
+					<!--Errors-->
+                    {% if errors_exist %}
+                        {% if tab == 'errors' %}
+                            <a class="navbar-item is-active">Errors</a>
+                        {% else %}
+                            <a class="navbar-item" href="{{ URL_ROOT }}errors">Errors</a>
+                        {% endif %}
+                    {%  endif %}
+
 					<!--About-->
 					<div class="navbar-item has-dropdown is-hoverable">
 						{% if tab == 'about' %}
