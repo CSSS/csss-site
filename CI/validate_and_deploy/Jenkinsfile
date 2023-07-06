@@ -3,6 +3,7 @@ pipeline {
     options {
         disableConcurrentBuilds()
         buildDiscarder(logRotator(numToKeepStr: "10", artifactNumToKeepStr: "10"))
+        skipDefaultCheckout()
     }
     environment {
         CONTAINER_HOME_DIR = "/usr/src/app";
@@ -33,6 +34,7 @@ pipeline {
                     deleteDirs: true,
                     disableDeferredWipeout: true
                 )
+                checkout scm
                 sh("mkdir ${BUILD_NUMBER}")
             }
         }
