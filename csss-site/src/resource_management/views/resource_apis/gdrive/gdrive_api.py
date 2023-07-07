@@ -553,10 +553,22 @@ class GoogleDrive:
             permissions = file['permissions']
         elif 'permissionIds' in file:
             for permission_id in file['permissionIds']:
-                permission = self.gdrive.permissions().get(
-                    fileId=file['id'], permissionId=permission_id, supportsAllDrives=True, fields='*'
-                ).execute()
-                permissions.append(permission)
+                success = False
+                total_retries = 5
+                retry_count = 0
+                while not success and retry_count < total_retries:
+                    try:
+                        permission = self.gdrive.permissions().get(
+                            fileId=file['id'], permissionId=permission_id, supportsAllDrives=True, fields='*'
+                        ).execute()
+                        permissions.append(permission)
+                        success = True
+                    except Exception as e:
+                        retry_count += 1
+                        time.sleep(5)
+                        self.logger.error(f"[GoogleDrive _validate_permissions_for_file()] experienced "
+                                          f"following error when trying to get permission {permission_id} from file"
+                                          f"{file['name']}:\n{e}")
 
         for permission in permissions:
             if permission['id'] == 'anyoneWithLink':
