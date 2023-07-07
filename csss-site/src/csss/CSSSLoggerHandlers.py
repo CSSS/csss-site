@@ -36,7 +36,7 @@ class CSSSErrorHandler(logging.StreamHandler):
             record_type = 'other_record'
         try:
             from csss.models import CSSSError
-            if len(CSSSError.objects.all().filter(message=message)) == 0:
+            if len(CSSSError.objects.all().filter(message=message).exclude(fixed=True)) == 0:
                 path_after_server_base = len(settings.BASE_DIR) + 1
                 path_before_file_name = filename.rindex("/")
                 file_path_after_base_dir = filename[path_after_server_base:path_before_file_name]
