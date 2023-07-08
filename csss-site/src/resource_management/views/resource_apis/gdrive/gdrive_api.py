@@ -519,13 +519,14 @@ class GoogleDrive:
                 existing_file_obj = MediaToBeMoved.objects.all().filter(file_id=file['id'])
                 if len(existing_file_obj) == 0:
                     MediaToBeMoved(
-                        file_path=parent_folder, file_name=file['name'],
+                        file_name=file['name'], file_path=parent_folder,
                         parent_folder_link=(
                             self.gdrive.files().get(
                                 fileId=file['parents'][0], fields='webViewLink',
                                 supportsAllDrives=True
                             ).execute()['webViewLink']
-                        )
+                        ),
+                        file_id=file['id']
                     ).save()
                 return
         # first going through all the permissions for the file to ensure
