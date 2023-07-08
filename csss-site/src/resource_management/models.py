@@ -154,7 +154,7 @@ class GoogleDriveNonMediaFileType(models.Model):
 class MediaToBeMoved(models.Model):
     processed = models.BooleanField(
         default=False
-    ),
+    )
     archive = models.BooleanField(
         default=False
     )
