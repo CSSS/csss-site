@@ -346,7 +346,7 @@ class GoogleDrive:
             if len(new_media_objects) > 0:
                 body = "https://sfucsss.org/resource_management/media_to_be_moved\n<br>\n<br>"
                 for media in new_media_objects:
-                    body += f"[{media.file_path/media.file_name}]({media.parent_folder_link})\n<br>"
+                    body += f"[{media.file_path}/{media.file_name}]({media.parent_folder_link})\n<br>"
                     media.processed = True
                     media.save()
                 send_email(
