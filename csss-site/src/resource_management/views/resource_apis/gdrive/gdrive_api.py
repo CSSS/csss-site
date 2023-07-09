@@ -338,7 +338,6 @@ class GoogleDrive:
             self.non_media_mimeTypes = [
                 file_type.mime_type for file_type in self.file_types if file_type.file_extension == ""
             ]
-            MediaToBeMoved.objects.all().delete()
         self._ensure_root_permissions_are_correct(google_drive_perms)
         self._validate_individual_file_and_folder_ownership_and_permissions("CSSS", google_drive_perms)
         if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[MAIN_TEAM_DRIVE_NAME]['folder_id']:
