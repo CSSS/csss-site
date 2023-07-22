@@ -8,6 +8,7 @@ from django.conf import settings
 from google.auth.transport.requests import Request
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
 
 from csss.setup_logger import Loggers
 from csss.views.send_email import send_email
@@ -556,6 +557,7 @@ class GoogleDrive:
                 success = False
                 total_retries = 5
                 retry_count = 0
+                error = None
                 while not success and retry_count < total_retries:
                     try:
                         permission = self.gdrive.permissions().get(
@@ -563,12 +565,14 @@ class GoogleDrive:
                         ).execute()
                         permissions.append(permission)
                         success = True
-                    except Exception as e:
+                    except HttpError as e:
+                        error = e
                         retry_count += 1
                         time.sleep(5)
-                        self.logger.error(f"[GoogleDrive _validate_permissions_for_file()] experienced "
-                                          f"following error when trying to get permission {permission_id} from file"
-                                          f"{file['name']}:\n{e}")
+                if not success:
+                    self.logger.error(f"[GoogleDrive _validate_permissions_for_file()] experienced "
+                                      f"following error when trying to get permission {permission_id} from file"
+                                      f"{file['name']}:\n{error}")
 
         for permission in permissions:
             if permission['id'] == 'anyoneWithLink':
