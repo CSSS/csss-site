@@ -190,6 +190,12 @@ class Upload(models.Model):
     relevant_note = models.CharField(
         max_length=500
     )
+    event_type_specifier = models.CharField(
+        max_length=500,
+        blank=True,
+        null=True,
+        default=True
+    )
 
 
 class MediaUpload(models.Model):
