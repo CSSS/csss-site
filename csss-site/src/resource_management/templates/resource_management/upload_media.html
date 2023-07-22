@@ -20,7 +20,7 @@
             <option value="Other">Other</option>
         </select>
 
-        <div id="event_type_specifier"><br><br><label for="event_type_specifier_input">Event type: </label><input id="event_type_specifier_input" type="text" required="required"></div>
+        <div id="event_type_specifier"><br><br><label for="event_type_specifier_input">Event type: </label><input id="event_type_specifier_input" name="{{event_type_specifier_key}}" type="text" required="required"></div>
 
         <br><br><label for="event_date">Event Date</label><input id="event_date" type="date" name="{{event_date_key}}" required="required">
         <br><br><label for="note">Any relevant notes: </label> <input type="text" name="{{note_key}}" id="note" onchange="noteChanged()">
