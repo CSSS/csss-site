@@ -46,6 +46,8 @@ def index(request):
 
     if paginated_object.num_pages < current_page:
         return HttpResponseRedirect(f'{settings.URL_ROOT}')
+    elif current_page < 1:
+        return HttpResponseRedirect(f'{settings.URL_ROOT}')
 
     announcements = paginated_object.page(current_page)
     for announcement in announcements:
