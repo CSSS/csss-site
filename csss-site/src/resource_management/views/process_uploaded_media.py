@@ -5,6 +5,7 @@ from django.http import HttpResponseRedirect
 
 from csss.settings import URL_ROOT
 from csss.views.send_email import send_email
+from csss.views.time_converter import create_pst_time, create_pst_time_from_datetime
 from resource_management.models import Upload, MediaUpload
 from resource_management.views.Constants import MEDIA_UPLOADS__HTML_NAME, MEDIA_UPLOADS_NOTE__HTML_NAME, \
     MEDIA_UPLOADS_EVENT_TYPE__HTML_NAME, MEDIA_UPLOADS_EVENT_DATE__HTML_NAME, \
@@ -30,7 +31,7 @@ def process_uploaded_media(request):
         event_type_specifier = request.POST[MEDIA_UPLOADS_EVENT_TYPE_SPECIFIER__HTML_NAME] \
             if upload_has_specifier else None
         upload = Upload(
-            upload_date=datetime.datetime.now(),
+            upload_date=create_pst_time_from_datetime(datetime.datetime.now()),
             event_type=request.POST[MEDIA_UPLOADS_EVENT_TYPE__HTML_NAME],
             event_date=request.POST[MEDIA_UPLOADS_EVENT_DATE__HTML_NAME],
             relevant_note=request.POST[MEDIA_UPLOADS_NOTE__HTML_NAME],
