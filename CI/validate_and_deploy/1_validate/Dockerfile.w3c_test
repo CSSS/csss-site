@@ -1,0 +1,41 @@
+FROM python:3.7.6-alpine
+
+ARG CONTAINER_HOME_DIR
+
+ENV CONTAINER_HOME_DIR=$CONTAINER_HOME_DIR
+
+ARG LOG_LOCATION
+
+ENV $LOG_LOCATION=$LOG_LOCATION
+
+ARG TEST_RESULT_DIRECTORY
+
+ENV TEST_RESULT_DIRECTORY=$TEST_RESULT_DIRECTORY
+
+WORKDIR $CONTAINER_HOME_DIR
+
+WORKDIR $LOG_LOCATION
+
+RUN adduser -D websiteTester
+
+RUN chown websiteTester $CONTAINER_HOME_DIR
+
+RUN chown websiteTester $LOG_LOCATION
+
+USER websiteTester
+
+ENV PATH=$PATH:/home/websiteTester/.local/bin
+
+COPY requirements.txt ./
+
+COPY csss_site_w3c ./
+
+RUN /usr/local/bin/python3 -m pip --disable-pip-version-check  install --upgrade pip
+
+RUN pip install --no-cache --upgrade pip setuptools
+
+RUN pip install --no-cache-dir -r requirements.txt
+
+RUN mkdir -p $TEST_RESULT_DIRECTORY
+
+CMD ["python", "-u", "manage.py", "test", "--testrunner", "xmlrunner.extra.djangotestrunner.XMLTestRunner" ]

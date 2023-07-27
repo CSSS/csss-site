@@ -3,6 +3,7 @@
     {%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
     <form method="post" class="form">
         {% csrf_token %}
+        <button name="{{cron_jobs_action_button_name__html_name}}" value="{{update_cron_job_details__html_name}}">Update Cron Job Details</button>
         <table>
             <tr>
                 <th>Active</th>
@@ -23,6 +24,5 @@
         </table>
         <a href="/{{cron_logs_base_url_key__html_name}}/">Logs</a><br>
         <button name="{{cron_jobs_action_button_name__html_name}}" value="{{update_cron_schedule__html_name}}">Update Cron Schedule</button>
-        <button name="{{cron_jobs_action_button_name__html_name}}" value="{{update_cron_job_details__html_name}}">Update Cron Job Details</button>
     </form>
 {%  endblock %}
