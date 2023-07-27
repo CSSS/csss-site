@@ -74,17 +74,17 @@
 
             <div id="logo-container" style="display: flex; align-items: baseline; margin-bottom: -36px; margin-top: -36px">
                 <div id="laptop" style="width: 465px; display: inline-block; cursor: pointer; ">
-                    <object id="laptop-child" class="noselect svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" fill="currentColor" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
+                    <object id="laptop-child" class="noselect svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
                 </div>
                 <div style="display: flex; height: 178px; align-items: baseline;">
                     <div class="noto-bold" style="font-size: 160px; letter-spacing: -21px; z-index: -1; white-space: nowrap;">Tech Fair</div>
-                    <div class="noto-bold" style="font-size: 60px; letter-spacing: -5px; z-index: -1; display: relative; position: relative; bottom: 4px;">2023</div>
+                    <div class="noto-bold" style="font-size: 60px; letter-spacing: -5px; z-index: -1; position: relative; bottom: 4px;">2023</div>
                 </div>
             </div>
 
-            <img id="mountain" style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}"></img>
+            <img id="mountain" alt="mountain" style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}">
 
-            <article>
+            <div>
                 <div id="info-banner" style="position: absolute; width: 100vw; height: 100%; background-color: #000; z-index: -1; left: 0; margin-top: -12px;" hidden>
                 </div>
 
@@ -92,7 +92,7 @@
                     <div style="display: table; clear: both;">
                     <br>
                         
-                        <img class="zoom" title="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="float: left; display: inline; width: calc(50% - 25px); padding: 10px; margin-right: 25px;"></img>
+                        <img class="zoom" title="Long Shot of Tech Fair 2022" alt="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="float: left; display: inline; width: calc(50% - 25px); padding: 10px; margin-right: 25px;">
                         <div style="float: left; margin: auto; width: calc(50% - 16px);">
                             <br>
                             <h2>Welcome to Tech Fair!</h2>
@@ -130,12 +130,12 @@
                     <p>Feel free to reach out to us at <a class="black-a" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> for any further questions.</p>
                     <br>
                 </div>
-            </article>
+            </div>
             
             <div style="height: 20px;"></div>
             <br>
 
-            <article>
+            <div>
                 <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px 0;">
                     <a id="booths" href="#booths" class="noto-bold" style="display: inline-block; font-size: 2em; margin: 0 0 24px 24px; color: #000; text-decoration: none;">Who's Coming?</a>
                     <br>
@@ -242,11 +242,11 @@
                     <br>
                     <br>
                 </div>
-            </article>
+            </div>
             
             <br>
 
-            <article>
+            <div>
                 <div style="min-height: 128px; background-color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; color: #fff; position: relative; z-index: 1;">
                     <a id="schedule" href="#schedule" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none; position: relative; z-index: 2;">Schedule</a>
                     
@@ -261,7 +261,7 @@
                             <tr style="background-color: #222; height: 4em;">
                                 <td class="schedule-time"><span style="font-size: 2em;">10</span>AM</td>
                                 <td style="position: relative;">
-                                    <div style="position: absolute; right: 8px; left: 8px; top: 8px; bottom: calc((4em + 2px) * -1 * 3 + 4px + 2.6em + 8px); background-color: #e07b8a; border-radius: 32px; font-size: 1.3em; text-align: center;">
+                                    <div style="position: absolute; right: 8px; left: 8px; top: 8px; bottom: calc((4em + 2px) * -1 * 3 + 8px + 2.6em + 8px); background-color: #e07b8a; border-radius: 32px; font-size: 1.3em; text-align: center;">
                                         <p style="font-size: 1.25em; margin-top: 14px;"><b>Tech Fair Day 1</b></p>
                                         <p style="font-size: 0.85em; margin-top: -14px;">(10:00am - 4:00pm)</p>
                                     </div>
@@ -303,7 +303,7 @@
                             <tr style="background-color: #222; height: 4em;">
                                 <td class="schedule-time"><span style="font-size: 2em;">10</span>AM</td>
                                 <td style="position: relative;">
-                                    <div style="position: absolute; right: 8px; left: 8px; top: 8px; bottom: calc((4em + 2px) * -1 * 3 + 4px + 2.6em + 8px); background-color: #4a7a96; border-radius: 32px; font-size: 1.3em; text-align: center;">
+                                    <div style="position: absolute; right: 8px; left: 8px; top: 8px; bottom: calc((4em + 2px) * -1 * 3 + 8px + 2.6em + 8px); background-color: #4a7a96; border-radius: 32px; font-size: 1.3em; text-align: center;">
                                         <p style="font-size: 1.25em; margin-top: 14px;"><b>Tech Fair Day 2</b></p>
                                         <p style="font-size: 0.85em; margin-top: -14px;">(10:00am - 4:00pm)</p>
                                     </div>
@@ -342,12 +342,12 @@
 
                     <div class="noto-bold noselect" style="float: right; font-size: 232px; letter-spacing: -22px; position: relative; height: 0px; bottom: 239px; right: -20px; color: #fff; z-index: 3;">Schedule</div>
                 </div>
-            </article>
+            </div>
 
             <br>
             <br>
 
-            <article>
+            <div>
                 <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
                     <a id="students" href="#students" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">Students</a>
                    
@@ -361,12 +361,12 @@
 
                     <a href="https://forms.gle/57eiVPhzHs2aVHi7A" class="noto-bold zoom2" style="width: 124px; color: #fff; background-color: #ee8695; text-align: center; display: block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">RSVP!</a>
                 </div>
-            </article>
+            </div>
             
             <br>
             <br>
 
-            <article>
+            <div>
                 <div style="min-height: 128px; background-color: #000; color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px;">
                     <a id="companies" href="#companies" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none;">For Companies</a>
 
@@ -389,12 +389,12 @@
                     <p>Interested in setting up a booth?</p>
                     <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#join" class="noto-bold zoom2" style="width: 192px; color: #fff; background-color: #4a7a96; text-align: center; display: block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">Join Tech Fair</a>
                 </div>
-            </article>
+            </div>
 
             <br>
             <br>
 
-            <article>
+            <div>
                 <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
                     <a id="history" href="#history" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">History</a>
                     
@@ -419,23 +419,23 @@
                     <br>
 
                     <h4 class="noto-bold" style="font-size: 1.5em; color: #000;">Gallery</h4>
-                    <div style="display: flexbox; width: 100%;">
-                        <img class="zoom" title="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
-                        <img class="zoom" title="Students at Tech Fair 2022" src="{% static 'images/tf-image-2.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
-                        <img class="zoom" title="A Booth at Tech Fair 2022" src="{% static 'images/booth.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
-                        <img class="zoom" title="View from SFU's Burnaby Campus" src="{% static 'images/sfu.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;"></img>
+                    <div style="width: 100%;">
+                        <img class="zoom" title="Long Shot of Tech Fair 2022" alt="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                        <img class="zoom" title="Students at Tech Fair 2022" alt="Students at Tech Fair 2022" src="{% static 'images/tf-image-2.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                        <img class="zoom" title="A Booth at Tech Fair 2022" alt="A Booth at Tech Fair 2022" src="{% static 'images/booth.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                        <img class="zoom" title="View from SFU's Burnaby Campus" alt="View from SFU's Burnaby Campus" src="{% static 'images/sfu.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
                     </div>
                 </div>
-            </article>
+            </div>
             <br>
 
-            <article>
+            <div>
                 <div class="noto" style="min-height: 128px; background-color: #fff; color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; text-align: center;">
                     <p>SFU CSSS: Tech Fair 2023</p>
                     <p>computing science</p>
                     <p><a href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> | <a href="https://www.linkedin.com/company/sfucsss/">LinkedIn</a> | <a href="https://www.instagram.com/sfu_csss/">@sfu_csss</a> | <a href="http://discord.sfucsss.org/">discord</a></p>
                 </div>
-            </article>
+            </div>
         </div>
 
         <script src="{% static '2023/js/tech_fair_2023.js' %}"></script>
