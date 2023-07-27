@@ -16,3 +16,7 @@ def tech_fair2022_main(request):
 def tech_fair_2023(request):
     return render(request, 'tech_fair/2023/tech_fair.html', create_main_context(request, TAB))
 
+
+def tech_fair_2023_company_package(request):
+    return render(request, 'tech_fair/2023/tech_fair_company_package.html', create_main_context(request, TAB))
+

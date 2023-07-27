@@ -8,12 +8,12 @@ body {
 }
 
 p {
-    font-size: 1.25em;
+    font-size: 1.3em;
     padding: 8px 0;
 }
 
 li {
-    font-size: 1.25em;
+    font-size: 1.3em;
     margin: 12px;
 }
 
@@ -29,9 +29,22 @@ li {
     transition: width 0.25s ease-in-out; 
 }
 .white-a:hover {
-    width: 110px;
+    width: 105px;
     transition: width 0.15s ease-in-out; 
     color: #8db7ff;
+}
+
+.tag {
+    text-align: center;
+
+    border: #fff 2px solid;
+    text-decoration: none;
+    
+    transition: color 0.25s ease-in-out; 
+}
+.tag:hover {
+    color: #000;
+    transition: color 0.15s ease-in-out; 
 }
 
 a {
@@ -40,6 +53,14 @@ a {
 }
 a:hover {
     color: #000;
+    text-decoration: underline;
+}
+
+.black-a {
+    color: #ee8695;
+}
+.black-a:hover {
+    color: #fff;
     text-decoration: underline;
 }
 
@@ -54,23 +75,28 @@ a:target:before {
 
 #column-container {
     margin: 0 auto;
-    max-width: 1150px;
+    max-width: 1250px;
     min-height: 100vh;
 }
 
 @font-face {
     font-family: "darumadropOne";
-    src: url("http://localhost:8000/STATIC_URL/fonts/DarumadropOne-Regular.ttf");
+    src: url("http://localhost:8000/STATIC_URL/2023/fonts/DarumadropOne-Regular.ttf");
 }
 
 @font-face {
     font-family: "NotoSansGeorgian-Regular";
-    src: url("http://localhost:8000/STATIC_URL/fonts/NotoSansGeorgian-Regular.ttf");
+    src: url("http://localhost:8000/STATIC_URL/2023/fonts/NotoSansGeorgian-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Noto Sans Georgian";
+    src: url("http://localhost:8000/STATIC_URL/2023/fonts/NotoSansGeorgian-Regular.ttf");
 }
 
 @font-face {
     font-family: "NotoSansGeorgian-Bold";
-    src: url("http://localhost:8000/STATIC_URL/fonts/NotoSansGeorgian-Bold.ttf");
+    src: url("http://localhost:8000/STATIC_URL/2023/fonts/NotoSansGeorgian-Bold.ttf");
 }
 
 .title {
@@ -90,6 +116,48 @@ a:target:before {
     -webkit-user-select: none; /* Safari */
     -ms-user-select: none; /* IE 10 and IE 11 */
     user-select: none; /* Standard syntax */
+}
+
+.company-card {
+    white-space: normal; 
+    display: inline-block; 
+    width: 290px; 
+
+    color: #000;
+    background-color: #fff; 
+    border: #333 1px solid; 
+}
+
+.company-card > div > p2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    transition: margin-top .2s ease-in-out, margin-bottom .2s ease-in-out;
+}
+
+.company-card > img {
+    object-position: 40%;
+    transition: object-position 0.35s ease-in-out;
+}
+
+.company-card:hover > img {
+    object-position: 60%;
+    transition: object-position 0.5s ease-in-out;
+}
+
+ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+li {
+    padding-left: 1em;
+    text-indent: -1em;
+}
+  
+li:before {
+    content: "✦";
+    padding-right: 8px;
 }
 
 /* ************************* */
@@ -154,11 +222,11 @@ a:target:before {
 }
 
 .nav-button {
-    background-color: #000;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
     transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
     
-    min-width: 96px;
+    /*min-width: 78px;*/
     margin-left: 4px;
     margin-right: 4px;
 
@@ -173,11 +241,11 @@ a:target:before {
 }
 
 .nav-button-s {
-    background-color: #000;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
     transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
     
-    min-width: 96px;
+    /*min-width: 78px;*/
     margin-left: 4px;
     margin-right: 4px;
 
@@ -192,14 +260,14 @@ a:target:before {
 }
 
 .nav-button-w {
-    background-color: #000;
-    color: #fff;
+    background-color: #fff;
+    color: #000;
     border-color: #fff;
     transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out, border-color 0.25s ease-in-out; 
     
-    border: 1px solid;
+    border: #fff 1px solid;
 
-    min-width: 96px;
+    /*min-width: 78px;*/
     margin-left: 4px;
     margin-right: 4px;
 
@@ -208,8 +276,8 @@ a:target:before {
     vertical-align: middle;
 }
 .nav-button-w:hover {
-    background-color: #fff;
-    color: #000;
+    background-color: #000;
+    color: #fff;
     border-color: #000;
     transition: background-color 0.125s ease-in-out, color 0.125s ease-in-out, border-color 0.125s ease-in-out; 
 }
@@ -225,3 +293,25 @@ a:target:before {
     transform: translate3d(0, 6px, 0);
     transition: transform 0.05s ease-in-out; 
 }
+
+/* ************************** */
+.zoom {
+    transition: transform .15s ease-in-out;
+}
+.zoom:hover {
+    transform: scale(1.04);
+}
+
+.zoom2 {
+    transition: transform .15s ease-out;
+}
+.zoom2:hover {
+    transform: scale(1.08);
+}
+
+.preload * {
+    animation-duration: 0s !important;
+    -webkit-animation-duration: 0s !important;
+    transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
+}
+    
