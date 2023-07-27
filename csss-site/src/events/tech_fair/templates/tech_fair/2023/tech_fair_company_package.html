@@ -1,0 +1,143 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="{% static 'reset.min.css' %}">
+        <link rel="stylesheet" href="{% static '2023/tech_fair.css' %}?v0.00">
+        <title>Tech Fair 2023</title>
+    </head>
+
+    <body class="preload" onload="onload()" onresize="updateBanner()">
+        <div style="position: fixed; background-color: #fff; width: 100%; display: flex; padding: 12px 16px 4px 16px; z-index: 5;">
+            <div style="margin: 0 auto; display: flex; flex-direction: row; max-width: calc(1150px);">
+                <div style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
+                </div>
+
+                <a href="{{ URL_ROOT }}events/tech_fair/2023" class="noto-bold nav-button-w" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>&lt;&lt; Tech Fair 2023</span>
+                </a>
+                
+                <div class="noto-bold noselect" style="height: 64px; padding: 2px 2px; display: flex; align-items: center;"> <!--  color: #4a7a96; -->
+                    <span style="transform: scaleY(2.5); height: 28px;">|</span>
+                </div>
+
+                <a href="#package" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Package Info</span>
+                </a>
+
+                <a href="#join" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Join Tech Fair</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="column-container" style="padding: 0 16px; background-color: rgba(255, 255, 255, 0.0);">
+            <div style="height: 75px;"></div>
+            <div style="height: 290px;"></div>
+
+            <div id="logo-container" style="display: flex; align-items: baseline; margin-bottom: -36px; margin-top: -36px">
+                <div id="laptop" style="width: 465px; display: inline-block; cursor: pointer; ">
+                    <object id="laptop-child" class="noselect svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" fill="currentColor" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
+                </div>
+                <div style="display: flex; height: 178px; align-items: baseline;">
+                    <div class="noto-bold" style="font-size: 160px; letter-spacing: -22px; z-index: -1; white-space: nowrap;">Tech Fair</div>
+                    <div class="noto-bold" style="font-size: 60px; letter-spacing: -5px; z-index: -1; display: relative; position: relative; bottom: 4px;">2023</div>
+                </div>
+            </div>
+
+            <img id="mountain" style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}"></img>
+
+            <article>
+                <div id="info-banner" style="position: absolute; width: 100vw; height: 100%; background-color: #000; z-index: -1; left: 0; margin-top: -12px;" hidden>
+                </div>
+
+                <div id="info-text" style="min-height: 128px; width: calc(100%); background-color: #000; color: #fff; z-index: 2; border: #000 2px solid; margin: 12px 0; padding: 24px;">
+                    <div style="display: table; clear: both;">
+                    <br>
+                        <img title="Tech Fair's fee" src="{% static '2023/img/flowchart.png' %}" style="float: left; display: inline; width: calc(45% - 25px); padding: 10px; margin-right: 25px; margin-top: 58px;"></img>
+                        <a id="package" href="#package" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none; text-align: center;">Company Package Info</a>
+                        <div style="float: left; margin: auto; width: calc(55% - 16px);">
+                            <p>
+                                Companies attending our Tech Fair will be provided with a <b>table</b>, <b>chairs</b>, <b>bulletin board</b>, and a <b>10ft by 6ft space</b> to set up in. As before, Tech Fair will run from <span style="color: #ee8695;"><b>10:00am</b></span> to <span style="color: #ee8695;"><b>4:00pm</b></span> on both September 27th and 28th. Lunch will be provided to all employees running the booths.
+                            </p>
+                            <br>
+                            <p>
+                                In order to support smaller companies, Tech Fair's attendance fee depends on the number of employees:
+                            </p>
+                            <ul style="margin-top: -6px;">
+                                <li>
+                                    <span style="color: #ee8695;"><b>$400.00 CAD</b></span> for companies with under 50 employees 
+                                </li>
+                                <li>
+                                    <span style="color: #ee8695;"><b>$750.00 CAD</b></span> for companies with over 50 employees
+                                </li>
+                            </ul>
+                            <br>
+                            <p>
+                                This fee is for attendance on <b>only one</b> of the two days.
+                            </p>
+                
+                            <br>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <div>
+                        <h2 style="text-align: center;"><span style="background-color: rgb(141, 187, 255); padding: 10px; color: #fff;">This sounds awesome, <em>how do I join?</em></span></h2>
+                        <p class="noselect" style="text-align: center; font-size: 2.5em;">↓</p> <!-- TODO: on hover, wiggle / move downwards -> transition -->
+                    </div>
+                    
+                    <br>
+                    <br>
+
+                <div id="info-text" style="min-height: 128px; width: calc(100%); background-color: #000; color: #fff; z-index: 2; border: #000 2px solid; padding: 24px;">
+                    <br>
+
+                    <a id="join" href="#join" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none;">Join Tech Fair</a>
+                    <br>
+                    <br>
+                    
+                    <p>If you'd like to join Tech Fair, please send an email to us at <a class="black-a" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a>, indicating the following:</p>
+                    <ul>
+                        <li>Your company's name</li>
+                        <li>Your preferred date (or both!)</li>
+                        <li>Any questions you have about the event</li>
+                    </ul>
+                    <br>
+
+                    <p style="text-align: center;">We look forwards to seeing you there!</p>
+                    <br>
+
+                </div>
+            </article>
+            <br>
+
+            <article>
+                <div class="noto" style="min-height: 128px; background-color: #fff; color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; text-align: center;">
+                    <p>SFU CSSS: Tech Fair 2023</p>
+                    <p>computing science</p>
+                    <p><a href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> | <a href="https://www.linkedin.com/company/sfucsss/">LinkedIn</a> | <a href="https://www.instagram.com/sfu_csss/">@sfu_csss</a> | <a href="http://discord.sfucsss.org/">discord</a></p>
+                </div>
+            </article>
+        </div>
+
+        <script src="{% static '2023/js/tech_fair_2023.js' %}"></script>
+        <script> 
+            setTimeout(() => {
+                document.body.className = "";
+            }, 200);
+        </script>
+    </body>
+</html>
