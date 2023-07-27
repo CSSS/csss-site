@@ -6,8 +6,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from announcements.models import Announcement
+from csss.convert_markdown import markdown_message
 from csss.views.context_creation.create_main_context import create_main_context
-from csss.views_helper import markdown_message, validate_markdown
+from csss.views_helper import validate_markdown
 
 ERROR_MESSAGES_KEY = 'error_messages'
 
@@ -45,8 +46,17 @@ def index(request):
 
     if paginated_object.num_pages < current_page:
         return HttpResponseRedirect(f'{settings.URL_ROOT}')
+    elif current_page < 1:
+        return HttpResponseRedirect(f'{settings.URL_ROOT}')
 
     announcements = paginated_object.page(current_page)
+    for announcement in announcements:
+        if announcement.email is not None:
+            # this is necessary because sometimes there are emails that seem to be double encoded
+            # like the one from Dina Zeng on 2023-06-30, in which case the html attribute does not render
+            # and the body attribute is still encoded
+            announcement.email.html_text = announcement.email.text.replace("\r\n", "<br>") \
+                if announcement.email.html == "" else ""
     error_message = None
     if settings.ENVIRONMENT == "LOCALHOST":
         announcement = [announcement for announcement in announcements if

@@ -33,7 +33,7 @@ def download_or_create_announcement_attachments(download=False):
             "rm -fr ../../media_root || true; "
             "mkdir -p ../../media_root || true; "
             f"wget -r -X '*' "
-            f"--no-host-directories {settings.STAGING_SERVER}dev_csss_website_media/mailbox_attachments/ -R '*html*' "
+            f"--no-host-directories {settings.STAGING_SERVER}website/mailbox_attachments/ -R '*html*' "
             " --cut-dirs=1 -P ../../media_root/ || true;"
         )
     else:

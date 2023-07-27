@@ -14,7 +14,7 @@ function remove_existing_files {
       "rm -fr ${BASE_DIR}/csss-site" \
       || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/deploy_changes.sh" || true
-  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/site_envs/*" || true
+  ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/csss_site_envs/*" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/set_env.sh" || true
   ssh csss@"${HOST_ADDRESS}" "rm ${BASE_DIR}/requirements.txt" || true
 }
@@ -32,44 +32,51 @@ function transfer_source_code_and_reqs {
 function transfer_env_variables_to_server {
   # create the file that contains all the environment variables that
   # site needs to run
-  echo 'BASE_DIR='"'"${BASE_DIR}"'" > site_envs
-  echo 'WEBSITE_SECRET_KEY='"'"${WEBSITE_SECRET_KEY}"'" >> site_envs
-  echo 'DEBUG='"'"${DEBUG}"'" >> site_envs
-  echo 'HOST_ADDRESS='"'"${HOST_ADDRESS}"'" >> site_envs
-  echo 'DB_PASSWORD='"'"${DB_PASSWORD}"'" >> site_envs
-  echo 'STRIPE_PUBLISHABLE_KEY='"'"${STRIPE_PUBLISHABLE_KEY}"'" >> site_envs
-  echo 'STRIPE_SECRET_KEY='"'"${STRIPE_SECRET_KEY}"'" >> site_envs
-  echo 'DB_PORT='"'"'5432'"'" >> site_envs
-  echo 'DB_TYPE='"'"'postgres'"'" >> site_envs
-  echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> site_envs
-  echo 'ENVIRONMENT='"'"${ENVIRONMENT}"'" >> site_envs
-  echo 'GDRIVE_ROOT_FOLDER_ID='"'"${GDRIVE_ROOT_FOLDER_ID}"'" >> site_envs
-  echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> site_envs
-  echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> site_envs
-  echo 'SFU_CSSS_GMAIL_USERNAME='"'"${SFU_CSSS_GMAIL_USERNAME}"'" >> site_envs
-  echo 'SFU_CSSS_GMAIL_PASSWORD='"'"${SFU_CSSS_GMAIL_PASSWORD}"'" >> site_envs
-  echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> site_envs
-  echo 'GUILD_ID='"'"${GUILD_ID}"'" >> site_envs
-  echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> site_envs
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > site_envs_gunicorn  
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/backup_script"'" > site_envs_backup_script
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/create_fixtures"'" > site_envs_create_fixtures
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/django_admin"'" > site_envs_django_admin
-  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/jenkins"'" > site_envs_jenkins
-  echo 'DB_NAME='"'postgres'" >> site_envs
+  echo 'BASE_DIR='"'"${BASE_DIR}"'" > ${BUILD_NUMBER}/csss_site.env
+  echo 'WEBSITE_SECRET_KEY='"'"${WEBSITE_SECRET_KEY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'DEBUG='"'"${DEBUG}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'HOST_ADDRESS='"'"${HOST_ADDRESS}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'DB_PASSWORD='"'"${DB_PASSWORD}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'STRIPE_PUBLISHABLE_KEY='"'"${STRIPE_PUBLISHABLE_KEY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'STRIPE_SECRET_KEY='"'"${STRIPE_SECRET_KEY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'DB_PORT='"'"'5432'"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'DB_TYPE='"'"'postgres'"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'ENVIRONMENT='"'"${ENVIRONMENT}"'" >> ${BUILD_NUMBER}/csss_site.env
 
-  cat site_envs >> site_envs_gunicorn
-  cat site_envs >> site_envs_backup_script
-  cat site_envs >> site_envs_create_fixtures
-  cat site_envs >> site_envs_django_admin
-  cat site_envs >> site_envs_jenkins
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC='"'"${GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC}"'" >> ${BUILD_NUMBER}/csss_site.env
 
-  scp site_envs_gunicorn csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_gunicorn"
-  scp site_envs_backup_script csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_backup_script"
-  scp site_envs_create_fixtures csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_create_fixtures"
-  scp site_envs_django_admin csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_django_admin"
-  scp site_envs_jenkins csss@"${HOST_ADDRESS}":"${BASE_DIR}/site_envs/site_envs_jenkins"
-  scp "CI/validate_and_deploy/2_deploy/set_env.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
+  echo 'GDRIVE_TOKEN_LOCATION='"'"${GDRIVE_TOKEN_LOCATION}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GITHUB_ACCESS_TOKEN='"'"${GITHUB_ACCESS_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'SFU_CSSS_GMAIL_USERNAME='"'"${SFU_CSSS_GMAIL_USERNAME}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'SFU_CSSS_GMAIL_PASSWORD='"'"${SFU_CSSS_GMAIL_PASSWORD}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'GUILD_ID='"'"${GUILD_ID}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > ${BUILD_NUMBER}/csss_site_gunicorn.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/backup_script"'" > ${BUILD_NUMBER}/csss_site_backup_script.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/create_fixtures"'" > ${BUILD_NUMBER}/csss_site_create_fixtures.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/django_admin"'" > ${BUILD_NUMBER}/csss_site_django_admin.env
+  echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/jenkins"'" > ${BUILD_NUMBER}/csss_site_jenkins.env
+  echo 'DB_NAME='"'postgres'" >> ${BUILD_NUMBER}/csss_site.env
+
+  cat ${BUILD_NUMBER}/csss_site.env >> ${BUILD_NUMBER}/csss_site_gunicorn.env
+  cat ${BUILD_NUMBER}/csss_site.env >> ${BUILD_NUMBER}/csss_site_backup_script.env
+  cat ${BUILD_NUMBER}/csss_site.env >> ${BUILD_NUMBER}/csss_site_create_fixtures.env
+  cat ${BUILD_NUMBER}/csss_site.env >> ${BUILD_NUMBER}/csss_site_django_admin.env
+  cat ${BUILD_NUMBER}/csss_site.env >> ${BUILD_NUMBER}/csss_site_jenkins.env
+
+  scp ${BUILD_NUMBER}/csss_site_gunicorn.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_gunicorn.env"
+  scp ${BUILD_NUMBER}/csss_site_backup_script.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_backup_script.env"
+  scp ${BUILD_NUMBER}/csss_site_create_fixtures.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_create_fixtures.env"
+  scp ${BUILD_NUMBER}/csss_site_django_admin.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_django_admin.env"
+  scp ${BUILD_NUMBER}/csss_site_jenkins.env csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss_site_envs/csss_site_jenkins.env"
+  scp "CI/validate_and_deploy/2_deploy/set_env_master.sh" csss@"${HOST_ADDRESS}":"${BASE_DIR}/set_env.sh"
 }
 
 function transfer_file_to_deploy_all_above_changes {

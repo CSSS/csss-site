@@ -1,0 +1,55 @@
+{% extends "csss/header.html" %}
+{% load bootstrap3 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block content %}
+    <form method="post" class="form" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h2 class="title is-size-2">Upload Media</h2>
+        <br><label for="event_type">Event Type</label>
+
+        <select name="{{event_type_key}}" id="event_type" onchange="ifOtherOptionIsSelected()" required="required">
+            <option value="Boardgames Night">Boardgames Night</option>
+            <option value="FAS Formal">FAS Formal</option>
+            <option value="Frosh">Frosh</option>
+            <option value="Hackthons">Hackthons</option>
+            <option value="Silicon Valley">Silicon Valley</option>
+            <option value="Tutorials">Tutorials</option>
+            <option value="Other">Other</option>
+        </select>
+
+        <div id="event_type_specifier"><br><br><label for="event_type_specifier_input">Event type: </label><input id="event_type_specifier_input" name="{{event_type_specifier_key}}" type="text" required="required"></div>
+
+        <br><br><label for="event_date">Event Date</label><input id="event_date" type="date" name="{{event_date_key}}" required="required">
+        <br><br><label for="note">Any relevant notes: </label> <input type="text" name="{{note_key}}" id="note" onchange="noteChanged()">
+        <i>If you have issues uploading, please put the media in a google drive link and share it in the notes box</i>
+
+        <br><br><label for="media_uploads">Files: </label><input id="media_uploads" type="file" name="{{media_uploads_key}}" multiple="multiple" required>
+
+        <br><br><input type="submit" name="submit" formaction="" value="Upload Files" />
+    </form>
+	<script>
+        $(document).ready(function () {
+            ifOtherOptionIsSelected();
+        });
+		function ifOtherOptionIsSelected(){
+            const event_type = document.getElementById('event_type');
+            if (event_type.value === 'Other') {
+                document.getElementById('event_type_specifier_input').setAttribute('required', '');
+            }else{
+                document.getElementById('event_type_specifier_input').removeAttribute('required');
+            }
+            document.getElementById('event_type_specifier').hidden = event_type.value !== 'Other';
+        }
+		function noteChanged(){
+			const note = document.getElementById('note');
+            if (note.value.indexOf("https://drive.google.com") !== -1) {
+                document.getElementById('media_uploads').removeAttribute('required');
+            }else{
+                document.getElementById('media_uploads').setAttribute('required', '');
+            }
+        }
+	</script>
+{% endblock %}

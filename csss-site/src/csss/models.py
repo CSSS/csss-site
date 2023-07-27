@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
@@ -31,7 +32,7 @@ class CronJob(models.Model):
         seconds_so_far = 0
         number_of_run_times = len(self.cronjobrunstat_set.all())
         if number_of_run_times == 0:
-            return "NA"
+            return "&nbsp;NA"
         for seconds in self.cronjobrunstat_set.all():
             seconds_so_far += seconds.run_time_in_seconds
         seconds_so_far = seconds_so_far / number_of_run_times
@@ -60,9 +61,19 @@ class CronJobRunStat(models.Model):
         return f"job {self.job} ran for {self.get_run_time} on {self.run_date}"
 
 
+PROD_SERVER_BASE_DIR = "/home/csss"
+
+
 class CSSSError(models.Model):
     type = models.CharField(
         max_length=100,
+        default=None,
+        null=True
+    )
+    base_directory = settings.BASE_DIR
+
+    file_path = models.CharField(
+        max_length=500,
         default=None,
         null=True
     )
@@ -77,6 +88,41 @@ class CSSSError(models.Model):
         default=None,
         null=True
     )
+    fixed = models.BooleanField(
+        default=False
+    )
+
+    @property
+    def get_prod_error_absolute_path(self):
+        return f"{PROD_SERVER_BASE_DIR}/{self.file_path}/{self.get_error_file_name}"
+
+    @property
+    def get_prod_debug_absolute_path(self):
+        return f"{PROD_SERVER_BASE_DIR}/{self.file_path}/{self.get_debug_file_name}"
+
+    @property
+    def get_error_absolute_path(self):
+        return f"{self.base_directory}/{self.file_path}/{self.get_error_file_name}"
+
+    @property
+    def get_debug_absolute_path(self):
+        return f"{self.base_directory}/{self.file_path}/{self.get_debug_file_name}"
+
+    @property
+    def get_error_project_path(self):
+        return f"{self.file_path}/{self.get_error_file_name}"
+
+    @property
+    def get_debug_project_path(self):
+        return f"{self.file_path}/{self.get_debug_file_name}"
+
+    @property
+    def get_error_file_name(self):
+        return self.filename
+
+    @property
+    def get_debug_file_name(self):
+        return f"{self.filename[:-10]}_debug.log"
 
     endpoint = models.CharField(
         max_length=500,
@@ -94,24 +140,37 @@ class CSSSError(models.Model):
 def convert_seconds_to_run_time_str(seconds):
     hours, minutes = 0, 0
     if seconds > 60:
-        minutes = seconds / 60
+        minutes = int(int(seconds) / 60)
         if minutes > 60:
-            hours = minutes / 60
+            hours = int(int(minutes) / 60)
             minutes = minutes % 60
-    seconds = seconds % 60
+    seconds = int(seconds % 60)
     run_time_str = ""
     if hours > 0:
-        run_time_str += f"{hours} hours"
+        if hours >= 10:
+            run_time_str += f"{hours:{3}} "
+        else:
+            run_time_str += f"{hours:{2}} "
+        run_time_str += "hours"
     if minutes > 0:
         if len(run_time_str) > 0:
             run_time_str += ","
         if seconds == 0:
-            run_time_str += " and"
-        run_time_str += f" {minutes} minutes"
+            run_time_str += " and "
+        if minutes >= 10:
+            run_time_str += f"{minutes:{3}} "
+        else:
+            run_time_str += f"{minutes:{2}} "
+        run_time_str += "minutes"
     if seconds > 0:
         if len(run_time_str) > 0:
             run_time_str += ", and"
-        run_time_str += f" {seconds} seconds"
+        if seconds >= 10:
+            run_time_str += f"{seconds:{3}} "
+        else:
+            run_time_str += f"{seconds:{2}} "
+        run_time_str += "seconds"
     if run_time_str == "":
-        run_time_str = "0 seconds"
+        run_time_str = " 0 seconds"
+    run_time_str = run_time_str.replace(" ", "&nbsp;")
     return run_time_str

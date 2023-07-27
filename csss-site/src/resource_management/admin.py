@@ -4,7 +4,7 @@ from django.contrib import admin
 from resource_management.models import NonOfficerGoogleDriveUser, GoogleDrivePublicFile, \
     NonOfficerGithubMember, \
     OfficerPositionGithubTeam, OfficerPositionGithubTeamMapping, \
-    GoogleDriveNonMediaFileType, MediaToBeMoved
+    GoogleDriveNonMediaFileType, MediaToBeMoved, Upload, MediaUpload
 
 
 class NonOfficerGoogleDriveUserAdmin(admin.ModelAdmin):
@@ -54,3 +54,17 @@ class MediaToBeMovedAdmin(admin.ModelAdmin):
 
 
 admin.site.register(MediaToBeMoved, MediaToBeMovedAdmin)
+
+
+class UploadAdmin(admin.ModelAdmin):
+    list_display = ('upload_date', 'event_type', 'event_date', 'relevant_note')
+
+
+admin.site.register(Upload, UploadAdmin)
+
+
+class MediaUploadAdmin(admin.ModelAdmin):
+    list_display = ('media', 'upload')
+
+
+admin.site.register(MediaUpload, MediaUploadAdmin)

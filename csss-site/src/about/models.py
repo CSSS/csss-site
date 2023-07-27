@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from csss.PSTDateTimeField import PSTDateTimeField
+from csss.convert_markdown import markdown_message
 
 
 class Term(models.Model):
@@ -80,6 +81,27 @@ class Officer(models.Model):
 
     def save(self, *args, **kwargs):
         self.validate_unique()
+        if hasattr(self, "_bitwarden_is_set"):
+            self.bitwarden_is_set = True
+            self.bitwarden_takeover_needed = False
+        elif not self.bitwarden_is_set:
+            self.bitwarden_is_set = True
+            position_mapping = OfficerEmailListAndPositionMapping.objects.filter(
+                position_name=self.position_name
+            ).first()
+            if position_mapping is None:
+                self.bitwarden_takeover_needed = False
+            elif not position_mapping.bitwarden_access:
+                self.bitwarden_takeover_needed = False
+            else:
+                from csss.views_helper import get_previous_term_obj
+                last_officer_with_same_position = Officer.objects.all().filter(
+                    elected_term__term_number__gte=get_previous_term_obj().term_number,
+                    position_name=self.position_name
+                ).exclude(start_date=self.start_date).exclude(id=self.id).order_by('start_date').last()
+                self.bitwarden_takeover_needed = (
+                    last_officer_with_same_position.sfu_computing_id != self.sfu_computing_id
+                )
         super(Officer, self).save(*args, **kwargs)
 
     position_name = models.CharField(
@@ -182,6 +204,22 @@ class Officer(models.Model):
         default="NA"
     )
 
+    bitwarden_takeover_needed = models.BooleanField(
+        default=True
+    )
+
+    bitwarden_is_set = models.BooleanField(
+        default=False
+    )
+
+    @property
+    def get_front_end_start_date(self):
+        return datetime.datetime.strftime(self.start_date, "%d %b %Y")
+
+    @property
+    def get_front_end_bio(self):
+        return markdown_message(self.bio)
+
     def __str__(self):
         return f" {self.elected_term} {self.full_name}"
 
@@ -258,6 +296,10 @@ class OfficerEmailListAndPositionMapping(models.Model):
         default=False
     )
 
+    bitwarden_access = models.BooleanField(
+        default=True
+    )
+
     number_of_terms_choices = (
         (None, "None"),
         (1, "1"),
@@ -282,7 +324,8 @@ class OfficerEmailListAndPositionMapping(models.Model):
     number_of_terms = models.IntegerField(
         choices=number_of_terms_choices,
         default=3,
-        null=True
+        null=True,
+        blank=True
     )
 
     @property
@@ -313,7 +356,8 @@ class OfficerEmailListAndPositionMapping(models.Model):
     starting_month = models.IntegerField(
         choices=starting_month_choices,
         default=3,
-        null=True
+        null=True,
+        blank=True
     )
 
     def get_term_month_number(self):

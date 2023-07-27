@@ -27,9 +27,9 @@ function setup_master_virtual_env(){
   python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt" --no-cache-dir
 
 
-  chmod +x "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh"
-  cp "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env.sh" "${BASE_DIR}/set_env.sh"
-  . "${BASE_DIR}/set_env.sh" site_envs/site_envs_django_admin
+  chmod +x "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env_master.sh"
+  cp "${BASE_DIR}/csss-site/CI/validate_and_deploy/2_deploy/set_env_master.sh" "${BASE_DIR}/set_env.sh"
+  . "${BASE_DIR}/set_env.sh" csss_site_envs/csss_site_django_admin.env
 }
 
 
@@ -81,12 +81,10 @@ function update_static_files_location {
 }
 
 function update_media_files {
-  mkdir -p "${BASE_DIR}/static_root/documents_static" || true
-  ln -ns /mnt/dev_csss_website_media/event-photos "${BASE_DIR}/static_root/documents_static/" || true
   mkdir -p "${BASE_DIR}/static_root/about_static" || true
-  ln -ns /mnt/dev_csss_website_media/exec-photos "${BASE_DIR}/static_root/about_static/" || true
+  ln -ns /home/csss/staging_assets/website/exec-photos "${BASE_DIR}/static_root/about_static/" || true
   mkdir -p "${BASE_DIR}/media_root/" || true
-  ln -s /mnt/dev_csss_website_media/mailbox_attachments "${BASE_DIR}/media_root/." || true
+  ln -s /home/csss/staging_assets/website/mailbox_attachments "${BASE_DIR}/media_root/." || true
 }
 
 function set_gunicorn_files {
@@ -105,7 +103,7 @@ Requires=gunicorn_${BRANCH_NAME}.socket
 After=network.target
 
 [Service]
-EnvironmentFile=${BASE_DIR}/site_envs/site_envs_gunicorn
+EnvironmentFile=${BASE_DIR}/csss_site_envs/csss_site_gunicorn.env
 User=csss
 Group=www-data
 WorkingDirectory=${BASE_DIR}/csss-site

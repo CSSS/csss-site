@@ -18,7 +18,7 @@
                     <td>{{ cron_mapping.job_name }}</td>
                     <td><input type="text" name="[{{cron_job_schedules__html_name}}][{{ cron_mapping.job_name }}]" value="{{ cron_mapping.schedule }}"></td>
                     <td><button name="{{cron_jobs_action_button_name__html_name}}" value="{{run_job_action__html_name}}{{ cron_mapping.job_name }}">Run Job</button></td>
-                    <td>{{ cron_mapping.average_run_time }}</td>
+                    <td>{{ cron_mapping.average_run_time|safe }}</td>
                 </tr>
             {%  endfor %}
         </table>

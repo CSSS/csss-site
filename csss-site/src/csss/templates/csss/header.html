@@ -41,6 +41,15 @@
 			<div id="navbarBasicExample" class="navbar-menu">
 				<div class="navbar-start">
 
+					<!--Errors-->
+                    {% if errors_exist %}
+                        {% if tab == 'errors' %}
+                            <a class="navbar-item is-active">Errors</a>
+                        {% else %}
+                            <a class="navbar-item" href="{{ URL_ROOT }}errors">Errors</a>
+                        {% endif %}
+                    {%  endif %}
+
 					<!--About-->
 					<div class="navbar-item has-dropdown is-hoverable">
 						{% if tab == 'about' %}
@@ -78,8 +87,11 @@
 							<a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/tree/master/constitutions">CSSS Constitution</a>
 							<a target="_blank" class="navbar-item" href="https://github.com/CSSS/public-docs/tree/master/policies">CSSS Policies</a>
 							<a target="_blank" class="navbar-item" href="https://sfss.ca/about/meeting-times-minutes/council/">SFSS Council Minutes</a>
-							<a target="_blank" href="https://vault.sfu.ca/index.php/s/Z4JEfabBnAnbOcA" class="navbar-item" >Photo Galleries</a>
-							<a target="_blank" href='https://vault.sfu.ca/index.php/s/zCHRkcCR8QHAZpg' class="navbar-item">Upload Photo/Videos from CSSS Events</a>
+							<a target="_blank" href="https://drive.google.com/drive/folders/1oDVvf1MD5AoZcdsFTWFh24YSE7K0mpD_" class="navbar-item" >CSSS Gallery</a>
+                            {%  if current_executive_officer or root_user %}
+							    <a target="_blank" href="https://drive.google.com/drive/folders/1cKOkFTDfu_6GqqbaYrPVqstb-H-HzMdX" class="navbar-item" >Private Exec Gallery</a>
+                            {%  endif %}
+							<a href='{{URL_ROOT}}resource_management/upload' class="navbar-item">Upload Media from CSSS Events</a>
 						</div>
 					</div>
 

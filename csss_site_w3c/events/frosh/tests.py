@@ -169,5 +169,13 @@ class FroshWeekW3CValidationTest(SimpleTestCase):
         W3CValidation().validate_page(path="/events/frosh/2022/secret")
 
 
+    def test_frosh_2023_sponsor_page(self):
+        W3CValidation().validate_page(path="/events/frosh/2023/sponsor")
+
+    @skip("This webpage is supposed to return an error 70% of the time, as an easter egg to froshees")
+    def test_frosh_2023_secret_page(self):
+        W3CValidation().validate_page(path="/events/frosh/2023/secret")
+
+
     def test_frosh_main_page(self):
         W3CValidation().validate_page(path="/events/frosh")

@@ -2,108 +2,129 @@ pipeline {
     agent any
     options {
         disableConcurrentBuilds()
-        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        buildDiscarder(logRotator(numToKeepStr: "10", artifactNumToKeepStr: "10"))
+        skipDefaultCheckout()
+    }
+    environment {
+        CONTAINER_HOME_DIR = "/usr/src/app";
+
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS = "0AGb0FPdVjrsqUk9PVA";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY = "1oDVvf1MD5AoZcdsFTWFh24YSE7K0mpD_";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PUBLIC_GALLERY = "0AMPSiYxHDAXxUk9PVA";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PRIVATE_GALLERY = "1cKOkFTDfu_6GqqbaYrPVqstb-H-HzMdX";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_PRIVATE_GALLERY = "0AEEsqn3xMVuaUk9PVA";
+        GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_DEEP_EXEC = "0AEthg-w3Ogz7Uk9PVA";
+
+        LOCALHOST_PYTHON_VALIDATION_TEST_DIR = "python_formatting_test_results";
+        LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME = "formatting_test_results.xml";
+
+        LOCALHOST_W3C_VALIDATION_TEST_DIR = "html_formatting_test_results/xml";
+        LOCALHOST_W3C_VALIDATION_XML_FILE_NAME = "w3c_validation_results.xml";
     }
     stages {
-        stage('Validate Python Formatting') {
+        stage("Setup Environment"){
             steps {
-                sh label: '', script: """bash -c \'
-                    ./csss-site/test/line_endings.sh;
+                cleanWs(
+                    cleanWhenAborted: true,
+                    cleanWhenFailure: true,
+                    cleanWhenNotBuilt: false,
+                    cleanWhenSuccess: true,
+                    cleanWhenUnstable: true,
+                    deleteDirs: true,
+                    disableDeferredWipeout: true
+                )
+                checkout scm
+                sh("mkdir ${BUILD_NUMBER}")
+            }
+        }
+        stage("Validate Python Formatting") {
+            steps {
+                sh('''./csss-site/test/line_endings.sh;
                     export ENVIRONMENT=TEST;
                     export COMPOSE_PROJECT_NAME=TEST_WEBSITE_"${BRANCH_NAME}";
 
-                    export CONTAINER_HOME_DIR=/usr/src/app;
                     export CONTAINER_TEST_DIR="\${CONTAINER_HOME_DIR}"/tests;
                     export CONTAINER_SRC_DIR="\${CONTAINER_HOME_DIR}"/src;
 
                     export LOCALHOST_SRC_DIR=${WORKSPACE}/website/src/;
-                    export LOCALHOST_TEST_DIR=python_formatting_test_results;
-                    export TEST_RESULT_FILE_NAME=all-unit-tests.xml;
-                    export LOCALHOST_TEST_DIR=${WORKSPACE}/"\${LOCALHOST_TEST_DIR}";
+                    export TEST_RESULT_FILE_NAME=${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME};
 
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_pytest;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_pytest;
                     ./CI/validate_and_deploy/1_validate/run_jenkins_dockerized_formatting_test.sh;
-                \'"""
+                '''
+                )
             }
         }
-        stage('Deploy to Test Server') {
-            when { changeRequest target: 'master' }
+        stage("Deploy to Test Server") {
+            when { changeRequest target: "master" }
             steps {
                 withCredentials(
                     [
                         string(credentialsId: 'WEBSITE_DEV_SECRET_KEY', variable: 'WEBSITE_DEV_SECRET_KEY'),
                         string(credentialsId: 'WEBSITE_DEV_DB_PASSWORD', variable: 'WEBSITE_DEV_DB_PASSWORD'),
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_SECRET_KEY', variable: 'WEBSITE_DEV_STRIPE_SECRET_KEY'),
-                        string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
-                        string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY'),
-                        string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
-                        string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
-                        string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
+                        string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
-                      timeout(5) {
-                          sh label: '', script: """bash -c \'
+                      timeout(10) {
+                          sh('''
                             export BRANCH_NAME=${BRANCH_NAME};
                             export CHANGE_ID=${CHANGE_ID};
                             export BASE_DIR=/home/csss/\${BRANCH_NAME};
-                            export WEBSITE_SECRET_KEY="'"${WEBSITE_DEV_SECRET_KEY}"'";
+                            export WEBSITE_SECRET_KEY=${WEBSITE_DEV_SECRET_KEY};
                             export DEBUG=true;
                             export ENVIRONMENT=STAGING;
                             export HOST_ADDRESS=dev.sfucsss.org;
 
-                            export GDRIVE_ROOT_FOLDER_ID="'"0AGb0FPdVjrsqUk9PVA"'";
-                            export GDRIVE_TOKEN_LOCATION="'"/home/csss/credentials/token.pickle"'";
-                            export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
-                            export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
-                            export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
-                            export DISCORD_BOT_TOKEN="'"DISCORD_BOT_TOKEN"'";
-                            export GUILD_ID="'"228761314644852736"'";
-                            export SFU_ENDPOINT_TOKEN="'"${SFU_ENDPOINT_TOKEN}"'";
+                            export GDRIVE_TOKEN_LOCATION=/home/csss/credentials/token.pickle;
+                            export GITHUB_ACCESS_TOKEN=GITHUB_ACCESS_TOKEN;
+                            export SFU_CSSS_GMAIL_USERNAME=SFU_CSSS_GMAIL_USERNAME;
+                            export SFU_CSSS_GMAIL_PASSWORD=SFU_CSSS_GMAIL_PASSWORD;
+                            export DISCORD_BOT_TOKEN=DISCORD_BOT_TOKEN;
+                            export GUILD_ID=228761314644852736;
+                            export SFU_ENDPOINT_TOKEN=SFU_ENDPOINT_TOKEN;
 
-                            export DB_PASSWORD="'"${WEBSITE_DEV_DB_PASSWORD}"'";
+                            export DB_PASSWORD=${WEBSITE_DEV_DB_PASSWORD};
 
-                            export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY}"'";
-                            export STRIPE_SECRET_KEY="'"${WEBSITE_DEV_STRIPE_SECRET_KEY}"'";
+                            export STRIPE_PUBLISHABLE_KEY=${WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY};
+                            export STRIPE_SECRET_KEY=${WEBSITE_DEV_STRIPE_SECRET_KEY};
                             ./CI/validate_and_deploy/2_deploy/1_update_files_on_staging_server.sh;
                             ssh csss@"\${HOST_ADDRESS}" "/home/csss/\${BRANCH_NAME}/deploy_changes.sh";
-                          \'"""
+                          '''
+                          )
                       }
                 }
             }
         }
-        stage('Validate HTML Formatting') {
-            when { changeRequest target: 'master' }
+        stage("Validate HTML Formatting") {
+            when { changeRequest target: "master" }
             steps {
-                sh label: '', script: """bash -c \'
+                sh('''
                     export W3C_TESTS_URL=https://dev.sfucsss.org/PR-${CHANGE_ID};
 
                     export COMPOSE_PROJECT_NAME=TEST_WEBSITE_${CHANGE_ID};
                     export DOCKER_TEST_IMAGE="\${COMPOSE_PROJECT_NAME}"_website_w3c;
                     export DOCKER_TEST_CONTAINER="\${COMPOSE_PROJECT_NAME}"_w3c;
 
-                    export CONTAINER_HOME_DIR=/usr/src/app;
                     export CONTAINER_HOME_LOGS_DIR="\${CONTAINER_HOME_DIR}"/logs;
                     export CONTAINER_TEST_RESULT_DIRECTORY="\${CONTAINER_HOME_DIR}"/django_tests;
 
-                    export LOCALHOST_TEST_DIR=html_formatting_test_results;
-
                     ./CI/validate_and_deploy/1_validate/validate_staging_website.sh;
-                \'"""
+                '''
+                )
             }
         }
 
-        stage('Deploy to Prod Server') {
-            when {
-                branch 'master'
-            }
+        stage("Deploy to Prod Server") {
+            when { branch "master" }
             steps {
                 withCredentials(
                     [
                         string(credentialsId: 'WEBSITE_PROD_SECRET_KEY', variable: 'WEBSITE_PROD_SECRET_KEY'),
                         string(credentialsId: 'WEBSITE_PROD_DB_PASSWORD', variable: 'WEBSITE_PROD_DB_PASSWORD'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_SECRET_KEY', variable: 'WEBSITE_PROD_STRIPE_SECRET_KEY'),
-                        string(credentialsId: 'GITHUB_ACCESS_TOKEN', variable: 'GITHUB_ACCESS_TOKEN'),
+                        usernamePassword(credentialsId: 'csss-admin',passwordVariable: 'GITHUB_ACCESS_TOKEN',usernameVariable: 'ignored'),
                         string(credentialsId: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_USERNAME', variable: 'SFU_CSSS_GMAIL_USERNAME'),
                         string(credentialsId: 'SFU_CSSS_GMAIL_PASSWORD', variable: 'SFU_CSSS_GMAIL_PASSWORD'),
@@ -111,43 +132,43 @@ pipeline {
                         string(credentialsId: 'SFU_ENDPOINT_TOKEN', variable: 'SFU_ENDPOINT_TOKEN')
                     ]
                 ) {
-                    sh label: '', script: """bash -c \'
+                    sh('''
                         export BRANCH_NAME=${BRANCH_NAME};
                         export BASE_DIR=/home/csss;
-                        export WEBSITE_SECRET_KEY="'"${WEBSITE_PROD_SECRET_KEY}"'";
+                        export WEBSITE_SECRET_KEY=${WEBSITE_PROD_SECRET_KEY};
                         export DEBUG=false;
                         export ENVIRONMENT=PRODUCTION;
                         export HOST_ADDRESS=sfucsss.org;
 
                         export GDRIVE_TOKEN_LOCATION="/home/csss/google_drive_api_token/token.pickle";
-                        export GDRIVE_ROOT_FOLDER_ID="'"0AGb0FPdVjrsqUk9PVA"'";
-                        export GITHUB_ACCESS_TOKEN="'"${GITHUB_ACCESS_TOKEN}"'";
-                        export SFU_CSSS_GMAIL_USERNAME="'"${SFU_CSSS_GMAIL_USERNAME}"'";
-                        export SFU_CSSS_GMAIL_PASSWORD="'"${SFU_CSSS_GMAIL_PASSWORD}"'";
-                        export DISCORD_BOT_TOKEN="'"${CSSS_WEBSITE_PROD_DISCORD_BOT_TOKEN}"'";
-                        export GUILD_ID="'"228761314644852736"'";
-                        export SFU_ENDPOINT_TOKEN="'"${SFU_ENDPOINT_TOKEN}"'";
+                        export GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN};
+                        export SFU_CSSS_GMAIL_USERNAME=${SFU_CSSS_GMAIL_USERNAME};
+                        export SFU_CSSS_GMAIL_PASSWORD=${SFU_CSSS_GMAIL_PASSWORD};
+                        export DISCORD_BOT_TOKEN=${CSSS_WEBSITE_PROD_DISCORD_BOT_TOKEN};
+                        export GUILD_ID=228761314644852736;
+                        export SFU_ENDPOINT_TOKEN=${SFU_ENDPOINT_TOKEN};
 
-                        export DB_PASSWORD="'"${WEBSITE_PROD_DB_PASSWORD}"'";
-                        export STRIPE_PUBLISHABLE_KEY="'"${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY}"'";
-                        export STRIPE_SECRET_KEY="'"${WEBSITE_PROD_STRIPE_SECRET_KEY}"'";
+                        export DB_PASSWORD=${WEBSITE_PROD_DB_PASSWORD};
+                        export STRIPE_PUBLISHABLE_KEY=${WEBSITE_PROD_STRIPE_PUBLISHABLE_KEY};
+                        export STRIPE_SECRET_KEY=${WEBSITE_PROD_STRIPE_SECRET_KEY};
                         ./CI/validate_and_deploy/2_deploy/1_update_files_on_master_server.sh;
                         ssh csss@"\${HOST_ADDRESS}" "/home/csss/deploy_changes.sh";
-                    \'"""
+                    '''
+                    )
                 }
             }
         }
     }
     post {
-      always {
-          script {
-              if (fileExists('python_formatting_test_results/all-unit-tests.xml')){
-                  junit skipPublishingChecks: true, testResults: 'python_formatting_test_results/all-unit-tests.xml'
-              }
-              if (fileExists('html_formatting_test_results/xml/tests.xml')){
-                  junit skipPublishingChecks: true, testResults: 'html_formatting_test_results/xml/tests.xml'
-              }
-          }
-      }
-  }
+        always {
+            script {
+                if (fileExists("${BUILD_NUMBER}/${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}")){
+                    junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_PYTHON_VALIDATION_TEST_DIR}/${LOCALHOST_PYTHON_VALIDATION_XML_FILE_NAME}"
+                }
+                if (fileExists("${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}")){
+                    junit skipPublishingChecks: true, testResults: "${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}"
+                }
+            }
+        }
+    }
 }
