@@ -81,22 +81,22 @@ a:target:before {
 
 @font-face {
     font-family: "darumadropOne";
-    src: url("http://localhost:8000/STATIC_URL/2023/fonts/DarumadropOne-Regular.ttf");
+    src: url("./fonts/DarumadropOne-Regular.ttf");
 }
 
 @font-face {
     font-family: "NotoSansGeorgian-Regular";
-    src: url("http://localhost:8000/STATIC_URL/2023/fonts/NotoSansGeorgian-Regular.ttf");
+    src: url("./fonts/NotoSansGeorgian-Regular.ttf");
 }
 
 @font-face {
     font-family: "Noto Sans Georgian";
-    src: url("http://localhost:8000/STATIC_URL/2023/fonts/NotoSansGeorgian-Regular.ttf");
+    src: url("./fonts/NotoSansGeorgian-Regular.ttf");
 }
 
 @font-face {
     font-family: "NotoSansGeorgian-Bold";
-    src: url("http://localhost:8000/STATIC_URL/2023/fonts/NotoSansGeorgian-Bold.ttf");
+    src: url("./fonts/NotoSansGeorgian-Bold.ttf");
 }
 
 .title {
