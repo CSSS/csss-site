@@ -160,6 +160,12 @@ li:before {
     padding-right: 8px;
 }
 
+.schedule-time {
+    width: 5em; 
+    text-align: right; 
+    padding-right: 8px;
+}
+
 /* ************************* */
 
 /* width */
@@ -306,6 +312,7 @@ li:before {
     transition: transform .15s ease-out;
 }
 .zoom2:hover {
+    text-decoration: underline !important;
     transform: scale(1.08);
 }
 
