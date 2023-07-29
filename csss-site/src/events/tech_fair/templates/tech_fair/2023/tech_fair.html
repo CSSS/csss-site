@@ -1,0 +1,448 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+        <link rel="stylesheet" href="{% static 'reset.min.css' %}">
+        <link rel="stylesheet" href="{% static '2023/tech_fair.css' %}?v0.00">
+        <title>Tech Fair 2023</title>
+    </head>
+
+    <body class="preload" onload="onload()" onresize="updateBanner()">
+        <div style="position: fixed; background-color: #fff; width: 100%; display: flex; padding: 12px 16px 4px 16px; z-index: 5;">
+            <div style="margin: 0 auto; display: flex; flex-direction: row; max-width: calc(1150px);">
+                <div style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
+                </div>
+
+                <a href="#" class="noto-bold nav-button-w" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Tech Fair 2023</span>
+                </a>
+                
+                <div class="noto-bold noselect" style="height: 64px; padding: 2px 2px; display: flex; align-items: center;"> <!--  color: #4a7a96; -->
+                    <span style="transform: scaleY(2.5); height: 28px;">|</span>
+                </div>
+
+                <a href="#booths" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Booths</span>
+                </a>
+
+                <a href="#schedule" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Schedule</span>
+                </a>
+
+                <!-- <a href="#resume_workshop" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <span>Workshops & Talks</span>
+                    Workshops & Talks
+                </a> -->
+
+                <a href="#students" class="noto-bold nav-button" style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <span>For Students</span>
+                </a>
+
+                <div class="noto-bold noselect" style="height: 64px; padding: 2px 2px; display: flex; align-items: center;"> <!--  color: #4a7a96; -->
+                    <span style="transform: scaleY(2.5); height: 28px;">|</span>
+                </div>
+
+                <a href="#companies" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>For Companies</span>
+                </a>
+                
+                <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center; ">
+                    <span>Package Info</span>
+                </a>
+
+                <a href="#history" class="noto-bold nav-button-s" style="height: 64px; padding: 2px 12px; display: flex; align-items: center;">
+                    <span>History</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="column-container" style="padding: 0 16px; background-color: rgba(255, 255, 255, 0.0);">
+            <div style="height: 75px;"></div>
+
+            <header style="text-align: left; vertical-align: bottom; font-size: 2em; display: inline-block; padding: 0 12px; height: 290px;">
+                <h1 class="title"><span style="color: #ee8695;">SFU_CSSS</span>.TechFair(<span style="color: #4a7a96">2023</span>);</h1>
+                <h1 class="title" style="">
+                    <span id="before-cursor" style="color: #fbbbad; white-space: pre;"></span>
+                    <span class="noselect" style="animation-name: blinking; animation-duration: 1s; animation-iteration-count: infinite; animation-timing-function: ease-in-out;">|</span>
+                </h1>
+            </header>
+
+            <div id="logo-container" style="display: flex; align-items: baseline; margin-bottom: -36px; margin-top: -36px">
+                <div id="laptop" style="width: 465px; display: inline-block; cursor: pointer; ">
+                    <object id="laptop-child" class="noselect svgClass" style="z-index: -1; position: relative; width: 160px; margin-bottom: -10px; margin-left: 290px; background-color: white; display: inline-block;" type="image/svg+xml" data="{% static 'images/laptop.svg' %}"></object>
+                </div>
+                <div style="display: flex; height: 178px; align-items: baseline;">
+                    <div class="noto-bold" style="font-size: 160px; letter-spacing: -21px; z-index: -1; white-space: nowrap;">Tech Fair</div>
+                    <div class="noto-bold" style="font-size: 60px; letter-spacing: -5px; z-index: -1; position: relative; bottom: 4px;">2023</div>
+                </div>
+            </div>
+
+            <img id="mountain" alt="mountain" style="position: relative; width: 160px; display: inline; margin: -260px 0 -45px 0; z-index: -2;" src="{% static 'images/mountain.svg' %}">
+
+            <div>
+                <div id="info-banner" style="position: absolute; width: 100vw; height: 100%; background-color: #000; z-index: -1; left: 0; margin-top: -12px;" hidden>
+                </div>
+
+                <div id="info-text" style="min-height: 128px; width: calc(100%); background-color: #000; color: #fff; z-index: 2; border: #000 2px solid; margin: 12px 0; padding: 24px;">
+                    <div style="display: table; clear: both;">
+                    <br>
+                        
+                        <img class="zoom" title="Long Shot of Tech Fair 2022" alt="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="float: left; display: inline; width: calc(50% - 25px); padding: 10px; margin-right: 25px;">
+                        <div style="float: left; margin: auto; width: calc(50% - 16px);">
+                            <br>
+                            <h2>Welcome to Tech Fair!</h2>
+                            <p>
+                                Tech Fair is our annual career fair, bringing students and companies together. This is a great opportunity to set up a booth and expand the name recognition of your company! 
+                            </p>
+                            <ul style="margin-top: -6px;">
+                                <li>Located in <a class="black-a" href="https://roomfinder.sfu.ca/apps/sfuroomfinder_web/?q=AQ">AQ North</a> at SFU's Burnaby campus</li>
+                                <li>Over 2000 SFU Computing Science Students invited</li>
+                                <li>September 27 & 28, from 10:00am - 4:00pm</li>
+                                <li>Meet your future employees!</li>
+                            </ul>
+                        </div>
+                        <br>
+                        <br>
+                    </div>
+                    
+                    <br>
+                    <br>
+                    <div style="display: table; clear: both; width: 100%;">
+                        <div style="float: left; width: calc(50% - 8px); margin-right: 8px; text-align: center;">
+                            <p style="display: block;">Are you a <b>student</b> interested in stopping by? &nbsp;</p>
+                            <a href="https://forms.gle/57eiVPhzHs2aVHi7A" class="noto-bold zoom2" style="width: 124px; color: #fff; background-color: #ee8695; text-align: center; display: inline-block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">RSVP!</a>
+                        </div>
+                        <div style="float: left; width: calc(50% - 16px); margin-right: 16px; text-align: center;">
+                            <p style="display: block;">Are you a <b>company</b> interested in participating?</p>
+                            <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#join" class="noto-bold zoom2" style="width: 192px; color: #fff; background-color: #4a7a96; text-align: center; display: inline-block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">Join Tech Fair</a>
+                        </div>
+                    </div>
+
+                    <br>
+                    <br>
+                    <br>
+
+                    <p>Feel free to reach out to us at <a class="black-a" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> for any further questions.</p>
+                    <br>
+                </div>
+            </div>
+            
+            <div style="height: 20px;"></div>
+            <br>
+
+            <div>
+                <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px 0;">
+                    <a id="booths" href="#booths" class="noto-bold" style="display: inline-block; font-size: 2em; margin: 0 0 24px 24px; color: #000; text-decoration: none;">Who's Coming?</a>
+                    <br>
+                    <br>
+                    <br>
+                    <!--
+                    <div style="white-space: nowrap; display: flex; flex-wrap: wrap; row-gap: 16px; column-gap: 16px;">
+                        <div class="company-card">
+                            <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/cubes.jpg' %}"/>
+                            <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
+                                <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
+                                <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
+                                
+                                <br><br>
+    
+                                <div style="font-size: 0.85em; margin-top: -10px;">
+                                    <br>
+                                    <p style="overflow-y: scroll; height: 55px; padding: 0;">This very very cool company could be you!</p>
+                                    <div style="display: inline-block; padding: 8px;">
+                                        <a href="#" class="tag" style="color: #8db7ff; font-size: 1.1em; display: inline;">&lt;Gaming&gt;</a>
+                                    </div>
+                                    <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="company-card">
+                            <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/globe.gif' %}"/>
+                            <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
+                                <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
+                                <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
+                                
+                                <br><br>
+    
+                                <div style="font-size: 0.85em; margin-top: -10px;">
+                                    <br>
+                                    <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
+                                    <div style="display: inline-block; padding: 8px;">
+                                        <a href="#" class="tag" style="color: #ee8695; font-size: 1.1em; display: inline;">&lt;Public Service&gt;</a>
+                                    </div>
+                                    <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="company-card">
+                            <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/mongolia.jpg' %}"/>
+                            <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
+                                <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
+                                <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
+                                
+                                <br><br>
+    
+                                <div style="font-size: 0.85em; margin-top: -10px;">
+                                    <br>
+                                    <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
+                                    <div style="display: inline-block; padding: 8px;">
+                                        <a href="#" class="tag" style="color: #8db7ff; font-size: 1.1em; display: inline;">&lt;Gaming&gt;</a>
+                                    </div>
+                                    <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="company-card">
+                            <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/cubes.jpg' %}"/>
+                            <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
+                                <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
+                                <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
+                                
+                                <br><br>
+    
+                                <div style="font-size: 0.85em; margin-top: -10px;">
+                                    <br>
+                                    <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
+                                    <div style="display: inline-block; padding: 8px;">
+                                        <a href="#" class="tag" style="color: #6bc96c; font-size: 1.1em; display: inline;">&lt;Networking&gt;</a>
+                                    </div>
+                                    <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="company-card">
+                            <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/winter.jpg' %}"/>
+                            <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
+                                <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
+                                <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
+                                
+                                <br><br>
+    
+                                <div style="font-size: 0.85em; margin-top: -10px;">
+                                    <br>
+                                    <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
+                                    <div style="display: inline-block; padding: 8px;">
+                                        <a href="#" class="tag" style="color: #6bc96c; font-size: 1.1em; display: inline;">&lt;Networking&gt;</a>
+                                    </div>
+                                    <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    <p style="text-align: center;">It's empty here, you could be <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#package">the very first one!</a></p>
+                    <br>
+                    <br>
+                </div>
+            </div>
+            
+            <br>
+
+            <div>
+                <div style="min-height: 128px; background-color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; color: #fff; position: relative; z-index: 1;">
+                    <a id="schedule" href="#schedule" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none; position: relative; z-index: 2;">Schedule</a>
+                    
+                    <p>Day 1 | Day 2</p>
+
+                    <div style="width: calc(50% - 10px); display: inline-block; margin-right: 20px;">
+                        <table style="border: solid 1px #000; width: 100%; padding: 10px;">
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">8</span>AM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">10</span>AM</td>
+                                <td style="position: relative;">
+                                    <div style="position: absolute; right: 8px; left: 8px; top: 8px; bottom: calc((4em + 2px) * -1 * 3 + 8px + 2.6em + 8px); background-color: #e07b8a; border-radius: 32px; font-size: 1.3em; text-align: center;">
+                                        <p style="font-size: 1.25em; margin-top: 14px;"><b>Tech Fair Day 1</b></p>
+                                        <p style="font-size: 0.85em; margin-top: -14px;">(10:00am - 4:00pm)</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">12</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">2</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">4</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">6</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">8</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">10</span>AM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                        </table>
+                    </div>
+
+                    <div style="width: calc(50% - 20px); display: inline-block;">
+                        <table style="border: solid 1px #000; width: 100%; padding: 10px;">
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">8</span>AM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">10</span>AM</td>
+                                <td style="position: relative;">
+                                    <div style="position: absolute; right: 8px; left: 8px; top: 8px; bottom: calc((4em + 2px) * -1 * 3 + 8px + 2.6em + 8px); background-color: #4a7a96; border-radius: 32px; font-size: 1.3em; text-align: center;">
+                                        <p style="font-size: 1.25em; margin-top: 14px;"><b>Tech Fair Day 2</b></p>
+                                        <p style="font-size: 0.85em; margin-top: -14px;">(10:00am - 4:00pm)</p>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">12</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">2</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">4</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">6</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #444; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">8</span>PM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                            <tr style="background-color: #222; height: 4em;">
+                                <td class="schedule-time"><span style="font-size: 2em;">10</span>AM</td>
+                                <td>&nbsp;</td>
+                            </tr> 
+                        </table>
+                    </div>
+                    
+                    <br><br>
+                    <br><br>
+                    <br><br>
+
+                    <div class="noto-bold noselect" style="float: right; font-size: 232px; letter-spacing: -22px; position: relative; height: 0px; bottom: 239px; right: -20px; color: #fff; z-index: 3;">Schedule</div>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div>
+                <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
+                    <a id="students" href="#students" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">Students</a>
+                   
+                    <p>As a student, Tech Fair is all about <u>you</u>, but why should you come to Tech Fair in the first place?</p>
+                    <ul>
+                        <li>Make connections with local companies</li>
+                        <li>Learn about the computing industry in Vancouver</li>
+                        <li>Build your professional image</li>
+                    </ul>
+                    <br>
+
+                    <a href="https://forms.gle/57eiVPhzHs2aVHi7A" class="noto-bold zoom2" style="width: 124px; color: #fff; background-color: #ee8695; text-align: center; display: block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">RSVP!</a>
+                </div>
+            </div>
+            
+            <br>
+            <br>
+
+            <div>
+                <div style="min-height: 128px; background-color: #000; color: #fff; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px;">
+                    <a id="companies" href="#companies" class="noto-bold" style="font-size: 2em; color: #fff; text-decoration: none;">For Companies</a>
+
+                    <div style="display: table; clear: both; width: 100%;">
+                        <p>
+                            Tech Fair 2023 gives you and your company the opportunity to expand your brand to hundreds of talented and interested students who could become potential stars in your company. 
+                        </p>
+                        <ul>
+                            <li>Reach out to hundreds of passionate Computing Science students at various points in their degree</li>
+                            <li>Let students learn about you, your culture, and your opportunities - so you're first in mind when they start their career journeys</li>
+                        </ul>
+                        <br>
+
+                        <p><b>Attend TechFair 2023</b> - our students might meet their next co-op, and you might meet your next full-time employee!</p>
+                        <br>
+                    </div>
+
+                    <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">//////////////////////////////////////////////////////</p>
+                    <br>
+                    <p>Interested in setting up a booth?</p>
+                    <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#join" class="noto-bold zoom2" style="width: 192px; color: #fff; background-color: #4a7a96; text-align: center; display: block; font-size: 1.25em; padding: 10px 0; text-decoration: none; color: #fff;">Join Tech Fair</a>
+                </div>
+            </div>
+
+            <br>
+            <br>
+
+            <div>
+                <div style="min-height: 128px; background-color: #fff; width: calc(100%); border: #000 2px solid; margin: 12px 0; padding: 24px;">
+                    <a id="history" href="#history" class="noto-bold" style="font-size: 2em; color: #000; text-decoration: none;">History</a>
+                    
+                    <div style="display: table; clear: both;">
+                        <p style="float: left; width: calc(100% - 10px); margin-right: 10px;">
+                            Just a short decade ago, Tech Fair was a standing CSSS tradition at SFU. Unforunately, due to the curse of time, it's fallen out of favour in recent years.
+                            
+                            <br><br> 
+
+                            However! This all changed in 2022, when the event was brought back to life.
+                            
+                            <br><br>
+
+                            This is the second year in a row we're running Tech Fair, and we've become much more serious about it than before, with the ultimate goal of keeping this event going long after we leave.
+                        </p>
+                        <p style="float: left; width: 50%;">
+
+                            <!--Not only has it recently become a permenant part of our <a href="https://github.com/CSSS/public-docs/blob/master/constitutions/Constitution_March_2022.pdf">constitution</a>, but --> 
+                        </p>
+                    </div>
+
+                    <br>
+
+                    <h4 class="noto-bold" style="font-size: 1.5em; color: #000;">Gallery</h4>
+                    <div style="width: 100%;">
+                        <img class="zoom" title="Long Shot of Tech Fair 2022" alt="Long Shot of Tech Fair 2022" src="{% static 'images/tf-image-1.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                        <img class="zoom" title="Students at Tech Fair 2022" alt="Students at Tech Fair 2022" src="{% static 'images/tf-image-2.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                        <img class="zoom" title="A Booth at Tech Fair 2022" alt="A Booth at Tech Fair 2022" src="{% static 'images/booth.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                        <img class="zoom" title="View from SFU's Burnaby Campus" alt="View from SFU's Burnaby Campus" src="{% static 'images/sfu.jpg' %}" style="display: inline; width: calc(50% - 6px); padding: 10px;">
+                    </div>
+                </div>
+            </div>
+            <br>
+
+            <div>
+                <div class="noto" style="min-height: 128px; background-color: #fff; color: #000; width: calc(100%); border: #fff 2px solid; margin: 12px 0; padding: 24px; text-align: center;">
+                    <p>SFU CSSS: Tech Fair 2023</p>
+                    <p>computing science</p>
+                    <p><a href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> | <a href="https://www.linkedin.com/company/sfucsss/">LinkedIn</a> | <a href="https://www.instagram.com/sfu_csss/">@sfu_csss</a> | <a href="http://discord.sfucsss.org/">discord</a></p>
+                </div>
+            </div>
+        </div>
+
+        <script src="{% static '2023/js/tech_fair_2023.js' %}"></script>
+        <script> 
+            setTimeout(() => {
+                document.body.className = "";
+            }, 200);
+        </script>
+    </body>
+</html>
