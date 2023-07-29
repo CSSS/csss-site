@@ -27,10 +27,10 @@ do
 	sleep 1
 done
 
-rm -r ${BUILD_NUMBER}/${LOCALHOST_TEST_DIR} || true
+rm -r ${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR} || true
 
 docker cp ${DOCKER_TEST_CONTAINER}:${CONTAINER_TEST_RESULT_DIRECTORY} \
-    ${BUILD_NUMBER}/${LOCALHOST_TEST_DIR}
+    ${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}
 
 test_container_failed=$(docker inspect ${DOCKER_TEST_CONTAINER} --format='{{.State.ExitCode}}')
 if [ "${test_container_failed}" -eq "1" ]; then
