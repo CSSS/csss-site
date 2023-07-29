@@ -9,6 +9,9 @@ docker_test_image_lower_case=$(echo "$DOCKER_TEST_IMAGE" | awk '{print tolower($
 docker rm -f ${DOCKER_TEST_CONTAINER} || true
 docker image rm -f ${docker_test_image_lower_case} || true
 
+rm -r ${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR} || true
+mkdir -p ${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}
+
 docker build --no-cache -t ${docker_test_image_lower_case} \
     -f CI/validate_and_deploy/1_validate/Dockerfile.w3c_test \
     --build-arg CONTAINER_HOME_DIR=${CONTAINER_HOME_DIR} \
@@ -27,9 +30,8 @@ do
 	sleep 1
 done
 
-rm -r ${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR} || true
 
-docker cp ${DOCKER_TEST_CONTAINER}:${CONTAINER_TEST_RESULT_DIRECTORY} \
+docker cp ${DOCKER_TEST_CONTAINER}:${CONTAINER_TEST_RESULT_DIRECTORY}/xml/tests.xml \
     ${BUILD_NUMBER}/${LOCALHOST_W3C_VALIDATION_TEST_DIR}/${LOCALHOST_W3C_VALIDATION_XML_FILE_NAME}
 
 test_container_failed=$(docker inspect ${DOCKER_TEST_CONTAINER} --format='{{.State.ExitCode}}')
