@@ -1,0 +1,358 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CSSS RETRO FROSH 2023</title>
+
+		<!-- stylesheets -->
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/root.css' %}">
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/header.css' %}">
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/flag.css' %}">
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/button.css' %}">
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/section.css' %}">
+
+		<!-- icon -->
+		<link rel="icon" type="image/png" href="{% static 'frosh_static/2023/images/icon.png' %}">
+
+		<!-- fonts from Google: IBM Plex Mono, Inter -->
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<header>
+			<button onclick="location.href='https://sfucsss.org/'" class="icon">
+				<img src="{% static 'frosh_static/2023/images/CSSS.svg' %}" alt="CSSS' %}">
+			</button>
+			<div class="spacer"></div>
+			<a href="#frosh_week">
+				Frosh Week
+			</a>
+			<div class="vertical-bar"></div>
+			<a href="#schedule">
+				Schedule
+			</a>
+			<div class="vertical-bar"></div>
+			<a href="#sign_up">
+				Sign-Up
+			</a>
+			<div class="vertical-bar"></div>
+			<a href="#faq">FAQ</a>
+		</header>
+		<div class="header-spacer"></div>
+		<div class="flag flag-header">
+			<div class="background" style="background-image: url('{% static 'frosh_static/2023/images/flag_background.gif' %}');"></div>
+
+			<!-- thumbnails; smaller (<32kB) versions of the larger graphics;
+			     these are removed once the entire document is loaded fully. -->
+			<img onload="this.remove()" class="top-grid" src="{% static 'frosh_static/2023/images/flag_grid_t.png' %}" alt="">
+			<img onload="this.remove()" class="bottom-grid" src="{% static 'frosh_static/2023/images/flag_grid_t.png' %}" alt="">
+			<img onload="this.remove()" class="logo" src="{% static 'frosh_static/2023/images/flag_ht.png' %}" alt="CSSS RETRO FROSH 2023">
+
+			<img class="top-grid" src="{% static 'frosh_static/2023/images/flag_grid.png' %}" alt="">
+			<img class="bottom-grid" src="{% static 'frosh_static/2023/images/flag_grid.png' %}" alt="">
+			<img class="logo" src="{% static 'frosh_static/2023/images/flag_h.png' %}" alt="CSSS RETRO FROSH 2023">
+		</div>
+		<section>
+			<h2>Frosh Week</h2>
+			<div class="section-anchor" id="frosh_week"></div>
+			<p>
+				<b>Frosh Week</b> is a week of fun events
+				that welcomes and connects new undergraduate
+				students to the CS community at SFU. It is run
+				by the CSSS at SFU.
+			</p>
+			<div class="buttons">
+				<button onclick="location.href='https://forms.gle/fLwTi15iZy8qnySPA'" class="rounded leader">
+					<img src="{% static 'frosh_static/2023/images/register.svg' %}" alt="Register">
+					Sign-Up
+				</button>
+				<button onclick="location.href='#schedule'" class="rounded">
+					Schedule
+				</button>
+				<button onclick="location.href='#faq'" class="rounded">
+					Read FAQ
+				</button>
+			</div>
+			<div class="spacer"></div>
+			<h3>Who is "the CSSS"? <span class="small">(???)</span></h3>
+			<p>
+				The <b>Computing Science Student Society</b> (CSSS)
+				is a student-led organization at Simon Fraser
+				University that represents undergraduate students
+				studying Computing Science.
+			</p>
+			<p>
+				Students that are declared Computing Science majors,
+				minors, or are taking CS courses, are automatically
+				members of the society.
+			</p>
+			<p>
+				To connect with the CSSS, check out our <b>Discord
+				server</b>, or visit our two common rooms located in
+				the Applied Science Building at SFU's Burnaby
+				campus: <b>ASB 9802</b>, and <b>ASB 9971</b>.
+			</p>
+			<div class="buttons">
+				<button onclick="location.href='https://discord.gg/sfucsss'" class="rounded">
+					<img src="{% static 'frosh_static/2023/images/discord.svg' %}" alt="Discord">
+					CSSS Discord Server
+				</button>
+				<button onclick="location.href='https://sfucsss.org'" class="rounded">
+					<img src="{% static 'frosh_static/2023/images/CSSS_white.svg' %}" alt="CSSS">
+					CSSS Website
+				</button>
+			</div>
+			<div class="spacer"></div>
+			<h3>What is <b>RETRO FROSH</b>?</h3>
+			<p>
+				<b>RETRO FROSH</b> is the name given to the
+				Frosh Week of 2023.
+			</p>
+			<p>
+				Every Frosh Week has a theme: for example, last
+				year's was Candy Frosh, the year before that...
+				something to do with Zelda, I think.
+			</p>
+			<p>
+				This year is SFU's School of Computing Science's
+				50<sup>th</sup> anniversary. To acknowledge this,
+				we decided to theme 2023's Frosh Week as <b>RETRO
+				FROSH</b>.
+			</p>
+			<div class="spacer"></div>
+			<h3>When?</h3>
+			<p>
+				RETRO FROSH starts <b>Monday, September 11<sup>th</sup></b>
+				and continues until <b>Saturday, September 16<sup>th</sup></b>.
+				Information about the time and location of each event
+				can be found in the <a href="#schedule">schedule</a>.
+			</p>
+			<div class="spacer"></div>
+			<h3>How can I join?</h3>
+			<p>
+				Please <b>Sign-Up</b> to secure your place in
+				RETRO FROSH. Attendees receive a free RETRO
+				FROSH themed T-Shirt, as well as several
+				free meals throughout the week.
+			</p>
+			<div class="spacer"></div>
+			<h3>Gallery</h3>
+			<div class="imgs">
+				<div class="img">
+					<img src="{% static 'frosh_static/2023/images/gallery1.png' %}" alt="Frosh Week 2021: Hike">
+					<p>Frosh Week 2021: Hike</p>
+				</div>
+				<div class="img">
+					<img src="{% static 'frosh_static/2023/images/gallery2.png' %}" alt="Frosh Week 2011: Midnight Madness">
+					<p>Frosh Week 2011: Midnight Madness</p>
+				</div>
+				<div class="img">
+					<img src="{% static 'frosh_static/2023/images/gallery3.png' %}" alt="Candy Frosh (2022): PacMacro">
+					<p>Candy Frosh (2022): PacMacro</p>
+				</div>
+				<div class="img">
+					<img src="{% static 'frosh_static/2023/images/gallery4.png' %}" alt="Candy Frosh (2022): Midnight Madness">
+					<p>Candy Frosh (2022): Midnight Madness</p>
+				</div>
+				<div class="img">
+					<img src="{% static 'frosh_static/2023/images/gallery5.png' %}" alt="Frosh Week 2018: BBQ">
+					<p>Frosh Week 2018: BBQ</p>
+				</div>
+				<div class="img">
+					<img src="{% static 'frosh_static/2023/images/gallery6.png' %}" alt="Frosh Week 2017: Midnight Madness">
+					<p>Frosh Week 2017: Midnight Madness</p>
+				</div>
+			</div>
+		</section>
+		<section>
+			<h2>Schedule</h2>
+			<div class="section-anchor" id="schedule"></div>
+			<p>
+				RETRO FROSH starts <b>Monday, September 11<sup>th</sup></b>
+				through to <b>Saturday, September 16<sup>th</sup></b>.
+			</p>
+			<p>
+				A wide variety of events are planned for RETRO FROSH.
+				You are not obligated to attend all of them, but
+				we would love for you to come out whenever possible!
+			</p>
+			<p>
+				Further information, updates, and notifications
+				about events will be shared via <b>email</b> and
+				<b>announcements</b>. You will gain access to
+				these notifications by signing up.
+			</p>
+			<div class="spacer"></div>
+			<img class="schedule" src="{% static 'frosh_static/2023/images/schedule.svg' %}" alt="Schedule">
+			<div class="spacer"></div>
+			<h3><b>1.</b> Ice-Cream Social</h3>
+			<h4>Monday, Sep. 11<sup>th</sup><br>
+			1:00PM - 4:00PM<br>
+			ASB Atrium, ASB 9703.</h4>
+			<p>Meet your fellow froshees, receive your <b>RETRO
+			FROSH T-Shirts</b>, and eat free ice-cream!</p>
+
+			<div class="spacer"></div>
+			<h3><b>2.</b> Burnaby Mountain Park Hike and Pizza Lunch</h3>
+			<h4>Tuesday, Sep. 12<sup>th</sup><br>
+			12:00PM - 3:00PM<br>
+			Upper Bus Loop, Burnaby Mountain Park.</h4>
+			<p>This is an exciting adventure to conquer Burnaby Mountain Park
+			with a short hike, games, and food. Remember to bring comfortable
+			clothing, and good shoes for hiking!</p>
+
+			<div class="spacer"></div>
+			<h3><b>3.</b> Barbeque and Board Game Night</h3>
+			<h4>Wednesday, Sep. 13<sup>th</sup><br>
+			5:00PM - 9:00PM<br>
+			TASC1 9204.</h4>
+			<p>Engage in one of the CSSS's most famous events: the Board Game Night.
+			In this rendition, we will fire up our grill, and provide you with <u>free</u>
+			burgers, hotdogs, chips, and pop.</p>
+
+			<div class="spacer"></div>
+			<h3><b>4.</b> Info-Session</h3>
+			<h4>Thursday, Sep. 14<sup>th</sup><br>
+			9:30AM - 11:30AM<br>
+			To-be-disclosed AQ room.</h4>
+			<p>Are you curious about the opportunities SFU has open to you?
+			Come to the Info-Session to learn about Computing Science concentrations,
+			advising, co-op, and so much more.</p>
+
+			<div class="spacer"></div>
+			<h3><b>5.</b> PacMacro</h3>
+			<h4>Thursday, Sep. 14<sup>th</sup><br>
+			12:00PM - 3:00PM<br>
+			UniverCity.</h4>
+			<p>Do you remember PacMan? PacMacro is just that; except, you won't be playing
+			it on the big screen. You will <i>become</i> PacMan and the ghosts with the
+			use of CSSS developed software. <b>The campus is the map!</b></p>
+
+			<div class="spacer"></div>
+			<h3><b>6.</b> Dinner</h3>
+			<h4>Thursday, Sep. 14<sup>th</sup><br>
+			6:00PM - 9:00PM<br>
+			TASC1 9204.</h4>
+			<p>Hungry after PacMacro? No problem! During our Thursday Dinner, you can
+			wind down after a week of fun, and reminisce with your friends over a hearty
+			meal.</p>
+
+			<div class="spacer"></div>
+			<h3><b>7.</b> Midnight Madness</h3>
+			<h4>Friday, Sep. 15<sup>th</sup> - Saturday, Sep. 16<sup>th</sup><br>
+			7:00PM - 7:00AM<br>
+			AQ, ASB.</h4>
+			<p>
+				Ah, <b>Midnight Madness</b>. The whole of Frosh Week leads up to this
+				12-hour event; there will be several meals, various olympics and
+				challenges between several student societies. As per usual, Computing
+				Science will reign supreme.
+			</p>
+			<p>
+				Midnight Madness is also where your true initiation into Computing Science
+				occurs. Since around 2004, the CSSS has held the <b>RAMMING CEREMONY</b>
+				to every year of first-year CS students. We cannot describe what this
+				ceremony entails... If you know, you know.
+			</p>
+		</section>
+		<section>
+			<h2>Sign-Up</h2>
+			<div class="section-anchor" id="sign_up"></div>
+			<p>
+				By signing up, you will gain access to all of
+				the above described <b>events</b>, <b>food</b>,
+				as well as your very own RETRO FROSH <b>T-Shirt</b>.
+			</p>
+			<p>
+				Please fill out the Google form below to <b>Sign-Up</b>.
+			</p>
+			<div class="spacer"></div>
+			<button onclick="location.href='https://forms.gle/fLwTi15iZy8qnySPA'" class="rounded leader">
+				<img src="{% static 'frosh_static/2023/images/register.svg' %}" alt="Register">
+				Sign-Up
+			</button>
+		</section>
+		<section>
+			<h2>Frequently Asked Questions</h2>
+			<div class="section-anchor" id="faq"></div>
+
+			<div class="spacer"></div>
+			<h3>Frosh Week FAQ</h3>
+
+			<div class="spacer"></div>
+			<h4>Where will the events take place?</h4>
+			<p>All events take place at the <b>Simon Fraser
+			University Burnaby campus</b>. The locations per event can
+			be found in the <a href="#schedule">schedule</a>.</p>
+			<p>If you are having difficulty locating us, do not hesitate
+			to contact Micah or Isabelle. (Contact information can be
+			found in the CSSS Discord Server.)</p>
+
+			<div class="spacer"></div>
+			<h4>Do I need to bring any laptops or other electronic
+			devices?</h4>
+			<p>You do not <i>need</i> to bring anything except for yourself.</p>
+			<p>During PacMacro, however, access to a mobile device with an
+			internet connection is necessary.</p>
+
+			<div class="spacer"></div>
+			<h4>What <i>is</i> PacMacro?</h4>
+			<p>PacMacro is essentially Pacman in real life. Utilizing
+			CSSS-developed software, the game will keep track of players'
+			positions on campus, and display the locations of other players.</p>
+
+			<div class="spacer"></div>
+			<h4>I can't come to every event, or am not free for the entire
+			duration of an event. Is this OK?</h4>
+			<p>You can come and go as you please during Frosh Week. Late
+			arrivals or early departures are totally OK. If you cannot
+			attend some events due to other commitments, that is fine also.</p>
+
+			<div class="spacer"></div>
+			<h3>SFU FAQ</h3>
+
+			<div class="spacer"></div>
+			<h4>Why is it called "Comput<u>ing</u> Science", not
+			"Comput<u>er</u> Science"?</h4>
+			<p>CS at SFU has a long history. Way back in '73 when the
+			School of Computing Science started at SFU, either "Computer
+			Science" wasn't an idiom for the major yet, or we just
+			decided to be different.</p>
+
+			<div class="spacer"></div>
+			<h4>Recommended Courses?</h4>
+			<p>Please contact FAS <a href="mailto:asadvise@sfu.ca">advising</a>
+			for course information and degree planning.</p>
+
+			<div class="spacer"></div>
+			<h4>I cannot find a room!</h4>
+			<p>
+				SFU provides a very handy tool called the
+				<a href="https://roomfinder.sfu.ca/apps/sfuroomfinder_web/">Room Finder</a>.
+				Simply input the room number (e.g., ASB 9703), and it will highlight
+				the room on an interactive campus map. This works for the Burnaby,
+				Surrey, and Vancouver campuses.
+			</p>
+		</section>
+		<footer>
+			<button onclick="location.href='https://sfucsss.org/'" class="icon">
+				<img src="{% static 'frosh_static/2023/images/CSSS_white.svg' %}" alt="CSSS">
+			</button>
+			<div class="vertical-bar"></div>
+			<div>
+				<h2>Computing Science Student Society</h2>
+				<p>Contact executives at:<br>
+					<a class="mono" href="mailto:csss-exec-current@sfu.ca">csss-exec-current@sfu.ca</a>
+				</p>
+			</div>
+			<div class="spacer"></div>
+			<div>
+				<h2>Find us at:</h2>
+				<p><a href="https://sfu.ca/">Simon Fraser University</a>, Burnaby.</p>
+				<p>Common rooms: ASB 9802, ASB 9971.</p>
+			</div>
+		</footer>
+	</body>
+</html>
