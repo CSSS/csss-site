@@ -21,7 +21,7 @@ docker build --no-cache -t ${docker_test_image_lower_case} \
 echo "TEST_RESULT_DIRECTORY=${CONTAINER_TEST_RESULT_DIRECTORY}" > ${BUILD_NUMBER}/css_site_w3c_validation.env
 echo "W3C_TESTS_URL=${W3C_TESTS_URL}" >> ${BUILD_NUMBER}/css_site_w3c_validation.env
 
-sleep 120
+sleep 300
 docker run -d --name ${DOCKER_TEST_CONTAINER} --env-file ${BUILD_NUMBER}/css_site_w3c_validation.env ${docker_test_image_lower_case}
 
 while [ "$(docker inspect -f '{{.State.Running}}' ${DOCKER_TEST_CONTAINER})" == "true" ]
