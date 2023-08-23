@@ -169,6 +169,12 @@ class FroshWeekW3CValidationTest(SimpleTestCase):
         W3CValidation().validate_page(path="/events/frosh/2022/secret")
 
 
+    def test_frosh_2023_page(self):
+        W3CValidation().validate_page(path="/events/frosh/2023")
+
+    def test_frosh_2023_frosh_page(self):
+        W3CValidation().validate_page(path="/events/frosh/2023/frosh")
+
     def test_frosh_2023_sponsor_page(self):
         W3CValidation().validate_page(path="/events/frosh/2023/sponsor")
 

@@ -1,0 +1,66 @@
+button.rounded, button.icon {
+	display: flex;
+	justify-items: center;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	margin: 0 4px;
+	border: none;
+	border-radius: 20px;
+	box-shadow: 0 0 0 0 var(--froshee),
+		0 0 2px 0 var(--shadow);
+	padding: 8px 16px;
+	line-height: 24px;
+	background-color: var(--froshee);
+	color: white;
+	font-size: 12pt;
+	font-weight: 500;
+	transition: box-shadow ease 0.25s,
+		background-color ease 0.25s;
+}
+button.rounded:focus, button.icon:focus {
+	outline: none;
+}
+button.rounded:hover, button.icon:hover {
+	box-shadow: 0 0 0 2px var(--froshee),
+		0 0 4px 2px var(--shadow);
+	background-color: var(--froshee);
+	cursor: pointer;
+}
+button.rounded.leader {
+	box-shadow: 0 0 0 0 var(--leader),
+		0 0 2px 0 var(--shadow);
+	background-color: var(--leader);
+}
+button.rounded.leader:hover {
+	box-shadow: 0 0 0 2px var(--leader),
+		0 0 4px 2px var(--shadow);
+	background-color: var(--leader);
+}
+button.rounded img {
+	margin: 0;
+	margin-right: 8px;
+	display: inline-block;
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+}
+button.icon {
+	border-radius: 0;
+	box-shadow: none;
+	padding: 0;
+	width: 32px;
+	height: 32px;
+	background-color: transparent;
+}
+button.icon img {
+	width: 32px;
+	height: 32px;
+	object-fit: contain;
+}
+button.icon:hover {
+	box-shadow: none;
+	background-color: transparent;
+}

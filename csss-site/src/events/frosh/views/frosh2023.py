@@ -1,6 +1,5 @@
 from random import randrange
 
-from django.conf import settings
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render
 
@@ -8,11 +7,11 @@ from events.frosh.views.create_frosh_context import create_frosh_context
 
 
 def index(request):
-    return HttpResponseRedirect(f"{settings.STATIC_URL}frosh_static/Under-Construction1.jpg")
+    return render(request, 'frosh/2023/index.html', create_frosh_context())
 
 
 def frosh(request):
-    return HttpResponseRedirect(f"{settings.STATIC_URL}frosh_static/Under-Construction1.jpg")
+    return render(request, 'frosh/2023/frosh.html', create_frosh_context())
 
 
 def secret(request):

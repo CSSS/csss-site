@@ -1,0 +1,58 @@
+{% load staticfiles %}
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CSSS RETRO FROSH 2023</title>
+		<!-- stylesheets -->
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/root.css' %}">
+		<link rel="stylesheet" href="{% static 'frosh_static/2023/css/flag.css' %}">
+
+		<!-- icon -->
+		<link rel="icon" type="image/png" href="{% static 'frosh_static/2023/images/icon.png' %}">
+
+		<!-- fonts from Google: IBM Plex Mono, Inter -->
+		<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+		<!-- countdown script -->
+		<script src="{% static 'frosh_static/2023/js/frosh.js' %}"></script>
+	</head>
+	<body>
+		<div class="flag">
+			<div class="background" style="background-image: url('{% static 'frosh_static/2023/images/flag_background.gif' %}');"></div>
+
+			<!-- thumbnails; smaller (<32kB) versions of the larger graphics;
+			     these are removed once the entire document is loaded fully. -->
+			<img onload="this.remove()" class="top-grid" src="{% static 'frosh_static/2023/images/flag_grid_t.png' %}" alt="">
+			<img onload="this.remove()" class="bottom-grid" src="{% static 'frosh_static/2023/images/flag_grid_t.png' %}" alt="">
+			<img onload="this.remove()" class="logo desktop" src="{% static 'frosh_static/2023/images/flag_ht.png' %}" alt="CSSS RETRO FROSH 2023">
+			<img onload="this.remove()" class="logo mobile" src="{% static 'frosh_static/2023/images/flag_vt.png' %}" alt="CSSS RETRO FROSH 2023">
+
+			<img class="top-grid" src="{% static 'frosh_static/2023/images/flag_grid.png' %}" alt="">
+			<img class="bottom-grid" src="{% static 'frosh_static/2023/images/flag_grid.png' %}" alt="">
+			<img class="logo desktop" src="{% static 'frosh_static/2023/images/flag_h.png' %}" alt="CSSS RETRO FROSH 2023">
+			<img class="logo mobile" src="{% static 'frosh_static/2023/images/flag_v.png' %}" alt="CSSS RETRO FROSH 2023">
+
+			<div class="cd-column days">
+				<h2 id="days">0</h2>
+				<h3>Days</h3>
+			</div>
+			<div class="cd-column hours">
+				<h2 id="hours">0</h2>
+				<h3>Hours</h3>
+			</div>
+			<div class="cd-column mins">
+				<h2 id="mins">0</h2>
+				<h3>Minutes</h3>
+			</div>
+			<div class="cd-column secs">
+				<h2 id="secs">0</h2>
+				<h3>Seconds</h3>
+			</div>
+
+			<button onclick="location.href='{{URL_ROOT}}events/frosh/2023/frosh'" class="enter">Enter Website</button>
+		</div>
+	</body>
+</html>
