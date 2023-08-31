@@ -164,6 +164,15 @@ li:before {
     width: 5em; 
     text-align: right; 
     padding-right: 8px;
+    
+}
+.schedule-time > span {
+    position: relative;
+    top: -26px;
+}
+.schedule-time > .time {
+    position: relative;
+    top: -36px;
 }
 
 /* ************************* */
