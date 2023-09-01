@@ -78,7 +78,12 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
     relevant_errors = CSSSError.objects.all().exclude(
         message="Couldn't do oauth2 because Install python-social-auth to use oauth2 auth for gmail\n"
     )
-    context['errors_exist'] = context[CURRENT_SYS_ADMIN] and len(relevant_errors) > 0
+    context['errors_exist'] = (
+        (
+            (CURRENT_SYS_ADMIN in context and context[CURRENT_SYS_ADMIN]) or
+            request.user.username == "root")
+        and len(relevant_errors) > 0
+    )
     if settings.PORT is not None:
         request_path += f":{settings.PORT}"
     if request.user.is_authenticated:
