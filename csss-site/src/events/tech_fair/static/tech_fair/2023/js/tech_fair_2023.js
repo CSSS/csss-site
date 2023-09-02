@@ -136,7 +136,7 @@ function update(time) {
 }
 
 function updateBanner() {
-    document.getElementById("info-banner").hidden = false;
-    document.getElementById("info-banner").style.height = document.getElementById("info-text").clientHeight + 24 + 2 + "px";
+    document.getElementById("info-banner-bg").hidden = false;
+    document.getElementById("info-banner-bg").style.height = document.getElementById("info-text").clientHeight + 24 + 2 + "px";
     console.log("update banner");
 }

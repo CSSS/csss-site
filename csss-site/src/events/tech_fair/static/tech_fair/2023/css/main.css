@@ -1,0 +1,745 @@
+/* ************************* */
+/* updates to default styles (see reset.min.css as well) */
+
+html {
+    scroll-padding-top: 115px;
+}
+
+body {
+    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    overflow-x: hidden;
+}
+
+p {
+    font-size: 1.3em;
+    padding: 8px 0;
+}
+
+a {
+    color: #D6385A;
+    text-decoration: none;
+}
+a:hover {
+    color: #000;
+    text-decoration: underline;
+}
+a:target:before {
+    content:"› "; /* ※ 》¶ › § */
+    font-size: 0.75em;
+    position: relative;
+    bottom: 4px;
+}
+
+ul {
+    list-style: none;
+    
+    margin-left: 0;
+    padding-left: 20px;
+}
+
+li {
+    margin: 12px;
+    padding-left: 1em;
+
+    text-indent: -1em;
+
+    font-size: 1.3em;
+}
+li:before {
+    content: "✦";
+    padding-right: 8px;
+}
+
+/* ************************* */
+/* custom colours & fonts */
+
+@font-face {
+    font-family: "darumadropOne";
+    src: url("../fonts/DarumadropOne-Regular.ttf");
+}
+
+@font-face {
+    font-family: "NotoSansGeorgian-Regular";
+    src: url("../fonts/NotoSansGeorgian-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Noto Sans Georgian";
+    src: url("../fonts/NotoSansGeorgian-Regular.ttf");
+}
+
+@font-face {
+    font-family: "NotoSansGeorgian-Bold";
+    src: url("../fonts/NotoSansGeorgian-Bold.ttf");
+}
+
+pink {
+    color: #ee8695;
+}
+lightpink {
+    color: #fbbbad;
+}
+navy {
+    color: #4a7a96;
+}
+green {
+    color: #84eb7a;
+}
+
+.noto {
+    font-family: "NotoSansGeorgian-Regular",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+
+.noto-bold {
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+
+/* ************************* */
+/* customize scrollbar */
+
+/* width */
+::-webkit-scrollbar {
+    width: 8px;
+}
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: #fff;
+}
+  
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #ee8695;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #000;
+}
+
+/* ************************** */
+/* nav bar */
+
+#nav-bar {
+    display: flex; 
+    position: fixed; 
+
+    width: 100%; 
+    padding: 12px 16px 4px 16px; 
+
+    z-index: 5;
+
+    background-color: #fff; 
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+#nav-bar > div {
+    display: flex; 
+    flex-direction: row; 
+
+    max-width: 1150px;
+    margin: 0 auto; 
+}
+
+.csss-logo {
+    vertical-align: top;
+    width: 42px;
+    height: 42px;
+    margin: 5px;
+}
+
+.nav-button {
+    display: flex; 
+
+    height: 64px; 
+    padding: 2px 12px; 
+    margin: 0 4px;
+
+    align-items: center;
+
+    background-color: #fff;
+    color: #000;
+
+    justify-content: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.nav-button > span {
+    transition: transform 0.25s ease-in-out; 
+}
+.nav-button:active > span {
+    transform: translate3d(0, 6px, 0);
+    transition: transform 0.05s ease-in-out; 
+}
+
+.nav-pink {
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
+}
+.nav-pink:hover {
+    background-color: #e07b8a;
+    color: #fff;
+    transition: background-color 0.125s ease-in-out, color 0.125s ease-in-out; 
+}
+
+.nav-blue {
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
+}
+.nav-blue:hover {
+    background-color: #4a7a96;
+    color: #fff;
+    transition: background-color 0.055s ease-in-out, color 0.055s ease-in-out; 
+}
+
+.nav-black {
+    transition: background-color 0.25s ease-in-out, color 0.25s ease-in-out; 
+}
+.nav-black:hover {
+    background-color: #000;
+    color: #fff;
+    transition: background-color 0.125s ease-in-out, color 0.125s ease-in-out; 
+}
+
+.nav-divider {
+    display: flex; 
+    align-items: center;
+}
+.nav-divider > span {
+    transform: scaleY(2.5); 
+    height: 28px;
+}
+
+/* ************************** */
+/* titles */
+
+whitespace {
+    display: block;
+    height: 75px; /* this is a default size that may be overwritten */
+}
+
+#column-container {
+    max-width: 1250px;
+    min-height: 100vh;
+
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+#code-title {
+    height: 290px;
+    padding: 0 12px; 
+
+    font-size: 2em; 
+}
+#code-title > h1 {
+    font-family: "darumadropOne", "Lucida Handwriting", cursive;
+    padding-top: -18px;
+}
+
+#before-cursor {
+    white-space: pre;
+}
+#cursor {
+    animation-name: blinking; 
+    animation-duration: 1s; 
+    animation-iteration-count: infinite; 
+    animation-timing-function: ease-in-out;
+}
+@keyframes blinking {
+    0%   { color: black; }
+    35%   { color: black; }
+    50%  { color: white; }
+    85%   { color: white; }
+    100%  { color: black; }
+}
+
+#logo-title {
+    display: flex; 
+    align-items: baseline; 
+
+    margin: -36px 0; 
+}
+#logo-title > div > object {
+    transform-style: preserve-3d;
+    transition: transform 0.25s ease-in-out;
+    cursor: pointer; 
+}
+#logo-title:hover > div > object {
+    transform: translate3d(-3px, -16px, 0px);
+    transition: transform 0.25s ease-in-out; 
+}
+
+#laptop {
+    width: 465px; 
+    display: inline-block; 
+    cursor: pointer;
+}
+#laptop > object {
+    display: inline-block;
+    position: relative; 
+
+    width: 160px; 
+    margin-bottom: -10px; 
+    margin-left: 290px; 
+
+    z-index: -1; 
+
+    background-color: white; 
+}
+#logo-title-text {
+    display: flex; 
+    align-items: baseline;
+
+    height: 178px; 
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+}
+#logo-title-text > *:nth-child(1) {
+    font-size: 160px; 
+    letter-spacing: -21px;
+
+    white-space: nowrap;
+}
+#logo-title-text > *:nth-child(2) {
+    position: relative; 
+    bottom: 4px;
+
+    font-size: 60px; 
+    letter-spacing: -5px; 
+}
+
+#mountain {
+    display: inline; 
+    position: relative; 
+
+    width: 160px; 
+    margin: -260px 0 -45px 0; 
+
+    z-index: -2; 
+
+    transform-style: preserve-3d;
+    transition: transform 0.52s ease-in-out;
+}
+
+/* ************************** */
+/* info section */
+
+#info-banner-bg {
+    position: absolute; 
+    left: 0; 
+
+    width: 100vw; 
+    height: 100%; 
+    margin-top: -12px;
+
+    z-index: -1; 
+    
+    background-color: #000; 
+}
+
+#info-text {
+    min-height: 128px; 
+    width: 100%; 
+    margin: 12px 0; 
+    padding: 24px;
+
+    z-index: 2; 
+
+    background-color: #000; 
+    color: #fff; 
+
+    border: #000 2px solid; 
+}
+#info-text > div {
+    display: table; 
+    clear: both;
+}
+#info-text > div > div {
+    width: calc(50% - 16px);
+    margin: auto; 
+
+    float: left; 
+}
+
+#info-img {
+    display: inline; 
+
+    width: calc(50% - 25px); 
+    padding: 10px; 
+    margin-right: 25px;
+
+    float: left; 
+}
+
+#info-buttons-container {
+    width: 100%;
+}
+#info-buttons-container > div {
+    width: calc(50% - 8px);
+    margin-right: 8px;
+    
+    text-align: center;
+
+    float: left;
+}
+
+.rsvp-button {
+    display: inline-block; 
+    text-align: center; 
+
+    width: 124px; 
+    padding: 10px 0; 
+
+    font-size: 1.25em; 
+    text-decoration: none; 
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #fff; 
+    background-color: #ee8695;     
+}
+.rsvp-button:hover {
+    color: #fff; 
+    text-decoration: underline;
+}
+.join-tech-fair-button {
+    display: inline-block; 
+    text-align: center; 
+
+    width: 192px; 
+    padding: 10px 0; 
+
+    font-size: 1.25em; 
+    text-decoration: none; 
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #fff; 
+    background-color: #4a7a96; 
+}
+.join-tech-fair-button:hover {
+    color: #fff; 
+    text-decoration: underline;
+}
+
+/* ************************** */
+
+#booths-container {
+    min-height: 128px; 
+    width: 100%; 
+    margin: 12px 0; 
+    padding: 24px 0;
+
+    border: #fff 2px solid; 
+    background-color: #fff; 
+}
+#booths {
+    display: inline-block; 
+    
+    margin: 0 0 24px 24px; 
+
+    font-size: 2em; 
+    text-decoration: none;
+    
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #000; 
+}
+
+/* 
+.company-card {
+    white-space: normal; 
+    display: inline-block; 
+    width: 290px; 
+
+    color: #000;
+    background-color: #fff; 
+    border: #333 1px solid; 
+}
+
+.company-card > div > p2 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    transition: margin-top .2s ease-in-out, margin-bottom .2s ease-in-out;
+}
+
+.company-card > img {
+    object-position: 40%;
+    transition: object-position 0.35s ease-in-out;
+}
+
+.company-card:hover > img {
+    object-position: 60%;
+    transition: object-position 0.5s ease-in-out;
+} 
+*/
+
+/* ************************** */
+
+#schedule-container {
+    position: relative; 
+
+    width: 100%; 
+    min-height: 128px; 
+    margin: 12px 0; 
+    padding: 24px; 
+
+    border: #fff 2px solid; 
+    color: #fff; 
+    background-color: #000; 
+}
+#schedule {
+    position: relative; 
+
+    font-size: 2em;
+    text-decoration: none; 
+
+    color: #fff; 
+}
+
+#day-schedule {
+    display: inline-block; 
+
+    width: calc(60% - 20px); 
+    margin-left: calc(20% - 10px);
+}
+#day-schedule > table {
+    width: 100%;
+
+    border: solid 1px #000; 
+}
+#day-schedule > table > tbody > tr:nth-child(odd) {
+    height: 6em;
+    background-color: #444;
+}
+#day-schedule > table > tbody > tr:nth-child(even) {
+    height: 6em;
+    background-color: #222;
+}
+#day-schedule > table > tbody > tr > td:nth-child(1) {
+    width: 5em; 
+    text-align: right; 
+    padding-right: 8px;
+}
+#day-schedule > table > tbody > tr > td:nth-child(1) > span:nth-child(1) {
+    position: relative;
+    top: -26px;
+    font-size: 2em;
+}
+#day-schedule > table > tbody > tr > td:nth-child(1) > span:nth-child(2) {
+    position: relative;
+    top: -36px;
+}
+
+#techfair-balloon {
+    position: relative;
+}
+#techfair-balloon > div {
+    position: absolute; 
+    left: 8px; 
+    right: 8px; 
+    top: 8px; 
+    
+    bottom: calc( -9em + 1px );
+
+    border-radius: 32px; 
+
+    font-size: 1.3em; 
+    text-align: center;
+
+    background-color: #e07b8a; 
+}
+#techfair-balloon > div > p:nth-child(1) {
+    margin-top: 14px;
+    font-size: 1.25em; 
+}
+#techfair-balloon > div > p:nth-child(2) {
+    margin-top: -14px;
+    font-size: 0.85em; 
+}
+
+#bg-text-schedule {
+    position: relative; 
+    bottom: 239px; 
+    right: -20px; 
+    float: right; 
+
+    height: 0px; 
+
+    font-size: 232px; 
+    letter-spacing: -22px; 
+
+    color: #fff; 
+}
+
+/* ************************** */
+
+#students-container {
+    min-height: 128px; 
+    width: calc(100%); 
+    margin: 12px 0; 
+    padding: 24px;
+
+    border: #000 2px solid;
+    background-color: #fff; 
+}
+#students {
+    font-size: 2em; 
+    text-decoration: none;
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #000; 
+}
+
+/* ************************** */
+
+#companies-container {
+    min-height: 128px; 
+    width: calc(100%); 
+    margin: 12px 0; 
+    padding: 24px;
+
+    color: #fff; 
+    background-color: #000; 
+}
+#companies {
+    font-size: 2em; 
+    text-decoration: none;
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #fff; 
+}
+
+.banded-hr {
+    float: left;
+    padding: 0; 
+
+    letter-spacing: -2px; 
+    font-family: "NotoSansGeorgian-Regular",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #aaa; 
+}
+
+/* ************************** */
+
+#history-container {
+    width: 100%; 
+    min-height: 128px; 
+
+    margin: 12px 0; 
+    padding: 24px;
+
+    border: #000 2px solid; 
+    background-color: #fff; 
+}
+#history {
+    font-size: 2em; 
+    text-decoration: none;
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #000; 
+}
+
+#gallery {
+    width: 100%;
+}
+#gallery > h4 {
+    margin-left: 13px;
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    font-size: 1.5em; 
+
+    color: #000;
+}
+#gallery > img {
+    display: inline; 
+    
+    width: calc(50% - 6px); 
+    padding: 10px;
+}
+
+/* ************************** */
+
+#footer {
+    width: 100%; 
+    min-height: 128px; 
+    margin: 12px 0;
+    padding: 24px; 
+
+    font-family: "NotoSansGeorgian-Regular",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    text-align: center;
+
+    border: #fff 2px solid; 
+    color: #000; 
+    background-color: #fff; 
+}
+
+/* ************************** */
+/* misc classes */
+
+.white-a {
+    text-align: center;
+
+    border: #fff 2px solid;
+    color: #fff; 
+    padding: 8px; 
+    text-decoration: none;
+    
+    width: 95px;
+    transition: width 0.25s ease-in-out; 
+}
+.white-a:hover {
+    width: 105px;
+    transition: width 0.15s ease-in-out; 
+    color: #8db7ff;
+}
+
+.tag {
+    text-align: center;
+
+    border: #fff 2px solid;
+    text-decoration: none;
+    
+    transition: color 0.25s ease-in-out; 
+}
+.tag:hover {
+    color: #000;
+    transition: color 0.15s ease-in-out; 
+}
+
+.light-pink-link {
+    color: #ee8695;
+}
+.light-pink-link:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.zoom {
+    transition: transform .15s ease-in-out;
+}
+.zoom:hover {
+    transform: scale(1.04);
+}
+
+.zoom2 {
+    transition: transform .15s ease-out;
+}
+.zoom2:hover {
+    text-decoration: underline !important;
+    transform: scale(1.08);
+}
+
+.noselect {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+
+.preload * {
+    animation-duration: 0s !important;
+    -webkit-animation-duration: 0s !important;
+    transition: background-color 0s, opacity 0s, color 0s, width 0s, height 0s, padding 0s, margin 0s !important;
+}
+    
