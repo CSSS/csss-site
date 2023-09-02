@@ -15,7 +15,7 @@
             <div>
                 <div class="nav-button">
                     <a href="{{ URL_ROOT }}">
-                        <img class="csss-logo" src="{% static 'tech_fair/csss_logo.png' %}" alt="CSSS Logo">
+                        <img class="csss-logo" src="{% static 'tech_fair/2023/images/csss_logo.png' %}" alt="CSSS Logo">
                     </a>
                 </div>
                 <a href="#" class="nav-button nav-black">
@@ -124,111 +124,71 @@
 
                 <!-- TODO: fix the CSS for company cards as well -->
 
-                <!--
-                <div style="white-space: nowrap; display: flex; flex-wrap: wrap; row-gap: 16px; column-gap: 16px;">
-                    <div class="company-card">
-                        <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/cubes.jpg' %}"/>
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
-                            <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
-                            
-                            <br><br>
-
-                            <div style="font-size: 0.85em; margin-top: -10px;">
-                                <br>
-                                <p style="overflow-y: scroll; height: 55px; padding: 0;">This very very cool company could be you!</p>
-                                <div style="display: inline-block; padding: 8px;">
-                                    <a href="#" class="tag" style="color: #8db7ff; font-size: 1.1em; display: inline;">&lt;Gaming&gt;</a>
-                                </div>
-                                <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
-                            </div>
-                        </div>
-                    </div>
+                <div id="company-card-list">
                     
-                    <div class="company-card">
-                        <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/globe.gif' %}"/>
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
-                            <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
-                            
+                    <div>
+                        <img src="{% static 'tech_fair/2023/images/company_images/safe-software.jpg' %}"/>
+                        <div>
+                            <p>Safe Software</p>
+                            <p class="banded-hr">////////////////////////////////////////</p>
                             <br><br>
 
-                            <div style="font-size: 0.85em; margin-top: -10px;">
+                            <div>
                                 <br>
-                                <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
-                                <div style="display: inline-block; padding: 8px;">
-                                    <a href="#" class="tag" style="color: #ee8695; font-size: 1.1em; display: inline;">&lt;Public Service&gt;</a>
-                                </div>
-                                <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                <p>Safe Software is on a mission to bring life to data through technology used by over 25,000 organizations, over 200,000 users worldwide.</p>
+                                <br>
+
+                                <div><a href="#booths" class="tag">&lt;Data Solutions&gt;</a></div>
+                                <a href="https://www.safe.com/" class="see-more white-link">See more</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="company-card">
-                        <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/mongolia.jpg' %}"/>
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
-                            <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
-                            
+                    <div>
+                        <img src="{% static 'tech_fair/2023/images/company_images/arista.jpg' %}"/>
+                        <div>
+                            <p>Arista Networks</p>
+                            <p class="banded-hr">////////////////////////////////////////</p>
                             <br><br>
 
-                            <div style="font-size: 0.85em; margin-top: -10px;">
+                            <div>
                                 <br>
-                                <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
-                                <div style="display: inline-block; padding: 8px;">
-                                    <a href="#" class="tag" style="color: #8db7ff; font-size: 1.1em; display: inline;">&lt;Gaming&gt;</a>
-                                </div>
-                                <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+                                <p>Arista Networks is an industry leader in data-driven, client to cloud networking for large data center, campus and routing environments.</p>
+                                <br>
+
+                                <div><a href="#booths" class="tag" style="color: #eb9f2e;">&lt;Networking&gt;</a></div>
+                                <a href="https://www.arista.com/en/" class="see-more white-link">See more</a>
                             </div>
                         </div>
                     </div>
 
-                    <div class="company-card">
-                        <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/cubes.jpg' %}"/>
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
-                            <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
-                            
+                    <div>
+                        <img src="{% static 'tech_fair/2023/images/company_images/fortinet.png' %}"/>
+                        <div>
+                            <p>Fortinet</p>
+                            <p class="banded-hr">////////////////////////////////////////</p>
                             <br><br>
 
-                            <div style="font-size: 0.85em; margin-top: -10px;">
+                            <div>
                                 <br>
-                                <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
-                                <div style="display: inline-block; padding: 8px;">
-                                    <a href="#" class="tag" style="color: #6bc96c; font-size: 1.1em; display: inline;">&lt;Networking&gt;</a>
-                                </div>
-                                <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="company-card">
-                        <img style="height: 225px; width: 100%; object-fit: cover;" src="{% static 'images/samples/winter.jpg' %}"/>
-                        <div style="white-space: normal; display: inline-block; vertical-align: top; width: 100%; padding: 20px; background-color: #fff; color: #000;">
-                            <p2 class="noto-bold" style="padding: 0; float: right; font-size: 1.4em; margin-top: -2px;">Untitled Company</p2>
-                            <p class="noto" style="color: #aaa; letter-spacing: -2px; padding: 0; float: left;">////////////////////////////////////////</p>
-                            
-                            <br><br>
-
-                            <div style="font-size: 0.85em; margin-top: -10px;">
+                                <p>Fortinet is a driving force in the evolution of cybersecurity and the convergence of networking and security. Securing people, devices, and data everywhere is their mission.</p>
                                 <br>
-                                <p style="overflow-y: scroll; height: 55px; padding: 0;">This could be you!</p>
-                                <div style="display: inline-block; padding: 8px;">
-                                    <a href="#" class="tag" style="color: #6bc96c; font-size: 1.1em; display: inline;">&lt;Networking&gt;</a>
-                                </div>
-                                <a href="#companies" class="noto white-a" style="color: #fff; background-color: #000; float: right;">See more</a>
+
+                                <div><a href="#booths" class="tag" style="color: #f37c8e;">&lt;Cybersecurity&gt;</a></div>
+                                <a href="https://www.fortinet.com/" class="see-more white-link">See more</a>
                             </div>
                         </div>
                     </div>
                 </div>
-                -->
+            
+                <whitespace style="height: 75px;"></whitespace>
 
                 <p style="text-align: center;">
-                    It's empty here, you could be <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#package">the very first one!</a>
+                    If you'd like to see your name here, <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#package">join tech fair</a>!
                 </p>
             </div>
             
-            <whitespace></whitespace>
+            <whitespace style="height: 25px;"></whitespace>
             
             <div id="schedule-container">
                 <a id="schedule" href="#schedule" class="noto-bold">Schedule</a>
