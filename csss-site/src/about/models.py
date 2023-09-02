@@ -98,10 +98,20 @@ class Officer(models.Model):
                 last_officer_with_same_position = Officer.objects.all().filter(
                     elected_term__term_number__gte=get_previous_term_obj().term_number,
                     position_name=self.position_name
-                ).exclude(start_date=self.start_date).exclude(id=self.id).order_by('start_date').last()
-                self.bitwarden_takeover_needed = (
-                    last_officer_with_same_position.sfu_computing_id != self.sfu_computing_id
-                )
+                ).exclude(id=self.id).order_by('start_date').last()
+                if last_officer_with_same_position is not None:
+                    if self.start_date == last_officer_with_same_position.start_date:
+                        if last_officer_with_same_position.sfu_computing_id == self.sfu_computing_id:
+                            # same officer, just continuing in their role so
+                            # they dont need to have their password reset
+                            self.bitwarden_takeover_needed = False
+                        else:
+                            # different officer so password has to be reset
+                            self.bitwarden_takeover_needed = True
+                    else:
+                        self.bitwarden_takeover_needed = True
+                else:
+                    self.bitwarden_takeover_needed = True
         super(Officer, self).save(*args, **kwargs)
 
     position_name = models.CharField(
