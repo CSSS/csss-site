@@ -238,7 +238,8 @@ class GoogleDrive:
                                     f"permission {permission}"
                                 )
                             else:
-                                if permission['emailAddress'].lower() == user:
+                                permission_email_address = permission['emailAddress'].lower()
+                                if permission_email_address == user:
                                     try:
                                         self.logger.info(
                                             f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
@@ -267,7 +268,8 @@ class GoogleDrive:
                                     except Exception as e:
                                         self.logger.error(
                                             "[GoogleDrive remove_users_gdrive()] encountered following error "
-                                            f"with permission removed. \n {e}"
+                                            f"when trying to remove {permission_email_address}'s access to"
+                                            f" file with ID {file_id}. \n {e}"
                                         )
                     else:
                         self.logger.info(f"[GoogleDrive remove_users_gdrive()] skipping root user of {user}")
