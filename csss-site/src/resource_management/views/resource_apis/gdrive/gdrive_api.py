@@ -217,7 +217,7 @@ class GoogleDrive:
                 file_id = self.root_file_id
             try:
                 self.logger.info(
-                    "[GoogleDrive remove_users_gdrive()] attempting to get the list of permisisons for "
+                    "[GoogleDrive remove_users_gdrive()] attempting to get the list of permissions for "
                     f"file with id {file_id}"
                 )
                 permissions = self.gdrive.permissions().list(
@@ -232,42 +232,48 @@ class GoogleDrive:
                                 f"[GoogleDrive remove_users_gdrive()] iterating through permission "
                                 f"{permission}"
                             )
-                            if permission['emailAddress'].lower() == user:
-                                try:
-                                    self.logger.info(
-                                        f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
-                                        f"access to file with id {file_id}"
-                                    )
-                                    if self.make_changes:
-                                        resp = self.gdrive.permissions().delete(
-                                            fileId=file_id,
-                                            permissionId=permission['id'],
-                                            supportsAllDrives=True
-                                        ).execute()
-                                        if resp != "":
-                                            google_drive_bad_access = \
-                                                GoogleDriveRootFolderBadAccess.objects.all.filter(
-                                                    file_id=file_id
-                                                ).first()
-                                            if google_drive_bad_access is None:
-                                                google_drive_bad_access = GoogleDriveRootFolderBadAccess(
-                                                    user=user, file_id=file_id
-                                                )
-                                            google_drive_bad_access.number_of_nags += 1
-                                            google_drive_bad_access.latest_date_check = self.latest_date_check
-                                            google_drive_bad_access.save()
-                                        time.sleep(30)
-                                    self.logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
-                                except Exception as e:
-                                    self.logger.error(
-                                        "[GoogleDrive remove_users_gdrive()] encountered following error "
-                                        f"with permission removed. \n {e}"
-                                    )
+                            if 'emailAddress' not in permission:
+                                self.logger.error(
+                                    f"[GoogleDrive remove_users_gdrive()] could not find an email address in "
+                                    f"permission {permission}"
+                                )
+                            else:
+                                if permission['emailAddress'].lower() == user:
+                                    try:
+                                        self.logger.info(
+                                            f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
+                                            f"access to file with id {file_id}"
+                                        )
+                                        if self.make_changes:
+                                            resp = self.gdrive.permissions().delete(
+                                                fileId=file_id,
+                                                permissionId=permission['id'],
+                                                supportsAllDrives=True
+                                            ).execute()
+                                            if resp != "":
+                                                google_drive_bad_access = \
+                                                    GoogleDriveRootFolderBadAccess.objects.all.filter(
+                                                        file_id=file_id
+                                                    ).first()
+                                                if google_drive_bad_access is None:
+                                                    google_drive_bad_access = GoogleDriveRootFolderBadAccess(
+                                                        user=user, file_id=file_id
+                                                    )
+                                                google_drive_bad_access.number_of_nags += 1
+                                                google_drive_bad_access.latest_date_check = self.latest_date_check
+                                                google_drive_bad_access.save()
+                                            time.sleep(30)
+                                        self.logger.info("[GoogleDrive remove_users_gdrive()] attempt successful")
+                                    except Exception as e:
+                                        self.logger.error(
+                                            "[GoogleDrive remove_users_gdrive()] encountered following error "
+                                            f"with permission removed. \n {e}"
+                                        )
                     else:
                         self.logger.info(f"[GoogleDrive remove_users_gdrive()] skipping root user of {user}")
             except Exception as e:
                 self.logger.error(
-                    "[GoogleDrive remove_users_gdrive()] encountred the following error when trying "
+                    "[GoogleDrive remove_users_gdrive()] encountered the following error when trying "
                     f"to get the list of permissions. \n{e}"
                 )
 
