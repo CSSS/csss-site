@@ -1,6 +1,8 @@
 import json
+import math
 import os
 import pickle
+import random
 import time
 
 import googleapiclient
@@ -452,37 +454,49 @@ class GoogleDrive:
         if files_to_email_owner_about is None:
             files_to_email_owner_about = {}
         next_page_token = None
-        while True:
-            try:
-                response = self.gdrive.files().list(
-                    corpora='drive',
-                    driveId=GOOGLE_DRIVE_WORKSPACE_FOLDERS[self.folder_or_drive_name]['drive_id'],
-                    includeItemsFromAllDrives=True,
-                    supportsAllDrives=True,
-                    pageToken=next_page_token,
-                    fields='*',
-                    pageSize=999,
-                    q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
-                ).execute()
-            except Exception as e:
+        while next_page_token is not False:
+            success = False
+            response = None
+            last_error = None
+            initial_time = time.perf_counter()
+            latest_attempt_time = time.perf_counter()
+            iteration = 0
+            while not (success or ((latest_attempt_time - initial_time) <= 64)):
+                try:
+                    response = self.gdrive.files().list(
+                        corpora='drive',
+                        driveId=GOOGLE_DRIVE_WORKSPACE_FOLDERS[self.folder_or_drive_name]['drive_id'],
+                        includeItemsFromAllDrives=True,
+                        supportsAllDrives=True,
+                        pageToken=next_page_token,
+                        fields='*',
+                        pageSize=999,
+                        q=f"'{parent_id[len(parent_id) - 1]}' in parents AND trashed = false"
+                    ).execute()
+                    success = True
+                except Exception as error:
+                    last_error = error
+                    random_number_milliseconds = random.randint(0, 1000) / 1000
+                    time.sleep(math.pow(2, iteration)+random_number_milliseconds)
+                    latest_attempt_time = time.perf_counter()
+                iteration += 1
+            if success:
+                for file in response['files']:
+                    self._validate_permissions_for_file(
+                        parent_folder, google_drive_perms, parent_id, file
+                    )
+                    files_to_email_owner_about = self._validate_owner_for_file(
+                        parent_folder,
+                        google_drive_perms, parent_id, files_to_email_owner_about, file
+                    )
+                next_page_token = response['nextPageToken'] if 'nextPageToken' in response else False
+            else:
                 self.logger.error(
                     "[GoogleDrive _validate_individual_file_and_folder_ownership_and_permissions()] "
                     f"unable to get the list of files under folder with id {parent_id[len(parent_id) - 1]}"
-                    f" due to following error\n.{e}"
+                    f" due to following error\n.{last_error}"
                 )
-                return
-            for file in response['files']:
-                self._validate_permissions_for_file(
-                    parent_folder, google_drive_perms, parent_id, file
-                )
-                files_to_email_owner_about = self._validate_owner_for_file(
-                    parent_folder,
-                    google_drive_perms, parent_id, files_to_email_owner_about, file
-                )
-            if 'nextPageToken' not in response:
-                # no more files to look at under this folder so need to go back up the recursive stack
-                return files_to_email_owner_about
-            next_page_token = response['nextPageToken']
+        return files_to_email_owner_about
 
     def _validate_permissions_for_file(self, parent_folder, google_drive_perms, parent_id, file):
         """
