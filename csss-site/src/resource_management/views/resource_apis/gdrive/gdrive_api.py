@@ -92,6 +92,9 @@ class GoogleDrive:
         self.error_message = None
         self.root_file_id = root_file_id
         self.folder_or_drive_name = None
+        self.CSSS_PERMISSION_ID = {
+            settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_ID_FOR_GENERAL_DOCUMENTS: '06543106140290373703'
+        }
         for key, value in GOOGLE_DRIVE_WORKSPACE_FOLDERS.items():
             if value['folder_id'] == root_file_id:
                 self.folder_or_drive_name = key
@@ -232,7 +235,9 @@ class GoogleDrive:
                                 f"[GoogleDrive remove_users_gdrive()] iterating through permission "
                                 f"{permission}"
                             )
-                            if 'emailAddress' not in permission:
+                            if permission['id'] == self.CSSS_PERMISSION_ID[self.root_file_id]:
+                                pass
+                            elif 'emailAddress' not in permission:
                                 self.logger.error(
                                     f"[GoogleDrive remove_users_gdrive()] could not find an email address in "
                                     f"permission {permission}"
