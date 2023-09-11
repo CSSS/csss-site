@@ -469,7 +469,7 @@ class GoogleDrive:
             initial_time = time.perf_counter()
             latest_attempt_time = time.perf_counter()
             iteration = 0
-            while not (success or ((latest_attempt_time - initial_time) <= 64)):
+            while (not success) and ((latest_attempt_time - initial_time) <= 64):
                 try:
                     response = self.gdrive.files().list(
                         corpora='drive',
@@ -502,7 +502,7 @@ class GoogleDrive:
                 self.logger.error(
                     "[GoogleDrive _validate_individual_file_and_folder_ownership_and_permissions()] "
                     f"unable to get the list of files under folder with id {parent_id[len(parent_id) - 1]}"
-                    f" due to following error\n.{last_error}"
+                    f" due to following error.\n{last_error}"
                 )
         return files_to_email_owner_about
 
