@@ -2,13 +2,14 @@
 
 set -e -o xtrace
 
-
-
-
-
 function go_to_root_directory {
   BASE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
   cd "${BASE_DIR}"
+}
+
+function open_source_code_zip_folder() {
+    tar xvf csss-site-source-code.tar.gz
+    rm csss-site-source-code.tar.gz
 }
 
 function install_latest_python_requirements {
@@ -109,6 +110,7 @@ function clean_up_after_deployment {
 
 
 go_to_root_directory
+open_source_code_zip_folder
 install_latest_python_requirements
 create_directory_for_website_logs
 applying_latest_db_migrations

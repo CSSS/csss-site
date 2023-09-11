@@ -23,7 +23,11 @@ function transfer_source_code_and_reqs {
   # create the folder that the source code for the website will go under
   # and copy the source code to that folder
   ssh csss@"${HOST_ADDRESS}" "mkdir -p ${BASE_DIR}/csss-site"
-  scp -r "csss-site/src"/* csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss-site/"
+
+  mv csss-site csss-site-repo-folder
+  mv csss-site-repo-folder/src csss-site
+  tar -czf csss-site-source-code.tar.gz csss-site
+  scp "csss-site-source-code.tar.gz" csss@"${HOST_ADDRESS}":"${BASE_DIR}/csss-site-source-code.tar.gz"
 
   # transfer requirements file for the website
   scp "requirements.txt" csss@"${HOST_ADDRESS}":"${BASE_DIR}/requirements.txt"
