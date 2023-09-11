@@ -103,6 +103,7 @@ function restart_error_reporting_service {
 
 function clean_up_after_deployment {
   rm "/home/csss/deploy_changes.sh"
+  rm -r "${LOG_LOCATION}"
 }
 
 
