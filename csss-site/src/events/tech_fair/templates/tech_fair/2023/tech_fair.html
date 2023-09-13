@@ -49,14 +49,14 @@
         </div>
 
         <div id="column-container">
-            <whitespace></whitespace>
+            <div style="height: 75px;"></div>
 
             <header id="code-title">
                 <h1>
-                    <pink>SFU_CSSS</pink>.TechFair(<navy>2023</navy>);
+                    <span class="pink">SFU_CSSS</span>.TechFair(<span class="navy">2023</span>);
                 </h1>
                 <h1>
-                    <lightpink id="before-cursor"></lightpink>
+                    <span class="lightpink" id="before-cursor"></span>
                     <span id="cursor" class="noselect">|</span>
                 </h1>
             </header>
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                     
-                    <whitespace style="height: 50px;"></whitespace>
+                    <div style="height: 50px;"></div>
                     
                     <div id="info-buttons-container">
                         <div>
@@ -108,26 +108,25 @@
                         </div>
                     </div>
 
-                    <whitespace style="height: 50px;"></whitespace>
+                    <div style="height: 50px;"></div>
 
                     <p>Feel free to reach out to us at <a class="light-pink-link" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> for any further questions.</p>
                     <br>
                 </div>
             </div>
             
-            <whitespace style="height: 50px;"></whitespace>
+            <div style="height: 50px;"></div>
 
             <div id="booths-container">
-                <a id="booths" href="#booths">Who's Coming?</a>
+                <a id="booths" href="#booths">Who's Coming So Far?</a>
         
-                <whitespace style="height: 50px;"></whitespace>
+                <div style="height: 50px;"></div>
 
                 <!-- TODO: fix the CSS for company cards as well -->
 
                 <div id="company-card-list">
-                    
                     <div>
-                        <img src="{% static 'tech_fair/2023/images/company_images/safe-software.jpg' %}"/>
+                        <img alt="Safe Software" src="{% static 'tech_fair/2023/images/company_images/safe-software.jpg' %}">
                         <div>
                             <p>Safe Software</p>
                             <p class="banded-hr">////////////////////////////////////////</p>
@@ -145,7 +144,7 @@
                     </div>
 
                     <div>
-                        <img src="{% static 'tech_fair/2023/images/company_images/arista.jpg' %}"/>
+                        <img alt="Arista Networks" src="{% static 'tech_fair/2023/images/company_images/arista.jpg' %}">
                         <div>
                             <p>Arista Networks</p>
                             <p class="banded-hr">////////////////////////////////////////</p>
@@ -163,7 +162,7 @@
                     </div>
 
                     <div>
-                        <img src="{% static 'tech_fair/2023/images/company_images/fortinet.png' %}"/>
+                        <img alt="Fortinet" src="{% static 'tech_fair/2023/images/company_images/fortinet.png' %}">
                         <div>
                             <p>Fortinet</p>
                             <p class="banded-hr">////////////////////////////////////////</p>
@@ -181,18 +180,18 @@
                     </div>
                 </div>
             
-                <whitespace style="height: 75px;"></whitespace>
+                <div style="height: 75px;"></div>
 
                 <p style="text-align: center;">
                     If you'd like to see your name here, <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#package">join tech fair</a>!
                 </p>
             </div>
             
-            <whitespace style="height: 25px;"></whitespace>
+            <div style="height: 25px;"></div>
             
             <div id="schedule-container">
                 <a id="schedule" href="#schedule" class="noto-bold">Schedule</a>
-                <whitespace style="height: 50px;"></whitespace>
+                <div style="height: 25px;"></div>
 
                 <div id="day-schedule">
                     <p>Wednesday, October 25th</p>
@@ -244,22 +243,15 @@
                             </td>
                             <td>&nbsp;</td>
                         </tr> 
-                        <tr>
-                            <td>
-                                <span>8</span>
-                                <span> PM</span>
-                            </td>
-                            <td>&nbsp;</td>
-                        </tr> 
                     </table>
                 </div>
 
-                <whitespace style="height: 125px;"></whitespace>
+                <div style="height: 75px;"></div>
 
                 <div id="bg-text-schedule" class="noto-bold noselect">Schedule</div>
             </div>
 
-            <whitespace style="height: 50px;"></whitespace>
+            <div style="height: 50px;"></div>
 
             <div id="students-container">
                 <a id="students" href="#students">Students</a>
@@ -275,7 +267,7 @@
                 <a href="https://forms.gle/57eiVPhzHs2aVHi7A" class="rsvp-button zoom2">RSVP!</a>
             </div>
             
-            <whitespace style="height: 50px;"></whitespace>
+            <div style="height: 50px;"></div>
 
             <div id="companies-container">
                 <a id="companies" href="#companies">For Companies</a>
@@ -297,7 +289,7 @@
                 <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#join" class="join-tech-fair-button zoom2">Join Tech Fair</a>
             </div>
 
-            <whitespace style="height: 50px;"></whitespace>
+            <div style="height: 50px;"></div>
 
             <div id="history-container">
                 <a id="history" href="#history">History</a>
@@ -322,7 +314,7 @@
             </div>
 
             <div id="footer">
-                <p><em><pink>SFU_CSSS</pink>.TechFair(<navy>2023</navy>);</em></p>
+                <p><em><span class="pink">SFU_CSSS</span>.TechFair(<span class="navy">2023</span>);</em></p>
                 <p>
                     <a href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> | 
                     <a href="https://www.linkedin.com/company/sfucsss/">LinkedIn</a> | 

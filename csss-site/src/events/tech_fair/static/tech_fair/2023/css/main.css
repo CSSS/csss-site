@@ -73,16 +73,16 @@ li:before {
     src: url("../fonts/NotoSansGeorgian-Bold.ttf");
 }
 
-pink {
+.pink {
     color: #ee8695;
 }
-lightpink {
+.lightpink {
     color: #fbbbad;
 }
-navy {
+.navy {
     color: #4a7a96;
 }
-green {
+.green {
     color: #84eb7a;
 }
 
@@ -209,11 +209,6 @@ green {
 
 /* ************************** */
 /* titles */
-
-whitespace {
-    display: block;
-    height: 75px; /* this is a default size that may be overwritten */
-}
 
 #column-container {
     max-width: 1250px;
