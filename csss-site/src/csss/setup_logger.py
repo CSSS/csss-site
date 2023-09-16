@@ -71,7 +71,7 @@ class Loggers:
         django_settings_logger = logging.getLogger(settings.DJANGO_SETTINGS_LOG_HANDLER_NAME)
 
         if not os.path.exists(f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}"):
-            os.mkdir(f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}")
+            os.makedirs(f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}")
 
         django_settings_logger.setLevel(logging.DEBUG)
         cls.django_settings_file_path_and_name = (
@@ -116,9 +116,9 @@ class Loggers:
         if not os.path.exists(settings.LOG_LOCATION):
             exit(f"Unable to find '{settings.LOG_LOCATION}'")
         if not os.path.exists(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}"):
-            os.mkdir(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}")
+            os.makedirs(f"{settings.LOG_LOCATION}/{settings.SYS_STREAM_LOG_HANDLER_NAME}")
         if not os.path.exists(f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}"):
-            os.mkdir(f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}")
+            os.makedirs(f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}")
 
         sys_logger = logging.getLogger(settings.SYS_STREAM_LOG_HANDLER_NAME)
         sys_logger.setLevel(logging.DEBUG)
@@ -177,7 +177,7 @@ class Loggers:
         if not os.path.exists(settings.LOG_LOCATION):
             exit(f"Unable to find '{settings.LOG_LOCATION}'")
         if not os.path.exists(f"{settings.LOG_LOCATION}/{logger_name}"):
-            os.mkdir(f"{settings.LOG_LOCATION}/{logger_name}")
+            os.makedirs(f"{settings.LOG_LOCATION}/{logger_name}")
         debug_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_debug.log"
         error_log_file_absolute_path = f"{settings.LOG_LOCATION}/{logger_name}/{date}_error.log"
 
