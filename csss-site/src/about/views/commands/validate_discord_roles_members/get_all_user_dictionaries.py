@@ -1,9 +1,11 @@
 import json
+import time
 
 import requests
 from django.conf import settings
 
 from csss.settings import discord_header
+from csss.setup_logger import Loggers
 
 
 def get_all_user_dictionaries():
@@ -18,6 +20,7 @@ def get_all_user_dictionaries():
     user_id__user_obj -- a dictionary where the key is the discord user id and the value is the
      corresponding user object
     """
+    logger = Loggers.get_logger()
     role_id__list_of_users = {}
     after = None
     first = True
@@ -43,7 +46,19 @@ def get_all_user_dictionaries():
                 after = users[len(users) - 1]['user']['id']
             else:
                 after = None
+        elif resp.status_code == 429:
+            # being rate limited
+            sleep_duration = int(resp.headers['x-ratelimit-reset-after'])
+            logger.info(
+                "[about/get_all_user_dictionaries.py get_all_user_dictionaries()] "
+                f"we are being rate-limited. going to sleep for {sleep_duration}"
+            )
+            time.sleep(sleep_duration)
+            logger.info("[about/get_all_user_dictionaries.py get_all_user_dictionaries()] back to work")
         else:
+            logger.error(f"experienced following error trying to get url [{url}]")
+            logger.error(json.dumps(json.loads(resp.text), indent=3))
+            logger.error(json.dumps(dict(resp.headers), indent=3))
             return (
                 False,
                 (f"Unable to get the users with the following url [{url}] "
