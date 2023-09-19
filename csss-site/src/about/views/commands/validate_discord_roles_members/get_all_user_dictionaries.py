@@ -45,7 +45,10 @@ def get_all_user_dictionaries():
                 after = None
         else:
             return (
-                False, f"Unable to get the users with the following url [{base_url}]",
+                False,
+                (f"Unable to get the users with the following url [{url}] "
+                 f"due to error {json.loads(resp.text)['message']}"
+                 ),
                 role_id__list_of_users, user_id__user_obj
             )
 

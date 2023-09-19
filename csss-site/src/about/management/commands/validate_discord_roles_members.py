@@ -59,13 +59,13 @@ class Command(BaseCommand):
 
         success, error_message, role_id__list_of_users, user_id__user_obj = get_all_user_dictionaries()
         if not success:
-            logger.info(
+            logger.error(
                 f"[about/validate_discord_roles_members.py() Command() ] {error_message}  "
             )
             return
         success, error_message, role_id__role = get_role_dictionary()
         if not success:
-            logger.info(
+            logger.error(
                 f"[about/validate_discord_roles_members.py() Command() ] {error_message}  "
             )
             return
@@ -76,7 +76,7 @@ class Command(BaseCommand):
         discord_role_names.append(EXEC_DISCORD_ROLE_NAME)
         success, error_message, matching_executive_roles = get_discord_guild_roles(discord_role_names)
         if not success:
-            logger.info(
+            logger.error(
                 f"[about/validate_discord_roles_members.py() Command() ] {error_message}  "
             )
             return
@@ -84,7 +84,7 @@ class Command(BaseCommand):
         exec_discord_role_id = matching_executive_roles[EXEC_DISCORD_ROLE_NAME]['id'] \
             if EXEC_DISCORD_ROLE_NAME in matching_executive_roles else None
         if exec_discord_role_id is None:
-            logger.info(
+            logger.error(
                 f"[about/validate_discord_roles_members.py() Command() ] unable to get the role_id for "
                 f"the discord group \"{EXEC_DISCORD_ROLE_NAME}\" role"
             )
