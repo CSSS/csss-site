@@ -235,7 +235,11 @@ class GoogleDrive:
                                 f"[GoogleDrive remove_users_gdrive()] iterating through permission "
                                 f"{permission}"
                             )
-                            if permission['id'] == self.CSSS_PERMISSION_ID[self.root_file_id]:
+                            sfucssorg_permission_detected = (
+                                self.root_file_id in self.CSSS_PERMISSION_ID and
+                                permission['id'] == self.CSSS_PERMISSION_ID[self.root_file_id]
+                            )
+                            if sfucssorg_permission_detected:
                                 pass
                             elif 'emailAddress' not in permission:
                                 self.logger.error(
@@ -281,7 +285,7 @@ class GoogleDrive:
             except Exception as e:
                 self.logger.error(
                     "[GoogleDrive remove_users_gdrive()] encountered the following error when trying "
-                    f"to get the list of permissions. \n{e}"
+                    f"to get the list of permissions. \n{type(e)}\n{e}"
                 )
 
     def make_public_link_gdrive(self, file_id):
