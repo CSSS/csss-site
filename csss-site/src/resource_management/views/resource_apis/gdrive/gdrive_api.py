@@ -243,7 +243,8 @@ class GoogleDrive:
                                 pass
                             elif 'emailAddress' not in permission:
                                 self.logger.error(
-                                    f"[GoogleDrive remove_users_gdrive()] could not find an email address in "
+                                    f"[GoogleDrive remove_users_gdrive()] could not find an email address "
+                                    f"for {self.root_file_id} in "
                                     f"permission {permission}"
                                 )
                             else:
