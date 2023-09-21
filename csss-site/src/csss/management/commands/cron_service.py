@@ -2,6 +2,7 @@ import datetime
 import importlib
 from time import sleep
 
+from apscheduler.jobstores.base import JobLookupError
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.core.management import BaseCommand
@@ -54,15 +55,21 @@ class Command(BaseCommand):
                 else:
                     logger.info(
                         f"[Cron_Service_Command handle()] updating cron job {updated_cron_job.job_name} "
-                        f"with schedule of {updated_cron_job.schedule} from {job.trigger} to "
+                        f"with schedule of {job._scheduler} from {job.trigger} to "
                         f"{updated_cron_job.schedule}"
                     )
                     script_path = CRON_JOB_MAPPING[updated_cron_job.job_name][CRON_JOB_MAPPING_PATH_KEY]
-                    scheduler.reschedule_job(
-                        updated_cron_job.job_id,
-                        importlib.import_module(f'{script_path}{updated_cron_job.job_name}').run_job,
-                        trigger=CronTrigger.from_crontab(updated_cron_job.schedule)
-                    )
+                    try:
+                        scheduler.reschedule_job(
+                            updated_cron_job.job_id,
+                            importlib.import_module(f'{script_path}{updated_cron_job.job_name}').run_job,
+                            trigger=CronTrigger.from_crontab(updated_cron_job.schedule)
+                        )
+                    except JobLookupError:
+                        logger.error(
+                            f"[Cron_Service_Command handle()] unable to find a cron job of {updated_cron_job.job_id}."
+                            f"A restart of the cron-service is recommended."
+                        )
                     logger.info(f"[Cron_Service_Command handle()] updated cron job {updated_cron_job.job_name} ")
             logger.info("[Cron_Service_Command handle()] going to sleep for an hour... ")
             sleep(seconds_in_an_hour)
