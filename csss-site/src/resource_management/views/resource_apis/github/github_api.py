@@ -4,7 +4,7 @@ import github
 from django.conf import settings
 from github import Github
 
-from github.GithubException import RateLimitExceededException, GithubException
+from github.GithubException import RateLimitExceededException, GithubException, UnknownObjectException
 
 from csss.setup_logger import Loggers
 
@@ -50,8 +50,7 @@ class GitHubAPI:
             return False, self.error_message
         while True:
             try:
-                github_users = self.git.search_users(query=f"user:{user_name}")
-                total_count = github_users.totalCount  # noqa: F841
+                self.git.get_user(user_name)
                 return True, None
             except RateLimitExceededException:
                 sleep(time_to_wait_due_to_github_rate_limit)
@@ -76,7 +75,7 @@ class GitHubAPI:
             return False, self.error_message
 
         try:
-            if self.org.has_in_members(self.git.search_users(query=f"user:{user_name}")[0]):
+            if self.org.has_in_members(self.git.get_user(user_name)):
                 return True, None
             if invite_user:
                 success, error_message = self.invite_user_to_org(user_name)
@@ -111,8 +110,7 @@ class GitHubAPI:
         if not self.connection_successful:
             return False, self.error_message
         try:
-            github_users = self.git.search_users(query=f"user:{user_name}")
-            github_user = github_users[0] if github_users.totalCount > 0 else None
+            github_user = self.git.get_user(user_name)
             if self.org.has_in_members(github_user):
                 return True, None
             self.org.invite_user(user=github_user)
@@ -171,8 +169,8 @@ class GitHubAPI:
                         f"[GitHubAPI create_team()] the list of users who have membership under team"
                         f" {team_name}: {team.get_members()}"
                     )
-                    github_users = self.git.search_users(query=f"user:{self.git.get_user().login}")
-                    team.remove_membership(github_users[0])
+                    github_user = self.git.get_user(self.git.get_user().login)
+                    team.remove_membership(github_user)
                     self.logger.info(
                         f"[GitHubAPI create_team()] {self.git.get_user().login} removed from team {team_name}"
                     )
@@ -219,33 +217,31 @@ class GitHubAPI:
             successful = False
             while not successful:
                 try:
-                    github_users = self.git.search_users(query=f"user:{user}")
-                    if github_users.totalCount == 1:
-                        github_user = github_users[0]
-                        if github_user not in self.org.get_members():
-                            self.logger.info(
-                                f"[GitHubAPI add_users_to_a_team()] adding {user} "
-                                f"to {CSSS_GITHUB_ORG_NAME} org and inviting them to {team_name} team."
-                            )
-                            self.org.invite_user(user=github_user, teams=[team])
-                            self.logger.info(
-                                f"[GitHubAPI add_users_to_a_team()] send an invite to the user {user} to ORG"
-                                f" {CSSS_GITHUB_ORG_NAME} and team {team_name}"
-                            )
-                        elif not team.has_in_members(github_user):
-                            self.logger.info(
-                                f"[GitHubAPI add_users_to_a_team()] adding {user} to the {team_name} team."
-                            )
-                            team.add_membership(github_user)
-                            self.logger.info(
-                                "[GitHubAPI add_users_to_a_team()] sent an invite to the user"
-                                f" {user} for team {team_name}"
-                            )
-                        else:
-                            self.logger.info(
-                                f"[GitHubAPI add_users_to_a_team()] it seems that {github_user} already is in "
-                                f"the org {CSSS_GITHUB_ORG_NAME} and a member of the {team} team"
-                            )
+                    github_user = self.git.get_user(user)
+                    if github_user not in self.org.get_members():
+                        self.logger.info(
+                            f"[GitHubAPI add_users_to_a_team()] adding {user} "
+                            f"to {CSSS_GITHUB_ORG_NAME} org and inviting them to {team_name} team."
+                        )
+                        self.org.invite_user(user=github_user, teams=[team])
+                        self.logger.info(
+                            f"[GitHubAPI add_users_to_a_team()] send an invite to the user {user} to ORG"
+                            f" {CSSS_GITHUB_ORG_NAME} and team {team_name}"
+                        )
+                    elif not team.has_in_members(github_user):
+                        self.logger.info(
+                            f"[GitHubAPI add_users_to_a_team()] adding {user} to the {team_name} team."
+                        )
+                        team.add_membership(github_user)
+                        self.logger.info(
+                            "[GitHubAPI add_users_to_a_team()] sent an invite to the user"
+                            f" {user} for team {team_name}"
+                        )
+                    else:
+                        self.logger.info(
+                            f"[GitHubAPI add_users_to_a_team()] it seems that {github_user} already is in "
+                            f"the org {CSSS_GITHUB_ORG_NAME} and a member of the {team} team"
+                        )
                     successful = True
                 except RateLimitExceededException:
                     sleep(time_to_wait_due_to_github_rate_limit)
@@ -294,13 +290,11 @@ class GitHubAPI:
             successful = False
             while not successful:
                 try:
-                    github_users = self.git.search_users(query=f"user:{user}")
-                    if github_users.totalCount == 1:
-                        github_user = github_users[0]
-                        team.remove_membership(github_user)
-                        self.logger.info(
-                            f"[GitHubAPI remove_users_from_a_team()] removed user {user} from team {team_name}"
-                        )
+                    github_user = self.git.get_user(user)
+                    team.remove_membership(github_user)
+                    self.logger.info(
+                        f"[GitHubAPI remove_users_from_a_team()] removed user {user} from team {team_name}"
+                    )
                     successful = True
                 except RateLimitExceededException:
                     sleep(time_to_wait_due_to_github_rate_limit)
@@ -394,16 +388,8 @@ class GitHubAPI:
                 user_has_been_acquired = None
                 while user_has_been_acquired is None:
                     try:
-                        users_obtained = self.git.search_users(query=f"user:{user}")
-                        if users_obtained.totalCount == 0:
-                            self.logger.error(
-                                "[GitHubAPI ensure_proper_membership()] unable to get any users using the "
-                                f"query 'user:{user}'"
-                            )
-                            user_has_been_acquired = False
-                        else:
-                            github_user = users_obtained.get_page(0)[0]
-                            user_has_been_acquired = True
+                        github_user = self.git.get_user(user)
+                        user_has_been_acquired = True
                     except RateLimitExceededException:
                         self.logger.info(
                             "[GitHubAPI ensure_proper_membership()] "
@@ -411,12 +397,18 @@ class GitHubAPI:
                             f"limit was encountered"
                         )
                         sleep(time_to_wait_due_to_github_rate_limit)
+                    except UnknownObjectException:
+                        self.logger.error(
+                            f"[GitHubAPI ensure_proper_membership()] the user [{user}] does not seem to exist"
+                        )
+                        user_has_been_acquired = False
                     except GithubException as e:
                         self.logger.error(
                             "[GitHubAPI ensure_proper_membership()] "
                             f"encountered error {e} when looking for user {user}"
                         )
                         user_has_been_acquired = False
+
                 if user_has_been_acquired:
                     self.logger.info(
                         "[GitHubAPI ensure_proper_membership()] found github profile "
