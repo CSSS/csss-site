@@ -1,3 +1,9 @@
+// this function dynamically updates the size of the banner, because I couldn't find it in css
+function updateBanner() {
+    document.getElementById("info-banner-bg").hidden = false;
+    document.getElementById("info-banner-bg").style.height = document.getElementById("info-text").clientHeight + 24 + 2 + "px";
+}
+
 // if a string is broken into an array, each element that is itself an array should be colored
 const FRONT_PAGE_MESSAGES = [
     "// welcome to Tech Fair!",
@@ -74,8 +80,8 @@ function typeMessage(lastIndex) {
                 if (Math.random() > 0.8) {
                     keypressTime += 175;
                 } else if (Math.random() > 0.95) {
+                    // long pause
                     keypressTime += 340;
-                    console.log("long pause");
                 }
             }
             setTimeout(() => { typeLetter(i+1) }, keypressTime);
@@ -106,10 +112,15 @@ var laptopRotateTimer = 0.0;
 
 function onload() {
     updateBanner();
-    setTimeout(() => { typeMessage(-1); }, 500);
+    
+    if (!window.location.href.endsWith("company_package"))
+        setTimeout(() => { typeMessage(-1); }, 500);
+
     document.getElementById("laptop").onclick = () => {
         laptopRotateTimer = 0.65;
     }
+
+    // start tracking timers for animations
     requestAnimationFrame(update);
 }
 
@@ -130,13 +141,6 @@ function update(time) {
         laptopRotateTimer = 0.0;
     }
 
-    // 
     requestAnimationFrame(update);
     start = time;
-}
-
-function updateBanner() {
-    document.getElementById("info-banner").hidden = false;
-    document.getElementById("info-banner").style.height = document.getElementById("info-text").clientHeight + 24 + 2 + "px";
-    console.log("update banner");
 }

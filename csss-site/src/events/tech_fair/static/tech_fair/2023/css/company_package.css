@@ -1,0 +1,56 @@
+#flowchart-img {
+    display: inline;
+    float: left;
+    
+    width: calc(45% - 25px);
+    margin-right: 25px;
+    margin-top: 40px;
+    padding: 10px;
+}
+
+#package {
+    font-size: 2em; 
+    text-decoration: none;     
+    text-align: center;
+    
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+    
+    color: #fff; 
+}
+
+/* ************************** */
+
+#awesome-container {
+    text-align: center;
+}
+#awesome-container > h2 > span {
+    padding: 10px; 
+    
+    color: #fff;
+    background-color: rgb(141, 187, 255); 
+}
+
+/* ************************** */
+
+#join-container {
+    width: calc(100%); 
+    min-height: 128px; 
+    padding: 24px;
+
+    z-index: 2; 
+
+    border: #000 2px solid; 
+    color: #fff; 
+    background-color: #000; 
+
+}
+#join {
+    font-size: 2em; 
+    text-decoration: none;
+
+    font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+
+    color: #fff; 
+}
+
+
