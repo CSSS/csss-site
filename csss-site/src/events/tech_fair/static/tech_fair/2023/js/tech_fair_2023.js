@@ -80,8 +80,8 @@ function typeMessage(lastIndex) {
                 if (Math.random() > 0.8) {
                     keypressTime += 175;
                 } else if (Math.random() > 0.95) {
+                    // long pause
                     keypressTime += 340;
-                    console.log("long pause");
                 }
             }
             setTimeout(() => { typeLetter(i+1) }, keypressTime);

@@ -458,7 +458,7 @@ li:before {
     border-radius: 16px;
 
     color: #000;
-    border: #333 4px solid; 
+    box-shadow: #555 2px 4px 8px;
 }
 #company-card-list > div > img {
     height: 235px; 
@@ -466,14 +466,14 @@ li:before {
 
     border-radius: 16px 16px 0 0;
 
-    opacity: 65%;
+    opacity: 55%;
     object-fit: cover;
 
-    transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.32s ease-in-out;
 }
 #company-card-list > div:hover > img {
     opacity: 100%;
-    transition: opacity 0.35s ease-in-out;
+    transition: opacity 0.32s ease-in-out;
 } 
 #company-card-list > div > div {
     display: inline-block;
