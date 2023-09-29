@@ -712,6 +712,8 @@ li:before {
     letter-spacing: -2px; 
     font-family: "NotoSansGeorgian-Regular",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 
+    width: 60vw;
+
     color: #aaa; 
 }
 
