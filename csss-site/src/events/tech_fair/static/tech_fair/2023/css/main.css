@@ -222,7 +222,7 @@ li:before {
     height: 290px;
     padding: 0 12px; 
 
-    font-size: 2em; 
+    font-size: min(3.0vw, 2em); 
 }
 #code-title > h1 {
     font-family: "darumadropOne", "Lucida Handwriting", cursive;
@@ -263,7 +263,7 @@ li:before {
 }
 
 #laptop {
-    width: 465px; 
+    width: 465px;
     display: inline-block; 
     cursor: pointer;
 }
@@ -271,9 +271,9 @@ li:before {
     display: inline-block;
     position: relative; 
 
-    width: 160px; 
+    width: min(12vw, 160px);
     margin-bottom: -10px; 
-    margin-left: 290px; 
+    margin-left: min(30vw, 290px);
 
     z-index: -1; 
 
@@ -283,13 +283,13 @@ li:before {
     display: flex; 
     align-items: baseline;
 
-    height: 178px; 
+    height: min(14.75vw, 178px);
 
     font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 }
 #logo-title-text > *:nth-child(1) {
-    font-size: 160px; 
-    letter-spacing: -21px;
+    font-size: min(12vw, 160px);
+    letter-spacing: -10px;
 
     white-space: nowrap;
 }
@@ -297,7 +297,7 @@ li:before {
     position: relative; 
     bottom: 4px;
 
-    font-size: 60px; 
+    font-size: min(5vw, 60px); 
     letter-spacing: -5px; 
 }
 
@@ -305,8 +305,8 @@ li:before {
     display: inline; 
     position: relative; 
 
-    width: 160px; 
-    margin: -260px 0 -45px 0; 
+    width: min(14vw, 160px);
+    margin: -260px 0 -44px 0; 
 
     z-index: -2; 
 
@@ -642,14 +642,14 @@ li:before {
 
 #bg-text-schedule {
     position: relative; 
-    bottom: 239px; 
+    bottom: min(26vw, 239px); 
     right: -20px; 
     float: right; 
 
     height: 0px; 
 
-    font-size: 232px; 
-    letter-spacing: -22px; 
+    font-size: min(26vw, 232px); 
+    letter-spacing: -20px; 
 
     color: #fff; 
 }
