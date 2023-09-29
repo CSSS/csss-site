@@ -139,6 +139,15 @@ li:before {
     max-width: 1150px;
     margin: 0 auto; 
 }
+#nav-bar > div > a {
+    font-size: min(2.0vw, 1em);
+
+    margin-left: min(0.3vw, 4px);
+    margin-right: min(0.3vw, 4px);
+
+    padding-left: min(0.9vw, 12px);
+    padding-right: min(0.9vw, 12px);
+}
 
 .csss-logo {
     vertical-align: top;
@@ -219,7 +228,7 @@ li:before {
 }
 
 #code-title {
-    height: 290px;
+    height: min(28vw, 290px);
     padding: 0 12px; 
 
     font-size: min(3.0vw, 2em); 
@@ -266,6 +275,8 @@ li:before {
     width: 465px;
     display: inline-block; 
     cursor: pointer;
+
+    height: min(12vw, 160px);
 }
 #laptop > object {
     display: inline-block;
@@ -283,7 +294,7 @@ li:before {
     display: flex; 
     align-items: baseline;
 
-    height: min(14.75vw, 178px);
+    height: min(12vw, 178px);
 
     font-family: "NotoSansGeorgian-Bold",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
 }
@@ -466,14 +477,14 @@ li:before {
 
     border-radius: 16px 16px 0 0;
 
-    opacity: 55%;
+    opacity: 50%;
     object-fit: cover;
 
-    transition: opacity 0.32s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 }
 #company-card-list > div:hover > img {
     opacity: 100%;
-    transition: opacity 0.32s ease-in-out;
+    transition: opacity 0.3s ease-in-out;
 } 
 #company-card-list > div > div {
     display: inline-block;
