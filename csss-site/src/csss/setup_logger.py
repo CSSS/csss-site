@@ -3,6 +3,7 @@ import logging
 import os
 import shutil
 import sys
+from logging.handlers import RotatingFileHandler
 
 import pytz
 from django.conf import settings
@@ -32,6 +33,9 @@ modular_log_prefix = "cmd_"
 sys_stream_formatting = PSTFormatter(
     '%(asctime)s = %(levelname)s = %(name)s = %(message)s', date_formatting_in_log, tz=date_timezone
 )
+
+MAX_BYTES_LOG_FILE = 536870912  # half a gigabyte
+MAX_NUMBER_OF_LOG_FILES = 5
 
 
 class Loggers:
@@ -78,13 +82,18 @@ class Loggers:
             f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}/{date}.log"
         )
 
-        django_settings_filehandler = logging.FileHandler(cls.django_settings_file_path_and_name)
+        django_settings_filehandler = RotatingFileHandler(
+            cls.django_settings_file_path_and_name, maxBytes=MAX_BYTES_LOG_FILE,
+            backupCount=MAX_NUMBER_OF_LOG_FILES
+        )
         django_settings_filehandler.setLevel(logging.DEBUG)
         django_settings_filehandler.setFormatter(sys_stream_formatting)
         django_settings_logger.addHandler(django_settings_filehandler)
 
-        django_settings_error_filehandler = logging.FileHandler(
-            f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}/{date}_error.log"
+        django_settings_error_filehandler = RotatingFileHandler(
+            f"{settings.LOG_LOCATION}/{settings.DJANGO_SETTINGS_LOG_HANDLER_NAME}/{date}_error.log",
+            maxBytes=MAX_BYTES_LOG_FILE,
+            backupCount=MAX_NUMBER_OF_LOG_FILES
         )
         django_settings_error_filehandler.setLevel(barrier_logging_level)
         django_settings_error_filehandler.setFormatter(sys_stream_formatting)
@@ -134,13 +143,21 @@ class Loggers:
             shutil.copy(cls.django_settings_file_path_and_name, f"{debug_log_file_absolute_path}")
 
         # ensures that anything printed to this logger at level DEBUG or above goes to the specified file
-        debug_filehandler = logging.FileHandler(debug_log_file_absolute_path)
+        debug_filehandler = RotatingFileHandler(
+            debug_log_file_absolute_path,
+            maxBytes=MAX_BYTES_LOG_FILE,
+            backupCount=MAX_NUMBER_OF_LOG_FILES
+        )
         debug_filehandler.setLevel(logging.DEBUG)
         debug_filehandler.setFormatter(sys_stream_formatting)
         sys_logger.addHandler(debug_filehandler)
 
         # ensures that anything printed to this logger at level ERROR or above goes to the specified file
-        error_filehandler = logging.FileHandler(cls.sys_stream_error_log_file_absolute_path)
+        error_filehandler = RotatingFileHandler(
+            cls.sys_stream_error_log_file_absolute_path,
+            maxBytes=MAX_BYTES_LOG_FILE,
+            backupCount=MAX_NUMBER_OF_LOG_FILES
+        )
         error_filehandler.setLevel(barrier_logging_level)
         error_filehandler.setFormatter(sys_stream_formatting)
         sys_logger.addHandler(error_filehandler)
@@ -187,12 +204,20 @@ class Loggers:
         logger = logging.getLogger(logger_name)
         logger.setLevel(logging.DEBUG)
 
-        debug_filehandler = logging.FileHandler(debug_log_file_absolute_path)
+        debug_filehandler = RotatingFileHandler(
+            debug_log_file_absolute_path,
+            maxBytes=MAX_BYTES_LOG_FILE,
+            backupCount=MAX_NUMBER_OF_LOG_FILES
+        )
         debug_filehandler.setLevel(logging.DEBUG)
         debug_filehandler.setFormatter(sys_stream_formatting)
         logger.addHandler(debug_filehandler)
 
-        error_filehandler = logging.FileHandler(error_log_file_absolute_path)
+        error_filehandler = RotatingFileHandler(
+            error_log_file_absolute_path,
+            maxBytes=MAX_BYTES_LOG_FILE,
+            backupCount=MAX_NUMBER_OF_LOG_FILES
+        )
         error_filehandler.setFormatter(sys_stream_formatting)
         error_filehandler.setLevel(barrier_logging_level)
         logger.addHandler(error_filehandler)
@@ -232,7 +257,7 @@ class Loggers:
         logger = cls.loggers[cls.logger_list_indices[logger_name]]
         [
             os.remove(handler.baseFilename) for handler in logger.handlers
-            if (type(handler) == logging.FileHandler) and os.path.exists(handler.baseFilename)
+            if (type(handler) == RotatingFileHandler) and os.path.exists(handler.baseFilename)
             and (round(os.stat(handler.baseFilename).st_size) == 0)
         ]
         cls.loggers = [logger for logger in cls.loggers if logger.name != logger_name]
