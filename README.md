@@ -51,4 +51,4 @@ If you have forked your version
 
 ## Various tasks to accomplish
 
-[Link to wki for adding a webpage](https://github.com/CSSS/csss-site/wiki/Adding-a-Webpage)
+[Link to wiki for adding a webpage](https://github.com/CSSS/csss-site/wiki/Adding-a-Webpage)
