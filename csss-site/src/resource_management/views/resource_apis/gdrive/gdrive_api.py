@@ -239,7 +239,13 @@ class GoogleDrive:
                                 self.root_file_id in self.CSSS_PERMISSION_ID and
                                 permission['id'] == self.CSSS_PERMISSION_ID[self.root_file_id]
                             )
+                            csss_gallery_folder_id = (
+                                GOOGLE_DRIVE_WORKSPACE_FOLDERS[PUBLIC_GALLERY_TEAM_DRIVE_FOLDER_NAME]['folder_id']
+                            )
                             if sfucssorg_permission_detected:
+                                pass
+                            elif permission['id'] == 'anyoneWithLink' and self.root_file_id == csss_gallery_folder_id:
+                                # have to allow the anyoneWithLink for the public gallery since its public facing
                                 pass
                             elif 'emailAddress' not in permission:
                                 self.logger.error(
