@@ -17,6 +17,7 @@
 			{%  include 'elections/webform_format/election_end_date.html' %}
 			{%  include 'elections/webform_format/election_type.html' %}
 			{%  include 'elections/webform_format/election_websurvey.html' %}
+            {%  include 'elections/nominee_links/update_no_confidence_candidate.html' %}
             {%  if nominee_links|length  > 0 %}
                 <a href="{{ link_for_nominees }}" target="_blank">Link For Nominees</a>
             {%  endif %}

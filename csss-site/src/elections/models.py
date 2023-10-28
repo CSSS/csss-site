@@ -374,3 +374,25 @@ class NomineePosition(models.Model):
     def __str__(self):
         return f"Nominee {self.nominee_speech.nominee.full_name} for Position {self.position_name} " \
                f"for Election {self.nominee_speech.nominee.election}"
+
+
+class Voter(models.Model):
+    sfuid = models.CharField(
+        max_length=8,
+        default=None,
+        null=True,
+        blank=True,
+    )
+    election = models.ForeignKey(
+        Election, on_delete=models.CASCADE
+    )
+
+
+class VoterChoice(models.Model):
+    voter = models.ForeignKey(
+        Voter, on_delete=models.CASCADE
+    )
+
+    selection = models.ForeignKey(
+        NomineePosition, on_delete=models.CASCADE
+    )

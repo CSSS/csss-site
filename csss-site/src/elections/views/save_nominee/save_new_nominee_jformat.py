@@ -57,6 +57,7 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
                       discord_username=discord_username, discord_nickname=discord_nickname, discord_id=discord_id
                       )
     nominee.save()
+
     logger.info("[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} under election {election}"
                 )
@@ -81,6 +82,27 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
                 "[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
                 f"saved nominee {nominee} with position {nominee_position}"
             )
+    nominees = election.nominee_set.all()
+    speeches_in_election = [nominee.nomineespeech_set.all() for nominee in nominees]
+    positions_in_election = []
+    for speech in speeches_in_election:
+        positions_in_election.extend(speech.nomineeposition_set.all())
+    no_confidence_nominee = Nominee.objects.filter(full_name='No Confidence').first()
+    if no_confidence_nominee:
+        no_confidence_positions = list(NomineePosition.objects.all().filter(
+            nominee_speech__nominee_id=no_confidence_nominee.id
+        ).values_list('position_name', flat=True))
+        for position_in_election in positions_in_election:
+            if position_in_election not in no_confidence_positions:
+                # save a new position for the no confidence person
+                NomineePosition(position_in_election, nominee_speech=no_confidence_nominee.nomineespeech_set.all().first()).save()
+    else:
+        no_confidence_nominee = Nominee(election=election, full_name='No Confidence')
+        no_confidence_nominee.save()
+        no_confidence_speech = NomineeSpeech(nominee=no_confidence_nominee)
+        no_confidence_speech.save()
+        for position_in_election in positions_in_election:
+            NomineePosition(position_in_election, nominee_speech=no_confidence_speech).save()
     logger.info(
         "[elections/save_new_nominee_jformat.py save_new_nominee_jformat()]"
         f"returning nominee.id = {nominee.id}, position_ids = {position_ids} and speech_ids = {speech_ids}"

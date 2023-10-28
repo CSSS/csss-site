@@ -1,3 +1,5 @@
+from django.conf import settings
+
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_election_officer_sfuid, get_current_sys_admin_sfuid, \
     get_sfuid_for_officer_in_past_5_terms, get_current_webmaster_or_doa_sfuid
@@ -77,3 +79,25 @@ def user_is_current_election_officer(request, unprocessed_officers=None, officer
     return request.user.username == get_current_election_officer_sfuid(
         unprocessed_officers=unprocessed_officers, officers=officers
     )
+
+
+def user_is_in_voting_email_list(request, **kwargs):
+    """
+    Determines if the user is the current election officer
+
+    Keyword Argument
+    request -- the django request object
+    unprocessed_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    bool -- True if the user is the current election officer
+    """
+    if settings.ENVIRONMENT != 'LOCALHOST':
+        maillists = request.session['attributes']['member']
+        return (
+            'cmpt-ugrad' in maillists or 'csss-honorary' in maillists or 'cmpt-minors' in maillists or
+            'cmpt-majors' in maillists or 'cmpt-students' in maillists
+        )
+    else:
+        return True

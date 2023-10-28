@@ -19,12 +19,15 @@ from .views.endpoints.nominee_links.display_and_process_html_for_nominee_modific
     display_and_process_html_for_nominee_modification
 from .views.endpoints.nominee_links.display_and_process_html_for_nominee_modification_via_passphrase__nominee_link \
     import display_and_process_html_for_nominee_modification_via_passphrase
+from .views.endpoints.vote import vote
 from .views.endpoints.webform.create_election_webform import \
     display_and_process_html_for_new_webform_election
 from .views.endpoints.webform.display_and_process_html_for_webform import \
     display_and_process_html_for_modification_of_webform_election
 
 # https://docs.python.org/3/library/re.html#module-re
+from .views.import_websurvey_results import import_websurvey_results
+
 ELECTION_SLUG_PATTERN = r'(?P<slug>[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z_]+)'
 
 # https://assertible.com/blog/7-http-methods-every-web-developer-should-know-and-how-to-test-them
@@ -75,4 +78,6 @@ urlpatterns = [
         display_and_process_html_for_nominee_modification_via_passphrase,
         name="SHow Page for Nominees to update their own info"
     ),
+    url(r'^vote/$', vote, name='vote'),
+    url(r'import_websurvey_results/$', import_websurvey_results, name='import_websurvey_results')
 ]

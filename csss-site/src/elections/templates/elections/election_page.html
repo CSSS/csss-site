@@ -3,7 +3,7 @@
 {% block content %}
 	{{ block.super }}
 	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
-	{%  if error_messages is None or error_messages|length == 0 %}
+	{%  if show_nominees %}
 		{% load staticfiles %}
 			<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
 			<link rel="stylesheet" href="{% static 'elections_static/election_page.css' %}">
@@ -15,7 +15,11 @@
 						{% if nominees__html_name is None %}
 							It seems like the time hasn't come to announce the nominees yet....
 						{% else %}
-
+                            {% if vote %}
+                                <form method="post">
+                                    {%  csrf_token %}
+                                    <button>Vote</button>
+                            {%  endif %}
 							{% if current_election_officer %}
 								<table class="election_page_management_column_widths">
 									<tr>
@@ -46,18 +50,31 @@
 							{% if election__html_name.websurvey != None %}
 								<p> <a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a></p>
 							{% endif %}
+                            <p id="minimize_button">Minimize All Speeches</p>
+                            <p id="maximize_button">Maximize All Speeches</p>
 							<br>
 							{% for nominee in nominees__html_name %}
 								{% ifchanged nominee.position_name %}
 									<h3 class="title is-size-3">Position: {{nominee.position_name}}</h3>
 								{% endifchanged %}
+                                {% if vote %}
+                                    {%  if changes_pending %}
+                                        <i>Vote not saved. Please address errors in red</i><br>
+                                    {%  endif %}
+                                    {%  if nominee.id in selected_nominee_positions %}
+                                        <input type="radio" name="[selected_nominee][{{nominee.position_name}}]" value="{{ nominee.id }}" checked="checked">
+                                    {%  else %}
+                                        <input type="radio" name="[selected_nominee][{{nominee.position_name}}]" value="{{ nominee.id }}">
+                                    {%  endif %}
+                                {% endif %}
 								<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.full_name}}</b></p>
 								{{nominee.nominee_speech.social_media_html|safe}}
 								<br>
 								{%  if nominee.nominee_speech.speech != None %}
 									<p>Nominee Speech:</p>
 									<br>
-									<div class="csss_markdown">
+                                    <p id="button_{{ nominee.nominee_speech.id}}">Minimize Speech</p>
+									<div class="csss_markdown" id="box_{{nominee.nominee_speech.id}}">
 										<article class="box is-light">
 											{{nominee.nominee_speech.formatted_speech|safe}}
 										</article>
@@ -65,6 +82,9 @@
 								{%  endif %}
 								<hr>
 							{% endfor %}
+                            {%  if vote %}
+                                </form>
+                            {%  endif %}
 						{% endif %}
 					</div>
 				</div>
@@ -86,6 +106,23 @@
 					$('article').addClass('box');
 				}
 			})
+            $('[id^="button"]').click(function(){
+                if ($(this).html() === "Minimize Speech") {
+                    $(this).html("Maximize Speech");
+                } else {
+                    $(this).html("Minimize Speech");
+                }
+                const speechId = this.id.slice(7)
+                $("#box_" + speechId).slideToggle();
+            });
+            $("#minimize_button").click(function(){
+                $('p[id^=button_]').html("Maximize Speech");
+                $('div[id^=box_]').slideUp();
+            });
+            $("#maximize_button").click(function(){
+                $('p[id^=button_]').html("Minimize Speech");
+                $('div[id^=box_]').slideDown();
+            });
 		</script>
 	{%  endif %}
 {% endblock %}

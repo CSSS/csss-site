@@ -1,7 +1,7 @@
 from about.models import Officer, UnProcessedOfficer
 from csss.views.context_creation.create_main_context import create_main_context
 from csss.views.determine_user_role import user_is_current_webmaster_or_doa, user_is_current_sys_admin, \
-    user_is_officer_in_past_5_terms, user_is_current_election_officer
+    user_is_officer_in_past_5_terms, user_is_current_election_officer, user_is_in_voting_email_list
 from csss.views.exceptions import InvalidPrivilege, NoAuthenticationMethod, UnProcessedNotDetected
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_webmaster_or_doa_sfuid, get_current_sys_admin_sfuid, \
@@ -313,52 +313,6 @@ def create_context_for_displaying_errors(request, tab=None):
     )
 
 
-def _create_context_for_authenticated_user(request, authentication_method=None,
-                                           tab=None, unprocessed_officers=None, officers=None):
-    """
-    Makes sure that the context is only read for user who pass the authentication and method and that either the
-    endpoint or html is specified
-
-    Keyword Arguments
-    request -- the django request object
-    authentication_method -- the function to use to validate the requested access
-    tab -- the tab for the page that the user is on
-        endpoint -- the endpoint to redirect to if an error is experienced
-    html -- the html page to redirect to if an error is experienced
-    unprocessed_officers -- the list of SFUIDs for officer who have not yet added their latest bio
-    officers -- all current and past officers
-
-    Return
-    context -- the context dictionary for the html
-
-    Exception
-    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
-     or the user is trying to access a page they are not allowed to
-    """
-    if authentication_method is None:
-        raise NoAuthenticationMethod(
-            request, tab=tab
-        )
-    if not authentication_method(request, unprocessed_officers=unprocessed_officers, officers=officers):
-        raise InvalidPrivilege(request, tab=tab)
-
-    return create_main_context(
-        request, tab,
-        current_election_officer_sfuid=get_current_election_officer_sfuid(
-            unprocessed_officers=unprocessed_officers, officers=officers
-        ),
-        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
-            unprocessed_officers=unprocessed_officers, officers=officers
-        ),
-        current_sys_admin_sfuid=get_current_sys_admin_sfuid(
-            unprocessed_officers=unprocessed_officers, officers=officers
-        ),
-        current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(
-            unprocessed_officers=unprocessed_officers, officers=officers
-        )
-    )
-
-
 def create_context_for_processing_unprocessed_officer(request, tab=None):
     if request.user.username == "root":
         raise UnProcessedNotDetected(request, tab=tab)
@@ -413,3 +367,55 @@ def create_context_for_officer_email_mappings(request, tab=None):
         request, authentication_method=user_is_current_sys_admin, tab=tab,
         unprocessed_officers=unprocessed_officers, officers=officers
     )
+
+
+def create_context_for_voting(request, tab=None):
+    return _create_context_for_authenticated_user(request, authentication_method=user_is_in_voting_email_list, tab=tab)
+
+
+def _create_context_for_authenticated_user(request, authentication_method=None,
+                                           tab=None, unprocessed_officers=None, officers=None):
+    """
+    Makes sure that the context is only read for user who pass the authentication and method and that either the
+    endpoint or html is specified
+
+    Keyword Arguments
+    request -- the django request object
+    authentication_method -- the function to use to validate the requested access
+    tab -- the tab for the page that the user is on
+        endpoint -- the endpoint to redirect to if an error is experienced
+    html -- the html page to redirect to if an error is experienced
+    unprocessed_officers -- the list of SFUIDs for officer who have not yet added their latest bio
+    officers -- all current and past officers
+
+    Return
+    context -- the context dictionary for the html
+
+    Exception
+    throws  InvalidPrivilege if either the html or endpoint is not specified of authentication_method is not specified
+     or the user is trying to access a page they are not allowed to
+    """
+    if authentication_method is None:
+        raise NoAuthenticationMethod(
+            request, tab=tab
+        )
+    if not authentication_method(request, unprocessed_officers=unprocessed_officers, officers=officers):
+        raise InvalidPrivilege(request, tab=tab)
+
+    return create_main_context(
+        request, tab,
+        current_election_officer_sfuid=get_current_election_officer_sfuid(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        ),
+        sfuid_for_officer_in_past_5_terms=get_sfuid_for_officer_in_past_5_terms(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        ),
+        current_sys_admin_sfuid=get_current_sys_admin_sfuid(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        ),
+        current_webmaster_or_doa_sfuid=get_current_webmaster_or_doa_sfuid(
+            unprocessed_officers=unprocessed_officers, officers=officers
+        )
+    )
+
+

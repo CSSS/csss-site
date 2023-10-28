@@ -88,6 +88,7 @@ def process_existing_election_and_nominee_links(request, election, context):
             context
         )
 
+    election_dict['update_no_confidence_candidate']
     success, error_message = validate_webform_election_date_and_time(
         election_dict[ELECTION_JSON_KEY__DATE], election_dict[ELECTION_JSON_WEBFORM_KEY__TIME]
     )
