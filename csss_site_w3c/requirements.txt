@@ -1,6 +1,6 @@
 asgiref==3.7.2
 Django==3.2.23
-pip==23.0.1
+pip==23.3
 setuptools==67.6.1
 sqlparse==0.4.4
 typing-extensions==4.6.3
