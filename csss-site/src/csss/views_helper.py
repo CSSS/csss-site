@@ -189,6 +189,9 @@ def validate_markdown(message):
     bool -- True if the message has no HTML/JS that is unescaped, False otherwise
     error_message -- the error message if message has unescaped HTML/JS text, None otherwise
     """
+    import warnings
+    from bs4 import MarkupResemblesLocatorWarning
+    warnings.filterwarnings("ignore", category=MarkupResemblesLocatorWarning, module='bs4')
     unescaped_input_in_message = re.sub(
         "(    |\t).*",  # removes the string that is enclosed in code-blocks
         "",
