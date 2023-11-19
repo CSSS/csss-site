@@ -87,7 +87,7 @@
                             <ul>
                                 <li>Located in <a class="light-pink-link" href="https://roomfinder.sfu.ca/apps/sfuroomfinder_web/?q=AQ">AQ North</a> at SFU's Burnaby campus</li>
                                 <li>Over 2000 SFU Computing Science Students invited</li>
-                                <li title="Postponed due to TSSU strike activity"><b style="color: #84eb7a">November 15th</b> from 10:00am - 4:00pm <span style="color: #777;">(postponed from October 25th due to TSSU strike activity)</span></li>
+                                <li title="Postponed due to TSSU strike activity"><b style="color: #84eb7a">November 15th, 2023</b> from 10:00am - 4:00pm <span style="color: #777;">(postponed from October 25th due to TSSU strike activity)</span></li>
                                 <li>Meet your future employees!</li>
                             </ul>
                         </div>
@@ -99,7 +99,7 @@
                         <div>
                             <p>Are you a <b>student</b> interested in stopping by?</p>
                             <br>
-                            <a href="https://forms.gle/57eiVPhzHs2aVHi7A" class="rsvp-button zoom2">RSVP!</a>
+                            <a href="https://discord.gg/3RdXngW7sd" class="pink-button zoom2">Say Hi!</a>
                         </div>
                         <div>
                             <p>Are you a <b>company</b> interested in participating?</p>
@@ -117,12 +117,22 @@
             
             <div style="height: 50px;"></div>
 
+            <div id="complete-container">
+                <a id="complete" href="#complete">Tech Fair 2023 is Complete!</a>
+                <div id="complete-container-inner">
+                    <p>But don't fret if you missed it, we run Tech Fair every year.</p>
+                    <p>If you'd like to attend Tech Fair 2024, please contact us at <a class="dark-pink-link" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> with the subject line "Tech Fair 2024"</p>
+                    <p>See you there!</p>
+                </div>
+            </div>
+
             <div id="booths-container">
-                <a id="booths" href="#booths">Who's Coming So Far?</a>
-        
+                <hr>
                 <div style="height: 50px;"></div>
 
-                <!-- TODO: fix the CSS for company cards as well -->
+                <a id="booths" href="#booths">Who Attended in 2023?</a>
+        
+                <div style="height: 50px;"></div>
 
                 <div id="company-card-list">
                     <div>
@@ -139,6 +149,24 @@
 
                                 <div><a href="#booths" class="tag" style="color: #cb4ecf;">&lt;Networking&gt;</a></div>
                                 <a href="https://www.arista.com/en/careers/" class="see-more white-link">See more</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <img alt="Avigilon" src="{% static 'tech_fair/2023/images/company_images/avigilon.jpg' %}">
+                        <div>
+                            <p>Avigilon</p>
+                            <p class="banded-hr noselect">////////////////////////////////////////</p>
+                            <br><br>
+
+                            <div>
+                                <br>
+                                <p>Avigilon solutions help you find and share critical intelligence faster, so you can respond to events with the speed and decisiveness that keeps people, operations and assets safe.</p>
+                                <br>
+
+                                <div><a href="#booths" class="tag" style="color: #dd4e4e;">&lt;Security&gt;</a></div>
+                                <a href="https://www.motorolasolutions.com/en_us/about/careers.html" class="see-more white-link">See more</a>
                             </div>
                         </div>
                     </div>
@@ -180,6 +208,24 @@
                     </div>
                     
                     <div>
+                        <img alt="LMI Technologies" src="{% static 'tech_fair/2023/images/company_images/lmi.png' %}">
+                        <div>
+                            <p>LMI Technologies</p>
+                            <p class="banded-hr noselect">////////////////////////////////////////</p>
+                            <br><br>
+
+                            <div>
+                                <br>
+                                <p>Since 1998, LMI Technologies has worked to advance 3D smart sensor technology for fast and accurate measurement.</p>
+                                <br>
+
+                                <div><a href="#booths" class="tag" style="color: #d69028;">&lt;Sensors and Data&gt;</a></div>
+                                <a href="https://lmi3d.com/company/careers/" class="see-more white-link">See more</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
                         <img alt="TransLink" src="{% static 'tech_fair/2023/images/company_images/translink.png' %}">
                         <div>
                             <p>Translink</p>
@@ -215,25 +261,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <div>
-                        <img alt="LMI Technologies" src="{% static 'tech_fair/2023/images/company_images/lmi.png' %}">
-                        <div>
-                            <p>LMI Technologies</p>
-                            <p class="banded-hr noselect">////////////////////////////////////////</p>
-                            <br><br>
-
-                            <div>
-                                <br>
-                                <p>Since 1998, LMI Technologies has worked to advance 3D smart sensor technology for fast and accurate measurement.</p>
-                                <br>
-
-                                <div><a href="#booths" class="tag" style="color: #d69028;">&lt;Sensors and Data&gt;</a></div>
-                                <a href="https://lmi3d.com/company/careers/" class="see-more white-link">See more</a>
-                            </div>
-                        </div>
-                    </div>
-
+                -->
+              
+                <!--
                     <div>
                         <img alt="Safe Software" src="{% static 'tech_fair/2023/images/company_images/safe-software.jpg' %}">
                         <div>
@@ -257,8 +287,8 @@
                 
                 <div style="height: 75px;"></div>
 
-                <p style="text-align: center;">
-                    If you'd like to see your name here, <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#package">join tech fair</a>!
+                <p style="text-align: center">
+                    If you'd like to see your company here for next Tech Fair, let us know at <a class="dark-pink-link" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a>!
                 </p>
             </div>
             
@@ -269,7 +299,7 @@
                 <div style="height: 25px;"></div>
 
                 <div id="day-schedule">
-                    <p>Wednesday, October 25th</p>
+                    <p>Wednesday, November 15th</p>
                     <table>
                         <tr>
                             <td>
@@ -339,7 +369,7 @@
                 </ul>
                 <br>
 
-                <a href="https://forms.gle/57eiVPhzHs2aVHi7A" class="rsvp-button zoom2">RSVP!</a>
+                <a href="https://discord.gg/3RdXngW7sd" class="pink-button zoom2">Say Hi!</a>
             </div>
             
             <div style="height: 50px;"></div>
