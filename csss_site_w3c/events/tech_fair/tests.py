@@ -19,3 +19,7 @@ class TechFairW3CValidationTest(SimpleTestCase):
 
     def test_tech_fair_2023_company_package_page(self):
         W3CValidation().validate_page(path="/events/tech_fair/2023/company_package")
+
+
+    def test_tech_fair_timeline(self):
+        W3CValidation().validate_page(path="/events/tech_fair/timeline")
