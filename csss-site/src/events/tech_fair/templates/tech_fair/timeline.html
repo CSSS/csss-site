@@ -1,0 +1,152 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.6">
+        <link rel="stylesheet" href="{% static 'tech_fair/timeline/css/reset.min.css' %}">
+        <link rel="stylesheet" href="{% static 'tech_fair/timeline/css/main.css' %}?v1.00">
+        <link rel="stylesheet" href="{% static 'tech_fair/timeline/css/timeline.css' %}?v1.00">
+        <link rel="shortcut icon" type="image/ico" href="{% static 'tech_fair/favicon.ico' %}">
+        <title>Tech Fair Timeline</title>
+    </head>
+
+    <body class="preload" onload="onload()">
+        <div id="nav-bar">
+            <div>
+                <div class="nav-button">
+                    <a href="{{ URL_ROOT }}">
+                        <img class="csss-logo" src="{% static 'tech_fair/2023/images/csss_logo.png' %}" alt="CSSS Logo">
+                    </a>
+                </div>
+
+                <div class="noselect nav-divider"><span>|</span></div>
+
+                <a href="{{ URL_ROOT }}events/tech_fair/2022/main" class="nav-button nav-black">
+                    <span>Tech Fair 2022</span>
+                </a>
+
+                <div class="noselect nav-divider"><span>|</span></div>
+
+                <a href="{{ URL_ROOT }}events/tech_fair/2023" class="nav-button nav-black">
+                    <span>Tech Fair 2023</span>
+                </a>
+            </div>
+        </div>
+
+        <div id="column-container">
+            <div style="height: 75px;"></div>
+
+            <header id="code-title">
+                <h1>
+                    <span class="pink">SFU_CSSS</span>.TechFair(<span class="navy">year</span>);
+                </h1>
+                <h1>
+                    <span class="lightpink" id="before-cursor"></span>
+                    <span id="cursor" class="noselect">|</span>
+                </h1>
+            </header>
+            
+            <div style="height: 50px;"></div>
+
+            <div id="what-container">
+                <a id="what" href="#what">What is Tech Fair?</a>
+                <div>
+                    <div style="width: 50%; float: left;">
+                        <p>
+                            Tech Fair is our annual career fair, bringing students and companies together. This is a great opportunity to set up a booth and expand the name recognition of your company!
+                        </p>
+
+                        <ul>
+                            <li>Over <b class="pink">2000</b> SFU Computing Science Students invited</li>
+                            <li>Meet your future employees!</li>
+                        </ul>
+                    </div>
+                    <img 
+                        class="zoom" 
+                        style="display: inline-block; width: calc(50% - 20px); margin-top: -42px; margin-left: 13px;" 
+                        title="Long Shot of Tech Fair 2023" 
+                        alt="Long Shot of Tech Fair 2023" 
+                        src="{% static 'tech_fair/timeline/images/2023-2.jpg' %}">
+                </div>
+                
+            </div>
+
+            <div style="height: 50px;"></div>
+
+            <div id="timeline-container">
+                <a id="timeline" href="#timeline">Tech Fair Timeline</a>
+                <div style="height: 25px;"></div>
+                
+                <h2>Tech Fair 2022</h2>
+                <ul>
+                    <li><a class="dark-pink-link" href="{{ URL_ROOT }}events/tech_fair/2022/main">Tech Fair 2022</a> was the first Tech Fair we've run in over a decade!</li>
+                    <li>Only a few companies attended</li>
+                </ul>
+                <br>
+                
+                <h2>Tech Fair 2023</h2>
+                <ul>
+                    <li>In <a class="dark-pink-link" href="{{ URL_ROOT }}events/tech_fair/2023">Tech Fair 2023</a> the event was postponed by the TSSU strike, but against all odds it still went great!</li>
+                    <li>6 companies attended!</li>
+                </ul>
+                <br>
+
+                <h2>Tech Fair 2024</h2>
+                <ul>
+                    <li>Tech Fair 2024 is in planning now. If your company wants to join, please let us know at <a class="dark-pink-link" href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a>!</li>
+                </ul>
+            </div>
+            
+            <div style="height: 50px;"></div>
+
+            <div id="interested-container">
+                <a id="interested" href="#interested">Interested?</a>
+                <div style="height: 25px;"></div>
+
+                <div id="info-buttons-container">
+                    <div>
+                        <p>Are you a <b>student</b> looking to stop by?</p>
+                        <br>
+                        <a href="https://discord.gg/3RdXngW7sd" class="pink-button zoom2">Say Hi!</a>
+                    </div>
+                    <div>
+                        <p>Are you a <b>company</b> looking to participate?</p>
+                        <br>
+                        <a href="{{ URL_ROOT }}events/tech_fair/2023/company_package#join" class="join-tech-fair-button zoom2">Join Tech Fair</a>
+                    </div>
+                </div>
+                
+                <div style="height: 150px;"></div>
+            </div>
+
+            <div id="footer">
+                <div id="footer-code">
+                    <p><span style="color: #bbb">1</span> &nbsp; <span class="pink">#include</span> <span class="navy">&lt;iostream&gt;</span></p>
+                    <p><span style="color: #bbb">2</span> &nbsp; <span class="pink">int</span> <span class="navy">year</span>;</p>
+                    <p><span style="color: #bbb">3</span> &nbsp; std::cin >> <span class="navy">year</span>;</p>
+                    <p><span style="color: #bbb">4</span> &nbsp; <span class="pink">SFU_CSSS</span>.TechFair(<span class="navy">year</span>);</p>
+                </div>
+                <p>
+                    <a href="mailto:csss-techfair@sfu.ca">csss-techfair@sfu.ca</a> | 
+                    <a href="https://www.linkedin.com/company/sfucsss/">LinkedIn</a> | 
+                    <a href="https://www.instagram.com/sfu_csss/">@sfu_csss</a> | 
+                    <a href="http://discord.sfucsss.org/">discord</a>
+                </p>
+            </div>
+
+            <div id="mountain-outer">
+                <img class="footer-mountain" alt="mountain" src="{% static 'tech_fair/2023/images/mountain.svg' %}">
+                <img class="footer-mountain" alt="mountain" src="{% static 'tech_fair/2023/images/mountain.svg' %}" style="margin-left: 90px; bottom: -55px">
+            </div>
+        </div>
+
+        <script src="{% static 'tech_fair/timeline/js/timeline.js' %}"></script>
+        <script>
+            setTimeout(() => {
+                document.body.className = "";
+            }, 100);
+        </script>
+    </body>
+</html>
