@@ -13,19 +13,10 @@
 		<link rel="stylesheet" href="{% static 'csss_static/bulma.css' %}">
 		<link rel="stylesheet" href="{% static 'csss_static/csss_header_custom.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css">
+		<link rel="stylesheet" href="{% static 'announcements_static/csss_custom.css' %}?v1.0">
 		<style>
-			.bg-img {
-				background-image: url({% static 'csss_static/sfu_hero_image.jpg' %}) ;
-				background-position: center;
-				background-repeat:  no-repeat;
-				background-attachment: fixed;
-				background-size:  cover;
-				background-color: #A6192E;
-				background: rgb(255,255,255);
-				background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(100,178,100,1) 49%);
-			}
 			.github-fork-ribbon:before { 
-				background-color: #373; 
+				background-color: rgb(90, 185, 110); 
 			}
 		</style>
 	</head>
@@ -135,8 +126,6 @@
 						</div>
 					</div>
 
-
-
 					<!--More-->
 					<div class="navbar-item has-dropdown is-hoverable">
 						{%  if tab == 'more' %}
@@ -183,27 +172,17 @@
 			</div>
 		</nav>
 
-		<!--Hacky way to lower the hero so it's not covered by the fixed navbar-->
-		<p>&nbsp;</p>
-		<p>&nbsp;</p>
+		<!-- (slightly less) Hacky way to lower the hero so it's not covered by the fixed navbar-->
+		<div style="min-height: 3.25rem;"></div>
 
 		<!--Hacky way to give the hero a background image-->
-		<section class="hero bg-img is-small">
+		<section class="hero is-small" id="title-gradient">
 			<div class="hero-body">
 				<div class="container">
-					<div class="columns is-vcentered">
-						<div id="logo_id" class="column is-one-quarter">
-							<div class="has-text-centered">
-								<figure class="image is-128x128 is-inline-block">
-									<img src="{% static 'csss_static/logo.png' %}" alt="CSSS Logo">
-								</figure>
-							</div>
-						</div>
-						<div class="column">
-							<h1 id="hero_title_id" class="title has-text-white has-text-centered is-size-2 csss_header_text_shadowing">
-								SFU's Computing Science Student Society
-							</h1>
-						</div>
+					<div class="columns is-vcentered" style="text-align: center;">
+						<img src="{% static 'csss_static/logo.png' %}" alt="CSSS Logo" title="our logo!" style="width: 142px; padding: 16px;">
+						<b id="title-text">SFU Computing Science Student Society</b>
+						<img src="{% static 'announcements_static/csss_frog_pixel_v3.png' %}" alt="pixel coding frog" title="coding hard" style="width: 142px; padding: 16px 0px;"></img>
 					</div>
 				</div>
 			</div>
