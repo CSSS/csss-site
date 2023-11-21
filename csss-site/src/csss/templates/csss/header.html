@@ -176,17 +176,17 @@
 		<div style="min-height: 3.25rem;"></div>
 
 		<!--Hacky way to give the hero a background image-->
-		<section class="hero is-small" id="title-gradient">
+		<div class="hero is-small" id="title-gradient">
 			<div class="hero-body">
 				<div class="container">
 					<div class="columns is-vcentered" style="text-align: center;">
-						<img src="{% static 'csss_static/logo.png' %}" alt="CSSS Logo" title="our logo!" style="width: 142px; padding: 16px;"></img>
+						<img src="{% static 'csss_static/logo.png' %}" alt="CSSS Logo" title="our logo!" style="width: 142px; padding: 16px;">
 						<b id="title-text">SFU Computing Science Student Society</b>
-						<img src="{% static 'announcements_static/csss_frog_pixel_v3.png' %}" alt="pixel coding frog" title="coding hard" style="width: 142px; padding: 16px 0px;"></img>
+						<img src="{% static 'announcements_static/csss_frog_pixel_v3.png' %}" alt="pixel coding frog" title="coding hard" style="width: 142px; padding: 16px 0px;">
 					</div>
 				</div>
 			</div>
-		</section>
+		</div>
 
 		{% block content %}
 		{% endblock %}
