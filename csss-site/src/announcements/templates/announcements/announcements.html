@@ -3,13 +3,17 @@
 {% load staticfiles %}
 
 {% block content %}
-	<link rel="stylesheet" href="{% static 'announcements_static/csss_custom.css' %}">
 	<div class="columns">
-		<div class="column is-three-quarters ">
+		<div class="column">
+			<section class="section" style="padding-bottom: 0;">
+				<div class="container">
+					<p class="title is-size-4" id="announcement">Announcements:</p>
+				</div>
+			</section>
 			{% for announcement in announcements %}
 				<section class="section">
 					<div class="container">
-						<article class="box is-light" >
+						<article class="box is-light">
 							{%  if error_message is not None %}
 								{{ error_message|safe }}
 							{% else %}
@@ -21,14 +25,15 @@
 									{%  endif %}
 								</h3>
 								<p class="is-size-6 has-text-grey has-text-right">
-									posted by {{announcement.author}} on {{announcement.date}}
+									<em>posted by {{announcement.author}} on {{announcement.date}}</em>
 								</p>
 								<hr class="csss_announcement_subject_underline">
 								<div class="is-size-6">
 								{% if announcement.email is None %}
 									{{announcement.manual_announcement.content|safe|linebreaks }}
 								{%  else %}
-									<div class="hide_email_embeds">
+									<!-- hacky fix for phantom scrollbars -->
+									<div class="hide_email_embeds" style="overflow-x: hidden;">
 										{% if announcement.email.html|safe|length > 0 %}
 											{{announcement.email.html|safe}}
                                         {%  elif announcement.email.html_text|safe|length > 0 %}

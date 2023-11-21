@@ -1,8 +1,33 @@
 .csss_announcement_subject_underline {
-    border:solid 1px grey;
-    height: 0px;
+    margin-top: 6px;
+    background-color: #ddd;
 }
 
 .hide_email_embeds {
     overflow-x: scroll;
+}
+
+#title-gradient {
+    background: rgb(242, 255, 201); 
+    background: linear-gradient(123deg, rgba(248, 255, 215, 0.8) 0%, rgba(87,194,49,0.2) 69%, rgba(43, 187, 74, 0.4) 100%);
+}
+#title-text {
+    font-size: 52px;
+    font-weight: 900;
+    
+    color: #000;
+    
+    width: 75%;
+    margin: 24px auto;
+    max-width: 60%;
+}
+
+#announcement {
+    padding: 8px 14px; 
+
+    border: 2px solid #333; 
+    border-radius: 12px; 
+    
+    background-color: #000; 
+    color: #fff;
 }
