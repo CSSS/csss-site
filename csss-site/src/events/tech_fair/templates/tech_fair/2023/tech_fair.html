@@ -14,9 +14,9 @@
     <body class="preload" onload="onload()" onresize="updateBanner()">
         <div id="nav-bar">
             <div>
-                <div class="nav-button">
+                <div class="nav-button" style="padding-left: 0;">
                     <a href="{{ URL_ROOT }}">
-                        <img class="csss-logo" src="{% static 'tech_fair/2023/images/csss_logo.png' %}" alt="CSSS Logo">
+                        <img class="csss-logo" src="{% static 'tech_fair/2023/images/csss_logo.png' %}" alt="CSSS Logo" style="object-fit: contain;">
                     </a>
                 </div>
                 <a href="{{ URL_ROOT }}events/tech_fair/timeline" class="nav-button nav-black">
@@ -129,6 +129,8 @@
                     <p>See you there!</p>
                 </div>
             </div>
+
+            <div style="height: 5px;"></div>
 
             <div id="booths-container">
                 <hr>
