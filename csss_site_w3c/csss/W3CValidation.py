@@ -31,7 +31,7 @@ class W3CValidation(SimpleTestCase):
             gzippeddata = buf.getvalue()
 
         req = requests.post(
-            "https://html5.validator.nu/",
+            "https://validator.sfucsss.org/",
             params={
                 'out': 'gnu',
             },
