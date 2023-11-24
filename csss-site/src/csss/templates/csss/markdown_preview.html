@@ -8,7 +8,7 @@
 		{% csrf_token %}
 		<a href="https://daringfireball.net/projects/markdown/basics" target="_blank">Basic Markdown</a><br>
 		<a href="https://daringfireball.net/projects/markdown/syntax#html" target="_blank">More Markdown Examples</a><br>
-		<input type="submit" value="Submit" /><br>
+		<input type="submit" value="Submit"><br>
 	
 		{%  if message is None %}
 			<textarea name="message" cols="60" rows="5" required>Play with Markdown Examples here</textarea>
