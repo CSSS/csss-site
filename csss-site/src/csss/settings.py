@@ -252,7 +252,7 @@ if DB_TYPE == "sqlite3":
         }
     }
 
-elif DB_TYPE == "postgres":
+elif DB_TYPE == "postgreSQL":
 
     if "DB_PASSWORD" not in os.environ:
         raise Exception("[settings.py] DB_PASSWORD is not detected")
@@ -277,7 +277,7 @@ elif DB_TYPE == "postgres":
     }
 else:
     raise Exception(
-        "[settings.py] DB_TYPE is not set to an acceptable type\nneed to use either \"sqlite3\" or \"postgres\""
+        "[settings.py] DB_TYPE is not set to an acceptable type\nneed to use either \"sqlite3\" or \"postgreSQL\""
     )
 
 # Password validation

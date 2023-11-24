@@ -24,7 +24,7 @@ function transfer_env_variables_to_server {
   echo 'STRIPE_PUBLISHABLE_KEY='"'"${STRIPE_PUBLISHABLE_KEY}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'STRIPE_SECRET_KEY='"'"${STRIPE_SECRET_KEY}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'DB_PORT='"'"'5432'"'" >> ${BUILD_NUMBER}/csss_site.env
-  echo 'DB_TYPE='"'"'postgres'"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'DB_TYPE='"'"'postgreSQL'"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'BRANCH_NAME='"'"${BRANCH_NAME}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'ENVIRONMENT='"'"${ENVIRONMENT}"'" >> ${BUILD_NUMBER}/csss_site.env
 
