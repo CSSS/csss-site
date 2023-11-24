@@ -24,6 +24,8 @@ It's currently been set up to:
 
 # Wanna get involved?
 
+> [How to get local development environment up and running](https://github.com/CSSS/csss-site/wiki/1.-Working-on-the-Website)  
+
 We are always looking for more volunteers to help maintain or even just add features or play around with the website.
 
 If you are a newbie who isn't sure where to start, feel free to reach out to the Sys Admin on either Discord or Element.io [faster response on element] if you aren't sure how to start.
