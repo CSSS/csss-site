@@ -130,6 +130,8 @@ def env_getter(key) -> Optional[str]:
         if key not in os.environ:
             raise Exception(f"[settings.py] {key} is not detected in ENVIRONMENT {ENVIRONMENT}")
         env_variable = os.environ[key]
+    if env_variable == 'None':
+        env_variable = None
     if env_variable is not None and not env_variable != "":
         raise Exception(f"[settings.py] empty value for {key}")
     return env_variable
