@@ -47,7 +47,7 @@ LOG_LOCATION = os.environ['LOG_LOCATION']
 if ENVIRONMENT != "LOCALHOST":
     if "DEBUG" not in os.environ:
         raise Exception("[settings.py] DEBUG was not detected")
-    DEBUG = os.environ['DEBUG'] == "true"
+    DEBUG = os.environ['DEBUG'] == "True"
 else:
     DEBUG = True
 

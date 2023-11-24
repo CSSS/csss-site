@@ -1,54 +1,33 @@
-# csss-site
+# SFU CSSS Django Website
 
+The website is accessible at https://sfucsss.org/
 
- - [1. Setup Python Environment](#1-setup-python-environment)
- - [2. Setup and Run Website](#2-setup-and-run-website)
- - [3. Before opening a PR](#3-before-opening-a-pr)
- - [Various tasks to accomplish](#various-tasks-to-accomplish)
+ - [What can the website do?](#what-can-the-website-do)
+ - [Wanna get involved?](#wanna-get-involved)
 
+# What can the website do?
+It's currently been set up to:
+ - show the latest email announcements from the csss officers that were emailed to 
+`csss-announce@sfu.ca` with a delay of 1 day.
+ - Keeps a complete record of the officers we've had since the good ol' days of Spring 1984
+   - [List of Current Officers](https://sfucsss.org/about/list_of_current_officers)
+   - [List of Past Officers](https://sfucsss.org/about/list_of_past_officers)
+ - General Info About Us:
+   - [Who We Are](https://sfucsss.org/about/who_we_are)
+   - [Media from Past Events](https://drive.google.com/drive/folders/1oDVvf1MD5AoZcdsFTWFh24YSE7K0mpD_)
+   - [Information about the events we've held or still hold](https://sfucsss.org/events/regular_events)
+   - [A record of most of our elections and past nomination speeches since 2015](https://sfucsss.org/elections/)
+ - [A way to upload any media you have from our events](https://sfucsss.org/resource_management/upload)
+ - [FOSS Pieces of software we recommend](https://sfucsss.org/statics/guide)
+ - [Bursaries available to all the CSSS students](https://sfucsss.org/statics/bursaries)
+ - Links to other Student Groups and DSUs that are related to us in some way
 
-## 1. Setup Python Environment
-### for Debian based OS
-```shell
-sudo apt-get install -y python3.9
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3.7 get-pip.py --user
-python3.7 -m pip install virtualenv --user
-python3.7 -m virtualenv envCSSS
-. envCSSS/bin/activate
-```
+# Wanna get involved?
 
-### for MacOS
-https://www.python.org/downloads/release/python-3913/
-```shell
-python3.9 -m pip install --upgrade pip
-python3.9 -m pip install virtualenv
-python3.9 -m virtualenv walle
-. walle/bin/activate
-```
+We are always looking for more volunteers to help maintain or even just add features or play around with the website.
 
-### for Windows
-open to anyone to make a PR adding this section
+If you are a newbie who isn't sure where to start, feel free to reach out to the Sys Admin on either Discord or Element.io [faster response on element] if you aren't sure how to start.
+ - Discoverable on Discord by tagging @Sys Admin
+ - cn be found on element at https://matrix.to/#/@modern_neo:matrix.org
 
-## 2. Setup and Run Website
-```
-If you hve not cloned your forked version yet
-wget https://raw.githubusercontent.com/CSSS/csss-site/master/download_repo.sh
-./download_repo.sh
-
-If you have forked your version
-./run_site.sh
-```
-
-## 3. Before opening a PR
-
-**Please submit PRs one week before they need to be merged.**
-
-## 3.1. Validating the code
-```shell
-../../CI/validate_and_deploy/1_validate/run_local_formatting_test.sh
-```
-
-## Various tasks to accomplish
-
-[Link to wiki for adding a webpage](https://github.com/CSSS/csss-site/wiki/Adding-a-Webpage)
+We will also hold workshops soon on how to get started coding in Python and Django with Docker :smile:
