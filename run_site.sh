@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-set -e -o xtrace
+# set -e -o xtrace
 # https://stackoverflow.com/a/5750463/7734535
 
 if [ -z "${VIRTUAL_ENV}" ]; then
@@ -14,7 +14,7 @@ fi
 cat ./CI/validate_and_deploy/2_deploy/run_csss_site.env | grep -v HELP_SELECTED > ./CI/validate_and_deploy/2_deploy/run_csss_site.env.2
 mv ./CI/validate_and_deploy/2_deploy/run_csss_site.env.2 ./CI/validate_and_deploy/2_deploy/run_csss_site.env
 
-./run_site.py $@
+./.run_site.py $@
 
 while [ "$#" -gt 0 ]
 do
