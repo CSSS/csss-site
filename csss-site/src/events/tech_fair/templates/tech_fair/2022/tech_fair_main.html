@@ -2,19 +2,16 @@
 
 <!DOCTYPE html>
 <html lang="en">
-
-
 	<meta charset="UTF-8">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<link rel="stylesheet" type="text/css" href="{% static 'tech_fair/2022/tech_fair.css' %}">
+    <link rel="shortcut icon" type="image/ico" href="{% static 'tech_fair/favicon.ico' %}">
 	<title>SFU Tech Fair 2022</title>
 </head>
 
 <body>
-
- 
  <div class="topnav">
-  <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'tech_fair/csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
+  <a href="{{ URL_ROOT }}"> <img class="logo" src="{% static 'tech_fair/2022/csss_logo.png' %}" alt="Computing Science Student Society Logo"></a>
   <a href="#">Home</a>
   <a href="#schedule">Schedule</a>
   <a href="#booths">Booths</a>
@@ -43,9 +40,9 @@ More details about events taking place, the schedule and packages can be found b
 
 <div id="schedule" style="text-align: center">
 
-<div class="mxgraph" style="margin-left: auto; margin-right: auto" data-mxgraph="{&quot;highlight&quot;:&quot;#0000ff&quot;,&quot;lightbox&quot;:false,&quot;nav&quot;:true,&quot;edit&quot;:&quot;_blank&quot;,&quot;xml&quot;:&quot;&lt;mxfile host=\&quot;app.diagrams.net\&quot; modified=\&quot;2022-10-18T07:19:11.859Z\&quot; agent=\&quot;5.0 (X11)\&quot; etag=\&quot;WXaikJImsp19K0fav_UC\&quot; compressed=\&quot;false\&quot; version=\&quot;20.2.8\&quot; type=\&quot;device\&quot;&gt;&lt;diagram id=\&quot;v2s5x8OJGLoDd5lz0log\&quot; name=\&quot;Page-1\&quot;&gt;7Ztfk5s2EMA/jR+PkQTiz6Ptu+s1004zuTQ3eepgkG0ajAjIZ7ufvpIRBln4bMdgX1qUZGJWQsK7v12WRR6Y48X6l8xP57/TkMQDBML1wLwfIAQthAbiLwg3hcRBViGYZVEoB1WC5+gfIoVASpdRSHJlIKM0ZlGqCgOaJCRgiszPMrpSh01prK6a+jOiCZ4DP9alL1HI5oXUxaCSP5FoNi9XhkD2LPxysBTkcz+kq5rIfBiY44xSVnxarMckFsor9VKc93igd3dhGUnYKSfkn52/n57Dh+9D+iUabz5M89/yO2mdVz9eyi8sL5ZtSg3MMrpM5TCSMbJu0rs/KYcD/brg7ttyTAhdEJZt+BA5EXLkKZIQiIvDVaVuE2EDOmDX5NrzmuI9jA3eUTWJgDT/bLdspSH+QSqpWWGLhw8vf6L1lycXRp++MviXHQR3NjyuMW7pVHwMMprnEz8bmKPVPGLkOfUDIV9xV+GyOVvwpe8h/8hVnIQklEdhlHGVRjThxzldCi2MpjRhz3IJMYbrnflRQvjk94Af61p/0977hjxoHRcYrllrULGVg9VeUzMdNg233jzddK6NDFRrZlemOwF2koRDETX4UUITcshKQLPIWeonoRJ0dOXXFQh0jZWyjMQ+i17VUNWkN7nCRxrxy9vZ1rMME+CqWaofuqZhw4MexcHMAiJnrIedvUUgggbC58zM/GxGmDbz1uY7HV2AgdljcAYGNrQMp+6erWFwZOauMbB6DM7AAAPb4HfqXbRHdmscHJu6axBwD8IZIJieZ0C71szWQDg2ddcg2D0IZ4CAPGiY9dSuvYhwbOquQXB6EM4Agd/DDdya7Rtm69rcbm/uM8ztmoDfrmutNdMfmblrDLwGDOyYSZMqPNjfl7TsuMu3RashH4Bwut4+i5f9/NNM/A+Bvygn4xdXzFd0aajxB3Om8uXH0UzUAgIOkXjgH4nH9yjw46HsWERhKE4fZYRfjKzFCBZToayt+vBogO/FXEtGiwveTp2zjH4jYxrTrEJ7GsXxvkhAXZzm3LAaAQwXeVVzLbUcAW3L8LxaAiEJqrmN1+A2FjjsIRdVHMrKVhdIeT1RbRAFNaQUojDm3Vr1qsaTc1WemoqPBQNh9HpZhIIKT9vpepzaDlDIEYmtVTW91n3dAIUOAnX5PQ+lfYS6BKnyqdgRbzaqKhm0bsxMU/20LWZ6ZK5wU7Nc2/B0iq57K2sqv7ZEUR94WqJITYU8kVxrT2c3A6ipbNsSQGYPUAcAOQAZllerK9wYoKZyb0sAWT1AHQDkQpEJVZsN0I0BaioTtwQQ7gHqACAPNm4SuhlAJxSeu9hLlFHmS5GnV6yvaB3XMyy72tYF1DT1zkRNaarYUdSwiwhBx8BdbR1yO3xOLifKUz8pZS8kTEge+puyc5LtD+ffo37GwWjRTnmo02/7R8DohNPGT7O5lX/oC16pZgU7DJLRwp+RYZ4W21hhufJu32kl2e04hbf0XoQNx9Ff19RcFboN4dTpKpy6hxO6E/GHnkYtKDmphDGZsss9pGEtdaJJKRjTBfcDofkRpWye15CfaCft4oTHlzG3r53AHf9n8UMAqqxCDyi95P8g+bHwqeYURxKQvbDmZ4E8svbC4ACZD7b4o8VM3lNkBLVAvXW7a6aOTmN4K181Ik/dvKhvfUY828T15jQFQ6CMsbqKjU2p5n8gNn7M6JTkOU9mfaGDj3PK6Ez8EmVTI/uNKIm2YfEdxMgb+KXqV5WbYt1NJ8EUT4I33fSd+OWBTcVKUuI27T5XnyWaPbd1t/QObxD4qd3yE8mXC8JPeaHZt3xO09O8EaJt0iLdkTM7ROCNQsjtXAQC3UceH8fjI7ey6/pI7QWQ6iNWQ+m18ArdFTxkmHZX9F+8neF90v+ZBPNEPErys34VT5evEVmd7wxQzeC3zvET+QP3Bvz4eG3q7fprT4V608IGck8G3xX53dng88PqF53FzsTqd7Hmw78=&lt;/diagram&gt;&lt;/mxfile&gt;&quot;}"></div>
-<script src="https://viewer.diagrams.net/js/viewer-static.min.js"></script>
-
+<div style="margin-left: auto; margin-right: auto; position: relative; touch-action: none; overflow: hidden; width: 350px;">
+    <img height=990 style="margin: -40px;" src="{% static 'tech_fair/2022/2022_schedule.svg' %}" alt="2022 tech fair schedule">
+</div>
 
 </div>
 
