@@ -10,6 +10,7 @@ from django.http import HttpResponseRedirect
 from django_cas_ng.views import LoginView as CasLoginView
 from django_cas_ng.views import LogoutView as CASLogoutView
 
+from csss.setup_logger import Loggers
 from csss.views.exceptions import CASAuthenticationMethod
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_sys_admin_or_webmaster_sfuid
@@ -31,6 +32,11 @@ class LoginView(CasLoginView):
 
     def successful_login(self, request, next_page):
         login_redirect = super().successful_login(request, next_page)
+        logger = Loggers.get_logger()
+        logger.debug(
+            f"[LoginView successful_login()] attributes are detected as {request.session['attributes']} for"
+            f" {request.user}"
+        )
         if request.user.username in get_current_sys_admin_or_webmaster_sfuid():
             request.user.is_staff = True
             request.user.is_superuser = True
