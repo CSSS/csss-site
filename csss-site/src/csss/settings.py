@@ -90,13 +90,11 @@ print(f'[settings.py] STAGING_SERVER set to {STAGING_SERVER}')
 if ENVIRONMENT != "LOCALHOST" and "HOST_ADDRESS" not in os.environ:
     raise Exception("[settings.py] HOST_ADDRESS is not set but the environment is not LOCALHOST")
 
-if "HOST_ADDRESS" in os.environ:
-    HOST_ADDRESS = os.environ['HOST_ADDRESS']
-else:
-    HOST_ADDRESS = "127.0.0.1"
+HOST_ADDRESS = os.environ['HOST_ADDRESS'] if "HOST_ADDRESS" in os.environ else "127.0.0.1"
 ALLOWED_HOSTS = [HOST_ADDRESS]
 
-print(f'[settings.py] HOST_ADDRESS set to {HOST_ADDRESS}')
+if ENVIRONMENT == 'LOCALHOST':  # needed for when doing HTML validation on local computer
+    ALLOWED_HOSTS.append("csss.website")
 print(f'[settings.py] ALLOWED_HOSTS set to {ALLOWED_HOSTS}')
 
 if "DB_TYPE" not in os.environ:
