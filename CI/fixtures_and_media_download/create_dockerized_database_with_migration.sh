@@ -29,7 +29,6 @@ function wait_for_postgres_db {
 
 function applying_master_db_migrations {
 	python3 manage.py migrate
-	rm csss_cron_info.json elections.json errors.json resource_management.json || true
 	if [ -z "${CHANGE_ID}" ]; then
 		if [ $(echo $USER) = "jace" ]; then
 			ssh dev "grep -v 'redact' csss-fixtures-and-media-setup-for-staging/download_fixtures_and_media.sh  > csss-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh"
