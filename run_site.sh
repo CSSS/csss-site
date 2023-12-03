@@ -1,7 +1,8 @@
 #!/bin/bash
 
-
-# set -e -o xtrace
+echo "hello"
+set -e -o xtrace
+echo "hi"
 # https://stackoverflow.com/a/5750463/7734535
 
 if [ -z "${VIRTUAL_ENV}" ]; then
@@ -45,16 +46,22 @@ if [[ "${INSTALL_REQUIREMENTS}" == "True" ]]; then
 fi
 
 if [[ "${SETUP_DATABASE}" == "True" ]]; then
-
-	if [[ "${DB_TYPE}" == "sqlite3" ]];
-	then
+	if [[ "${DB_TYPE}" == "sqlite3" ]]; then
 		git checkout master
 		rm db.sqlite3 || true
 		python3 manage.py migrate
-		rm *.json* || true
-		wget -r --no-parent -nd https://dev.sfucsss.org/website/fixtures/ -A 'json'
-		python3 manage.py loaddata *.json
-		rm *.json* || true
+		rm csss_cron_info.json elections.json errors.json about.json resource_management.json || true
+		wget https://dev.sfucsss.org/website/fixtures/csss_cron_info.json
+		wget https://dev.sfucsss.org/website/fixtures/elections.json
+		wget https://dev.sfucsss.org/website/fixtures/errors.json
+		wget https://dev.sfucsss.org/website/fixtures/about.json
+		wget https://dev.sfucsss.org/website/fixtures/resource_management.json
+		python3 manage.py loaddata csss_cron_info.json
+		python3 manage.py loaddata elections.json
+		python3 manage.py loaddata errors.json
+		python3 manage.py loaddata about.json
+		python3 manage.py loaddata resource_management.json
+		rm csss_cron_info.json elections.json errors.json about.json resource_management.json
 		git checkout -
 	else
 		dpkg -s postgresql-contrib &> /dev/null
@@ -70,6 +77,12 @@ if [[ "${DOWNLOAD_ANNOUNCEMENTS}" == "True" ]] || [[ "${DOWNLOAD_ANNOUNCEMENT_AT
 	if [[ "${DOWNLOAD_ANNOUNCEMENT_ATTACHMENTS}" == "True" ]]; then
 		setup_front_page+=" --download"
 	fi
+	rm announcements.json django_mailbox.json || true
+	wget https://dev.sfucsss.org/website/fixtures/announcements.json
+	wget https://dev.sfucsss.org/website/fixtures/django_mailbox.json
+	python3 manage.py loaddata django_mailbox.json
+	python3 manage.py loaddata announcements.json
+	rm announcements.json django_mailbox.json
 	${setup_front_page}
 fi
 
