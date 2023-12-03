@@ -28,22 +28,32 @@ function wait_for_postgres_db {
 }
 
 function applying_master_db_migrations {
-  python3 manage.py migrate
-  rm *.json* || true
-  if [ -z "${CHANGE_ID}" ]; then
-    if [ $(echo $USER) = "jace" ]; then
-      ssh dev "grep -v 'redact' csss-site-fixtures-and-media-setup-for-staging/download_fixtures_and_media.sh  > csss-site-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh"
-      ssh dev "cd ~/csss-site-fixtures-and-media-setup-for-staging/ && chmod +x /home/csss/csss-site-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh && /home/csss/csss-site-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh"
-    fi
-    wget -r --no-parent -nd https://dev.sfucsss.org/website/fixtures/ -A 'json'
-    if [ $(echo $USER) = "jace" ]; then
-      ssh dev "cd ~/csss-site-fixtures-and-media-setup-for-staging/ && /home/csss/csss-site-fixtures-and-media-setup-for-staging/download_fixtures_and_media.sh"
-    fi
-  else
-    cp /home/csss/staging_assets/website/fixtures/* .
-  fi
-  python3 manage.py loaddata *.json
-  rm *.json* || true
+	python3 manage.py migrate
+	if [ -z "${CHANGE_ID}" ]; then
+		if [ $(echo $USER) = "jace" ]; then
+			ssh dev "grep -v 'redact' csss-fixtures-and-media-setup-for-staging/download_fixtures_and_media.sh  > csss-fixtures-and-media-setup-for-staging/live_download_fixtures_and_media.sh"
+			ssh dev "cd ~/csss-fixtures-and-media-setup-for-staging/ && chmod +x live_download_fixtures_and_media.sh && ./live_download_fixtures_and_media.sh"
+		fi
+		rm csss_cron_info.json elections.json errors.json about.json resource_management.json || true
+		wget https://dev.sfucsss.org/website/fixtures/csss_cron_info.json
+		wget https://dev.sfucsss.org/website/fixtures/elections.json
+		wget https://dev.sfucsss.org/website/fixtures/errors.json
+		wget https://dev.sfucsss.org/website/fixtures/about.json
+		wget https://dev.sfucsss.org/website/fixtures/resource_management.json
+		if [ $(echo $USER) = "jace" ]; then
+			ssh dev "cd ~/csss-fixtures-and-media-setup-for-staging/ && ./download_fixtures_and_media.sh"
+		fi
+		python3 manage.py loaddata csss_cron_info.json
+		python3 manage.py loaddata elections.json
+		python3 manage.py loaddata errors.json
+		python3 manage.py loaddata about.json
+		python3 manage.py loaddata resource_management.json
+		rm csss_cron_info.json elections.json errors.json about.json resource_management.json
+	else
+		cp /home/csss/staging_assets/website/fixtures/* .
+		python3 manage.py loaddata *.json
+		rm *.json*
+	fi
 }
 
 
