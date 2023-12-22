@@ -301,7 +301,7 @@ def take_user_input_for_string_variable(message, description=None, default_value
                 # can be done with an open-ended string variable where no default value is specified
                 user_input = input("Please try again\n").strip()
     if user_input.lower() == "s":
-        user_input = default_value
+        user_input = 'none' if (default_value is None and nullable_variable) else default_value
     if user_input.lower() == 'none' and nullable_variable:
         user_input = None
     return user_input
