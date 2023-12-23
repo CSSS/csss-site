@@ -370,7 +370,9 @@ def create_context_for_officer_email_mappings(request, tab=None):
 
 
 def create_context_for_voting(request, tab=None):
-    return _create_context_for_authenticated_user(request, authentication_method=user_is_in_voting_email_list, tab=tab)
+    return _create_context_for_authenticated_user(
+        request, authentication_method=user_is_in_voting_email_list, tab=tab
+    )
 
 
 def _create_context_for_authenticated_user(request, authentication_method=None,
@@ -417,5 +419,3 @@ def _create_context_for_authenticated_user(request, authentication_method=None,
             unprocessed_officers=unprocessed_officers, officers=officers
         )
     )
-
-

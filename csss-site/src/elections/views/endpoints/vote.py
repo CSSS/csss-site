@@ -18,7 +18,7 @@ def vote(request):
     error_messages = None
     can_vote = True
     if not validate_vote_request(context, latest_election):
-        error_messages = [f"No live election detected"]
+        error_messages = ["No live election detected"]
         can_vote = False
     elif request.method == 'POST':
         return process_vote(request, context, latest_election)

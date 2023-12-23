@@ -95,7 +95,9 @@ def save_new_nominee_jformat(election, full_name, sfuid, speech_and_position_pai
         for position_in_election in positions_in_election:
             if position_in_election not in no_confidence_positions:
                 # save a new position for the no confidence person
-                NomineePosition(position_in_election, nominee_speech=no_confidence_nominee.nomineespeech_set.all().first()).save()
+                NomineePosition(
+                    position_in_election, nominee_speech=no_confidence_nominee.nomineespeech_set.all().first()
+                ).save()
     else:
         no_confidence_nominee = Nominee(election=election, full_name='No Confidence')
         no_confidence_nominee.save()
