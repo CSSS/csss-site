@@ -1,8 +1,7 @@
 #!/bin/bash
 
-echo "hello"
 set -e -o xtrace
-echo "hi"
+
 # https://stackoverflow.com/a/5750463/7734535
 
 if [ -z "${VIRTUAL_ENV}" ]; then
@@ -12,7 +11,7 @@ fi
 
 # need to delete and re-create so that the if statement that tries to detected if the
 # help menu was invoked can work correctly
-cat ./CI/validate_and_deploy/2_deploy/run_csss_site.env | grep -v HELP_SELECTED > ./CI/validate_and_deploy/2_deploy/run_csss_site.env.2
+cat ./CI/validate_and_deploy/2_deploy/run_csss_site.env | grep -v HELP_SELECTED > ./CI/validate_and_deploy/2_deploy/run_csss_site.env.2 || true
 mv ./CI/validate_and_deploy/2_deploy/run_csss_site.env.2 ./CI/validate_and_deploy/2_deploy/run_csss_site.env
 
 ./.run_site.py $@
