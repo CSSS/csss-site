@@ -598,10 +598,12 @@ class GoogleDrive:
                 error = None
                 while not success and retry_count < total_retries:
                     try:
-                        permission = self.gdrive.permissions().get(
+                        file_permissions = self.gdrive.permissions()
+                        getter = file_permissions.get(
                             fileId=file['id'], permissionId=permission_id, supportsAllDrives=True, fields='*'
-                        ).execute()
-                        permissions.append(permission)
+                        )
+                        file_permissions_executor = getter.execute()
+                        permissions.append(file_permissions_executor)
                         success = True
                     except HttpError as e:
                         error = e
