@@ -69,7 +69,7 @@ function apply_pr_migrations(){
 
 function create_super_user {
   cd "${BASE_DIR}/csss-site"
-  echo "from django.contrib.auth.models import User; User.objects.create_superuser('username', 'admin@example.com', 'password')" | python3 manage.py shell || true
+  echo "from django.contrib.auth.models import User; User.objects.create_superuser('root', 'admin@example.com', 'password')" | python3 manage.py shell || true
 }
 
 function update_static_files_location {
