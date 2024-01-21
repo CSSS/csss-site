@@ -15,12 +15,13 @@ def save_new_nominee_links_from_jformat(election, new_nominee_sfuids_and_discord
     if new_nominee_sfuids_and_discord_ids is not None and type(new_nominee_sfuids_and_discord_ids) == str:
         for new_nominee_sfuids_and_discord_id in new_nominee_sfuids_and_discord_ids.split("\r\n"):
             if new_nominee_sfuids_and_discord_id.strip() != "":
-                new_nominee_sfuid = new_nominee_sfuids_and_discord_id.split(",")[0].strip()
-                new_nominee_discord_id = new_nominee_sfuids_and_discord_id.split(",")[1].strip()
+                # new_nominee_sfuid = new_nominee_sfuids_and_discord_id.split(",")[0].strip()
+                # new_nominee_discord_id = new_nominee_sfuids_and_discord_id.split(",")[1].strip()
+                new_nominee_sfuid = new_nominee_sfuids_and_discord_id
                 success, error_message, sfu_info = get_sfu_info(new_nominee_sfuid)
                 full_name = f"{sfu_info['firstnames']} {sfu_info['lastname']}" if success else NA_STRING
                 nominee_link = NomineeLink(
-                    election=election, sfuid=new_nominee_sfuid, discord_id=new_nominee_discord_id,
+                    election=election, sfuid=new_nominee_sfuid, discord_id=NA_STRING,
                     full_name=full_name
                 )
                 nominee_link.save()

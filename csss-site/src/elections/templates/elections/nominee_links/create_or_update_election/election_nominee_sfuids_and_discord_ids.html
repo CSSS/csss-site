@@ -1,6 +1,6 @@
-SFU IDs and Discord IDs of the nominees [separated by a comma] to create links for: [separate the nominees with a newline if there are more than 1]<br>
+SFU IDs of the nominees to create links for: [separate the nominees with a newline if there are more than 1]<br>
 {% if require_nominee_sfuids_and_discord_ids is True %}
-	<textarea name="{{nominee_sfuids_and_discord_ids__html_name}}" cols="10" rows="3" required>{{ nominee_sfuids_and_discord_ids__value }}</textarea><br>
+	<textarea name="{{nominee_sfuids_and_discord_ids__html_name}}" cols="10" rows="3" >{{ nominee_sfuids_and_discord_ids__value }}</textarea><br>
 {%  else %}
 	<textarea name="{{nominee_sfuids_and_discord_ids__html_name}}" cols="10" rows="3">{{ nominee_sfuids_and_discord_ids__value }}</textarea><br>
 {%  endif %}
