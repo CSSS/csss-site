@@ -98,12 +98,13 @@ def create_intro_message(officer_obj, officer_is_executive_officer,
         if first_time_officer:
             email_body += (
                 f"Congrats on becoming a CSSS {position_name}.\n\n"
-                "Please read the following documentation: https://github.com/CSSS/elections-documentation"
+                "Please read the following documentation: "
+                "https://sfucsss.org/elections/election_officer_documentation"
             )
             discord_body += (
                 f"Congrats on becoming a CSSS {position_name}.\n\n"
                 "Please read the [following documentation]"
-                "(https://github.com/CSSS/elections-documentation) :smiley: \n\n"
+                "(https://sfucsss.org/elections/election_officer_documentation) :smiley: \n\n"
             )
         else:
             email_body += (
@@ -114,7 +115,7 @@ def create_intro_message(officer_obj, officer_is_executive_officer,
             discord_body += (
                 f"Seems like you are a repeat {position_name}.\n\n"
                 "Forgive this reminder about the [election documentation]"
-                "(https://github.com/CSSS/elections-documentation) :smiley: \n\n"
+                "(https://sfucsss.org/elections/election_officer_documentation) :smiley: \n\n"
             )
     elif officer_is_council_representative:
         if first_time_officer:

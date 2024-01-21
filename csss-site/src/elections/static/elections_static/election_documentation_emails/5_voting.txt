@@ -1,0 +1,9 @@
+Greetings All!
+
+The voting period for the Computing Science Student Society [By|General|SFSS] Election for the \<years during which the position is relevant to\> term begins on \<Insert Date Here\> at \<Insert Time Here\> and closes on \<Insert Date Here\> at \<Insert Time Here\>. Visit <here|link the word `here` to the election page at `election_url`> to view candidate speeches, and <here|link the word `here` to the websurvey survey created at step 3.1> to vote.
+
+Best of luck to all the candidates!
+
+-\<Insert Name Here\>
+[General|By|SFSS] Election Officer
+Simon Fraser University | CSSS

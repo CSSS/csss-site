@@ -3,6 +3,7 @@ from django.conf.urls import url
 from .views.Constants import ENDPOINT_MODIFY_VIA_NOMINEE_LINKS, ENDPOINT_CREATE_OR_UPDATE_NOMINEE_VIA_NOMINEE_LINK, \
     ENDPOINT_DELETE_NOMINEE_LINKS, \
     ENDPOINT_CREATE_OR_UPDATE_NOMINEE_FOR_NOMINEE_VIA_LOGIN__NOMINEE_LINK
+from .views.election_officer_documentation import election_officer_documentation
 from .views.endpoints.delete_selected_election import delete_selected_election
 from .views.endpoints.delete_selected_election_nominee_links import delete_selected_election__nominee_links
 from .views.endpoints.election_page import get_nominees
@@ -23,6 +24,7 @@ ELECTION_SLUG_PATTERN = r'(?P<slug>[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z_]+)'
 
 urlpatterns = [
     url(r'^$', list_of_elections, name="List of Elections"),
+    url(r'^election_officer_documentation$', election_officer_documentation),
     # url(
     #     r'^new_election_json/$', display_and_process_html_for_new_json_election,
     #     name='Show Page To Create Election via JSON'

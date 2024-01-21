@@ -1,0 +1,13 @@
+Hi <Name>
+
+This is your unique nominee link: <nominee link>
+
+The link will take you to the CSSS website where you can enter in your info for the election. You can use the same link to edit your speeches and information at any time. If you wish to run for multiple positions and have a different speech for each position, simply select "Add Another Speech" and you can enter the position and a speech for that position.
+
+If you have any questions please let me know.
+
+YOU HAVE UNTIL **11:59pm \<Insert Date after date used in 1_nomination.md email Here\>** to fill out the nominee link. If you do not, YOU WILL NOT BE INCLUDED AS A NOMINEE.
+
+-\<Insert Name Here\>
+[General|By|SFSS] Election Officer
+Simon Fraser University | CSSS

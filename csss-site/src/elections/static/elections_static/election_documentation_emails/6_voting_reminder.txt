@@ -1,0 +1,7 @@
+Greetings,
+
+Today is the last day to vote for the Computing Society Student Society [General|By|SFSS] Election for the \<years during which the position is relevant to\> term. The polls close tonight at 11:59PM and results will be released tomorrow. Visit <here|link the word `here` to the election page at `election_url`> to view candidate speeches, and <here|link the word `here` to the websurvey survey created at step 3.1> to vote.
+
+-\<Insert Name Here\>
+[General|By|SFSS] Election Officer
+Simon Fraser University | CSSS
