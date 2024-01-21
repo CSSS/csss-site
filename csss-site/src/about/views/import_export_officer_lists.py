@@ -511,7 +511,8 @@ def save_officer_and_grant_digital_resources(phone_number, full_name, sfu_comput
                 "Congrats on becoming a CSSS Election Officer,\n\n"
                 "Please read the following documentation, which is linked here, "
                 "as it is a nightmare trying to figure out "
-                "markdown for gmail from a python script: https://github.com/CSSS/elections-documentation"
+                "markdown for gmail from a python script: "
+                "https://sfucsss.org/elections/election_officer_documentation"
             )
         if body is not None:
             # only sending an email if the new officer got a body which only happens if the user was granted access

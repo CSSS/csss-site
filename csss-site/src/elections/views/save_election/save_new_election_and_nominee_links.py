@@ -31,12 +31,16 @@ def save_new_election_and_nominee_links(election_dict):
     election = create_and_save_election_object_jformat(
         election_type, election_websurvey, election_date, election_end_date, slug, human_friendly_name
     )
-    for sfuid_and_discord_ids in election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS].split("\r\n"):
-        sfuid = sfuid_and_discord_ids.split(",")[0]
-        discord_id = sfuid_and_discord_ids.split(",")[1]
-        success, error_message, sfu_info = get_sfu_info(sfuid)
-        full_name = f"{sfu_info['firstnames']} {sfu_info['lastname']}" if success else NA_STRING
-        nominee_link = NomineeLink(election=election, sfuid=sfuid, discord_id=discord_id, full_name=full_name)
-        nominee_link.save()
-        nominee_link.send_dm()
+    sfu_ids = election_dict[NEW_NOMINEE_SFUIDS_AND_DISCORD_IDS_FOR_NOMINEE_LINKS]
+    if len(sfu_ids.strip()) > 0:
+        for sfuid_and_discord_ids in sfu_ids.split("\r\n"):
+            # sfuid = sfuid_and_discord_ids.split(",")[0]
+            sfuid = sfuid_and_discord_ids
+            # discord_id = sfuid_and_discord_ids.split(",")[1]
+            discord_id = NA_STRING
+            success, error_message, sfu_info = get_sfu_info(sfuid)
+            full_name = f"{sfu_info['firstnames']} {sfu_info['lastname']}" if success else NA_STRING
+            nominee_link = NomineeLink(election=election, sfuid=sfuid, discord_id=discord_id, full_name=full_name)
+            nominee_link.save()
+            nominee_link.send_dm()
     return election
