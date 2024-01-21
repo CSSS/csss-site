@@ -67,7 +67,7 @@ pipeline {
                         string(credentialsId: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY', variable: 'WEBSITE_DEV_STRIPE_PUBLISHABLE_KEY')
                     ]
                 ) {
-                      timeout(10) {
+                      timeout(30) {
                           sh('''
                             export BRANCH_NAME=${BRANCH_NAME};
                             export CHANGE_ID=${CHANGE_ID};
