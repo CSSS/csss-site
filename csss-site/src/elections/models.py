@@ -292,7 +292,7 @@ class NomineeSpeech(models.Model):
 
     @property
     def formatted_speech(self):
-        return markdown_message(self.speech)
+        return markdown_message(self.speech) if self.speech else ""
 
     @property
     def speech_for_editing(self):
