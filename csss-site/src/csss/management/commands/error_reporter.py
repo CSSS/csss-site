@@ -35,7 +35,7 @@ class Command(BaseCommand):
                         message = f"Error in {unprocessed_error.filename}"
                         send_email(
                             f"{unprocessed_error.file_path} ERRORS detected in CSSS-WEBSITE", message,
-                            "csss-sysadmin@sfu.ca", "Jace",
+                            "jaymanshad@protonmail.com", "Jace",
                             gmail=gmail, attachment=unprocessed_error.get_error_absolute_path
                         )
                         logger.info("[csss/error_reporter.py handle()] sys-admin emailed about above error.")

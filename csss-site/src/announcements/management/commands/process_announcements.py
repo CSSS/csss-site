@@ -113,7 +113,7 @@ class Command(BaseCommand):
                             f"for term {term}")
         if len(emails_not_displayed) > 0:
             body = "<br>".join(emails_not_displayed)
-            send_email("CSSS-Website emails not displayed", body, "csss-sysadmin@sfu.ca", "jace")
+            send_email("CSSS-Website emails not displayed", body, "jaymanshad@protonmail.com", "jace")
         time2 = time.perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)

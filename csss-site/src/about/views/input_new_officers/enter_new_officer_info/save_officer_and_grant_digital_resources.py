@@ -17,8 +17,8 @@ from about.views.input_new_officers.enter_new_officer_info.grant_digital_resourc
 from about.views.input_new_officers.enter_new_officer_info.notifications. \
     send_notifications_with_documentation_links import \
     send_notifications_with_documentation_links
-from about.views.input_new_officers.enter_new_officer_info.utils.alert_sys_admin_to_update_email_list import \
-    alert_sys_admin_to_update_email_list
+from about.views.input_new_officers.enter_new_officer_info.utils.alert_doa_to_update_email_list import \
+    alert_doa_to_update_email_list
 from about.views.input_new_officers.enter_new_officer_info.utils.get_discord_username_and_nickname import \
     get_discord_username_and_nickname
 from about.views.input_new_officers.enter_new_officer_info.utils.get_sfu_info import get_sfu_info
@@ -181,7 +181,7 @@ def save_officer_and_grant_digital_resources(officer_emaillist_and_position_mapp
     )
     if not success:
         return success, error_message
-    alert_sys_admin_to_update_email_list(
+    alert_doa_to_update_email_list(
         sfu_officer_mailing_list_email, position_mapping_for_new_officer.bitwarden_access
     )
     if not success:

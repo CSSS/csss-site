@@ -377,7 +377,7 @@ class GoogleDrive:
                     media.save()
                 send_email(
                    "Media has been upload to the Google Drive that has to be moved",
-                   body, "csss-sysadmin@sfu.ca", "jace"
+                   body, "csss-sysadmin@sfu.ca", "Sys Admin"
                 )
         # self._send_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
 

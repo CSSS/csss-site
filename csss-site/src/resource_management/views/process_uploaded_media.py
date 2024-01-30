@@ -47,6 +47,12 @@ def process_uploaded_media(request):
             f"new media upload for {upload.event_type}",
             f"got {len(upload.mediaupload_set.all())} new uploads for {upload}",
             "csss-sysadmin@sfu.ca",
-            'jace'
+            'Sys Admin'
+        )
+        send_email(
+            f"new media upload for {upload.event_type}",
+            f"got {len(upload.mediaupload_set.all())} new uploads for {upload}",
+            "csss-webmaster@sfu.ca",
+            'Webmaster'
         )
     return HttpResponseRedirect(f"{URL_ROOT}resource_management/upload")
