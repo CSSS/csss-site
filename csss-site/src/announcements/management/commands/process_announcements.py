@@ -34,29 +34,7 @@ class Command(BaseCommand):
         logger.info(options)
         there_are_no_unprocessed_officers = len(UnProcessedOfficer.objects.all()) == 0
         if options['poll_email']:
-            # temporarily reverting to copying the code over instead of using it directly cause the
-            #  logging.basicConfig(level=logging.INFO)  line clashes with my logger
-            # will update once https://github.com/coddingtonbear/django-mailbox/issues/262 is resolved
-            # from django_mailbox.management.commands.getmail import Command as GetMailCommand
-            # GetMailCommand().handle()
-            mailboxes = Mailbox.active_mailboxes.all()
-            if args:
-                mailboxes = mailboxes.filter(
-                    name=' '.join(args)
-                )
-            for mailbox in mailboxes:
-                logger.info(
-                    'Gathering messages for %s',
-                    mailbox.name
-                )
-                messages = mailbox.get_new_mail()
-                for message in messages:
-                    logger.info(
-                        'Received %s (from %s)',
-                        message.subject,
-                        message.from_address
-                    )
-
+            Mailbox.get_new_mail_all_mailboxes()
         messages = []
         messages.extend(
             [add_sortable_date_to_email(email) for email in
