@@ -41,6 +41,7 @@ function transfer_env_variables_to_server {
   echo 'SFU_CSSS_GMAIL_PASSWORD='"'"${SFU_CSSS_GMAIL_PASSWORD}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'GUILD_ID='"'"${GUILD_ID}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'ANNOUNCEMENT_DISCORD_CHANNEL_ID='"'"${ANNOUNCEMENT_DISCORD_CHANNEL_ID}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'DB_CONTAINER_NAME='"'"'csss_site_db_dev'"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/python_logs/django_admin"'" > ${BUILD_NUMBER}/csss_site_django_admin.env

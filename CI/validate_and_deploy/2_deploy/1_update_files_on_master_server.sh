@@ -61,6 +61,7 @@ function transfer_env_variables_to_server {
   echo 'SFU_CSSS_GMAIL_PASSWORD='"'"${SFU_CSSS_GMAIL_PASSWORD}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'DISCORD_BOT_TOKEN='"'"${DISCORD_BOT_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'GUILD_ID='"'"${GUILD_ID}"'" >> ${BUILD_NUMBER}/csss_site.env
+  echo 'ANNOUNCEMENT_DISCORD_CHANNEL_ID='"'"${ANNOUNCEMENT_DISCORD_CHANNEL_ID}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'SFU_ENDPOINT_TOKEN='"'"${SFU_ENDPOINT_TOKEN}"'" >> ${BUILD_NUMBER}/csss_site.env
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/gunicorn_logs"'" > ${BUILD_NUMBER}/csss_site_gunicorn.env
   echo 'LOG_LOCATION='"'"${BASE_DIR}/website_logs/backup_script"'" > ${BUILD_NUMBER}/csss_site_backup_script.env
