@@ -79,10 +79,12 @@ if [[ "${DOWNLOAD_ANNOUNCEMENTS}" == "True" ]] || [[ "${DOWNLOAD_ANNOUNCEMENT_AT
 	rm announcements.json django_mailbox.json || true
 	wget https://dev.sfucsss.org/website/fixtures/announcements.json
 	wget https://dev.sfucsss.org/website/fixtures/django_mailbox.json
+	git checkout master
 	python3 manage.py loaddata django_mailbox.json
 	python3 manage.py loaddata announcements.json
 	rm announcements.json django_mailbox.json
 	${setup_front_page}
+ 	git checkout -
 fi
 
 if [[ "${SETUP_OFFICER_LIST}" == "True" ]] || [[ "${SETUP_OFFICER_LIST_IMAGES}" == "True" ]]; then
