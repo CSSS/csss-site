@@ -17,6 +17,7 @@
 							{%  if error_message is not None %}
 								{{ error_message|safe }}
 							{% else %}
+                                {%  if announcement.email is not None or announcement.manual_announcement is not None %}
 								<h3 class="title is-size-3">
 									{%  if announcement.email is None %}
 										{{ announcement.manual_announcement.title }}
@@ -24,14 +25,16 @@
 										{{announcement.email.subject}}
 									{%  endif %}
 								</h3>
+                                {%  endif %}
 								<p class="is-size-6 has-text-grey has-text-right">
-									<em>posted by {{announcement.author}} on {{announcement.date}}</em>
+									<em>posted by {{announcement.author}} on {{announcement.get_html_date}}</em>
 								</p>
+
 								<hr class="csss_announcement_subject_underline">
 								<div class="is-size-6">
-								{% if announcement.email is None %}
+								{% if announcement.manual_announcement is not None %}
 									{{announcement.manual_announcement.content|safe|linebreaks }}
-								{%  else %}
+								{%  elif announcement.email is not None %}
 									<!-- hacky fix for phantom scrollbars -->
 									<div class="hide_email_embeds" style="overflow-x: hidden;">
 										{% if announcement.email.html|safe|length > 0 %}
@@ -42,6 +45,8 @@
 											{{announcement.email.body|safe|linebreaks}}
 										{% endif %}
 									</div>
+                                {%  else %}
+                                    {{ announcement.discord_announcement.get_html_content|safe }}
 								{%  endif %}
 								</div>
 								{% for attachment in announcement.email.attachments.all %}

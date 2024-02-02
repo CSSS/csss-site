@@ -42,7 +42,9 @@ def index(request):
 
     request_path = request.path
 
-    paginated_object = Paginator(Announcement.objects.all().filter(display=True).order_by('-date'), per_page=5)
+    announcements = list(Announcement.objects.all().filter(display=True))
+    announcements.sort(key=lambda x: x.get_date, reverse=True)
+    paginated_object = Paginator(announcements, per_page=5)
 
     if paginated_object.num_pages < current_page:
         return HttpResponseRedirect(f'{settings.URL_ROOT}')

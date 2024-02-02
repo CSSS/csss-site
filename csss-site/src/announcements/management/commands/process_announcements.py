@@ -1,13 +1,16 @@
 import time
 from email.utils import parseaddr
 
+from django.conf import settings
 from django.core.management.base import BaseCommand
 from django_mailbox.models import Mailbox
 from django_mailbox.models import Message
 
 from about.models import UnProcessedOfficer, Term
-from announcements.models import Announcement
+from announcements.models import Announcement, DiscordAnnouncement
 from announcements.views.commands.process_announcements.add_sortable_date_to_email import add_sortable_date_to_email
+from announcements.views.commands.process_announcements.get_latest_discord_announcements import \
+    get_latest_discord_announcements
 from announcements.views.commands.process_announcements.get_officer_term_mapping import get_officer_term_mapping
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
@@ -27,19 +30,31 @@ class Command(BaseCommand):
             default=False,
             help="pull the latest emails from gmail"
         )
+        parser.add_argument(
+            '--poll_discord',
+            action='store_true',
+            default=False,
+            help="pull the latest announcements from discord"
+        )
 
     def handle(self, *args, **options):
         time1 = time.perf_counter()
         logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         logger.info(options)
         there_are_no_unprocessed_officers = len(UnProcessedOfficer.objects.all()) == 0
+        messages = []
         if options['poll_email']:
             Mailbox.get_new_mail_all_mailboxes()
-        messages = []
-        messages.extend(
-            [add_sortable_date_to_email(email) for email in
-             Message.objects.all().filter(visibility_indicator__isnull=True)]
-        )
+            messages.extend(
+                [add_sortable_date_to_email(email) for email in
+                 Message.objects.all().filter(visibility_indicator__isnull=True)]
+            )
+        if options['poll_discord']:
+            success, error_message = get_latest_discord_announcements(settings.ANNOUNCEMENT_DISCORD_CHANNEL_ID)
+            if not success:
+                logger.error(f"[process_announcements handle()] {error_message}")
+            messages.extend(DiscordAnnouncement.objects.all().filter(visibility_indicator__isnull=True))
+
         messages.sort(key=lambda x: x.sortable_date, reverse=False)
         officer_mapping = get_officer_term_mapping()
         emails_not_displayed = []
@@ -83,6 +98,12 @@ class Command(BaseCommand):
                     logger.info("[process_announcements handle()] unable to determine sender of email "
                                 f"with date {announcement_datetime} "
                                 f"for term {term}. Will not display email")
+            elif hasattr(message, "channel_id"):
+                Announcement(term=term, discord_announcement=message, pst_date=announcement_datetime,
+                             display=True, author=message.author).save()
+                logger.info("[process_announcements handle()] saved post from"
+                            f" {message.author} with date {announcement_datetime} "
+                            f"for term {term}")
             else:
                 Announcement(term=term, manual_announcement=message, date=announcement_datetime,
                              display=True, author=message.author).save()
