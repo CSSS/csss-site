@@ -49,4 +49,4 @@ def get_latest_discord_announcements(channel_id):
         logger.info("[process_announcements get_latest_discord_announcements()] done processing announcements")
         return True, None
     else:
-        return False, f"Unable to interact with Discord API due to error \"{response.reason}\"", None
+        return False, f"Unable to interact with Discord API due to error \"{response.reason}\""
