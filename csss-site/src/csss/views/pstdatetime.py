@@ -121,19 +121,25 @@ class NewPSTDateTimeField(models.DateTimeField):
         """
         Makes sure to convert the date to UTC time before saving if its in Canada/Pacific timezone
         """
+        from announcements.management.commands.process_announcements import SERVICE_NAME
+        from csss.setup_logger import Loggers
         date = getattr(model_instance, self.attname)
         # date can be None cause of end date
         if type(date) == str and date.strip() == "":
             setattr(model_instance, self.attname, None)
-        elif date == 'Actively recruiting':
-            setattr(model_instance, self.attname, None)
         elif date is not None:
+            logger = Loggers.get_logger(logger_name=SERVICE_NAME)
+            logger.info(f"parsing date {date} before saving to DB")
             if type(date) is str and re.match(r"\d{4}-\d{2}-\d{2}", date):
                 year = int(date[:4])
                 month = int(date[5:7])
                 day = int(date[8:10])
-                setattr(model_instance, self.attname, pstdatetime.create_utc_time(year, month, day))
+                logger.info(f"first if-parsed date to year {year} month {month} day {day}")
+                final_date = pstdatetime.create_utc_time(year, month, day)
+                logger.info(f"first if-{year}-{month}-{day} parsed to final_date {final_date}")
+                setattr(model_instance, self.attname, final_date)
             elif date.tzinfo == tzfile('/usr/share/zoneinfo/Canada/Pacific'):
+                logger.info(f"second if-{date} parsed to utc date {date.utc}")
                 setattr(model_instance, self.attname, date.utc)
             elif date.tzinfo is None:
                 raise Exception("no timezone detected")

@@ -17,6 +17,7 @@ def get_latest_discord_announcements(channel_id):
     Keyword Arguments
     channel_id -- the id of the channel to pull the messages from
     """
+    DiscordAnnouncement.objects.all().delete()
     from announcements.management.commands.process_announcements import SERVICE_NAME
     logger = Loggers.get_logger(logger_name=SERVICE_NAME)
     latest_discord_announcement = DiscordAnnouncement.objects.all().filter(channel_id=channel_id).order_by(

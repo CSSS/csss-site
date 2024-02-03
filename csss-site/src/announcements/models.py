@@ -136,12 +136,30 @@ class DiscordAnnouncement(models.Model):
         return self.date.pst
 
     @staticmethod
-    def get_date_for_message(m):
+    def get_date_for_message(discord_timestamp):
+        from announcements.management.commands.process_announcements import SERVICE_NAME
+        from csss.setup_logger import Loggers
+        logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         try:
-            datetime_obj = datetime.datetime.strptime(m, "%Y-%m-%dT%H:%M:%S.%f%z").timestamp()
+            epoch_timestamp = datetime.datetime.strptime(discord_timestamp, "%Y-%m-%dT%H:%M:%S.%f%z").timestamp()
+            logger.info(
+                f"[get_date_for_message() ] got epoch_timestamp [{epoch_timestamp}] from discord_timestamp"
+                f" {discord_timestamp}"
+            )
         except Exception:
-            datetime_obj = datetime.datetime.strptime(m, "%Y-%m-%dT%H:%M:%S%f%z").timestamp()
-        return pstdatetime.from_epoch(datetime_obj).pst
+            epoch_timestamp = datetime.datetime.strptime(discord_timestamp, "%Y-%m-%dT%H:%M:%S%f%z").timestamp()
+            logger.info(
+                f"[get_date_for_message() ] got epoch_timestamp [{epoch_timestamp}] from discord_timestamp"
+                f" {discord_timestamp}"
+            )
+        epoch_datetime_obj = pstdatetime.from_epoch(epoch_timestamp)
+        logger.info(f"[get_date_for_message() ] "
+                    f"got epoch_datetime_obj [{epoch_datetime_obj}] from epoch_timestamp {epoch_timestamp}]")
+        logger.info(
+            f"[get_date_for_message() ] epoch_datetime_obj [{epoch_datetime_obj}] convertable to"
+            f" epoch_datetime_obj.pst {epoch_datetime_obj.pst}]"
+        )
+        return epoch_datetime_obj.pst
 
 
 class Announcement(models.Model):
