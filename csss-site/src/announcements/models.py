@@ -77,7 +77,9 @@ class DiscordAnnouncement(models.Model):
     @property
     def get_html_content(self):
         formatted = self.content.replace("\n", " <br>")
-        href_tag = r'[^">]https?://[\w+]'
+        # if it is a special character
+        special_characters = ')];\',.:"<'
+        href_tag = r'[^\">]https?://\S* '
         matches = re.search(href_tag, formatted)
         while matches is not None:
             match = matches.regs[0]
@@ -85,9 +87,11 @@ class DiscordAnnouncement(models.Model):
             if formatted[beginning] != "h":
                 beginning += 1
             end = beginning + formatted[match[0]+2:].find(" ")+1
+            if formatted[end-1] in special_characters:
+                end -= 1
             new_formatted = formatted.replace(
                 formatted[beginning:end],
-                f'<a href="{formatted[beginning:end]}">{formatted[beginning:end]}</a>'
+                f'<a target="_blank" href="{formatted[beginning:end]}">{formatted[beginning:end]}</a>'
             )
             matches = re.search(href_tag, new_formatted)
             formatted = new_formatted
@@ -111,6 +115,19 @@ class DiscordAnnouncement(models.Model):
                 f'<img src="https://cdn.discordapp.com/emojis/{emoji_id}.webp?size=44">'
             )
             matches = re.search(discord_emoji_tag, new_formatted)
+            formatted = new_formatted
+
+        bold_markdown = r'\*\*[^*]*\*\*'
+        matches = re.search(bold_markdown, formatted)
+        while matches is not None:
+            match = matches.regs[0]
+            bold_tag_beginning = match[0]
+            bold_tag_end = match[1]
+            new_formatted = formatted.replace(
+                formatted[bold_tag_beginning:bold_tag_end],
+                f"<b>{formatted[bold_tag_beginning+2:bold_tag_end-2]}</b>"
+            )
+            matches = re.search(bold_markdown, new_formatted)
             formatted = new_formatted
         return formatted
 
