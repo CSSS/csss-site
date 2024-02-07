@@ -6,7 +6,7 @@ cffi==1.14.5
 chardet==3.0.4
 defusedxml==0.7.1
 Deprecated==1.2.12
-Django==2.2.28
+Django==3.2.24
 django-bootstrap3==11.0.0
 django-bootstrap3-form==0.6.0
 django-environ==0.4.5
