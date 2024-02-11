@@ -8,6 +8,8 @@ from .views.election_officer_documentation import election_officer_documentation
 from .views.endpoints.delete_selected_election import delete_selected_election
 from .views.endpoints.delete_selected_election_nominee_links import delete_selected_election__nominee_links
 from .views.endpoints.election_page import get_nominees
+from .views.endpoints.graphs.get_election_graphs import get_election_graphs
+from .views.endpoints.graphs.get_elections_graphs import get_elections_graphs
 from .views.endpoints.import_websurvey_results.import_websurvey_results import import_websurvey_results
 from .views.endpoints.import_websurvey_results.map_websurvey_nominee_results import map_websurvey_nominee_results
 from .views.endpoints.import_websurvey_results.map_websurvey_position_results import map_websurvey_position_results
@@ -29,6 +31,7 @@ ELECTION_SLUG_PATTERN = r'(?P<slug>[0-9]{4}-[0-9]{2}-[0-9]{2}-[a-z_]+)'
 
 urlpatterns = [
     url(r'^$', list_of_elections, name="List of Elections"),
+    url(r'^graphs$', get_elections_graphs, name="List of Elections"),
     url(r'^election_officer_documentation$', election_officer_documentation),
     # url(
     #     r'^new_election_json/$', display_and_process_html_for_new_json_election,
@@ -43,6 +46,7 @@ urlpatterns = [
         name="Show Page To Create Election via Nominee Links"
     ),
     url(fr'^{ELECTION_SLUG_PATTERN}/$', get_nominees, name='Election Page'),
+    url(fr'^{ELECTION_SLUG_PATTERN}/graphs$', get_election_graphs, name='Election Page'),
     # url(
     #     fr'^{ELECTION_SLUG_PATTERN}/{ENDPOINT_MODIFY_VIA_JSON}/$',
     #     display_and_process_html_for_modification_of_json_election,

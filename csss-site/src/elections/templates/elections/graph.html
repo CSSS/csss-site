@@ -1,0 +1,22 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+	{{ block.super }}
+	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+	{%  if error_messages is None or error_messages|length == 0 %}
+		{% load staticfiles %}
+			<link rel="stylesheet" href="{% static 'csss_static/csss_markdown.css' %}">
+			<link rel="stylesheet" href="{% static 'elections_static/election_page.css' %}">
+			<section class="section">
+				<div class="container">
+					<div>
+						<h2 class="title is-2">{{election_obj.human_friendly_name}}</h2>
+                        <a href="{{ URL_ROOT }}elections/{{ election_obj.slug }}">{{ election_obj.human_friendly_name }}</a><br><br>
+                        {%  for image_path in image_paths %}
+                            <img src="{% static image_path %}" alt="">
+                        {%  endfor %}
+					</div>
+				</div>
+			</section>
+	{%  endif %}
+{% endblock %}

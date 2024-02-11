@@ -67,3 +67,6 @@ git+https://github.com/gregbaker/django-cas-ng.git@4f4a82e07eb624ffa53446a4f6806
 
 # for the cron service
 APScheduler==3.9.1.post1
+
+# for election graphing
+matplotlib==3.7.4

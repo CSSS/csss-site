@@ -47,8 +47,11 @@
 							{%  endif %}
 
 							{% if election__html_name.websurvey != None %}
-								<p> <a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a></p>
+								<p><a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a>{% if vote_data_available %} -  <a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/graphs">Graphs</a>{% endif %}</p>
+                            {%  elif vote_data_available %}
+                                <p><a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/graphs">Graphs</a></p>
 							{% endif %}
+
 							<br>
                             {%  for position_info in positions__html_name %}
                                 <h3 class="title is-size-3">Position: {{position_info.position_name}}</h3>
