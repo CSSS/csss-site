@@ -1,3 +1,6 @@
+.election_page_management_column_widths{
+    width: 100%;
+}
 .election_page_management_column_widths td{
-    width: 80%;
+    width: 33%;
 }
