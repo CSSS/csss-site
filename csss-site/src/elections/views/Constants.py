@@ -7,6 +7,7 @@ ID_KEY = 'id'
 ELECTION__HTML_NAME = 'election__html_name'
 
 NOMINEES_HTML__NAME = 'nominees__html_name'
+POSITIONS_LIST_HTML__NAME = 'positions__html_name'
 DRAFT_NOMINEE_HTML__NAME = 'draft_nominee__html_name'
 
 NOMINEE_LINK_SFU_ID = 'nominee_link_sfu_id'
