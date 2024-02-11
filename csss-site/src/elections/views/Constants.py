@@ -159,3 +159,19 @@ DELETE_NOMINEE_LINKS_REDIRECT_PATH_KEY = 'redirect_path'
 ELECTION_OFFICER_REQUEST = 'election_officer_request'
 
 NA_STRING = "NA"
+
+
+CONFIDENCE_STRING = 'Confidence'
+NO_CONFIDENCE_NAME = f'No {CONFIDENCE_STRING}'
+
+SKIPPED_VOTE = "Skipped Vote"
+
+URL_IMPORT_WEBSURVEY_RESULTS = 'import_websurvey_results'
+URL_MAP_WEBSURVEY_NOMINEE_RESULTS = 'map_websurvey_nominee_results'
+URL_MAP_WEBSURVEY_POSITION_RESULTS = 'map_websurvey_position_results'
+
+RESULT_POSITIONS_KEY = 'result_positions'
+
+NOMINEE_NAME_KEY = 'nominee_name'
+
+RE_IMPORT_WEBSURVEY_ELECTION_KEY = 're_import'

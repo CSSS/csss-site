@@ -39,6 +39,10 @@
 											<h5 class="title is-5">Delete Election</h5>
 											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/delete">Link</a>
 										</td>
+										<td>
+											<h5 class="title is-5">Import WebSurvey</h5>
+											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/import_websurvey_results">Import Websurvey Results</a>
+										</td>
 									</tr>
 								</table>
 							{%  endif %}
@@ -52,6 +56,7 @@
 									<h3 class="title is-size-3">Position: {{nominee.position_name}}</h3>
 								{% endifchanged %}
 								<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.full_name}}</b></p>
+                                <p>Votes: <b>{{ nominee.voterchoice_set.all.count }}</b></p>
 								{{nominee.nominee_speech.social_media_html|safe}}
 								<br>
 								{%  if nominee.nominee_speech.speech != None %}

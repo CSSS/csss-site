@@ -74,6 +74,9 @@ class Nominee(models.Model):
         default=None,
         null=True
     )
+    human_candidate = models.BooleanField(
+        default=True
+    )
 
     @property
     def get_facebook(self):
@@ -204,7 +207,8 @@ class Nominee(models.Model):
             nominee_link.save(first_pass=False)
 
     def __str__(self):
-        return f"Nominee {self.full_name} for Election {self.election}"
+        return f'{"Human " if self.human_candidate else ""}' \
+               f'Nominee {self.full_name} for Election {self.election}'
 
 
 class NomineeLink(models.Model):
@@ -374,3 +378,54 @@ class NomineePosition(models.Model):
     def __str__(self):
         return f"Nominee {self.nominee_speech.nominee.full_name} for Position {self.position_name} " \
                f"for Election {self.nominee_speech.nominee.election}"
+
+
+class VoterChoice(models.Model):
+    selection = models.ForeignKey(
+        NomineePosition, on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return (
+            f'vote for{" human candidate" if self.selection.nominee_speech.nominee.human_candidate else ""} '
+            f'{self.selection.nominee_speech.nominee.full_name} for '
+            f'{self.selection.nominee_speech.nominee.election.human_friendly_name} '
+        )
+
+
+class PendingVoterChoice(models.Model):
+    full_name = models.CharField(
+        max_length=100
+    )
+    nominee_name_mapped = models.BooleanField(
+        default=False
+    )
+    websurvey_column = models.IntegerField(
+        default=None,
+        null=True
+    )
+    election = models.ForeignKey(
+        Election, on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return (
+            f'{"" if self.nominee_name_mapped else "un"}mapped pending vote for {self.full_name} for '
+            f'{self.election.human_friendly_name} '
+        )
+
+
+class WebsurveyColumnPositionMapping(models.Model):
+    websurvey_column = models.IntegerField(
+    )
+    position_name = models.CharField(
+        max_length=1000,
+        default=None,
+        null=True
+    )
+    election = models.ForeignKey(
+        Election, on_delete=models.CASCADE
+    )
+
+    def __str__(self):
+        return f"Mapping {self.websurvey_column} to {self.position_name} to {self.election}"

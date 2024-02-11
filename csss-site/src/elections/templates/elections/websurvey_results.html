@@ -1,0 +1,62 @@
+{% extends "csss/header.html" %}
+
+{% block content %}
+	{{ block.super }}
+    {% if import_websurvey_data %}
+        <h1 class="title is-size-1">Import Websurvey Results for {{ election.human_friendly_name }}</h1>
+        <a href="{{ URL_ROOT }}elections/{{ election.slug }}">{{ election.human_friendly_name }}</a><br><br>
+        {%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+        <form method="post" enctype="multipart/form-data">
+            {%  csrf_token %}
+            <label for="websurvey_results">Websurvey Export File</label>
+            <input type="file" id="websurvey_results" name="election_results" required>
+            <button type="submit">Submit</button>
+        </form>
+    {%  elif map_websurvey_nominees %}
+        <h1 class="title is-size-1">Nominee Mapping for {{ election.human_friendly_name }}</h1>
+        <a href="{{ URL_ROOT }}elections/{{ election.slug }}">{{ election.human_friendly_name }}</a>
+        {%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+        <form method="post">
+            <input type="submit" name="re_import" value="Re-import websurvey results">
+            {%  csrf_token %}
+            {%  for results_nominee_name in websurvey_results_nominee_names %}
+                <p>Name from input file: {{ results_nominee_name }}</p>
+                <p>Nominee Name to save under</p>
+                <select name="[nominee_name][{{ results_nominee_name }}]">
+                    <option value="NA">Unable to Auto-Detect</option>
+                    {% for nominee_name in nominee_names %}
+                        {% if nominee_name == results_nominee_name %}
+                            <option selected value="{{ nominee_name }}">{{ nominee_name }}</option>
+                        {%  else %}
+                            <option value="{{ nominee_name }}">{{ nominee_name }}</option>
+                        {%  endif %}
+                    {%  endfor %}
+                </select><br><br>
+            {%  endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    {% elif map_websurvey_positions %}
+        <h1 class="title is-size-1">Position Mapping for {{ election.human_friendly_name }}</h1>
+        <a href="{{ URL_ROOT }}elections/{{ election.slug }}">{{ election.human_friendly_name }}</a><br><br>
+        {%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+        <form method="post">
+            <input type="submit" name="re_import" value="Re-import websurvey results"><br><br>
+            {%  csrf_token %}
+            {%  for result_position in election_position_name_mappings %}
+                <p>Question from input file: {{ result_position.websurvey_question }}</p>
+                <p>Position it maps to: </p>
+                <select name="[result_positions][{{ result_position.websurvey_question }}]">
+                    <option value="NA">Please select from List</option>
+                    {% for position in result_position.relevant_positions %}
+                        {%  if result_position.selected == position %}
+                            <option selected value="{{ position }}">{{ position }}</option>
+                        {%  else %}
+                            <option value="{{ position }}">{{ position }}</option>
+                        {%  endif %}
+                    {%  endfor %}
+                </select><br><br>
+            {%  endfor %}
+            <button type="submit">Submit</button>
+        </form>
+    {%  endif %}
+{% endblock %}
