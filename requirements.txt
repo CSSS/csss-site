@@ -24,7 +24,7 @@ smmap2==2.0.5
 stripe==2.33.0
 django-allauth==0.39.1
 psycopg2-binary==2.8.6
-django-markdown-app==0.9.6
+django-markdown-app==0.9.7
 pandas==1.2.4
 tzlocal==2.1
 httplib2==0.19.1
