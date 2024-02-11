@@ -1,11 +1,11 @@
+import re
 from time import sleep
 
 from django.core.management import BaseCommand
 
-from csss.Gmail import Gmail
 from csss.models import CSSSError
 from csss.setup_logger import Loggers
-from csss.views.send_email import send_email
+from csss.views.create_github_issue import create_github_issue
 
 CRON_SERVICE_NAME = "error_reporter"
 
@@ -25,22 +25,45 @@ class Command(BaseCommand):
             processed_files = []
             if len(unprocessed_errors) > 0:
                 logger.info("[csss/error_reporter.py handle()] connecting to gmail")
-                gmail = Gmail()
                 for unprocessed_error in unprocessed_errors:
                     if unprocessed_error.get_error_absolute_path not in processed_files:
                         logger.info(
                             "[csss/error_reporter.py handle()] emailing the sys-admin about errors in "
                             f"{unprocessed_error.get_error_absolute_path}"
                         )
-                        message = f"Error in {unprocessed_error.filename}"
-                        send_email(
-                            f"{unprocessed_error.file_path} ERRORS detected in CSSS-WEBSITE", message,
-                            "jaymanshad@protonmail.com", "Jace",
-                            gmail=gmail, attachment=unprocessed_error.get_error_absolute_path
-                        )
+                        with open(unprocessed_error.get_error_absolute_path, 'r') as f:
+                            f.seek(0)
+                            error_lines = []
+                            error_pattern = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} = ERROR = ")
+                            non_error_pattern = re.compile(r"\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} = (INFO|DEBUG) = ")
+                            error_encountered = False
+                            log_issue = False
+                            f.flush()
+                            lines = f.readlines()
+                            for line in lines:
+                                if error_pattern.match(line):
+                                    error_encountered = True
+                                    error_lines.append(line)
+                                elif non_error_pattern.match(line) and error_encountered:
+                                    log_issue = True
+                                elif error_encountered:
+                                    error_lines.append(line)
+                                elif non_error_pattern.match(line):
+                                    pass
+                                else:
+                                    pass
+                                if log_issue:
+                                    log_issue = False
+                                    error_encountered = False
+                                    create_github_issue(error_lines)
+                                    error_lines.clear()
+                            if len(lines) == 0 and error_encountered:
+                                log_issue = True
+                            if log_issue:
+                                create_github_issue(error_lines)
+                                error_lines.clear()
                         logger.info("[csss/error_reporter.py handle()] sys-admin emailed about above error.")
                         processed_files.append(unprocessed_error.get_error_absolute_path)
-                gmail.close_connection()
                 logger.info("[csss/error_reporter.py handle()] disconnected from gmail")
             logger.info("[csss/error_reporter.py handle()] going to sleep for an hour")
             sleep(seconds_in_an_hour)
