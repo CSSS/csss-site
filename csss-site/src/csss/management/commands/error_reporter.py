@@ -24,11 +24,10 @@ class Command(BaseCommand):
             logger.info("[csss/error_reporter.py handle()] any unprocessed errors updated to \"processed\"")
             processed_files = []
             if len(unprocessed_errors) > 0:
-                logger.info("[csss/error_reporter.py handle()] connecting to gmail")
                 for unprocessed_error in unprocessed_errors:
                     if unprocessed_error.get_error_absolute_path not in processed_files:
                         logger.info(
-                            "[csss/error_reporter.py handle()] emailing the sys-admin about errors in "
+                            "[csss/error_reporter.py handle()] will create github issues errors in "
                             f"{unprocessed_error.get_error_absolute_path}"
                         )
                         with open(unprocessed_error.get_error_absolute_path, 'r') as f:
@@ -62,8 +61,7 @@ class Command(BaseCommand):
                             if log_issue:
                                 create_github_issue(error_lines)
                                 error_lines.clear()
-                        logger.info("[csss/error_reporter.py handle()] sys-admin emailed about above error.")
+                        logger.info("[csss/error_reporter.py handle()] github issue created about above error.")
                         processed_files.append(unprocessed_error.get_error_absolute_path)
-                logger.info("[csss/error_reporter.py handle()] disconnected from gmail")
             logger.info("[csss/error_reporter.py handle()] going to sleep for an hour")
             sleep(seconds_in_an_hour)
