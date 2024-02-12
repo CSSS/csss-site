@@ -12,10 +12,9 @@
 					<div>
 						<h2 class="title is-2">{{election__html_name.human_friendly_name}}</h2>
 						<br>
-						{% if nominees__html_name is None %}
+						{% if positions__html_name is None %}
 							It seems like the time hasn't come to announce the nominees yet....
 						{% else %}
-
 							{% if current_election_officer %}
 								<table class="election_page_management_column_widths">
 									<tr>
@@ -39,32 +38,41 @@
 											<h5 class="title is-5">Delete Election</h5>
 											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/delete">Link</a>
 										</td>
+										<td>
+											<h5 class="title is-5">Import WebSurvey</h5>
+											<a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/import_websurvey_results">Import Websurvey Results</a>
+										</td>
 									</tr>
 								</table>
 							{%  endif %}
 
 							{% if election__html_name.websurvey != None %}
-								<p> <a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a></p>
+								<p><a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a>{% if vote_data_available %} -  <a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/graphs">Graphs</a>{% endif %}</p>
+                            {%  elif vote_data_available %}
+                                <p><a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/graphs">Graphs</a></p>
 							{% endif %}
+
 							<br>
-							{% for nominee in nominees__html_name %}
-								{% ifchanged nominee.position_name %}
-									<h3 class="title is-size-3">Position: {{nominee.position_name}}</h3>
-								{% endifchanged %}
-								<p>Nominee Name: <b>{{nominee.nominee_speech.nominee.full_name}}</b></p>
-								{{nominee.nominee_speech.social_media_html|safe}}
-								<br>
-								{%  if nominee.nominee_speech.speech != None %}
-									<p>Nominee Speech:</p>
-									<br>
-									<div class="csss_markdown">
-										<article class="box is-light">
-											{{nominee.nominee_speech.formatted_speech|safe}}
-										</article>
-									</div>
-								{%  endif %}
-								<hr>
-							{% endfor %}
+                            {%  for position_info in positions__html_name %}
+                                <h3 class="title is-size-3">Position: {{position_info.position_name}}</h3>
+                                <p>{{ position_info.non_human_vote_info }}</p><br>
+                                {%  for nominee in position_info.nominees %}
+                                    <p>Nominee Name: <b>{{nominee.nominee_speech.nominee.full_name}}</b></p>
+                                    {%  if vote_data_available %}<p>Votes: <b>{{ nominee.voterchoice_set.all.count }}</b></p>{%  endif %}
+                                    {{nominee.nominee_speech.social_media_html|safe}}
+                                    <br>
+                                    {%  if nominee.nominee_speech.speech != None and nominee.nominee_speech.formatted_speech != None %}
+                                        <p>Nominee Speech:</p>
+                                        <br>
+                                        <div class="csss_markdown">
+                                            <article class="box is-light">
+                                                {{nominee.nominee_speech.formatted_speech|safe}}
+                                            </article>
+                                        </div>
+                                    {%  endif %}
+                                    <br>
+                                {%  endfor %}
+                            {%  endfor %}
 						{% endif %}
 					</div>
 				</div>

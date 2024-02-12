@@ -85,6 +85,7 @@ function update_media_files {
   ln -ns /home/csss/staging_assets/website/exec-photos "${BASE_DIR}/static_root/about_static/" || true
   mkdir -p "${BASE_DIR}/media_root/" || true
   ln -s /home/csss/staging_assets/website/mailbox_attachments "${BASE_DIR}/media_root/." || true
+  mkdir -p "${BASE_DIR}/static_root/elections_static/election_graphs/" || true
 }
 
 function set_gunicorn_files {

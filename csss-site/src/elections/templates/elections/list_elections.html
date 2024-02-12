@@ -7,6 +7,7 @@
 {% block content %}
 	<!-- included if the user tried to delete an election with an incorrect id -->
 	{%  include 'csss/error_htmls/html_snippet_for_general_error_validations.html' %}
+    <a href="{{URL_ROOT}}elections/graphs">Graphs</a>
     <h2 class="title is-size-2">Past CSSS Elections</h2>
     <ul>
         {%  for nom_page in election_list %}

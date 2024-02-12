@@ -6,3 +6,4 @@
 csss-site/src/about/static/about_static/exec-photos/
 *.env
 .idea/
+csss-site/src/elections/static/elections_static/election_graphs/
