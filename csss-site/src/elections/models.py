@@ -296,7 +296,8 @@ class NomineeSpeech(models.Model):
 
     @property
     def formatted_speech(self):
-        return markdown_message(self.speech) if self.speech else ""
+        valid_speech = self.speech and self.speech != 'NA' and self.speech != "NONE"
+        return markdown_message(self.speech) if valid_speech else None
 
     @property
     def speech_for_editing(self):

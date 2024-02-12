@@ -61,7 +61,7 @@
                                     {%  if vote_data_available %}<p>Votes: <b>{{ nominee.voterchoice_set.all.count }}</b></p>{%  endif %}
                                     {{nominee.nominee_speech.social_media_html|safe}}
                                     <br>
-                                    {%  if nominee.nominee_speech.speech != None %}
+                                    {%  if nominee.nominee_speech.speech != None and nominee.nominee_speech.formatted_speech != None %}
                                         <p>Nominee Speech:</p>
                                         <br>
                                         <div class="csss_markdown">
