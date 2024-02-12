@@ -39,6 +39,8 @@ class Command(BaseCommand):
                             log_issue = False
                             f.flush()
                             lines = f.readlines()
+                            logger.info("[csss/error_reporter.py handle()] reading through file "
+                                        f"{unprocessed_error.get_error_absolute_path}")
                             for line in lines:
                                 if error_pattern.match(line):
                                     error_encountered = True
@@ -55,13 +57,16 @@ class Command(BaseCommand):
                                     log_issue = False
                                     error_encountered = False
                                     create_github_issue(error_lines)
+                                    logger.info(
+                                        "[csss/error_reporter.py handle()] github issue created about above error."
+                                    )
                                     error_lines.clear()
-                            if len(lines) == 0 and error_encountered:
-                                log_issue = True
-                            if log_issue:
+                            if log_issue or error_encountered:
                                 create_github_issue(error_lines)
+                                logger.info(
+                                    "[csss/error_reporter.py handle()] github issue created about above error."
+                                )
                                 error_lines.clear()
-                        logger.info("[csss/error_reporter.py handle()] github issue created about above error.")
                         processed_files.append(unprocessed_error.get_error_absolute_path)
             logger.info("[csss/error_reporter.py handle()] going to sleep for an hour")
             sleep(seconds_in_an_hour)
