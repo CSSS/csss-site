@@ -118,7 +118,7 @@ def _validate_date(date, include_time=True, date_type=None):
         error_message = f" given date of '{date}' is not in the valid format"
         if date_type:
             error_message += f" for {date_type}"
-        logger.error(
+        logger.warning(
             "[elections/validate_election_date.py _validate_date()]"
             f"{error_message}"
         )
@@ -127,7 +127,7 @@ def _validate_date(date, include_time=True, date_type=None):
         error_message = "given date seems to be unreadable"
         if date_type:
             error_message += f" for {date_type}"
-        logger.error(
+        logger.warning(
             f"[elections/validate_election_date.py _validate_date()]"
             f" {error_message} due to following error \n{e}"
         )
