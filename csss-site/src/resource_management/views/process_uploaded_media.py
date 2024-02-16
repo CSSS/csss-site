@@ -26,14 +26,15 @@ def process_uploaded_media(request):
          )
         # if the user just added a note that is a google drive link
     )
-    if media_uploaded:
+    inputted_date = request.POST[MEDIA_UPLOADS_EVENT_DATE__HTML_NAME]
+    if media_uploaded and re.match(r"^\d{4}-\d{2}-\d{2}$", inputted_date):
         upload_has_specifier = request.POST[MEDIA_UPLOADS_EVENT_TYPE__HTML_NAME] == 'Other'
         event_type_specifier = request.POST[MEDIA_UPLOADS_EVENT_TYPE_SPECIFIER__HTML_NAME] \
             if upload_has_specifier else None
         upload = Upload(
             upload_date=create_pst_time_from_datetime(datetime.datetime.now()),
             event_type=request.POST[MEDIA_UPLOADS_EVENT_TYPE__HTML_NAME],
-            event_date=request.POST[MEDIA_UPLOADS_EVENT_DATE__HTML_NAME],
+            event_date=inputted_date,
             relevant_note=request.POST[MEDIA_UPLOADS_NOTE__HTML_NAME],
             event_type_specifier=event_type_specifier
         )
