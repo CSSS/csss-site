@@ -41,7 +41,7 @@ def process_uploaded_media(request):
         upload.save()
         if request.FILES.get(MEDIA_UPLOADS__HTML_NAME, None) is not None:
             for media_upload in (dict(request.FILES))[MEDIA_UPLOADS__HTML_NAME]:
-                media_upload_obj = MediaUpload(media_upload)
+                media_upload_obj = MediaUpload(media=media_upload)
                 media_upload_obj.upload = upload
                 media_upload_obj.save()
         send_email(
