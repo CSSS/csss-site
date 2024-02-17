@@ -98,7 +98,7 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
     context.update({
         'tab': tab,
         'election_list': None if len(elections) == 0 else elections,
-        ROOT_USER: request.user.username == "root",
+        ROOT_USER: request.user.username in ["root", "jsaadatm", "gsa92", "mdb15"],
     })
 
     return context
