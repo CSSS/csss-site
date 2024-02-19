@@ -87,7 +87,7 @@
     </ul>
 
     <h3 class="title is-size-3"><a id="32-adding-nominees-to-the-website">3.2. Adding nominees to the website</a></h3>
-    When nominees start emailing you to indicate that they want to be a nominee, go to <code>https://sfucsss.org/elections/&#60;election_slug&#62;/election_modification_nominee_links/</code> and enter their SFUID into the <code>SFU IDs</code> field and then email back the nominee the link under <code>Link for Nominee</code> for that nominee using the instructions at <a href="#34-sending-nominee-link-emails">3.4. Sending Nominee Link Emails</a>
+    When nominees start emailing you to indicate that they want to be a nominee, go to <code>https://sfucsss.org/elections/&#60;election_slug&#62;/election_modification_nominee_links/</code> and enter their SFUID into the <code>SFU IDs</code> field and then email back the nominee the link in <code>Link for Nominee</code> for that nominee using the instructions at <a href="#34-sending-nominee-link-emails">3.4. Sending Nominee Link Emails</a>
 
     <h3 class="title is-size-3"><a id="33-sending-reminder-email">3.3. Sending reminder email</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
@@ -131,7 +131,7 @@
     </ul>
 
     <h4 class="title is-size-4"><a id="412-questions">4.1.2. Questions</a></h4>
-    <img src="{% static 'elections_static/election_documentation_images/websurvey_questions.png' %}">
+    <img src="{% static 'elections_static/election_documentation_images/websurvey_questions.png' %}"><br>
     <img src="{% static 'elections_static/election_documentation_images/websurvey_title_page.png' %}">
     <ul style="margin-left: 2em;list-style-type: circle;">
         <li><i>Heading:</i> <code>Nominee Speeches</code></li>
@@ -188,18 +188,7 @@
     </ul>
 
     <h3 class="title is-size-3"><a id="52-save-results">5.2. Save Results</a></h3>
-{#    > save results from websurvey in the results folder for future audits and analytics purposes.#}
-{#    <h4 class="title is-size-4"><a id="521-save-image">5.2.1. Save Image</a></h4>#}
-{#    <ol class="csss_order_list">#}
-{#        <li>Go to <code>View Submissions</code> -> <code>View</code> option for the election.</li>#}
-{#        <li>save a screenshot of the above screen to [<code>Results/screenshots</code>](Results/screenshots) folder. Make sure your file name matches the file name convention of the files already in that folder</li>#}
-{#    </ol>#}
-{#    <h4 class="title is-size-4"><a id="522-save-csv">5.2.2. Save CSV</a></h4>#}
-{#    <ol class="csss_order_list">#}
-{#        <li>Go to <code>View submissions</code> -> <code>Export</code> option for the election. Make sure your file name matches the file name convention of the files already in that folder.</li>#}
-{#        <li>Go to the terminal and navigate to the folder [<code>Results/csv</code>](Results/csv). and then do <code>./convert_to_csv.sh &#60;file_name&#62;</code></li>#}
-{#    </ol>#}
-    <h4 class="title is-size-4"><a id="523-sharing-results-with-csss">5.2.3. Sharing results with <code>CSSS</code></a></h4>
+    <h4 class="title is-size-4"><a id="521-sharing-results-with-csss">5.2.1. Sharing results with <code>CSSS</code></a></h4>
     <ol class="csss_order_list">
     <li>Click on <code>My Surveys</code></li>
     <li>Click on <code>Edit</code> for the relevant election</li>
@@ -207,5 +196,13 @@
     <li>Enter <code>csss</code> for the computing ID of a new administrator and then <code>Add Administrator</code></li>
     <li>Click on <code>Save Changes</code></li>
     <img src="{% static 'elections_static/election_documentation_images/websurvey_administrator.png' %}">
-
+    <h4 class="title is-size-4"><a id="522-sharing-results-with-csss-website">5.2.2. Sharing results with <code>CSSS Website</code></code></a></h4>
+    <ol class="csss_order_list">
+    <li>Click on <code>View Submissions</code></li>
+    <li>Click on <code>Export</code> for the correct websurvey</li>
+    <li>Click on <code>Click Here to Download Exported Records</code></li>
+    <li>Go to <code>https://sfucsss.org/elections/<election_slug></code></li>
+    <li>Click on <code>Import Websurvey Results</code></li>
+    <li>Then you can follow through the workflow</li>
+    <li>You can verify that you did it correct by ensuring that the end results in the election is the same as what you see if you click on <code>View</code> under <code>Summary</code> for an election instead of <code>Export</code> in step 2</li>
 {% endblock %}
