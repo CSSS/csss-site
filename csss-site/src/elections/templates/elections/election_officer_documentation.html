@@ -62,21 +62,17 @@
     <h2 class="title is-size-2"><a id="2-create-election-on-website">2. Create election on website</a></h2>
     <ol class="csss_order_list">
         <li>go to <a href="https://sfucsss.org/elections/new_election_via_nominee_links/">https://sfucsss.org/elections/new_election_via_nominee_links/</a> and fill in the info for the new election
+            <ul style="margin-left: 2em;list-style-type: circle;">
+                <li>Take note of the name of the election as it will be used below everywhere you see <code>&lt;election_name&gt;</code></li>
+            </ul>
         </li>
     </ol>
 
     <h2 class="title is-size-2"><a id="3-nomination-emails">3. Nomination Emails</a></h2>
 
     <h3 class="title is-size-3"><a id="31-sending-initial-email">3.1. Sending initial email</a></h3>
-    {#The below programs are the recommended programs for modifying LaTeX files#}
-    {#<ul style="margin-left: 2em;list-style-type: circle;">#}
-    {#    <li><a href="http://milq.github.io/install-latex-ubuntu-debian/">Modifying on GNU+Linux</a></li>#}
-    {#    <li><a href="https://www.xm1math.net/texmaker/download.html">Modifying on Windows or Mac</a></li>#}
-    {#</ul>#}
-
-
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Header: <code>20XX-20XX CSSS [General|By|SFSS] Elections Nominations</code></li>
+        <li>Subject Header: <code>&lt;election_name&gt; Election Nominations</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Addresses to send to: <code>csss-announce</code></li>
             <li>Email template: in the text file called <a href="{%  static 'elections_static/election_documentation_emails/1_nomination.txt' %}" download><code>1_nomination.txt</code></a></li>
@@ -91,7 +87,7 @@
 
     <h3 class="title is-size-3"><a id="33-sending-reminder-email">3.3. Sending reminder email</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Heading: <code>REMINDER: 20XX-20XX CSSS [General|By|SFSS] Elections Nominations</code></li>
+        <li>Subject Heading: <code>REMINDER: &lt;election_name&gt; Election Nominations</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Addresses to send to: <code>csss-announce</code></li>
             <li>Email template: in the text file called <a href="{%  static 'elections_static/election_documentation_emails/2_nomination_reminder.txt' %}" download><code>2_nomination_reminder.txt</code></a></li>
@@ -101,7 +97,7 @@
 
     <h3 class="title is-size-3"><a id="34-sending-nominee-link-emails">3.4. Sending Nominee Link Emails</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Heading: <code>20XX-20XX CSSS [General|By|SFSS] Elections Nominee Link</code></li>
+        <li>Subject Heading: <code>&lt;election_name&gt; Election Nominee Link</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Addresses to send to: <code>csss-announce</code></li>
             <li>Email template: in the text file called <a href="{%  static 'elections_static/election_documentation_emails/3_nominee_link.txt' %}" download><code>3_nominee_link.txt</code></a></li>
@@ -111,7 +107,7 @@
 
     <h3 class="title is-size-3"><a id="35-sending-reminder-nominee-link-emails">3.5. Sending Reminder Nominee Link Emails</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Heading: <code>REMINDER: 20XX-20XX CSSS [General|By|SFSS] Elections Nominee Link</code></li>
+        <li>Subject Heading: <code>REMINDER: &lt;election_name&gt; Elections Nominee Link</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Addresses to send to: <code>csss-announce</code></li>
             <li>Email template: in the text file called <a href="{%  static 'elections_static/election_documentation_emails/4_nominee_link_reminder.txt' %}" download><code>4_nominee_link_reminder.txt</code></a></li>
@@ -125,8 +121,8 @@
     <h4 class="title is-size-4"><a id="411-general">4.1.1. General</a></h4>
     <img src="{% static 'elections_static/election_documentation_images/websurvey_general.png' %}">
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li><i>Survey Name:</i> <code>2021-2022 CSSS [By|General|SFSS] Elections</code></li>
-        <li><i>Completed Text:</i> <code>Thank you for casting your vote for our future Executive Officers!</code></li>
+        <li><i>Survey Name:</i> <code>&lt;election_name&gt; Election</code></li>
+        <li><i>Completed Text:</i> <code>Thank you for casting your vote for our future Officers!</code></li>
         <li><i>Completed URL:</i> <code>https://sfucsss.org/</code></li>
     </ul>
 
@@ -158,7 +154,7 @@
 
     <h3 class="title is-size-3"><a id="43-sending-initial-email">4.3. Sending initial email</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Heading: <code>CSSS [By|General|SFSS] Elections 20XX-20XX Voting Period</code></li>
+        <li>Subject Heading: <code>CSSS &lt;election_name&gt; Voting Period</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Addresses to send email to: <code>csss-announce</code></li>
             <li>Email template: in text file called  <a href="{%  static 'elections_static/election_documentation_emails/5_voting.txt' %}" download><code>5_voting.txt</code></a></li>
@@ -168,7 +164,7 @@
 
     <h3 class="title is-size-3"><a id="44-sending-reminder-email">4.4. Sending reminder email</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Heading: <code>Final Reminder: CSSS [BY|General|SFSS] Elections 20XX Voting Period</code></li>
+        <li>Subject Heading: <code>Final Reminder: CSSS &lt;election_name&gt; Voting Period</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Addresses to send email to: <code>csss-announce</code></li>
             <li>email template: in text file: <a href="{%  static 'elections_static/election_documentation_emails/6_voting_reminder.txt' %}" download><code>6_voting_reminder.txt</code></a></li>
@@ -179,7 +175,7 @@
     <h2 class="title is-size-2"><a id="5-results-collected">5. Results Collected</a></h2>
     <h3 class="title is-size-3"><a id="51-sending-results-email">5.1. Sending results email</a></h3>
     <ul style="margin-left: 2em;list-style-type: circle;">
-        <li>Subject Heading: <code>CSSS [By|General|SFSS] Elections 20XX-20XX Results</code></li>
+        <li>Subject Heading: <code>CSSS &lt;election_name&gt; Election Results</code></li>
         <ul style="margin-left: 2em;list-style-type: circle;">
             <li>Address to send email to: <code>csss-announce</code></li>
             <li>Email template: in the text file called <a href="{%  static 'elections_static/election_documentation_emails/7_voting_results.txt' %}" download><code>7_voting_results.txt</code></a></li>
@@ -196,13 +192,15 @@
     <li>Enter <code>csss</code> for the computing ID of a new administrator and then <code>Add Administrator</code></li>
     <li>Click on <code>Save Changes</code></li>
     <img src="{% static 'elections_static/election_documentation_images/websurvey_administrator.png' %}">
-    <h4 class="title is-size-4"><a id="522-sharing-results-with-csss-website">5.2.2. Sharing results with <code>CSSS Website</code></code></a></h4>
+    </ol>
+    <h4 class="title is-size-4"><a id="522-sharing-results-with-csss-website">5.2.2. Sharing results with <code>CSSS Website</code></a></h4>
     <ol class="csss_order_list">
     <li>Click on <code>View Submissions</code></li>
     <li>Click on <code>Export</code> for the correct websurvey</li>
     <li>Click on <code>Click Here to Download Exported Records</code></li>
-    <li>Go to <code>https://sfucsss.org/elections/<election_slug></code></li>
+    <li>Go to <code>https://sfucsss.org/elections/&#60;election_slug&#62;</code></li>
     <li>Click on <code>Import Websurvey Results</code></li>
     <li>Then you can follow through the workflow</li>
     <li>You can verify that you did it correct by ensuring that the end results in the election is the same as what you see if you click on <code>View</code> under <code>Summary</code> for an election instead of <code>Export</code> in step 2</li>
+    </ol>
 {% endblock %}
