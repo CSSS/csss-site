@@ -43,6 +43,7 @@ def determine_changes_for_position_specific_discord_role_validation(
                 position_name__in=positions_that_map_to_the_discord_role
             )
         ]
+        users_currently_in_executive_discord_role = None
         if executive_discord_role_obj['id'] in role_id__list_of_users:  # in case the role currently has no users
             users_currently_in_executive_discord_role = role_id__list_of_users[executive_discord_role_obj['id']]
             for user_currently_in_executive_discord_role in users_currently_in_executive_discord_role:
@@ -107,46 +108,49 @@ def determine_changes_for_position_specific_discord_role_validation(
                                 f"{user_currently_in_executive_discord_role['user']['username']}"
                                 f"({discord_id_for_user_currently_in_executive_discord_role})"
                             )
-            for user_that_should_be_in_discord_role in officers_that_should_be_in_discord_role:
+        for user_that_should_be_in_discord_role in officers_that_should_be_in_discord_role:
+            if users_currently_in_executive_discord_role:
                 discord_ids_for_users_currently_in_executive_role = [
                     user['user']['id'] for user in users_currently_in_executive_discord_role
                 ]
-                if position_is_executive_officer:
-                    discord_id_for_users_that_should_be_in_exec_discord_group_role.append(
-                        user_that_should_be_in_discord_role.discord_id
-                    )
-                    user_that_should_have_role_do_not_have_role = (
-                        exec_discord_role_id not in
-                        user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['roles']
-                    )
-                    if user_that_should_have_role_do_not_have_role:
-                        logger.info(
-                            f"[about/validate_discord_roles_members.py() ] adding "
-                            f"{user_that_should_be_in_discord_role.full_name} to the list of users that "
-                            f"should be in the execs discord role {executive_discord_role_name}"
-                        )
-                user_not_in_role_but_should_be_in_role = (
-                    user_that_should_be_in_discord_role.discord_id not in
-                    discord_ids_for_users_currently_in_executive_role
+            else:
+                discord_ids_for_users_currently_in_executive_role = []
+            if position_is_executive_officer:
+                discord_id_for_users_that_should_be_in_exec_discord_group_role.append(
+                    user_that_should_be_in_discord_role.discord_id
                 )
-                if user_not_in_role_but_should_be_in_role:
-                    if user_that_should_be_in_discord_role.discord_id not in members_id__role_ids:
-                        username = (
-                            user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['user']['username']
-                        )
-                        roles_map = {
-                            role_id__role[role_id]['name']: role_id
-                            for role_id in user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['roles']
-                        }
-                        members_id__role_ids[user_that_should_be_in_discord_role.discord_id] = \
-                            {
-                                "username": username,
-                                "roles": roles_map
-                            }
-                    role_id = executive_discord_role_obj['id']
-                    role_name = role_id__role[role_id]['name']
-                    members_id__role_ids[user_that_should_be_in_discord_role.discord_id]['roles'][role_name] = role_id
+                user_that_should_have_role_do_not_have_role = (
+                    exec_discord_role_id not in
+                    user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['roles']
+                )
+                if user_that_should_have_role_do_not_have_role:
                     logger.info(
-                        "[about/validate_discord_roles_members.py() ] add the role "
-                        f"{executive_discord_role_name} to user {user_that_should_be_in_discord_role.full_name}"
+                        f"[about/validate_discord_roles_members.py() ] adding "
+                        f"{user_that_should_be_in_discord_role.full_name} to the list of users that "
+                        f"should be in the execs discord role {executive_discord_role_name}"
                     )
+            user_not_in_role_but_should_be_in_role = (
+                user_that_should_be_in_discord_role.discord_id not in
+                discord_ids_for_users_currently_in_executive_role
+            )
+            if user_not_in_role_but_should_be_in_role:
+                if user_that_should_be_in_discord_role.discord_id not in members_id__role_ids:
+                    username = (
+                        user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['user']['username']
+                    )
+                    roles_map = {
+                        role_id__role[role_id]['name']: role_id
+                        for role_id in user_id__user_obj[user_that_should_be_in_discord_role.discord_id]['roles']
+                    }
+                    members_id__role_ids[user_that_should_be_in_discord_role.discord_id] = \
+                        {
+                            "username": username,
+                            "roles": roles_map
+                        }
+                role_id = executive_discord_role_obj['id']
+                role_name = role_id__role[role_id]['name']
+                members_id__role_ids[user_that_should_be_in_discord_role.discord_id]['roles'][role_name] = role_id
+                logger.info(
+                    "[about/validate_discord_roles_members.py() ] add the role "
+                    f"{executive_discord_role_name} to user {user_that_should_be_in_discord_role.full_name}"
+                )
