@@ -46,12 +46,13 @@ def get_nominees(request, slug):
         logger.info("[elections/election_page.py get_nominees()] time to vote")
         positions_list = {}
         votes_available = False
+        no_pending_voter_choices = election_to_display.pendingvoterchoice_set.all().count() == 0
         if election_to_display.end_date is None or election_to_display.end_date <= get_current_date():
             votes_available = (
                 VoterChoice.objects.all().filter(
                     selection__nominee_speech__nominee__election_id=election_to_display.id
                 ).count() > 0
-            )
+            ) and no_pending_voter_choices
             position_names = [position.position_name for position in NomineePosition.objects.all().filter(
                 nominee_speech__nominee__election__slug=slug,
             ).order_by('position_index')]
