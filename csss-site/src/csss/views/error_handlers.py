@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.utils.deprecation import MiddlewareMixin
 import traceback
@@ -13,7 +15,15 @@ class HandleBusinessExceptionMiddleware(MiddlewareMixin):
     def process_exception(self, request, exception):
         logger = Loggers.get_logger()
         if isinstance(exception, InvalidPrivilege):
-            return exception.render
+            if request.user.is_authenticated:
+                return exception.render
+            else:
+                base_url = f"http://{settings.HOST_ADDRESS}"
+                # this is necessary if the user is testing the site locally and therefore
+                # is using the port to access the browser
+                if settings.PORT is not None:
+                    base_url += f":{settings.PORT}"
+                return HttpResponseRedirect(f"{base_url}/login?next={request.path}")
         if isinstance(exception, NoAuthenticationMethod):
             return exception.render
         if isinstance(exception, CASAuthenticationMethod):
