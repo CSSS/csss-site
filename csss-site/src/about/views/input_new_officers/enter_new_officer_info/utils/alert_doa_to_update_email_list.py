@@ -27,13 +27,13 @@ def alert_doa_to_update_email_list(sfu_officer_mailing_list_email, position_has_
     message = """Hi There!
 Seems there has been a change in who holds a CSSS elected or appointed position.
 
-YOU NEED TO TAKE THE FOLLOWING ACTIONS:
+YOU NEED TO TAKE THE FOLLOWING ACTIONS TO MANUALLY UPDATE THE MAILLISTS YOURSELF ON MAILLIST.SFU.CA:
 """
     message += (
         f"1. Go to {url} to see who is supposed to be in the maillist {sfu_officer_mailing_list_email}"
-        f" [and if it exists ,{sfu_officer_mailing_list_email}-current]\n\n"
+        f" [and if it exists, {sfu_officer_mailing_list_email}-current]\n\n"
         f"2. Go to https://maillist.sfu.ca/ , log in with your SFUID and update the {sfu_officer_mailing_list_email}"
-        f" [and if it exists ,{sfu_officer_mailing_list_email}-current]"
+        f" [and if it exists, {sfu_officer_mailing_list_email}-current]"
         f" on there to match what you see on {url} for {sfu_officer_mailing_list_email} "
         f"[and if it exists, {sfu_officer_mailing_list_email}-current]\n\n"
     )
