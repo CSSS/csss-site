@@ -30,7 +30,10 @@ def create_context_for_current_email_mappings_html(context, officer_emaillist_an
                     sfuids_of_officers_to_show.append(officer_to_show.sfu_computing_id)
             current_officers_to_show.extend(sfuids_of_officers_to_show[:1])
             current_and_previous_officers_to_show.append(email_list)
-            current_and_previous_officers_to_show.extend(sfuids_of_officers_to_show[1:2])
+            if email_list == 'csss-doa-current@sfu.ca':
+                current_and_previous_officers_to_show.extend(sfuids_of_officers_to_show[:2])
+            else:
+                current_and_previous_officers_to_show.extend(sfuids_of_officers_to_show[1:2])
             if applicable_position.executive_officer:
                 current_executive_officers.append(email_list)
                 if '-current' in email_list:
