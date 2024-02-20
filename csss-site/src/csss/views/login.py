@@ -33,10 +33,11 @@ class LoginView(CasLoginView):
     def successful_login(self, request, next_page):
         login_redirect = super().successful_login(request, next_page)
         logger = Loggers.get_logger()
-        logger.debug(
-            f"[LoginView successful_login()] attributes are detected as {request.session['attributes']} for"
-            f" {request.user}"
-        )
+        if 'attributes' in request.session:
+            logger.debug(
+                f"[LoginView successful_login()] attributes are detected as {request.session['attributes']} for"
+                f" {request.user}"
+            )
         if request.user.username in get_current_sys_admin_or_webmaster_sfuid():
             request.user.is_staff = True
             request.user.is_superuser = True
