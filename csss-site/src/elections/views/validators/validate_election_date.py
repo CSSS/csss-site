@@ -36,13 +36,17 @@ def validate_webform_election_date_and_time(date, time, new_election=False):
     if success:
         start_date = date.split(r"-")
         start_date = create_pst_time(year=int(start_date[0]), month=int(start_date[1]), day=int(start_date[2]))
-        current_date = datetime.datetime.now()
-        # assuming it's a current election if the start_date is less than 7 days ago
-        election_start_date_in_future = (
-            create_pst_time(current_date.year, current_date.month, current_date.day) < start_date
-        )
+        today_date = datetime.datetime.now()
+        today_date = create_pst_time(today_date.year, today_date.month, today_date.day)
+        election_start_date_in_future = today_date < start_date
         if not election_start_date_in_future and new_election:
             return False, "seems like somehow this election is starting in the past."
+        # decided to allow election officers to spend 3 weeks maximum reaching out to nominees
+        if (start_date - today_date).days > (7 * 3):
+            return False, (
+                "You are trying to create an election 3 weeks before it is public. Please select a date closer"
+                " to current date"
+            )
         return True, None
     return success, error_message
 
@@ -68,10 +72,13 @@ def validate_webform_election_end_date(end_date_str, start_date_str):
         end_date_month = int(end_date[1])
         end_date_day = int(end_date[2])
         end_date = create_pst_time(year=end_date_year, month=end_date_month, day=end_date_day)
-        if end_date > start_date:
-            return success, error_message
-        else:
+        if end_date <= start_date:
             return False, "Seems that the end date is on the same day as the start date or before it"
+        if (end_date - start_date).days > (7 * 3):
+            return False, (
+                "An election cannot run for more than 3 weeks. the average is typically a week and half"
+            )
+        return True, None
     else:
         # comes here if the end date is not valid, This can either mean the user entered an incorrect date format
         # somehow or there just wasn't an end date specified
