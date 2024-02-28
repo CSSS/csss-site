@@ -24,25 +24,26 @@ def get_elections_graphs(request):
     if VoterChoice.objects.all().count() == 0:
         return HttpResponseRedirect(f"{settings.URL_ROOT}elections")
     for election in elections:
-        days = ""
-        if election.date is not None:
-            days += f"Start WeekDay: {election.date.strftime('%a')}\n"
-        if election.end_date is not None and election.date is not None:
-            days += f"{(election.end_date - election.date).days} Vote Days"
-        election_name = "\n".join(election.human_friendly_name.split(":"))
-        labels.append(f"{election_name}\n{days}")
-        overall_labels.append(election_name)
-        nominee_positions = NomineePosition.objects.all().filter(
-            nominee_speech__nominee__election_id=election.id
-        ).order_by('position_name')
-        votes = 0
-        indx = 0
-        position = nominee_positions[indx].position_name
-        while len(nominee_positions) > indx and nominee_positions[indx].position_name == position:
-            votes += nominee_positions[indx].voterchoice_set.all().count()
-            indx += 1
-        numbers.append(votes)
-        overall_numbers.append(votes)
+        if election.pendingvoterchoice_set.all().count() > 0:
+            days = ""
+            if election.date is not None:
+                days += f"Start WeekDay: {election.date.strftime('%a')}\n"
+            if election.end_date is not None and election.date is not None:
+                days += f"{(election.end_date - election.date).days} Vote Days"
+            election_name = "\n".join(election.human_friendly_name.split(":"))
+            labels.append(f"{election_name}\n{days}")
+            overall_labels.append(election_name)
+            nominee_positions = NomineePosition.objects.all().filter(
+                nominee_speech__nominee__election_id=election.id
+            ).order_by('position_name')
+            votes = 0
+            indx = 0
+            position = nominee_positions[indx].position_name
+            while len(nominee_positions) > indx and nominee_positions[indx].position_name == position:
+                votes += nominee_positions[indx].voterchoice_set.all().count()
+                indx += 1
+            numbers.append(votes)
+            overall_numbers.append(votes)
     ticks = 0
     image_paths = []
     number_of_elections_per_graphs = 5
