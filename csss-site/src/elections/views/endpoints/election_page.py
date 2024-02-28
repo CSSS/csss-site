@@ -27,6 +27,7 @@ def get_nominees(request, slug):
     logger.info(f"[elections/election_page.py get_nominees()] determining if election with slug {slug}"
                 f"needs to be shown as its date is {election_to_display.date} and the {privilege_message}")
     if election_to_display.date <= get_current_date() or user_is_election_officer:
+        positions_list = {}
         if user_is_election_officer:
             nominee_links = NomineeLink.objects.all().exclude(election__slug=slug)
             context[PRE_EXISTING_ELECTION] = False
@@ -44,72 +45,68 @@ def get_nominees(request, slug):
                     )
                 })
         logger.info("[elections/election_page.py get_nominees()] time to vote")
-        positions_list = {}
-        votes_available = False
         no_pending_voter_choices = election_to_display.pendingvoterchoice_set.all().count() == 0
-        if election_to_display.end_date is None or election_to_display.end_date <= get_current_date():
-            votes_available = (
-                VoterChoice.objects.all().filter(
-                    selection__nominee_speech__nominee__election_id=election_to_display.id
-                ).count() > 0
-            ) and no_pending_voter_choices
-            position_names = [position.position_name for position in NomineePosition.objects.all().filter(
-                nominee_speech__nominee__election__slug=slug,
-            ).order_by('position_index')]
-            for position_name in position_names:
-                if position_name not in positions_list:
-                    positions_list[position_name] = {
-                        "position_name": position_name,
-                        "nominees": []
-                    }
-                    human_nominee_positions = NomineePosition.objects.all().filter(
-                        position_name=position_name, nominee_speech__nominee__election__slug=slug,
-                        nominee_speech__nominee__human_candidate=True
-                    ).order_by('id')
-                    if votes_available:
-                        positions_list[position_name]["non_human_vote_info"] = ""
-                        no_confidence_votes = VoterChoice.objects.all().filter(
-                            selection__nominee_speech__nominee__full_name=NO_CONFIDENCE_NAME,
-                            selection__position_name=position_name,
-                            selection__nominee_speech__nominee__election_id=election_to_display.id
-                        ).count()
-                        skipped_votes = VoterChoice.objects.all().filter(
-                            selection__nominee_speech__nominee__full_name=SKIPPED_VOTE,
-                            selection__position_name=position_name,
-                            selection__nominee_speech__nominee__election_id=election_to_display.id
-                        ).count()
-                        if no_confidence_votes > 0:
-                            positions_list[position_name]['non_human_vote_info'] = (
-                                f"{no_confidence_votes} vote{'s' if no_confidence_votes > 1 else ''} of No Confidence"
-                            )
-                            if skipped_votes > 0:
-                                positions_list[position_name]['non_human_vote_info'] += " and "
+        votes_available = (
+            VoterChoice.objects.all().filter(
+                selection__nominee_speech__nominee__election_id=election_to_display.id
+            ).count() > 0
+        ) and no_pending_voter_choices
+        position_names = [position.position_name for position in NomineePosition.objects.all().filter(
+            nominee_speech__nominee__election__slug=slug,
+        ).order_by('position_index')]
+        for position_name in position_names:
+            if position_name not in positions_list:
+                positions_list[position_name] = {
+                    "position_name": position_name,
+                    "nominees": []
+                }
+                human_nominee_positions = NomineePosition.objects.all().filter(
+                    position_name=position_name, nominee_speech__nominee__election__slug=slug,
+                    nominee_speech__nominee__human_candidate=True
+                ).order_by('id')
+                if votes_available:
+                    positions_list[position_name]["non_human_vote_info"] = ""
+                    no_confidence_votes = VoterChoice.objects.all().filter(
+                        selection__nominee_speech__nominee__full_name=NO_CONFIDENCE_NAME,
+                        selection__position_name=position_name,
+                        selection__nominee_speech__nominee__election_id=election_to_display.id
+                    ).count()
+                    skipped_votes = VoterChoice.objects.all().filter(
+                        selection__nominee_speech__nominee__full_name=SKIPPED_VOTE,
+                        selection__position_name=position_name,
+                        selection__nominee_speech__nominee__election_id=election_to_display.id
+                    ).count()
+                    if no_confidence_votes > 0:
+                        positions_list[position_name]['non_human_vote_info'] = (
+                            f"{no_confidence_votes} vote{'s' if no_confidence_votes > 1 else ''} of No Confidence"
+                        )
                         if skipped_votes > 0:
-                            positions_list[position_name]['non_human_vote_info'] += (
-                                f"{skipped_votes} Skipped Vote{'s' if skipped_votes > 1 else ''}"
-                            )
-                        ordered_by_vote = {}
-                        for human_nominee_position in human_nominee_positions:
-                            vote_count = human_nominee_position.voterchoice_set.all().count()
-                            if vote_count not in ordered_by_vote:
-                                ordered_by_vote[vote_count] = [human_nominee_position]
-                            else:
-                                ordered_by_vote[vote_count].append(human_nominee_position)
-                        order_count = list(ordered_by_vote.keys())
-                        order_count.sort(reverse=True)
-                        for vote_count in order_count:
-                            nominees = ordered_by_vote[vote_count]
-                            for nominee in nominees:
-                                positions_list[position_name]['nominees'].append(nominee)
-                    else:
-                        for human_nominee_position in human_nominee_positions:
-                            positions_list[position_name]['nominees'].append(human_nominee_position)
+                            positions_list[position_name]['non_human_vote_info'] += " and "
+                    if skipped_votes > 0:
+                        positions_list[position_name]['non_human_vote_info'] += (
+                            f"{skipped_votes} Skipped Vote{'s' if skipped_votes > 1 else ''}"
+                        )
+                    ordered_by_vote = {}
+                    for human_nominee_position in human_nominee_positions:
+                        vote_count = human_nominee_position.voterchoice_set.all().count()
+                        if vote_count not in ordered_by_vote:
+                            ordered_by_vote[vote_count] = [human_nominee_position]
+                        else:
+                            ordered_by_vote[vote_count].append(human_nominee_position)
+                    order_count = list(ordered_by_vote.keys())
+                    order_count.sort(reverse=True)
+                    for vote_count in order_count:
+                        nominees = ordered_by_vote[vote_count]
+                        for nominee in nominees:
+                            positions_list[position_name]['nominees'].append(nominee)
+                else:
+                    for human_nominee_position in human_nominee_positions:
+                        positions_list[position_name]['nominees'].append(human_nominee_position)
         context.update({
             ELECTION__HTML_NAME: election_to_display,
-            POSITIONS_LIST_HTML__NAME: positions_list.values() if len(positions_list) > 0 else None,
+            POSITIONS_LIST_HTML__NAME: positions_list.values() if positions_list is not None else None,
             "vote_data_available": votes_available
         })
-        return render(request, 'elections/election_page.html', context)
     else:
         logger.info("[elections/election_page.py get_nominees()] cant vote yet")
-        return render(request, 'elections/election_page.html', context)
+    return render(request, 'elections/election_page.html', context)
