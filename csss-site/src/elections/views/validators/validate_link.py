@@ -54,7 +54,7 @@ def validate_facebook_link(link, nom_name):
             f"Invalid Facebook link of \"{link}\" detected for nominee {nom_name}. "
             f"Don't forgot to start with \"http://\" or \"https://\""
         )
-        logger.error(error_message)
+        logger.warn(error_message)
         return False, error_message
     return True, None
 
@@ -80,7 +80,7 @@ def validate_instagram_link(link, nom_name):
             f"Invalid Instagram link of \"{link}\" detected for nominee {nom_name}. "
             f"Don't forgot to start with \"http://\" or \"https://\""
         )
-        logger.error(error_message)
+        logger.warn(error_message)
         return False, error_message
     return True, None
 
@@ -106,6 +106,6 @@ def validate_linkedin_link(link, nom_name):
             f"Invalid LinkedIn link of \"{link}\" detected for nominee {nom_name}. "
             f"Don't forgot to start with \"http://\" or \"https://\""
         )
-        logger.error(error_message)
+        logger.warn(error_message)
         return False, error_message
     return True, None
