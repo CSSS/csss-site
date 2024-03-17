@@ -221,7 +221,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    'https://walle.sfucsss.org'
+    'https://sfucsss.org'
 ]
 
 if not DEBUG:
