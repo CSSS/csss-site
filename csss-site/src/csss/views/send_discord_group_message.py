@@ -9,16 +9,16 @@ from csss.settings import discord_header
 
 def send_discord_group_message(recipient_id, title, message):
     """
-    Will DM the user to alert or remind them to fill in the New_Officer forms
+    Will send an embed in the group chat with the specified ID
 
     Keyword Arguments
-    recipient_id -- the discord ID of the New_Officer
+    recipient_id -- the channel ID of the group chat
     title -- the title for the embed
     message -- the message for the embed
 
     Return
-    bool -- indicate if DM was successfully sent
-    error_message -- error message to indicate why the DM was not successfully sent
+    bool -- indicate if group chat message was successfully sent
+    error_message -- error message to indicate why the group chat message was not successfully sent
     """
     if settings.ENVIRONMENT == "LOCALHOST":
         recipient_id = settings.DEV_DISCORD_ID
