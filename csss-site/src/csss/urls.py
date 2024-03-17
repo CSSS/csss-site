@@ -5,6 +5,7 @@ from django.contrib import admin
 from rest_framework import routers
 
 from about.views.rest_framework_views.term_view_set import TermViewSet
+from elections.views.rest_framework_views.election_view_set import ElectionViewSet
 from .views import views
 from .views.crons.Constants import CRON_LOGS_BASE_URL_KEY, CRON_JOBS_BASE_URL_KEY
 from .views.crons.cron import cron
@@ -15,6 +16,7 @@ from .views.login import LoginView, LogoutView
 router = routers.DefaultRouter()
 
 router.register('terms', TermViewSet)
+router.register('elections', ElectionViewSet)
 
 urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),
