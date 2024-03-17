@@ -205,7 +205,8 @@ INSTALLED_APPS = [
     'bootstrap3',
     'elections',
     'django.contrib.sites',
-    'django_cas_ng'
+    'django_cas_ng',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -216,6 +217,11 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
+]
+
+CORS_ORIGIN_WHITELIST = [
+    'https://walle.sfucsss.org'
 ]
 
 if not DEBUG:
