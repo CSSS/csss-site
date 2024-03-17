@@ -150,7 +150,7 @@ def verify_user_input_has_all_required_fields(election_dict, fields=None):
                 if len(number_of_field_options_found) == 0:
                     error_message += f", {' or '.join(field)}" if field_exists else f"{' or '.join(field)}"
                     field_exists = True
-            elif field not in election_dict:
+            elif election_dict.get(field, None) is None:
                 error_message += f", {field}" if field_exists else f"{field}"
                 field_exists = True
     if error_message != "":
