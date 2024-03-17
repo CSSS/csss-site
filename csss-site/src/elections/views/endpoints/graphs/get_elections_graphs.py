@@ -6,7 +6,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from csss.views.context_creation.create_main_context import create_main_context
-from csss.views.pstdatetime import pstdatetime
 from elections.models import NomineePosition, Election, VoterChoice
 from elections.views.Constants import TAB_STRING
 
@@ -24,13 +23,12 @@ def get_elections_graphs(request):
     numbers = []
     if VoterChoice.objects.all().count() == 0:
         return HttpResponseRedirect(f"{settings.URL_ROOT}elections")
-    today_date = pstdatetime.now()
     voter_choices = VoterChoice.objects.all()
     for election in elections:
         results_detected = voter_choices.filter(
             selection__nominee_speech__nominee__election_id=election.id
         ).count() > 0
-        if election.end_date > today_date and results_detected:
+        if results_detected:
             days = ""
             if election.date is not None:
                 days += f"Start WeekDay: {election.date.strftime('%a')}\n"
