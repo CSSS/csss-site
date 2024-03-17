@@ -14,7 +14,7 @@ from .views.login import LoginView, LogoutView
 
 router = routers.DefaultRouter()
 
-router.register('about', TermViewSet)
+router.register('terms', TermViewSet)
 
 urlpatterns = [
     url(r'^' + settings.URL_PATTERN + 'admin/', admin.site.urls),
