@@ -1,7 +1,6 @@
 from rest_framework import serializers, viewsets
 from rest_framework.response import Response
 
-from about.models import Term
 from csss.views.rest_framework_views.pagination import StandardResultsSetPagination
 from elections.models import Election
 
