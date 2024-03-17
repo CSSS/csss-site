@@ -8,6 +8,8 @@ from about.management.commands.validate_discord_roles_members \
     import SERVICE_NAME as VALIDATE_DISCORD_ROLES_MEMBERS_SERVICE_NAME
 from announcements.management.commands.process_announcements \
     import SERVICE_NAME as PROCESS_ANNOUNCEMENTS_SERVICE_NAME
+from elections.management.commands.nag_election_officer_share_results \
+    import SERVICE_NAME as NAG_ELECTION_OFFICERS_SERVICE_NAME
 from resource_management.views.resource_apis.Constants import \
     GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_GENERAL_DOCUMENTS_SERVICE_NAME, \
     GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_DEEP_EXECS_SERVICE_NAME, \
@@ -26,6 +28,8 @@ CRON_JOB_MAPPING = {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
     }, PROCESS_ANNOUNCEMENTS_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "announcements.views.cron_jobs.",
+    }, NAG_ELECTION_OFFICERS_SERVICE_NAME: {
+        CRON_JOB_MAPPING_PATH_KEY: "elections.views.cron_jobs.",
     }, GITHUB_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "resource_management.views.cron_jobs.",
     }, GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_GENERAL_DOCUMENTS_SERVICE_NAME: {
