@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'^errors', errors.index, name='errors'),
     url(r'^' + settings.URL_PATTERN + 'login', LoginView.as_view(), name='login'),
     url(r'^' + settings.URL_PATTERN + 'logout', LogoutView.as_view(), name='logout'),
-    url(r'^' + settings.URL_PATTERN + "api/", include((router.urls, 'api_app'), namespace='api'))
+    url(r'^' + settings.URL_PATTERN + "api/", include((router.urls, 'api_app')))
 ]
 if settings.ENVIRONMENT == "LOCALHOST":
     urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
