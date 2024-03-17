@@ -82,23 +82,28 @@ class Command(BaseCommand):
                 if not success:
                     logger.warning(f"[elections/nag_election_officer_share_results.py() ] {error_message}")
                     issue_with_dming_users = True
-            discord_tag_for_election_officers_in_current_term = [
-                f"<@{discord_tag_for_election_officer_in_current_term}>"
-                for discord_tag_for_election_officer_in_current_term in
-                discord_tag_for_election_officers_in_current_term
-            ]
             logger.info(
-                f"[elections/nag_election_officer_share_results.py() ] "
-                f"discord_tag_for_election_officers_in_current_term = "
-                f"{discord_tag_for_election_officers_in_current_term}"
-            )
-            election_officer_tag = ", ".join(discord_tag_for_election_officers_in_current_term[:-1])
-            if len(discord_tag_for_election_officers_in_current_term) > 1:
-                election_officer_tag += f" or {discord_tag_for_election_officers_in_current_term[-1]}"
-            logger.info(
-                f"[elections/nag_election_officer_share_results.py() ] election_officer_tag = {election_officer_tag}"
+                f"[elections/nag_election_officer_share_results.py() ] issue_with_dming_users = "
+                f"{issue_with_dming_users}"
             )
             if issue_with_dming_users or today_date.day % 3 == 0:
+                discord_tag_for_election_officers_in_current_term = [
+                    f"<@{discord_tag_for_election_officer_in_current_term}>"
+                    for discord_tag_for_election_officer_in_current_term in
+                    discord_tag_for_election_officers_in_current_term
+                ]
+                logger.info(
+                    f"[elections/nag_election_officer_share_results.py() ] "
+                    f"discord_tag_for_election_officers_in_current_term = "
+                    f"{discord_tag_for_election_officers_in_current_term}"
+                )
+                election_officer_tag = ", ".join(discord_tag_for_election_officers_in_current_term[:-1])
+                if len(discord_tag_for_election_officers_in_current_term) > 1:
+                    election_officer_tag += f" or {discord_tag_for_election_officers_in_current_term[-1]}"
+                logger.info(
+                    f"[elections/nag_election_officer_share_results.py() ] election_officer_tag ="
+                    f" {election_officer_tag}"
+                )
                 logger.info(
                     "[elections/nag_election_officer_share_results.py() ] sending message to exec chat regarding "
                     "saving election results"
