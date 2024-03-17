@@ -16,6 +16,8 @@ from elections.views.import_websurvey_results.convert_pending_voter_choice_to_fi
     convert_pending_voter_choice_to_final
 from elections.views.import_websurvey_results.get_dict_for_election_position_name_mapping import \
     get_dict_for_election_position_name_mapping
+from elections.views.import_websurvey_results.send_notification_for_saved_election_results import \
+    send_notification_for_saved_election_results
 from elections.views.utils.webform_to_json.transform_post_to_dictionary import transform_post_to_dictionary
 
 
@@ -83,4 +85,5 @@ def map_websurvey_position_results(request, slug):
                 selected_position_mappings=post_dict[RESULT_POSITIONS_KEY]
             )
             return render(request, 'elections/websurvey_results.html', context)
+        send_notification_for_saved_election_results(election_obj)
         return HttpResponseRedirect(f"{settings.URL_ROOT}elections/{slug}/")

@@ -18,6 +18,8 @@ from elections.views.import_websurvey_results.convert_pending_voter_choice_to_fi
 from elections.views.import_websurvey_results.create_websurvey_column_position_mappings import \
     create_websurvey_column_position_mappings
 from elections.views.import_websurvey_results.save_websurvey_nominees import save_websurvey_nominees
+from elections.views.import_websurvey_results.send_notification_for_saved_election_results import \
+    send_notification_for_saved_election_results
 
 
 def import_websurvey_results(request, slug):
@@ -68,5 +70,6 @@ def import_websurvey_results(request, slug):
         elif pending_voter_choice.count() > 0:
             redirect_page = f"{settings.URL_ROOT}elections/{slug}/{URL_MAP_WEBSURVEY_POSITION_RESULTS}/"
         else:
+            send_notification_for_saved_election_results(election_obj)
             redirect_page = f"{settings.URL_ROOT}elections/{slug}/"
         return HttpResponseRedirect(redirect_page)
