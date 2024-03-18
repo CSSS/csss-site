@@ -30,7 +30,7 @@ class Command(BaseCommand):
             no_results_detected = VoterChoice.objects.all().filter(
                 selection__nominee_speech__nominee__election_id=election_with_end_date.id
             ).count() == 0
-            if election_with_end_date.end_date > today_date and no_results_detected:
+            if election_with_end_date.end_date < today_date and no_results_detected:
                 logger.info(
                     f"[elections/nag_election_officer_share_results.py() ] determined "
                     f"{election_with_end_date.human_friendly_name} should have votes but doesn't seem to have them"
