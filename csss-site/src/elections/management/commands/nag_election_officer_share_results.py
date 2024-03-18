@@ -114,7 +114,8 @@ class Command(BaseCommand):
                         f"Looks like {election_officer_tag} election officer[s] have not yet upload the election "
                         f"results for election[s] using [these instructions](https://sfucsss.org/elections/"
                         f"election_officer_documentation#5-results-collected): {elections_with_missing_results}"
-                     )
+                     ),
+                    text_content=election_officer_tag
                 )
                 if not success:
                     logger.error(f"[elections/nag_election_officer_share_results.py() ] {error_message}")

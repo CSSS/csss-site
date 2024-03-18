@@ -7,13 +7,14 @@ from django.conf import settings
 from csss.settings import discord_header
 
 
-def send_discord_group_message(recipient_id, title, message):
+def send_discord_group_message(recipient_id, title, message, text_content=None):
     """
     Will send an embed in the group chat with the specified ID
 
     Keyword Arguments
     recipient_id -- the channel ID of the group chat
     title -- the title for the embed
+    text_content -- the text content of the message so folks can be tagged
     message -- the message for the embed
 
     Return
@@ -28,6 +29,7 @@ def send_discord_group_message(recipient_id, title, message):
         data=json.dumps(
             {
                 "tts": False,
+                "content": text_content,
                 "embeds": [{
                     "title": title,
                     "description": message
