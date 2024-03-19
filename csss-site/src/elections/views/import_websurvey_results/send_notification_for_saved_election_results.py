@@ -9,7 +9,8 @@ def send_notification_for_saved_election_results(election_obj):
     """
     url = f'http://{settings.HOST_ADDRESS}'
     if settings.DEBUG:
-        url += f":{settings.PORT}/elections/"
+        url += f":{settings.PORT}"
+    url += "/elections/"
     send_discord_group_message(
         573280123285929994, "New Election Results Detected",
         (
