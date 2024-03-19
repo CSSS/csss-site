@@ -1,7 +1,6 @@
 import json
 
 from csss.setup_logger import Loggers
-from elections.views.Constants import NA_STRING
 from elections.views.ElectionModelConstants import ELECTION_JSON_KEY__NOMINEES, ELECTION_JSON_KEY__NOM_FACEBOOK, \
     ELECTION_JSON_KEY__NOM_INSTAGRAM, ELECTION_JSON_KEY__NOM_LINKEDIN, ELECTION_JSON_KEY__NOM_EMAIL, \
     ELECTION_JSON_KEY__NOM_SFUID, ELECTION_JSON_KEY__NOM_DISCORD_ID
@@ -32,34 +31,19 @@ def transform_nominee_links_webform_to_json(request, election_officer_request=Tr
     if ELECTION_JSON_KEY__NOMINEES in nominee_dict:
         new_nominee_dict = nominee_dict[ELECTION_JSON_KEY__NOMINEES][0]
     if ELECTION_JSON_KEY__NOM_FACEBOOK in new_nominee_dict:
-        if new_nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK] == NA_STRING:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK] = None
-        else:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK] = \
-                new_nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip()
+        new_nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK] = \
+            new_nominee_dict[ELECTION_JSON_KEY__NOM_FACEBOOK].strip()
     if ELECTION_JSON_KEY__NOM_INSTAGRAM in new_nominee_dict:
-        if new_nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM] == NA_STRING:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM] = None
-        else:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM] = \
-                new_nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
+        new_nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM] = \
+            new_nominee_dict[ELECTION_JSON_KEY__NOM_INSTAGRAM].strip()
     if ELECTION_JSON_KEY__NOM_LINKEDIN in new_nominee_dict:
-        if new_nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] == NA_STRING:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] = None
-        else:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] = \
-                new_nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
+        new_nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN] = \
+            new_nominee_dict[ELECTION_JSON_KEY__NOM_LINKEDIN].strip()
     if ELECTION_JSON_KEY__NOM_EMAIL in new_nominee_dict:
-        if new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] == NA_STRING:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] = None
-        else:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] = new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
+        new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL] = new_nominee_dict[ELECTION_JSON_KEY__NOM_EMAIL].strip()
     if ELECTION_JSON_KEY__NOM_DISCORD_ID in new_nominee_dict:
-        if new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] == NA_STRING:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] = None
-        else:
-            new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] = \
-                new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
+        new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID] = \
+            new_nominee_dict[ELECTION_JSON_KEY__NOM_DISCORD_ID].strip()
     if election_officer_request:
         if ELECTION_JSON_KEY__NOM_SFUID in new_nominee_dict:
             new_nominee_dict[ELECTION_JSON_KEY__NOM_SFUID] = new_nominee_dict[ELECTION_JSON_KEY__NOM_SFUID].strip()
