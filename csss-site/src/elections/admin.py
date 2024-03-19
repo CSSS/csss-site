@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from elections.models import Election, Nominee, NomineePosition, NomineeSpeech, NomineeLink
+from elections.models import Election, Nominee, NomineePosition, NomineeSpeech, NomineeLink, VoterChoice
 
 
 # Register your models here.
@@ -71,3 +71,12 @@ class NomineeOfficerPositionAdmin(admin.ModelAdmin):
 
 
 admin.site.register(NomineePosition, NomineeOfficerPositionAdmin)
+
+class VoterChoiceAdmin(admin.ModelAdmin):
+    list_display = (
+        'id',
+        'selection',
+    )
+
+
+admin.site.register(VoterChoice, VoterChoiceAdmin)
