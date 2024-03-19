@@ -72,6 +72,7 @@ class NomineeOfficerPositionAdmin(admin.ModelAdmin):
 
 admin.site.register(NomineePosition, NomineeOfficerPositionAdmin)
 
+
 class VoterChoiceAdmin(admin.ModelAdmin):
     list_display = (
         'id',
