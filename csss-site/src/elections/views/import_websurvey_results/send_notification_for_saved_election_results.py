@@ -14,8 +14,8 @@ def send_notification_for_saved_election_results(election_obj):
     send_discord_group_message(
         573280123285929994, "New Election Results Detected",
         (
-            f"Results saved for election {election_obj.human_friendly_name}\n"
-            f"[Graph for Election {election_obj.human_friendly_name}]({url}{election_obj.slug}/graphs)\n"
-            f"[Graph for All Elections ]({url}graphs)\n"
+            f"Results saved for {election_obj.human_friendly_name}\n"
+            f"[Graph for {election_obj.human_friendly_name}]({url}{election_obj.slug}/graphs)\n"
+            f"[Graph for All Elections]({url}graphs)\n"
         )
     )
