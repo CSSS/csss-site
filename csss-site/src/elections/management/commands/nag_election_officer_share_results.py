@@ -36,16 +36,16 @@ class Command(BaseCommand):
                     f"{election_with_end_date.human_friendly_name} should have votes but doesn't seem to have them"
                 )
                 elections_with_missing_results.append(election_with_end_date.human_friendly_name)
-        elections_with_missing_results = ", ".join(elections_with_missing_results)
-        logger.info(
-            f"[elections/nag_election_officer_share_results.py() ] elections_with_missing_results = "
-            f"{elections_with_missing_results}"
-        )
         current_term = get_current_term_obj()
         logger.info(
             f"[elections/nag_election_officer_share_results.py() ] current_term = {current_term}"
         )
-        if current_term:
+        if len(elections_with_missing_results) > 0 and current_term:
+            elections_with_missing_results = ", ".join(elections_with_missing_results)
+            logger.info(
+                f"[elections/nag_election_officer_share_results.py() ] elections_with_missing_results = "
+                f"{elections_with_missing_results}"
+            )
             election_officer_positions = list(OfficerEmailListAndPositionMapping.objects.all().filter(
                 election_officer=True
             ).values_list('position_name', flat=True))
