@@ -6,6 +6,8 @@ from about.management.commands.update_officer_images \
     import SERVICE_NAME as UPDATE_OFFICER_IMAGES_SERVICE_NAME
 from about.management.commands.validate_discord_roles_members \
     import SERVICE_NAME as VALIDATE_DISCORD_ROLES_MEMBERS_SERVICE_NAME
+from about.management.commands.nag_doa_to_generate_links \
+    import SERVICE_NAME as NAG_DOA_TO_GENERATE_LINKS
 from announcements.management.commands.process_announcements \
     import SERVICE_NAME as PROCESS_ANNOUNCEMENTS_SERVICE_NAME
 from elections.management.commands.nag_election_officer_share_results \
@@ -25,6 +27,8 @@ CRON_JOB_MAPPING = {
     }, UPDATE_OFFICER_IMAGES_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
     }, VALIDATE_DISCORD_ROLES_MEMBERS_SERVICE_NAME: {
+        CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
+    }, NAG_DOA_TO_GENERATE_LINKS: {
         CRON_JOB_MAPPING_PATH_KEY: "about.views.cron_jobs.",
     }, PROCESS_ANNOUNCEMENTS_SERVICE_NAME: {
         CRON_JOB_MAPPING_PATH_KEY: "announcements.views.cron_jobs.",

@@ -45,6 +45,12 @@ def get_previous_term():
         else get_term_number_for_specified_year_and_month(current_date.month - 4, current_date.year)
 
 
+def get_next_term():
+    current_date = get_current_date()
+    return get_term_number_for_specified_year_and_month(1, current_date.year + 1) if current_date.month >= 9 \
+        else get_term_number_for_specified_year_and_month(current_date.month + 4, current_date.year)
+
+
 def get_current_term_obj():
     """
     Get the term object that corresponds to current term
@@ -64,6 +70,17 @@ def get_previous_term_obj():
     term -- either the term object if it exists or None
     """
     terms = Term.objects.all().filter(term_number=get_previous_term())
+    return None if len(terms) == 0 else terms[0]
+
+
+def get_next_term_obj():
+    """
+    Get the term object that corresponds to next term
+
+    Return
+    term -- either the term object if it exists or None
+    """
+    terms = Term.objects.all().filter(term_number=get_next_term())
     return None if len(terms) == 0 else terms[0]
 
 
