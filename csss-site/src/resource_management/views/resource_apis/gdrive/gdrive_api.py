@@ -13,7 +13,6 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from csss.setup_logger import Loggers
-from csss.views.send_email import send_email
 from csss.views_helper import get_current_date
 from resource_management.models import GoogleDriveRootFolderBadAccess, GoogleDriveNonMediaFileType, MediaToBeMoved
 
@@ -367,18 +366,18 @@ class GoogleDrive:
             ]
         self._ensure_root_permissions_are_correct(google_drive_perms)
         self._validate_individual_file_and_folder_ownership_and_permissions("CSSS", google_drive_perms)
-        if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[MAIN_TEAM_DRIVE_NAME]['folder_id']:
-            new_media_objects = MediaToBeMoved.objects.all().filter(processed=False)
-            if len(new_media_objects) > 0:
-                body = "https://sfucsss.org/resource_management/media_to_be_moved\n<br>\n<br>"
-                for media in new_media_objects:
-                    body += f"[{media.file_path}/{media.file_name}]({media.parent_folder_link})\n<br>"
-                    media.processed = True
-                    media.save()
-                send_email(
-                   "Media has been upload to the Google Drive that has to be moved",
-                   body, "csss-sysadmin@sfu.ca", "Sys Admin"
-                )
+        # if self.root_file_id == GOOGLE_DRIVE_WORKSPACE_FOLDERS[MAIN_TEAM_DRIVE_NAME]['folder_id']:
+        #     new_media_objects = MediaToBeMoved.objects.all().filter(processed=False)
+        #     if len(new_media_objects) > 0:
+        #         body = "https://sfucsss.org/resource_management/media_to_be_moved\n<br>\n<br>"
+        #         for media in new_media_objects:
+        #             body += f"[{media.file_path}/{media.file_name}]({media.parent_folder_link})\n<br>"
+        #             media.processed = True
+        #             media.save()
+        #         send_email(
+        #            "Media has been upload to the Google Drive that has to be moved",
+        #            body, "csss-sysadmin@sfu.ca", "Sys Admin"
+        #         )
         # self._send_notifications_for_files_with_incorrect_ownership(files_to_email_owner_about)
 
     def _ensure_root_permissions_are_correct(self, google_drive_perms):
