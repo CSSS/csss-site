@@ -22,7 +22,7 @@ class Command(BaseCommand):
         today_date = pstdatetime.now()
         election_with_end_dates = Election.objects.all().filter(end_date__isnull=False).order_by('-date')
         logger.info(
-            f"[elections/nag_election_officer_share_results.py() ] got {len(election_with_end_dates)} elections "
+            f"[elections/nag_election_officer_share_results.py()] got {len(election_with_end_dates)} elections "
             f"that have end dates"
         )
         elections_with_missing_results = []
@@ -32,25 +32,25 @@ class Command(BaseCommand):
             ).count() == 0
             if election_with_end_date.end_date < today_date and no_results_detected:
                 logger.info(
-                    f"[elections/nag_election_officer_share_results.py() ] determined "
+                    f"[elections/nag_election_officer_share_results.py()] determined "
                     f"{election_with_end_date.human_friendly_name} should have votes but doesn't seem to have them"
                 )
                 elections_with_missing_results.append(election_with_end_date.human_friendly_name)
         current_term = get_current_term_obj()
         logger.info(
-            f"[elections/nag_election_officer_share_results.py() ] current_term = {current_term}"
+            f"[elections/nag_election_officer_share_results.py()] current_term = {current_term}"
         )
         if len(elections_with_missing_results) > 0 and current_term:
             elections_with_missing_results = ", ".join(elections_with_missing_results)
             logger.info(
-                f"[elections/nag_election_officer_share_results.py() ] elections_with_missing_results = "
+                f"[elections/nag_election_officer_share_results.py()] elections_with_missing_results = "
                 f"{elections_with_missing_results}"
             )
             election_officer_positions = list(OfficerEmailListAndPositionMapping.objects.all().filter(
                 election_officer=True
             ).values_list('position_name', flat=True))
             logger.info(
-                f"[elections/nag_election_officer_share_results.py() ] election_officer_positions = "
+                f"[elections/nag_election_officer_share_results.py()] election_officer_positions = "
                 f"{election_officer_positions}"
             )
             discord_tag_for_election_officers_in_current_term = list(
@@ -58,14 +58,14 @@ class Command(BaseCommand):
                 .values_list('discord_id', flat=True)
             )
             logger.info(
-                f"[elections/nag_election_officer_share_results.py() ] "
+                f"[elections/nag_election_officer_share_results.py()] "
                 f"discord_tag_for_election_officers_in_current_term = "
                 f"{discord_tag_for_election_officers_in_current_term}"
             )
             issue_with_dming_users = False
             for discord_tag_for_election_officer_in_current_term in discord_tag_for_election_officers_in_current_term:
                 logger.info(
-                    f"[elections/nag_election_officer_share_results.py() ] "
+                    f"[elections/nag_election_officer_share_results.py()] "
                     f"sending message to {discord_tag_for_election_officer_in_current_term} "
                     f"regarding saving election results"
                 )
@@ -80,10 +80,10 @@ class Command(BaseCommand):
                     )
                 )
                 if not success:
-                    logger.warning(f"[elections/nag_election_officer_share_results.py() ] {error_message}")
+                    logger.warning(f"[elections/nag_election_officer_share_results.py()] {error_message}")
                     issue_with_dming_users = True
             logger.info(
-                f"[elections/nag_election_officer_share_results.py() ] issue_with_dming_users = "
+                f"[elections/nag_election_officer_share_results.py()] issue_with_dming_users = "
                 f"{issue_with_dming_users}"
             )
             if issue_with_dming_users or today_date.day % 3 == 0:
@@ -93,7 +93,7 @@ class Command(BaseCommand):
                     discord_tag_for_election_officers_in_current_term
                 ]
                 logger.info(
-                    f"[elections/nag_election_officer_share_results.py() ] "
+                    f"[elections/nag_election_officer_share_results.py()] "
                     f"discord_tag_for_election_officers_in_current_term = "
                     f"{discord_tag_for_election_officers_in_current_term}"
                 )
@@ -101,11 +101,11 @@ class Command(BaseCommand):
                 if len(discord_tag_for_election_officers_in_current_term) > 1:
                     election_officer_tag += f" or {discord_tag_for_election_officers_in_current_term[-1]}"
                 logger.info(
-                    f"[elections/nag_election_officer_share_results.py() ] election_officer_tag ="
+                    f"[elections/nag_election_officer_share_results.py()] election_officer_tag ="
                     f" {election_officer_tag}"
                 )
                 logger.info(
-                    "[elections/nag_election_officer_share_results.py() ] sending message to exec chat regarding "
+                    "[elections/nag_election_officer_share_results.py()] sending message to exec chat regarding "
                     "saving election results"
                 )
                 success, error_message = send_discord_group_message(
@@ -118,7 +118,7 @@ class Command(BaseCommand):
                     text_content=election_officer_tag
                 )
                 if not success:
-                    logger.error(f"[elections/nag_election_officer_share_results.py() ] {error_message}")
+                    logger.error(f"[elections/nag_election_officer_share_results.py()] {error_message}")
         time2 = time.perf_counter()
         total_seconds = time2 - time1
         cron_job = CronJob.objects.get(job_name=SERVICE_NAME)
