@@ -46,7 +46,7 @@
 								</table>
 							{%  endif %}
 
-							{% if election__html_name.websurvey != None %}
+							{% if election__html_name.websurvey != None and  election__html_name.websurvey != "NA" %}
 								<p><a href="{{election__html_name.websurvey}}" target="_blank" >Websurvey Link</a>{% if vote_data_available %} -  <a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/graphs">Graphs</a>{% endif %}</p>
                             {%  elif vote_data_available %}
                                 <p><a href="{{ URL_ROOT }}elections/{{ election__html_name.slug }}/graphs">Graphs</a></p>
