@@ -23,7 +23,7 @@ class Command(BaseCommand):
         today_date = pstdatetime.now()
         elections_missing_websurvey_link = Election.objects.all().filter(
             (Q(websurvey__isnull=True) | Q(websurvey='NA')) & Q(date__lte=today_date)
-        ).order_by('-date')
+        ).exclude(slug="2015-04-04-general_election").order_by('-date')
         logger.info(
             f"[elections/remind_election_officer_to_provide_websurvey_link.py()] got "
             f"{len(elections_missing_websurvey_link)} elections that are missing websurvey links"
