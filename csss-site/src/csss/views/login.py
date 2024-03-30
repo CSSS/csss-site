@@ -75,11 +75,8 @@ class LoginView(CasLoginView):
                     )
             else:
                 raise CASAuthenticationMethod(request, error_message=f"The errno is {e.errno}: {e}.")
-        except ParseError:
+        except (ParseError, PermissionDenied):
             pass
-        except PermissionDenied as e:
-            logger = Loggers.get_logger()
-            logger.error(f"[LoginView get()] got the below error when trying to login\n\n{e}")
 
         raise CASAuthenticationMethod(request, error_message="Login failed because of a CAS error.")
 
