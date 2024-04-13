@@ -12,9 +12,11 @@
 					<div>
 						<h2 class="title is-2">{{election__html_name.human_friendly_name}}</h2>
 						<br>
-						{% if positions__html_name is None %}
-							It seems like the time hasn't come to announce the nominees yet....
-						{% else %}
+                        {% if no_websurvey_link_detected %}
+                            Election officer forgot to add the websurvey link
+                        {% elif positions__html_name is None %}
+                            It seems like the time hasn't come to announce the nominees yet....
+                        {% else %}
 							{% if current_election_officer %}
 								<table class="election_page_management_column_widths">
 									<tr>

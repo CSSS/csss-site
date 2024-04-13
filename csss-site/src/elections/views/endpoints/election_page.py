@@ -27,6 +27,10 @@ def get_nominees(request, slug):
     logger.info(f"[elections/election_page.py get_nominees()] determining if election with slug {slug}"
                 f"needs to be shown as its date is {election_to_display.date} and the {privilege_message}")
     if election_to_display.date <= get_current_date() or user_is_election_officer:
+        election_with_no_websurvey_link = election_to_display.slug != '2015-04-04-general_election'
+        no_websurvey = election_to_display.websurvey is None or election_to_display.websurvey == 'NA'
+        if no_websurvey and election_with_no_websurvey_link:
+            context['no_websurvey_link_detected'] = True
         positions_list = {}
         if user_is_election_officer:
             nominee_links = NomineeLink.objects.all().exclude(election__slug=slug)
