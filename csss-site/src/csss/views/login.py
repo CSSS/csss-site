@@ -8,6 +8,7 @@ from django.contrib.auth import logout as dj_logout
 from django.contrib.auth.models import Group
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
+from django_cas_ng.utils import RedirectException
 from django_cas_ng.views import LoginView as CasLoginView
 from django_cas_ng.views import LogoutView as CASLogoutView
 
@@ -75,6 +76,8 @@ class LoginView(CasLoginView):
                     )
             else:
                 raise CASAuthenticationMethod(request, error_message=f"The errno is {e.errno}: {e}.")
+        except RedirectException as e:
+            raise CASAuthenticationMethod(request, error_message=f"The error is {e}.")
         except (ParseError, PermissionDenied):
             pass
 
