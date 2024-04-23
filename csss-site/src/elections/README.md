@@ -7,10 +7,14 @@
  - [2. Allow Election Officer to setup a Nominee Link](#2-allow-election-officer-to-setup-a-nominee-link)
    - [2.1 What does "NomineeLink" mean?](#21-what-does-nomineelink-mean)
  - [3. Page where Election Officer or Nominee can upload the nominee speeches and select the positions they want to run for](#3-page-where-election-officer-or-nominee-can-upload-the-nominee-speeches-and-select-the-positions-they-want-to-run-for)
- - [4. Allow Election Officer to record the Final Results](#4-allow-election-officer-to-record-the-final-results)
-   - [4.1 Explanation of Workflow and Entity Relationships](#41-explanation-of-workflow-and-entity-relationships)
-   - [4.2. Screenshots for uploading websurvey results](#42-screenshots-for-uploading-websurvey-results)
- - [5. Provide Graphs and Show Results](#5-provide-graphs-and-show-results)
+ - [4. Ensure Elections are publicly available](#4-ensure-elections-are-publicly-available)
+ - [5. Allow Election Officer to record the Final Results](#5-allow-election-officer-to-record-the-final-results)
+   - [5.1 Explanation of Workflow and Entity Relationships](#51-explanation-of-workflow-and-entity-relationships)
+   - [5.2. Screenshots for uploading websurvey results](#52-screenshots-for-uploading-websurvey-results)
+ - [6. Provide Graphs and Show Results](#6-provide-graphs-and-show-results)
+ - [7. Background Cron Commands](#7-background-cron-commands)
+   - [7.1. Reminder Election Officer to add the Websurvey Link to the Election](#71-reminder-election-officer-to-add-the-websurvey-link-to-the-election)
+   - [7.2. Nag Election Officer to Share the Election Results Once Election is Over](#72-nag-election-officer-to-share-the-election-results-once-election-is-over)
 
 # Models Needed for the Public Election Page
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vRS3uiobmgoDwLwdQjkhy9uN5O0cnz0l6AfbHSg3pfQ517Hdf3lruvRrHNaxmAvsEKhDtvtBCrqXer8/pub?w=700&amp;h=1304">
@@ -78,9 +82,13 @@ Whether it be the election officer or nominee, both are presented the following 
 Models Used for recording Nominee info via NomineeLink mechanism
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vQBFYCVyZpK1_O8_ldpRVUJvsFfbOttM2CZzioQcptB22Jsc-uTyZMust1IolO7EH2mSTvqw0IbscBj/pub?w=534&amp;h=1253">
 
-# 4. Allow Election Officer to record the Final Results
+# 4. Ensure Elections are publicly available
 
-## 4.1 Explanation of Workflow and Entity Relationships
+To ensure that the election officer does not forget to add the websurvey link to an election, if an election does not contain a websurvey link, then the page won't be publicly available
+
+# 5. Allow Election Officer to record the Final Results
+
+## 5.1 Explanation of Workflow and Entity Relationships
 
 So, I always wanted to have the website itself also contain the results, giving us the option for nice pretty graphs and analytics and so forth.
 
@@ -107,7 +115,7 @@ Models used to go through the process of uploading final results
 
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vSWt9YkaC5fCN9HGxGq_ZoUP7SARf9fUwFuAtb6q_pVisolPSq3FDbIBLF9X0cfmWeazgVd1ap1EVDB/pub?w=1253&amp;h=1618">
 
-## 4.2. Screenshots for uploading websurvey results
+## 5.2. Screenshots for uploading websurvey results
 1. The Election Officer has to go to the election's page [https://sfucsss.org/elections/2020-04-15-general_election/] and click on `Import Websurvey Results`
 ![](documentation_images/import_websurvey_link.png)
 
@@ -118,7 +126,7 @@ Models used to go through the process of uploading final results
 ![](documentation_images/map_websurvey_questions.png)
 
 
-# 5. Provide Graphs and Show Results
+# 6. Provide Graphs and Show Results
 
 Do this however you want, but with the importing of results from websurvey, I was then able to do stuff like provide these graphs
 ![](documentation_images/all_elections.png)
@@ -126,3 +134,12 @@ Do this however you want, but with the importing of results from websurvey, I wa
 
 and also provide this kind of data on the election page where the nominees under each position is sorted by number of votes in descending order
 ![](documentation_images/election_results.png)
+
+# 7. Background Cron Commands
+
+## 7.1. Reminder Election Officer to add the Websurvey Link to the Election
+[remind_election_officer_to_provide_websurvey_link.py](management/commands/remind_election_officer_to_provide_websurvey_link.py)
+
+## 7.2. Nag Election Officer to Share the Election Results Once Election is Over
+[nag_election_officer_share_results.py](management/commands/nag_election_officer_share_results.py)
+

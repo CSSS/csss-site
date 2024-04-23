@@ -29,10 +29,11 @@
    - [3.2. Sensitive Data exposed only to current or recent executives](#32-sensitive-data-exposed-only-to-current-or-recent-executives)
    - [3.3. Things I never got around to updating](#33-things-i-never-got-around-to-updating)
  - [4. Background Cron Commands](#4-background-cron-commands)
-   - [4.1. Nag officers to enter their info](#41-nag-officers-to-enter-their-info)
-   - [4.2. Updating Discord Details](#42-updating-discord-details)
-   - [4.3. Updating Officer Images](#43-updating-officer-images)
-   - [4.4. Validation of Discord Roles](#44-validation-of-discord-roles)
+   - [4.1. Remind Director of Archives to generated Officer Links Before End of Term](#41-remind-director-of-archives-to-generated-officer-links-before-end-of-term)
+   - [4.2. Nag officers to enter their info](#42-nag-officers-to-enter-their-info)
+   - [4.3. Updating Discord Details](#43-updating-discord-details)
+   - [4.4. Updating Officer Images](#44-updating-officer-images)
+   - [4.5. Validation of Discord Roles](#45-validation-of-discord-roles)
 
 # 1. Store SFU Officer Position Info
 
@@ -241,15 +242,18 @@ what is shown is pretty self-explanatory between being anonymous and being a val
 # 4. Background Cron Commands
 There are some regular services that I have running regularly in the bckground via the [`cron service`](../csss/views/crons) I implemented in `csss`
 
-## 4.1. Nag officers to enter their info
+## 4.1. Remind Director of Archives to generated Officer Links Before End of Term
+[nag_doa_to_generate_links.py](management/commands/nag_doa_to_generate_links.py)
+
+## 4.2. Nag officers to enter their info
 [nag_officers_to_enter_info.py](management/commands/nag_officers_to_enter_info.py)  
 Service was created to remind officers to enter their info
 
-## 4.2. Updating Discord Details
+## 4.3. Updating Discord Details
 [update_discord_details.py](management/commands/update_discord_details.py)  
 Is used to update all the discord usernames and nicknames associated with any `Officer` object that have a valid `discord_id` so that https://sfucsss.org/about/list_of_current_officers and https://sfucsss.org/about/list_of_past_officers can have the latest discord details
 
-## 4.3. Updating Officer Images
+## 4.4. Updating Officer Images
 [validate_discord_roles_members.py](management/commands/update_officer_images.py)  
 So the way that the officer images are set is via [csss-site-exec-photos](https://github.com/CSSS/csss-site-exec-photos) repo  
 what basically happens is that when I was given all the exec photos taken for a term, I would dump all of them into the [Exec_Photos CSS Shared Team Drive](https://drive.google.com/drive/folders/1Rxfcmk3ntDLwcu9v9fUpVB1yDWiMLnKw), then I would take the ones that each officer requested be used for them and add those images to the [csss-site-exec-photos](https://github.com/CSSS/csss-site-exec-photos) repo. 
@@ -258,7 +262,7 @@ And in order to save up on the disk space taken by the repo, I would use short l
 
 Once a photo is saved to that repo, the logic in [validate_discord_roles_members.py](management/commands/update_officer_images.py) would [do a `git pull` in the folder on the server that has that repo](https://github.com/CSSS/csss-site/blob/6a61fc1eac3f125ac865c22c410d8fff9bf77f44/csss-site/src/about/views/commands/update_officer_images.py#L14-L25) and then go through [this logic](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/views/utils/get_officer_image_path.py) for each officer to get the correct image path or just revert to the stock photo if no image is found for that specific officer for that specific term. 
 
-## 4.4. Validation of Discord Roles
+## 4.5. Validation of Discord Roles
 [validate_discord_roles_members.py](management/commands/validate_discord_roles_members.py)  
 This service was created to ensure that no matter what the Moderators/Minions play around with/do on discord, the roles are always updated at the end of the day to reflect what is shown on https://sfucsss.org/about/list_of_current_officers so that any officer who have no yet filled in their info, are motivated to do so 
 
