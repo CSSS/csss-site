@@ -13,8 +13,8 @@
    - [5.2. Screenshots for uploading websurvey results](#52-screenshots-for-uploading-websurvey-results)
  - [6. Provide Graphs and Show Results](#6-provide-graphs-and-show-results)
  - [7. Background Cron Commands](#7-background-cron-commands)
-   - [7.1. Reminder Election Officer to add the Websurvey Link to the Election](#71-reminder-election-officer-to-add-the-websurvey-link-to-the-election)
-   - [7.2. Nag Election Officer to Share the Election Results Once Election is Over](#72-nag-election-officer-to-share-the-election-results-once-election-is-over)
+   - [7.1. Remind Election Officer to Provide Websurvey Link](#71-remind-election-officer-to-provide-websurvey-link)
+   - [7.2. Nag Election Officer Share Results](#72-nag-election-officer-share-results)
 
 # Models Needed for the Public Election Page
 <img src="https://docs.google.com/drawings/d/e/2PACX-1vRS3uiobmgoDwLwdQjkhy9uN5O0cnz0l6AfbHSg3pfQ517Hdf3lruvRrHNaxmAvsEKhDtvtBCrqXer8/pub?w=700&amp;h=1304">
@@ -135,9 +135,10 @@ and also provide this kind of data on the election page where the nominees under
 
 # 7. Background Cron Commands
 
-## 7.1. Reminder Election Officer to add the Websurvey Link to the Election
+## 7.1. Remind Election Officer to Provide Websurvey Link
 [remind_election_officer_to_provide_websurvey_link.py](management/commands/remind_election_officer_to_provide_websurvey_link.py)
+sends a reminder to the election officer to add a websurvey link to an election so that it can be shown publicly
 
-## 7.2. Nag Election Officer to Share the Election Results Once Election is Over
+## 7.2. Nag Election Officer Share Results
 [nag_election_officer_share_results.py](management/commands/nag_election_officer_share_results.py)
-
+Nag the election officer to share the election results once the `end_date` for an election has passed

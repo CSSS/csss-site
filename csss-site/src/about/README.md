@@ -29,7 +29,7 @@
    - [3.2. Sensitive Data exposed only to current or recent executives](#32-sensitive-data-exposed-only-to-current-or-recent-executives)
    - [3.3. Things I never got around to updating](#33-things-i-never-got-around-to-updating)
  - [4. Background Cron Commands](#4-background-cron-commands)
-   - [4.1. Remind Director of Archives to generated Officer Links Before End of Term](#41-remind-director-of-archives-to-generated-officer-links-before-end-of-term)
+   - [4.1. Nag DoA to Generate Links](#41-nag-doa-to-generate-links)
    - [4.2. Nag officers to enter their info](#42-nag-officers-to-enter-their-info)
    - [4.3. Updating Discord Details](#43-updating-discord-details)
    - [4.4. Updating Officer Images](#44-updating-officer-images)
@@ -242,8 +242,9 @@ what is shown is pretty self-explanatory between being anonymous and being a val
 # 4. Background Cron Commands
 There are some regular services that I have running regularly in the bckground via the [`cron service`](../csss/views/crons) I implemented in `csss`
 
-## 4.1. Remind Director of Archives to generated Officer Links Before End of Term
+## 4.1. Nag DoA to Generate Links
 [nag_doa_to_generate_links.py](management/commands/nag_doa_to_generate_links.py)
+Reminds the Director of Archives to generate the officer Links before the end of the term since once the next term starts, only the root user can do it
 
 ## 4.2. Nag officers to enter their info
 [nag_officers_to_enter_info.py](management/commands/nag_officers_to_enter_info.py)  
