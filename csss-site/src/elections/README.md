@@ -44,13 +44,11 @@ Models created when setting up an election in preparation for nominees
 
 Originally, the nominees were emailing their nominee speeches to the election officer who would then be stuck having to manually upload everyone's speeches.
 
-In order to remove the burden from the Election Officer and have the nominees do that themselves, I introduced the concept of a `NomineeLink`. This refers to the fact that for every nominee in an election, I decided rather than add attributes to the `Nominee` object that would be used to allow a nominee to upload their data themselves, I'd rather add those bits of temporarily needed data to the `NomineeLink` object and link that to `Nominee` and then setup the workflow so taht once an election is over, the `NomineeLink` can be safely deleted without any efffect on `Nominee`.
+In order to remove the burden from the Election Officer and have the nominees do that themselves, I introduced the concept of a `NomineeLink`. This refers to the fact that for every nominee in an election, I needed a way to authenticate a user so that they had the ability to add a speech to only their nominee profile.
+Without a trusty way to ensure that a user is who they say they are, I relied on passphrases to authenticate them. The idea being that when an election officer generated a nominee, there would be a special URL with a nominee-specific passphrase in that URL that the election officer would share with that nominee. Therefore as long as that URL was not compromised, the nominee could use it to reliably update their info on the site. And since the passphrase was a piece of data that was only necessary before voting had started,
+I decided rather than add it to the `Nominee` object , I'd rather add it temporarily to the `NomineeLink` object and link that to `Nominee` and then setup the workflow so that once an election is over, the `NomineeLink` can be safely deleted without any effect on `Nominee`.
 
-Now you might be asking, what are those "extra bits of temporarily needed data that are associated with `NomineeLink`?".
-
-Well the first version of the `NomineeLink` was passphrase based. Basically, when an election officer would give a link to a nominee for them to upload their data, each nominee's link contained a unique passphrase as a query param that would ensure that the website could locate the correct `NomineeLink` and `Nominee` for each session.
-
-**However**, once I learned how to authenticate users against SFU' CAS system, I realized I can revamp that system by making the `passphrase` unnecessary and instead, link the user based on their SFUID.
+**However**, once I learned how to authenticate users against SFU's CAS system, I realized I can revamp that system by making the `passphrase` unnecessary and instead, link the user based on their SFUID.
 
 By which I mean that when a user logs in via their SFU credentials, their username on our website is their SFUID, so the correct `NomineeLink` could now be narrowed down just via their SFUID rather than via a passphrase.
 
@@ -64,7 +62,7 @@ The way that I programmed this was that on this page
 https://sfucsss.org/elections/2024-01-30-by_election/election_modification_nominee_links/
 ![](documentation_images/update_election.png)
 
-the election officer would add the SFUID to ` SFU IDs of the nominees to create links for: [separate the nominees with a newline if there are more than 1]` field. and then click `Save/Update and Continue Editing Election`
+the election officer would add the SFUID to `SFU IDs of the nominees to create links for: [separate the nominees with a newline if there are more than 1]` field. and then click `Save/Update and Continue Editing Election`
 
 # 3. Page where Election Officer or Nominee can upload the nominee speeches and select the positions they want to run for
 
