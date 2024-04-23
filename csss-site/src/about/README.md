@@ -17,8 +17,9 @@
        - [1.3.4.1 Maillist Management Logic](#1341-maillist-management-logic)
          - [1.3.4.1.1. Who goes in what mailist?](#13411-who-goes-in-what-mailist)
          - [1.3.4.1.2. How does the csss-doa get access to all the maillists?](#13412-how-does-the-csss-doa-get-access-to-all-the-maillists)
-         - [1.3.4.1.3. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?](#13413-why-did-the-2017-sysadmin-and-director-of-archived-setup-csss-doa-as-the-moderator-of-the-maillists)
-         - [1.3.4.1.4. Things I never got around to doing](#13414-things-i-never-got-around-to-doing)
+         - [1.3.4.1.3. Why does `csss-doa` not follow the convention of the other maillists with who is a member?](#13413-why-does-csss-doa-not-follow-the-convention-of-the-other-maillists-with-who-is-a-member)
+         - [1.3.4.1.4. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?](#13414-why-did-the-2017-sysadmin-and-director-of-archived-setup-csss-doa-as-the-moderator-of-the-maillists)
+         - [1.3.4.1.5. Things I never got around to doing](#13415-things-i-never-got-around-to-doing)
        - [1.3.4.2. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character](#1342-fun-fact-websurvey-cant-handle-any-logins-from-an-sfu-account-that-has-a-password-longer-than-32-character)
        - [1.3.4.3. How to read the graphics below?](#1343-how-to-read-the-graphics-below)
        - [1.3.5. Regarding Bitwarden Management](#135-regarding-bitwarden-management)
@@ -179,10 +180,17 @@ So this is a hack that was discovered by the 2017 Director of Archives and Sys a
 As a result, the Director of Archives can log into https://maillist.sfu.ca/ using their own username [and not `csss`] to manage the maillists
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_doa_maillist_moderator.png)
 
-##### 1.3.4.1.3. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?
+##### 1.3.4.1.3. Why does `csss-doa` not follow the convention of the other maillists with who is a member?
+As opposed to the other mail-lists that have the current officer as a member via the `-current` maillist, `csss-doa` has the current Director of Archives directly as a member rather than via another maillist.
+This is because as `csss-doa` is a manager for all the other maillists, only direct members of that maillist get that managerial privilege. That level of control does not extend to member of maillists that are members of the `csss-doa` maillist.
+
+An alternative could have been to make a maillist called `csss-mod` and have that be the manager for all the other maillists, but I got too lazy to set that up just so that `csss-doa`'s members follow the convention that the other maillists have.
+
+
+##### 1.3.4.1.4. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?
 Doing it this way, when there is a change in Director of Archives, you are not stuck updating the moderator of 20+ maillists. All you have to do is updating the member of `csss-doa`.
 
-##### 1.3.4.1.4. Things I never got around to doing
+##### 1.3.4.1.5. Things I never got around to doing
 I am 99.9% sure that updating the maillist **can** actually be automated. Since the mail-list does not have a complete API [as stated in the email below], this can **technically** be accomplished with the usage of [request](https://pypi.org/project/requests/)'s [Session](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object, but I realized this only in the last year of my time as a Sys Admin and had other things to take care of so never implemented this automation.
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/lack_of_automation_support.png)
 
