@@ -16,10 +16,13 @@
      - [1.3.4. SFU Maillist Management](#134-sfu-maillist-management)
        - [1.3.4.1 Maillist Management Logic](#1341-maillist-management-logic)
          - [1.3.4.1.1. Who goes in what mailist?](#13411-who-goes-in-what-mailist)
-         - [1.3.4.1.2. How does the csss-doa get access to all the maillists?](#13412-how-does-the-csss-doa-get-access-to-all-the-maillists)
-         - [1.3.4.1.3. Why does `csss-doa` not follow the convention of the other maillists with who is a member?](#13413-why-does-csss-doa-not-follow-the-convention-of-the-other-maillists-with-who-is-a-member)
-         - [1.3.4.1.4. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?](#13414-why-did-the-2017-sysadmin-and-director-of-archived-setup-csss-doa-as-the-moderator-of-the-maillists)
-         - [1.3.4.1.5. Things I never got around to doing](#13415-things-i-never-got-around-to-doing)
+         - [1.3.4.1.2. How the csss-doa can login to manage the maillists.](#13412-how-the-csss-doa-can-login-to-manage-the-maillists)
+         - [1.3.4.1.3. How to remove someone from an announcement maillist](#13413-how-to-remove-someone-from-an-announcement-maillist)
+         - [1.3.4.1.4. How to setup the permissions for an officer maillist](#13414-how-to-setup-the-permissions-for-an-officer-maillist)
+         - [1.3.4.1.5. How does the csss-doa get access to all the maillists?](#13415-how-does-the-csss-doa-get-access-to-all-the-maillists)
+         - [1.3.4.1.6. Why does `csss-doa` not follow the convention of the other maillists with who is a member?](#13416-why-does-csss-doa-not-follow-the-convention-of-the-other-maillists-with-who-is-a-member)
+         - [1.3.4.1.7. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?](#13417-why-did-the-2017-sysadmin-and-director-of-archived-setup-csss-doa-as-the-moderator-of-the-maillists)
+         - [1.3.4.1.8. Things I never got around to doing](#13418-things-i-never-got-around-to-doing)
        - [1.3.4.2. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character](#1342-fun-fact-websurvey-cant-handle-any-logins-from-an-sfu-account-that-has-a-password-longer-than-32-character)
        - [1.3.4.3. How to read the graphics below?](#1343-how-to-read-the-graphics-below)
        - [1.3.5. Regarding Bitwarden Management](#135-regarding-bitwarden-management)
@@ -177,7 +180,6 @@ Once the officer enters their info, the Director of Archives is emailed to updat
 
 ##### 1.3.4.1.2. How the csss-doa can login to manage the maillists.
 **the Director of Archives can log into https://maillist.sfu.ca/ using their own username [and not `csss`] to manage the maillists**  
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_doa_maillist_moderator.png)
 
 ##### 1.3.4.1.3. How to remove someone from an announcement maillist
 Some mailists are populated by the FAS Office, such maillists are: 
@@ -194,6 +196,8 @@ If you are setting up a maillist whose members should be restricted to certain p
 * the second option doesn't work cause even if the owner/manager hasn't yet approved a member, that member will still start getting emails sent to that maillist.
 
 ##### 1.3.4.1.5. How does the csss-doa get access to all the maillists?
+![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_doa_maillist_moderator.png)
+
 So this is a hack that was discovered by the 2017 Director of Archives and Sys administrator but basically, the moderator of a maillist was technically supposed to be an option to only SFUIDs.
 **However**, due either to laziness or technical limitations, the way that the system ensures that a selected option for a moderator is an SFUID is **not** by actually making sure it is an SFUID, it's by checking the number of characters in the option. Hence since `csss-doa` happens to be <= 8 in character length, we can use it as a moderator for the maillist sytems :smile:  
 As a result, 
