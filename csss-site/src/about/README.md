@@ -204,7 +204,7 @@ As a result,
 
 ##### 1.3.4.1.6. Why does `csss-doa` not follow the convention of the other maillists with who is a member?
 As opposed to the other maillists that have the current officer as a member via the `-current` maillist, `csss-doa` has the current Director of Archives directly as a member rather than via another maillist.
-This is because as `csss-doa` is a manager for all the other maillists, only direct members of that maillist get that managerial privilege. That level of control does not extend to member of maillists that are members of the `csss-doa` maillist.
+This is because as `csss-doa` is a manager for all the other maillists, only direct members of the `csss-doa` maillist get that managerial privilege. That level of control does not extend to member of maillists that are members of the `csss-doa` maillist.
 
 An alternative could have been to make a maillist called `csss-mod` and have that be the manager for all the other maillists, but I got too lazy to set that up just so that `csss-doa`'s members follow the convention that the other maillists have.
 
