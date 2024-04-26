@@ -178,8 +178,8 @@ Once the officer enters their info, the Director of Archives is emailed to updat
   * `csss-sysadmin`
   * `csss-webmaster`
 ##### 1.3.4.2.1. Who goes in what mailist?
-  * **main [`-current`] maillist**: the person currently holding a position goes in the main maillist. This is indicated in the graphics below with the bolding that is shown in the **maillist members** section of a main maillist
-  * **secondary maillist**: the main maillist as well as the previous person to occupy that position [assuming the previous person was a different person]. This is indicated in the graphics below with the bolding that is shown in the **maillist members** section of the secondary maillist
+  * **main [`-current`] maillist**: the person currently holding a position goes in the main maillist. This is indicated in [this graphics](https://docs.google.com/drawings/d/1JGaOE1mfq0vi1Q-kRy6EptTE-5IyHSIvFwbWS6Rr2Rc/edit?usp=sharing) with the bolding that is shown in the **maillist members** section of a main maillist
+  * **secondary maillist**: the main maillist as well as the previous person to occupy that position [assuming the previous person was a different person]. This is indicated in that same graphics with the bolding that is shown in the **maillist members** section of the secondary maillist
 
 ##### 1.3.4.2.2. How to remove someone from an announcement maillist
 Some mailists are populated by the FAS Office, such maillists are: 
