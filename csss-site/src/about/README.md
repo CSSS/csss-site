@@ -14,19 +14,18 @@
      - [1.3.2. Validations](#132-validations)
      - [1.3.3. Upon Successful Validation of all Inputs](#133-upon-successful-validation-of-all-inputs)
      - [1.3.4. SFU Maillist Management](#134-sfu-maillist-management)
-       - [1.3.4.1 Maillist Management Logic](#1341-maillist-management-logic)
-         - [1.3.4.1.1. Who goes in what mailist?](#13411-who-goes-in-what-mailist)
-         - [1.3.4.1.2. How the csss-doa can login to manage the maillists.](#13412-how-the-csss-doa-can-login-to-manage-the-maillists)
-         - [1.3.4.1.3. How to remove someone from an announcement maillist](#13413-how-to-remove-someone-from-an-announcement-maillist)
-         - [1.3.4.1.4. How to setup the permissions for an officer maillist](#13414-how-to-setup-the-permissions-for-an-officer-maillist)
-         - [1.3.4.1.5. How does the csss-doa get access to all the maillists?](#13415-how-does-the-csss-doa-get-access-to-all-the-maillists)
-         - [1.3.4.1.6. Why does `csss-doa` not follow the convention of the other maillists with who is a member?](#13416-why-does-csss-doa-not-follow-the-convention-of-the-other-maillists-with-who-is-a-member)
-         - [1.3.4.1.7. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?](#13417-why-did-the-2017-sysadmin-and-director-of-archived-setup-csss-doa-as-the-moderator-of-the-maillists)
-         - [1.3.4.1.8. Things I never got around to doing](#13418-things-i-never-got-around-to-doing)
-       - [1.3.4.2. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character](#1342-fun-fact-websurvey-cant-handle-any-logins-from-an-sfu-account-that-has-a-password-longer-than-32-character)
+       - [1.3.4.1. How the csss-doa can login to manage the maillists](#1341-how-the-csss-doa-can-login-to-manage-the-maillists)
+       - [1.3.4.2. Maillist Management Logic](#1342-maillist-management-logic)
+         - [1.3.4.2.1. Who goes in what mailist?](#13421-who-goes-in-what-mailist)
+         - [1.3.4.2.2. How to remove someone from an announcement maillist](#13422-how-to-remove-someone-from-an-announcement-maillist)
+         - [1.3.4.2.3. How to setup the permissions for an officer maillist](#13423-how-to-setup-the-permissions-for-an-officer-maillist)
+         - [1.3.4.2.4. How does the csss-doa get access to all the maillists?](#13424-how-does-the-csss-doa-get-access-to-all-the-maillists)
+         - [1.3.4.2.5. Why does `csss-doa` not follow the convention of the other maillists with who is a member?](#13425-why-does-csss-doa-not-follow-the-convention-of-the-other-maillists-with-who-is-a-member)
+         - [1.3.4.2.6. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?](#13426-why-did-the-2017-sysadmin-and-director-of-archived-setup-csss-doa-as-the-moderator-of-the-maillists)
+         - [1.3.4.2.7. Things I never got around to doing](#13427-things-i-never-got-around-to-doing)
        - [1.3.4.3. How to read the graphics below?](#1343-how-to-read-the-graphics-below)
-       - [1.3.5. Regarding Bitwarden Management](#135-regarding-bitwarden-management)
-       - [1.3.6. Things I never got around to doing](#136-things-i-never-got-around-to-doing)
+     - [1.3.5. Regarding Bitwarden Management](#135-regarding-bitwarden-management)
+     - [1.3.6. Things I never got around to doing](#136-things-i-never-got-around-to-doing)
  - [2. Keeping track of non-SFU email addresses for announcements](#2-keeping-track-of-non-sfu-email-addresses-for-announcements)
  - [3. Officer List](#3-officer-list)
    - [3.1. Publicly Accessible Data](#31-publicly-accessible-data)
@@ -166,57 +165,55 @@ Once that all clears, the website
 
 ### 1.3.4. SFU Maillist Management
 
+##### 1.3.4.1. How the csss-doa can login to manage the maillists
+**the Director of Archives can log into https://maillist.sfu.ca/ using their own username [and not `csss`] to manage the maillists**  
+
 Once the officer enters their info, the Director of Archives is emailed to update the mappings and are referred to https://sfucsss.org/about/current_email_mappings, which handles the logic of figuring out who goes where. An explanation of the logic is provided below
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_maillist_mappings.png)
-#### 1.3.4.1 Maillist Management Logic
+
+#### 1.3.4.2. Maillist Management Logic
 * All Officer [except the one below] have a main [`-current`] maillist and a secondary maillist.
   * `csss-elections`
   * `csss-councilrep`
   * `csss-sysadmin`
   * `csss-webmaster`
-##### 1.3.4.1.1. Who goes in what mailist?
+##### 1.3.4.2.1. Who goes in what mailist?
   * **main [`-current`] maillist**: the person currently holding a position goes in the main maillist. This is indicated in the graphics below with the bolding that is shown in the **maillist members** section of a main maillist
   * **secondary maillist**: the main maillist as well as the previous person to occupy that position [assuming the previous person was a different person]. This is indicated in the graphics below with the bolding that is shown in the **maillist members** section of the secondary maillist
 
-##### 1.3.4.1.2. How the csss-doa can login to manage the maillists.
-**the Director of Archives can log into https://maillist.sfu.ca/ using their own username [and not `csss`] to manage the maillists**  
-
-##### 1.3.4.1.3. How to remove someone from an announcement maillist
+##### 1.3.4.2.2. How to remove someone from an announcement maillist
 Some mailists are populated by the FAS Office, such maillists are: 
 1. any that are prefixed with `cmpt-`, which is currently just `cmpt-students`
 2. any `csss-` maillists that are owned by `csilops`, which is currently just `csss-firstyears`
 
 All other maillists are owned and operated by the CSSS and their members are updated only by the CSSS.
 
-##### 1.3.4.1.4. How to setup the permissions for an officer maillist
+##### 1.3.4.2.3. How to setup the permissions for an officer maillist
 If you are setting up a maillist whose members should be restricted to certain people, You will need to set the following subscription policy:
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/subscription_settings_restricted_maillist.png)
 
 * the reason that the first option in the dropdown can't work is obvious
 * the second option doesn't work cause even if the owner/manager hasn't yet approved a member, that member will still start getting emails sent to that maillist.
 
-##### 1.3.4.1.5. How does the csss-doa get access to all the maillists?
+##### 1.3.4.2.4. How does the csss-doa get access to all the maillists?
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_doa_maillist_moderator.png)
 
 So this is a hack that was discovered by the 2017 Director of Archives and Sys administrator but basically, the moderator of a maillist was technically supposed to be an option to only SFUIDs.
 **However**, due either to laziness or technical limitations, the way that the system ensures that a selected option for a moderator is an SFUID is **not** by actually making sure it is an SFUID, it's by checking the number of characters in the option. Hence since `csss-doa` happens to be <= 8 in character length, we can use it as a moderator for the maillist sytems :smile:  
 As a result, 
 
-##### 1.3.4.1.6. Why does `csss-doa` not follow the convention of the other maillists with who is a member?
+##### 1.3.4.2.5. Why does `csss-doa` not follow the convention of the other maillists with who is a member?
 As opposed to the other maillists that have the current officer as a member via the `-current` maillist, `csss-doa` has the current Director of Archives directly as a member rather than via another maillist.
 This is because as `csss-doa` is a manager for all the other maillists, only direct members of the `csss-doa` maillist get that managerial privilege. That level of control does not extend to member of maillists that are members of the `csss-doa` maillist.
 
 An alternative could have been to make a maillist called `csss-mod` and have that be the manager for all the other maillists, but I got too lazy to set that up just so that `csss-doa`'s members follow the convention that the other maillists have.
 
-##### 1.3.4.1.7. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?
+##### 1.3.4.2.6. Why did the 2017 SysAdmin and Director of Archived setup `csss-doa` as the moderator of the maillists?
 Doing it this way, when there is a change in Director of Archives, you are not stuck updating the moderator of 20+ maillists. All you have to do is updating the member of `csss-doa`.
 
-##### 1.3.4.1.8. Things I never got around to doing
+##### 1.3.4.2.7. Things I never got around to doing
 I am 99.9% sure that updating the maillist **can** actually be automated. Since the maillist does not have a complete API [as stated in the email below], this can **technically** be accomplished with the usage of [request](https://pypi.org/project/requests/)'s [Session](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object, but I realized this only in the last year of my time as a Sys Admin and had other things to take care of so never implemented this automation.
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/lack_of_automation_support.png)
-
-#### 1.3.4.2. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/password_limitation.png)
 
 
 #### 1.3.4.3. How to read the graphics below?

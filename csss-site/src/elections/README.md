@@ -4,12 +4,13 @@
 
  - [Models Needed for the Public Election Page](#models-needed-for-the-public-election-page)
  - [1. Allow Election Officer to setup an Election](#1-allow-election-officer-to-setup-an-election)
+   - [1.1. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character](#11-fun-fact-websurvey-cant-handle-any-logins-from-an-sfu-account-that-has-a-password-longer-than-32-character)
  - [2. Allow Election Officer to setup a Nominee Link](#2-allow-election-officer-to-setup-a-nominee-link)
-   - [2.1 What does "NomineeLink" mean?](#21-what-does-nomineelink-mean)
+   - [2.1. What does "NomineeLink" mean?](#21-what-does-nomineelink-mean)
  - [3. Page where Election Officer or Nominee can upload the nominee speeches and select the positions they want to run for](#3-page-where-election-officer-or-nominee-can-upload-the-nominee-speeches-and-select-the-positions-they-want-to-run-for)
  - [4. Ensure Elections are publicly available](#4-ensure-elections-are-publicly-available)
  - [5. Allow Election Officer to record the Final Results](#5-allow-election-officer-to-record-the-final-results)
-   - [5.1 Explanation of Workflow and Entity Relationships](#51-explanation-of-workflow-and-entity-relationships)
+   - [5.1. Explanation of Workflow and Entity Relationships](#51-explanation-of-workflow-and-entity-relationships)
    - [5.2. Screenshots for uploading websurvey results](#52-screenshots-for-uploading-websurvey-results)
  - [6. Provide Graphs and Show Results](#6-provide-graphs-and-show-results)
  - [7. Background Cron Commands](#7-background-cron-commands)
@@ -28,6 +29,11 @@ Pretty much all the fields above are self-explainable, but I will do a bit of el
 
 
 # 1. Allow Election Officer to setup an Election
+
+
+#### 1.1. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character
+![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/password_limitation.png)
+
 Election Officer documentation is located [here](https://sfucsss.org/elections/election_officer_documentation)
 
 A New Election is Setup at https://sfucsss.org/elections/new_election_via_nominee_links/
@@ -86,7 +92,7 @@ To ensure that the election officer does not forget to add the websurvey link to
 
 # 5. Allow Election Officer to record the Final Results
 
-## 5.1 Explanation of Workflow and Entity Relationships
+## 5.1. Explanation of Workflow and Entity Relationships
 
 So, I always wanted to have the website itself also contain the results, giving us the option for nice pretty graphs and analytics and so forth.
 
