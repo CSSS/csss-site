@@ -80,7 +80,7 @@ When it comes to when to remove access, officers lose their access to certain re
 
 
 ### 1.3.1. GitHub Permission Management
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vQhnLr9pAU7C8-U90keXVNT6BlMVJOFfxk-nE5-yYziOD2fed6bjRGOruskCZ3mgGP7m6huvCB0rOOX/pub?w=1356&amp;h=281">
+https://docs.google.com/drawings/d/1J6j0_RWaHnI1xwapvlKEJeWBcjr_Yy8O545GJ2QPWFU/edit?usp=sharing
 
 the above represents how I decided to setup the Officer GitHub Team Mapping.
 
