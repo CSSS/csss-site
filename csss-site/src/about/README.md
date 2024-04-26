@@ -102,7 +102,7 @@ In addition, there are 2 attributes that exist in `OfficerEmailListAndPositionMa
 An explanation of the resource permission management can be found in the [`Resource Management app`](../resource_management)
 
 ## 1.2. How Director of Archives generates `UnProcessedOfficer`
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vTYsdFf2P5EiQrNwqNOYNGXOc0-E9fgUgw2mOIfSNc8WE3kSBuYuwew3w60W5HO91-WfrfqpowlZZkC/pub?w=564&amp;h=331">  
+https://docs.google.com/drawings/d/1zgor0P6pvac6iG1BlpOxxWQzTuLG93xGmly1y-QtfgQ/edit?usp=sharing
 
 The way I coded the site, each new term, all officers have to enter their information, regardless of whether they are a new officer or are just continuing to serve a term until its fullest [for example, any of the Director positions in the Fall or Spring term]
 
@@ -131,7 +131,7 @@ If the specified position has gmail access, a unique gmail verification code is 
  * Making the page smarter about giving the Director of Archives the option to select a button that would automatically generate the typical position links that would be needed for a term. For example, at the end of a term, it would know that all exec positions and the First year Rep would need to be generated so it gives the Director of Archives the option to create that many empty Officer inputs rather than them having to click the `Add Another New officer` button 10+ times
 
 ## 1.3. When officer inputs their info
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vT1W611KG5uXME5gK-IvUbK0srFRNmxomRmznLGeZDV7T1PkBNhHNKgEXd1GtpBImJH9-qkqmEhf6aH/pub?w=1702&amp;h=1121">
+https://docs.google.com/drawings/d/1mTLDhuKuyf4C6el4lwR-VRZEPce5JD5QfVN7SCYGG_8/edit?usp=sharing
 
 https://sfucsss.org/login?next=/about/enter_new_officer_info
 
@@ -223,7 +223,7 @@ Additionally, `csss-doa` is green to indicate both that
 * it's the maillist used to maintain all the other maillists as well as
 * its maillists members are different than the pattern found in other non `-current` maillists.
 
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vRa13F_U-XuEMM4pkPbFKHS5BjuEp0TSKzNs-ugZBom36OL09yJLFxedjdI8nKapfTTGY7E2oXLTi1s/pub?w=3284&amp;h=7784">
+https://docs.google.com/drawings/d/1JGaOE1mfq0vi1Q-kRy6EptTE-5IyHSIvFwbWS6Rr2Rc/edit?usp=sharing
 
 ### 1.3.5. Regarding Bitwarden Management
 > When doing a take-over of a bitwarden account, that account gets it access to any Bitwarden Organization Colletion or Groups removed. To deal with that, I had to implement a bit of a fix that is elaborated on in [`Resource Management app`](../resource_management)  
@@ -234,7 +234,7 @@ Regarding the bitwarden attributes, I suggest ignoring whatever logic there is a
  * I had always planned that when the last executive officer inputs their information at the beginning of every term, that the website would send the updated exec-list to the maillists that the Director of Archives always has to send to.
 
 # 2. Keeping track of non-SFU email addresses for announcements
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vQgtlJHOKOKnkLYbXyplGjtwwVFEGlTxq3HjylcFvmaLCntfPnoa7MZ3JQHLJMAL6uJz_AbB8UKYQqs/pub?w=1080&amp;h=765">
+https://docs.google.com/drawings/d/1lAoCzWBLHzW2C-UazRB5TfW4m843RdnaFB-i2KSrnL0/edit?usp=sharing
 
 In order to ensure that only "verified" emails sent to csss.website@gmail.com are shown on the front page, the website has to know which sender emails are valid ones to show. For the most part the SFU email addresses [both SFUID and email aliases] are tracked via the Officer's own info and are commonly the sender email. but there have been occasions where folks have used non-SFU emails [like Gmails] to send emails to the student body. As a result the `AnnouncementEmailAddress` model was created to track those valid non-SFU email addresses.
 
