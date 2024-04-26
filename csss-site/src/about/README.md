@@ -190,6 +190,7 @@ All other maillists are owned and operated by the CSSS and their members are upd
 
 ##### 1.3.4.2.3. How to setup the permissions for an officer maillist
 If you are setting up a maillist whose members should be restricted to certain people, You will need to set the following subscription policy:
+
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/subscription_settings_restricted_maillist.png)
 
 * the reason that the first option in the dropdown can't work is obvious
