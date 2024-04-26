@@ -18,8 +18,7 @@
    - [7.2. Nag Election Officer Share Results](#72-nag-election-officer-share-results)
 
 # Models Needed for the Public Election Page
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vRS3uiobmgoDwLwdQjkhy9uN5O0cnz0l6AfbHSg3pfQ517Hdf3lruvRrHNaxmAvsEKhDtvtBCrqXer8/pub?w=700&amp;h=1304">
-
+https://docs.google.com/drawings/d/1TzEkZVp0kEe7rf90qAUzB3Wz38sC4JktiZncKoxfrAE/edit?usp=sharing
 
 Pretty much all the fields above are self-explainable, but I will do a bit of elaboration on 2 in specific:
 * **date**: This is essentially the start date of the vote. No one can see the nominees before this date.
@@ -42,7 +41,7 @@ A New Election is Setup at https://sfucsss.org/elections/new_election_via_nomine
 
 Models created when setting up an election in preparation for nominees  
 
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vSS-4XHX7Xe2TPfhZqoELWQ4bFLyoXkGfJ5Pq1XnMCiUNv4ttQTzR9Gp3Cp6M6qrzn5_-Rby3y97ar9/pub?w=455&amp;h=238">
+https://docs.google.com/drawings/d/16FF7UFHa8E19YaJ5Y3wnMk2SwD9FlL5Yj9kWPBoK1nY/edit?usp=sharing
 
 # 2. Allow Election Officer to setup a Nominee Link
 
@@ -61,8 +60,7 @@ By which I mean that when a user logs in via their SFU credentials, their userna
 So, technically, at this point, the `NomineeLink` object is not actually needed, but I didn't have time to remove it.
 
 So currently, the models used for the NomineeLinking mechanism are
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vSNjBIpjMda7K2yYTx7WA3wV5gIos0hgLR6zo6S_sy1EKOI9WL2S-xidTFr2q1dMrKe3pcPmo9tJu0z/pub?w=1160&amp;h=657">
-
+https://docs.google.com/drawings/d/1Y69DkOl3An8dzETV5rctShog__NFnXjjkFU-bHXeswo/edit?usp=sharing
 
 The way that I programmed this was that on this page  
 https://sfucsss.org/elections/2024-01-30-by_election/election_modification_nominee_links/
@@ -84,7 +82,7 @@ Whether it be the election officer or nominee, both are presented the following 
 ![](documentation_images/create_update_nominee_info.png)
 
 Models Used for recording Nominee info via NomineeLink mechanism
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vQBFYCVyZpK1_O8_ldpRVUJvsFfbOttM2CZzioQcptB22Jsc-uTyZMust1IolO7EH2mSTvqw0IbscBj/pub?w=534&amp;h=1253">
+https://docs.google.com/drawings/d/1WBwa8acIEW_QW0L97kMmRuVxDvasuTJ8Mt3edhPCDt0/edit?usp=sharing
 
 # 4. Ensure Elections are publicly available
 
@@ -117,7 +115,7 @@ Once all `PendingVoterChoice`s have all their `nominee_name_mapped` [which is as
 
 Models used to go through the process of uploading final results
 
-<img src="https://docs.google.com/drawings/d/e/2PACX-1vSWt9YkaC5fCN9HGxGq_ZoUP7SARf9fUwFuAtb6q_pVisolPSq3FDbIBLF9X0cfmWeazgVd1ap1EVDB/pub?w=1253&amp;h=1618">
+https://docs.google.com/drawings/d/1xsNH7-qUiDKjgcC6FvOgWZ8QOq6RMgEEuHMkYBb-nsg/edit?usp=sharing
 
 ## 5.2. Screenshots for uploading websurvey results
 1. The Election Officer has to go to the election's page [https://sfucsss.org/elections/2020-04-15-general_election/] and click on `Import Websurvey Results`
