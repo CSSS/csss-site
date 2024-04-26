@@ -166,7 +166,7 @@ Once that all clears, the website
 ### 1.3.4. SFU Maillist Management
 
 ##### 1.3.4.1. How the csss-doa can login to manage the maillists
-**the Director of Archives can log into https://maillist.sfu.ca/ using their own username [and not `csss`] to manage the maillists**  
+**the Director of Archives can log into https://maillist.sfu.ca/ using their own username `csss:<sfuid>` [and not `csss`] to manage the maillists**  
 
 Once the officer enters their info, the Director of Archives is emailed to update the mappings and are referred to https://sfucsss.org/about/current_email_mappings, which handles the logic of figuring out who goes where. An explanation of the logic is provided below
 ![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_maillist_mappings.png)
