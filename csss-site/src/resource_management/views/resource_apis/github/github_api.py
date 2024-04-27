@@ -266,7 +266,9 @@ class GitHubAPI:
         """
         if not self.connection_successful:
             return False, self.error_message
-
+        elif team_name == "w3_committee":
+            return False, "cannot remove w3_committee"
+        
         successful = False
         team = None
         while not successful:
@@ -312,6 +314,8 @@ class GitHubAPI:
         team_name -- the name of the team to delete
         """
         if not self.connection_successful:
+            return
+        elif team_name == "w3_committee":
             return
         successful = False
         while not successful:
