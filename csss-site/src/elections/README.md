@@ -31,7 +31,7 @@ Pretty much all the fields above are self-explainable, but I will do a bit of el
 
 
 #### 1.1. Fun Fact: Websurvey can't handle any logins from an SFU account that has a password longer than 32 character
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/elections/documentation_images/password_limitation.png)
+![](documentation_images/password_limitation.png)
 
 Election Officer documentation is located [here](https://sfucsss.org/elections/election_officer_documentation)
 

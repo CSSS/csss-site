@@ -110,7 +110,7 @@ Shortly before the new term, the Director of Archives had to create a new `UnPro
 
 Once the Director of Archives fills out the below form, in order to motivate/ensure repeat officers do fill in their info again for the new term, the website uses the [`UnProcessedOfficer` model in order to keep ensure that officers who have not filled in their form cannot access the SFU CSSS Google Drive, the SFU CSSS Github Org, and are not given their discord exec role](../csss/views/privilege_validation/list_of_officer_details_from_past_specified_terms.py)
 
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/generate_unprocessedofficer.png)
+![](documentation_images/generate_unprocessedofficer.png)
 
 ### 1.2.1. Explanations of input fields
 Most fields in the above screenshot are pretty intuitive, however
@@ -135,7 +135,7 @@ https://docs.google.com/drawings/d/1mTLDhuKuyf4C6el4lwR-VRZEPce5JD5QfVN7SCYGG_8/
 
 https://sfucsss.org/login?next=/about/enter_new_officer_info
 
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/enter_officer_info.png)
+![](documentation_images/enter_officer_info.png)
 
 ### 1.3.1. How various Officer objects are obtained that are not obtained directly from user
 * **sfu_computing_id**: pulled from the corresponding `UnProcessedOfficer` object
@@ -169,7 +169,7 @@ Once that all clears, the website
 the Director of Archives can log into https://maillist.sfu.ca/ using tne username `csss:<sfuid>` to manage the maillists
 
 Once the officer enters their info, the Director of Archives is emailed to update the mappings and are referred to https://sfucsss.org/about/current_email_mappings, which handles the logic of figuring out who goes where. An explanation of the logic is provided below
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_maillist_mappings.png)
+![](documentation_images/csss_maillist_mappings.png)
 
 #### 1.3.4.2. Maillist Management Logic
 * All Officer [except the one below] have a main [`-current`] maillist and a secondary maillist.
@@ -191,13 +191,13 @@ All other maillists are owned and operated by the CSSS and their members are upd
 ##### 1.3.4.2.3. How to setup the permissions for an officer maillist
 If you are setting up a maillist whose members should be restricted to certain people, You will need to set the following subscription policy:
 
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/subscription_settings_restricted_maillist.png)
+![](documentation_images/subscription_settings_restricted_maillist.png)
 
 * the reason that the first option in the dropdown can't work is obvious
 * the second option doesn't work cause even if the owner/manager hasn't yet approved a member, that member will still start getting emails sent to that maillist.
 
 ##### 1.3.4.2.4. How does the csss-doa get access to all the maillists?
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/csss_doa_maillist_moderator.png)
+![](documentation_images/csss_doa_maillist_moderator.png)
 
 So this is a hack that was discovered by the 2017 Director of Archives and Sys administrator but basically, the moderator of a maillist was technically supposed to be an option to only SFUIDs.
 **However**, due either to laziness or technical limitations, the way that the system ensures that a selected option for a moderator is an SFUID is **not** by actually making sure it is an SFUID, it's by checking the number of characters in the option. Hence since `csss-doa` happens to be <= 8 in character length, we can use it as a moderator for the maillist sytems :smile:  
@@ -214,7 +214,7 @@ Doing it this way, when there is a change in Director of Archives, you are not s
 
 ##### 1.3.4.2.7. Things I never got around to doing
 I am 99.9% sure that updating the maillist **can** actually be automated. Since the maillist does not have a complete API [as stated in the email below], this can **technically** be accomplished with the usage of [request](https://pypi.org/project/requests/)'s [Session](https://requests.readthedocs.io/en/latest/user/advanced/#session-objects) object, but I realized this only in the last year of my time as a Sys Admin and had other things to take care of so never implemented this automation.
-![](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/documentation_images/lack_of_automation_support.png)
+![](documentation_images/lack_of_automation_support.png)
 
 
 #### 1.3.4.3. How to read the graphics below?
@@ -288,7 +288,7 @@ what basically happens is that when I was given all the exec photos taken for a 
 
 And in order to save up on the disk space taken by the repo, I would use short links `ln -s` as much as possible if a photo is re-used.
 
-Once a photo is saved to that repo, the logic in [validate_discord_roles_members.py](management/commands/update_officer_images.py) would [do a `git pull` in the folder on the server that has that repo](https://github.com/CSSS/csss-site/blob/6a61fc1eac3f125ac865c22c410d8fff9bf77f44/csss-site/src/about/views/commands/update_officer_images.py#L14-L25) and then go through [this logic](https://github.com/CSSS/csss-site/blob/add_docu/csss-site/src/about/views/utils/get_officer_image_path.py) for each officer to get the correct image path or just revert to the stock photo if no image is found for that specific officer for that specific term. 
+Once a photo is saved to that repo, the logic in [validate_discord_roles_members.py](management/commands/update_officer_images.py) would [do a `git pull` in the folder on the server that has that repo](https://github.com/CSSS/csss-site/blob/6a61fc1eac3f125ac865c22c410d8fff9bf77f44/csss-site/src/about/views/commands/update_officer_images.py#L14-L25) and then go through [this logic](about/views/utils/get_officer_image_path.py) for each officer to get the correct image path or just revert to the stock photo if no image is found for that specific officer for that specific term. 
 
 ## 4.5. Validation of Discord Roles
 [validate_discord_roles_members.py](management/commands/validate_discord_roles_members.py)  
