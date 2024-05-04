@@ -3,6 +3,7 @@ from django.conf import settings
 from about.models import Officer, UnProcessedOfficer
 from csss.models import CSSSError
 from csss.views.context_creation.create_base_context import create_base_context
+from csss.views.determine_user_role import ROOT_ACCOUNTS
 from csss.views.privilege_validation.obtain_sfuids_for_specified_positions_and_terms import \
     get_current_election_officer_sfuid, get_current_sys_admin_sfuid, \
     get_current_webmaster_or_doa_sfuid, get_sfuid_for_officer_in_past_5_terms, \
@@ -78,10 +79,10 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
     relevant_errors = CSSSError.objects.all().exclude(
         message="Couldn't do oauth2 because Install python-social-auth to use oauth2 auth for gmail\n"
     )
+    root_account = request.user.username in ROOT_ACCOUNTS
     context['errors_exist'] = (
         (
-            (CURRENT_SYS_ADMIN in context and context[CURRENT_SYS_ADMIN]) or
-            request.user.username == "root")
+            (CURRENT_SYS_ADMIN in context and context[CURRENT_SYS_ADMIN]) or root_account)
         and len(relevant_errors) > 0
     )
     if settings.PORT is not None:
@@ -98,7 +99,7 @@ def create_main_context(request, tab=None, current_election_officer_sfuid=None,
     context.update({
         'tab': tab,
         'election_list': None if len(elections) == 0 else elections,
-        ROOT_USER: request.user.username in ["root", "jsaadatm", "gsa92", "mdb15"],
+        ROOT_USER: root_account,
     })
 
     return context
