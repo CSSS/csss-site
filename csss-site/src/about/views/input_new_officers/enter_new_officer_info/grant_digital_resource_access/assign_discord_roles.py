@@ -1,4 +1,5 @@
 import json
+from time import sleep
 
 import requests
 from django.conf import settings
@@ -115,11 +116,32 @@ def assign_roles_to_officer(discord_id_of_new_officer_with_role, discord_role_id
     logger.info(
         f"[about/assign_discord_roles.py() assign_roles_to_officer() ] calling url={url} with body {body}"
     )
-    response = requests.patch(
-        url,
-        headers=discord_header,
-        json=body
-    )
+    retry = True
+    response = None
+    while retry:
+        response = requests.patch(
+            url,
+            headers=discord_header,
+            json=body
+        )
+        if response.status_code == 429:
+            retry_after = response.headers.get("retry_after", None)
+            if retry_after is None:
+                retry_after = response.headers.get("Retry-After", None)
+            if retry_after is not None:
+                logger.debug(
+                    f"[about/assign_discord_roles.py() assign_roles_to_officer()] sleeping for {retry_after}"
+                )
+                sleep(retry_after)
+                retry = True
+            else:
+                logger.error(
+                    f"[about/assign_discord_roles.py() assign_roles_to_officer()] no retry after header found in"
+                    f"{response.headers}"
+                )
+                return False, "Encountered a rate limit without any retry after specified in the header"
+        else:
+            retry = False
     if response.status_code not in [200, 204]:
         return False, (
             f"Unable to assign discord role due to reason '{response.reason}' with "
