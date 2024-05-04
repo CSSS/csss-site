@@ -4,9 +4,11 @@ from time import sleep
 from django.core.management import BaseCommand
 
 from about.models import UnProcessedOfficer, Officer
+from about.views.input_new_officers.specify_new_officers.notifications.\
+    send_notification_asking_officer_to_fill_in_form import \
+    send_notification_asking_officer_to_fill_in_form
 from csss.models import CronJob, CronJobRunStat
 from csss.setup_logger import Loggers
-from csss.views.send_discord_dm import send_discord_dm
 
 SERVICE_NAME = "nag_officers_to_enter_info"
 
@@ -18,29 +20,21 @@ class Command(BaseCommand):
         time1 = time.perf_counter()
         logger = Loggers.get_logger(logger_name=SERVICE_NAME)
         unprocessed_officers = UnProcessedOfficer.objects.all()
-        current_director_of_archives = Officer.objects.all().filter(
-            position_name='Director of Archives'
-        ).order_by('-start_date').first()
-        current_systems_admin = Officer.objects.all().filter(
-            position_name='Systems Administrator'
-        ).order_by('-start_date').first()
+        officers = Officer.objects.all()
         for unprocessed_officer in unprocessed_officers:
             sleep(1)
             unprocessed_officer.number_of_nags += 1
             unprocessed_officer.save()
-            if (unprocessed_officer.number_of_nags % 3) == 0:
-                send_discord_dm(
-                    current_systems_admin.discord_id, "unfilled in officer data",
-                    f"{unprocessed_officer.full_name} still has not filled in their data..."
-                )
-            if current_director_of_archives is not None:
-                send_discord_dm(
-                    current_director_of_archives.discord_id, "unfilled in officer data",
-                    f"{unprocessed_officer.full_name} still has not filled in their data..."
-                )
+            first_time_officer = (
+                officers.filter(sfu_computing_id=unprocessed_officer.sfu_computing_id).first() is None
+            )
+            success, error_message = send_notification_asking_officer_to_fill_in_form(
+                unprocessed_officer.discord_id, unprocessed_officer.full_name, first_time_officer)
+            if not success:
+                logger.error(f"[about/nag_officers_to_enter_info.py()] {error_message}")
             logger.info(
-                f"[about/nag_officers_to_enter_info.py()] alerted the Sys Admin and DoA that "
-                f"{unprocessed_officer.full_name} has not filled in their info"
+                f"[about/nag_officers_to_enter_info.py()] reminded {unprocessed_officer.full_name} to fill in"
+                f" their info"
             )
         time2 = time.perf_counter()
         total_seconds = time2 - time1
