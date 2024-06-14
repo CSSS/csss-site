@@ -57,7 +57,7 @@ class GitHubAPI:
             except Exception as e:
                 error_message = f" Unable to find user \"{user_name}\" on Github, please create account at " \
                                 f"<a href=\"https://github.com\" target=\"_blank\">github.com</a>"
-                self.logger.error(
+                self.logger.warning(
                     f"[GitHubAPI validate_user()] {error_message} due to following error\n{e}"
                 )
                 return False, error_message
