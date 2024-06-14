@@ -218,9 +218,11 @@ class GoogleDrive:
             if file_id is None:
                 file_id = self.root_file_id
             try:
+                response = self.gdrive.files().get(fileId=file_id, supportsAllDrives=True).execute()
+                file_name = response['name']
                 self.logger.info(
                     "[GoogleDrive remove_users_gdrive()] attempting to get the list of permissions for "
-                    f"file with id {file_id}"
+                    f"file with id {file_id} and name {file_name}"
                 )
                 permissions = self.gdrive.permissions().list(
                     fileId=file_id, fields='permissions', supportsAllDrives=True
@@ -249,8 +251,7 @@ class GoogleDrive:
                             elif 'emailAddress' not in permission:
                                 self.logger.error(
                                     f"[GoogleDrive remove_users_gdrive()] could not find an email address "
-                                    f"for {self.root_file_id} in "
-                                    f"permission {permission}"
+                                    f"in permission {permission} for file with id {file_id} and name {file_name}"
                                 )
                             else:
                                 permission_email_address = permission['emailAddress'].lower()
@@ -258,7 +259,7 @@ class GoogleDrive:
                                     try:
                                         self.logger.info(
                                             f"[GoogleDrive remove_users_gdrive()] attempting to remove user {user}'s "
-                                            f"access to file with id {file_id}"
+                                            f"access to file with id {file_id} and name {file_name}"
                                         )
                                         if self.make_changes:
                                             resp = self.gdrive.permissions().delete(
@@ -284,7 +285,7 @@ class GoogleDrive:
                                         self.logger.error(
                                             "[GoogleDrive remove_users_gdrive()] encountered following error "
                                             f"when trying to remove {permission_email_address}'s access to"
-                                            f" file with ID {file_id}. \n {e}"
+                                            f" file with ID {file_id} and name {file_name}. \n {e}"
                                         )
                     else:
                         self.logger.info(f"[GoogleDrive remove_users_gdrive()] skipping root user of {user}")
