@@ -5,5 +5,5 @@ setuptools==67.6.1
 sqlparse==0.4.4
 typing-extensions==4.6.3
 wheel==0.40.0
-requests==2.31.0
+requests==2.32.2
 unittest-xml-reporting
