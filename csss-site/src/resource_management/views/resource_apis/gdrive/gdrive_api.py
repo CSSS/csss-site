@@ -613,32 +613,38 @@ class GoogleDrive:
                     self.logger.error(f"[GoogleDrive _validate_permissions_for_file()] experienced "
                                       f"following error when trying to get permission {permission_id} from file"
                                       f"{file['name']}:\n{error}")
-
+        anyone_with_link_permission = []
+        all_other_permissions = []
         for permission in permissions:
             if permission['id'] == 'anyoneWithLink':
-                if self.root_file_id != settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY:
-                    # have to allow the anyoneWithLink for the public gallery since its public facing
+                anyone_with_link_permission.append(permission)
+            else:
+                all_other_permissions.append(permission)
+        for _ in anyone_with_link_permission:
+            if self.root_file_id != settings.GOOGLE_WORKSPACE_SHARED_TEAM_DRIVE_FOLDER_ID_FOR_PUBLIC_GALLERY:
+                # have to allow the anyoneWithLink for the public gallery since its public facing
 
-                    # check files that are link-share enabled
-                    if 'anyoneWithLink' not in google_drive_perms.keys():
-                        # there are no link-shares enabled at this time
+                # check files that are link-share enabled
+                if 'anyoneWithLink' not in google_drive_perms.keys():
+                    # there are no link-shares enabled at this time
+                    self.logger.info(
+                        "[GoogleDrive _validate_permissions_for_file()] removing public "
+                        f"link for file with id {file['id']} and name {file['name']}"
+                    )
+                    self.remove_public_link_gdrive(file['id'])
+                else:
+                    if len(set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']])) == 0:
+                        # check to see if this particular file has not been link-share enabled or
+                        # one of this particular file's parent folders have also not been link-share enabled
                         self.logger.info(
                             "[GoogleDrive _validate_permissions_for_file()] removing public "
                             f"link for file with id {file['id']} and name {file['name']}"
                         )
                         self.remove_public_link_gdrive(file['id'])
-                    else:
-                        if len(set(google_drive_perms['anyoneWithLink']).intersection(parent_id + [file['id']])) == 0:
-                            # check to see if this particular file has not been link-share enabled or
-                            # one of this particular file's parent folders have also not been link-share enabled
-                            self.logger.info(
-                                "[GoogleDrive _validate_permissions_for_file()] removing public "
-                                f"link for file with id {file['id']} and name {file['name']}"
-                            )
-                            self.remove_public_link_gdrive(file['id'])
-            elif 'emailAddress' in permission:
+        for all_other_permission in all_other_permissions:
+            if 'emailAddress' in all_other_permission:
                 # checking permissions that are email-shared
-                email_address = permission['emailAddress'].lower()
+                email_address = all_other_permission['emailAddress'].lower()
                 if email_address not in google_drive_perms.keys():
                     # this email is not supposed to have access to any of the CSSS Google Drive Resources
                     self.logger.info(
@@ -655,6 +661,11 @@ class GoogleDrive:
                             f"{email_address}'s access to file {file['name']}"
                         )
                         self.remove_users_gdrive([email_address], file['id'])
+            else:
+                self.logger.error(
+                    "[GoogleDrive _validate_permissions_for_file()] encountered unexpected permission of"
+                    f" {all_other_permission}"
+                )
 
     def _validate_owner_for_file(
             self, parent_folder, google_drive_perms, parent_id, files_to_email_owner_about, file):
