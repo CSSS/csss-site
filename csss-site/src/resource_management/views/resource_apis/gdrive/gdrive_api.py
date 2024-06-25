@@ -664,7 +664,7 @@ class GoogleDrive:
             else:
                 self.logger.error(
                     "[GoogleDrive _validate_permissions_for_file()] encountered unexpected permission of"
-                    f" {all_other_permission}"
+                    f" {all_other_permission} for file with id {file['id']} and name {file['name']}"
                 )
 
     def _validate_owner_for_file(
