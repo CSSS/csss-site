@@ -325,7 +325,7 @@ class GoogleDrive:
                 self.logger.error(f"[GoogleDrive make_public_link_gdrive()] encountered the following error. \n {e}")
                 return False, None, None, e
 
-    def remove_public_link_gdrive(self, file_id):
+    def remove_public_link_gdrive(self, file_id, permission_id='anyoneWithLink'):
         """remove a public-link that has been enabled for the file
 
         Keyword Arguments:
@@ -338,7 +338,7 @@ class GoogleDrive:
                     f"that is enabled for file with id {file_id}"
                 )
                 self.gdrive.permissions().delete(
-                    fileId=file_id, permissionId='anyoneWithLink',
+                    fileId=file_id, permissionId=permission_id,
                     supportsAllDrives=True
                 ).execute()
                 time.sleep(30)
@@ -662,9 +662,14 @@ class GoogleDrive:
                         )
                         self.remove_users_gdrive([email_address], file['id'])
             else:
-                self.logger.error(
+                self.logger.warning(
                     "[GoogleDrive _validate_permissions_for_file()] encountered unexpected permission of"
                     f" {all_other_permission} for file with id {file['id']} and name {file['name']}"
+                )
+                self.remove_public_link_gdrive(file['id'], permission_id=all_other_permission['id'])
+                self.logger.warning(
+                    "[GoogleDrive _validate_permissions_for_file()] deleted unexpected permission for file with"
+                    f" {file['id']} and name {file['name']}"
                 )
 
     def _validate_owner_for_file(
