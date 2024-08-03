@@ -605,7 +605,7 @@ class GoogleDrive:
                         file_permissions_executor = getter.execute()
                         permissions.append(file_permissions_executor)
                         success = True
-                    except (HttpError, BrokenPipeError) as e:
+                    except (HttpError, BrokenPipeError, ConnectionResetError) as e:
                         error = e
                         retry_count += 1
                         time.sleep(5)
