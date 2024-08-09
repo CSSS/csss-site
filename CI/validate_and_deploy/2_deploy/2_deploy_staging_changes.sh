@@ -49,6 +49,7 @@ function switch_to_pr_branch(){
   cd "${BASE_DIR}"
   python3 -m virtualenv envCSSS
   . "${BASE_DIR}/envCSSS/bin/activate"
+  python3 -m pip install setuptools==68.2.2 --no-cache-dir
   python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt" --no-cache-dir
 }
 
