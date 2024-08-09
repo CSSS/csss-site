@@ -24,6 +24,7 @@ function setup_master_virtual_env(){
   rm -fr "${BASE_DIR}/envCSSS_master"
   python3 -m virtualenv envCSSS_master
   . "${BASE_DIR}/envCSSS_master/bin/activate"
+  python3 -m pip install setuptools==68.2.2 --no-cache-dir
   python3 -m pip install -r "${BASE_DIR}/csss-site/requirements.txt" --no-cache-dir
 
 
