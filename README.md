@@ -1,5 +1,7 @@
 # SFU CSSS Django Website
 
+
+
 The website is accessible at https://sfucsss.org/
 
  - [What can the website do?](#what-can-the-website-do)
