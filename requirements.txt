@@ -22,6 +22,7 @@ pytz==2018.7
 six==1.12.0
 smmap2==2.0.5
 stripe==2.33.0
+wheel
 django-allauth==0.39.1
 psycopg2-binary==2.8.6
 django-markdown-app==0.9.6
