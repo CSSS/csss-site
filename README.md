@@ -1,4 +1,4 @@
-> archived as the [new website](https://github.com/CSSS/csss-site-config) has its own backup system and WALL-E doesn't have any staging anymore anyways.
+> archived as the [new website](https://github.com/CSSS/csss-site-config) is now LIVE!!!!
 
 # SFU CSSS Django Website
 
