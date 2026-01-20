@@ -70,3 +70,7 @@ APScheduler==3.9.1.post1
 
 # for election graphing
 matplotlib==3.7.4
+
+# for the openAPI that https://github.com/CSSS/csss-site-frontend needs
+djangorestframework==3.13.0
+django-cors-headers==3.11.0
